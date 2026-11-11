@@ -1,0 +1,108 @@
+@extends('layouts.app')
+@section('title', 'Editar Respuesta')
+@section('content')
+
+<div class="container" style="margin-top:30px;">
+
+    <!-- HEADER -->
+    <div style="
+        background: linear-gradient(135deg,#2c3e50,#337ab7);
+        color:white;
+        padding:15px 18px;
+        border-radius:6px;
+        margin-bottom:15px;
+        box-shadow:0 2px 6px rgba(0,0,0,0.15);
+    ">
+        <h4 style="margin:0;">
+            <span class="glyphicon glyphicon-edit"></span>
+            Editar Respuesta
+        </h4>
+    </div>
+
+    <a href="{{ route('admin.examen.preguntas', $respuesta->id_examen_egel) }}"
+       class="btn btn-default"
+       style="margin-bottom:15px;">
+        <span class="glyphicon glyphicon-arrow-left"></span>
+        Regresar
+    </a>
+
+    <!-- PANEL -->
+    <div class="panel panel-primary" style="border-radius:6px; overflow:hidden;">
+
+        <div class="panel-heading" style="background:#34495e; border-color:#34495e;">
+            <strong>
+                Editar Respuesta de la Pregunta: {{ $respuesta->numero_pregunta }}
+            </strong>
+        </div>
+
+        <div class="panel-body" style="background:#f8f9fa;">
+
+            <form action="{{ route('admin.respuesta.update', $respuesta->id_respuesta) }}"
+                  method="POST"
+                  class="form-horizontal">
+
+                @csrf
+
+                <!-- ID EXAMEN -->
+                <input type="hidden" name="id_examen_egel" value="{{ $respuesta->id_examen_egel }}">
+
+                <!-- RESPUESTA -->
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                        Respuesta
+                    </label>
+
+                    <div class="col-sm-10">
+                        <input type="text"
+                               name="respuesta"
+                               class="form-control"
+                               value="{{ $respuesta->respuesta }}"
+                               placeholder="Escribe la respuesta aquí">
+                    </div>
+                </div>
+
+                <!-- CORRECTA -->
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">
+                        <span class="glyphicon glyphicon-ok-circle"></span>
+                        ¿Es correcta?
+                    </label>
+
+                    <div class="col-sm-10">
+                        <select name="es_correcta" class="form-control">
+                            <option value="1" {{ $respuesta->es_correcta == 1 ? 'selected' : '' }}>
+                                Sí
+                            </option>
+                            <option value="0" {{ $respuesta->es_correcta == 0 ? 'selected' : '' }}>
+                                No
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- BOTÓN -->
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10 text-center">
+
+                        <button type="submit"
+                                class="btn btn-success btn-lg"
+                                style="border-radius:6px; padding:10px 25px;">
+
+                            <span class="glyphicon glyphicon-floppy-disk"></span>
+                            Actualizar Respuesta
+
+                        </button>
+
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+@endsection
