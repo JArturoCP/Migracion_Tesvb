@@ -1,3 +1,5 @@
+> Actualización: los ocho candidatos de claves primarias quedaron resueltos; consultar [continuación verificada](claves-primarias-verificadas.md). El inventario siguiente conserva el estado de la auditoría inicial.
+
 # Auditoría de modelos Eloquent TESVB
 
 Fecha: 12 de noviembre de 2026.

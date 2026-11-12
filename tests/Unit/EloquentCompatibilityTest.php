@@ -165,6 +165,8 @@ class EloquentCompatibilityTest extends TestCase
                     $count++;
                 }
             }
+            $this->assertSame('id_jefatura', (new \App\PMSolicitudMaterial)->jefaturas()->getOwnerKeyName());
+            $this->assertSame('id_expbebidas', (new \App\Tutorias_Exp_formacion_integral)->escala()->getForeignKeyName());
             $this->assertSame(153, $count, 'Review the relation inventory when relations are added or removed.');
         } finally {
             if ($previousResolver === null) {

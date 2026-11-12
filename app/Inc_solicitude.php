@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Inc_solicitude  extends Model
 {
+    protected $primaryKey = 'id_solicitud';
 
     protected $fillable = [
         'id_articulo',
