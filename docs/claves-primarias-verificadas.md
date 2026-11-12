@@ -24,4 +24,4 @@ Validación: pruebas aisladas PHPUnit con PHP 8.4.27: tres casos, 2,835 asercion
 
 Comando reproducible: php tests/run-eloquent-compatibility.php (PHP 8.4).
 
-Los pendientes de timestamps y restantes relaciones del informe anterior continúan abiertos; la observación de PMSolicitudMaterial::jefaturas queda resuelta. No se ejecutaron migraciones, seeders ni pruebas Feature. No se modificaron controladores, tablas ni .env; sin merge ni push.
+Las listas anteriores basadas exclusivamente en seeders ficticios se retiran como fundamento de cambios. Los timestamps requieren evidencia concreta de MariaDB; consultar criterios-evidencia-modelos.md. La observación de PMSolicitudMaterial::jefaturas queda resuelta por la clave verificada. No se ejecutaron migraciones, seeders ni pruebas Feature. No se modificaron controladores, tablas ni .env; sin merge ni push.

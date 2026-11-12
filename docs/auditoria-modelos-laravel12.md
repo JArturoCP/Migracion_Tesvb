@@ -60,101 +60,21 @@ php vendor/bin/pest --testsuite=Unit --no-coverage
 
 No ejecutar la suite Feature ni `composer test` completo mientras siga vigente la prohibición de migraciones. La construcción de SQL y la carga de modelos no validan resultados de consultas ni columnas físicas.
 
-## Pendientes y límites
+## Evidencias confirmadas y pendientes (criterio corregido)
 
-Solo hay tres migraciones de infraestructura; no representan el esquema heredado. Se contrastaron los modelos con los nombres de tablas y columnas escritos en los seeders, **leyéndolos como texto, sin ejecutarlos**. Esa evidencia genera candidatos a revisión, no autoriza por sí sola cambios en claves o timestamps. No se modificaron esas configuraciones sin poder consultar el esquema real.
+Los seeders actuales son datos ficticios generados recientemente con IA y no pertenecen al sistema Laravel 5.6 original. No constituyen evidencia del esquema, de columnas ausentes, de claves ni del comportamiento esperado. Se retiran las listas anteriores de 43 candidatos de timestamps y 17 referencias de columnas en relaciones, pues su fundamento era exclusivamente la comparación con esos seeders. Sus conteos no representan errores confirmados ni una lista validada de correcciones pendientes.
 
-### Claves primarias candidatas
+**Confirmado y corregido:** las ocho claves primarias comunicadas por el usuario como verificadas directamente en MariaDB mediante `information_schema.KEY_COLUMN_USAGE`. Se conservan sin cambios; véase [claves verificadas](claves-primarias-verificadas.md). La fuente de estas correcciones es MariaDB, no los seeders. También permanecen los fallos de imports y PSR-4 reproducidos con PHP y Composer.
 
-Las siguientes claves declaradas o inferidas no aparecen entre las columnas de los registros del seeder correspondiente. Deben verificarse con DDL o metadatos de la base de datos antes de cambiar el modelo. No se renombra ninguna columna física.
+**Timestamps:** no consta en este chat un resultado concreto de MariaDB que confirme presencia o ausencia de `created_at` o `updated_at` por tabla. El intento previo de conexión falló. Por ello no se declara ninguna columna de timestamp confirmada ni se cambia esta propiedad. El inventario registra configuración de Eloquent, no estructura física. Se solicitó al usuario el detalle de las verificaciones ya realizadas.
 
-| Modelo | Clave actual | Candidata según seeder | Evidencia |
-| --- | --- | --- | --- |
-| `app/alumno_materias.php` | `id` | `id_alumno_materia` | `database/seeders/EvaAlumnoMateriasSeeder.php` |
-| `app/Gnral_Reticulas.php` | `id` | `id_reticula` | `database/seeders/GnralReticulasSeeder.php` |
-| `app/Gnral_Tipos_Usuario.php` | `id` | `id_tipo_usuario` | `database/seeders/GnralTiposUsuarioSeeder.php` |
-| `app/Hrs_Cargos.php` | `id` | `id_cargo` | `database/seeders/GnralCargosSeeder.php` |
-| `app/Inc_solicitude.php` | `id` | `id_solicitud` | `database/seeders/IncSolicitudesSeeder.php` |
-| `app/Jefaturas.php` | `id` | `id_jefatura` | `database/seeders/ActcompleJefaturasSeeder.php` |
-| `app/PeriodosCarreras.php` | `id` | `id_periodo_carrera` | `database/seeders/GnralPeriodoCarrerasSeeder.php` |
-| `app/Tutorias_Exp_bebidas.php` | `id_expbebida` | `id_expbebidas` | `database/seeders/ExpBebidasSeeder.php` |
+**Código histórico:** se compararon los modelos con la referencia Laravel 5.6 disponible, `DorianReb/tesvb`, commit `36da4037a7dd478d90a5e61e3cef48b8f7e505b1`. Hay 219 archivos idénticos al normalizar saltos de línea y 21 con diferencias limitadas a imports y primaryKey (además del nombre de archivo corregido de expediente). `App/Models/User.php` no existe en esa referencia. No se observaron cambios de relaciones ni timestamps entre los modelos compartidos. Esta copia es una referencia histórica disponible, no una certificación de que sea la revisión exacta desplegada del sistema original; debe confirmarse esa procedencia antes de atribuir diferencias funcionales a la migración.
 
-`Tutorias_Exp_bebidas` declara `id_expbebida`, mientras la relación `Tutorias_Exp_formacion_integral::escala` y el seeder usan `id_expbebidas`. Es una discrepancia preexistente que requiere confirmar el esquema; no se cambió la cardinalidad hasMany.
+**Posibles problemas pendientes respaldados por código:** la relación `oc_oficio_personal::notificacion` infiere la clave local del modelo y contiene un OR sin agrupar; ese código ya existe en la referencia Laravel 5.6. Se conserva hasta contrastar esquema y uso funcional original. Las dos clases User y los ayudantes con SQL manual requieren analizar sus consumidores antes de unificar contratos o cambiar consultas. Construir SQL correctamente no confirma la existencia física de las columnas.
 
-### Timestamps candidatos
+Prioridad para futuras decisiones: metadatos/DDL reales de MariaDB; revisión exacta del sistema Laravel 5.6 original; controladores y vistas que consumen cada modelo. Antes de cambiar comportamiento, documentar la consulta/operación original, sus claves y tipo de resultado, la evidencia real del error y el efecto esperado en sus consumidores. Los seeders ficticios quedan excluidos de esta cadena de evidencia.
 
-En estos modelos se mantienen timestamps habilitados, pero los registros de los seeders no muestran ambas columnas `created_at` y `updated_at`. La omisión en datos ficticios no demuestra que las columnas no existan.
-
-| Modelo | Evidencia estática |
-| --- | --- |
-| `app/adscripcion_personal.php` | `database/seeders/AdscripcionPersonalSeeder.php` |
-| `app/amb_encargados.php` | `database/seeders/AmbEncargadosSeeder.php` |
-| `app/amb_periodo_amb.php` | `database/seeders/AmbPeriodoAmbSeeder.php` |
-| `app/amb_procedimientos.php` | `database/seeders/AmbProcedimientosSeeder.php` |
-| `app/AudEvidencia.php` | `database/seeders/AudEvidenciasSeeder.php` |
-| `app/CalCanalizacion.php` | `database/seeders/CalCanalizacionSeeder.php` |
-| `app/Estados.php` | `database/seeders/GnralEstadosSeeder.php` |
-| `app/Gnral_escuela_procedencia.php` | `database/seeders/GnralEscuelaProcedenciaSeeder.php` |
-| `app/Gnral_grupos.php` | `database/seeders/GnralGruposSeeder.php` |
-| `app/Gnral_Tipos_Usuario.php` | `database/seeders/GnralTiposUsuarioSeeder.php` |
-| `app/in_nivel_ingles.php` | `database/seeders/InNivelInglesSeeder.php` |
-| `app/in_sexo.php` | `database/seeders/InSexoSeeder.php` |
-| `app/in_titulo.php` | `database/seeders/InTituloSeeder.php` |
-| `app/Jefaturas.php` | `database/seeders/ActcompleJefaturasSeeder.php` |
-| `app/Municipios.php` | `database/seeders/GnralMunicipiosSeeder.php` |
-| `app/oc_dependencias.php` | `database/seeders/OcDependDomicilioSeeder.php` |
-| `app/Oc_lugar.php` | `database/seeders/OcLugarSeeder.php` |
-| `app/oc_notificacion.php` | `database/seeders/OcEstadoOficioSeeder.php` |
-| `app/oc_oficio.php` | `database/seeders/OcOficioSeeder.php` |
-| `app/oc_oficio_personal.php` | `database/seeders/OcOficioPersonalSeeder.php` |
-| `app/oc_oficio_vehiculo.php` | `database/seeders/OcOficioVehiculoSeeder.php` |
-| `app/oc_vehiculo.php` | `database/seeders/OcVehiculoSeeder.php` |
-| `app/Periodos.php` | `database/seeders/GnralPeriodosSeeder.php` |
-| `app/PeriodosCarreras.php` | `database/seeders/GnralPeriodoCarrerasSeeder.php` |
-| `app/Semestres.php` | `database/seeders/GnralSemestresSeeder.php` |
-| `app/serv_datos_alumnos.php` | `database/seeders/ServDatosAlumnosSeeder.php` |
-| `app/serv_doc_empresa_privada.php` | `database/seeders/ServDocEmpresaPrivadaSeeder.php` |
-| `app/serv_doc_empresa_publica.php` | `database/seeders/ServDocEmpresaPublicaSeeder.php` |
-| `app/serv_estado_documentacion.php` | `database/seeders/ServEstadoDocumentacionSeeder.php` |
-| `app/serv_tipo_empresa.php` | `database/seeders/ServTipoEmpresaSeeder.php` |
-| `app/Tutorias_areas_canalizacion.php` | `database/seeders/AreasCanalizacionSeeder.php` |
-| `app/Tutorias_Exp_bachillerato.php` | `database/seeders/ExpBachilleratoSeeder.php` |
-| `app/Tutorias_Exp_bebidas.php` | `database/seeders/ExpBebidasSeeder.php` |
-| `app/Tutorias_Exp_beca.php` | `database/seeders/ExpBecaSeeder.php` |
-| `app/Tutorias_Exp_civil_estado.php` | `database/seeders/ExpCivilEstadosSeeder.php` |
-| `app/Tutorias_Exp_familia_union.php` | `database/seeders/ExpFamiliaUnionSeeder.php` |
-| `app/Tutorias_Exp_opc_intelectual.php` | `database/seeders/ExpOpcIntelectualSeeder.php` |
-| `app/Tutorias_Exp_opc_nivel_socio.php` | `database/seeders/ExpOpcNivelSocioSeeder.php` |
-| `app/Tutorias_Exp_opc_tiempo.php` | `database/seeders/ExpOpcTiempoSeeder.php` |
-| `app/Tutorias_Exp_opc_vives.php` | `database/seeders/ExpOpcVivesSeeder.php` |
-| `app/Tutorias_Exp_tiempoestudia.php` | `database/seeders/ExpTiempoestudiaSeeder.php` |
-| `app/Tutorias_Exp_turno.php` | `database/seeders/ExpTurnoSeeder.php` |
-| `app/Tutorias_subareas_canalizacion.php` | `database/seeders/SubareasCanalizacionSeeder.php` |
-
-### Relaciones candidatas
-
-La carga de clases y generación de SQL pasan, pero las siguientes columnas no aparecen en los registros de los seeders de las tablas involucradas. Mantener pendientes hasta verificar DDL/metadatos y consumidores.
-
-| Relación | Columna a comprobar |
-| --- | --- |
-| `App\AudAgenda::getAsign` | `aud_agenda.id_asigna_audi (local)` |
-| `App\AudAgenda::getNombre` | `aud_agenda.id_auditor (local)` |
-| `App\AudAgenda::getAbrPer` | `aud_agenda.id_auditor (local)` |
-| `App\AudAgenda::area` | `aud_agenda.id_area (local)` |
-| `App\AudAsignaAuditoria::getAgenda` | `aud_agenda.id_asigna_audi (foreign)` |
-| `App\AudAuditorAuditoria::getAbrPer` | `aud_auditor_auditoria.id_auditor (local)` |
-| `App\AudAuditorAuditoria::getAgenda` | `aud_auditor_auditoria.id_asigna_audi (local), aud_agenda.id_asigna_audi (foreign)` |
-| `App\AudAuditorAuditoria::getAsign` | `aud_auditor_auditoria.id_asigna_audi (local)` |
-| `App\PMSolicitudMaterial::jefaturas` | `actcomple_jefaturas.id (owner)` |
-| `App\RmBienes::adquisiciones` | `rm_bienes.id_adqui (foreign)` |
-| `App\RmTipoadqui::bienes` | `rm_bienes.id_adqui (foreign)` |
-| `App\SgcAgenda::getAsign` | `aud_agenda.id_asigna_audi (local)` |
-| `App\SgcAgenda::getNombre` | `aud_agenda.id_auditor (local)` |
-| `App\SgcAgenda::getAbrPer` | `aud_agenda.id_auditor (local)` |
-| `App\SgcAgenda::area` | `aud_agenda.id_area (local)` |
-| `App\SgcAsignaAudi::getAgenda` | `aud_agenda.id_asigna_audi (foreign)` |
-| `App\Tutorias_Exp_habitos_estudio::tiempo` | `exp_habitos_estudio.tiempo_empelado_estudiar (local)` |
-
+Véase [reclasificación de evidencias](criterios-evidencia-modelos.md).
 Además:
 
 - `oc_oficio_personal::notificacion` usa hasMany sin clave local explícita y un `orWhere` sin agrupar. Confirmar si debe relacionar `id_notificacion` y si el OR debe quedar dentro del filtro; cambiarlo afectaría resultados y no es un ajuste automático de compatibilidad.
