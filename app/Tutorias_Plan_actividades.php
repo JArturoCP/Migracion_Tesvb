@@ -4,7 +4,6 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-use App\Exp_generacion;
 
 class Tutorias_Plan_actividades extends Model
 {
