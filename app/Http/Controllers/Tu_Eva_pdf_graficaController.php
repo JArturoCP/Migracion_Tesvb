@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Session;
 use Storage;
 
-class PDF extends FPDF
+class PDF_Tu_Eva_pdf_graficaController extends FPDF
 {
 
     //CABECERA DE LA PAGINA
@@ -220,7 +220,7 @@ class Tu_Eva_pdf_graficaController extends Controller
 
        //dd($hola);
        //$condi=$request->get('condi');
-       $pdf=new PDF($orientation='P',$unit='mm',$format='Letter');
+       $pdf=new PDF_Tu_Eva_pdf_graficaController($orientation='P',$unit='mm',$format='Letter');
        #Establecemos los márgenes izquierda, arriba y derecha:
        //dd($request);
 

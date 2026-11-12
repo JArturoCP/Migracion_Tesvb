@@ -9,7 +9,7 @@ use Carbon\Carbon;
 use PhpParser\Node\Stmt\While_;
 use Session;
 
-class PDF extends FPDF
+class PDF_Resi_pdf_ultimo_reporteController extends FPDF
 {
 
     //CABECERA DE LA PAGINA
@@ -122,7 +122,7 @@ resi_asesores.id_profesor =gnral_personales.id_personal and abreviaciones_prof.i
 FROM `resi_cronograma` WHERE `id_anteproyecto` = '.$id_anteproyecto.' ORDER BY `resi_cronograma`.`f_inicio` DESC');
             $fecha_inicial= date("d-m-Y",strtotime($fechas->fecha_inicial));
             $fecha_final= date("d-m-Y",strtotime($fechas->fecha_final));
-            $pdf=new PDF($orientation='P',$unit='mm',$format='Letter');
+            $pdf=new PDF_Resi_pdf_ultimo_reporteController($orientation='P',$unit='mm',$format='Letter');
 
 
             if($id_numero == 18)

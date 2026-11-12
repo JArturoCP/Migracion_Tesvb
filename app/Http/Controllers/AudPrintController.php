@@ -33,7 +33,7 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 $no_oficio="";
 
-class pdf2 extends FPDF{
+class PDF2AudPrint extends FPDF{
     function Header(){
         /*$this->Image('img/FONDO.png',0,0,280);
         $this->Image('img/FONDOCONSTANCIA.png',0,-5,280);
@@ -41,7 +41,7 @@ class pdf2 extends FPDF{
     }
 }
 
-class PDF extends FPDF
+class PDF_AudPrintController extends FPDF
 {
 
     function Header(){
@@ -325,7 +325,7 @@ class AudPrintController extends Controller
 
         $GLOBALS['no_oficio']="FO-TESVB-20  V.0  23-03-2018";
 
-        $pdf=new PDF('P','mm','Letter');
+        $pdf=new PDF_AudPrintController('P','mm','Letter');
         $title = utf8_decode('Programa de auditoría');
         $pdf->SetTitle($title);
         $pdf->SetMargins(20, 25 , 20, 25);
@@ -584,7 +584,7 @@ class AudPrintController extends Controller
         $datosNuevos=new AudAgendaController();
         $datosNuevos=$datosNuevos->getDatos($id);
 
-        $pdf=new PDF('P','mm','Letter');
+        $pdf=new PDF_AudPrintController('P','mm','Letter');
 
         $pdf->SetTitle(utf8_decode('Plan de auditoría'));
         $pdf->SetMargins(20,20,20);
@@ -1493,7 +1493,7 @@ class AudPrintController extends Controller
     }
 
     public static function constancia($id){
-        $pdf=new pdf2('L','mm','Letter');
+        $pdf=new PDF2AudPrint('L','mm','Letter');
         $pdf->AddFont('MonotypeCorsiva','','MTCORSVA.php');
         $pdf->SetTitle(utf8_decode('Constancia de participación'));
         $pdf->SetMargins(20, 44 , 20, 25);
@@ -1608,7 +1608,7 @@ class AudPrintController extends Controller
 
         $GLOBALS['no_oficio'] = "FO-TESVB-34  V.0  23/03/2018";
 
-        $pdf = new PDF('P','mm','Letter');
+        $pdf = new PDF_AudPrintController('P','mm','Letter');
         $pdf->SetTitle(utf8_decode('Informe de Auditoría'));
         $pdf->SetMargins(20,50,20);
         $pdf->SetAutoPageBreak(true, 25); // 🔴 MÁS CONTROL

@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Session;
 
 
-class PDF extends FPDF
+class PDF_Resi_acta_calificacionesController extends FPDF
 {
 
     //CABECERA DE LA PAGINA
@@ -90,7 +90,7 @@ where resi_asesores.id_profesor=gnral_personales.id_personal and
         $promedio_residencia=DB::selectOne('SELECT * FROM `resi_promedio_general_residencia` WHERE `id_anteproyecto` ='.$id_anteproyecto.'');
         $promedio_residencia=$promedio_residencia->promedio_general;
 
-        $pdf=new PDF($orientation='L',$unit='mm',$format='Letter');
+        $pdf=new PDF_Resi_acta_calificacionesController($orientation='L',$unit='mm',$format='Letter');
         #Establecemos los márgenes izquierda, arriba y derecha:
 
          $pdf->SetMargins(20, 20 , 20);

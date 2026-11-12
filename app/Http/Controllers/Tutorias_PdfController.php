@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Session;
 use Auth;
 use Codedge\Fpdf\Fpdf\Fpdf as FPDF;
-class PDF extends FPDF
+class PDF_Tutorias_PdfController extends FPDF
 {
 
     //CABECERA DE LA PAGINA
@@ -858,7 +858,7 @@ $datosHabitos->load('intelectual');
 
         //$pdf= new \Codedge\Fpdf\Fpdf\Fpdf();
         // $pdf->AddPage();
-        $pdf=new PDF($orientation='P',$unit='mm',$format='Letter');
+        $pdf=new PDF_Tutorias_PdfController($orientation='P',$unit='mm',$format='Letter');
         #Establecemos los márgenes izquierda, arriba y derecha:
         $pdf->SetMargins(10, 19 , 10);
         //$pdf->SetAutoPageBreak(true,25);

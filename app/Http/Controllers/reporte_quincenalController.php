@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Session;
 
-class PDF extends FPDF
+class PDF_reporte_quincenalController extends FPDF
 {
     //CABECERA DE LA PAGINA
     function Header()
@@ -32,8 +32,8 @@ class reporte_quincenalController extends Controller
 {
     public function index()
     {
-        $pdf=new PDF();
-        $pdf=new PDF($orientation='P',$unit='mm',$format='Letter');
+        $pdf=new PDF_reporte_quincenalController();
+        $pdf=new PDF_reporte_quincenalController($orientation='P',$unit='mm',$format='Letter');
         #Establecemos los márgenes izquierda, arriba y derecha:
         $pdf->SetMargins(10, 25 , 10);
         $pdf->SetAutoPageBreak(true,25);

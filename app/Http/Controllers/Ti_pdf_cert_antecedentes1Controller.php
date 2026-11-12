@@ -8,7 +8,7 @@ use Codedge\Fpdf\Fpdf\Fpdf as FPDF;
 use Illuminate\Support\Facades\DB;
 use Session;
 
-class PDF extends FPDF
+class PDF_Ti_pdf_cert_antecedentes1Controller extends FPDF
 {
 
 }
@@ -106,7 +106,7 @@ ti_reg_datos_alum.id_alumno='.$id_alumno.'');
         $titulo_obtenido=$datos_alumnos->tipo_titulo;
         $etiqueta=DB::selectOne('SELECT * FROM etiqueta WHERE id_etiqueta = 1 ');
 
-        $pdf = new PDF($orientation = 'P', $unit = 'mm', $format = 'Letter');
+        $pdf = new PDF_Ti_pdf_cert_antecedentes1Controller($orientation = 'P', $unit = 'mm', $format = 'Letter');
         #Establecemos los márgenes izquierda, arriba y derecha:
         $pdf->SetMargins(15, 10, 10);
         $pdf->SetAutoPageBreak(true, 25);

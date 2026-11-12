@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Codedge\Fpdf\Fpdf\Fpdf as FPDF;
 use Session;
-class PDF extends FPDF
+class PDF_Ti_oficio_noti_jurado_estController extends FPDF
 {
 
     //CABECERA DE LA PAGINA
@@ -152,7 +152,7 @@ class Ti_oficio_noti_jurado_estController extends Controller
         }
         //dd($registro_fecha);
 
-        $pdf = new PDF($orientation = 'P', $unit = 'mm', $format = 'Letter');
+        $pdf = new PDF_Ti_oficio_noti_jurado_estController($orientation = 'P', $unit = 'mm', $format = 'Letter');
         $fecha_oficio_noti_jurado_estudiante =$registro_fecha->fecha_oficio_noti_jurado_estudiante ;
         $fecha_titulacion=$registro_fecha->fecha_titulacion;
         $num1=date("j",strtotime($fecha_titulacion ));

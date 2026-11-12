@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Session;
 use Storage;
 
-class PDF extends FPDF
+class PDF_Tu_Eva_pdf_fo40Controller extends FPDF
 {
 
     //CABECERA DE LA PAGINA
@@ -117,7 +117,7 @@ class Tu_Eva_pdf_fo40Controller extends Controller
                                            where gp.tipo_usuario = 796");
         //dd($hola);
         //$condi=$request->get('condi');
-        $pdf=new PDF($orientation='L',$unit='mm',$format='Letter');
+        $pdf=new PDF_Tu_Eva_pdf_fo40Controller($orientation='L',$unit='mm',$format='Letter');
         #Establecemos los márgenes izquierda, arriba y derecha:
         //dd($request);
 
@@ -195,7 +195,7 @@ class Tu_Eva_pdf_fo40Controller extends Controller
                                            where gp.tipo_usuario = 796");
         //dd($hola);
         //$condi=$request->get('condi');
-        $pdf=new PDF($orientation='L',$unit='mm',$format='Letter');
+        $pdf=new PDF_Tu_Eva_pdf_fo40Controller($orientation='L',$unit='mm',$format='Letter');
         #Establecemos los márgenes izquierda, arriba y derecha:
         //dd($request);
 

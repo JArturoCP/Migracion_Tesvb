@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Session;
 use Auth;
 
 use Codedge\Fpdf\Fpdf\Fpdf as FPDF;
-class PDF extends FPDF
+class PDF_Tutorias_PlaneacionPDFController extends FPDF
 {
     //CABECERA DE LA PAGINA
     function Header()
@@ -160,8 +160,8 @@ class Tutorias_PlaneacionPDFController extends Controller
         //$pdf= new \Codedge\Fpdf\Fpdf\Fpdf();
         // $pdf->AddPage();
 
-        $pdf=new PDF($orientation='P',$unit='mm',$format='Letter');
-        $pdfaux=new PDF($orientation='P',$unit='mm',$format='Letter');
+        $pdf=new PDF_Tutorias_PlaneacionPDFController($orientation='P',$unit='mm',$format='Letter');
+        $pdfaux=new PDF_Tutorias_PlaneacionPDFController($orientation='P',$unit='mm',$format='Letter');
         #Establecemos los márgenes izquierda, arriba y derecha:
         $pdf->SetMargins(10, 25 , 10);
         $pdf->SetAutoPageBreak(true,25);

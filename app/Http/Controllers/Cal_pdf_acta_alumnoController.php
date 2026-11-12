@@ -6,8 +6,7 @@ use Illuminate\Http\Request;
 use Codedge\Fpdf\Fpdf\Fpdf as FPDF;
 use Illuminate\Support\Facades\DB;
 use Session;
-class PDF extends FPDF
-{
+class PDFActaAlumno extends FPDF{
 
     //CABECERA DE LA PAGINA
     function Header()
@@ -112,8 +111,7 @@ class Cal_pdf_acta_alumnoController extends Controller
         $mes=date("m", strtotime($fechas));
         $ano=date("Y", strtotime($fechas));
         $fech= $mes.'/'.$num.'/'.$ano;
-        $pdf=new PDF($orientation='L',$unit='mm',$format='Letter');
-        #Establecemos los márgenes izquierda, arriba y derecha:
+        $pdf = new PDFActaAlumno($orientation='L',$unit='mm',$format='Letter');
         $pdf->SetMargins(20, 25 , 20);
         $pdf->SetAutoPageBreak(true,25);
         $pdf->AddPage();

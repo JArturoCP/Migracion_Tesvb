@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use PhpParser\Node\Stmt\While_;
 use Session;
-class PDF extends FPDF
+class PDF_In_pdf_boletaController extends FPDF
 {
     //CABECERA DE LA PAGINA
     function Header()
@@ -59,7 +59,7 @@ class In_pdf_boletaController extends Controller
                 and in_carga_academica_ingles.id_alumno=' .$alumno->id_alumno . ' 
                 and in_carga_academica_ingles.id_periodo_ingles=' .$periodo_ingles. '') ;        
 
-        $pdf=new PDF($orientation='L',$unit='mm',$format='Letter');
+        $pdf=new PDF_In_pdf_boletaController($orientation='L',$unit='mm',$format='Letter');
         #Establecemos los márgenes izquierda, arriba y derecha:
         $pdf->SetMargins(20, 25 , 20);
         $pdf->SetAutoPageBreak(true,25);

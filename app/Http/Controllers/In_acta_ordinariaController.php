@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use PhpParser\Node\Stmt\While_;
 use Session;
-class PDF extends FPDF
+class PDF_In_acta_ordinariaController extends FPDF
 {
     //CABECERA DE LA PAGINA
     function Header()
@@ -421,7 +421,7 @@ and id_periodo=' . $periodo_ingles . '');
         $fech= $num. ' de '.$mes.' del '.$ano;
         $per_ingles=DB::selectOne('SELECT * FROM in_periodos WHERE id_periodo_ingles = '.$periodo_ingles.'');
 
-        $pdf=new PDF($orientation='L',$unit='mm',$format='Letter');
+        $pdf=new PDF_In_acta_ordinariaController($orientation='L',$unit='mm',$format='Letter');
         #Establecemos los márgenes izquierda, arriba y derecha:
         $pdf->SetMargins(10, 25 , 10);
         $pdf->SetAutoPageBreak(true,25);
@@ -963,7 +963,7 @@ and id_periodo=' . $periodo_ingles . '');
         $fech= $num. ' de '.$mes.' del '.$ano;
         $per_ingles=DB::selectOne('SELECT * FROM in_periodos WHERE id_periodo_ingles = '.$periodo_ingles.'');
 
-        $pdf=new PDF($orientation='L',$unit='mm',$format='Letter');
+        $pdf=new PDF_In_acta_ordinariaController($orientation='L',$unit='mm',$format='Letter');
         #Establecemos los márgenes izquierda, arriba y derecha:
         $pdf->SetMargins(10, 25 , 10);
         $pdf->SetAutoPageBreak(true,25);
@@ -1184,7 +1184,7 @@ and id_periodo=' . $periodo_ingles . '');
         $fech= $num. ' de '.$mes.' del '.$ano;
         $per_ingles=DB::selectOne('SELECT * FROM in_periodos WHERE id_periodo_ingles = '.$periodo_ingles.'');
 
-        $pdf=new PDF($orientation='L',$unit='mm',$format='Letter');
+        $pdf=new PDF_In_acta_ordinariaController($orientation='L',$unit='mm',$format='Letter');
         #Establecemos los márgenes izquierda, arriba y derecha:
         $pdf->SetMargins(10, 25 , 10);
         $pdf->SetAutoPageBreak(true,25);

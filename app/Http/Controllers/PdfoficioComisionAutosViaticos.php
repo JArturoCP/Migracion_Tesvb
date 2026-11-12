@@ -7,7 +7,7 @@ use Codedge\Fpdf\Fpdf\Fpdf as FPDF;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Session;
-class PDF extends FPDF
+class PDF_PdfoficioComisionAutosViaticos extends FPDF
 {
 
     //CABECERA DE LA PAGINA
@@ -135,7 +135,7 @@ class PdfoficioComisionAutosViaticos extends Controller
     $carrera = Session::get('carrera');
     $id_usuario = Session::get('usuario_alumno');
     $id_periodo = Session::get('periodotrabaja');
-    $pdf=new PDF($orientation='P',$unit='mm',$format='Letter');
+    $pdf=new PDF_PdfoficioComisionAutosViaticos($orientation='P',$unit='mm',$format='Letter');
     #Establecemos los márgenes izquierda, arriba y derecha:
     //$pdf->SetMargins(10, 15, 10);
     $pdf->SetMargins(20, 15 , 20);

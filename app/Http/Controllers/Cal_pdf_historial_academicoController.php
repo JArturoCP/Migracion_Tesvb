@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Codedge\Fpdf\Fpdf\Fpdf as FPDF;
 use Illuminate\Support\Facades\DB;
 use Session;
-class PDF extends FPDF
+class PDF_Cal_pdf_historial_academicoController extends FPDF
 {
 
     //CABECERA DE LA PAGINA
@@ -382,7 +382,7 @@ class Cal_pdf_historial_academicoController extends Controller
         $mes= array('enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre');
         $mes=$mes[(date('m', strtotime($fechas))*1)-1];
         $fech= $num.' de '.$mes.' de '.$ano;
-        $pdf=new PDF($orientation='P',$unit='mm',$format='Legal');
+        $pdf=new PDF_Cal_pdf_historial_academicoController($orientation='P',$unit='mm',$format='Legal');
         #Establecemos los márgenes izquierda, arriba y derecha:
         $pdf->SetMargins(10, 0, 10);
         $pdf->AddPage();

@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use PhpParser\Node\Stmt\While_;
 use Session;
-class PDF extends FPDF
+class PDF_Resi_pdf_formato_evaluacionController extends FPDF
 {
 
     //CABECERA DE LA PAGINA
@@ -159,7 +159,7 @@ class Resi_pdf_formato_evaluacionController extends Controller
 
         $fech= 'Del '.$num. ' de '.$mes.' del '.$ano.' al '.$num1.' de '.$mes1.' del '.$ano1;
 
-        $pdf = new PDF($orientation = 'P', $unit = 'mm', $format = 'Letter');
+        $pdf = new PDF_Resi_pdf_formato_evaluacionController($orientation = 'P', $unit = 'mm', $format = 'Letter');
         $pdf->SetMargins(15, 20, 15);
         $pdf->SetAutoPageBreak(true, 25);
         $pdf->AddPage();
@@ -392,7 +392,7 @@ class Resi_pdf_formato_evaluacionController extends Controller
 
         $fech= 'Del '.$num. ' de '.$mes.' del '.$ano.' al '.$num1.' de '.$mes1.' del '.$ano1;
 
-        $pdf = new PDF($orientation = 'P', $unit = 'mm', $format = 'Letter');
+        $pdf = new PDF_Resi_pdf_formato_evaluacionController($orientation = 'P', $unit = 'mm', $format = 'Letter');
         $pdf->SetMargins(15, 20, 15);
         $pdf->SetAutoPageBreak(true, 25);
         $pdf->AddPage();

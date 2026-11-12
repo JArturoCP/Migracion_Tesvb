@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Codedge\Fpdf\Fpdf\Fpdf as FPDF;
 use Session;
-class PDF extends FPDF
+class PDF_Ti_pdf_acta_titulacion1Controller extends FPDF
 {
 
     //CABECERA DE LA PAGINA
@@ -113,7 +113,7 @@ where ti_reg_datos_alum.id_opcion_titulacion = ti_opciones_titulacion.id_opcion_
 
 
 
-        $pdf = new PDF($orientation = 'P', $unit = 'mm', $format = 'Letter');
+        $pdf = new PDF_Ti_pdf_acta_titulacion1Controller($orientation = 'P', $unit = 'mm', $format = 'Letter');
         #Establecemos los márgenes izquierda, arriba y derecha:
         $pdf->SetMargins(45, 15, 10);
         $pdf->SetMargins(45, 15, 10);
@@ -300,7 +300,7 @@ FROM ti_datos_alumno_reg_dep,ti_decisiones_jurado WHERE ti_datos_alumno_reg_dep.
         $director_general=$datos_alumno->nombre_director_general;
         $sexo_director_general=$datos_alumno->sexo_director_general;
 
-        $pdf = new PDF($orientation = 'P', $unit = 'mm', $format = 'Letter');
+        $pdf = new PDF_Ti_pdf_acta_titulacion1Controller($orientation = 'P', $unit = 'mm', $format = 'Letter');
         #Establecemos los márgenes izquierda, arriba y derecha:
         $pdf->SetMargins(45, 15, 10);
         $pdf->SetAutoPageBreak(true, 25);

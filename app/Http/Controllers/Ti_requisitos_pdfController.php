@@ -6,7 +6,7 @@ use Codedge\Fpdf\Fpdf\Fpdf as FPDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Session;
-class PDF extends FPDF
+class PDF_Ti_requisitos_pdfController extends FPDF
 {
 
     //CABECERA DE LA PAGINA
@@ -238,7 +238,7 @@ WHERE ti_requisitos_titulacion.id_opcion_titulacion = ti_opciones_titulacion.id_
         $estado_pago_derecho_ti=$registro_requisitos->estado_pago_derecho_ti;
         $estado_pago_integrante_jurado=$registro_requisitos->estado_pago_integrante_jurado;
 
-        $pdf = new PDF($orientation = 'P', $unit = 'mm', $format = 'Letter');
+        $pdf = new PDF_Ti_requisitos_pdfController($orientation = 'P', $unit = 'mm', $format = 'Letter');
 
         #Establecemos los márgenes izquierda, arriba y derecha:
         $pdf->SetMargins(10, 15, 10);

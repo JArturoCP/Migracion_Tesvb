@@ -6,7 +6,7 @@ use Codedge\Fpdf\Fpdf\Fpdf as FPDF;
 use Session;
 //use App\MakeFont as makefont;
 
-class PDF2 extends FPDF
+class PDF2ConstanciaIndividual extends FPDF
     {
         //require("makefont/makefont.php");
         //CABECERA DE LA PAGINA
@@ -94,7 +94,7 @@ class ConstanciaIndividual extends Controller
         $etiqueta=DB::selectOne('SELECT etiqueta.descripcion from etiqueta WHERE id_etiqueta=1');
         $etiqueta=$etiqueta->descripcion;
 
-            $pdf=new PDF2($orientation='P',$unit='mm',$format='Letter');
+            $pdf=new PDF2ConstanciaIndividual($orientation='P',$unit='mm',$format='Letter');
             $pdf->SetMargins(20, 25 , 20);
             $pdf->SetAutoPageBreak(true,25);
             $pdf->AddPage();

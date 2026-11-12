@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\DB;
 use Codedge\Fpdf\Fpdf\Fpdf as FPDF;
 
 
-class PDF extends FPDF
+class PDF_Tutorias_PdfCitController extends FPDF
 {
     //CABECERA DE LA PAGINA
     function Header()
@@ -75,7 +75,7 @@ class Tutorias_PdfCitController extends Controller
             ->get();
         $etiqueta=$etiqueta[0]->descripcion;
 
-        $pdf = new PDF();
+        $pdf = new PDF_Tutorias_PdfCitController();
         $pdf->AddPage();
         $pdf->ln(10);
         $pdf->SetFont('Arial', 'B', 7);

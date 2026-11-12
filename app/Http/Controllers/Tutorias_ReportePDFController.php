@@ -5,7 +5,7 @@ use Illuminate\Http\Request;
 use Codedge\Fpdf\Fpdf\Fpdf as FPDF;
 use App\Tutorias_Reporte_tutor;
 use Illuminate\Support\Facades\DB;
-class PDF extends FPDF
+class PDF_Tutorias_ReportePDFController extends FPDF
 {
     function Header()
     {
@@ -141,7 +141,7 @@ class Tutorias_ReportePDFController extends Controller
              ->whereNull('exp_asigna_tutor.deleted_at')
              ->select(DB::raw("count(reporte_tutor.baja) AS baja"))
              ->get();
-         $pdf = new PDF();
+         $pdf = new PDF_Tutorias_ReportePDFController();
          $pdf->AddPage();
          $pdf->ln(10);
          $pdf->SetFont('Arial', 'B', 7);
@@ -362,7 +362,7 @@ class Tutorias_ReportePDFController extends Controller
             ->whereNull('exp_asigna_tutor.deleted_at')
             ->select(DB::raw("count(reporte_tutor.baja) AS baja"))
             ->get();
-        $pdf = new PDF();
+        $pdf = new PDF_Tutorias_ReportePDFController();
         $pdf->AddPage();
         $pdf->ln(10);
         $pdf->SetFont('Arial', 'B', 7);
@@ -578,7 +578,7 @@ class Tutorias_ReportePDFController extends Controller
             ->whereNull('exp_asigna_tutor.deleted_at')
             ->select(DB::raw("count(reporte_tutor.baja) AS baja"))
             ->get();
-        $pdf = new PDF();
+        $pdf = new PDF_Tutorias_ReportePDFController();
         $pdf->AddPage();
         $pdf->ln(10);
         $pdf->SetFont('Arial', 'B', 7);
@@ -794,7 +794,7 @@ class Tutorias_ReportePDFController extends Controller
             ->whereNull('exp_asigna_tutor.deleted_at')
             ->select(DB::raw("count(reporte_tutor.baja) AS baja"))
             ->get();
-        $pdf = new PDF();
+        $pdf = new PDF_Tutorias_ReportePDFController();
         $pdf->AddPage();
         $pdf->ln(10);
         $pdf->SetFont('Arial', 'B', 7);
@@ -1010,7 +1010,7 @@ class Tutorias_ReportePDFController extends Controller
             ->whereNull('exp_asigna_tutor.deleted_at')
             ->select(DB::raw("count(reporte_tutor.baja) AS baja"))
             ->get();
-        $pdf = new PDF();
+        $pdf = new PDF_Tutorias_ReportePDFController();
         $pdf->AddPage();
         $pdf->ln(10);
         $pdf->SetFont('Arial', 'B', 7);
@@ -1226,7 +1226,7 @@ class Tutorias_ReportePDFController extends Controller
             ->whereNull('exp_asigna_tutor.deleted_at')
             ->select(DB::raw("count(reporte_tutor.baja) AS baja"))
             ->get();
-        $pdf = new PDF();
+        $pdf = new PDF_Tutorias_ReportePDFController();
         $pdf->AddPage();
         $pdf->ln(10);
         $pdf->SetFont('Arial', 'B', 7);
@@ -1442,7 +1442,7 @@ class Tutorias_ReportePDFController extends Controller
             ->whereNull('exp_asigna_tutor.deleted_at')
             ->select(DB::raw("count(reporte_tutor.baja) AS baja"))
             ->get();
-        $pdf = new PDF();
+        $pdf = new PDF_Tutorias_ReportePDFController();
         $pdf->AddPage();
         $pdf->ln(10);
         $pdf->SetFont('Arial', 'B', 7);
@@ -1658,7 +1658,7 @@ class Tutorias_ReportePDFController extends Controller
             ->whereNull('exp_asigna_tutor.deleted_at')
             ->select(DB::raw("count(reporte_tutor.baja) AS baja"))
             ->get();
-        $pdf = new PDF();
+        $pdf = new PDF_Tutorias_ReportePDFController();
         $pdf->AddPage();
         $pdf->ln(10);
         $pdf->SetFont('Arial', 'B', 7);

@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use PhpParser\Node\Stmt\While_;
 use Session;
-class PDF extends FPDF
+class PDF_In_pdf_carga_inglesController extends FPDF
 {
 
     //CABECERA DE LA PAGINA
@@ -167,7 +167,7 @@ and in_carga_academica_ingles.id_periodo_ingles=' .$periodo_ingles. '') ;
         }
         array_multisort($aux, SORT_ASC, $array_ingles);
 
-        $pdf=new PDF($orientation='L',$unit='mm',$format='Letter');
+        $pdf=new PDF_In_pdf_carga_inglesController($orientation='L',$unit='mm',$format='Letter');
         #Establecemos los márgenes izquierda, arriba y derecha:
         $pdf->SetMargins(10, 20,5);
         $pdf->SetAutoPageBreak(true,25);

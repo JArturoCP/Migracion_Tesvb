@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use PhpParser\Node\Stmt\While_;
 use Session;
-class PDF extends FPDF
+class PDF_Pres_requisicionpdfControlller extends FPDF
 {
 
     //CABECERA DE LA PAGINA
@@ -138,7 +138,7 @@ class Pres_requisicionpdfControlller extends Controller
 
 
 
-        $pdf=new PDF($orientation='L',$unit='mm',$format='Letter');
+        $pdf=new PDF_Pres_requisicionpdfControlller($orientation='L',$unit='mm',$format='Letter');
         #Establecemos los márgenes izquierda, arriba y derecha:
         $pdf->SetMargins(10, 30,5);
         $pdf->SetAutoPageBreak(true,25);

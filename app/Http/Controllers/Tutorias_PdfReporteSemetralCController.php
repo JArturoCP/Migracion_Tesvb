@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Session;
 use DB;
 use Codedge\Fpdf\Fpdf\Fpdf as FPDF;
 
-class PDF extends FPDF
+class PDF_Tutorias_PdfReporteSemetralCController extends FPDF
 {
     //CABECERA DE LA PAGINA
     function Header()
@@ -135,7 +135,7 @@ WHERE `id_carrera` = '.$carrera->id_carrera.' AND `id_periodo` = '.$id_periodo.'
                               AND abreviaciones_prof.id_personal=gnral_personales.id_personal
                               AND desarrollo_asigna_coordinador_general.deleted_at is null ');
 
-        $pdf = new PDF();  
+        $pdf = new PDF_Tutorias_PdfReporteSemetralCController();
         $pdf->AddPage();
         $pdf->ln(10);
         $pdf->SetFont('Arial', 'B', 6);

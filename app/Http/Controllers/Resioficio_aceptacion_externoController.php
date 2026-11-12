@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use PhpParser\Node\Stmt\While_;
 use Session;
-class PDF extends FPDF
+class PDF_Resioficio_aceptacion_externoController extends FPDF
 {
 
     //CABECERA DE LA PAGINA
@@ -99,7 +99,7 @@ class Resioficio_aceptacion_externoController extends Controller
         $promedio_general=$promedio_general[0]->promedio_general;
 
 
-        $pdf=new PDF($orientation='P',$unit='mm',$format='Letter');
+        $pdf=new PDF_Resioficio_aceptacion_externoController($orientation='P',$unit='mm',$format='Letter');
 
         #Establecemos los márgenes izquierda, arriba y derecha:
         $pdf->SetMargins(10, 25 , 10);

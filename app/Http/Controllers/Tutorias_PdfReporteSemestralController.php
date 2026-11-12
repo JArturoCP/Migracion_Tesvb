@@ -7,7 +7,7 @@ use DB;
 use Codedge\Fpdf\Fpdf\Fpdf as FPDF;
 
 
-class PDF extends FPDF
+class PDF_Tutorias_PdfReporteSemestralController extends FPDF
 {
     //CABECERA DE LA PAGINA
     function Header()
@@ -338,7 +338,7 @@ WHERE `id_carrera` = '.$carrera[0]->id_carrera.' AND `id_periodo` = '.$id_period
                               AND reporte_tutor.baja > 1
                               AND reporte_tutor.id_asigna_generacion='.$request->id_asigna_generacion);
 
-        $pdf = new PDF();
+        $pdf = new PDF_Tutorias_PdfReporteSemestralController();
         $pdf->AddPage();
         $pdf->ln(10);
         $pdf->SetFont('Arial', 'B', 7);

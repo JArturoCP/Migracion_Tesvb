@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Session;
 
 
-class PDF extends FPDF
+class PDF_Dual_PDF_Carga_Academica extends FPDF
 {
 
     //CABECERA DE LA PAGINA
@@ -77,7 +77,7 @@ class Dual_PDF_Carga_Academica extends Controller
         $id_usuario = Session::get('usuario_alumno');
         $periodo=Session::get('periodo_actual');
 
-        $pdf=new PDF($orientation='L',$unit='mm',$format='Letter');
+        $pdf=new PDF_Dual_PDF_Carga_Academica($orientation='L',$unit='mm',$format='Letter');
         #Establecemos los márgenes izquierda, arriba y derecha:
 
         $etiqueta=DB::selectOne('SELECT * FROM etiqueta WHERE id_etiqueta = 1 ');

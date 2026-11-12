@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use PhpParser\Node\Stmt\While_;
 use Session;
-class PDF extends FPDF
+class PDF_Resi_pdf_reportes_residenciaController extends FPDF
 {
 
 
@@ -118,7 +118,7 @@ $fechas=DB::selectOne('SELECT MIN(resi_cronograma.f_inicio) fecha_inicial,max(re
 FROM `resi_cronograma` WHERE `id_anteproyecto` = '.$id_anteproyecto.' ORDER BY `resi_cronograma`.`f_inicio` DESC');
 $fecha_inicial= date("d-m-Y",strtotime($fechas->fecha_inicial));
     $fecha_final= date("d-m-Y",strtotime($fechas->fecha_final));
-        $pdf=new PDF($orientation='P',$unit='mm',$format='Letter');
+        $pdf=new PDF_Resi_pdf_reportes_residenciaController($orientation='P',$unit='mm',$format='Letter');
 
 
         if($numero == 4)

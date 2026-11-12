@@ -10,7 +10,7 @@ use Codedge\Fpdf\Fpdf\Fpdf as FPDF;
 use App\Extensiones\calcular_pdf;
 use Illuminate\Support\Facades\Session;
 
-class PDF extends FPDF
+class PDF_SgcPdfHojaController extends FPDF
 {
     function Header(){
         $this->Image('img/logos/ArmasBN.png',10,9,40);
@@ -122,7 +122,7 @@ class SgcPdfHojaController extends Controller
 
 
 
-        $pdf=new PDF('P','mm','Letter');
+        $pdf=new PDF_SgcPdfHojaController('P','mm','Letter');
         $title = 'Hoja de trabajo '.$id;
         $pdf->SetTitle($title);
         $pdf->SetMargins(20, 25 , 20, 25);

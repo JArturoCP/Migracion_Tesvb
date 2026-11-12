@@ -27,7 +27,7 @@ require_once __DIR__ . '/PdfHorariosController.php';
  *
  * Hereda el Header() institucional de PDF, pero omite el Footer().
  */
-class PDF_Lab_Horarios extends PDF
+class PDF_Lab_Horarios extends PDF_PdfHorariosController
 {
     public function Footer()
     {

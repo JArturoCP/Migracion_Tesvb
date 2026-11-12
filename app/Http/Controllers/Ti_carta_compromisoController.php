@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Codedge\Fpdf\Fpdf\Fpdf as FPDF;
 use Session;
-class PDF extends FPDF
+class PDF_Ti_carta_compromisoController extends FPDF
 {
 
     //CABECERA DE LA PAGINA
@@ -154,7 +154,7 @@ class Ti_carta_compromisoController extends Controller
         }
         //dd($registro_fecha);
 
-        $pdf = new PDF($orientation = 'P', $unit = 'mm', $format = 'Letter');
+        $pdf = new PDF_Ti_carta_compromisoController($orientation = 'P', $unit = 'mm', $format = 'Letter');
 
         $fecha_titulacion=$registro_fecha->fecha_titulacion;
         $num1=date("j",strtotime($fecha_titulacion ));

@@ -9,7 +9,7 @@ use Codedge\Fpdf\Fpdf\FPDF as FPDF;
 use Session;
 //use App\MakeFont as makefont;
 
-class PDF extends FPDF
+class PDFTodasConstancias extends FPDF
     {
         //require("makefont/makefont.php");
         //CABECERA DE LA PAGINA
@@ -153,8 +153,7 @@ class TodasConstancias extends Controller
         $etiqueta=DB::selectOne('SELECT etiqueta.descripcion from etiqueta WHERE id_etiqueta=1');
         $etiqueta=$etiqueta->descripcion;
 
-            $pdf=new PDF($orientation='P',$unit='mm',$format='Letter');
-
+        $pdf=new PDFTodasConstancias($orientation='P',$unit='mm',$format='Letter');
             for ($i=0; $i<count($personaless);$i++)
             {
             

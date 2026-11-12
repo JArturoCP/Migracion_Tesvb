@@ -6,7 +6,7 @@ use Codedge\Fpdf\Fpdf\Fpdf as FPDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Session;
-class PDF extends FPDF
+class PDF_Inc_pdfAvisoController extends FPDF
 {
 
     //CABECERA DE LA PAGINA
@@ -75,7 +75,7 @@ class Inc_pdfAvisoController extends Controller
 
 
 
-        $pdf=new PDF($orientation='P',$unit='mm',$format='Letter');
+        $pdf=new PDF_Inc_pdfAvisoController($orientation='P',$unit='mm',$format='Letter');
         #Establecemos los márgenes izquierda, arriba y derecha:
         $pdf->SetMargins(20, 25 , 20);
         $pdf->SetAutoPageBreak(true,25);

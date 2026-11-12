@@ -14,7 +14,7 @@ use Session;
 |--------------------------------------------------------------------------
 */
 
-class PDF extends FPDF
+class PDF_Dual_PDF_Carga_Academica_Control extends FPDF
 {
     /*
     |--------------------------------------------------------------------------
@@ -162,7 +162,7 @@ class Dual_PDF_Carga_Academica_Control extends Controller
         |--------------------------------------------------------------------------
         */
 
-        $pdf = new PDF(
+        $pdf = new PDF_Dual_PDF_Carga_Academica_Control(
             'L',
             'mm',
             'Letter'

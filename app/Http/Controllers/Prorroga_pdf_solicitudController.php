@@ -7,7 +7,7 @@ use Codedge\Fpdf\Fpdf\Fpdf as FPDF;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Session;
-class PDF extends FPDF
+class PDF_Prorroga_pdf_solicitudController extends FPDF
 {
 
     //CABECERA DE LA PAGINA
@@ -57,7 +57,7 @@ class Prorroga_pdf_solicitudController extends Controller
         $prorroga_solicitudes=DB::selectOne('SELECT prorroga_solicitudes.*,gnral_semestres.descripcion semestre
  FROM `prorroga_solicitudes`,gnral_semestres WHERE prorroga_solicitudes.id_semestre=gnral_semestres.id_semestre and 
   prorroga_solicitudes.id_alumno = '.$id_alumno.' AND prorroga_solicitudes.id_periodo = '.$id_periodo.'');
-        $pdf=new PDF($orientation='P',$unit='mm',$format='Letter');
+        $pdf=new PDF_Prorroga_pdf_solicitudController($orientation='P',$unit='mm',$format='Letter');
         #Establecemos los márgenes izquierda, arriba y derecha:
         $pdf->SetMargins(20, 25 , 20);
         $pdf->SetAutoPageBreak(true,25);

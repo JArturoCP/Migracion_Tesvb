@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Codedge\Fpdf\Fpdf\Fpdf as FPDF;
 use Session;
-class PDF extends FPDF
+class PDF_Ti_pdf_relacion_actasController extends FPDF
 {
 
     //CABECERA DE LA PAGINA
@@ -202,7 +202,7 @@ WHERE ti_reg_datos_alum.id_alumno = ti_fecha_jurado_alumn.id_alumno
 
         $etiqueta=DB::selectOne('SELECT * FROM etiqueta WHERE id_etiqueta = 1 ');
 
-        $pdf = new PDF($orientation = 'P', $unit = 'mm', $format = 'Letter');
+        $pdf = new PDF_Ti_pdf_relacion_actasController($orientation = 'P', $unit = 'mm', $format = 'Letter');
         #Establecemos los márgenes izquierda, arriba y derecha:
         $pdf->SetMargins(15, 15, 15);
         $pdf->SetAutoPageBreak(true, 25);
@@ -421,7 +421,7 @@ WHERE ti_reg_datos_alum.id_alumno = ti_fecha_jurado_alumn.id_alumno
 
         $etiqueta=DB::selectOne('SELECT * FROM etiqueta WHERE id_etiqueta = 1 ');
 
-        $pdf = new PDF($orientation = 'P', $unit = 'mm', $format = 'Letter');
+        $pdf = new PDF_Ti_pdf_relacion_actasController($orientation = 'P', $unit = 'mm', $format = 'Letter');
         #Establecemos los márgenes izquierda, arriba y derecha:
         $pdf->SetMargins(15, 15, 15);
         $pdf->SetAutoPageBreak(true, 25);
@@ -633,7 +633,7 @@ WHERE ti_reg_datos_alum.id_alumno = ti_fecha_jurado_alumn.id_alumno and
 
         $etiqueta=DB::selectOne('SELECT * FROM etiqueta WHERE id_etiqueta = 1 ');
 
-        $pdf = new PDF($orientation = 'P', $unit = 'mm', $format = 'Letter');
+        $pdf = new PDF_Ti_pdf_relacion_actasController($orientation = 'P', $unit = 'mm', $format = 'Letter');
         #Establecemos los márgenes izquierda, arriba y derecha:
         $pdf->SetMargins(15, 15, 15);
         $pdf->SetAutoPageBreak(true, 25);

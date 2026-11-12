@@ -11,7 +11,7 @@ use Carbon\Carbon;
 use PhpParser\Node\Stmt\While_;
 use Session;
 
-class PDF extends FPDF
+class PDF_Tutorias_ReporteGController extends FPDF
 {
 
     //CABECERA DE LA PAGINA
@@ -207,7 +207,7 @@ class Tutorias_ReporteGController extends Controller
         $dd = $dd->format('d');
 
 
-        $pdf=new PDF($orientation='P',$unit='mm',$format='Letter');
+        $pdf=new PDF_Tutorias_ReporteGController($orientation='P',$unit='mm',$format='Letter');
         #Establecemos los márgenes izquierda, arriba y derecha:
         $pdf->SetMargins(10, 19 , 1);
         //$pdf->SetAutoPageBreak(true,25);

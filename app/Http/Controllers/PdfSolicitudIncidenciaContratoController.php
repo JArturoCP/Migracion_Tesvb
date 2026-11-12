@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Session;
 
-class PDF extends FPDF
+class PDF_PdfSolicitudIncidenciaContratoController extends FPDF
 {
     //CABECERA DE LA PAGINA
     function Header()
@@ -66,7 +66,7 @@ class PdfSolicitudIncidenciaContratoController extends Controller
        // dd($articulos);
        // return view('incidencias.pdfincidencia', compact('articulos'));
        {
-        $pdf=new PDF($orientation='P',$unit='mm',$format='Letter');
+        $pdf=new PDF_PdfSolicitudIncidenciaContratoController($orientation='P',$unit='mm',$format='Letter');
         #Establecemos los márgenes izquierda, arriba y derecha:
         $pdf->SetMargins(20, 25 , 20);
         $pdf->SetAutoPageBreak(true,25);
@@ -204,7 +204,7 @@ AND abreviaciones_prof.id_personal=gnral_personales.id_personal AND gnral_person
 and gnral_unidad_personal.id_unidad_admin=gnral_unidad_administrativa.id_unidad_admin ');
 //dd($nombre_jefe);
    
-    $pdf=new PDF($orientation='P',$unit='mm',$format='Letter');
+    $pdf=new PDF_PdfSolicitudIncidenciaContratoController($orientation='P',$unit='mm',$format='Letter');
     #Establecemos los márgenes izquierda, arriba y derecha:
 
     $pdf->SetMargins(20, 25 , 20);
@@ -414,7 +414,7 @@ AND abreviaciones_prof.id_personal=gnral_personales.id_personal AND gnral_person
 and gnral_unidad_personal.id_unidad_admin=gnral_unidad_administrativa.id_unidad_admin ');
 //dd($nombre_jefe);
 
-    $pdf=new PDF($orientation='P',$unit='mm',$format='Letter');
+    $pdf=new PDF_PdfSolicitudIncidenciaContratoController($orientation='P',$unit='mm',$format='Letter');
     #Establecemos los márgenes izquierda, arriba y derecha:
 
     $pdf->SetMargins(20, 25 , 20);
@@ -621,7 +621,7 @@ public function index4($id_solicitud){
     // dd($articulos);
     // return view('incidencias.pdfincidencia', compact('articulos'));
     {
-        $pdf=new PDF($orientation='P',$unit='mm',$format='Letter');
+        $pdf=new PDF_PdfSolicitudIncidenciaContratoController($orientation='P',$unit='mm',$format='Letter');
         #Establecemos los márgenes izquierda, arriba y derecha:
         $pdf->SetMargins(20, 25 , 20);
         $pdf->SetAutoPageBreak(true,25);

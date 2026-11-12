@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Codedge\Fpdf\Fpdf\Fpdf as FPDF;
 use Session;
-class PDF extends FPDF
+class PDF_Ti_oficio_mencion_honorificaController extends FPDF
 {
 
     //CABECERA DE LA PAGINA
@@ -178,7 +178,7 @@ FROM ti_reg_datos_alum,gnral_carreras WHERE ti_reg_datos_alum.id_carrera = gnral
         $jefe_titulacion=$datos_alumnos->nombre_jefe_titulacion ;
         $etiqueta=DB::selectOne('SELECT * FROM etiqueta WHERE id_etiqueta = 1 ');
 
-        $pdf = new PDF($orientation = 'P', $unit = 'mm', $format = 'Letter');
+        $pdf = new PDF_Ti_oficio_mencion_honorificaController($orientation = 'P', $unit = 'mm', $format = 'Letter');
         #Establecemos los márgenes izquierda, arriba y derecha:
         $pdf->SetMargins(20, 15, 20);
         $pdf->SetAutoPageBreak(true, 25);

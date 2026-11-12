@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Codedge\Fpdf\Fpdf\Fpdf as FPDF;
 use Session;
-class PDF extends FPDF
+class PDF_Ti_pdf_acta_mencionController extends FPDF
 {
 
     //CABECERA DE LA PAGINA
@@ -31,7 +31,7 @@ class Ti_pdf_acta_mencionController extends Controller
         $fecha_titulacion=DB::selectOne('SELECT * FROM `ti_fecha_jurado_alumn` WHERE `id_alumno` ='.$id_alumno.'');
         $fecha_titulacion=$fecha_titulacion->fecha_titulacion;
         $year=  substr($fecha_titulacion, 6, 4);
-        $pdf = new PDF($orientation = 'P', $unit = 'mm', $format = 'Letter');
+        $pdf = new PDF_Ti_pdf_acta_mencionController($orientation = 'P', $unit = 'mm', $format = 'Letter');
         #Establecemos los márgenes izquierda, arriba y derecha:
         $pdf->SetMargins(10, 10, 10);
         $pdf->SetAutoPageBreak(true, 25);

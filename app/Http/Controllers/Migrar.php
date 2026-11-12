@@ -214,7 +214,7 @@ $color=2;
     {
           
 
-          $pdf=new impresion($orientation='P',$unit='mm',$format='Letter');
+          $pdf=new ImpresionMigrar($orientation='P',$unit='mm',$format='Letter');
             $pdf->SetMargins(20, 25 , 20);
             $pdf->SetAutoPageBreak(true,25);
             $pdf->AddPage();
@@ -270,7 +270,7 @@ $color=2;
 }
 
 
-class impresion extends FPDF
+class ImpresionMigrar extends FPDF
 {
 
     function Header()

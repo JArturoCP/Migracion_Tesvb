@@ -7,7 +7,7 @@ use Codedge\Fpdf\Fpdf\Fpdf as FPDF;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Session;
-class PDF extends FPDF
+class PDF_Beca_pdf_SolicitudBecaController extends FPDF
 {
 
     //CABECERA DE LA PAGINA
@@ -76,7 +76,7 @@ gnral_semestres.id_semestre,gnral_semestres.descripcion semestre,beca_autorizar.
         $correo=$autorizados_profesionales->correo_al;
         $etiqueta=DB::selectOne('SELECT * FROM etiqueta WHERE id_etiqueta = 1 ');
 
-        $pdf=new PDF($orientation='P',$unit='mm',$format='Letter');
+        $pdf=new PDF_Beca_pdf_SolicitudBecaController($orientation='P',$unit='mm',$format='Letter');
         #Establecemos los márgenes izquierda, arriba y derecha:
         $pdf->SetMargins(20, 25 , 20);
         $pdf->SetAutoPageBreak(true,25);

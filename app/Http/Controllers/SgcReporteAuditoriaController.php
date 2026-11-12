@@ -8,7 +8,7 @@ use Codedge\Fpdf\Fpdf\Fpdf as FPDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class PDF extends FPDF
+class PDF_SgcReporteAuditoriaController extends FPDF
 {
     function Header(){
         $this->Image('img/logos/ArmasBN.png',10,9,40);
@@ -97,7 +97,7 @@ class SgcReporteAuditoriaController extends Controller
     {
         //
         $data = json_decode($id);
-        $pdf=new PDF('P','mm','Letter');
+        $pdf=new PDF_SgcReporteAuditoriaController('P','mm','Letter');
         $title = 'Informe Final';
         $pdf->SetTitle($title);
         $pdf->SetMargins(20, 25 , 20, 25);

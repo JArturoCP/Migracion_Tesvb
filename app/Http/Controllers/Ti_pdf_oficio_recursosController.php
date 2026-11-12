@@ -7,7 +7,7 @@ use Codedge\Fpdf\Fpdf\Fpdf as FPDF;
 
 use Illuminate\Support\Facades\DB;
 use Session;
-class PDF extends FPDF
+class PDF_Ti_pdf_oficio_recursosController extends FPDF
 {
 
     //CABECERA DE LA PAGINA
@@ -248,7 +248,7 @@ where ti_reg_datos_alum.id_opcion_titulacion = ti_opciones_titulacion.id_opcion_
 
         $jefe_titulacion=$datos_alumno->nombre_jefe_titulacion;
 
-        $pdf = new PDF($orientation = 'P', $unit = 'mm', $format = 'Letter');
+        $pdf = new PDF_Ti_pdf_oficio_recursosController($orientation = 'P', $unit = 'mm', $format = 'Letter');
         #Establecemos los márgenes izquierda, arriba y derecha:
         $pdf->SetMargins(25, 15, 10);
         $pdf->SetAutoPageBreak(true, 25);

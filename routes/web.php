@@ -496,7 +496,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('/profesores/materias', 'ProfMatController');
     Route::get('/excel/prof-mat', 'ProfMatController@excel');
     Route::resource('/formatos/con_edu', 'ConcentradoEduController');
-    Route::resource('/formatos/concentrado_aca', 'ConcentradoAcaController');
+    //Route::resource('/formatos/concentrado_aca', 'ConcentradoAcaController');
     Route::resource('/formatos/distribucion', 'DistribucionController');
     Route::get('/distribucion/{carrera}', 'DistribucionController@show');
     Route::resource('/formatos/relacion', 'RelacionController');
@@ -1333,8 +1333,8 @@ Route::middleware('auth')->group(function () {
     Route::Resource('/tutorias/planeaciondesarrollo', 'Tutorias_Dep_desarrolloController');
     Route::put('/tutorias/modificar_planeaciondesarrollo/{id_plan_actividad}', 'Tutorias_Dep_desarrolloController@update');
 
-    Route::Resource('/tutorias/planeaciondesarrollo/dos', 'Tutorias_Dep_desarrollo_sController');
-    Route::put('/tutorias/modificar_dos/{id_plan_actividad}', 'Tutorias_Dep_desarrollo_sController@update');
+    ///Route::Resource('/tutorias/planeaciondesarrollo/dos', 'Tutorias_Dep_desarrollo_sController');
+    ///Route::put('/tutorias/modificar_dos/{id_plan_actividad}', 'Tutorias_Dep_desarrollo_sController@update');
 
     ///REVISION DE PLANEACION DESARROLLO ACADEMICO
     Route::get('/tutorias/revisiondesarrollo', function () {
@@ -1436,7 +1436,7 @@ Route::middleware('auth')->group(function () {
     Route::Resource('/tutorias/asignatuvista', 'Tutorias_AsignaTuController');
     Route::Resource('/tutorias/asignatutores', 'Tutorias_AsignaTutorController');
     Route::get('/tutorias/asignatutores/{id}/destroy', [
-        'uses' => 'Tutores_AsignaTutorController@destroy',
+        'uses' => 'Tutorias_AsignaTutorController@destroy',
         'as' => 'asignatutores.destroy'
     ]);
     ///RUTAS JEFE DE DIV
@@ -2798,7 +2798,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/egel/resultados', 'EgelResultadoController@dashboard')->name('egel.resultados.dashboard');
     Route::get('/egel/reporte-final', 'EgelResultadoController@reporte')->name('egel.resultados.reporte');
-    Route::get('/egel/pdf-oficial','ReporteEGEL_pdfController@generar')->name('egel.pdf.oficial');
+    Route::get('/egel/pdf-oficial','Egel_ReportepdfController@generar')->name('egel.pdf.oficial');
 
     /*
     |--------------------------------------------------------------------------

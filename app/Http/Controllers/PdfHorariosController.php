@@ -10,7 +10,7 @@ use App\Extensiones\modifyPDF;
 
 use Session;
 
-class PDF extends FPDF
+class PDF_PdfHorariosController extends FPDF
 {
     //CABECERA DE LA PAGINA
     /**
@@ -654,8 +654,8 @@ hrs_horario_extra_clase.id_aula=hrs_aulas.id_aula');
         $diass = DB::select('select DISTINCT dia FROM hrs_semanas');
         $horas=DB::select('select DISTINCT hrs_semanas.hora from hrs_semanas ORDER BY hora,id_semana ');
 
-        $pdf=new PDF($orientation='L',$unit='mm',$format='Letter');
-        $pdf_aux=new PDF($orientation='L',$unit='mm',$format='Letter');
+        $pdf=new PDF_PdfHorariosController($orientation='L',$unit='mm',$format='Letter');
+        $pdf_aux=new PDF_PdfHorariosController($orientation='L',$unit='mm',$format='Letter');
         $etiqueta=DB::selectOne('SELECT * FROM etiqueta WHERE id_etiqueta = 1 ');
         $pdf->SetMargins(5, 20 , 0);
         $pdf->SetAutoPageBreak(true,15);
@@ -957,8 +957,8 @@ hrs_horario_extra_clase.id_aula=hrs_aulas.id_aula');
 
         $cargo=DB::selectOne('select cargo from gnral_cargos where id_cargo='.$id_cargo.'');
 
-        $pdf=new PDF($orientation='L',$unit='mm',$format='Letter');
-        $pdf_aux=new PDF($orientation='L',$unit='mm',$format='Letter');
+        $pdf=new PDF_PdfHorariosController($orientation='L',$unit='mm',$format='Letter');
+        $pdf_aux=new PDF_PdfHorariosController($orientation='L',$unit='mm',$format='Letter');
         $etiqueta=DB::selectOne('SELECT * FROM etiqueta WHERE id_etiqueta = 1 ');
         $pdf->SetMargins(5, 20 , 0);
         $pdf->SetAutoPageBreak(true,25);
@@ -1255,8 +1255,8 @@ ORDER BY id_semana,hora ASC');
         $diass = DB::select('select DISTINCT dia FROM hrs_semanas');
         $horas=DB::select('select DISTINCT hrs_semanas.hora from hrs_semanas ORDER BY hora,id_semana ');
 
-        $pdf=new PDF($orientation='L',$unit='mm',$format='Letter');
-        $pdf_aux=new PDF($orientation='L',$unit='mm',$format='Letter');
+        $pdf=new PDF_PdfHorariosController($orientation='L',$unit='mm',$format='Letter');
+        $pdf_aux=new PDF_PdfHorariosController($orientation='L',$unit='mm',$format='Letter');
         $etiqueta=DB::selectOne('SELECT * FROM etiqueta WHERE id_etiqueta = 1 ');
         $pdf->SetMargins(5, 20 , 0);
         $pdf->SetAutoPageBreak(true,25);
@@ -1578,8 +1578,8 @@ select DISTINCT hrs_actividades_extras.id_hrs_actividad_extra idmat,hrs_horario_
         $diass = DB::select('select DISTINCT dia FROM hrs_semanas');
         $horas=DB::select('select DISTINCT hrs_semanas.hora from hrs_semanas ORDER BY hora,id_semana ');
 
-        $pdf=new PDF($orientation='L',$unit='mm',$format='Letter');
-        $pdf_aux=new PDF($orientation='L',$unit='mm',$format='Letter');
+        $pdf=new PDF_PdfHorariosController($orientation='L',$unit='mm',$format='Letter');
+        $pdf_aux=new PDF_PdfHorariosController($orientation='L',$unit='mm',$format='Letter');
 
         $pdf->SetMargins(5, 20 , 0);
         $pdf->SetAutoPageBreak(true,25);
@@ -1793,8 +1793,8 @@ select DISTINCT hrs_actividades_extras.id_hrs_actividad_extra idmat,hrs_horario_
         gnral_periodos.fecha_termino from gnral_periodos where id_periodo='.$id_periodo.'');
         $periodo=($periodo->fecha);
 
-        $pdf=new PDF($orientation='L',$unit='mm',$format='Letter');
-        $pdf_aux=new PDF($orientation='L',$unit='mm',$format='Letter');
+        $pdf=new PDF_PdfHorariosController($orientation='L',$unit='mm',$format='Letter');
+        $pdf_aux=new PDF_PdfHorariosController($orientation='L',$unit='mm',$format='Letter');
 
         $pdf->SetMargins(5, 20 , 0);
         $pdf->SetAutoPageBreak(true,25);

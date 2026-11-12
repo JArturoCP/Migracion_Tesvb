@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Codedge\Fpdf\Fpdf\Fpdf as FPDF;
 use Session;
-class PDF extends FPDF
+class PDF_Ti_proyecto_titulacionController extends FPDF
 {
 
     //CABECERA DE LA PAGINA
@@ -123,7 +123,7 @@ class Ti_proyecto_titulacionController extends Controller
     public function index($id_alumno){
         $etiqueta=DB::selectOne('SELECT * FROM etiqueta WHERE id_etiqueta = 1 ');
 
-        $pdf = new PDF($orientation = 'P', $unit = 'mm', $format = 'Letter');
+        $pdf = new PDF_Ti_proyecto_titulacionController($orientation = 'P', $unit = 'mm', $format = 'Letter');
         $fechas = date("Y-m-d");
 
         $num=date("j",strtotime($fechas));

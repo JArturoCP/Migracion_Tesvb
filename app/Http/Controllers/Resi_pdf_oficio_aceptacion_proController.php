@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use PhpParser\Node\Stmt\While_;
 use Session;
-class PDF extends FPDF
+class PDF_Resi_pdf_oficio_aceptacion_proController extends FPDF
 {
 
     //CABECERA DE LA PAGINA
@@ -149,7 +149,7 @@ gnral_personales.id_personal=resi_asesores.id_profesor and resi_asesores.id_ante
         $fech= $num. ' de '.$mes.' del '.$ano;
 
 
-        $pdf=new PDF($orientation='P',$unit='mm',$format='Letter');
+        $pdf=new PDF_Resi_pdf_oficio_aceptacion_proController($orientation='P',$unit='mm',$format='Letter');
 
         #Establecemos los márgenes izquierda, arriba y derecha:
         $pdf->SetMargins(15, 25 ,15);

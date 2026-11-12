@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Codedge\Fpdf\Fpdf\Fpdf as FPDF;
 use Illuminate\Support\Facades\DB;
 use Session;
-class PDF extends FPDF
+class PDF_Solicitud_adeudo_certi_credencialController extends FPDF
 {
 
     //CABECERA DE LA PAGINA
@@ -110,7 +110,7 @@ class Solicitud_adeudo_certi_credencialController extends Controller
                 $fech='a los '. $num.' dias del mes '.$mes.' del año '.$ano;
             }
 
-        $pdf=new PDF($orientation='P',$unit='mm',$format='Letter');
+        $pdf=new PDF_Solicitud_adeudo_certi_credencialController($orientation='P',$unit='mm',$format='Letter');
         #Establecemos los márgenes izquierda, arriba y derecha:
         $pdf->SetMargins(20, 25 , 20);
         $pdf->SetAutoPageBreak(true,25);

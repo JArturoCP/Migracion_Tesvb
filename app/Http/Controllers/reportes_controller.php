@@ -1208,7 +1208,7 @@ return view('evaluacion_docente.Admin.reportes',compact('solo_id_profesor','rubr
     {
           
 
-          $pdf=new impresion($orientation='P',$unit='mm',$format='Letter');
+          $pdf=new ImpresionReportes($orientation='P',$unit='mm',$format='Letter');
             $pdf->SetMargins(20, 25 , 20);
             $pdf->SetAutoPageBreak(true,25);
             $pdf->AddPage();
@@ -1264,7 +1264,7 @@ return view('evaluacion_docente.Admin.reportes',compact('solo_id_profesor','rubr
 }
 
 
-class impresion extends FPDF
+class ImpresionReportes extends FPDF
 {
 
     function Header()
