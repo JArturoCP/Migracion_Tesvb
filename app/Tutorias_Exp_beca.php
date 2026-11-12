@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Tutorias_Exp_beca extends Model
 {
+    public $timestamps = false;
     //
     protected $table ="exp_beca";
     protected $primaryKey="id_expbeca";
