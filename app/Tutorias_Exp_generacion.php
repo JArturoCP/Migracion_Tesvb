@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Tutorias_Exp_generacion extends Model
 {
+    public $incrementing = false;
     protected $table='exp_generacion';
     protected $primaryKey='id_generacion';
     protected $fillable=['generacion'];
