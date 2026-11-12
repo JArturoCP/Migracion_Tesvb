@@ -3,7 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-Use Session;
+use Illuminate\Support\Facades\Session;
 class ri_requisitos extends Model
 {
     //

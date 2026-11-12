@@ -2,8 +2,8 @@
 
 namespace App;
 use Illuminate\Database\Eloquent\Model;
-use DB;
-use Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 class Tutorias_Reporte_tutor extends Model
 {
     protected $table = "reporte_tutor";
