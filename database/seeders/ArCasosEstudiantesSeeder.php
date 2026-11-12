@@ -1,0 +1,327 @@
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+
+/**
+ * Seeder de la tabla `ar_casos_estudiantes`.
+ */
+class ArCasosEstudiantesSeeder extends Seeder
+{
+    /**
+     * Pobla la tabla `ar_casos_estudiantes` con registros ficticios.
+     * Los registros existentes (por llave primaria o llaves únicas) no se modifican.
+     */
+    public function run(): void
+    {
+        // Entidades de las que depende esta tabla.
+        $this->callOnce([
+            ExpAsignaGeneracionSeeder::class,
+            ExpAsignaTutorSeeder::class,
+            GnralAlumnosSeeder::class,
+            GnralCarrerasSeeder::class,
+            GnralPeriodosSeeder::class,
+            GnralPersonalesSeeder::class,
+        ]);
+
+        $tabla = 'ar_casos_estudiantes';
+
+        $llaves = [
+            ['id_ar_caso'],
+            ['id_periodo', 'id_alumno', 'origen_caso'],
+        ];
+
+        $registros = [
+            [
+                'id_ar_caso'           => 1,
+                'id_periodo'           => 1,
+                'id_carrera'           => 1,
+                'id_alumno'            => 1,
+                'id_asigna_generacion' => 1,
+                'id_asigna_tutor'      => 1,
+                'id_personal_tutor'    => 1,
+                'origen_caso'          => 'Origen caso casos estudiantes 1',
+                'estado'               => 'Estado casos estudiantes 1',
+                'fecha_apertura'       => '2026-01-05 09:00:00',
+                'fecha_cierre'         => '2026-01-05 09:00:00',
+                'resultado_cierre'     => 'Resultado cierre de casos estudiantes: registro de prueba número 1.',
+                'id_usuario_registro'  => 1,
+                'id_personal_registro' => 1,
+                'created_at'           => '2026-01-05 09:00:00',
+                'updated_at'           => '2026-01-05 09:00:00',
+            ],
+            [
+                'id_ar_caso'           => 2,
+                'id_periodo'           => 2,
+                'id_carrera'           => 2,
+                'id_alumno'            => 1,
+                'id_asigna_generacion' => 2,
+                'id_asigna_tutor'      => 2,
+                'id_personal_tutor'    => 2,
+                'origen_caso'          => 'Origen caso casos estudiantes 2',
+                'estado'               => 'Estado casos estudiantes 2',
+                'fecha_apertura'       => '2026-01-14 10:00:00',
+                'fecha_cierre'         => '2026-01-14 10:00:00',
+                'resultado_cierre'     => 'Resultado cierre de casos estudiantes: registro de prueba número 2.',
+                'id_usuario_registro'  => 2,
+                'id_personal_registro' => 2,
+                'created_at'           => '2026-01-14 10:00:00',
+                'updated_at'           => '2026-01-14 10:00:00',
+            ],
+            [
+                'id_ar_caso'           => 3,
+                'id_periodo'           => 3,
+                'id_carrera'           => 3,
+                'id_alumno'            => 1,
+                'id_asigna_generacion' => 3,
+                'id_asigna_tutor'      => 3,
+                'id_personal_tutor'    => 3,
+                'origen_caso'          => 'Origen caso casos estudiantes 3',
+                'estado'               => 'Estado casos estudiantes 3',
+                'fecha_apertura'       => '2026-01-23 11:00:00',
+                'fecha_cierre'         => '2026-01-23 11:00:00',
+                'resultado_cierre'     => 'Resultado cierre de casos estudiantes: registro de prueba número 3.',
+                'id_usuario_registro'  => 3,
+                'id_personal_registro' => 3,
+                'created_at'           => '2026-01-23 11:00:00',
+                'updated_at'           => '2026-01-23 11:00:00',
+            ],
+            [
+                'id_ar_caso'           => 4,
+                'id_periodo'           => 4,
+                'id_carrera'           => 4,
+                'id_alumno'            => 1,
+                'id_asigna_generacion' => 4,
+                'id_asigna_tutor'      => 4,
+                'id_personal_tutor'    => 4,
+                'origen_caso'          => 'Origen caso casos estudiantes 4',
+                'estado'               => 'Estado casos estudiantes 4',
+                'fecha_apertura'       => '2026-02-01 12:00:00',
+                'fecha_cierre'         => '2026-02-01 12:00:00',
+                'resultado_cierre'     => 'Resultado cierre de casos estudiantes: registro de prueba número 4.',
+                'id_usuario_registro'  => 4,
+                'id_personal_registro' => 4,
+                'created_at'           => '2026-02-01 12:00:00',
+                'updated_at'           => '2026-02-01 12:00:00',
+            ],
+            [
+                'id_ar_caso'           => 5,
+                'id_periodo'           => 5,
+                'id_carrera'           => 5,
+                'id_alumno'            => 1,
+                'id_asigna_generacion' => 5,
+                'id_asigna_tutor'      => 5,
+                'id_personal_tutor'    => 5,
+                'origen_caso'          => 'Origen caso casos estudiantes 5',
+                'estado'               => 'Estado casos estudiantes 5',
+                'fecha_apertura'       => '2026-02-10 13:00:00',
+                'fecha_cierre'         => '2026-02-10 13:00:00',
+                'resultado_cierre'     => 'Resultado cierre de casos estudiantes: registro de prueba número 5.',
+                'id_usuario_registro'  => 5,
+                'id_personal_registro' => 5,
+                'created_at'           => '2026-02-10 13:00:00',
+                'updated_at'           => '2026-02-10 13:00:00',
+            ],
+            [
+                'id_ar_caso'           => 6,
+                'id_periodo'           => 6,
+                'id_carrera'           => 6,
+                'id_alumno'            => 1,
+                'id_asigna_generacion' => 6,
+                'id_asigna_tutor'      => 6,
+                'id_personal_tutor'    => 6,
+                'origen_caso'          => 'Origen caso casos estudiantes 6',
+                'estado'               => 'Estado casos estudiantes 6',
+                'fecha_apertura'       => '2026-02-19 14:00:00',
+                'fecha_cierre'         => '2026-02-19 14:00:00',
+                'resultado_cierre'     => 'Resultado cierre de casos estudiantes: registro de prueba número 6.',
+                'id_usuario_registro'  => 6,
+                'id_personal_registro' => 6,
+                'created_at'           => '2026-02-19 14:00:00',
+                'updated_at'           => '2026-02-19 14:00:00',
+            ],
+            [
+                'id_ar_caso'           => 7,
+                'id_periodo'           => 7,
+                'id_carrera'           => 7,
+                'id_alumno'            => 1,
+                'id_asigna_generacion' => 7,
+                'id_asigna_tutor'      => 7,
+                'id_personal_tutor'    => 7,
+                'origen_caso'          => 'Origen caso casos estudiantes 7',
+                'estado'               => 'Estado casos estudiantes 7',
+                'fecha_apertura'       => '2026-02-28 15:00:00',
+                'fecha_cierre'         => '2026-02-28 15:00:00',
+                'resultado_cierre'     => 'Resultado cierre de casos estudiantes: registro de prueba número 7.',
+                'id_usuario_registro'  => 7,
+                'id_personal_registro' => 7,
+                'created_at'           => '2026-02-28 15:00:00',
+                'updated_at'           => '2026-02-28 15:00:00',
+            ],
+            [
+                'id_ar_caso'           => 8,
+                'id_periodo'           => 8,
+                'id_carrera'           => 1,
+                'id_alumno'            => 1,
+                'id_asigna_generacion' => 8,
+                'id_asigna_tutor'      => 8,
+                'id_personal_tutor'    => 8,
+                'origen_caso'          => 'Origen caso casos estudiantes 8',
+                'estado'               => 'Estado casos estudiantes 8',
+                'fecha_apertura'       => '2026-03-09 16:00:00',
+                'fecha_cierre'         => '2026-03-09 16:00:00',
+                'resultado_cierre'     => 'Resultado cierre de casos estudiantes: registro de prueba número 8.',
+                'id_usuario_registro'  => 8,
+                'id_personal_registro' => 8,
+                'created_at'           => '2026-03-09 16:00:00',
+                'updated_at'           => '2026-03-09 16:00:00',
+            ],
+            [
+                'id_ar_caso'           => 9,
+                'id_periodo'           => 9,
+                'id_carrera'           => 2,
+                'id_alumno'            => 1,
+                'id_asigna_generacion' => 9,
+                'id_asigna_tutor'      => 9,
+                'id_personal_tutor'    => 9,
+                'origen_caso'          => 'Origen caso casos estudiantes 9',
+                'estado'               => 'Estado casos estudiantes 9',
+                'fecha_apertura'       => '2026-03-18 08:00:00',
+                'fecha_cierre'         => '2026-03-18 08:00:00',
+                'resultado_cierre'     => 'Resultado cierre de casos estudiantes: registro de prueba número 9.',
+                'id_usuario_registro'  => 9,
+                'id_personal_registro' => 9,
+                'created_at'           => '2026-03-18 08:00:00',
+                'updated_at'           => '2026-03-18 08:00:00',
+            ],
+            [
+                'id_ar_caso'           => 10,
+                'id_periodo'           => 10,
+                'id_carrera'           => 3,
+                'id_alumno'            => 1,
+                'id_asigna_generacion' => 10,
+                'id_asigna_tutor'      => 10,
+                'id_personal_tutor'    => 10,
+                'origen_caso'          => 'Origen caso casos estudiantes 10',
+                'estado'               => 'Estado casos estudiantes 10',
+                'fecha_apertura'       => '2026-03-27 09:00:00',
+                'fecha_cierre'         => '2026-03-27 09:00:00',
+                'resultado_cierre'     => 'Resultado cierre de casos estudiantes: registro de prueba número 10.',
+                'id_usuario_registro'  => 10,
+                'id_personal_registro' => 10,
+                'created_at'           => '2026-03-27 09:00:00',
+                'updated_at'           => '2026-03-27 09:00:00',
+            ],
+            [
+                'id_ar_caso'           => 11,
+                'id_periodo'           => 11,
+                'id_carrera'           => 4,
+                'id_alumno'            => 1,
+                'id_asigna_generacion' => 11,
+                'id_asigna_tutor'      => 11,
+                'id_personal_tutor'    => 11,
+                'origen_caso'          => 'Origen caso casos estudiantes 11',
+                'estado'               => 'Estado casos estudiantes 11',
+                'fecha_apertura'       => '2026-04-05 10:00:00',
+                'fecha_cierre'         => '2026-04-05 10:00:00',
+                'resultado_cierre'     => 'Resultado cierre de casos estudiantes: registro de prueba número 11.',
+                'id_usuario_registro'  => 11,
+                'id_personal_registro' => 11,
+                'created_at'           => '2026-04-05 10:00:00',
+                'updated_at'           => '2026-04-05 10:00:00',
+            ],
+            [
+                'id_ar_caso'           => 12,
+                'id_periodo'           => 12,
+                'id_carrera'           => 5,
+                'id_alumno'            => 1,
+                'id_asigna_generacion' => 12,
+                'id_asigna_tutor'      => 12,
+                'id_personal_tutor'    => 12,
+                'origen_caso'          => 'Origen caso casos estudiantes 12',
+                'estado'               => 'Estado casos estudiantes 12',
+                'fecha_apertura'       => '2026-04-14 11:00:00',
+                'fecha_cierre'         => '2026-04-14 11:00:00',
+                'resultado_cierre'     => 'Resultado cierre de casos estudiantes: registro de prueba número 12.',
+                'id_usuario_registro'  => 12,
+                'id_personal_registro' => 12,
+                'created_at'           => '2026-04-14 11:00:00',
+                'updated_at'           => '2026-04-14 11:00:00',
+            ],
+            [
+                'id_ar_caso'           => 13,
+                'id_periodo'           => 13,
+                'id_carrera'           => 6,
+                'id_alumno'            => 1,
+                'id_asigna_generacion' => 13,
+                'id_asigna_tutor'      => 13,
+                'id_personal_tutor'    => 13,
+                'origen_caso'          => 'Origen caso casos estudiantes 13',
+                'estado'               => 'Estado casos estudiantes 13',
+                'fecha_apertura'       => '2026-04-23 12:00:00',
+                'fecha_cierre'         => '2026-04-23 12:00:00',
+                'resultado_cierre'     => 'Resultado cierre de casos estudiantes: registro de prueba número 13.',
+                'id_usuario_registro'  => 13,
+                'id_personal_registro' => 13,
+                'created_at'           => '2026-04-23 12:00:00',
+                'updated_at'           => '2026-04-23 12:00:00',
+            ],
+            [
+                'id_ar_caso'           => 14,
+                'id_periodo'           => 14,
+                'id_carrera'           => 7,
+                'id_alumno'            => 1,
+                'id_asigna_generacion' => 14,
+                'id_asigna_tutor'      => 14,
+                'id_personal_tutor'    => 14,
+                'origen_caso'          => 'Origen caso casos estudiantes 14',
+                'estado'               => 'Estado casos estudiantes 14',
+                'fecha_apertura'       => '2026-05-02 13:00:00',
+                'fecha_cierre'         => '2026-05-02 13:00:00',
+                'resultado_cierre'     => 'Resultado cierre de casos estudiantes: registro de prueba número 14.',
+                'id_usuario_registro'  => 14,
+                'id_personal_registro' => 14,
+                'created_at'           => '2026-05-02 13:00:00',
+                'updated_at'           => '2026-05-02 13:00:00',
+            ],
+            [
+                'id_ar_caso'           => 15,
+                'id_periodo'           => 15,
+                'id_carrera'           => 1,
+                'id_alumno'            => 1,
+                'id_asigna_generacion' => 15,
+                'id_asigna_tutor'      => 15,
+                'id_personal_tutor'    => 15,
+                'origen_caso'          => 'Origen caso casos estudiantes 15',
+                'estado'               => 'Estado casos estudiantes 15',
+                'fecha_apertura'       => '2026-05-11 14:00:00',
+                'fecha_cierre'         => '2026-05-11 14:00:00',
+                'resultado_cierre'     => 'Resultado cierre de casos estudiantes: registro de prueba número 15.',
+                'id_usuario_registro'  => 15,
+                'id_personal_registro' => 15,
+                'created_at'           => '2026-05-11 14:00:00',
+                'updated_at'           => '2026-05-11 14:00:00',
+            ],
+        ];
+
+        foreach ($registros as $registro) {
+            $existe = DB::table($tabla)
+                ->where(function ($consulta) use ($llaves, $registro) {
+                    foreach ($llaves as $llave) {
+                        $consulta->orWhere(function ($condicion) use ($llave, $registro) {
+                            foreach ($llave as $columna) {
+                                $condicion->where($columna, $registro[$columna]);
+                            }
+                        });
+                    }
+                })
+                ->exists();
+
+            if (! $existe) {
+                DB::table($tabla)->insert($registro);
+            }
+        }
+    }
+}

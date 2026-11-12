@@ -1,0 +1,328 @@
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+
+/**
+ * Seeder de la tabla `ti_datos_alumno_reg_dep`.
+ */
+class TiDatosAlumnoRegDepSeeder extends Seeder
+{
+    /**
+     * Pobla la tabla `ti_datos_alumno_reg_dep` con registros ficticios.
+     * Los registros existentes (por llave primaria o llaves únicas) no se modifican.
+     */
+    public function run(): void
+    {
+        // Entidades de las que depende esta tabla.
+        $this->callOnce([
+            GnralAlumnosSeeder::class,
+            TiAutorizacionReconocimientoSeeder::class,
+            TiDecisionesJuradoSeeder::class,
+            TiFundamentoLegalSSSeeder::class,
+            TiGeneroSeeder::class,
+            TiNumerosTitulosSeeder::class,
+            TiSexoSeeder::class,
+            TiTipoTituloObtenidoSeeder::class,
+        ]);
+
+        $tabla = 'ti_datos_alumno_reg_dep';
+
+        $llaves = [
+            ['id_datos_alumno_reg_dep'],
+        ];
+
+        $registros = [
+            [
+                'id_datos_alumno_reg_dep'        => 1,
+                'id_alumno'                      => 1,
+                'id_genero'                      => 1,
+                'id_sexo'                        => 1,
+                'id_numero_titulo'               => 1,
+                'numero_foja_titulo'             => 1,
+                'numero_libro_titulo'            => 1,
+                'id_tipo_titulo'                 => 1,
+                'id_decision'                    => 1,
+                'edad'                           => 19,
+                'fecha_nacimiento'               => '2003-01-01',
+                'id_autorizacion'                => 1,
+                'fecha_registro'                 => '2026-01-05',
+                'id_fundamento_legal'            => 1,
+                'id_autorizacion_reconocimiento' => 1,
+                'id_liberado_titulado'           => 1,
+            ],
+            [
+                'id_datos_alumno_reg_dep'        => 2,
+                'id_alumno'                      => 2,
+                'id_genero'                      => 2,
+                'id_sexo'                        => 2,
+                'id_numero_titulo'               => 2,
+                'numero_foja_titulo'             => 2,
+                'numero_libro_titulo'            => 2,
+                'id_tipo_titulo'                 => 2,
+                'id_decision'                    => 2,
+                'edad'                           => 20,
+                'fecha_nacimiento'               => '2004-02-02',
+                'id_autorizacion'                => 2,
+                'fecha_registro'                 => '2026-01-14',
+                'id_fundamento_legal'            => 2,
+                'id_autorizacion_reconocimiento' => 2,
+                'id_liberado_titulado'           => 2,
+            ],
+            [
+                'id_datos_alumno_reg_dep'        => 3,
+                'id_alumno'                      => 3,
+                'id_genero'                      => 3,
+                'id_sexo'                        => 3,
+                'id_numero_titulo'               => 3,
+                'numero_foja_titulo'             => 3,
+                'numero_libro_titulo'            => 3,
+                'id_tipo_titulo'                 => 3,
+                'id_decision'                    => 3,
+                'edad'                           => 21,
+                'fecha_nacimiento'               => '2005-03-03',
+                'id_autorizacion'                => 3,
+                'fecha_registro'                 => '2026-01-23',
+                'id_fundamento_legal'            => 3,
+                'id_autorizacion_reconocimiento' => 3,
+                'id_liberado_titulado'           => 3,
+            ],
+            [
+                'id_datos_alumno_reg_dep'        => 4,
+                'id_alumno'                      => 4,
+                'id_genero'                      => 4,
+                'id_sexo'                        => 4,
+                'id_numero_titulo'               => 4,
+                'numero_foja_titulo'             => 4,
+                'numero_libro_titulo'            => 4,
+                'id_tipo_titulo'                 => 4,
+                'id_decision'                    => 4,
+                'edad'                           => 22,
+                'fecha_nacimiento'               => '2006-04-04',
+                'id_autorizacion'                => 4,
+                'fecha_registro'                 => '2026-02-01',
+                'id_fundamento_legal'            => 4,
+                'id_autorizacion_reconocimiento' => 4,
+                'id_liberado_titulado'           => 4,
+            ],
+            [
+                'id_datos_alumno_reg_dep'        => 5,
+                'id_alumno'                      => 5,
+                'id_genero'                      => 5,
+                'id_sexo'                        => 5,
+                'id_numero_titulo'               => 5,
+                'numero_foja_titulo'             => 5,
+                'numero_libro_titulo'            => 5,
+                'id_tipo_titulo'                 => 5,
+                'id_decision'                    => 5,
+                'edad'                           => 23,
+                'fecha_nacimiento'               => '2003-05-05',
+                'id_autorizacion'                => 5,
+                'fecha_registro'                 => '2026-02-10',
+                'id_fundamento_legal'            => 5,
+                'id_autorizacion_reconocimiento' => 5,
+                'id_liberado_titulado'           => 5,
+            ],
+            [
+                'id_datos_alumno_reg_dep'        => 6,
+                'id_alumno'                      => 6,
+                'id_genero'                      => 6,
+                'id_sexo'                        => 6,
+                'id_numero_titulo'               => 6,
+                'numero_foja_titulo'             => 6,
+                'numero_libro_titulo'            => 6,
+                'id_tipo_titulo'                 => 6,
+                'id_decision'                    => 6,
+                'edad'                           => 24,
+                'fecha_nacimiento'               => '2004-06-06',
+                'id_autorizacion'                => 6,
+                'fecha_registro'                 => '2026-02-19',
+                'id_fundamento_legal'            => 6,
+                'id_autorizacion_reconocimiento' => 6,
+                'id_liberado_titulado'           => 6,
+            ],
+            [
+                'id_datos_alumno_reg_dep'        => 7,
+                'id_alumno'                      => 7,
+                'id_genero'                      => 7,
+                'id_sexo'                        => 7,
+                'id_numero_titulo'               => 7,
+                'numero_foja_titulo'             => 7,
+                'numero_libro_titulo'            => 7,
+                'id_tipo_titulo'                 => 7,
+                'id_decision'                    => 7,
+                'edad'                           => 25,
+                'fecha_nacimiento'               => '2005-07-07',
+                'id_autorizacion'                => 7,
+                'fecha_registro'                 => '2026-02-28',
+                'id_fundamento_legal'            => 7,
+                'id_autorizacion_reconocimiento' => 7,
+                'id_liberado_titulado'           => 7,
+            ],
+            [
+                'id_datos_alumno_reg_dep'        => 8,
+                'id_alumno'                      => 8,
+                'id_genero'                      => 8,
+                'id_sexo'                        => 8,
+                'id_numero_titulo'               => 8,
+                'numero_foja_titulo'             => 8,
+                'numero_libro_titulo'            => 8,
+                'id_tipo_titulo'                 => 8,
+                'id_decision'                    => 8,
+                'edad'                           => 18,
+                'fecha_nacimiento'               => '2006-08-08',
+                'id_autorizacion'                => 8,
+                'fecha_registro'                 => '2026-03-09',
+                'id_fundamento_legal'            => 8,
+                'id_autorizacion_reconocimiento' => 8,
+                'id_liberado_titulado'           => 8,
+            ],
+            [
+                'id_datos_alumno_reg_dep'        => 9,
+                'id_alumno'                      => 9,
+                'id_genero'                      => 9,
+                'id_sexo'                        => 9,
+                'id_numero_titulo'               => 9,
+                'numero_foja_titulo'             => 9,
+                'numero_libro_titulo'            => 9,
+                'id_tipo_titulo'                 => 9,
+                'id_decision'                    => 9,
+                'edad'                           => 19,
+                'fecha_nacimiento'               => '2003-09-09',
+                'id_autorizacion'                => 9,
+                'fecha_registro'                 => '2026-03-18',
+                'id_fundamento_legal'            => 9,
+                'id_autorizacion_reconocimiento' => 9,
+                'id_liberado_titulado'           => 9,
+            ],
+            [
+                'id_datos_alumno_reg_dep'        => 10,
+                'id_alumno'                      => 10,
+                'id_genero'                      => 10,
+                'id_sexo'                        => 10,
+                'id_numero_titulo'               => 10,
+                'numero_foja_titulo'             => 10,
+                'numero_libro_titulo'            => 10,
+                'id_tipo_titulo'                 => 10,
+                'id_decision'                    => 10,
+                'edad'                           => 20,
+                'fecha_nacimiento'               => '2004-10-10',
+                'id_autorizacion'                => 10,
+                'fecha_registro'                 => '2026-03-27',
+                'id_fundamento_legal'            => 10,
+                'id_autorizacion_reconocimiento' => 10,
+                'id_liberado_titulado'           => 10,
+            ],
+            [
+                'id_datos_alumno_reg_dep'        => 11,
+                'id_alumno'                      => 11,
+                'id_genero'                      => 11,
+                'id_sexo'                        => 11,
+                'id_numero_titulo'               => 11,
+                'numero_foja_titulo'             => 11,
+                'numero_libro_titulo'            => 11,
+                'id_tipo_titulo'                 => 11,
+                'id_decision'                    => 11,
+                'edad'                           => 21,
+                'fecha_nacimiento'               => '2005-11-11',
+                'id_autorizacion'                => 11,
+                'fecha_registro'                 => '2026-04-05',
+                'id_fundamento_legal'            => 11,
+                'id_autorizacion_reconocimiento' => 11,
+                'id_liberado_titulado'           => 11,
+            ],
+            [
+                'id_datos_alumno_reg_dep'        => 12,
+                'id_alumno'                      => 12,
+                'id_genero'                      => 12,
+                'id_sexo'                        => 12,
+                'id_numero_titulo'               => 12,
+                'numero_foja_titulo'             => 12,
+                'numero_libro_titulo'            => 12,
+                'id_tipo_titulo'                 => 12,
+                'id_decision'                    => 12,
+                'edad'                           => 22,
+                'fecha_nacimiento'               => '2006-12-12',
+                'id_autorizacion'                => 12,
+                'fecha_registro'                 => '2026-04-14',
+                'id_fundamento_legal'            => 12,
+                'id_autorizacion_reconocimiento' => 12,
+                'id_liberado_titulado'           => 12,
+            ],
+            [
+                'id_datos_alumno_reg_dep'        => 13,
+                'id_alumno'                      => 13,
+                'id_genero'                      => 13,
+                'id_sexo'                        => 13,
+                'id_numero_titulo'               => 13,
+                'numero_foja_titulo'             => 13,
+                'numero_libro_titulo'            => 13,
+                'id_tipo_titulo'                 => 13,
+                'id_decision'                    => 13,
+                'edad'                           => 23,
+                'fecha_nacimiento'               => '2003-01-13',
+                'id_autorizacion'                => 13,
+                'fecha_registro'                 => '2026-04-23',
+                'id_fundamento_legal'            => 13,
+                'id_autorizacion_reconocimiento' => 13,
+                'id_liberado_titulado'           => 13,
+            ],
+            [
+                'id_datos_alumno_reg_dep'        => 14,
+                'id_alumno'                      => 14,
+                'id_genero'                      => 14,
+                'id_sexo'                        => 14,
+                'id_numero_titulo'               => 14,
+                'numero_foja_titulo'             => 14,
+                'numero_libro_titulo'            => 14,
+                'id_tipo_titulo'                 => 14,
+                'id_decision'                    => 14,
+                'edad'                           => 24,
+                'fecha_nacimiento'               => '2004-02-14',
+                'id_autorizacion'                => 14,
+                'fecha_registro'                 => '2026-05-02',
+                'id_fundamento_legal'            => 14,
+                'id_autorizacion_reconocimiento' => 14,
+                'id_liberado_titulado'           => 14,
+            ],
+            [
+                'id_datos_alumno_reg_dep'        => 15,
+                'id_alumno'                      => 15,
+                'id_genero'                      => 15,
+                'id_sexo'                        => 15,
+                'id_numero_titulo'               => 15,
+                'numero_foja_titulo'             => 15,
+                'numero_libro_titulo'            => 15,
+                'id_tipo_titulo'                 => 15,
+                'id_decision'                    => 15,
+                'edad'                           => 25,
+                'fecha_nacimiento'               => '2005-03-15',
+                'id_autorizacion'                => 15,
+                'fecha_registro'                 => '2026-05-11',
+                'id_fundamento_legal'            => 15,
+                'id_autorizacion_reconocimiento' => 15,
+                'id_liberado_titulado'           => 15,
+            ],
+        ];
+
+        foreach ($registros as $registro) {
+            $existe = DB::table($tabla)
+                ->where(function ($consulta) use ($llaves, $registro) {
+                    foreach ($llaves as $llave) {
+                        $consulta->orWhere(function ($condicion) use ($llave, $registro) {
+                            foreach ($llave as $columna) {
+                                $condicion->where($columna, $registro[$columna]);
+                            }
+                        });
+                    }
+                })
+                ->exists();
+
+            if (! $existe) {
+                DB::table($tabla)->insert($registro);
+            }
+        }
+    }
+}

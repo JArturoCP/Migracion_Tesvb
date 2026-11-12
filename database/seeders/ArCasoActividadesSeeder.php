@@ -1,0 +1,326 @@
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+
+/**
+ * Seeder de la tabla `ar_caso_actividades`.
+ */
+class ArCasoActividadesSeeder extends Seeder
+{
+    /**
+     * Pobla la tabla `ar_caso_actividades` con registros ficticios.
+     * Los registros existentes (por llave primaria o llaves únicas) no se modifican.
+     */
+    public function run(): void
+    {
+        // Entidades de las que depende esta tabla.
+        $this->callOnce([
+            ArActividadCatalogoSeeder::class,
+            ArActividadCategoriasSeeder::class,
+            ArAreasAtencionSeeder::class,
+            ArCasoCanalizacionesSeeder::class,
+            ArCasosEstudiantesSeeder::class,
+            GnralPersonalesSeeder::class,
+        ]);
+
+        $tabla = 'ar_caso_actividades';
+
+        $llaves = [
+            ['id_ar_actividad'],
+        ];
+
+        $registros = [
+            [
+                'id_ar_actividad'         => 1,
+                'id_ar_caso'              => 1,
+                'id_ar_caso_canalizacion' => 1,
+                'id_ar_cita'              => 1,
+                'id_area_atencion'        => 1,
+                'id_actividad_catalogo'   => 1,
+                'id_categoria_actividad'  => 1,
+                'titulo'                  => 'Titulo caso actividades 1',
+                'descripcion'             => 'Descripcion de caso actividades: registro de prueba número 1.',
+                'fecha_asignacion'        => '2003-01-01',
+                'fecha_limite'            => '2026-01-05',
+                'estado'                  => 'Estado caso actividades 1',
+                'id_personal_asigna'      => 1,
+                'id_usuario_asigna'       => 1,
+                'created_at'              => '2026-01-05 09:00:00',
+                'updated_at'              => '2026-01-05 09:00:00',
+            ],
+            [
+                'id_ar_actividad'         => 2,
+                'id_ar_caso'              => 2,
+                'id_ar_caso_canalizacion' => 2,
+                'id_ar_cita'              => 2,
+                'id_area_atencion'        => 2,
+                'id_actividad_catalogo'   => 2,
+                'id_categoria_actividad'  => 2,
+                'titulo'                  => 'Titulo caso actividades 2',
+                'descripcion'             => 'Descripcion de caso actividades: registro de prueba número 2.',
+                'fecha_asignacion'        => '2004-02-02',
+                'fecha_limite'            => '2026-01-14',
+                'estado'                  => 'Estado caso actividades 2',
+                'id_personal_asigna'      => 2,
+                'id_usuario_asigna'       => 2,
+                'created_at'              => '2026-01-14 10:00:00',
+                'updated_at'              => '2026-01-14 10:00:00',
+            ],
+            [
+                'id_ar_actividad'         => 3,
+                'id_ar_caso'              => 3,
+                'id_ar_caso_canalizacion' => 3,
+                'id_ar_cita'              => 3,
+                'id_area_atencion'        => 3,
+                'id_actividad_catalogo'   => 3,
+                'id_categoria_actividad'  => 3,
+                'titulo'                  => 'Titulo caso actividades 3',
+                'descripcion'             => 'Descripcion de caso actividades: registro de prueba número 3.',
+                'fecha_asignacion'        => '2005-03-03',
+                'fecha_limite'            => '2026-01-23',
+                'estado'                  => 'Estado caso actividades 3',
+                'id_personal_asigna'      => 3,
+                'id_usuario_asigna'       => 3,
+                'created_at'              => '2026-01-23 11:00:00',
+                'updated_at'              => '2026-01-23 11:00:00',
+            ],
+            [
+                'id_ar_actividad'         => 4,
+                'id_ar_caso'              => 4,
+                'id_ar_caso_canalizacion' => 4,
+                'id_ar_cita'              => 4,
+                'id_area_atencion'        => 4,
+                'id_actividad_catalogo'   => 4,
+                'id_categoria_actividad'  => 4,
+                'titulo'                  => 'Titulo caso actividades 4',
+                'descripcion'             => 'Descripcion de caso actividades: registro de prueba número 4.',
+                'fecha_asignacion'        => '2006-04-04',
+                'fecha_limite'            => '2026-02-01',
+                'estado'                  => 'Estado caso actividades 4',
+                'id_personal_asigna'      => 4,
+                'id_usuario_asigna'       => 4,
+                'created_at'              => '2026-02-01 12:00:00',
+                'updated_at'              => '2026-02-01 12:00:00',
+            ],
+            [
+                'id_ar_actividad'         => 5,
+                'id_ar_caso'              => 5,
+                'id_ar_caso_canalizacion' => 5,
+                'id_ar_cita'              => 5,
+                'id_area_atencion'        => 5,
+                'id_actividad_catalogo'   => 5,
+                'id_categoria_actividad'  => 5,
+                'titulo'                  => 'Titulo caso actividades 5',
+                'descripcion'             => 'Descripcion de caso actividades: registro de prueba número 5.',
+                'fecha_asignacion'        => '2003-05-05',
+                'fecha_limite'            => '2026-02-10',
+                'estado'                  => 'Estado caso actividades 5',
+                'id_personal_asigna'      => 5,
+                'id_usuario_asigna'       => 5,
+                'created_at'              => '2026-02-10 13:00:00',
+                'updated_at'              => '2026-02-10 13:00:00',
+            ],
+            [
+                'id_ar_actividad'         => 6,
+                'id_ar_caso'              => 6,
+                'id_ar_caso_canalizacion' => 6,
+                'id_ar_cita'              => 6,
+                'id_area_atencion'        => 6,
+                'id_actividad_catalogo'   => 6,
+                'id_categoria_actividad'  => 6,
+                'titulo'                  => 'Titulo caso actividades 6',
+                'descripcion'             => 'Descripcion de caso actividades: registro de prueba número 6.',
+                'fecha_asignacion'        => '2004-06-06',
+                'fecha_limite'            => '2026-02-19',
+                'estado'                  => 'Estado caso actividades 6',
+                'id_personal_asigna'      => 6,
+                'id_usuario_asigna'       => 6,
+                'created_at'              => '2026-02-19 14:00:00',
+                'updated_at'              => '2026-02-19 14:00:00',
+            ],
+            [
+                'id_ar_actividad'         => 7,
+                'id_ar_caso'              => 7,
+                'id_ar_caso_canalizacion' => 7,
+                'id_ar_cita'              => 7,
+                'id_area_atencion'        => 7,
+                'id_actividad_catalogo'   => 7,
+                'id_categoria_actividad'  => 7,
+                'titulo'                  => 'Titulo caso actividades 7',
+                'descripcion'             => 'Descripcion de caso actividades: registro de prueba número 7.',
+                'fecha_asignacion'        => '2005-07-07',
+                'fecha_limite'            => '2026-02-28',
+                'estado'                  => 'Estado caso actividades 7',
+                'id_personal_asigna'      => 7,
+                'id_usuario_asigna'       => 7,
+                'created_at'              => '2026-02-28 15:00:00',
+                'updated_at'              => '2026-02-28 15:00:00',
+            ],
+            [
+                'id_ar_actividad'         => 8,
+                'id_ar_caso'              => 8,
+                'id_ar_caso_canalizacion' => 8,
+                'id_ar_cita'              => 8,
+                'id_area_atencion'        => 8,
+                'id_actividad_catalogo'   => 8,
+                'id_categoria_actividad'  => 8,
+                'titulo'                  => 'Titulo caso actividades 8',
+                'descripcion'             => 'Descripcion de caso actividades: registro de prueba número 8.',
+                'fecha_asignacion'        => '2006-08-08',
+                'fecha_limite'            => '2026-03-09',
+                'estado'                  => 'Estado caso actividades 8',
+                'id_personal_asigna'      => 8,
+                'id_usuario_asigna'       => 8,
+                'created_at'              => '2026-03-09 16:00:00',
+                'updated_at'              => '2026-03-09 16:00:00',
+            ],
+            [
+                'id_ar_actividad'         => 9,
+                'id_ar_caso'              => 9,
+                'id_ar_caso_canalizacion' => 9,
+                'id_ar_cita'              => 9,
+                'id_area_atencion'        => 9,
+                'id_actividad_catalogo'   => 9,
+                'id_categoria_actividad'  => 9,
+                'titulo'                  => 'Titulo caso actividades 9',
+                'descripcion'             => 'Descripcion de caso actividades: registro de prueba número 9.',
+                'fecha_asignacion'        => '2003-09-09',
+                'fecha_limite'            => '2026-03-18',
+                'estado'                  => 'Estado caso actividades 9',
+                'id_personal_asigna'      => 9,
+                'id_usuario_asigna'       => 9,
+                'created_at'              => '2026-03-18 08:00:00',
+                'updated_at'              => '2026-03-18 08:00:00',
+            ],
+            [
+                'id_ar_actividad'         => 10,
+                'id_ar_caso'              => 10,
+                'id_ar_caso_canalizacion' => 10,
+                'id_ar_cita'              => 10,
+                'id_area_atencion'        => 10,
+                'id_actividad_catalogo'   => 10,
+                'id_categoria_actividad'  => 10,
+                'titulo'                  => 'Titulo caso actividades 10',
+                'descripcion'             => 'Descripcion de caso actividades: registro de prueba número 10.',
+                'fecha_asignacion'        => '2004-10-10',
+                'fecha_limite'            => '2026-03-27',
+                'estado'                  => 'Estado caso actividades 10',
+                'id_personal_asigna'      => 10,
+                'id_usuario_asigna'       => 10,
+                'created_at'              => '2026-03-27 09:00:00',
+                'updated_at'              => '2026-03-27 09:00:00',
+            ],
+            [
+                'id_ar_actividad'         => 11,
+                'id_ar_caso'              => 11,
+                'id_ar_caso_canalizacion' => 11,
+                'id_ar_cita'              => 11,
+                'id_area_atencion'        => 11,
+                'id_actividad_catalogo'   => 11,
+                'id_categoria_actividad'  => 11,
+                'titulo'                  => 'Titulo caso actividades 11',
+                'descripcion'             => 'Descripcion de caso actividades: registro de prueba número 11.',
+                'fecha_asignacion'        => '2005-11-11',
+                'fecha_limite'            => '2026-04-05',
+                'estado'                  => 'Estado caso actividades 11',
+                'id_personal_asigna'      => 11,
+                'id_usuario_asigna'       => 11,
+                'created_at'              => '2026-04-05 10:00:00',
+                'updated_at'              => '2026-04-05 10:00:00',
+            ],
+            [
+                'id_ar_actividad'         => 12,
+                'id_ar_caso'              => 12,
+                'id_ar_caso_canalizacion' => 12,
+                'id_ar_cita'              => 12,
+                'id_area_atencion'        => 12,
+                'id_actividad_catalogo'   => 12,
+                'id_categoria_actividad'  => 12,
+                'titulo'                  => 'Titulo caso actividades 12',
+                'descripcion'             => 'Descripcion de caso actividades: registro de prueba número 12.',
+                'fecha_asignacion'        => '2006-12-12',
+                'fecha_limite'            => '2026-04-14',
+                'estado'                  => 'Estado caso actividades 12',
+                'id_personal_asigna'      => 12,
+                'id_usuario_asigna'       => 12,
+                'created_at'              => '2026-04-14 11:00:00',
+                'updated_at'              => '2026-04-14 11:00:00',
+            ],
+            [
+                'id_ar_actividad'         => 13,
+                'id_ar_caso'              => 13,
+                'id_ar_caso_canalizacion' => 13,
+                'id_ar_cita'              => 13,
+                'id_area_atencion'        => 13,
+                'id_actividad_catalogo'   => 13,
+                'id_categoria_actividad'  => 13,
+                'titulo'                  => 'Titulo caso actividades 13',
+                'descripcion'             => 'Descripcion de caso actividades: registro de prueba número 13.',
+                'fecha_asignacion'        => '2003-01-13',
+                'fecha_limite'            => '2026-04-23',
+                'estado'                  => 'Estado caso actividades 13',
+                'id_personal_asigna'      => 13,
+                'id_usuario_asigna'       => 13,
+                'created_at'              => '2026-04-23 12:00:00',
+                'updated_at'              => '2026-04-23 12:00:00',
+            ],
+            [
+                'id_ar_actividad'         => 14,
+                'id_ar_caso'              => 14,
+                'id_ar_caso_canalizacion' => 14,
+                'id_ar_cita'              => 14,
+                'id_area_atencion'        => 14,
+                'id_actividad_catalogo'   => 14,
+                'id_categoria_actividad'  => 14,
+                'titulo'                  => 'Titulo caso actividades 14',
+                'descripcion'             => 'Descripcion de caso actividades: registro de prueba número 14.',
+                'fecha_asignacion'        => '2004-02-14',
+                'fecha_limite'            => '2026-05-02',
+                'estado'                  => 'Estado caso actividades 14',
+                'id_personal_asigna'      => 14,
+                'id_usuario_asigna'       => 14,
+                'created_at'              => '2026-05-02 13:00:00',
+                'updated_at'              => '2026-05-02 13:00:00',
+            ],
+            [
+                'id_ar_actividad'         => 15,
+                'id_ar_caso'              => 15,
+                'id_ar_caso_canalizacion' => 15,
+                'id_ar_cita'              => 15,
+                'id_area_atencion'        => 15,
+                'id_actividad_catalogo'   => 15,
+                'id_categoria_actividad'  => 15,
+                'titulo'                  => 'Titulo caso actividades 15',
+                'descripcion'             => 'Descripcion de caso actividades: registro de prueba número 15.',
+                'fecha_asignacion'        => '2005-03-15',
+                'fecha_limite'            => '2026-05-11',
+                'estado'                  => 'Estado caso actividades 15',
+                'id_personal_asigna'      => 15,
+                'id_usuario_asigna'       => 15,
+                'created_at'              => '2026-05-11 14:00:00',
+                'updated_at'              => '2026-05-11 14:00:00',
+            ],
+        ];
+
+        foreach ($registros as $registro) {
+            $existe = DB::table($tabla)
+                ->where(function ($consulta) use ($llaves, $registro) {
+                    foreach ($llaves as $llave) {
+                        $consulta->orWhere(function ($condicion) use ($llave, $registro) {
+                            foreach ($llave as $columna) {
+                                $condicion->where($columna, $registro[$columna]);
+                            }
+                        });
+                    }
+                })
+                ->exists();
+
+            if (! $existe) {
+                DB::table($tabla)->insert($registro);
+            }
+        }
+    }
+}
