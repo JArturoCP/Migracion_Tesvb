@@ -1,3 +1,5 @@
+> Auditoría posterior con acceso real a MariaDB: consultar [las 241 fichas actualizadas](auditoria-sistematica-modelos.md). Este informe conserva el estado histórico de la primera revisión.
+
 > Actualización: los ocho candidatos de claves primarias quedaron resueltos; consultar [continuación verificada](claves-primarias-verificadas.md). El inventario siguiente conserva el estado de la auditoría inicial.
 
 # Auditoría de modelos Eloquent TESVB

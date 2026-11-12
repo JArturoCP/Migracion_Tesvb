@@ -200,4 +200,63 @@ class EloquentCompatibilityTest extends TestCase
         $this->assertSame(['08:00', '08:30', '09:00'], \App\AudValidarAgenda::generateRange('08:00', '09:00'));
         $this->assertSame([], \App\AudValidarAgenda::generateRange('09:00', '08:00'));
     }
+    public function test_verified_timestamp_and_manual_key_sql_without_execution(): void
+    {
+        $previousResolver = Model::getConnectionResolver();
+        $connection = new class(static function () {
+            throw new RuntimeException('No database access is allowed, including during pretend().');
+        }, 'model_audit') extends MySqlConnection {
+            // pretend() interpolates bindings for its log. Quote these test-only values locally.
+            protected function escapeString($value)
+            {
+                return "'".str_replace("'", "''", $value)."'";
+            }
+        };
+        Model::setConnectionResolver(new ConnectionResolver(['' => $connection]));
+        try {
+            $metadata = json_decode(file_get_contents($this->root().'/tests/Fixtures/eloquent-metadata.json'), true, flags: JSON_THROW_ON_ERROR);
+            foreach ($metadata as $class => $mapping) {
+                if ($mapping[2] || !in_array($class, [
+                    \App\adscripcion_personal::class, \App\amb_encargados::class,
+                    \App\oc_oficio_personal::class, \App\serv_datos_alumnos::class,
+                    \App\Tutorias_Exp_bachillerato::class,
+                ], true)) {
+                    continue;
+                }
+                $model = new $class;
+                $model->setAttribute($model->getKeyName(), 123);
+                $queries = $connection->pretend(static function () use ($model) {
+                    $model->save();
+                });
+                $this->assertCount(1, $queries);
+                $this->assertStringNotContainsString('created_at', $queries[0]['query'], $class);
+                $this->assertStringNotContainsString('updated_at', $queries[0]['query'], $class);
+            }
+            foreach ([\App\Activa_evaluacion::class, \App\Tutorias_Exp_bachillerato::class,
+                \App\Tutorias_Exp_familia_union::class, \App\Tutorias_Exp_generacion::class] as $class) {
+                $model = new $class;
+                $model->setAttribute($model->getKeyName(), 123);
+                $connection->pretend(static function () use ($model) {
+                    $model->save();
+                });
+                $this->assertSame(123, $model->getKey(), $class.' must preserve the supplied primary key.');
+            }
+            foreach ([\App\oc_dependencias::class, \App\oc_oficio::class] as $class) {
+                $model = new $class;
+                $model->setAttribute($model->getKeyName(), 123);
+                $queries = $connection->pretend(static function () use ($model) {
+                    $model->save();
+                });
+                $this->assertCount(1, $queries);
+                $this->assertStringNotContainsString('created_at', $queries[0]['query'], $class);
+                $this->assertStringContainsString('updated_at', $queries[0]['query'], $class);
+            }
+        } finally {
+            if ($previousResolver === null) {
+                Model::unsetConnectionResolver();
+            } else {
+                Model::setConnectionResolver($previousResolver);
+            }
+        }
+    }
 }

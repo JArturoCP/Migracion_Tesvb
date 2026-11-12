@@ -10,6 +10,7 @@ $methods = [
     'test_model_imports_and_static_class_references_resolve_without_global_aliases',
     'test_zero_argument_relations_build_queries_without_database_access',
     'test_legacy_half_hour_ranges_use_numeric_carbon_units',
+    'test_verified_timestamp_and_manual_key_sql_without_execution',
 ];
 
 $total = 0;
