@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class oc_oficio_personal extends Model
 {
+    public $timestamps = false;
     //
     protected $table='oc_oficio_personal';
     protected $primaryKey='id_oficio_personal';

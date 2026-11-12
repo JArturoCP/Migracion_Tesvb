@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class oc_vehiculo extends Model
 {
+    public $timestamps = false;
     protected $table='oc_vehiculo';
     protected $primaryKey='id_vehiculo';
     protected $fillable=['modelo','placas'];
