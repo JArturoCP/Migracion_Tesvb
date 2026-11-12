@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class serv_doc_empresa_publica extends Model
 {
+    public $timestamps = false;
     protected $table = 'serv_doc_empresa_publica';
     protected $primaryKey='id_empresa_publica';
     protected $fillable=['est_curp','coment_curp','est_carnet','coment_carnet',

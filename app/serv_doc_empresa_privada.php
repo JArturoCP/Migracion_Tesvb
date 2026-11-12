@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class serv_doc_empresa_privada extends Model
 {
+    public $timestamps = false;
     protected $table = 'serv_doc_empresa_privada';
     protected $primaryKey='id_empresa_privada';
     protected $fillable=['id_alumno','id_periodo','est_carta_aceptacion','coment_carta_aceptacion',
