@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class CalCanalizacion extends Model
 {
+    public $timestamps = false;
     //
     protected $table = 'cal_canalizacion';
     protected $primaryKey='id';
