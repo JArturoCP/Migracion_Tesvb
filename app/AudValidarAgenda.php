@@ -115,7 +115,7 @@ class AudValidarAgenda extends Model
         return self::$horas_ocupadas;
     }
     public static function generateTimeRange(Carbon $start_hour, Carbon $end_hour) {
-        for($hour = $start_hour; $hour->lte($end_hour); $hour->addMinute('30')) {
+        for($hour = $start_hour; $hour->lte($end_hour); $hour->addMinutes(30)) {
             self::$horas_ocupadas[]=$hour->format('H').':'.$hour->format('i');
         }
     }

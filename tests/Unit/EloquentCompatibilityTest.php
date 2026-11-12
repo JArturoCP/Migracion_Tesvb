@@ -195,4 +195,9 @@ class EloquentCompatibilityTest extends TestCase
             Facade::setFacadeApplication($previousFacadeApp);
         }
     }
+    public function test_legacy_half_hour_ranges_use_numeric_carbon_units(): void
+    {
+        $this->assertSame(['08:00', '08:30', '09:00'], \App\AudValidarAgenda::generateRange('08:00', '09:00'));
+        $this->assertSame([], \App\AudValidarAgenda::generateRange('09:00', '08:00'));
+    }
 }

@@ -9,6 +9,7 @@ $methods = [
     'test_all_models_autoload_with_their_existing_database_mapping',
     'test_model_imports_and_static_class_references_resolve_without_global_aliases',
     'test_zero_argument_relations_build_queries_without_database_access',
+    'test_legacy_half_hour_ranges_use_numeric_carbon_units',
 ];
 
 $total = 0;
