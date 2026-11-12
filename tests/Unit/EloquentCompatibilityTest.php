@@ -167,6 +167,20 @@ class EloquentCompatibilityTest extends TestCase
             }
             $this->assertSame('id_jefatura', (new \App\PMSolicitudMaterial)->jefaturas()->getOwnerKeyName());
             $this->assertSame('id_expbebidas', (new \App\Tutorias_Exp_formacion_integral)->escala()->getForeignKeyName());
+            // MariaDB metadata confirmed by the user: oc_oficio has only updated_at.
+            foreach ([false, true] as $exists) {
+                $oficio = new \App\oc_oficio;
+                $oficio->exists = $exists;
+                $this->assertTrue($oficio->usesTimestamps());
+                $this->assertNull($oficio->getCreatedAtColumn());
+                $oficio->updateTimestamps();
+                $this->assertArrayNotHasKey('created_at', $oficio->getAttributes());
+                $this->assertNotEmpty($oficio->getAttributes()['updated_at']);
+            }
+            $oficio = new \App\oc_oficio;
+            $oficio->setRawAttributes(['updated_at' => '2026-01-01 10:00:00']);
+            $oficio->updateTimestamps();
+            $this->assertSame('2026-01-01 10:00:00', $oficio->getAttributes()['updated_at']);
             $this->assertSame(153, $count, 'Review the relation inventory when relations are added or removed.');
         } finally {
             if ($previousResolver === null) {

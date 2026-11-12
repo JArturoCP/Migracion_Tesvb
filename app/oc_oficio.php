@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class oc_oficio extends Model
 {
+    const CREATED_AT = null;
     protected $table='oc_oficio';
     protected $primaryKey='id_oficio';
     protected $fillable=['fecha','desc_comision','fecha_salida','fecha_regreso','hora_s','hora_r','id_lugar_salida','id_lugar_entrada','id_notificacion_solicitud','fecha_hora','id_usuario'];

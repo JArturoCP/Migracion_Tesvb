@@ -1,3 +1,5 @@
+> Actualización posterior: se recibieron resultados reales de diez tablas y se aplicaron ajustes documentados en [timestamps verificados](timestamps-verificados.md). Las referencias a resultados faltantes de este documento describen el estado anterior.
+
 # Criterios y reclasificación de evidencias de modelos
 
 12 de noviembre de 2026. Rama codex/auditoria-modelos-laravel12.
