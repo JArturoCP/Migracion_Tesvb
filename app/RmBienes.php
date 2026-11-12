@@ -54,7 +54,7 @@ class RmBienes extends Model
     }
     public function adquisiciones()
     {
-        return $this->belongsTo('App\RmTipoadqui','id_adqui','id');
+        return $this->belongsTo('App\RmTipoadqui','id_tipoadqui','id');
     }
     public function resguardos()
     {

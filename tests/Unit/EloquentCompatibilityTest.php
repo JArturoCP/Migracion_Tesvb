@@ -181,6 +181,8 @@ class EloquentCompatibilityTest extends TestCase
             $oficio->setRawAttributes(['updated_at' => '2026-01-01 10:00:00']);
             $oficio->updateTimestamps();
             $this->assertSame('2026-01-01 10:00:00', $oficio->getAttributes()['updated_at']);
+            $this->assertSame('id_tipoadqui', (new \App\RmBienes)->adquisiciones()->getForeignKeyName());
+            $this->assertSame('id_tipoadqui', (new \App\RmTipoadqui)->bienes()->getForeignKeyName());
             $this->assertSame(153, $count, 'Review the relation inventory when relations are added or removed.');
         } finally {
             if ($previousResolver === null) {

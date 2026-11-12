@@ -12,6 +12,6 @@ class RmTipoadqui extends Model
 
     public function bienes()
     {
-        return $this->hasMany('App\RmBienes','id_adqui');
+        return $this->hasMany('App\RmBienes','id_tipoadqui');
     }
 }
