@@ -19,8 +19,8 @@ class Tutorias_actividades_alumnoController extends Controller
         $id=Auth::user()->id;
         $datos_alumno=DB::selectOne('SELECT exp_asigna_alumnos.* from exp_asigna_alumnos,exp_asigna_generacion,gnral_jefes_periodos,gnral_alumnos
         where exp_asigna_alumnos.id_asigna_generacion =exp_asigna_generacion.id_asigna_generacion and
-        exp_asigna_generacion.id_jefe_periodo = gnral_jefes_periodos.id_jefe_periodo and gnral_jefes_periodos.id_periodo = '.$periodo_actual.' 
-        and exp_asigna_alumnos.id_alumno = gnral_alumnos.id_alumno and gnral_alumnos.id_usuario ='.$id.'');
+        exp_asigna_generacion.id_jefe_periodo = gnral_jefes_periodos.id_jefe_periodo and gnral_jefes_periodos.id_periodo = ?
+        and exp_asigna_alumnos.id_alumno = gnral_alumnos.id_alumno and gnral_alumnos.id_usuario = ?', [$periodo_actual, $id]);
 
         //DB::enableQueryLog();
         $datos=Tutorias_Plan_actividades::join('plan_asigna_planeacion_tutor','plan_asigna_planeacion_tutor.id_plan_actividad','=','plan_actividades.id_plan_actividad')
@@ -68,7 +68,7 @@ class Tutorias_actividades_alumnoController extends Controller
     public function store(Request $request)
     {
 
-        $id=DB::select('SELECT id_alumno FROM gnral_alumnos WHERE id_usuario='.Auth::user()->id);
+        $id=DB::select('SELECT id_alumno FROM gnral_alumnos WHERE id_usuario= ?', [Auth::user()->id]);
 
         //$plan = Plan_asigna_evidencias::find($id);
         $file=$request->file('evidencia');

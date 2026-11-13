@@ -21,7 +21,7 @@ class SolicitudAlumnosJefeController extends Controller
 
         $carrera = Session::get('carrera');
         $periodo=Session::get('periodo_actual');
-        
+
 
         $libera_alumnos=DB::select('select actcomple_registro_alumnos.id_registro_alumno,actcomple_registro_alumnos.liberacion,actcomple_categorias.descripcion_cat,gnral_alumnos.cuenta,gnral_alumnos.apaterno,gnral_alumnos.amaterno,gnral_alumnos.nombre alumno,actividades_complementarias.descripcion,actividades_complementarias.horas,
                                     actividades_complementarias.creditos,gnral_semestres.descripcion semestre,abreviaciones.titulo,gnral_personales.nombre docente,gnral_carreras.nombre carrera
@@ -38,9 +38,9 @@ class SolicitudAlumnosJefeController extends Controller
                                     and actcomple_jefaturas.id_carrera=gnral_carreras.id_carrera
                                     and actcomple_registro_alumnos.id_periodo=gnral_periodos.id_periodo
                                     and actividades_complementarias.estado=1
-                                    and gnral_carreras.id_carrera='.$carrera.'
-                                    and gnral_periodos.id_periodo='.$periodo.'
-                                    and actcomple_registro_alumnos.liberacion=0');
+                                    and gnral_carreras.id_carrera= ?
+                                    and gnral_periodos.id_periodo= ?
+                                    and actcomple_registro_alumnos.liberacion=0', [$carrera, $periodo]);
 
 
         $liberacion_si=DB::select('select actcomple_registro_alumnos.id_registro_alumno,actcomple_registro_alumnos.liberacion,actcomple_categorias.descripcion_cat,gnral_alumnos.cuenta,gnral_alumnos.apaterno,gnral_alumnos.amaterno,gnral_alumnos.nombre alumno,actividades_complementarias.descripcion,actividades_complementarias.horas,
@@ -58,9 +58,9 @@ class SolicitudAlumnosJefeController extends Controller
                                     and actcomple_jefaturas.id_carrera=gnral_carreras.id_carrera
                                     and actcomple_registro_alumnos.id_periodo=gnral_periodos.id_periodo
                                     and actividades_complementarias.estado=1
-                                    and gnral_carreras.id_carrera='.$carrera.'
-                                    and gnral_periodos.id_periodo='.$periodo.'
-                                    and actcomple_registro_alumnos.liberacion=1');
+                                    and gnral_carreras.id_carrera= ?
+                                    and gnral_periodos.id_periodo= ?
+                                    and actcomple_registro_alumnos.liberacion=1', [$carrera, $periodo]);
 
         $liberacion_registro=DB::select('select actcomple_registro_alumnos.id_registro_alumno,actcomple_registro_alumnos.liberacion,actcomple_categorias.descripcion_cat,gnral_alumnos.cuenta,gnral_alumnos.apaterno,gnral_alumnos.amaterno,gnral_alumnos.nombre alumno,actividades_complementarias.descripcion,actividades_complementarias.horas,
                                     actividades_complementarias.creditos,gnral_semestres.descripcion semestre,abreviaciones.titulo,gnral_personales.nombre docente,gnral_carreras.nombre carrera
@@ -77,9 +77,9 @@ class SolicitudAlumnosJefeController extends Controller
                                     and actcomple_jefaturas.id_carrera=gnral_carreras.id_carrera
                                     and actcomple_registro_alumnos.id_periodo=gnral_periodos.id_periodo
                                     and actividades_complementarias.estado=1
-                                    and gnral_carreras.id_carrera='.$carrera.'
-                                    and gnral_periodos.id_periodo='.$periodo.'
-                                    and actcomple_registro_alumnos.liberacion=2');
+                                    and gnral_carreras.id_carrera= ?
+                                    and gnral_periodos.id_periodo= ?
+                                    and actcomple_registro_alumnos.liberacion=2', [$carrera, $periodo]);
 
 //elimino la variable usuario
 
@@ -89,7 +89,7 @@ class SolicitudAlumnosJefeController extends Controller
 
     public function create()
     {
-        
+
     }
 
 
@@ -117,10 +117,10 @@ class SolicitudAlumnosJefeController extends Controller
     {
 
         $datos=(explode(',',$arreglo));
-       
+
         $ciclos=count($datos)/2;
         $limite=count($datos);
-     
+
         $cuenta=array();
 
         $uno=1;
@@ -153,10 +153,10 @@ class SolicitudAlumnosJefeController extends Controller
    /*  public function modifica_jefe_no(Request $request, $arreglo)
     {
         $datos=(explode(',',$arreglo));
-       
+
         $ciclos=count($datos)/2;
         $limite=count($datos);
-        
+
          $cuenta=array();
         $uno=0;
          for($i=$ciclos;$i<$limite;$i++)
@@ -170,7 +170,7 @@ class SolicitudAlumnosJefeController extends Controller
 
 
                     );
-                
+
                  RegistroAlumnos::find($id)->update($datoss);
 
 

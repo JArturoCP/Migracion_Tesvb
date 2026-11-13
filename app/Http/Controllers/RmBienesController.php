@@ -160,7 +160,7 @@ class   RmBienesController extends Controller
 
 
         $data = RmBienes::get()->toArray();
-         dd($data);
+         abort(501, 'Funcionalidad no disponible.');
         return Excel::create('Concentrado de Bienes del TESVB', function($excel) use ($data) {
             $excel->sheet('mySheet', function($sheet) use ($data)
             {

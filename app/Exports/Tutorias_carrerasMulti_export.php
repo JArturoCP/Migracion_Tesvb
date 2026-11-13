@@ -36,7 +36,7 @@ class Tutorias_carrerasMulti_export implements  WithMultipleSheets
                               ON gnral_j.id_jefe_periodo = exp_asigna_t.id_jefe_periodo
                               INNER JOIN gnral_carreras car
                               ON car.id_carrera = gnral_j.id_carrera
-                              WHERE gnral_j.id_periodo = '.$periodo.' AND car.id_carrera = '.$this->id_carrera.' ');
+                              WHERE gnral_j.id_periodo = ? AND car.id_carrera = ? ', [$periodo, $this->id_carrera]);
         $sheets=[];
 
 

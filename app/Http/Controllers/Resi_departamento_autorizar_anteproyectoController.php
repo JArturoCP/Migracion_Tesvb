@@ -45,8 +45,8 @@ class Resi_departamento_autorizar_anteproyectoController extends Controller
         $anteproyectos_alumn=array();
         foreach ($anteproyectos as $ante)
         {
-            $documentacion=DB::selectOne('SELECT count(id_alumno) contar FROM `resi_alta_residencia` WHERE `id_alumno` = '.$ante->id_alumno.' AND `id_estado_solicitud`=1 AND `id_periodo` = '.$periodo.' ');
-            $documentacion1=DB::selectOne('SELECT count(id_alumno) contar FROM `resi_alta_residencia` WHERE `id_alumno` = '.$ante->id_alumno.' AND `id_estado_solicitud`=4 AND `id_periodo` = '.$periodo.' ');
+            $documentacion=DB::selectOne('SELECT count(id_alumno) contar FROM `resi_alta_residencia` WHERE `id_alumno` = ? AND `id_estado_solicitud`=1 AND `id_periodo` = ? ', [$ante->id_alumno, $periodo]);
+            $documentacion1=DB::selectOne('SELECT count(id_alumno) contar FROM `resi_alta_residencia` WHERE `id_alumno` = ? AND `id_estado_solicitud`=4 AND `id_periodo` = ? ', [$ante->id_alumno, $periodo]);
 
             if($documentacion->contar == 1 || $documentacion1->contar == 1) {
 
@@ -58,7 +58,7 @@ class Resi_departamento_autorizar_anteproyectoController extends Controller
                 $antepro['apaterno'] = $ante->apaterno;
                 $antepro['amaterno'] = $ante->amaterno;
                 $antepro['id_alumno'] = $ante->id_alumno;
-                $documentacion=DB::selectOne('SELECT  *FROM `resi_alta_residencia` WHERE `id_alumno` = '.$ante->id_alumno.' AND `id_periodo` = '.$periodo.' ');
+                $documentacion=DB::selectOne('SELECT  *FROM `resi_alta_residencia` WHERE `id_alumno` = ? AND `id_periodo` = ? ', [$ante->id_alumno, $periodo]);
                 $antepro['estado_alumno'] = $documentacion->id_estado_solicitud;
                 array_push($anteproyectos_alumn, $antepro);
             }
@@ -90,7 +90,7 @@ class Resi_departamento_autorizar_anteproyectoController extends Controller
         $anteproyectos_alumn=array();
         foreach ($anteproyectos as $ante)
         {
-            $documentacion=DB::selectOne('SELECT count(id_alumno) contar FROM `resi_alta_residencia` WHERE `id_alumno` = '.$ante->id_alumno.' AND `id_estado_solicitud` = 2 AND `id_periodo` = '.$periodo.' ');
+            $documentacion=DB::selectOne('SELECT count(id_alumno) contar FROM `resi_alta_residencia` WHERE `id_alumno` = ? AND `id_estado_solicitud` = 2 AND `id_periodo` = ? ', [$ante->id_alumno, $periodo]);
             if($documentacion->contar) {
 
 
@@ -120,7 +120,7 @@ class Resi_departamento_autorizar_anteproyectoController extends Controller
     }
     public function anteproyecto_autorizacion_alumno(Request $request){
         $id_anteproyecto = $request->input("id_anteproyecto");
-        DB::update("UPDATE resi_anteproyecto SET autorizacion_departamento=1  WHERE resi_anteproyecto.id_anteproyecto=$id_anteproyecto");
+        DB::update('UPDATE resi_anteproyecto SET autorizacion_departamento=1  WHERE resi_anteproyecto.id_anteproyecto= ?', [$id_anteproyecto]);
         return back();
     }
     public function anteproyectos_autorizados(){
@@ -159,18 +159,18 @@ class Resi_departamento_autorizar_anteproyectoController extends Controller
     public function registro_datos_envio_documentos(){
         $id_usuario = Session::get('usuario_alumno');
         $periodo = Session::get('periodo_actual');
-        $datosalumno=DB::selectOne('select * FROM gnral_alumnos WHERE id_usuario='.$id_usuario.'');
+        $datosalumno=DB::selectOne('select * FROM gnral_alumnos WHERE id_usuario= ?', [$id_usuario]);
         $alumno=$datosalumno->id_alumno;
-        $anteproyecto=DB::selectOne('SELECT resi_anteproyecto.id_anteproyecto FROM resi_anteproyecto where resi_anteproyecto.id_alumno='.$alumno.' and resi_anteproyecto.id_periodo='.$periodo.' and  resi_anteproyecto.estado_enviado=3');
+        $anteproyecto=DB::selectOne('SELECT resi_anteproyecto.id_anteproyecto FROM resi_anteproyecto where resi_anteproyecto.id_alumno= ? and resi_anteproyecto.id_periodo= ? and  resi_anteproyecto.estado_enviado=3', [$alumno, $periodo]);
 
         if($anteproyecto == null){
 
 
         }else{
-            $anteproyecto=DB::selectOne('SELECT  *FROM resi_anteproyecto where resi_anteproyecto.id_alumno='.$alumno.' and resi_anteproyecto.id_periodo='.$periodo.' and  resi_anteproyecto.estado_enviado=3');
+            $anteproyecto=DB::selectOne('SELECT  *FROM resi_anteproyecto where resi_anteproyecto.id_alumno= ? and resi_anteproyecto.id_periodo= ? and  resi_anteproyecto.estado_enviado=3', [$alumno, $periodo]);
 
             if($anteproyecto->autorizacion_departamento == 0){
-                $documentos_alta=DB::selectOne('select *from resi_alta_residencia where id_alumno='.$alumno.' and id_periodo='.$periodo.'');
+                $documentos_alta=DB::selectOne('select *from resi_alta_residencia where id_alumno= ? and id_periodo= ?', [$alumno, $periodo]);
                 if($documentos_alta == null){
                     return view('residencia.autorizacion_documentos_alta_residencia.registrar_datos_alumnos',compact('datosalumno'));
 
@@ -213,7 +213,7 @@ class Resi_departamento_autorizar_anteproyectoController extends Controller
         $correo_electronico_doc = $request->input("correo_electronico_doc");
         $id_usuario = Session::get('usuario_alumno');
         $id_periodo = Session::get('periodo_actual');
-        $datosalumno=DB::selectOne('select * FROM gnral_alumnos WHERE id_usuario='.$id_usuario.'');
+        $datosalumno=DB::selectOne('select * FROM gnral_alumnos WHERE id_usuario= ?', [$id_usuario]);
         $id_alumno=$datosalumno->id_alumno;
         DB:: table('resi_alta_residencia')->insert(['id_alumno' =>$id_alumno,'id_periodo' =>$id_periodo,'correo' =>$correo_electronico_doc]);
         return back();
@@ -228,9 +228,9 @@ class Resi_departamento_autorizar_anteproyectoController extends Controller
         $correo_electronico_doc = $request->input("correo_electronico_doc");
         $id_usuario = Session::get('usuario_alumno');
         $id_periodo = Session::get('periodo_actual');
-        $datosalumno=DB::selectOne('select * FROM gnral_alumnos WHERE id_usuario='.$id_usuario.'');
+        $datosalumno=DB::selectOne('select * FROM gnral_alumnos WHERE id_usuario= ?', [$id_usuario]);
         $id_alumno=$datosalumno->id_alumno;
-        DB::update("UPDATE resi_alta_residencia SET id_alumno ='$id_alumno',id_periodo='$id_periodo',correo='$correo_electronico_doc' WHERE id_alta_residencia=$id_alta_residencia");
+        DB::update('UPDATE resi_alta_residencia SET id_alumno =?,id_periodo=?,correo=? WHERE id_alta_residencia= ?', [(string) ($id_alumno), (string) ($id_periodo), (string) ($correo_electronico_doc), $id_alta_residencia]);
 
         return back();
     }
@@ -366,25 +366,25 @@ class Resi_departamento_autorizar_anteproyectoController extends Controller
     }
 
     public function autorizacion_documentacion($id_anteproyecto){
-        $anteproyecto=DB::selectOne('SELECT * FROM `resi_anteproyecto` WHERE `id_anteproyecto` = '.$id_anteproyecto.'');
+        $anteproyecto=DB::selectOne('SELECT * FROM `resi_anteproyecto` WHERE `id_anteproyecto` = ?', [$id_anteproyecto]);
         $id_alumno=$anteproyecto->id_alumno;
         $id_periodo=$anteproyecto->id_periodo;
-        $alumno=DB::selectOne('select *from gnral_alumnos where id_alumno='.$id_alumno.'');
-        $documentos=DB::selectOne('SELECT * FROM `resi_alta_residencia` WHERE `id_alumno` = '.$id_alumno.' AND `id_periodo` = '.$id_periodo.' ');
+        $alumno=DB::selectOne('select *from gnral_alumnos where id_alumno= ?', [$id_alumno]);
+        $documentos=DB::selectOne('SELECT * FROM `resi_alta_residencia` WHERE `id_alumno` = ? AND `id_periodo` = ? ', [$id_alumno, $id_periodo]);
 //dd($documentos)
         return view('residencia.autorizar_anteproyecto.partial_documento_alumno',compact('anteproyecto','alumno','documentos'));
     }
     public function autorizacion_documentacion_modificada($id_anteproyecto){
-        $anteproyecto=DB::selectOne('SELECT * FROM `resi_anteproyecto` WHERE `id_anteproyecto` = '.$id_anteproyecto.'');
+        $anteproyecto=DB::selectOne('SELECT * FROM `resi_anteproyecto` WHERE `id_anteproyecto` = ?', [$id_anteproyecto]);
         $id_alumno=$anteproyecto->id_alumno;
         $id_periodo=$anteproyecto->id_periodo;
-        $alumno=DB::selectOne('select *from gnral_alumnos where id_alumno='.$id_alumno.'');
-        $documentos=DB::selectOne('SELECT * FROM `resi_alta_residencia` WHERE `id_alumno` = '.$id_alumno.' AND `id_periodo` = '.$id_periodo.' ');
+        $alumno=DB::selectOne('select *from gnral_alumnos where id_alumno= ?', [$id_alumno]);
+        $documentos=DB::selectOne('SELECT * FROM `resi_alta_residencia` WHERE `id_alumno` = ? AND `id_periodo` = ? ', [$id_alumno, $id_periodo]);
 
         return view('residencia.autorizar_anteproyecto.partial_documento_modificado_autorizar',compact('anteproyecto','alumno','documentos'));
     }
     public function enviar_alumno_documentacion_sin_convenio(Request $request,$id_alumno,$id_periodo,$id_convenio){
-        $alumno=DB::selectOne('SELECT * FROM `resi_alta_residencia` WHERE `id_alumno` = '.$id_alumno.' AND `id_periodo` = '.$id_periodo.' ');
+        $alumno=DB::selectOne('SELECT * FROM `resi_alta_residencia` WHERE `id_alumno` = ? AND `id_periodo` = ? ', [$id_alumno, $id_periodo]);
         $correo=$alumno->correo;
         if($id_convenio == 0){
             $this->validate($request,[
@@ -677,11 +677,11 @@ class Resi_departamento_autorizar_anteproyectoController extends Controller
 
     }
     public function ver_doc_aceptada_alta($id_anteproyecto){
-        $anteproyecto=DB::selectOne('SELECT * FROM `resi_anteproyecto` WHERE `id_anteproyecto` = '.$id_anteproyecto.'');
+        $anteproyecto=DB::selectOne('SELECT * FROM `resi_anteproyecto` WHERE `id_anteproyecto` = ?', [$id_anteproyecto]);
         $id_alumno=$anteproyecto->id_alumno;
         $id_periodo=$anteproyecto->id_periodo;
-        $alumno=DB::selectOne('select *from gnral_alumnos where id_alumno='.$id_alumno.'');
-        $documentos=DB::selectOne('SELECT * FROM `resi_alta_residencia` WHERE `id_alumno` = '.$id_alumno.' AND `id_periodo` = '.$id_periodo.' ');
+        $alumno=DB::selectOne('select *from gnral_alumnos where id_alumno= ?', [$id_alumno]);
+        $documentos=DB::selectOne('SELECT * FROM `resi_alta_residencia` WHERE `id_alumno` = ? AND `id_periodo` = ? ', [$id_alumno, $id_periodo]);
 
         return view('residencia.autorizar_anteproyecto.ver_doc_aceptado_alta',compact('anteproyecto','alumno','documentos'));
 
@@ -710,9 +710,9 @@ class Resi_departamento_autorizar_anteproyectoController extends Controller
         $anteproyecto_autorizados=DB::select('SELECT gnral_alumnos.cuenta,gnral_alumnos.nombre,gnral_alumnos.apaterno,
        gnral_alumnos.amaterno,resi_anteproyecto.id_anteproyecto,resi_proyecto.id_proyecto,
        resi_proyecto.nom_proyecto,resi_anteproyecto.estado_enviado,resi_anteproyecto.autorizacion_departamento from resi_anteproyecto,
-    resi_proyecto,gnral_alumnos where resi_anteproyecto.id_alumno=gnral_alumnos.id_alumno 
-and resi_anteproyecto.id_proyecto=resi_proyecto.id_proyecto and resi_anteproyecto.id_periodo='.$periodo.'
-                                  and gnral_alumnos.id_carrera='.$id_carrera.' and resi_anteproyecto.estado_enviado=3');
+    resi_proyecto,gnral_alumnos where resi_anteproyecto.id_alumno=gnral_alumnos.id_alumno
+and resi_anteproyecto.id_proyecto=resi_proyecto.id_proyecto and resi_anteproyecto.id_periodo= ?
+                                  and gnral_alumnos.id_carrera= ? and resi_anteproyecto.estado_enviado=3', [$periodo, $id_carrera]);
 
 
         $array_anteproyecto=array();
@@ -723,12 +723,12 @@ and resi_anteproyecto.id_proyecto=resi_proyecto.id_proyecto and resi_anteproyect
             $dat_ante['autorizacion_departamento']=$autorizado->autorizacion_departamento;
             $dat_ante['nom_proyecto']=$autorizado->nom_proyecto;
             $checar_empresa=DB::selectOne('SELECT COUNT(id_anteproyecto)anteproyecto FROM
-                                               `resi_proy_empresa` WHERE `id_anteproyecto` = '.$autorizado->id_anteproyecto.'');
+                                               `resi_proy_empresa` WHERE `id_anteproyecto` = ?', [$autorizado->id_anteproyecto]);
 
             if($checar_empresa->anteproyecto == 0){
                 $dat_ante['estado_empresa']=0;
             }else{
-                $checar_asesor=DB::selectOne('SELECT COUNT(id_anteproyecto)anteproyecto FROM resi_asesores WHERE `id_anteproyecto` = '.$autorizado->id_anteproyecto.'');
+                $checar_asesor=DB::selectOne('SELECT COUNT(id_anteproyecto)anteproyecto FROM resi_asesores WHERE `id_anteproyecto` = ?', [$autorizado->id_anteproyecto]);
                 $checar_asesor=$checar_asesor->anteproyecto;
                 if($checar_asesor == 0){
                     $dat_ante['estado_empresa']=1;
@@ -749,8 +749,8 @@ and resi_anteproyecto.id_proyecto=resi_proyecto.id_proyecto and resi_anteproyect
         $datos_alumno = DB::selectOne('SELECT gnral_alumnos.cuenta,gnral_alumnos.nombre,gnral_alumnos.apaterno,
        gnral_alumnos.amaterno,resi_anteproyecto.id_anteproyecto,resi_proyecto.id_proyecto,
        resi_proyecto.nom_proyecto,resi_anteproyecto.estado_enviado from resi_anteproyecto,
-       resi_proyecto,gnral_alumnos where resi_anteproyecto.id_alumno=gnral_alumnos.id_alumno 
-       and resi_anteproyecto.id_proyecto=resi_proyecto.id_proyecto and resi_anteproyecto.id_anteproyecto ='.$id_anteproyecto.'');
+       resi_proyecto,gnral_alumnos where resi_anteproyecto.id_alumno=gnral_alumnos.id_alumno
+       and resi_anteproyecto.id_proyecto=resi_proyecto.id_proyecto and resi_anteproyecto.id_anteproyecto = ?', [$id_anteproyecto]);
 
         return view('residencia.autorizacion_documentos_alta_residencia.datos_alumno_anteproyecto',compact('datos_alumno'));
 

@@ -61,10 +61,10 @@ class In_acta_ordinariaController extends Controller
     public function index($id_nivel,$id_grupo){
 
         $periodo_ingles = Session::get('periodo_ingles');
-        $id_profesor=DB::selectOne('SELECT * FROM `in_hrs_ingles_profesor` WHERE `id_grupo` = '.$id_grupo.'
-        AND `id_nivel` = '.$id_nivel.' AND `id_periodo` = '.$periodo_ingles.' ORDER BY `id_grupo` ASC');
+        $id_profesor=DB::selectOne('SELECT * FROM `in_hrs_ingles_profesor` WHERE `id_grupo` = ?
+        AND `id_nivel` = ? AND `id_periodo` = ? ORDER BY `id_grupo` ASC', [$id_grupo, $id_nivel, $periodo_ingles]);
         $id_profesor=$id_profesor->id_profesor;
-        $nombre_profesor=DB::selectOne('SELECT * FROM in_profesores_ingles WHERE id_profesores ='.$id_profesor.' ');
+        $nombre_profesor=DB::selectOne('SELECT * FROM in_profesores_ingles WHERE id_profesores = ? ', [$id_profesor]);
         $nombre_profesor=  mb_strtoupper($nombre_profesor->nombre, 'utf-8') . " " . mb_strtoupper($nombre_profesor->apellido_paterno, 'utf-8') . " " . mb_strtoupper($nombre_profesor->apellido_materno, 'utf-8');
 
         $alumnos_inscritos = DB::table('in_validar_carga')
@@ -107,12 +107,12 @@ class In_acta_ordinariaController extends Controller
                 ->orderBy('gnral_alumnos.amaterno', 'ASC')
                 ->orderBy('gnral_alumnos.nombre', 'ASC')
                 ->get();
-            $unidad_maxima = DB::selectOne('select max(in_cal_periodo.id_unidad) unidad 
+            $unidad_maxima = DB::selectOne('select max(in_cal_periodo.id_unidad) unidad
 from in_cal_periodo where
- in_cal_periodo.id_nivel=' . $id_nivel . ' and 
- in_cal_periodo.id_grupo=' . $id_grupo . ' and 
- in_cal_periodo.id_periodo=' . $periodo_ingles . ' and
- in_cal_periodo.evaluada=1');
+ in_cal_periodo.id_nivel= ? and
+ in_cal_periodo.id_grupo= ? and
+ in_cal_periodo.id_periodo= ? and
+ in_cal_periodo.evaluada=1', [$id_nivel, $id_grupo, $periodo_ingles]);
             $unidad_maxima = $unidad_maxima->unidad;
 
             $array_calificaciones = array();
@@ -135,8 +135,8 @@ from in_cal_periodo where
                 $dat_alumnos['siglas'] = $alumno->siglas;
                 $dat_alumnos['carrera'] = $alumno->carrera;
                 $unidad1 = DB::selectOne('select *from in_evaluar_calificacion where
- in_evaluar_calificacion.id_carga_ingles=' . $alumno->id_carga_ingles . ' 
- and in_evaluar_calificacion.id_unidad=1  ');
+ in_evaluar_calificacion.id_carga_ingles= ?
+ and in_evaluar_calificacion.id_unidad=1  ', [$alumno->id_carga_ingles]);
 
 
                 if ($unidad1 == null) {
@@ -151,8 +151,8 @@ from in_cal_periodo where
 
                 }
                 $unidad2 = DB::selectOne('select *from in_evaluar_calificacion where
- in_evaluar_calificacion.id_carga_ingles=' . $alumno->id_carga_ingles . ' 
- and in_evaluar_calificacion.id_unidad=2  ');
+ in_evaluar_calificacion.id_carga_ingles= ?
+ and in_evaluar_calificacion.id_unidad=2  ', [$alumno->id_carga_ingles]);
 
 
                 if ($unidad2 == null) {
@@ -166,8 +166,8 @@ from in_cal_periodo where
                     }
                 }
                 $unidad3 = DB::selectOne('select *from in_evaluar_calificacion where
- in_evaluar_calificacion.id_carga_ingles=' . $alumno->id_carga_ingles . ' 
- and in_evaluar_calificacion.id_unidad=3  ');
+ in_evaluar_calificacion.id_carga_ingles= ?
+ and in_evaluar_calificacion.id_unidad=3  ', [$alumno->id_carga_ingles]);
 
 
                 if ($unidad3 == null) {
@@ -181,8 +181,8 @@ from in_cal_periodo where
                     }
                 }
                 $unidad4 = DB::selectOne('select *from in_evaluar_calificacion where
- in_evaluar_calificacion.id_carga_ingles=' . $alumno->id_carga_ingles . ' 
- and in_evaluar_calificacion.id_unidad=4  ');
+ in_evaluar_calificacion.id_carga_ingles= ?
+ and in_evaluar_calificacion.id_unidad=4  ', [$alumno->id_carga_ingles]);
 
 
                 if ($unidad4 == null) {
@@ -244,17 +244,17 @@ from in_cal_periodo where
 
 
             if ($unidad_maxima == null) {
-                $fecha_unidad1 = DB::selectOne('SELECT count(id_cal_periodo)contar_periodo 
-FROM in_cal_periodo WHERE id_unidad=1 and id_nivel=' . $id_nivel . ' and id_grupo=' . $id_grupo . ' 
-and id_periodo=' . $periodo_ingles . '');
+                $fecha_unidad1 = DB::selectOne('SELECT count(id_cal_periodo)contar_periodo
+FROM in_cal_periodo WHERE id_unidad=1 and id_nivel= ? and id_grupo= ?
+and id_periodo= ?', [$id_nivel, $id_grupo, $periodo_ingles]);
                 $fecha_unidad1 = $fecha_unidad1->contar_periodo;
                 if ($fecha_unidad1 == 0) {
                     $calificar_unidad['unidad1'] = 9;
 
                 } else {
-                    $fecha = DB::selectOne('SELECT  fecha FROM in_cal_periodo 
-WHERE id_unidad=1 and id_nivel=' . $id_nivel . ' and id_grupo=' . $id_grupo . ' 
-and id_periodo=' . $periodo_ingles . '');
+                    $fecha = DB::selectOne('SELECT  fecha FROM in_cal_periodo
+WHERE id_unidad=1 and id_nivel= ? and id_grupo= ?
+and id_periodo= ?', [$id_nivel, $id_grupo, $periodo_ingles]);
 
                     $fecha_actual = date("Y-m-d");
                     $fecha_termino = date("Y-m-d", strtotime($fecha->fecha . "+0 days"));
@@ -269,16 +269,16 @@ and id_periodo=' . $periodo_ingles . '');
                 }
 
             } elseif ($unidad_maxima == 1) {
-                $fecha_unidad1 = DB::selectOne('SELECT count(id_cal_periodo)contar_periodo 
-FROM in_cal_periodo WHERE id_unidad=2 and id_nivel=' . $id_nivel . ' and id_grupo=' . $id_grupo . ' 
-and id_periodo=' . $periodo_ingles . '');
+                $fecha_unidad1 = DB::selectOne('SELECT count(id_cal_periodo)contar_periodo
+FROM in_cal_periodo WHERE id_unidad=2 and id_nivel= ? and id_grupo= ?
+and id_periodo= ?', [$id_nivel, $id_grupo, $periodo_ingles]);
                 $fecha_unidad1 = $fecha_unidad1->contar_periodo;
                 if ($fecha_unidad1 == 0) {
                     $calificar_unidad['unidad1'] = 10;
                 } else {
-                    $fecha = DB::selectOne('SELECT  fecha FROM in_cal_periodo 
-WHERE id_unidad=2 and id_nivel=' . $id_nivel . ' and id_grupo=' . $id_grupo . ' 
-and id_periodo=' . $periodo_ingles . '');
+                    $fecha = DB::selectOne('SELECT  fecha FROM in_cal_periodo
+WHERE id_unidad=2 and id_nivel= ? and id_grupo= ?
+and id_periodo= ?', [$id_nivel, $id_grupo, $periodo_ingles]);
 
                     $fecha_actual = date("Y-m-d");
                     $fecha_termino = date("Y-m-d", strtotime($fecha->fecha . "+0 days"));
@@ -293,16 +293,16 @@ and id_periodo=' . $periodo_ingles . '');
                 }
 
             } elseif ($unidad_maxima == 2) {
-                $fecha_unidad1 = DB::selectOne('SELECT count(id_cal_periodo)contar_periodo 
-FROM in_cal_periodo WHERE id_unidad=3 and id_nivel=' . $id_nivel . ' and id_grupo=' . $id_grupo . ' 
-and id_periodo=' . $periodo_ingles . '');
+                $fecha_unidad1 = DB::selectOne('SELECT count(id_cal_periodo)contar_periodo
+FROM in_cal_periodo WHERE id_unidad=3 and id_nivel= ? and id_grupo= ?
+and id_periodo= ?', [$id_nivel, $id_grupo, $periodo_ingles]);
                 $fecha_unidad1 = $fecha_unidad1->contar_periodo;
                 if ($fecha_unidad1 == 0) {
                     $calificar_unidad['unidad1'] = 11;
                 } else {
-                    $fecha = DB::selectOne('SELECT  fecha FROM in_cal_periodo 
-WHERE id_unidad=3 and id_nivel=' . $id_nivel . ' and id_grupo=' . $id_grupo . ' 
-and id_periodo=' . $periodo_ingles . '');
+                    $fecha = DB::selectOne('SELECT  fecha FROM in_cal_periodo
+WHERE id_unidad=3 and id_nivel= ? and id_grupo= ?
+and id_periodo= ?', [$id_nivel, $id_grupo, $periodo_ingles]);
 
                     $fecha_actual = date("Y-m-d");
                     $fecha_termino = date("Y-m-d", strtotime($fecha->fecha . "+0 days"));
@@ -319,16 +319,16 @@ and id_periodo=' . $periodo_ingles . '');
                 }
 
             } elseif ($unidad_maxima == 3) {
-                $fecha_unidad1 = DB::selectOne('SELECT count(id_cal_periodo)contar_periodo 
-FROM in_cal_periodo WHERE id_unidad=4 and id_nivel=' . $id_nivel . ' and id_grupo=' . $id_grupo . ' 
-and id_periodo=' . $periodo_ingles . '');
+                $fecha_unidad1 = DB::selectOne('SELECT count(id_cal_periodo)contar_periodo
+FROM in_cal_periodo WHERE id_unidad=4 and id_nivel= ? and id_grupo= ?
+and id_periodo= ?', [$id_nivel, $id_grupo, $periodo_ingles]);
                 $fecha_unidad1 = $fecha_unidad1->contar_periodo;
                 if ($fecha_unidad1 == 0) {
                     $calificar_unidad['unidad1'] = 12;
                 } else {
-                    $fecha = DB::selectOne('SELECT  fecha FROM in_cal_periodo 
-WHERE id_unidad=4 and id_nivel=' . $id_nivel . ' and id_grupo=' . $id_grupo . ' 
-and id_periodo=' . $periodo_ingles . '');
+                    $fecha = DB::selectOne('SELECT  fecha FROM in_cal_periodo
+WHERE id_unidad=4 and id_nivel= ? and id_grupo= ?
+and id_periodo= ?', [$id_nivel, $id_grupo, $periodo_ingles]);
 
                     $fecha_actual = date("Y-m-d");
                     $fecha_termino = date("Y-m-d", strtotime($fecha->fecha . "+0 days"));
@@ -419,7 +419,7 @@ and id_periodo=' . $periodo_ingles . '');
         $mes= array('enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre');
         $mes=$mes[(date('m', strtotime($fechas))*1)-1];
         $fech= $num. ' de '.$mes.' del '.$ano;
-        $per_ingles=DB::selectOne('SELECT * FROM in_periodos WHERE id_periodo_ingles = '.$periodo_ingles.'');
+        $per_ingles=DB::selectOne('SELECT * FROM in_periodos WHERE id_periodo_ingles = ?', [$periodo_ingles]);
 
         $pdf=new PDF_In_acta_ordinariaController($orientation='L',$unit='mm',$format='Letter');
         #Establecemos los márgenes izquierda, arriba y derecha:
@@ -603,10 +603,10 @@ and id_periodo=' . $periodo_ingles . '');
     public function acta_ingles_actualizada($id_nivel,$id_grupo){
 
         $periodo_ingles = Session::get('periodo_ingles');
-        $id_profesor=DB::selectOne('SELECT * FROM `in_hrs_ingles_profesor` WHERE `id_grupo` = '.$id_grupo.'
-        AND `id_nivel` = '.$id_nivel.' AND `id_periodo` = '.$periodo_ingles.' ORDER BY `id_grupo` ASC');
+        $id_profesor=DB::selectOne('SELECT * FROM `in_hrs_ingles_profesor` WHERE `id_grupo` = ?
+        AND `id_nivel` = ? AND `id_periodo` = ? ORDER BY `id_grupo` ASC', [$id_grupo, $id_nivel, $periodo_ingles]);
         $id_profesor=$id_profesor->id_profesor;
-        $nombre_profesor=DB::selectOne('SELECT * FROM in_profesores_ingles WHERE id_profesores ='.$id_profesor.' ');
+        $nombre_profesor=DB::selectOne('SELECT * FROM in_profesores_ingles WHERE id_profesores = ? ', [$id_profesor]);
         $nombre_profesor=  mb_strtoupper($nombre_profesor->nombre, 'utf-8') . " " . mb_strtoupper($nombre_profesor->apellido_paterno, 'utf-8') . " " . mb_strtoupper($nombre_profesor->apellido_materno, 'utf-8');
 
         $alumnos_inscritos = DB::table('in_validar_carga')
@@ -649,12 +649,12 @@ and id_periodo=' . $periodo_ingles . '');
             ->orderBy('gnral_alumnos.amaterno', 'ASC')
             ->orderBy('gnral_alumnos.nombre', 'ASC')
             ->get();
-        $unidad_maxima = DB::selectOne('select max(in_cal_periodo.id_unidad) unidad 
+        $unidad_maxima = DB::selectOne('select max(in_cal_periodo.id_unidad) unidad
 from in_cal_periodo where
- in_cal_periodo.id_nivel=' . $id_nivel . ' and 
- in_cal_periodo.id_grupo=' . $id_grupo . ' and 
- in_cal_periodo.id_periodo=' . $periodo_ingles . ' and
- in_cal_periodo.evaluada=1');
+ in_cal_periodo.id_nivel= ? and
+ in_cal_periodo.id_grupo= ? and
+ in_cal_periodo.id_periodo= ? and
+ in_cal_periodo.evaluada=1', [$id_nivel, $id_grupo, $periodo_ingles]);
         $unidad_maxima = $unidad_maxima->unidad;
 
         $array_calificaciones = array();
@@ -677,8 +677,8 @@ from in_cal_periodo where
             $dat_alumnos['siglas'] = $alumno->siglas;
             $dat_alumnos['carrera'] = $alumno->carrera;
             $unidad1 = DB::selectOne('select *from in_evaluar_calificacion where
- in_evaluar_calificacion.id_carga_ingles=' . $alumno->id_carga_ingles . ' 
- and in_evaluar_calificacion.id_unidad=1  ');
+ in_evaluar_calificacion.id_carga_ingles= ?
+ and in_evaluar_calificacion.id_unidad=1  ', [$alumno->id_carga_ingles]);
 
 
             if ($unidad1 == null) {
@@ -693,8 +693,8 @@ from in_cal_periodo where
 
             }
             $unidad2 = DB::selectOne('select *from in_evaluar_calificacion where
- in_evaluar_calificacion.id_carga_ingles=' . $alumno->id_carga_ingles . ' 
- and in_evaluar_calificacion.id_unidad=2  ');
+ in_evaluar_calificacion.id_carga_ingles= ?
+ and in_evaluar_calificacion.id_unidad=2  ', [$alumno->id_carga_ingles]);
 
 
             if ($unidad2 == null) {
@@ -708,8 +708,8 @@ from in_cal_periodo where
                 }
             }
             $unidad3 = DB::selectOne('select *from in_evaluar_calificacion where
- in_evaluar_calificacion.id_carga_ingles=' . $alumno->id_carga_ingles . ' 
- and in_evaluar_calificacion.id_unidad=3  ');
+ in_evaluar_calificacion.id_carga_ingles= ?
+ and in_evaluar_calificacion.id_unidad=3  ', [$alumno->id_carga_ingles]);
 
 
             if ($unidad3 == null) {
@@ -723,8 +723,8 @@ from in_cal_periodo where
                 }
             }
             $unidad4 = DB::selectOne('select *from in_evaluar_calificacion where
- in_evaluar_calificacion.id_carga_ingles=' . $alumno->id_carga_ingles . ' 
- and in_evaluar_calificacion.id_unidad=4  ');
+ in_evaluar_calificacion.id_carga_ingles= ?
+ and in_evaluar_calificacion.id_unidad=4  ', [$alumno->id_carga_ingles]);
 
 
             if ($unidad4 == null) {
@@ -786,17 +786,17 @@ from in_cal_periodo where
 
 
         if ($unidad_maxima == null) {
-            $fecha_unidad1 = DB::selectOne('SELECT count(id_cal_periodo)contar_periodo 
-FROM in_cal_periodo WHERE id_unidad=1 and id_nivel=' . $id_nivel . ' and id_grupo=' . $id_grupo . ' 
-and id_periodo=' . $periodo_ingles . '');
+            $fecha_unidad1 = DB::selectOne('SELECT count(id_cal_periodo)contar_periodo
+FROM in_cal_periodo WHERE id_unidad=1 and id_nivel= ? and id_grupo= ?
+and id_periodo= ?', [$id_nivel, $id_grupo, $periodo_ingles]);
             $fecha_unidad1 = $fecha_unidad1->contar_periodo;
             if ($fecha_unidad1 == 0) {
                 $calificar_unidad['unidad1'] = 9;
 
             } else {
-                $fecha = DB::selectOne('SELECT  fecha FROM in_cal_periodo 
-WHERE id_unidad=1 and id_nivel=' . $id_nivel . ' and id_grupo=' . $id_grupo . ' 
-and id_periodo=' . $periodo_ingles . '');
+                $fecha = DB::selectOne('SELECT  fecha FROM in_cal_periodo
+WHERE id_unidad=1 and id_nivel= ? and id_grupo= ?
+and id_periodo= ?', [$id_nivel, $id_grupo, $periodo_ingles]);
 
                 $fecha_actual = date("Y-m-d");
                 $fecha_termino = date("Y-m-d", strtotime($fecha->fecha . "+0 days"));
@@ -811,16 +811,16 @@ and id_periodo=' . $periodo_ingles . '');
             }
 
         } elseif ($unidad_maxima == 1) {
-            $fecha_unidad1 = DB::selectOne('SELECT count(id_cal_periodo)contar_periodo 
-FROM in_cal_periodo WHERE id_unidad=2 and id_nivel=' . $id_nivel . ' and id_grupo=' . $id_grupo . ' 
-and id_periodo=' . $periodo_ingles . '');
+            $fecha_unidad1 = DB::selectOne('SELECT count(id_cal_periodo)contar_periodo
+FROM in_cal_periodo WHERE id_unidad=2 and id_nivel= ? and id_grupo= ?
+and id_periodo= ?', [$id_nivel, $id_grupo, $periodo_ingles]);
             $fecha_unidad1 = $fecha_unidad1->contar_periodo;
             if ($fecha_unidad1 == 0) {
                 $calificar_unidad['unidad1'] = 10;
             } else {
-                $fecha = DB::selectOne('SELECT  fecha FROM in_cal_periodo 
-WHERE id_unidad=2 and id_nivel=' . $id_nivel . ' and id_grupo=' . $id_grupo . ' 
-and id_periodo=' . $periodo_ingles . '');
+                $fecha = DB::selectOne('SELECT  fecha FROM in_cal_periodo
+WHERE id_unidad=2 and id_nivel= ? and id_grupo= ?
+and id_periodo= ?', [$id_nivel, $id_grupo, $periodo_ingles]);
 
                 $fecha_actual = date("Y-m-d");
                 $fecha_termino = date("Y-m-d", strtotime($fecha->fecha . "+0 days"));
@@ -835,16 +835,16 @@ and id_periodo=' . $periodo_ingles . '');
             }
 
         } elseif ($unidad_maxima == 2) {
-            $fecha_unidad1 = DB::selectOne('SELECT count(id_cal_periodo)contar_periodo 
-FROM in_cal_periodo WHERE id_unidad=3 and id_nivel=' . $id_nivel . ' and id_grupo=' . $id_grupo . ' 
-and id_periodo=' . $periodo_ingles . '');
+            $fecha_unidad1 = DB::selectOne('SELECT count(id_cal_periodo)contar_periodo
+FROM in_cal_periodo WHERE id_unidad=3 and id_nivel= ? and id_grupo= ?
+and id_periodo= ?', [$id_nivel, $id_grupo, $periodo_ingles]);
             $fecha_unidad1 = $fecha_unidad1->contar_periodo;
             if ($fecha_unidad1 == 0) {
                 $calificar_unidad['unidad1'] = 11;
             } else {
-                $fecha = DB::selectOne('SELECT  fecha FROM in_cal_periodo 
-WHERE id_unidad=3 and id_nivel=' . $id_nivel . ' and id_grupo=' . $id_grupo . ' 
-and id_periodo=' . $periodo_ingles . '');
+                $fecha = DB::selectOne('SELECT  fecha FROM in_cal_periodo
+WHERE id_unidad=3 and id_nivel= ? and id_grupo= ?
+and id_periodo= ?', [$id_nivel, $id_grupo, $periodo_ingles]);
 
                 $fecha_actual = date("Y-m-d");
                 $fecha_termino = date("Y-m-d", strtotime($fecha->fecha . "+0 days"));
@@ -861,16 +861,16 @@ and id_periodo=' . $periodo_ingles . '');
             }
 
         } elseif ($unidad_maxima == 3) {
-            $fecha_unidad1 = DB::selectOne('SELECT count(id_cal_periodo)contar_periodo 
-FROM in_cal_periodo WHERE id_unidad=4 and id_nivel=' . $id_nivel . ' and id_grupo=' . $id_grupo . ' 
-and id_periodo=' . $periodo_ingles . '');
+            $fecha_unidad1 = DB::selectOne('SELECT count(id_cal_periodo)contar_periodo
+FROM in_cal_periodo WHERE id_unidad=4 and id_nivel= ? and id_grupo= ?
+and id_periodo= ?', [$id_nivel, $id_grupo, $periodo_ingles]);
             $fecha_unidad1 = $fecha_unidad1->contar_periodo;
             if ($fecha_unidad1 == 0) {
                 $calificar_unidad['unidad1'] = 12;
             } else {
-                $fecha = DB::selectOne('SELECT  fecha FROM in_cal_periodo 
-WHERE id_unidad=4 and id_nivel=' . $id_nivel . ' and id_grupo=' . $id_grupo . ' 
-and id_periodo=' . $periodo_ingles . '');
+                $fecha = DB::selectOne('SELECT  fecha FROM in_cal_periodo
+WHERE id_unidad=4 and id_nivel= ? and id_grupo= ?
+and id_periodo= ?', [$id_nivel, $id_grupo, $periodo_ingles]);
 
                 $fecha_actual = date("Y-m-d");
                 $fecha_termino = date("Y-m-d", strtotime($fecha->fecha . "+0 days"));
@@ -961,7 +961,7 @@ and id_periodo=' . $periodo_ingles . '');
         $mes= array('enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre');
         $mes=$mes[(date('m', strtotime($fechas))*1)-1];
         $fech= $num. ' de '.$mes.' del '.$ano;
-        $per_ingles=DB::selectOne('SELECT * FROM in_periodos WHERE id_periodo_ingles = '.$periodo_ingles.'');
+        $per_ingles=DB::selectOne('SELECT * FROM in_periodos WHERE id_periodo_ingles = ?', [$periodo_ingles]);
 
         $pdf=new PDF_In_acta_ordinariaController($orientation='L',$unit='mm',$format='Letter');
         #Establecemos los márgenes izquierda, arriba y derecha:
@@ -1144,10 +1144,10 @@ and id_periodo=' . $periodo_ingles . '');
     }
     public function lista_asistencia_ingles($id_nivel,$id_grupo){
         $periodo_ingles = Session::get('periodo_ingles');
-        $id_profesor=DB::selectOne('SELECT * FROM `in_hrs_ingles_profesor` WHERE `id_grupo` = '.$id_grupo.'
-        AND `id_nivel` = '.$id_nivel.' AND `id_periodo` = '.$periodo_ingles.' ORDER BY `id_grupo` ASC');
+        $id_profesor=DB::selectOne('SELECT * FROM `in_hrs_ingles_profesor` WHERE `id_grupo` = ?
+        AND `id_nivel` = ? AND `id_periodo` = ? ORDER BY `id_grupo` ASC', [$id_grupo, $id_nivel, $periodo_ingles]);
         $id_profesor=$id_profesor->id_profesor;
-        $nombre_profesor=DB::selectOne('SELECT * FROM in_profesores_ingles WHERE id_profesores ='.$id_profesor.' ');
+        $nombre_profesor=DB::selectOne('SELECT * FROM in_profesores_ingles WHERE id_profesores = ? ', [$id_profesor]);
         $nombre_profesor=  mb_strtoupper($nombre_profesor->nombre, 'utf-8') . " " . mb_strtoupper($nombre_profesor->apellido_paterno, 'utf-8') . " " . mb_strtoupper($nombre_profesor->apellido_materno, 'utf-8');
         $nivel = DB::table('in_niveles_ingles')
             ->where('in_niveles_ingles.id_niveles_ingles', '=', $id_nivel)
@@ -1182,7 +1182,7 @@ and id_periodo=' . $periodo_ingles . '');
         $mes= array('enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre');
         $mes=$mes[(date('m', strtotime($fechas))*1)-1];
         $fech= $num. ' de '.$mes.' del '.$ano;
-        $per_ingles=DB::selectOne('SELECT * FROM in_periodos WHERE id_periodo_ingles = '.$periodo_ingles.'');
+        $per_ingles=DB::selectOne('SELECT * FROM in_periodos WHERE id_periodo_ingles = ?', [$periodo_ingles]);
 
         $pdf=new PDF_In_acta_ordinariaController($orientation='L',$unit='mm',$format='Letter');
         #Establecemos los márgenes izquierda, arriba y derecha:

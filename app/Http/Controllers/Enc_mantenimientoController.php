@@ -10,11 +10,11 @@ class Enc_mantenimientoController extends Controller
     public function index(){
         Session::put('historial_enc_c',0);
         $year =  date("Y");
-        $total_periodos=DB::selectOne('SELECT count(id_periodo_mantenimiento)contar from enc_periodo_mantenimiento where year ='.$year.'');
+        $total_periodos=DB::selectOne('SELECT count(id_periodo_mantenimiento)contar from enc_periodo_mantenimiento where year = ?', [$year]);
         $total_periodos=$total_periodos->contar;
         //  dd($total_periodos);
 
-        $periodos= DB::select('SELECT *from enc_periodo_mantenimiento where year='.$year.'');
+        $periodos= DB::select('SELECT *from enc_periodo_mantenimiento where year= ?', [$year]);
 
         return view('encuestas_satisfacion_cliente.computo.periodos_mantenimiento', compact('year','total_periodos','periodos'));
     }
@@ -32,23 +32,23 @@ class Enc_mantenimientoController extends Controller
     }
     public function ver_encuestas_mant($mes,$year){
 
-        $mantenimientos = DB::select('SELECT gnral_personales.nombre, enc_servicio_mantenimiento.* from gnral_personales, enc_servicio_mantenimiento 
-        where gnral_personales.id_personal = enc_servicio_mantenimiento.id_personal and enc_servicio_mantenimiento.year = '.$year.'
-        and enc_servicio_mantenimiento.mes = '.$mes.' ORDER BY `enc_servicio_mantenimiento`.`id_servicio_mantenimiento` ASC');
+        $mantenimientos = DB::select('SELECT gnral_personales.nombre, enc_servicio_mantenimiento.* from gnral_personales, enc_servicio_mantenimiento
+        where gnral_personales.id_personal = enc_servicio_mantenimiento.id_personal and enc_servicio_mantenimiento.year = ?
+        and enc_servicio_mantenimiento.mes = ? ORDER BY `enc_servicio_mantenimiento`.`id_servicio_mantenimiento` ASC', [$year, $mes]);
 
 
         $personales=DB::select('SELECT * FROM `gnral_personales` ORDER BY `gnral_personales`.`nombre` ASC');
 
-        $estado_periodo=DB::selectOne('SELECT count(id_periodo_mantenimiento) contar 
-        from enc_periodo_mantenimiento where year = '.$year.' and mes= '.$mes.' and id_estado = 1');
+        $estado_periodo=DB::selectOne('SELECT count(id_periodo_mantenimiento) contar
+        from enc_periodo_mantenimiento where year = ? and mes= ? and id_estado = 1', [$year, $mes]);
 
         return view('encuestas_satisfacion_cliente.computo.personal_tec', compact('year','mes','mantenimientos','personales','estado_periodo'));
     }
     public function eliminar_enc_mantenimiento($id_servicio_mantenimiento){
 
-        $mantenimiento=DB::selectOne('SELECT gnral_personales.nombre, enc_servicio_mantenimiento.* 
+        $mantenimiento=DB::selectOne('SELECT gnral_personales.nombre, enc_servicio_mantenimiento.*
         from gnral_personales, enc_servicio_mantenimiento where gnral_personales.id_personal = enc_servicio_mantenimiento.id_personal
-        and enc_servicio_mantenimiento.id_servicio_mantenimiento ='.$id_servicio_mantenimiento.' ');
+        and enc_servicio_mantenimiento.id_servicio_mantenimiento = ? ', [$id_servicio_mantenimiento]);
 
         return view('encuestas_satisfacion_cliente.computo.eliminar_mantenimiento', compact('mantenimiento'));
 
@@ -56,13 +56,13 @@ class Enc_mantenimientoController extends Controller
     public function guardar_eliminacion_enc_mante(Request $request){
         $id_servicio_mantenimiento= $request->input("id_servicio_mantenimiento");
 
-        DB::delete('DELETE FROM enc_servicio_mantenimiento WHERE id_servicio_mantenimiento='.$id_servicio_mantenimiento.' ');
+        DB::delete('DELETE FROM enc_servicio_mantenimiento WHERE id_servicio_mantenimiento= ? ', [$id_servicio_mantenimiento]);
 
         return back();
 
     }
     public function datos_terminar_periodo($id_periodo_mantenimiento){
-     $periodo=DB::selectOne('SELECT * FROM `enc_periodo_mantenimiento` WHERE `id_periodo_mantenimiento` ='.$id_periodo_mantenimiento.'');
+     $periodo=DB::selectOne('SELECT * FROM `enc_periodo_mantenimiento` WHERE `id_periodo_mantenimiento` = ?', [$id_periodo_mantenimiento]);
 
         return view('encuestas_satisfacion_cliente.computo.termino_periodo', compact('periodo'));
 
@@ -70,7 +70,7 @@ class Enc_mantenimientoController extends Controller
     public function guardar_termino_encuesta_mantenimiento(Request $request){
         $id_periodo_mantenimiento= $request->input("id_periodo_mantenimiento");
 
-        $periodo=DB::selectOne('SELECT * FROM `enc_periodo_mantenimiento` WHERE `id_periodo_mantenimiento` = '.$id_periodo_mantenimiento.'');
+        $periodo=DB::selectOne('SELECT * FROM `enc_periodo_mantenimiento` WHERE `id_periodo_mantenimiento` = ?', [$id_periodo_mantenimiento]);
         //  dd($periodo);
         $fecha_actual =  date("Y-m-d H:i:s");
 
@@ -96,7 +96,7 @@ class Enc_mantenimientoController extends Controller
     }
     public function ver_resultado_mantenimiento($mes,$year){
 
-        $encuestas=DB::select('SELECT *from enc_servicio_mantenimiento where year = '.$year.' and mes='.$mes.' and id_estado =2');
+        $encuestas=DB::select('SELECT *from enc_servicio_mantenimiento where year = ? and mes= ? and id_estado =2', [$year, $mes]);
 
         $preg_1_malo=0;
         $preg_1_regular=0;
@@ -235,19 +235,19 @@ class Enc_mantenimientoController extends Controller
     }
     public function menu_historial_mantenimiento_year($year){
 
-        $total_periodos=DB::selectOne('SELECT count(id_periodo_mantenimiento)contar from enc_periodo_mantenimiento where year ='.$year.'');
+        $total_periodos=DB::selectOne('SELECT count(id_periodo_mantenimiento)contar from enc_periodo_mantenimiento where year = ?', [$year]);
         $total_periodos=$total_periodos->contar;
         //  dd($total_periodos);
 
-        $periodos= DB::select('SELECT *from enc_periodo_mantenimiento where year='.$year.'');
+        $periodos= DB::select('SELECT *from enc_periodo_mantenimiento where year= ?', [$year]);
 
         return view('encuestas_satisfacion_cliente.computo.periodos_mantenimiento', compact('year','total_periodos','periodos'));
 
     }
     public function ver_enc_mantenimiento($id_servicio_mantenimieento){
-        $mantenimiento=DB::selectOne('SELECT gnral_personales.nombre, enc_servicio_mantenimiento.* 
+        $mantenimiento=DB::selectOne('SELECT gnral_personales.nombre, enc_servicio_mantenimiento.*
         from gnral_personales, enc_servicio_mantenimiento where gnral_personales.id_personal = enc_servicio_mantenimiento.id_personal
-        and enc_servicio_mantenimiento.id_servicio_mantenimiento ='.$id_servicio_mantenimieento.' ');
+        and enc_servicio_mantenimiento.id_servicio_mantenimiento = ? ', [$id_servicio_mantenimieento]);
       //  dd($mantenimiento);
 
  return view('encuestas_satisfacion_cliente.computo.modal_ver_encuesta', compact('mantenimiento'));

@@ -17,18 +17,18 @@ class JefaturaController extends Controller
     {
         $id_periodo=Session::get('periodotrabaja');
 
-        $periodo = DB::selectOne('select periodo from gnral_periodos where id_periodo='.$id_periodo.'');
+        $periodo = DB::selectOne('select periodo from gnral_periodos where id_periodo= ?', [$id_periodo]);
         $periodo=($periodo->periodo);
 
 
-        $jefaturas = DB::select('select gnral_jefes_periodos.id_jefe_periodo,gnral_carreras.nombre carrera, 
-            gnral_personales.nombre, gnral_periodos.periodo ,gnral_jefes_periodos.tipo_cargo FROM 
-            gnral_carreras,gnral_periodos,gnral_personales,gnral_jefes_periodos WHERE 
-            gnral_jefes_periodos.id_carrera=gnral_carreras.id_carrera AND 
-            gnral_jefes_periodos.id_personal=gnral_personales.id_personal AND 
+        $jefaturas = DB::select('select gnral_jefes_periodos.id_jefe_periodo,gnral_carreras.nombre carrera,
+            gnral_personales.nombre, gnral_periodos.periodo ,gnral_jefes_periodos.tipo_cargo FROM
+            gnral_carreras,gnral_periodos,gnral_personales,gnral_jefes_periodos WHERE
+            gnral_jefes_periodos.id_carrera=gnral_carreras.id_carrera AND
+            gnral_jefes_periodos.id_personal=gnral_personales.id_personal AND
             gnral_jefes_periodos.id_periodo=gnral_periodos.id_periodo AND
-            gnral_periodos.id_periodo='.$id_periodo.'');
-       
+            gnral_periodos.id_periodo= ?', [$id_periodo]);
+
         $docentes = DB::table('gnral_personales')
         ->orderBy('nombre', 'asc')
         ->get();
@@ -38,21 +38,21 @@ class JefaturaController extends Controller
 
 
             $ultimo_periodo=DB::select('select id_periodo from gnral_jefes_periodos order by id_jefe_periodo desc LIMIT 1');
-           
+
         foreach($ultimo_periodo as $ultimo_per)
             {
             $ultimo_p = array();
             $ultimo_p['id_periodo']= $ultimo_per->id_periodo;
 
-            
+
 
           // $collection = ($ultimo_per->id_periodo)+1;
             //echo $collection;
-            
 
-        $consul = DB::select('select id_carrera,id_personal,tipo_cargo FROM gnral_jefes_periodos WHERE id_periodo='.$ultimo_per->id_periodo.'');
+
+        $consul = DB::select('select id_carrera,id_personal,tipo_cargo FROM gnral_jefes_periodos WHERE id_periodo= ?', [$ultimo_per->id_periodo]);
         $datos_consul=array();
-        
+
             foreach($consul as $consulta)
              {
             $nombre=array();
@@ -66,16 +66,16 @@ class JefaturaController extends Controller
 
             //$insert=DB::insert('insert into gnral_jefes_periodos (id_carrera,id_personal,tipo_cargo,id_periodo) values
              //('.$consulta->id_carrera.','.$consulta->id_personal.','.$consulta->tipo_cargo.','.$id_periodo.'');
-        
-          
+
+
         }}
-        $jefaturas = DB::select('select gnral_jefes_periodos.id_jefe_periodo,gnral_carreras.nombre carrera, 
-            gnral_personales.nombre, gnral_periodos.periodo ,gnral_jefes_periodos.tipo_cargo FROM 
-            gnral_carreras,gnral_periodos,gnral_personales,gnral_jefes_periodos WHERE 
-            gnral_jefes_periodos.id_carrera=gnral_carreras.id_carrera AND 
-            gnral_jefes_periodos.id_personal=gnral_personales.id_personal AND 
+        $jefaturas = DB::select('select gnral_jefes_periodos.id_jefe_periodo,gnral_carreras.nombre carrera,
+            gnral_personales.nombre, gnral_periodos.periodo ,gnral_jefes_periodos.tipo_cargo FROM
+            gnral_carreras,gnral_periodos,gnral_personales,gnral_jefes_periodos WHERE
+            gnral_jefes_periodos.id_carrera=gnral_carreras.id_carrera AND
+            gnral_jefes_periodos.id_personal=gnral_personales.id_personal AND
             gnral_jefes_periodos.id_periodo=gnral_periodos.id_periodo AND
-            gnral_periodos.id_periodo='.$id_periodo.'');
+            gnral_periodos.id_periodo= ?', [$id_periodo]);
      }
 
 //dd($jefaturas);
@@ -120,16 +120,16 @@ class JefaturaController extends Controller
     {
         $id_periodo=Session::get('periodotrabaja');
 
-        $periodo = DB::selectOne('select periodo from gnral_periodos where id_periodo='.$id_periodo.'');
+        $periodo = DB::selectOne('select periodo from gnral_periodos where id_periodo= ?', [$id_periodo]);
         $periodo=($periodo->periodo);
 
-        $jefaturas = DB::select('select gnral_jefes_periodos.id_jefe_periodo,gnral_carreras.nombre carrera, 
-            gnral_personales.nombre, gnral_periodos.periodo ,gnral_jefes_periodos.tipo_cargo FROM 
-            gnral_carreras,gnral_periodos,gnral_personales,gnral_jefes_periodos WHERE 
-            gnral_jefes_periodos.id_carrera=gnral_carreras.id_carrera AND 
-            gnral_jefes_periodos.id_personal=gnral_personales.id_personal AND 
+        $jefaturas = DB::select('select gnral_jefes_periodos.id_jefe_periodo,gnral_carreras.nombre carrera,
+            gnral_personales.nombre, gnral_periodos.periodo ,gnral_jefes_periodos.tipo_cargo FROM
+            gnral_carreras,gnral_periodos,gnral_personales,gnral_jefes_periodos WHERE
+            gnral_jefes_periodos.id_carrera=gnral_carreras.id_carrera AND
+            gnral_jefes_periodos.id_personal=gnral_personales.id_personal AND
             gnral_jefes_periodos.id_periodo=gnral_periodos.id_periodo AND
-            gnral_periodos.id_periodo='.$id_periodo.'');
+            gnral_periodos.id_periodo= ?', [$id_periodo]);
         $docentes = DB::table('gnral_personales')
         ->orderBy('nombre', 'asc')
         ->get();
@@ -166,9 +166,9 @@ class JefaturaController extends Controller
         return redirect('/generales/jefaturas');
     }
 
-   
+
 //////////////////////////////////////////////////////////////////
-   
+
 
 
 

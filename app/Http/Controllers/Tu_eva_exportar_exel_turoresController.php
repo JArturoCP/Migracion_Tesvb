@@ -30,8 +30,8 @@ class Tu_eva_exportar_exel_turoresController extends Controller
                                     ON gnral_j.id_jefe_periodo = exp_asigna_t.id_jefe_periodo
                                     INNER JOIN gnral_carreras car
                                     ON car.id_carrera = gnral_j.id_carrera
-                                    where gnral_j.id_periodo = '.$periodo.'  and exp_asigna_t.id_asigna_tutor  not in (Select id_asigna_tutor from tu_eva_autoevaluacion )
-                                    GROUP BY gnral_p.nombre');
+                                    where gnral_j.id_periodo = ?  and exp_asigna_t.id_asigna_tutor  not in (Select id_asigna_tutor from tu_eva_autoevaluacion )
+                                    GROUP BY gnral_p.nombre', [$periodo]);
             //$id_carrera=Session::get('id_carrera_tutorias');
             $array_grupos = array();
             /*foreach ($tutores as $tutor) {

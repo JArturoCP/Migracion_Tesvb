@@ -20,14 +20,14 @@ class Lb_laboratoriosController extends Controller
         $fecha_final=date("Y-m-d ",strtotime($fecha_final));
         // dd($fecha_final);
         $id_periodo=Session::get('periodotrabaja');
-        $horarios = DB::select("SELECT lb_profesores_materia.id_semana 
+        $horarios = DB::select('SELECT lb_profesores_materia.id_semana
 FROM gnral_personales,lb_profesores_materia WHERE
-lb_profesores_materia.id_profesor=gnral_personales.id_personal 
-and lb_profesores_materia.id_periodo=$id_periodo and lb_profesores_materia.id_laboratorio=$laboratorio
-union SELECT lb_registro_laboratorio.id_semana from lb_registro_laboratorio 
-WHERE lb_registro_laboratorio.id_laboratorio=$laboratorio 
-and lb_registro_laboratorio.fecha_registro BETWEEN '$fecha_inicial' AND '$fecha_final'
-ORDER BY id_semana ASC");
+lb_profesores_materia.id_profesor=gnral_personales.id_personal
+and lb_profesores_materia.id_periodo= ? and lb_profesores_materia.id_laboratorio= ?
+union SELECT lb_registro_laboratorio.id_semana from lb_registro_laboratorio
+WHERE lb_registro_laboratorio.id_laboratorio= ?
+and lb_registro_laboratorio.fecha_registro BETWEEN ? AND ?
+ORDER BY id_semana ASC', [$id_periodo, $laboratorio, $laboratorio, (string) ($fecha_inicial), (string) ($fecha_final)]);
 
 
 
@@ -59,8 +59,8 @@ hrs_horario_extra_clase.id_extra_clase=hrs_extra_clase.id_extra_clase AND
 hrs_horario_extra_clase.id_semana=hrs_semanas.id_semana AND
 gnral_periodo_carreras.id_carrera=gnral_carreras.id_carrera AND
 hrs_act_extra_clases.id_act_extra_clase=hrs_actividades_extras.id_hrs_actividad_extra
-union SELECT lb_registro_laboratorio.id_semana from lb_registro_laboratorio 
-WHERE lb_registro_laboratorio.id_laboratorio=$laboratorio 
+union SELECT lb_registro_laboratorio.id_semana from lb_registro_laboratorio
+WHERE lb_registro_laboratorio.id_laboratorio=$laboratorio
 and lb_registro_laboratorio.fecha_registro BETWEEN '$fecha_inicial' AND '$fecha_final'
 ORDER BY id_semana ASC");*/
 
@@ -103,16 +103,16 @@ ORDER BY id_semana ASC");*/
 
             array_push($array_laboratorios,$array_labor);
         }
-        $horariosprofesor = DB::select("SELECT lb_profesores_materia.id_semana,lb_profesores_materia.descripcion,gnral_personales.nombre,2 fop,lb_profesores_materia.id_profesores_materia registro 
+        $horariosprofesor = DB::select('SELECT lb_profesores_materia.id_semana,lb_profesores_materia.descripcion,gnral_personales.nombre,2 fop,lb_profesores_materia.id_profesores_materia registro
 FROM gnral_personales,lb_profesores_materia WHERE
-lb_profesores_materia.id_profesor=gnral_personales.id_personal 
-and lb_profesores_materia.id_periodo=$id_periodo and lb_profesores_materia.id_laboratorio=$laboratorio
-UNION SELECT lb_registro_laboratorio.id_semana,gnral_personales.nombre,lb_registro_laboratorio.descripcion_utilizar carrera,4 fop,lb_registro_laboratorio.id_reg_laboratorio registro 
-from lb_registro_laboratorio,gnral_personales 
-WHERE lb_registro_laboratorio.id_usuario=gnral_personales.id_personal 
-and lb_registro_laboratorio.id_laboratorio=$laboratorio 
-and lb_registro_laboratorio.fecha_registro BETWEEN '$fecha_inicial' AND '$fecha_final'
-ORDER BY id_semana ASC");
+lb_profesores_materia.id_profesor=gnral_personales.id_personal
+and lb_profesores_materia.id_periodo= ? and lb_profesores_materia.id_laboratorio= ?
+UNION SELECT lb_registro_laboratorio.id_semana,gnral_personales.nombre,lb_registro_laboratorio.descripcion_utilizar carrera,4 fop,lb_registro_laboratorio.id_reg_laboratorio registro
+from lb_registro_laboratorio,gnral_personales
+WHERE lb_registro_laboratorio.id_usuario=gnral_personales.id_personal
+and lb_registro_laboratorio.id_laboratorio= ?
+and lb_registro_laboratorio.fecha_registro BETWEEN ? AND ?
+ORDER BY id_semana ASC', [$id_periodo, $laboratorio, $laboratorio, (string) ($fecha_inicial), (string) ($fecha_final)]);
 //dd($horariosprofesor);
         foreach ($horariosprofesor as $horarioprof)
         {
@@ -134,7 +134,7 @@ ORDER BY id_semana ASC");
         $dias = DB::select('select DISTINCT dia FROM hrs_semanas');
         //$semanas= Hrs_semanas::all();
         $semanas=DB::select('select * FROM hrs_semanas ORDER by hora,id_semana');
-        $laboratorio=DB::selectOne('SELECT * FROM lb_laboratorios where id_laboratorio='.$laboratorio.'');
+        $laboratorio=DB::selectOne('SELECT * FROM lb_laboratorios where id_laboratorio= ?', [$laboratorio]);
         $personales=DB::select('SELECT * FROM gnral_personales ORDER BY `gnral_personales`.`nombre` ASC ');
         $carreras=DB::select('SELECT * FROM gnral_carreras');
         $lab=DB::select('SELECT * FROM lb_laboratorios');
@@ -166,12 +166,12 @@ ORDER BY id_semana ASC");
 
     }
     public function  eliminar($id){
-        DB::delete('DELETE FROM lb_registro_laboratorio WHERE lb_registro_laboratorio.id_reg_laboratorio='.$id.'');
+        DB::delete('DELETE FROM lb_registro_laboratorio WHERE lb_registro_laboratorio.id_reg_laboratorio= ?', [$id]);
         return back();
     }
     public function eliminar_profesor($id)
     {
-        DB::delete('DELETE FROM lb_profesores_materia WHERE lb_profesores_materia.id_profesores_materia='.$id.'');
+        DB::delete('DELETE FROM lb_profesores_materia WHERE lb_profesores_materia.id_profesores_materia= ?', [$id]);
         return back();
     }
     public function  materiaprofesor(Request $request)
@@ -213,10 +213,10 @@ ORDER BY id_semana ASC");
 
         $hoy = date("Y-m-d");
 
-        $estado_hora=DB::selectOne("SELECT count(id_reg_laboratorio)contar  FROM lb_registro_laboratorio WHERE id_semana = $id_semana_profesor
-                                                                       and lb_registro_laboratorio.fecha_registro > '$hoy'
-                                                                      and id_laboratorio = $id_laboratorio
-                                                                       ");
+        $estado_hora=DB::selectOne('SELECT count(id_reg_laboratorio)contar  FROM lb_registro_laboratorio WHERE id_semana = ?
+                                                                       and lb_registro_laboratorio.fecha_registro > ?
+                                                                      and id_laboratorio = ?
+                                                                       ', [$id_semana_profesor, (string) ($hoy), $id_laboratorio]);
 
         $personales=DB::select('SELECT * FROM gnral_personales ORDER BY `gnral_personales`.`nombre` ASC ');
         if($estado_hora->contar == 0){
@@ -224,12 +224,12 @@ ORDER BY id_semana ASC");
            $personas="";
         }else{
             $estado_hora=1;
-            $personas=DB::select("SELECT   gnral_personales.id_personal, gnral_personales.nombre,lb_registro_laboratorio.fecha_registro FROM lb_registro_laboratorio, gnral_personales 
-            WHERE lb_registro_laboratorio.id_semana = $id_semana_profesor and lb_registro_laboratorio.fecha_registro > '$hoy' 
-              and gnral_personales.id_personal=lb_registro_laboratorio.id_usuario");
+            $personas=DB::select('SELECT   gnral_personales.id_personal, gnral_personales.nombre,lb_registro_laboratorio.fecha_registro FROM lb_registro_laboratorio, gnral_personales
+            WHERE lb_registro_laboratorio.id_semana = ? and lb_registro_laboratorio.fecha_registro > ?
+              and gnral_personales.id_personal=lb_registro_laboratorio.id_usuario', [$id_semana_profesor, (string) ($hoy)]);
         }
-       $lab=DB::selectOne('SELECT * FROM `lb_laboratorios` WHERE `id_laboratorio` = '.$id_laboratorio.'');
-       $hora=DB::selectOne('SELECT * FROM `hrs_semanas` WHERE `id_semana` = '.$id_semana_profesor.'');
+       $lab=DB::selectOne('SELECT * FROM `lb_laboratorios` WHERE `id_laboratorio` = ?', [$id_laboratorio]);
+       $hora=DB::selectOne('SELECT * FROM `hrs_semanas` WHERE `id_semana` = ?', [$id_semana_profesor]);
 
 
         return view('laboratorios.estado_lab',compact('com_lab','id_personal_lab','estado_hora','personas','id_semana_profesor','id_laboratorio','personales','lab','hora'));
@@ -251,8 +251,8 @@ ORDER BY id_semana ASC");
         }else{
             $id_personal_lab=$id_personal_lab;
         }
-        $hora_semana=DB::selectOne('SELECT * FROM `hrs_semanas` WHERE `id_semana` ='.$id_semana.'');
-        $lab=DB::selectOne('SELECT * FROM `lb_laboratorios` WHERE `id_laboratorio` = '.$id_laboratorio.'');
+        $hora_semana=DB::selectOne('SELECT * FROM `hrs_semanas` WHERE `id_semana` = ?', [$id_semana]);
+        $lab=DB::selectOne('SELECT * FROM `lb_laboratorios` WHERE `id_laboratorio` = ?', [$id_laboratorio]);
         $personales=DB::select('SELECT * FROM gnral_personales ORDER BY `gnral_personales`.`nombre` ASC ');
 
         return view('laboratorios.ver_hora_laboratorio',compact('com_lab','id_personal_lab','id_semana','id_laboratorio','fecha_registro','hora_semana','lab','personales'));

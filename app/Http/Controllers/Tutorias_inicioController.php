@@ -26,7 +26,7 @@ class Tutorias_inicioController extends Controller
       $periodo = Session::get('periodo_actual');
 
       Session::put('sistemas_tutorias',true);
-      $per_f = DB::selectOne('SELECT count(p.estado)  con FROM tu_eva_periodo p WHERE p.id_periodo = '.$periodo.' and p.estado = 2 ');
+      $per_f = DB::selectOne('SELECT count(p.estado)  con FROM tu_eva_periodo p WHERE p.id_periodo = ? and p.estado = 2 ', [$periodo]);
 
       if ($per_f->con == 0)
       {
@@ -39,7 +39,7 @@ class Tutorias_inicioController extends Controller
 
       if ($tipo_p==1) {
 
-          $alumno=DB::selectOne('SELECT * FROM `gnral_alumnos` WHERE `id_usuario` = '.$id_usuario.'');
+          $alumno=DB::selectOne('SELECT * FROM `gnral_alumnos` WHERE `id_usuario` = ?', [$id_usuario]);
           Session::put('cuenta',$alumno->cuenta);
           Session::put('nombre',mb_strtoupper(($alumno->apaterno." ".$alumno->amaterno." ".$alumno->nombre),'utf-8'));
           Session::put('id_alumno',$alumno->id_alumno);
@@ -59,7 +59,7 @@ class Tutorias_inicioController extends Controller
 
           if (count($tutorasignado)>0)
           {
-              $per = DB::selectOne('SELECT count(p.estado)  con FROM tu_eva_periodo p WHERE p.id_periodo = '.$periodo.' and p.estado = 1 ');
+              $per = DB::selectOne('SELECT count(p.estado)  con FROM tu_eva_periodo p WHERE p.id_periodo = ? and p.estado = 1 ', [$periodo]);
               //dd($per);
               if ($per->con == 0)
               {
@@ -73,7 +73,7 @@ class Tutorias_inicioController extends Controller
               Session::put('tutor_asignado',$tutorasignado[0]->nombre);
               //dd($tutorasignado);
 
-              $estado_contar=DB::selectOne('SELECT count(id_alumno)contar from exp_generales where id_alumno = '.$alumno->id_alumno.'');
+              $estado_contar=DB::selectOne('SELECT count(id_alumno)contar from exp_generales where id_alumno = ?', [$alumno->id_alumno]);
               $estado_contar=$estado_contar->contar;
               if($estado_contar == 0){
 
@@ -103,13 +103,13 @@ class Tutorias_inicioController extends Controller
                   ->get();
 
 
-              $tutor = DB::selectOne('SELECT * FROM `gnral_personales` WHERE `tipo_usuario` = '.$id_usuario.'');
+              $tutor = DB::selectOne('SELECT * FROM `gnral_personales` WHERE `tipo_usuario` = ?', [$id_usuario]);
               //dd($tutor[0]->id_departamento);
-              $estutor = DB::select('SELECT id_asigna_tutor from exp_asigna_tutor where id_personal=' . $tutor->id_personal . '
-             AND exp_asigna_tutor.deleted_at is null and id_jefe_periodo in (Select id_jefe_periodo from gnral_jefes_periodos where id_periodo=' .$periodo . ')');
+              $estutor = DB::select('SELECT id_asigna_tutor from exp_asigna_tutor where id_personal= ?
+             AND exp_asigna_tutor.deleted_at is null and id_jefe_periodo in (Select id_jefe_periodo from gnral_jefes_periodos where id_periodo= ?)', [$tutor->id_personal, $periodo]);
                 //dd($estutor);
-              $escoordinador = DB::select('SELECT id_asigna_coordinador from exp_asigna_coordinador where id_personal=' . $tutor->id_personal . '
-             AND exp_asigna_coordinador.deleted_at is null and id_jefe_periodo in (Select id_jefe_periodo from gnral_jefes_periodos where id_periodo=' .$periodo. ')');
+              $escoordinador = DB::select('SELECT id_asigna_coordinador from exp_asigna_coordinador where id_personal= ?
+             AND exp_asigna_coordinador.deleted_at is null and id_jefe_periodo in (Select id_jefe_periodo from gnral_jefes_periodos where id_periodo= ?)', [$tutor->id_personal, $periodo]);
 
              if(count($escoordinador)){
                  Session::put('id_asigna_coordinador', $escoordinador[0]->id_asigna_coordinador);
@@ -118,12 +118,12 @@ class Tutorias_inicioController extends Controller
              }
               $escoordinadorgeneral = DB::select('SELECT id_asigna_coordinador_general
                                                         from desarrollo_asigna_coordinador_general
-                                                        where id_personal=' . $tutor->id_personal . '
-                                                        AND desarrollo_asigna_coordinador_general.deleted_at is null');
+                                                        where id_personal= ?
+                                                        AND desarrollo_asigna_coordinador_general.deleted_at is null', [$tutor->id_personal]);
 
               //$esdesarrollo=DB::select();
               if ($jefe->count() > 0 && $jefe[0]->id_departamento == 2) {
-                  $periodo_carrera = DB::select('SELECT id_periodo_carrera from gnral_periodo_carreras where id_carrera=' . $jefe[0]->id_carrera . ' and id_periodo=' . $jefe[0]->id_periodo);
+                  $periodo_carrera = DB::select('SELECT id_periodo_carrera from gnral_periodo_carreras where id_carrera= ? and id_periodo= ?', [$jefe[0]->id_carrera, $jefe[0]->id_periodo]);
                   //dd($periodo_carrera);
                   Session::put('id_periodo_carrera', $periodo_carrera[0]->id_periodo_carrera);
                   Session::put('jefe', $jefe[0]->id_carrera);

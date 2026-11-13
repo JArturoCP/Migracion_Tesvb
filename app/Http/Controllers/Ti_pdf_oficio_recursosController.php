@@ -136,11 +136,11 @@ class Ti_pdf_oficio_recursosController extends Controller
 {
     public function index($id_alumno){
         $etiqueta=DB::selectOne('SELECT * FROM etiqueta WHERE id_etiqueta = 1 ');
-        $oficio_recursos=DB::selectOne('SELECT * FROM `ti_oficio_recursos` WHERE `id_alumno` = '.$id_alumno.'');
+        $oficio_recursos=DB::selectOne('SELECT * FROM `ti_oficio_recursos` WHERE `id_alumno` = ?', [$id_alumno]);
         $numero_oficio_recursos=$oficio_recursos->numero_oficio_recursos;
         $fecha_titulacion=DB::selectOne('SELECT ti_fecha_jurado_alumn.*, ti_horarios_dias.horario_dia, ti_horarios_dias.hora  FROM
-        ti_fecha_jurado_alumn,ti_horarios_dias WHERE ti_fecha_jurado_alumn.id_horarios_dias = ti_horarios_dias.id_horarios_dias 
-        and ti_fecha_jurado_alumn.id_alumno ='.$id_alumno.'');
+        ti_fecha_jurado_alumn,ti_horarios_dias WHERE ti_fecha_jurado_alumn.id_horarios_dias = ti_horarios_dias.id_horarios_dias
+        and ti_fecha_jurado_alumn.id_alumno = ?', [$id_alumno]);
 
         $hora_titulacion=$fecha_titulacion->hora;
         $fecha_titulacion1=$fecha_titulacion->fecha_titulacion;
@@ -196,44 +196,44 @@ class Ti_pdf_oficio_recursosController extends Controller
         if($mes_titulacion == 12){
             $mes_titulacion="diciembre";
         }
-        $dato_presidente=DB::selectOne('SELECT gnral_personales.nombre,gnral_personales.cedula, ti_jurado_alumno.*, abreviaciones.titulo  
-    FROM ti_jurado_alumno, gnral_personales,abreviaciones_prof, abreviaciones WHERE ti_jurado_alumno.id_alumno = '.$id_alumno.'
-        AND ti_jurado_alumno.id_tipo_jurado = 1 and gnral_personales.id_personal= ti_jurado_alumno.id_personal 
-                                                                                and abreviaciones_prof.id_personal = gnral_personales.id_personal 
-                                                                                and abreviaciones_prof.id_abreviacion = abreviaciones.id_abreviacion');
+        $dato_presidente=DB::selectOne('SELECT gnral_personales.nombre,gnral_personales.cedula, ti_jurado_alumno.*, abreviaciones.titulo
+    FROM ti_jurado_alumno, gnral_personales,abreviaciones_prof, abreviaciones WHERE ti_jurado_alumno.id_alumno = ?
+        AND ti_jurado_alumno.id_tipo_jurado = 1 and gnral_personales.id_personal= ti_jurado_alumno.id_personal
+                                                                                and abreviaciones_prof.id_personal = gnral_personales.id_personal
+                                                                                and abreviaciones_prof.id_abreviacion = abreviaciones.id_abreviacion', [$id_alumno]);
         $nombre_presidente=$dato_presidente->titulo." ".$dato_presidente->nombre;
 
-        $dato_secretario = DB::selectOne('SELECT gnral_personales.nombre,gnral_personales.cedula, ti_jurado_alumno.*, abreviaciones.titulo  
-    FROM ti_jurado_alumno, gnral_personales,abreviaciones_prof, abreviaciones WHERE ti_jurado_alumno.id_alumno = '.$id_alumno.'
-        AND ti_jurado_alumno.id_tipo_jurado = 2 and gnral_personales.id_personal= ti_jurado_alumno.id_personal 
-                                                                                and abreviaciones_prof.id_personal = gnral_personales.id_personal 
-                                                                                and abreviaciones_prof.id_abreviacion = abreviaciones.id_abreviacion');
+        $dato_secretario = DB::selectOne('SELECT gnral_personales.nombre,gnral_personales.cedula, ti_jurado_alumno.*, abreviaciones.titulo
+    FROM ti_jurado_alumno, gnral_personales,abreviaciones_prof, abreviaciones WHERE ti_jurado_alumno.id_alumno = ?
+        AND ti_jurado_alumno.id_tipo_jurado = 2 and gnral_personales.id_personal= ti_jurado_alumno.id_personal
+                                                                                and abreviaciones_prof.id_personal = gnral_personales.id_personal
+                                                                                and abreviaciones_prof.id_abreviacion = abreviaciones.id_abreviacion', [$id_alumno]);
         $nombre_secretario=$dato_secretario->titulo." ".$dato_secretario->nombre;
 
-        $dato_vocal = DB::selectOne('SELECT gnral_personales.nombre,gnral_personales.cedula, ti_jurado_alumno.*, abreviaciones.titulo  
-    FROM ti_jurado_alumno, gnral_personales,abreviaciones_prof, abreviaciones WHERE ti_jurado_alumno.id_alumno = '.$id_alumno.'
-        AND ti_jurado_alumno.id_tipo_jurado = 3 and gnral_personales.id_personal= ti_jurado_alumno.id_personal 
-                                                                                and abreviaciones_prof.id_personal = gnral_personales.id_personal 
-                                                                                and abreviaciones_prof.id_abreviacion = abreviaciones.id_abreviacion');
+        $dato_vocal = DB::selectOne('SELECT gnral_personales.nombre,gnral_personales.cedula, ti_jurado_alumno.*, abreviaciones.titulo
+    FROM ti_jurado_alumno, gnral_personales,abreviaciones_prof, abreviaciones WHERE ti_jurado_alumno.id_alumno = ?
+        AND ti_jurado_alumno.id_tipo_jurado = 3 and gnral_personales.id_personal= ti_jurado_alumno.id_personal
+                                                                                and abreviaciones_prof.id_personal = gnral_personales.id_personal
+                                                                                and abreviaciones_prof.id_abreviacion = abreviaciones.id_abreviacion', [$id_alumno]);
         $nombre_vocal=$dato_vocal->titulo." ".$dato_vocal->nombre;
 
         $datos_alumno=DB::selectOne('SELECT ti_reg_datos_alum.*,ti_opciones_titulacion.opcion_titulacion, gnral_carreras.nombre carrera,
        ti_tipo_titulo_obtenido.tipo_titulo from ti_reg_datos_alum,ti_opciones_titulacion,ti_tipo_titulo_obtenido, gnral_carreras
-where ti_reg_datos_alum.id_opcion_titulacion = ti_opciones_titulacion.id_opcion_titulacion and 
-      ti_reg_datos_alum.id_carrera = gnral_carreras.id_carrera and 
-      ti_reg_datos_alum.id_carrera=ti_tipo_titulo_obtenido.id_carrera and ti_reg_datos_alum.id_alumno='.$id_alumno.'');
+where ti_reg_datos_alum.id_opcion_titulacion = ti_opciones_titulacion.id_opcion_titulacion and
+      ti_reg_datos_alum.id_carrera = gnral_carreras.id_carrera and
+      ti_reg_datos_alum.id_carrera=ti_tipo_titulo_obtenido.id_carrera and ti_reg_datos_alum.id_alumno= ?', [$id_alumno]);
 
         $nombre_alumno=$datos_alumno->nombre_al." ".$datos_alumno->apaterno." ".$datos_alumno->amaterno;
         $opcion_titulacion=$datos_alumno->opcion_titulacion;
         $titulo_obtenido=$datos_alumno->tipo_titulo;
         $carrera=$datos_alumno->carrera;
 
-        $acta_titulacion=DB::selectOne('SELECT * FROM `ti_acta_titulaciones` WHERE `id_alumno` ='.$id_alumno.'');
+        $acta_titulacion=DB::selectOne('SELECT * FROM `ti_acta_titulaciones` WHERE `id_alumno` = ?', [$id_alumno]);
         $numero_acta=$acta_titulacion->numero_acta_titulacion;
         $numero_libro=$acta_titulacion->numero_libro_acta_titulacion;
         $foja_acta_titulacion=$acta_titulacion->foja_acta_titulacion;
 
-        $reg_al=DB::selectOne('SELECT * FROM `ti_datos_alumno_reg_dep` WHERE `id_alumno` ='.$id_alumno.'');
+        $reg_al=DB::selectOne('SELECT * FROM `ti_datos_alumno_reg_dep` WHERE `id_alumno` = ?', [$id_alumno]);
         $id_sexo=$reg_al->id_sexo;
         if($id_sexo == 1){
          $argumento="del alumno";
@@ -315,7 +315,7 @@ where ti_reg_datos_alum.id_opcion_titulacion = ti_opciones_titulacion.id_opcion_
         //$pdf->Cell(40,5,utf8_decode(""),0,0,'');
       //  $pdf->Cell(80,5,utf8_decode(""),"B",1,'');
        // $pdf->Cell(40,5,utf8_decode(""),0,0,'');
-        $alumno=DB::selectOne('SELECT ti_reg_datos_alum.*,gnral_carreras.nombre carrera FROM ti_reg_datos_alum,gnral_carreras WHERE ti_reg_datos_alum.id_carrera = gnral_carreras.id_carrera and  ti_reg_datos_alum.id_alumno ='.$id_alumno.'');
+        $alumno=DB::selectOne('SELECT ti_reg_datos_alum.*,gnral_carreras.nombre carrera FROM ti_reg_datos_alum,gnral_carreras WHERE ti_reg_datos_alum.id_carrera = gnral_carreras.id_carrera and  ti_reg_datos_alum.id_alumno = ?', [$id_alumno]);
         //$jefe_titulacion=$alumno->nombre_jefe_titulacion;
         $pdf->Cell(160,5,utf8_decode("I.F. NOEMÍ MARÍN GOMÉZ"),0,1,'L');
         //$pdf->Cell(40,5,utf8_decode(""),0,0,'');

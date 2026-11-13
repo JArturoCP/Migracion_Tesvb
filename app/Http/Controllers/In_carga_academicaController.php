@@ -41,9 +41,9 @@ class In_carga_academicaController extends Controller
 
             //para controlar el número de veces que se ha usado el voucher durante el periodo cursado de ingles
             $con = DB::select('SELECT in_voucher_pago.num_veces_usado, in_voucher_pago.id_periodo_ingles
-        FROM in_voucher_pago, users 
-        WHERE in_voucher_pago.id_usuario=users.id 
-        AND in_voucher_pago.id_usuario=' . $id_usuario. '') ;
+        FROM in_voucher_pago, users
+        WHERE in_voucher_pago.id_usuario=users.id
+        AND in_voucher_pago.id_usuario= ?', [$id_usuario]) ;
             foreach ($con as $co)
             {
                 $num_veces_usado = $co->num_veces_usado;
@@ -204,7 +204,7 @@ class In_carga_academicaController extends Controller
                     $promedio=round($promedio);
 
 
-                    $carga_academica=DB::selectOne('SELECT * FROM `in_carga_academica_ingles` WHERE `id_carga_ingles` ='.$carga_anterior.'');
+                    $carga_academica=DB::selectOne('SELECT * FROM `in_carga_academica_ingles` WHERE `id_carga_ingles` = ?', [$carga_anterior]);
                    // dd($carga_academica);
 
                     if($carga_academica->id_periodo_ingles < 18)
@@ -390,7 +390,7 @@ class In_carga_academicaController extends Controller
         }
         else {
 
-            $alumno = DB::selectOne('SELECT *FROM gnral_alumnos WHERE id_usuario =' . $id_usuario . '');
+            $alumno = DB::selectOne('SELECT *FROM gnral_alumnos WHERE id_usuario = ?', [$id_usuario]);
             $alumno = $alumno->id_alumno;
 
             $registrado = DB::table('in_carga_academica_ingles')
@@ -414,8 +414,8 @@ class In_carga_academicaController extends Controller
         $id_periodo =  $request->input('id_periodo');;
         $id_alumno =  $request->input('id_alumno');;
         //dd($id_alumno);
-        $validar=DB::selectOne('SELECT count(id_validar_carga)contar FROM `in_validar_carga` WHERE `id_alumno` = '.$id_alumno.' AND `id_periodo` ='.$id_periodo.'');
-        $carga=DB::selectOne('SELECT count(id_carga_ingles)contar  FROM `in_carga_academica_ingles` WHERE `id_alumno` = '.$id_alumno.'  AND `id_periodo_ingles` ='.$id_periodo.'');
+        $validar=DB::selectOne('SELECT count(id_validar_carga)contar FROM `in_validar_carga` WHERE `id_alumno` = ? AND `id_periodo` = ?', [$id_alumno, $id_periodo]);
+        $carga=DB::selectOne('SELECT count(id_carga_ingles)contar  FROM `in_carga_academica_ingles` WHERE `id_alumno` = ?  AND `id_periodo_ingles` = ?', [$id_alumno, $id_periodo]);
         $carga=$carga->contar;
 
         if($carga == 0) {
@@ -455,12 +455,12 @@ class In_carga_academicaController extends Controller
             ->select(DB::raw('count(in_validar_carga.id_validar_carga) as total'))
             ->get();
         $registrado=$registrado[0]->total;
-        $horario_profesor=DB::selectOne('SELECT * FROM in_hrs_ingles_profesor WHERE id_hrs_ingles_profesor = '.$id_hrs_niveles_grupo.' ORDER BY id_grupo ASC');
+        $horario_profesor=DB::selectOne('SELECT * FROM in_hrs_ingles_profesor WHERE id_hrs_ingles_profesor = ? ORDER BY id_grupo ASC', [$id_hrs_niveles_grupo]);
         $id_grupo=$horario_profesor->id_grupo;
         $id_nivel=$horario_profesor->id_nivel;
         $id_profesor=$horario_profesor->id_profesor;
         $id_periodo=$horario_profesor->id_periodo;
-        $horas_profesor=DB::select('SELECT in_hrs_horas_profesor.id_semana FROM in_hrs_horas_profesor WHERE id_grupo = '.$id_grupo.' AND id_nivel = '.$id_nivel.' AND id_periodo = '.$id_periodo.'');
+        $horas_profesor=DB::select('SELECT in_hrs_horas_profesor.id_semana FROM in_hrs_horas_profesor WHERE id_grupo = ? AND id_nivel = ? AND id_periodo = ?', [$id_grupo, $id_nivel, $id_periodo]);
         $array_horario_profesor_ing=array();
         $array_semana=array();
         foreach($horas_profesor as $hora_profesor)
@@ -497,11 +497,11 @@ class In_carga_academicaController extends Controller
 
             array_push($array_ingles,$array_ing);
         }
-        $profesores_horario=DB::select('SELECT in_hrs_horas_profesor.id_semana,in_profesores_ingles.nombre,in_profesores_ingles.apellido_paterno,in_profesores_ingles.apellido_materno 
-FROM in_hrs_horas_profesor,in_profesores_ingles WHERE in_profesores_ingles.id_profesores=in_hrs_horas_profesor.id_profesor 
-and in_hrs_horas_profesor.id_grupo ='.$id_grupo.' AND in_hrs_horas_profesor.id_nivel ='.$id_nivel.' AND in_hrs_horas_profesor.id_periodo ='.$id_periodo.' ORDER BY in_hrs_horas_profesor.id_semana ASC');
+        $profesores_horario=DB::select('SELECT in_hrs_horas_profesor.id_semana,in_profesores_ingles.nombre,in_profesores_ingles.apellido_paterno,in_profesores_ingles.apellido_materno
+FROM in_hrs_horas_profesor,in_profesores_ingles WHERE in_profesores_ingles.id_profesores=in_hrs_horas_profesor.id_profesor
+and in_hrs_horas_profesor.id_grupo = ? AND in_hrs_horas_profesor.id_nivel = ? AND in_hrs_horas_profesor.id_periodo = ? ORDER BY in_hrs_horas_profesor.id_semana ASC', [$id_grupo, $id_nivel, $id_periodo]);
         ;
-        $niv=DB::selectOne('SELECT * FROM `in_niveles_ingles` WHERE `id_niveles_ingles` ='.$id_nivel.'');
+        $niv=DB::selectOne('SELECT * FROM `in_niveles_ingles` WHERE `id_niveles_ingles` = ?', [$id_nivel]);
         $niv=$niv->descripcion;
         foreach ($profesores_horario as $profesor_hor)
         {
@@ -521,9 +521,9 @@ and in_hrs_horas_profesor.id_grupo ='.$id_grupo.' AND in_hrs_horas_profesor.id_n
         $semanas=DB::select('select * FROM hrs_semanas ORDER by hora,id_semana');
         $disponibilidad=1;
         $periodo_ingles=Session::get('periodo_ingles');
-        $niveles=DB::select('SELECT in_hrs_ingles_profesor.id_nivel,in_niveles_ingles.descripcion 
-FROM in_hrs_ingles_profesor,in_niveles_ingles where in_hrs_ingles_profesor.id_nivel=in_niveles_ingles.id_niveles_ingles and in_hrs_ingles_profesor.id_periodo='.$periodo_ingles.'
-GROUP by in_hrs_ingles_profesor.id_nivel ORDER BY in_hrs_ingles_profesor.id_nivel ASC');
+        $niveles=DB::select('SELECT in_hrs_ingles_profesor.id_nivel,in_niveles_ingles.descripcion
+FROM in_hrs_ingles_profesor,in_niveles_ingles where in_hrs_ingles_profesor.id_nivel=in_niveles_ingles.id_niveles_ingles and in_hrs_ingles_profesor.id_periodo= ?
+GROUP by in_hrs_ingles_profesor.id_nivel ORDER BY in_hrs_ingles_profesor.id_nivel ASC', [$periodo_ingles]);
         $grupos = DB::table('in_hrs_ingles_profesor')
             ->join('in_grupo_ingles', 'in_grupo_ingles.id_grupo_ingles', '=', 'in_hrs_ingles_profesor.id_grupo')
             ->where('in_hrs_ingles_profesor.id_periodo', '=', $periodo_ingles)
@@ -599,7 +599,7 @@ public function seleccionar_grupo_carga($id_hrs_niveles_grupo,$numero){
     public function revision_carga_academica(){
         $id_usuario = Session::get('usuario_alumno');
         $periodo_ingles=Session::get('periodo_ingles');
-        $datosalumno=DB::selectOne('select * FROM gnral_alumnos WHERE id_usuario='.$id_usuario.'');
+        $datosalumno=DB::selectOne('select * FROM gnral_alumnos WHERE id_usuario= ?', [$id_usuario]);
         $alumno=$datosalumno->id_alumno;
 
 
@@ -618,16 +618,16 @@ public function seleccionar_grupo_carga($id_hrs_niveles_grupo,$numero){
          else {
 $registrado=1;
             $carga_academica = DB::selectOne('SELECT in_niveles_ingles.clave,in_niveles_ingles.descripcion nivel,in_grupo_ingles.descripcion grupo,
-in_carga_academica_ingles.* from in_niveles_ingles,in_grupo_ingles,in_carga_academica_ingles 
-where in_carga_academica_ingles.id_nivel=in_niveles_ingles.id_niveles_ingles 
-and in_carga_academica_ingles.id_grupo=in_grupo_ingles.id_grupo_ingles 
-and in_carga_academica_ingles.id_alumno=' . $alumno . ' and in_carga_academica_ingles.id_periodo_ingles=' .$periodo_ingles. '') ;
+in_carga_academica_ingles.* from in_niveles_ingles,in_grupo_ingles,in_carga_academica_ingles
+where in_carga_academica_ingles.id_nivel=in_niveles_ingles.id_niveles_ingles
+and in_carga_academica_ingles.id_grupo=in_grupo_ingles.id_grupo_ingles
+and in_carga_academica_ingles.id_alumno= ? and in_carga_academica_ingles.id_periodo_ingles= ?', [$alumno, $periodo_ingles]) ;
 
              $id_grupo = $carga_academica->id_grupo;
              $id_nivel = $carga_academica->id_nivel;
 
 
-             $horario_grupo = DB::select('SELECT * FROM in_hrs_horas_profesor WHERE id_grupo =' . $id_grupo . ' AND id_nivel = ' . $id_nivel . ' AND id_periodo = ' . $periodo_ingles . '');
+             $horario_grupo = DB::select('SELECT * FROM in_hrs_horas_profesor WHERE id_grupo = ? AND id_nivel = ? AND id_periodo = ?', [$id_grupo, $id_nivel, $periodo_ingles]);
 
              $array_horario_ing = array();
              $array_semana = array();
@@ -663,12 +663,12 @@ and in_carga_academica_ingles.id_alumno=' . $alumno . ' and in_carga_academica_i
                  array_push($array_ingles, $array_ing);
              }
              $profesores_horario = DB::select('
-SELECT in_grupo_ingles.descripcion grupo,in_niveles_ingles.descripcion nivel, in_hrs_horas_profesor.* 
-FROM  in_hrs_horas_profesor,in_niveles_ingles,in_grupo_ingles 
-WHERE in_hrs_horas_profesor.id_grupo = ' . $id_grupo . ' AND in_hrs_horas_profesor.id_nivel = ' . $id_nivel . '
- AND in_hrs_horas_profesor.id_periodo = ' . $periodo_ingles . ' and in_hrs_horas_profesor.id_grupo=in_grupo_ingles.id_grupo_ingles
-  and in_hrs_horas_profesor.id_nivel=in_niveles_ingles.id_niveles_ingles  
-ORDER BY `in_hrs_horas_profesor`.`id_semana` ASC');
+SELECT in_grupo_ingles.descripcion grupo,in_niveles_ingles.descripcion nivel, in_hrs_horas_profesor.*
+FROM  in_hrs_horas_profesor,in_niveles_ingles,in_grupo_ingles
+WHERE in_hrs_horas_profesor.id_grupo = ? AND in_hrs_horas_profesor.id_nivel = ?
+ AND in_hrs_horas_profesor.id_periodo = ? and in_hrs_horas_profesor.id_grupo=in_grupo_ingles.id_grupo_ingles
+  and in_hrs_horas_profesor.id_nivel=in_niveles_ingles.id_niveles_ingles
+ORDER BY `in_hrs_horas_profesor`.`id_semana` ASC', [$id_grupo, $id_nivel, $periodo_ingles]);
 //dd($profesores_horario);
              foreach ($profesores_horario as $profesor_hor) {
                  $array_labor['id_semana'] = $profesor_hor->id_semana;
@@ -683,10 +683,10 @@ ORDER BY `in_hrs_horas_profesor`.`id_semana` ASC');
              }
              array_multisort($aux, SORT_ASC, $array_ingles);
 
-             $profesor = DB::selectOne('SELECT in_profesores_ingles.* FROM in_hrs_ingles_profesor,in_profesores_ingles 
-WHERE in_hrs_ingles_profesor.id_grupo = ' . $id_grupo . ' AND in_hrs_ingles_profesor.id_nivel = ' . $id_nivel . ' 
-AND in_hrs_ingles_profesor.id_periodo = ' . $periodo_ingles . '
- and in_hrs_ingles_profesor.id_profesor=in_profesores_ingles.id_profesores');
+             $profesor = DB::selectOne('SELECT in_profesores_ingles.* FROM in_hrs_ingles_profesor,in_profesores_ingles
+WHERE in_hrs_ingles_profesor.id_grupo = ? AND in_hrs_ingles_profesor.id_nivel = ?
+AND in_hrs_ingles_profesor.id_periodo = ?
+ and in_hrs_ingles_profesor.id_profesor=in_profesores_ingles.id_profesores', [$id_grupo, $id_nivel, $periodo_ingles]);
              $semanas = DB::select('select * FROM hrs_semanas ORDER by hora,id_semana');
              $enviado = DB::table('in_validar_carga')
                  ->where('in_validar_carga.id_periodo','=',$periodo_ingles)
@@ -832,7 +832,7 @@ else{
             ->get();
         $estado_grupo=$estado_grupo[0]->total;
 
-        $numero_maximo_alumnos = DB::selectOne('SELECT * FROM in_maximo_grupo_ingles WHERE id_periodo_ingles = '.$periodo_ingles.'');
+        $numero_maximo_alumnos = DB::selectOne('SELECT * FROM in_maximo_grupo_ingles WHERE id_periodo_ingles = ?', [$periodo_ingles]);
 
         if($estado_grupo <= $numero_maximo_alumnos->num_maximo_alumnos){
 

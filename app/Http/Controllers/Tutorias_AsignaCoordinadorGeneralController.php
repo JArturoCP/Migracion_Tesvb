@@ -47,7 +47,7 @@ class Tutorias_AsignaCoordinadorGeneralController extends Controller
         $checkasig=DB::select('SELECT * FROM desarrollo_asigna_coordinador_general,gnral_personales
                                         WHERE desarrollo_asigna_coordinador_general.id_personal=gnral_personales.id_personal
                                         AND desarrollo_asigna_coordinador_general.deleted_at is null
-                                        AND desarrollo_asigna_coordinador_general.id_personal_asigna='.Session::get('desarrollo'));
+                                        AND desarrollo_asigna_coordinador_general.id_personal_asigna= ?', [Session::get('desarrollo')]);
         if(count($checkasig)>0)
         {
             $datos['check']=true;
@@ -59,7 +59,7 @@ class Tutorias_AsignaCoordinadorGeneralController extends Controller
         return $datos;
     }
     public function repo(Request $request){
-        dd($request);
+        abort(501, 'Funcionalidad no disponible.');
         $pdf = PDF::loadView('pdf');
         return $pdf->stream();
     }

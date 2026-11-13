@@ -72,27 +72,27 @@ class reporte_quincenalController extends Controller
 
 
         $id_usuario = Session::get('usuario_alumno');
-        $id_personal = DB::SelectOne('SELECT * FROM `gnral_personales` WHERE tipo_usuario='.$id_usuario.'');
+        $id_personal = DB::SelectOne('SELECT * FROM `gnral_personales` WHERE tipo_usuario= ?', [$id_usuario]);
         $id_personal = $id_personal->id_personal;
-       
+
         ///////variables de sesión////////
-        
+
         $arti = Session::get('id_articulo_solicitud');
         $desd_fecha = Session::get('id_desd_fech_solicitud');
         $hast_fecha = Session::get('id_hast_fech_solicitud');
 
         $articulos= DB::select('SELECT * from inc_articulos ORDER by nombre_articulo ASC');
-        $fecha=DB::select("SELECT inc_articulos.nombre_articulo, gnral_personales.nombre, inc_solicitudes.fecha_req, inc_solicitudes.id_solicitud from 
-        inc_solicitudes,inc_articulos, gnral_personales 
-        where inc_solicitudes.id_articulo=inc_articulos.id_articulo and inc_solicitudes.id_personal=gnral_personales.id_personal 
-        and fecha_req>='$desd_fecha' and fecha_req<= '$hast_fecha' 
-        and inc_solicitudes.id_articulo='$arti'");
+        $fecha=DB::select('SELECT inc_articulos.nombre_articulo, gnral_personales.nombre, inc_solicitudes.fecha_req, inc_solicitudes.id_solicitud from
+        inc_solicitudes,inc_articulos, gnral_personales
+        where inc_solicitudes.id_articulo=inc_articulos.id_articulo and inc_solicitudes.id_personal=gnral_personales.id_personal
+        and fecha_req>=? and fecha_req<= ?
+        and inc_solicitudes.id_articulo=?', [(string) ($desd_fecha), (string) ($hast_fecha), (string) ($arti)]);
         //dd($fecha);
-        $todos=DB::select("SELECT inc_articulos.nombre_articulo, gnral_personales.nombre, inc_solicitudes.fecha_req, inc_solicitudes.id_solicitud from 
-        inc_solicitudes,inc_articulos, gnral_personales 
-        where inc_solicitudes.id_articulo=inc_articulos.id_articulo and inc_solicitudes.id_personal=gnral_personales.id_personal 
-        and fecha_req>='$desd_fecha' and fecha_req<= '$hast_fecha' 
-        ORDER BY `inc_solicitudes`.`id_articulo` ASC");
+        $todos=DB::select('SELECT inc_articulos.nombre_articulo, gnral_personales.nombre, inc_solicitudes.fecha_req, inc_solicitudes.id_solicitud from
+        inc_solicitudes,inc_articulos, gnral_personales
+        where inc_solicitudes.id_articulo=inc_articulos.id_articulo and inc_solicitudes.id_personal=gnral_personales.id_personal
+        and fecha_req>=? and fecha_req<= ?
+        ORDER BY `inc_solicitudes`.`id_articulo` ASC', [(string) ($desd_fecha), (string) ($hast_fecha)]);
 
         $pdf->Ln(4);
         $pdf->SetFont('Arial','','8');

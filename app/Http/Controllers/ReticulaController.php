@@ -24,14 +24,14 @@ class ReticulaController extends Controller
 
         $reticulas = DB::table('gnral_reticulas')->where('id_carrera', $id_carrera)->get();
         $id_reticula2 =0;
-    
+
         return view('reticulas.materias',compact('semestres','reticulas','id_reticula2','carreras','id_carrera2'));
 
     }
     public function mostrar_reticulasd($id_carrera)
     {
-        $reticulas = DB::select('select *from gnral_reticulas where id_carrera='.$id_carrera.'');
-    
+        $reticulas = DB::select('select *from gnral_reticulas where id_carrera= ?', [$id_carrera]);
+
         return compact('reticulas');
     }
     public function agrega_reticulas($nombre_reticula)
@@ -49,26 +49,26 @@ class ReticulaController extends Controller
     {
         $id_carrera=Session::get('carrera');
         Session::put('id_reticulass',$id_reticula);
-        $semestres=DB::select('select DISTINCT gnral_materias.id_semestre,gnral_semestres.descripcion semestre FROM 
-            gnral_reticulas,gnral_materias,gnral_semestres WHERE gnral_reticulas.id_reticula='.$id_reticula.' AND
+        $semestres=DB::select('select DISTINCT gnral_materias.id_semestre,gnral_semestres.descripcion semestre FROM
+            gnral_reticulas,gnral_materias,gnral_semestres WHERE gnral_reticulas.id_reticula= ? AND
             gnral_materias.id_reticula=gnral_reticulas.id_reticula AND
-            gnral_materias.id_semestre=gnral_semestres.id_semestre order by gnral_semestres.id_semestre');
+            gnral_materias.id_semestre=gnral_semestres.id_semestre order by gnral_semestres.id_semestre', [$id_reticula]);
         $datos_semestres=array();
 
         if($semestres!=null)
         {
-            foreach($semestres as $semes) 
-            { 
+            foreach($semestres as $semes)
+            {
                 $nombre['semestre']= $semes->semestre;
                 $nombre['id_semestre']= $semes->id_semestre;
 
                 $materias=DB::select('select gnral_materias.id_materia,gnral_materias.nombre,
                 gnral_materias.clave,gnral_materias.hrs_practicas,gnral_materias.hrs_teoria,gnral_materias.creditos,
-                gnral_materias.id_semestre ,gnral_materias.id_reticula from 
-                gnral_materias,gnral_reticulas WHERE 
-                gnral_materias.id_reticula='.$id_reticula.' AND 
-                gnral_materias.id_semestre='.$semes->id_semestre.' AND 
-                gnral_materias.id_reticula=gnral_reticulas.id_reticula');
+                gnral_materias.id_semestre ,gnral_materias.id_reticula from
+                gnral_materias,gnral_reticulas WHERE
+                gnral_materias.id_reticula= ? AND
+                gnral_materias.id_semestre= ? AND
+                gnral_materias.id_reticula=gnral_reticulas.id_reticula', [$id_reticula, $semes->id_semestre]);
                 $nombre_materias=array();
 
                 foreach($materias as $mates)
@@ -91,26 +91,26 @@ class ReticulaController extends Controller
     }
     public function mostrar_reticulas_direc($id_carrera,$id_reticula)
     {
-        $semestres=DB::select('select DISTINCT gnral_materias.id_semestre,gnral_semestres.descripcion semestre FROM 
-            gnral_reticulas,gnral_materias,gnral_semestres WHERE gnral_reticulas.id_reticula='.$id_reticula.' AND
+        $semestres=DB::select('select DISTINCT gnral_materias.id_semestre,gnral_semestres.descripcion semestre FROM
+            gnral_reticulas,gnral_materias,gnral_semestres WHERE gnral_reticulas.id_reticula= ? AND
             gnral_materias.id_reticula=gnral_reticulas.id_reticula AND
-            gnral_materias.id_semestre=gnral_semestres.id_semestre order by gnral_semestres.id_semestre');
+            gnral_materias.id_semestre=gnral_semestres.id_semestre order by gnral_semestres.id_semestre', [$id_reticula]);
         $datos_semestres=array();
 
         if($semestres!=null)
         {
-            foreach($semestres as $semes) 
-            { 
+            foreach($semestres as $semes)
+            {
                 $nombre['semestre']= $semes->semestre;
                 $nombre['id_semestre']= $semes->id_semestre;
 
                 $materias=DB::select('select gnral_materias.id_materia,gnral_materias.nombre,
                 gnral_materias.clave,gnral_materias.hrs_practicas,gnral_materias.hrs_teoria,gnral_materias.creditos,
-                gnral_materias.id_semestre ,gnral_materias.id_reticula from 
-                gnral_materias,gnral_reticulas WHERE 
-                gnral_materias.id_reticula='.$id_reticula.' AND 
-                gnral_materias.id_semestre='.$semes->id_semestre.' AND 
-                gnral_materias.id_reticula=gnral_reticulas.id_reticula');
+                gnral_materias.id_semestre ,gnral_materias.id_reticula from
+                gnral_materias,gnral_reticulas WHERE
+                gnral_materias.id_reticula= ? AND
+                gnral_materias.id_semestre= ? AND
+                gnral_materias.id_reticula=gnral_reticulas.id_reticula', [$id_reticula, $semes->id_semestre]);
                 $nombre_materias=array();
 
                 foreach($materias as $mates)
@@ -149,7 +149,7 @@ class ReticulaController extends Controller
         $hrsp=$request->get('hrs_p');
         $hrst=$request->get('hrs_t');
 
-        if ($hrst==0 && $hrsp==0) 
+        if ($hrst==0 && $hrsp==0)
         {
            Session::put('id_reticulas', $request->get('reticula'));
             $id_reticula = Session::get('id_reticulas');
@@ -191,11 +191,11 @@ class ReticulaController extends Controller
         $id_reticula1 = Session::get('id_reticulass');
         $comprueba = DB::selectOne('select DISTINCT gnral_materias.nombre FROM
                                 hrs_rhps,gnral_materias,gnral_materias_perfiles,gnral_horas_profesores WHERE
-                                gnral_materias_perfiles.id_materia='.$id_materia.' AND
+                                gnral_materias_perfiles.id_materia= ? AND
                                 gnral_horas_profesores.id_materia_perfil=gnral_materias_perfiles.id_materia_perfil AND
                                 gnral_materias_perfiles.id_materia=gnral_materias.id_materia AND
-                                hrs_rhps.id_hrs_profesor=gnral_horas_profesores.id_hrs_profesor');
-        if ($comprueba==null) 
+                                hrs_rhps.id_hrs_profesor=gnral_horas_profesores.id_hrs_profesor', [$id_materia]);
+        if ($comprueba==null)
         {
             $no_ver=0;
             Session::put('no_ver',$no_ver);
@@ -224,7 +224,7 @@ class ReticulaController extends Controller
             'creditos' => 'required'
         ]);
         $no_ver = Session::get('no_ver');
-        if ($no_ver==0) 
+        if ($no_ver==0)
         {
             $materias = array(
             'nombre' => mb_strtoupper($request->get('nombre_materia'),'utf-8'),
@@ -256,7 +256,7 @@ class ReticulaController extends Controller
         $id_reticula2 = Session::get('id_reticulass');
         $semestres = DB::select('select *from gnral_semestres order by id_semestre');
         $reticulas = DB::table('gnral_reticulas')->where('id_carrera', $id_carrera)->get();
-    
+
         return view('reticulas.materias',compact('semestres','reticulas','id_reticula2'));
     }
 
@@ -267,7 +267,7 @@ class ReticulaController extends Controller
         $id_reticula2 = Session::get('id_reticulass');
         $semestres = DB::select('select *from gnral_semestres order by id_semestre');
         $reticulas = DB::table('gnral_reticulas')->where('id_carrera', $id_carrera)->get();
-    
+
         return view('reticulas.materias',compact('semestres','reticulas','id_reticula2'));
     }
 }

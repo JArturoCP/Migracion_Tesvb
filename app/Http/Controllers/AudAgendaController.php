@@ -821,7 +821,7 @@ class AudAgendaController extends Controller
     public function destroy($id)
     {
      //   dd($id);
-        $data=$_REQUEST;
+        $data=request()->all();
         if ($data['tipo']==1){
             AudAgendaArea::where('id_agenda',$id)->delete();
             AudAgendaAuditor::where('id_agenda',$id)->delete();

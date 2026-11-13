@@ -10,27 +10,27 @@ use Session;
 class Ti_autorizar_doc_departamentoController extends Controller
 {
     public function carrera_doc_requisitos(){
-        $carreras=DB::select('SELECT * FROM `gnral_carreras` WHERE `id_carrera` 
+        $carreras=DB::select('SELECT * FROM `gnral_carreras` WHERE `id_carrera`
                                          NOT IN (9,11,15) ');
         return view('titulacion.jefe_titulacion.autorizar_doc_requisitos.carrera_doc_requisitos',compact('carreras'));
 
     }
     public function index($id_carrera){
-        $carrera=DB::selectOne('SELECT * FROM `gnral_carreras` WHERE `id_carrera`='.$id_carrera.'');
+        $carrera=DB::selectOne('SELECT * FROM `gnral_carreras` WHERE `id_carrera`= ?', [$id_carrera]);
 
         $registros_titulacion=DB::select('SELECT ti_requisitos_titulacion.id_alumno,ti_requisitos_titulacion.fecha_registro,
        ti_requisitos_titulacion.id_estado_enviado,ti_requisitos_titulacion.correo_electronico
-FROM ti_requisitos_titulacion, ti_descuentos_alum,gnral_alumnos 
-WHERE ti_requisitos_titulacion.id_alumno= ti_descuentos_alum.id_alumno  and 
-      gnral_alumnos.id_alumno= ti_descuentos_alum.id_alumno and gnral_alumnos.id_carrera ='.$id_carrera.'
-                                                    and ti_requisitos_titulacion.id_estado_enviado IN(1,3)   ORDER BY ti_requisitos_titulacion.fecha_registro ASC ');
+FROM ti_requisitos_titulacion, ti_descuentos_alum,gnral_alumnos
+WHERE ti_requisitos_titulacion.id_alumno= ti_descuentos_alum.id_alumno  and
+      gnral_alumnos.id_alumno= ti_descuentos_alum.id_alumno and gnral_alumnos.id_carrera = ?
+                                                    and ti_requisitos_titulacion.id_estado_enviado IN(1,3)   ORDER BY ti_requisitos_titulacion.fecha_registro ASC ', [$id_carrera]);
         $array_alumnos = array();
         foreach ($registros_titulacion as $registro){
 
             $alumno=DB::selectOne('SELECT gnral_alumnos.id_alumno,gnral_alumnos.cuenta,gnral_alumnos.nombre,
        gnral_alumnos.apaterno,gnral_alumnos.amaterno, gnral_carreras.nombre carrera
-       FROM gnral_carreras,gnral_alumnos where gnral_alumnos.id_carrera=gnral_carreras.id_carrera 
-      and gnral_alumnos.id_alumno='.$registro->id_alumno.'');
+       FROM gnral_carreras,gnral_alumnos where gnral_alumnos.id_carrera=gnral_carreras.id_carrera
+      and gnral_alumnos.id_alumno= ?', [$registro->id_alumno]);
 
             $dat_alumnos['id_alumno'] = $alumno->id_alumno;
             $dat_alumnos['cuenta'] = $alumno->cuenta;
@@ -45,20 +45,20 @@ WHERE ti_requisitos_titulacion.id_alumno= ti_descuentos_alum.id_alumno  and
         return view('titulacion.jefe_titulacion.autorizar_doc_requisitos.autorizar_requisitos_alumno',compact('array_alumnos','id_carrera','carrera'));
     }
     public function autorizar_alumno_doc_requisitos($id_carrera){
-        $carrera=DB::selectOne('SELECT * FROM `gnral_carreras` WHERE `id_carrera`='.$id_carrera.'');
+        $carrera=DB::selectOne('SELECT * FROM `gnral_carreras` WHERE `id_carrera`= ?', [$id_carrera]);
 
         $registros_titulacion=DB::select('SELECT ti_requisitos_titulacion.id_alumno,ti_requisitos_titulacion.fecha_registro,
        ti_requisitos_titulacion.id_estado_enviado,ti_requisitos_titulacion.correo_electronico
 FROM ti_requisitos_titulacion, ti_descuentos_alum, gnral_alumnos WHERE ti_requisitos_titulacion.id_alumno= ti_descuentos_alum.id_alumno
-                                                                   and gnral_alumnos.id_alumno = ti_descuentos_alum.id_alumno and gnral_alumnos.id_carrera='.$id_carrera.'
-                                                    and ti_requisitos_titulacion.id_estado_enviado= 4 and ti_requisitos_titulacion.id_liberado_titulado=0   ORDER BY ti_requisitos_titulacion.fecha_registro ASC ');
+                                                                   and gnral_alumnos.id_alumno = ti_descuentos_alum.id_alumno and gnral_alumnos.id_carrera= ?
+                                                    and ti_requisitos_titulacion.id_estado_enviado= 4 and ti_requisitos_titulacion.id_liberado_titulado=0   ORDER BY ti_requisitos_titulacion.fecha_registro ASC ', [$id_carrera]);
         $array_alumnos = array();
         foreach ($registros_titulacion as $registro){
 
             $alumno=DB::selectOne('SELECT gnral_alumnos.id_alumno,gnral_alumnos.cuenta,gnral_alumnos.nombre,
        gnral_alumnos.apaterno,gnral_alumnos.amaterno, gnral_carreras.nombre carrera
-       FROM gnral_carreras,gnral_alumnos where gnral_alumnos.id_carrera=gnral_carreras.id_carrera 
-      and gnral_alumnos.id_alumno='.$registro->id_alumno.'');
+       FROM gnral_carreras,gnral_alumnos where gnral_alumnos.id_carrera=gnral_carreras.id_carrera
+      and gnral_alumnos.id_alumno= ?', [$registro->id_alumno]);
 
             $dat_alumnos['id_alumno'] = $alumno->id_alumno;
             $dat_alumnos['cuenta'] = $alumno->cuenta;
@@ -73,22 +73,22 @@ FROM ti_requisitos_titulacion, ti_descuentos_alum, gnral_alumnos WHERE ti_requis
 
     }
     public function proceso_modificacion_doc_requisitos($id_carrera){
-        $carrera=DB::selectOne('SELECT * FROM `gnral_carreras` WHERE `id_carrera`='.$id_carrera.'');
+        $carrera=DB::selectOne('SELECT * FROM `gnral_carreras` WHERE `id_carrera`= ?', [$id_carrera]);
 
         $registros_titulacion=DB::select('SELECT ti_requisitos_titulacion.id_alumno,ti_requisitos_titulacion.fecha_registro,
-       ti_requisitos_titulacion.id_estado_enviado,ti_requisitos_titulacion.correo_electronico 
-FROM ti_requisitos_titulacion, ti_descuentos_alum, gnral_alumnos WHERE 
-ti_requisitos_titulacion.id_alumno= ti_descuentos_alum.id_alumno 
-and gnral_alumnos.id_alumno = ti_descuentos_alum.id_alumno and 
-gnral_alumnos.id_carrera='.$id_carrera.'  and ti_requisitos_titulacion.id_estado_enviado=2 
-         ORDER BY ti_requisitos_titulacion.fecha_registro ASC ');
+       ti_requisitos_titulacion.id_estado_enviado,ti_requisitos_titulacion.correo_electronico
+FROM ti_requisitos_titulacion, ti_descuentos_alum, gnral_alumnos WHERE
+ti_requisitos_titulacion.id_alumno= ti_descuentos_alum.id_alumno
+and gnral_alumnos.id_alumno = ti_descuentos_alum.id_alumno and
+gnral_alumnos.id_carrera= ?  and ti_requisitos_titulacion.id_estado_enviado=2
+         ORDER BY ti_requisitos_titulacion.fecha_registro ASC ', [$id_carrera]);
         $array_alumnos = array();
         foreach ($registros_titulacion as $registro){
 
             $alumno=DB::selectOne('SELECT gnral_alumnos.id_alumno,gnral_alumnos.cuenta,gnral_alumnos.nombre,
        gnral_alumnos.apaterno,gnral_alumnos.amaterno, gnral_carreras.nombre carrera
-       FROM gnral_carreras,gnral_alumnos where gnral_alumnos.id_carrera=gnral_carreras.id_carrera 
-      and gnral_alumnos.id_alumno='.$registro->id_alumno.'');
+       FROM gnral_carreras,gnral_alumnos where gnral_alumnos.id_carrera=gnral_carreras.id_carrera
+      and gnral_alumnos.id_alumno= ?', [$registro->id_alumno]);
 
             $dat_alumnos['id_alumno'] = $alumno->id_alumno;
             $dat_alumnos['cuenta'] = $alumno->cuenta;
@@ -105,8 +105,8 @@ gnral_alumnos.id_carrera='.$id_carrera.'  and ti_requisitos_titulacion.id_estado
     public function revisar_doc_requisitos($id_alumno){
         $alumno=DB::selectOne('SELECT gnral_alumnos.id_carrera, gnral_alumnos.id_alumno,gnral_alumnos.cuenta,gnral_alumnos.nombre,
        gnral_alumnos.apaterno,gnral_alumnos.amaterno, gnral_carreras.nombre carrera
-       FROM gnral_carreras,gnral_alumnos where gnral_alumnos.id_carrera=gnral_carreras.id_carrera 
-      and gnral_alumnos.id_alumno='.$id_alumno.'');
+       FROM gnral_carreras,gnral_alumnos where gnral_alumnos.id_carrera=gnral_carreras.id_carrera
+      and gnral_alumnos.id_alumno= ?', [$id_alumno]);
         /* $documentacion=DB::selectOne('SELECT * FROM `ti_requisitos_titulacion` WHERE `id_alumno` = '.$id_alumno.' ');
          $alumno=DB::selectOne('SELECT * FROM `gnral_alumnos` WHERE `id_alumno` = '.$id_alumno.' ORDER BY `promedio_preparatoria` DESC ');
          $descuento=DB::selectOne('SELECT ti_descuentos_alum.*,ti_tipos_desc.tipo_desc from ti_descuentos_alum,ti_tipos_desc
@@ -118,8 +118,8 @@ gnral_alumnos.id_carrera='.$id_carrera.'  and ti_requisitos_titulacion.id_estado
     public function ver_documentacion_autorizada($id_alumno){
         $alumno=DB::selectOne('SELECT gnral_alumnos.id_carrera,gnral_alumnos.id_alumno,gnral_alumnos.cuenta,gnral_alumnos.nombre,
        gnral_alumnos.apaterno,gnral_alumnos.amaterno, gnral_carreras.nombre carrera
-       FROM gnral_carreras,gnral_alumnos where gnral_alumnos.id_carrera=gnral_carreras.id_carrera 
-      and gnral_alumnos.id_alumno='.$id_alumno.'');
+       FROM gnral_carreras,gnral_alumnos where gnral_alumnos.id_carrera=gnral_carreras.id_carrera
+      and gnral_alumnos.id_alumno= ?', [$id_alumno]);
         /* $documentacion=DB::selectOne('SELECT * FROM `ti_requisitos_titulacion` WHERE `id_alumno` = '.$id_alumno.' ');
          $alumno=DB::selectOne('SELECT * FROM `gnral_alumnos` WHERE `id_alumno` = '.$id_alumno.' ORDER BY `promedio_preparatoria` DESC ');
          $descuento=DB::selectOne('SELECT ti_descuentos_alum.*,ti_tipos_desc.tipo_desc from ti_descuentos_alum,ti_tipos_desc
@@ -330,9 +330,9 @@ gnral_alumnos.id_carrera='.$id_carrera.'  and ti_requisitos_titulacion.id_estado
     gnral_unidad_personal.id_unidad_admin = 28 and
      gnral_personales.id_personal=gnral_unidad_personal.id_personal ');
         $alumno=DB::selectOne('SELECT gnral_alumnos.id_carrera,gnral_alumnos.cuenta,gnral_alumnos.nombre,
-       gnral_alumnos.apaterno,gnral_alumnos.amaterno,ti_requisitos_titulacion.correo_electronico 
+       gnral_alumnos.apaterno,gnral_alumnos.amaterno,ti_requisitos_titulacion.correo_electronico
 from gnral_alumnos,ti_requisitos_titulacion where gnral_alumnos.id_alumno = ti_requisitos_titulacion.id_alumno
-                            and ti_requisitos_titulacion.id_requisitos='.$id_requisitos.'');
+                            and ti_requisitos_titulacion.id_requisitos= ?', [$id_requisitos]);
         $nombre_alumno="Estudiante: ".$alumno->cuenta.' '.$alumno->nombre.' '.$alumno->apaterno.' '.$alumno->amaterno;
         $correo_alumno=$alumno->correo_electronico;
 
@@ -452,9 +452,9 @@ from gnral_alumnos,ti_requisitos_titulacion where gnral_alumnos.id_alumno = ti_r
     gnral_unidad_personal.id_unidad_admin = 28 and
      gnral_personales.id_personal=gnral_unidad_personal.id_personal ');
         $alumno=DB::selectOne('SELECT gnral_alumnos.cuenta,gnral_alumnos.nombre,
-       gnral_alumnos.apaterno,gnral_alumnos.amaterno,ti_requisitos_titulacion.correo_electronico 
+       gnral_alumnos.apaterno,gnral_alumnos.amaterno,ti_requisitos_titulacion.correo_electronico
 from gnral_alumnos,ti_requisitos_titulacion where gnral_alumnos.id_alumno = ti_requisitos_titulacion.id_alumno
-                            and ti_requisitos_titulacion.id_requisitos='.$id_requisitos.'');
+                            and ti_requisitos_titulacion.id_requisitos= ?', [$id_requisitos]);
         $nombre_alumno=$alumno->cuenta.' '.$alumno->nombre.' '.$alumno->apaterno.' '.$alumno->amaterno;
         $correo_alumno=$alumno->correo_electronico;
 
@@ -509,9 +509,9 @@ from gnral_alumnos,ti_requisitos_titulacion where gnral_alumnos.id_alumno = ti_r
     gnral_unidad_personal.id_unidad_admin = 28 and
      gnral_personales.id_personal=gnral_unidad_personal.id_personal ');
         $alumno=DB::selectOne('SELECT gnral_alumnos.id_carrera,gnral_alumnos.id_alumno,gnral_alumnos.cuenta,gnral_alumnos.nombre,
-       gnral_alumnos.apaterno,gnral_alumnos.amaterno,ti_requisitos_titulacion.correo_electronico 
+       gnral_alumnos.apaterno,gnral_alumnos.amaterno,ti_requisitos_titulacion.correo_electronico
 from gnral_alumnos,ti_requisitos_titulacion where gnral_alumnos.id_alumno = ti_requisitos_titulacion.id_alumno
-                            and ti_requisitos_titulacion.id_requisitos='.$id_requisitos.'');
+                            and ti_requisitos_titulacion.id_requisitos= ?', [$id_requisitos]);
 
         $nombre_alumno="Estudiante: ".$alumno->cuenta.' '.$alumno->nombre.' '.$alumno->apaterno.' '.$alumno->amaterno;
         $correo_alumno=$alumno->correo_electronico;

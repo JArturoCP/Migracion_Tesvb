@@ -10,7 +10,7 @@ class Tu_encuestas_tutoriasController extends Controller
         return view('encuesta_tutorias.encuesta_tutorias');
     }
     public function guardar_encuesta(Request $request){
-        dd($request);
+        abort(501, 'Funcionalidad no disponible.');
 
     }
 }

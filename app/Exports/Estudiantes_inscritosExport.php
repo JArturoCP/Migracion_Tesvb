@@ -47,22 +47,22 @@ class Estudiantes_inscritosExport implements FromArray, WithTitle
         {
             $dat_semestres['id_semestre']=$semestre->id_semestre;
             $dat_semestres['nom_semestre']=$semestre->descripcion;
-            $datos_inscritos=DB::select("SELECT * FROM (SELECT COUNT(gnral_alumnos.id_alumno)Masculino FROM 
+            $datos_inscritos=DB::select('SELECT * FROM (SELECT COUNT(gnral_alumnos.id_alumno)Masculino FROM
                                     gnral_alumnos,eva_validacion_de_cargas WHERE
-                                      gnral_alumnos.id_carrera=$this->id_carrera AND
-                                      gnral_alumnos.id_semestre=$semestre->id_semestre AND
-                                      eva_validacion_de_cargas.id_periodo=$periodo AND
-                                      eva_validacion_de_cargas.estado_validacion IN (2,8,9) and 
+                                      gnral_alumnos.id_carrera= ? AND
+                                      gnral_alumnos.id_semestre= ? AND
+                                      eva_validacion_de_cargas.id_periodo= ? AND
+                                      eva_validacion_de_cargas.estado_validacion IN (2,8,9) and
                eva_validacion_de_cargas.id_alumno=gnral_alumnos.id_alumno and
-                                      gnral_alumnos.genero='M') t1,
+                                      gnral_alumnos.genero=\'M\') t1,
                                   (SELECT COUNT(gnral_alumnos.id_alumno)Femenino FROM
                                       gnral_alumnos,eva_validacion_de_cargas WHERE
-                                      gnral_alumnos.id_carrera=$this->id_carrera AND
-                                      gnral_alumnos.id_semestre=$semestre->id_semestre AND
-                                      eva_validacion_de_cargas.id_periodo=$periodo AND
-                                      eva_validacion_de_cargas.estado_validacion IN (2,8,9) and 
+                                      gnral_alumnos.id_carrera= ? AND
+                                      gnral_alumnos.id_semestre= ? AND
+                                      eva_validacion_de_cargas.id_periodo= ? AND
+                                      eva_validacion_de_cargas.estado_validacion IN (2,8,9) and
                                      eva_validacion_de_cargas.id_alumno=gnral_alumnos.id_alumno and
-                                      gnral_alumnos.genero='F') t2");
+                                      gnral_alumnos.genero=\'F\') t2', [$this->id_carrera, $semestre->id_semestre, $periodo, $this->id_carrera, $semestre->id_semestre, $periodo]);
             $array_datos=array();
             foreach ($datos_inscritos as $dato)
             {

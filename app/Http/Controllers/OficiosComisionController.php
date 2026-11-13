@@ -208,20 +208,20 @@ class OficiosComisionController extends Controller
     }
     public function  editar($id_oficio){
         //editar oficio
-        $conaut= DB::selectOne('SELECT COUNT(oc_oficio_personal.id_oficio_personal) personal from oc_oficio_personal where  oc_oficio_personal.id_oficio='.$id_oficio.'');
+        $conaut= DB::selectOne('SELECT COUNT(oc_oficio_personal.id_oficio_personal) personal from oc_oficio_personal where  oc_oficio_personal.id_oficio= ?', [$id_oficio]);
         $conaut=$conaut->personal;
-        $oficio= DB::selectOne('SELECT * FROM oc_oficio WHERE  oc_oficio.id_oficio='.$id_oficio.'');
+        $oficio= DB::selectOne('SELECT * FROM oc_oficio WHERE  oc_oficio.id_oficio= ?', [$id_oficio]);
         $lugares = Oc_lugar::all();
         if ($conaut>0){
             $mensaje=1;
 $comisionadosauto=DB::select('SELECT gnral_personales.nombre,abreviaciones.titulo,
 oc_oficio_personal.viaticos,oc_oficio_personal.automovil,
-oc_oficio_personal.id_personal,oc_oficio_personal.id_oficio_personal 
+oc_oficio_personal.id_personal,oc_oficio_personal.id_oficio_personal
 from oc_oficio_personal,gnral_personales,abreviaciones_prof,abreviaciones
- WHERE  oc_oficio_personal.id_personal=gnral_personales.id_personal and 
-  gnral_personales.id_personal=abreviaciones_prof.id_personal and 
+ WHERE  oc_oficio_personal.id_personal=gnral_personales.id_personal and
+  gnral_personales.id_personal=abreviaciones_prof.id_personal and
   abreviaciones_prof.id_abreviacion=abreviaciones.id_abreviacion and
-   oc_oficio_personal.id_oficio='.$id_oficio.'');
+   oc_oficio_personal.id_oficio= ?', [$id_oficio]);
             return view('comision_oficio.partialsof.edit_comision',compact('lugares','comisionadosauto'))->with(['oficio'=>$oficio,'mensaje'=>$mensaje]);
         }
         else{
@@ -235,18 +235,18 @@ from oc_oficio_personal,gnral_personales,abreviaciones_prof,abreviaciones
     public function  editar_oficio($id_oficio){
         //editar oficio
 
-        $oficio= DB::selectOne('SELECT * FROM oc_oficio WHERE  oc_oficio.id_oficio='.$id_oficio.'');
+        $oficio= DB::selectOne('SELECT * FROM oc_oficio WHERE  oc_oficio.id_oficio= ?', [$id_oficio]);
         $lugares = Oc_lugar::all();
 
             $mensaje=1;
             $comisionadosauto=DB::select('SELECT gnral_personales.nombre,abreviaciones.titulo,
 oc_oficio_personal.viaticos,oc_oficio_personal.automovil,
-oc_oficio_personal.id_personal,oc_oficio_personal.id_oficio_personal 
+oc_oficio_personal.id_personal,oc_oficio_personal.id_oficio_personal
 from oc_oficio_personal,gnral_personales,abreviaciones_prof,abreviaciones
- WHERE  oc_oficio_personal.id_personal=gnral_personales.id_personal and 
-  gnral_personales.id_personal=abreviaciones_prof.id_personal and 
+ WHERE  oc_oficio_personal.id_personal=gnral_personales.id_personal and
+  gnral_personales.id_personal=abreviaciones_prof.id_personal and
   abreviaciones_prof.id_abreviacion=abreviaciones.id_abreviacion and
-   oc_oficio_personal.id_oficio='.$id_oficio.'');
+   oc_oficio_personal.id_oficio= ?', [$id_oficio]);
             return view('comision_oficio.partialsof.editar_oficio_comision',compact('lugares','comisionadosauto'))->with(['oficio'=>$oficio,'mensaje'=>$mensaje]);
 
 
@@ -310,7 +310,7 @@ return back();
         $id_lugar_r = $request->input("selectLugar_r");
         $hora=date("Y-m-d H:i");
 
-        $oficios = DB::selectOne('SELECT oc_oficio.id_oficio,oc_oficio.fecha_salida,oc_oficio.fecha_regreso from oc_oficio WHERE oc_oficio.id_oficio=' . $id_oficio . '');
+        $oficios = DB::selectOne('SELECT oc_oficio.id_oficio,oc_oficio.fecha_salida,oc_oficio.fecha_regreso from oc_oficio WHERE oc_oficio.id_oficio= ?', [$id_oficio]);
         $fechasalida = $oficios->fecha_salida;
         $fecharegreso = $oficios->fecha_regreso;
         $id_usuario = Session::get('usuario_alumno');
@@ -334,19 +334,19 @@ return back();
 
         }
         else{
-            $conaut= DB::selectOne('SELECT COUNT(oc_oficio_personal.id_oficio_personal) personal from oc_oficio_personal,oc_oficio_vehiculo where oc_oficio_personal.id_oficio_personal=oc_oficio_vehiculo.id_oficio_personal and oc_oficio_personal.id_oficio='.$id_oficio.'');
+            $conaut= DB::selectOne('SELECT COUNT(oc_oficio_personal.id_oficio_personal) personal from oc_oficio_personal,oc_oficio_vehiculo where oc_oficio_personal.id_oficio_personal=oc_oficio_vehiculo.id_oficio_personal and oc_oficio_personal.id_oficio= ?', [$id_oficio]);
              if($conaut->personal >0){
-                 $personalauto= DB::select('SELECT oc_oficio_personal.id_oficio_personal from oc_vehiculo,oc_oficio_vehiculo,oc_oficio_personal,gnral_personales,abreviaciones_prof,abreviaciones WHERE oc_vehiculo.id_vehiculo=oc_oficio_vehiculo.id_vehiculo and oc_oficio_vehiculo.id_oficio_personal=oc_oficio_personal.id_oficio_personal and oc_oficio_personal.id_personal=gnral_personales.id_personal and gnral_personales.id_personal=abreviaciones_prof.id_personal and abreviaciones_prof.id_abreviacion=abreviaciones.id_abreviacion and oc_oficio_personal.id_oficio='.$id_oficio.'');
+                 $personalauto= DB::select('SELECT oc_oficio_personal.id_oficio_personal from oc_vehiculo,oc_oficio_vehiculo,oc_oficio_personal,gnral_personales,abreviaciones_prof,abreviaciones WHERE oc_vehiculo.id_vehiculo=oc_oficio_vehiculo.id_vehiculo and oc_oficio_vehiculo.id_oficio_personal=oc_oficio_personal.id_oficio_personal and oc_oficio_personal.id_personal=gnral_personales.id_personal and gnral_personales.id_personal=abreviaciones_prof.id_personal and abreviaciones_prof.id_abreviacion=abreviaciones.id_abreviacion and oc_oficio_personal.id_oficio= ?', [$id_oficio]);
                  foreach($personalauto as $personal){
-                     DB::delete('DELETE FROM oc_oficio_vehiculo WHERE id_oficio_personal='.$personal->id_oficio_personal.'');
+                     DB::delete('DELETE FROM oc_oficio_vehiculo WHERE id_oficio_personal= ?', [$personal->id_oficio_personal]);
                      oc_oficio_personal::destroy($personal->id_oficio_personal);
 
                  }
              }
-            $sinaut= DB::selectOne('SELECT COUNT(oc_oficio_personal.id_oficio_personal) personal from oc_oficio_personal where  oc_oficio_personal.automovil=1 and  oc_oficio_personal.id_oficio='.$id_oficio.'');
+            $sinaut= DB::selectOne('SELECT COUNT(oc_oficio_personal.id_oficio_personal) personal from oc_oficio_personal where  oc_oficio_personal.automovil=1 and  oc_oficio_personal.id_oficio= ?', [$id_oficio]);
            $sinaut=$sinaut->personal;
             if($sinaut >0){
-                $personalsinauto= DB::select('SELECT oc_oficio_personal.id_oficio_personal from oc_oficio_personal,gnral_personales,abreviaciones_prof,abreviaciones WHERE oc_oficio_personal.automovil=1 and   oc_oficio_personal.id_personal=gnral_personales.id_personal and gnral_personales.id_personal=abreviaciones_prof.id_personal and abreviaciones_prof.id_abreviacion=abreviaciones.id_abreviacion and oc_oficio_personal.id_oficio='.$id_oficio.'');
+                $personalsinauto= DB::select('SELECT oc_oficio_personal.id_oficio_personal from oc_oficio_personal,gnral_personales,abreviaciones_prof,abreviaciones WHERE oc_oficio_personal.automovil=1 and   oc_oficio_personal.id_personal=gnral_personales.id_personal and gnral_personales.id_personal=abreviaciones_prof.id_personal and abreviaciones_prof.id_abreviacion=abreviaciones.id_abreviacion and oc_oficio_personal.id_oficio= ?', [$id_oficio]);
                 foreach($personalsinauto as $personal){
                     oc_oficio_personal::destroy($personal->id_oficio_personal);
                       }
@@ -375,18 +375,18 @@ return back();
         //registro de  comisionados de unidades
         $id_usuario = Session::get('usuario_alumno');
         $estados = Estados::all();
-        $encontrado= DB::selectOne('SELECT oc_oficio.id_oficio,1 numero FROM oc_oficio,oc_oficio_personal WHERE oc_oficio_personal.id_oficio=oc_oficio.id_oficio AND oc_oficio.id_oficio='.$id_oficio.' UNION Select oc_oficio.id_oficio,0 numero from oc_oficio where oc_oficio.id_oficio='.$id_oficio.' and not exists (select oc_oficio_personal.id_oficio from oc_oficio_personal where oc_oficio.id_oficio = oc_oficio_personal.id_oficio)');
+        $encontrado= DB::selectOne('SELECT oc_oficio.id_oficio,1 numero FROM oc_oficio,oc_oficio_personal WHERE oc_oficio_personal.id_oficio=oc_oficio.id_oficio AND oc_oficio.id_oficio= ? UNION Select oc_oficio.id_oficio,0 numero from oc_oficio where oc_oficio.id_oficio= ? and not exists (select oc_oficio_personal.id_oficio from oc_oficio_personal where oc_oficio.id_oficio = oc_oficio_personal.id_oficio)', [$id_oficio, $id_oficio]);
         $encontrado=$encontrado->numero;
-        $dependencias_r=DB::selectOne('SELECT count(oc_depend_domicilio.id_depend_domicilio) dependenciasr  FROM oc_depend_domicilio WHERE oc_depend_domicilio.id_oficio ='.$id_oficio.'');
+        $dependencias_r=DB::selectOne('SELECT count(oc_depend_domicilio.id_depend_domicilio) dependenciasr  FROM oc_depend_domicilio WHERE oc_depend_domicilio.id_oficio = ?', [$id_oficio]);
 
     $solicitudes=DB::selectOne('SELECT oc_oficio.id_oficio,oc_oficio.desc_comision,
-    oc_oficio.fecha_salida,oc_oficio.fecha_regreso,oc_oficio.hora_s,oc_oficio.hora_r 
-    from oc_oficio WHERE oc_oficio.id_oficio='.$id_oficio.'');
-    $dependencias= DB::select('SELECT oc_depend_domicilio.*,gnral_municipios.nombre_municipio,gnral_estados.nombre_estado FROM oc_depend_domicilio,gnral_estados,gnral_municipios WHERE oc_depend_domicilio.id_municipio=gnral_municipios.id_municipio and gnral_municipios.id_estado=gnral_estados.id_estado and oc_depend_domicilio.id_oficio= '.$id_oficio.'');
-        $lugar_s=DB::selectOne('SELECT oc_lugar.descripcion from oc_oficio,oc_lugar WHERE oc_oficio.id_lugar_salida=oc_lugar.id_lugar and oc_oficio.id_oficio='.$id_oficio.'');
-        $lugar_r=DB::selectOne('SELECT oc_lugar.descripcion from oc_oficio,oc_lugar WHERE oc_oficio.id_lugar_entrada=oc_lugar.id_lugar and oc_oficio.id_oficio='.$id_oficio.'');
-        $comisionados=DB::select('SELECT oc_vehiculo.modelo,oc_vehiculo.placas,oc_oficio_vehiculo.licencia,gnral_personales.nombre,abreviaciones.titulo,oc_oficio_personal.viaticos,oc_oficio_personal.automovil,oc_oficio_personal.id_personal,oc_oficio_personal.id_oficio_personal from oc_vehiculo,oc_oficio_vehiculo,oc_oficio_personal,gnral_personales,abreviaciones_prof,abreviaciones WHERE oc_vehiculo.id_vehiculo=oc_oficio_vehiculo.id_vehiculo and oc_oficio_vehiculo.id_oficio_personal=oc_oficio_personal.id_oficio_personal and oc_oficio_personal.id_personal=gnral_personales.id_personal and gnral_personales.id_personal=abreviaciones_prof.id_personal and abreviaciones_prof.id_abreviacion=abreviaciones.id_abreviacion and oc_oficio_personal.id_oficio='.$id_oficio.' and oc_oficio_personal.automovil=2 UNION SELECT 0,0,0,gnral_personales.nombre,abreviaciones.titulo,oc_oficio_personal.viaticos,oc_oficio_personal.automovil,oc_oficio_personal.id_personal,oc_oficio_personal.id_oficio_personal from oc_oficio_personal,gnral_personales,abreviaciones_prof,abreviaciones WHERE oc_oficio_personal.id_personal=gnral_personales.id_personal and gnral_personales.id_personal=abreviaciones_prof.id_personal and abreviaciones_prof.id_abreviacion=abreviaciones.id_abreviacion and oc_oficio_personal.automovil=1 and oc_oficio_personal.id_oficio='.$id_oficio.'');
-        $oficios=DB::selectOne('SELECT oc_oficio.id_oficio,oc_oficio.fecha_salida,oc_oficio.fecha_regreso from oc_oficio WHERE oc_oficio.id_oficio='.$id_oficio.'');
+    oc_oficio.fecha_salida,oc_oficio.fecha_regreso,oc_oficio.hora_s,oc_oficio.hora_r
+    from oc_oficio WHERE oc_oficio.id_oficio= ?', [$id_oficio]);
+    $dependencias= DB::select('SELECT oc_depend_domicilio.*,gnral_municipios.nombre_municipio,gnral_estados.nombre_estado FROM oc_depend_domicilio,gnral_estados,gnral_municipios WHERE oc_depend_domicilio.id_municipio=gnral_municipios.id_municipio and gnral_municipios.id_estado=gnral_estados.id_estado and oc_depend_domicilio.id_oficio= ?', [$id_oficio]);
+        $lugar_s=DB::selectOne('SELECT oc_lugar.descripcion from oc_oficio,oc_lugar WHERE oc_oficio.id_lugar_salida=oc_lugar.id_lugar and oc_oficio.id_oficio= ?', [$id_oficio]);
+        $lugar_r=DB::selectOne('SELECT oc_lugar.descripcion from oc_oficio,oc_lugar WHERE oc_oficio.id_lugar_entrada=oc_lugar.id_lugar and oc_oficio.id_oficio= ?', [$id_oficio]);
+        $comisionados=DB::select('SELECT oc_vehiculo.modelo,oc_vehiculo.placas,oc_oficio_vehiculo.licencia,gnral_personales.nombre,abreviaciones.titulo,oc_oficio_personal.viaticos,oc_oficio_personal.automovil,oc_oficio_personal.id_personal,oc_oficio_personal.id_oficio_personal from oc_vehiculo,oc_oficio_vehiculo,oc_oficio_personal,gnral_personales,abreviaciones_prof,abreviaciones WHERE oc_vehiculo.id_vehiculo=oc_oficio_vehiculo.id_vehiculo and oc_oficio_vehiculo.id_oficio_personal=oc_oficio_personal.id_oficio_personal and oc_oficio_personal.id_personal=gnral_personales.id_personal and gnral_personales.id_personal=abreviaciones_prof.id_personal and abreviaciones_prof.id_abreviacion=abreviaciones.id_abreviacion and oc_oficio_personal.id_oficio= ? and oc_oficio_personal.automovil=2 UNION SELECT 0,0,0,gnral_personales.nombre,abreviaciones.titulo,oc_oficio_personal.viaticos,oc_oficio_personal.automovil,oc_oficio_personal.id_personal,oc_oficio_personal.id_oficio_personal from oc_oficio_personal,gnral_personales,abreviaciones_prof,abreviaciones WHERE oc_oficio_personal.id_personal=gnral_personales.id_personal and gnral_personales.id_personal=abreviaciones_prof.id_personal and abreviaciones_prof.id_abreviacion=abreviaciones.id_abreviacion and oc_oficio_personal.automovil=1 and oc_oficio_personal.id_oficio= ?', [$id_oficio, $id_oficio]);
+        $oficios=DB::selectOne('SELECT oc_oficio.id_oficio,oc_oficio.fecha_salida,oc_oficio.fecha_regreso from oc_oficio WHERE oc_oficio.id_oficio= ?', [$id_oficio]);
 
 
         $jefe_division=session()->has('jefe_division')?session()->has('jefe_division'):false;
@@ -394,64 +394,64 @@ return back();
         if($jefe_division == true) {
             $id_periodo = Session::get('periodotrabaja');
             $id_carrera = Session::get('carrera');
-            $num = DB::selectOne('SELECT count(oc_oficio_personal.id_oficio_personal)num from oc_oficio_personal WHERE oc_oficio_personal.id_oficio=' . $id_oficio . '');
+            $num = DB::selectOne('SELECT count(oc_oficio_personal.id_oficio_personal)num from oc_oficio_personal WHERE oc_oficio_personal.id_oficio= ?', [$id_oficio]);
             if ($num->num == 0) {
                 $fecha_salida = $oficios->fecha_salida;
                 $fecha_regreso = $oficios->fecha_regreso;
-                $departamento = DB::selectOne('select gnral_unidad_personal.id_unidad_persona from gnral_unidad_personal,gnral_personales WHERE gnral_personales.id_personal=gnral_unidad_personal.id_personal and gnral_personales.tipo_usuario=' . $id_usuario . '');
+                $departamento = DB::selectOne('select gnral_unidad_personal.id_unidad_persona from gnral_unidad_personal,gnral_personales WHERE gnral_personales.id_personal=gnral_unidad_personal.id_personal and gnral_personales.tipo_usuario= ?', [$id_usuario]);
                 $departamento = $departamento->id_unidad_persona;
                 //$id_periodo_carrera = DB::selectOne('select id_periodo_carrera from gnral_periodo_carreras where id_periodo=' . $id_periodo . ' AND id_carrera=' . $id_carrera . '');
                 $id_periodo_carrera = DB::selectOne('SELECT id_periodo_carrera FROM gnral_periodo_carreras WHERE id_periodo = ? AND (id_carrera = ? OR id_carrera = 17)',[$id_periodo, $id_carrera]);
 
                 $id_periodo_carrera = $id_periodo_carrera->id_periodo_carrera;
-                $personales = DB::select("select gnral_personales.id_personal,gnral_personales.nombre 
-                   FROM gnral_personales, gnral_horarios, abreviaciones_prof,abreviaciones,gnral_cargos 
-                  WHERE gnral_horarios.id_periodo_carrera=$id_periodo_carrera AND gnral_horarios.id_personal=gnral_personales.id_personal and 
+                $personales = DB::select('select gnral_personales.id_personal,gnral_personales.nombre
+                   FROM gnral_personales, gnral_horarios, abreviaciones_prof,abreviaciones,gnral_cargos
+                  WHERE gnral_horarios.id_periodo_carrera= ? AND gnral_horarios.id_personal=gnral_personales.id_personal and
                   abreviaciones_prof.id_personal=gnral_personales.id_personal and abreviaciones_prof.id_abreviacion=abreviaciones.id_abreviacion and
-                   gnral_cargos.id_cargo=gnral_personales.id_cargo and gnral_personales.id_personal NOT IN(select id_personal from oc_oficio_personal 
-               where (CAST(fecha_salida AS DATE)  between '$fecha_salida' and  '$fecha_regreso' and estado_oficio=0 )
-               or ( CAST(fecha_regreso AS DATE)  between '$fecha_salida' and '$fecha_regreso' and estado_oficio=0)
-               or ((CAST(fecha_salida AS DATE)<'$fecha_salida' and estado_oficio=0) and (CAST(fecha_regreso AS DATE)> '$fecha_salida' and estado_oficio=0))
-              or ((CAST(fecha_regreso AS DATE)>'$fecha_regreso' and estado_oficio=0)and
-              (CAST(fecha_salida AS DATE)< '$fecha_regreso' and estado_oficio=0)))
-                   UNION  select gnral_personales.id_personal,gnral_personales.nombre FROM gnral_personales, adscripcion_personal 
-                    WHERE adscripcion_personal.id_personal=gnral_personales.id_personal  and gnral_personales.tipo_usuario=$id_usuario 
-                    and gnral_personales.id_personal NOT IN(select id_personal from oc_oficio_personal 
-               where (CAST(fecha_salida AS DATE)  between '$fecha_salida' and  '$fecha_regreso' and estado_oficio=0 )
-               or ( CAST(fecha_regreso AS DATE)  between '$fecha_salida' and '$fecha_regreso' and estado_oficio=0)
-               or ((CAST(fecha_salida AS DATE)<'$fecha_salida' and estado_oficio=0) and (CAST(fecha_regreso AS DATE)> '$fecha_salida' and estado_oficio=0))
-              or ((CAST(fecha_regreso AS DATE)>'$fecha_regreso' and estado_oficio=0)and
-              (CAST(fecha_salida AS DATE)< '$fecha_regreso' and estado_oficio=0)))
-                     UNION SELECT gnral_personales.id_personal,gnral_personales.nombre 
-                     FROM gnral_personales,adscripcion_personal,gnral_cargos 
-                     where adscripcion_personal.id_personal=gnral_personales.id_personal and gnral_cargos.id_cargo=gnral_personales.id_cargo 
-                     and adscripcion_personal.id_unidad_persona=$departamento and gnral_personales.id_personal NOT IN(select id_personal from oc_oficio_personal 
-               where (CAST(fecha_salida AS DATE)  between '$fecha_salida' and  '$fecha_regreso' and estado_oficio=0 )
-               or ( CAST(fecha_regreso AS DATE)  between '$fecha_salida' and '$fecha_regreso' and estado_oficio=0)
-               or ((CAST(fecha_salida AS DATE)<'$fecha_salida' and estado_oficio=0) and (CAST(fecha_regreso AS DATE)> '$fecha_salida' and estado_oficio=0))
-              or ((CAST(fecha_regreso AS DATE)>'$fecha_regreso' and estado_oficio=0)and
-              (CAST(fecha_salida AS DATE)< '$fecha_regreso' and estado_oficio=0)))");
+                   gnral_cargos.id_cargo=gnral_personales.id_cargo and gnral_personales.id_personal NOT IN(select id_personal from oc_oficio_personal
+               where (CAST(fecha_salida AS DATE)  between ? and  ? and estado_oficio=0 )
+               or ( CAST(fecha_regreso AS DATE)  between ? and ? and estado_oficio=0)
+               or ((CAST(fecha_salida AS DATE)<? and estado_oficio=0) and (CAST(fecha_regreso AS DATE)> ? and estado_oficio=0))
+              or ((CAST(fecha_regreso AS DATE)>? and estado_oficio=0)and
+              (CAST(fecha_salida AS DATE)< ? and estado_oficio=0)))
+                   UNION  select gnral_personales.id_personal,gnral_personales.nombre FROM gnral_personales, adscripcion_personal
+                    WHERE adscripcion_personal.id_personal=gnral_personales.id_personal  and gnral_personales.tipo_usuario= ?
+                    and gnral_personales.id_personal NOT IN(select id_personal from oc_oficio_personal
+               where (CAST(fecha_salida AS DATE)  between ? and  ? and estado_oficio=0 )
+               or ( CAST(fecha_regreso AS DATE)  between ? and ? and estado_oficio=0)
+               or ((CAST(fecha_salida AS DATE)<? and estado_oficio=0) and (CAST(fecha_regreso AS DATE)> ? and estado_oficio=0))
+              or ((CAST(fecha_regreso AS DATE)>? and estado_oficio=0)and
+              (CAST(fecha_salida AS DATE)< ? and estado_oficio=0)))
+                     UNION SELECT gnral_personales.id_personal,gnral_personales.nombre
+                     FROM gnral_personales,adscripcion_personal,gnral_cargos
+                     where adscripcion_personal.id_personal=gnral_personales.id_personal and gnral_cargos.id_cargo=gnral_personales.id_cargo
+                     and adscripcion_personal.id_unidad_persona= ? and gnral_personales.id_personal NOT IN(select id_personal from oc_oficio_personal
+               where (CAST(fecha_salida AS DATE)  between ? and  ? and estado_oficio=0 )
+               or ( CAST(fecha_regreso AS DATE)  between ? and ? and estado_oficio=0)
+               or ((CAST(fecha_salida AS DATE)<? and estado_oficio=0) and (CAST(fecha_regreso AS DATE)> ? and estado_oficio=0))
+              or ((CAST(fecha_regreso AS DATE)>? and estado_oficio=0)and
+              (CAST(fecha_salida AS DATE)< ? and estado_oficio=0)))', [$id_periodo_carrera, (string) ($fecha_salida), (string) ($fecha_regreso), (string) ($fecha_salida), (string) ($fecha_regreso), (string) ($fecha_salida), (string) ($fecha_salida), (string) ($fecha_regreso), (string) ($fecha_regreso), $id_usuario, (string) ($fecha_salida), (string) ($fecha_regreso), (string) ($fecha_salida), (string) ($fecha_regreso), (string) ($fecha_salida), (string) ($fecha_salida), (string) ($fecha_regreso), (string) ($fecha_regreso), $departamento, (string) ($fecha_salida), (string) ($fecha_regreso), (string) ($fecha_salida), (string) ($fecha_regreso), (string) ($fecha_salida), (string) ($fecha_salida), (string) ($fecha_regreso), (string) ($fecha_regreso)]);
                 $mensaje = 0;
                 return view('comision_oficio.solicitud_comisionados', compact('dependencias_r','estados','personales', 'comisionados','dependencias'))->with(['oficios' => $oficios, 'solicitudes' => $solicitudes, 'lugar_salida' => $lugar_s, 'lugar_regreso' => $lugar_r, 'encontrado' => $encontrado, 'mensaje' => $mensaje]);
 
 
             } elseif ($num->num == 1) {
-                $departamento = DB::selectOne('select gnral_unidad_personal.id_unidad_persona from gnral_unidad_personal,gnral_personales WHERE gnral_personales.id_personal=gnral_unidad_personal.id_personal and gnral_personales.tipo_usuario=' . $id_usuario . '');
+                $departamento = DB::selectOne('select gnral_unidad_personal.id_unidad_persona from gnral_unidad_personal,gnral_personales WHERE gnral_personales.id_personal=gnral_unidad_personal.id_personal and gnral_personales.tipo_usuario= ?', [$id_usuario]);
                 $departamento = $departamento->id_unidad_persona;
                 $fecha_salida = $oficios->fecha_salida;
                 $fecha_regreso = $oficios->fecha_regreso;
-                $adscripto = DB::selectOne(' SELECT COUNT(adscripcion_personal.id_personal) numero FROM adscripcion_personal,oc_oficio_personal WHERE adscripcion_personal.id_personal=oc_oficio_personal.id_personal and oc_oficio_personal.id_oficio=' . $id_oficio . ' and adscripcion_personal.id_unidad_persona=' . $departamento . '');
+                $adscripto = DB::selectOne(' SELECT COUNT(adscripcion_personal.id_personal) numero FROM adscripcion_personal,oc_oficio_personal WHERE adscripcion_personal.id_personal=oc_oficio_personal.id_personal and oc_oficio_personal.id_oficio= ? and adscripcion_personal.id_unidad_persona= ?', [$id_oficio, $departamento]);
                 $adscripto = $adscripto->numero;
                 if ($adscripto == 1) {
-                    $personales = DB::select("SELECT gnral_personales.id_personal,gnral_personales.nombre 
-                     FROM gnral_personales,adscripcion_personal,gnral_cargos 
-                     where adscripcion_personal.id_personal=gnral_personales.id_personal and gnral_cargos.id_cargo=gnral_personales.id_cargo 
-                     and adscripcion_personal.id_unidad_persona=$departamento and gnral_personales.id_personal NOT IN(select id_personal from oc_oficio_personal 
-               where (CAST(fecha_salida AS DATE)  between '$fecha_salida' and  '$fecha_regreso' and estado_oficio=0 )
-               or ( CAST(fecha_regreso AS DATE)  between '$fecha_salida' and '$fecha_regreso' and estado_oficio=0)
-               or ((CAST(fecha_salida AS DATE)<'$fecha_salida' and estado_oficio=0) and (CAST(fecha_regreso AS DATE)> '$fecha_salida' and estado_oficio=0))
-              or ((CAST(fecha_regreso AS DATE)>'$fecha_regreso' and estado_oficio=0)and
-              (CAST(fecha_salida AS DATE)< '$fecha_regreso' and estado_oficio=0)))");
+                    $personales = DB::select('SELECT gnral_personales.id_personal,gnral_personales.nombre
+                     FROM gnral_personales,adscripcion_personal,gnral_cargos
+                     where adscripcion_personal.id_personal=gnral_personales.id_personal and gnral_cargos.id_cargo=gnral_personales.id_cargo
+                     and adscripcion_personal.id_unidad_persona= ? and gnral_personales.id_personal NOT IN(select id_personal from oc_oficio_personal
+               where (CAST(fecha_salida AS DATE)  between ? and  ? and estado_oficio=0 )
+               or ( CAST(fecha_regreso AS DATE)  between ? and ? and estado_oficio=0)
+               or ((CAST(fecha_salida AS DATE)<? and estado_oficio=0) and (CAST(fecha_regreso AS DATE)> ? and estado_oficio=0))
+              or ((CAST(fecha_regreso AS DATE)>? and estado_oficio=0)and
+              (CAST(fecha_salida AS DATE)< ? and estado_oficio=0)))', [$departamento, (string) ($fecha_salida), (string) ($fecha_regreso), (string) ($fecha_salida), (string) ($fecha_regreso), (string) ($fecha_salida), (string) ($fecha_salida), (string) ($fecha_regreso), (string) ($fecha_regreso)]);
                     $mensaje = 0;
                     return view('comision_oficio.solicitud_comisionados', compact('dependencias_r','estados','personales', 'comisionados','dependencias'))->with(['oficios' => $oficios, 'solicitudes' => $solicitudes, 'lugar_salida' => $lugar_s, 'lugar_regreso' => $lugar_r, 'encontrado' => $encontrado, 'mensaje' => $mensaje]);
 
@@ -461,31 +461,31 @@ return back();
                     //$id_periodo_carrera = DB::selectOne('select id_periodo_carrera from gnral_periodo_carreras where id_periodo=' . $id_periodo . ' AND id_carrera=' . $id_carrera . '');
                     $id_periodo_carrera = DB::selectOne('SELECT id_periodo_carrera FROM gnral_periodo_carreras WHERE id_periodo = ? AND (id_carrera = ? OR id_carrera = 17)',[$id_periodo, $id_carrera]);
                     $id_periodo_carrera = $id_periodo_carrera->id_periodo_carrera;
-                    $personales = DB::select("select gnral_personales.id_personal,gnral_personales.nombre 
-                   FROM gnral_personales, gnral_horarios, abreviaciones_prof,abreviaciones,gnral_cargos 
-                  WHERE gnral_horarios.id_periodo_carrera=$id_periodo_carrera AND gnral_horarios.id_personal=gnral_personales.id_personal and 
+                    $personales = DB::select('select gnral_personales.id_personal,gnral_personales.nombre
+                   FROM gnral_personales, gnral_horarios, abreviaciones_prof,abreviaciones,gnral_cargos
+                  WHERE gnral_horarios.id_periodo_carrera= ? AND gnral_horarios.id_personal=gnral_personales.id_personal and
                   abreviaciones_prof.id_personal=gnral_personales.id_personal and abreviaciones_prof.id_abreviacion=abreviaciones.id_abreviacion and
-                   gnral_cargos.id_cargo=gnral_personales.id_cargo and gnral_personales.id_personal NOT IN(select id_personal from oc_oficio_personal 
-               where (CAST(fecha_salida AS DATE)  between '$fecha_salida' and  '$fecha_regreso' and estado_oficio=0 )
-               or ( CAST(fecha_regreso AS DATE)  between '$fecha_salida' and '$fecha_regreso' and estado_oficio=0)
-               or ((CAST(fecha_salida AS DATE)<'$fecha_salida' and estado_oficio=0) and (CAST(fecha_regreso AS DATE)> '$fecha_salida' and estado_oficio=0))
-              or ((CAST(fecha_regreso AS DATE)>'$fecha_regreso' and estado_oficio=0)and
-              (CAST(fecha_salida AS DATE)< '$fecha_regreso' and estado_oficio=0)))
-                   UNION  select gnral_personales.id_personal,gnral_personales.nombre FROM gnral_personales, adscripcion_personal 
-                    WHERE adscripcion_personal.id_personal=gnral_personales.id_personal  and gnral_personales.tipo_usuario=$id_usuario 
-                    and gnral_personales.id_personal NOT IN(select id_personal from oc_oficio_personal 
-               where (CAST(fecha_salida AS DATE)  between '$fecha_salida' and  '$fecha_regreso' and estado_oficio=0 )
-               or ( CAST(fecha_regreso AS DATE)  between '$fecha_salida' and '$fecha_regreso' and estado_oficio=0)
-               or ((CAST(fecha_salida AS DATE)<'$fecha_salida' and estado_oficio=0) and (CAST(fecha_regreso AS DATE)> '$fecha_salida' and estado_oficio=0))
-              or ((CAST(fecha_regreso AS DATE)>'$fecha_regreso' and estado_oficio=0)and
-              (CAST(fecha_salida AS DATE)< '$fecha_regreso' and estado_oficio=0)))");
+                   gnral_cargos.id_cargo=gnral_personales.id_cargo and gnral_personales.id_personal NOT IN(select id_personal from oc_oficio_personal
+               where (CAST(fecha_salida AS DATE)  between ? and  ? and estado_oficio=0 )
+               or ( CAST(fecha_regreso AS DATE)  between ? and ? and estado_oficio=0)
+               or ((CAST(fecha_salida AS DATE)<? and estado_oficio=0) and (CAST(fecha_regreso AS DATE)> ? and estado_oficio=0))
+              or ((CAST(fecha_regreso AS DATE)>? and estado_oficio=0)and
+              (CAST(fecha_salida AS DATE)< ? and estado_oficio=0)))
+                   UNION  select gnral_personales.id_personal,gnral_personales.nombre FROM gnral_personales, adscripcion_personal
+                    WHERE adscripcion_personal.id_personal=gnral_personales.id_personal  and gnral_personales.tipo_usuario= ?
+                    and gnral_personales.id_personal NOT IN(select id_personal from oc_oficio_personal
+               where (CAST(fecha_salida AS DATE)  between ? and  ? and estado_oficio=0 )
+               or ( CAST(fecha_regreso AS DATE)  between ? and ? and estado_oficio=0)
+               or ((CAST(fecha_salida AS DATE)<? and estado_oficio=0) and (CAST(fecha_regreso AS DATE)> ? and estado_oficio=0))
+              or ((CAST(fecha_regreso AS DATE)>? and estado_oficio=0)and
+              (CAST(fecha_salida AS DATE)< ? and estado_oficio=0)))', [$id_periodo_carrera, (string) ($fecha_salida), (string) ($fecha_regreso), (string) ($fecha_salida), (string) ($fecha_regreso), (string) ($fecha_salida), (string) ($fecha_salida), (string) ($fecha_regreso), (string) ($fecha_regreso), $id_usuario, (string) ($fecha_salida), (string) ($fecha_regreso), (string) ($fecha_salida), (string) ($fecha_regreso), (string) ($fecha_salida), (string) ($fecha_salida), (string) ($fecha_regreso), (string) ($fecha_regreso)]);
                     $mensaje = 0;
                     return view('comision_oficio.solicitud_comisionados', compact('dependencias_r','estados','personales', 'comisionados','dependencias'))->with(['oficios' => $oficios, 'solicitudes' => $solicitudes, 'lugar_salida' => $lugar_s, 'lugar_regreso' => $lugar_r, 'encontrado' => $encontrado, 'mensaje' => $mensaje]);
                 }
             } else {
-                $departamento = DB::selectOne('select gnral_unidad_personal.id_unidad_persona from gnral_unidad_personal,gnral_personales WHERE gnral_personales.id_personal=gnral_unidad_personal.id_personal and gnral_personales.tipo_usuario=' . $id_usuario . '');
+                $departamento = DB::selectOne('select gnral_unidad_personal.id_unidad_persona from gnral_unidad_personal,gnral_personales WHERE gnral_personales.id_personal=gnral_unidad_personal.id_personal and gnral_personales.tipo_usuario= ?', [$id_usuario]);
                 $departamento = $departamento->id_unidad_persona;
-                $adscripto = DB::selectOne(' SELECT COUNT(adscripcion_personal.id_personal) numero FROM adscripcion_personal,oc_oficio_personal WHERE adscripcion_personal.id_personal=oc_oficio_personal.id_personal and oc_oficio_personal.id_oficio=' . $id_oficio . ' and adscripcion_personal.id_unidad_persona=' . $departamento . '');
+                $adscripto = DB::selectOne(' SELECT COUNT(adscripcion_personal.id_personal) numero FROM adscripcion_personal,oc_oficio_personal WHERE adscripcion_personal.id_personal=oc_oficio_personal.id_personal and oc_oficio_personal.id_oficio= ? and adscripcion_personal.id_unidad_persona= ?', [$id_oficio, $departamento]);
                 $adscripto = $adscripto->numero;
                 if ($adscripto == 0) {
                     $fecha_salida = $oficios->fecha_salida;
@@ -493,41 +493,41 @@ return back();
                     //$id_periodo_carrera = DB::selectOne('select id_periodo_carrera from gnral_periodo_carreras where id_periodo=' . $id_periodo . ' AND id_carrera=' . $id_carrera . '');
                     $id_periodo_carrera = DB::selectOne('SELECT id_periodo_carrera FROM gnral_periodo_carreras WHERE id_periodo = ? AND (id_carrera = ? OR id_carrera = 17)',[$id_periodo, $id_carrera]);
                     $id_periodo_carrera = $id_periodo_carrera->id_periodo_carrera;
-                    $personales = DB::select("select gnral_personales.id_personal,gnral_personales.nombre 
-                   FROM gnral_personales, gnral_horarios, abreviaciones_prof,abreviaciones,gnral_cargos 
-                  WHERE gnral_horarios.id_periodo_carrera=$id_periodo_carrera AND gnral_horarios.id_personal=gnral_personales.id_personal and 
+                    $personales = DB::select('select gnral_personales.id_personal,gnral_personales.nombre
+                   FROM gnral_personales, gnral_horarios, abreviaciones_prof,abreviaciones,gnral_cargos
+                  WHERE gnral_horarios.id_periodo_carrera= ? AND gnral_horarios.id_personal=gnral_personales.id_personal and
                   abreviaciones_prof.id_personal=gnral_personales.id_personal and abreviaciones_prof.id_abreviacion=abreviaciones.id_abreviacion and
-                   gnral_cargos.id_cargo=gnral_personales.id_cargo and gnral_personales.id_personal NOT IN(select id_personal from oc_oficio_personal 
-               where (CAST(fecha_salida AS DATE)  between '$fecha_salida' and  '$fecha_regreso' and estado_oficio=0 )
-               or ( CAST(fecha_regreso AS DATE)  between '$fecha_salida' and '$fecha_regreso' and estado_oficio=0)
-               or ((CAST(fecha_salida AS DATE)<'$fecha_salida' and estado_oficio=0) and (CAST(fecha_regreso AS DATE)> '$fecha_salida' and estado_oficio=0))
-              or ((CAST(fecha_regreso AS DATE)>'$fecha_regreso' and estado_oficio=0)and
-              (CAST(fecha_salida AS DATE)< '$fecha_regreso' and estado_oficio=0)))
-                   UNION  select gnral_personales.id_personal,gnral_personales.nombre FROM gnral_personales, adscripcion_personal 
-                    WHERE adscripcion_personal.id_personal=gnral_personales.id_personal  and gnral_personales.tipo_usuario=$id_usuario 
-                    and gnral_personales.id_personal NOT IN(select id_personal from oc_oficio_personal 
-               where (CAST(fecha_salida AS DATE)  between '$fecha_salida' and  '$fecha_regreso' and estado_oficio=0 )
-               or ( CAST(fecha_regreso AS DATE)  between '$fecha_salida' and '$fecha_regreso' and estado_oficio=0)
-               or ((CAST(fecha_salida AS DATE)<'$fecha_salida' and estado_oficio=0) and (CAST(fecha_regreso AS DATE)> '$fecha_salida' and estado_oficio=0))
-              or ((CAST(fecha_regreso AS DATE)>'$fecha_regreso' and estado_oficio=0)and
-              (CAST(fecha_salida AS DATE)< '$fecha_regreso' and estado_oficio=0)))");
+                   gnral_cargos.id_cargo=gnral_personales.id_cargo and gnral_personales.id_personal NOT IN(select id_personal from oc_oficio_personal
+               where (CAST(fecha_salida AS DATE)  between ? and  ? and estado_oficio=0 )
+               or ( CAST(fecha_regreso AS DATE)  between ? and ? and estado_oficio=0)
+               or ((CAST(fecha_salida AS DATE)<? and estado_oficio=0) and (CAST(fecha_regreso AS DATE)> ? and estado_oficio=0))
+              or ((CAST(fecha_regreso AS DATE)>? and estado_oficio=0)and
+              (CAST(fecha_salida AS DATE)< ? and estado_oficio=0)))
+                   UNION  select gnral_personales.id_personal,gnral_personales.nombre FROM gnral_personales, adscripcion_personal
+                    WHERE adscripcion_personal.id_personal=gnral_personales.id_personal  and gnral_personales.tipo_usuario= ?
+                    and gnral_personales.id_personal NOT IN(select id_personal from oc_oficio_personal
+               where (CAST(fecha_salida AS DATE)  between ? and  ? and estado_oficio=0 )
+               or ( CAST(fecha_regreso AS DATE)  between ? and ? and estado_oficio=0)
+               or ((CAST(fecha_salida AS DATE)<? and estado_oficio=0) and (CAST(fecha_regreso AS DATE)> ? and estado_oficio=0))
+              or ((CAST(fecha_regreso AS DATE)>? and estado_oficio=0)and
+              (CAST(fecha_salida AS DATE)< ? and estado_oficio=0)))', [$id_periodo_carrera, (string) ($fecha_salida), (string) ($fecha_regreso), (string) ($fecha_salida), (string) ($fecha_regreso), (string) ($fecha_salida), (string) ($fecha_salida), (string) ($fecha_regreso), (string) ($fecha_regreso), $id_usuario, (string) ($fecha_salida), (string) ($fecha_regreso), (string) ($fecha_salida), (string) ($fecha_regreso), (string) ($fecha_salida), (string) ($fecha_salida), (string) ($fecha_regreso), (string) ($fecha_regreso)]);
                     $mensaje = 0;
                     return view('comision_oficio.solicitud_comisionados', compact('dependencias_r','estados','personales', 'comisionados','dependencias'))->with(['oficios' => $oficios, 'solicitudes' => $solicitudes, 'lugar_salida' => $lugar_s, 'lugar_regreso' => $lugar_r, 'encontrado' => $encontrado, 'mensaje' => $mensaje]);
 
                 } else {
-                    $departamento = DB::selectOne('select gnral_unidad_personal.id_unidad_persona from gnral_unidad_personal,gnral_personales WHERE gnral_personales.id_personal=gnral_unidad_personal.id_personal and gnral_personales.tipo_usuario=' . $id_usuario . '');
+                    $departamento = DB::selectOne('select gnral_unidad_personal.id_unidad_persona from gnral_unidad_personal,gnral_personales WHERE gnral_personales.id_personal=gnral_unidad_personal.id_personal and gnral_personales.tipo_usuario= ?', [$id_usuario]);
                     $departamento = $departamento->id_unidad_persona;
                     $fecha_salida = $oficios->fecha_salida;
                     $fecha_regreso = $oficios->fecha_regreso;
-                    $personales = DB::select("SELECT gnral_personales.id_personal,gnral_personales.nombre 
-                     FROM gnral_personales,adscripcion_personal,gnral_cargos 
-                     where adscripcion_personal.id_personal=gnral_personales.id_personal and gnral_cargos.id_cargo=gnral_personales.id_cargo 
-                     and adscripcion_personal.id_unidad_persona=$departamento and gnral_personales.id_personal NOT IN(select id_personal from oc_oficio_personal 
-               where (CAST(fecha_salida AS DATE)  between '$fecha_salida' and  '$fecha_regreso' and estado_oficio=0 )
-               or ( CAST(fecha_regreso AS DATE)  between '$fecha_salida' and '$fecha_regreso' and estado_oficio=0)
-               or ((CAST(fecha_salida AS DATE)<'$fecha_salida' and estado_oficio=0) and (CAST(fecha_regreso AS DATE)> '$fecha_salida' and estado_oficio=0))
-              or ((CAST(fecha_regreso AS DATE)>'$fecha_regreso' and estado_oficio=0)and
-              (CAST(fecha_salida AS DATE)< '$fecha_regreso' and estado_oficio=0)))");
+                    $personales = DB::select('SELECT gnral_personales.id_personal,gnral_personales.nombre
+                     FROM gnral_personales,adscripcion_personal,gnral_cargos
+                     where adscripcion_personal.id_personal=gnral_personales.id_personal and gnral_cargos.id_cargo=gnral_personales.id_cargo
+                     and adscripcion_personal.id_unidad_persona= ? and gnral_personales.id_personal NOT IN(select id_personal from oc_oficio_personal
+               where (CAST(fecha_salida AS DATE)  between ? and  ? and estado_oficio=0 )
+               or ( CAST(fecha_regreso AS DATE)  between ? and ? and estado_oficio=0)
+               or ((CAST(fecha_salida AS DATE)<? and estado_oficio=0) and (CAST(fecha_regreso AS DATE)> ? and estado_oficio=0))
+              or ((CAST(fecha_regreso AS DATE)>? and estado_oficio=0)and
+              (CAST(fecha_salida AS DATE)< ? and estado_oficio=0)))', [$departamento, (string) ($fecha_salida), (string) ($fecha_regreso), (string) ($fecha_salida), (string) ($fecha_regreso), (string) ($fecha_salida), (string) ($fecha_salida), (string) ($fecha_regreso), (string) ($fecha_regreso)]);
                     $mensaje = 0;
                     return view('comision_oficio.solicitud_comisionados', compact('dependencias_r','estados','personales', 'comisionados','dependencias'))->with(['oficios' => $oficios, 'solicitudes' => $solicitudes, 'lugar_salida' => $lugar_s, 'lugar_regreso' => $lugar_r, 'encontrado' => $encontrado, 'mensaje' => $mensaje]);
 
@@ -536,56 +536,56 @@ return back();
             }
         }
         else {
-            $unidad = DB::selectOne('SELECT gnral_unidad_personal.id_unidad_persona 
-                from gnral_unidad_personal,gnral_unidad_administrativa,gnral_personales 
-                WHERE gnral_unidad_personal.id_unidad_admin=gnral_unidad_administrativa.id_unidad_admin 
-                and gnral_unidad_personal.id_personal=gnral_personales.id_personal 
-                and gnral_personales.tipo_usuario=' . $id_usuario . '');
+            $unidad = DB::selectOne('SELECT gnral_unidad_personal.id_unidad_persona
+                from gnral_unidad_personal,gnral_unidad_administrativa,gnral_personales
+                WHERE gnral_unidad_personal.id_unidad_admin=gnral_unidad_administrativa.id_unidad_admin
+                and gnral_unidad_personal.id_personal=gnral_personales.id_personal
+                and gnral_personales.tipo_usuario= ?', [$id_usuario]);
             $unidad = $unidad->id_unidad_persona;
             $fecha_salida = $oficios->fecha_salida;
             $fecha_regreso = $oficios->fecha_regreso;
             if($unidad == 17)
             {
-                $personales = DB::select("SELECT gnral_personales.id_personal, gnral_personales.nombre 
-                from gnral_personales,adscripcion_personal WHERE gnral_personales.id_personal=adscripcion_personal.id_personal 
-                and adscripcion_personal.id_unidad_persona=$unidad and gnral_personales.id_personal NOT IN(select id_personal from oc_oficio_personal where 
-                (CAST(fecha_salida AS DATE) between '$fecha_salida' and  '$fecha_regreso' and estado_oficio=0 )or
-               ( CAST(fecha_regreso AS DATE)  between '$fecha_salida' and '$fecha_regreso' and estado_oficio=0) or
-                ((CAST(fecha_salida AS DATE)<'$fecha_salida' and estado_oficio=0) and (CAST(fecha_regreso AS DATE)> '$fecha_salida' and estado_oficio=0)) or
-               ((CAST(fecha_regreso AS DATE)>'$fecha_regreso' and estado_oficio=0) and (CAST(fecha_salida AS DATE)< '$fecha_regreso' and estado_oficio=0)))  
-               UNION SELECT gnral_personales.id_personal, gnral_personales.nombre 
+                $personales = DB::select('SELECT gnral_personales.id_personal, gnral_personales.nombre
+                from gnral_personales,adscripcion_personal WHERE gnral_personales.id_personal=adscripcion_personal.id_personal
+                and adscripcion_personal.id_unidad_persona= ? and gnral_personales.id_personal NOT IN(select id_personal from oc_oficio_personal where
+                (CAST(fecha_salida AS DATE) between ? and  ? and estado_oficio=0 )or
+               ( CAST(fecha_regreso AS DATE)  between ? and ? and estado_oficio=0) or
+                ((CAST(fecha_salida AS DATE)<? and estado_oficio=0) and (CAST(fecha_regreso AS DATE)> ? and estado_oficio=0)) or
+               ((CAST(fecha_regreso AS DATE)>? and estado_oficio=0) and (CAST(fecha_salida AS DATE)< ? and estado_oficio=0)))
+               UNION SELECT gnral_personales.id_personal, gnral_personales.nombre
                 from gnral_personales,adscripcion_personal WHERE adscripcion_personal.id_personal=gnral_personales.id_personal
-                 and gnral_personales.tipo_usuario= $id_usuario and gnral_personales.id_personal 
-                 NOT IN(select id_personal from oc_oficio_personal 
-               where (CAST(fecha_salida AS DATE)  between '$fecha_salida' and  '$fecha_regreso' and estado_oficio=0 )
-               or ( CAST(fecha_regreso AS DATE)  between '$fecha_salida' and '$fecha_regreso' and estado_oficio=0)
-               or ((CAST(fecha_salida AS DATE)<'$fecha_salida' and estado_oficio=0) and (CAST(fecha_regreso AS DATE)> '$fecha_salida' and estado_oficio=0))
-              or ((CAST(fecha_regreso AS DATE)>'$fecha_regreso' and estado_oficio=0)and
-              (CAST(fecha_salida AS DATE)< '$fecha_regreso' and estado_oficio=0)))
-              UNION   SELECT gnral_personales.id_personal,gnral_personales.nombre FROM gnral_personales,adscripcion_personal,gnral_cargos                                               where adscripcion_personal.id_personal=gnral_personales.id_personal 
+                 and gnral_personales.tipo_usuario= ? and gnral_personales.id_personal
+                 NOT IN(select id_personal from oc_oficio_personal
+               where (CAST(fecha_salida AS DATE)  between ? and  ? and estado_oficio=0 )
+               or ( CAST(fecha_regreso AS DATE)  between ? and ? and estado_oficio=0)
+               or ((CAST(fecha_salida AS DATE)<? and estado_oficio=0) and (CAST(fecha_regreso AS DATE)> ? and estado_oficio=0))
+              or ((CAST(fecha_regreso AS DATE)>? and estado_oficio=0)and
+              (CAST(fecha_salida AS DATE)< ? and estado_oficio=0)))
+              UNION   SELECT gnral_personales.id_personal,gnral_personales.nombre FROM gnral_personales,adscripcion_personal,gnral_cargos                                               where adscripcion_personal.id_personal=gnral_personales.id_personal
               and gnral_cargos.id_cargo=gnral_personales.id_cargo and gnral_personales.id_personal=270
-              UNION   SELECT gnral_personales.id_personal,gnral_personales.nombre FROM gnral_personales,adscripcion_personal,gnral_cargos                                               where adscripcion_personal.id_personal=gnral_personales.id_personal 
-              and gnral_cargos.id_cargo=gnral_personales.id_cargo and gnral_personales.id_personal=277");
+              UNION   SELECT gnral_personales.id_personal,gnral_personales.nombre FROM gnral_personales,adscripcion_personal,gnral_cargos                                               where adscripcion_personal.id_personal=gnral_personales.id_personal
+              and gnral_cargos.id_cargo=gnral_personales.id_cargo and gnral_personales.id_personal=277', [$unidad, (string) ($fecha_salida), (string) ($fecha_regreso), (string) ($fecha_salida), (string) ($fecha_regreso), (string) ($fecha_salida), (string) ($fecha_salida), (string) ($fecha_regreso), (string) ($fecha_regreso), $id_usuario, (string) ($fecha_salida), (string) ($fecha_regreso), (string) ($fecha_salida), (string) ($fecha_regreso), (string) ($fecha_salida), (string) ($fecha_salida), (string) ($fecha_regreso), (string) ($fecha_regreso)]);
                 $mensaje = 0;
 
             }
             else{
-                $personales = DB::select("SELECT gnral_personales.id_personal, gnral_personales.nombre 
-                from gnral_personales,adscripcion_personal WHERE gnral_personales.id_personal=adscripcion_personal.id_personal 
-                and adscripcion_personal.id_unidad_persona=$unidad and gnral_personales.id_personal NOT IN(select id_personal from oc_oficio_personal where 
-                (CAST(fecha_salida AS DATE) between '$fecha_salida' and  '$fecha_regreso' and estado_oficio=0 )or
-               ( CAST(fecha_regreso AS DATE)  between '$fecha_salida' and '$fecha_regreso' and estado_oficio=0) or
-                ((CAST(fecha_salida AS DATE)<'$fecha_salida' and estado_oficio=0) and (CAST(fecha_regreso AS DATE)> '$fecha_salida' and estado_oficio=0)) or
-               ((CAST(fecha_regreso AS DATE)>'$fecha_regreso' and estado_oficio=0) and (CAST(fecha_salida AS DATE)< '$fecha_regreso' and estado_oficio=0)))  
-               UNION SELECT gnral_personales.id_personal, gnral_personales.nombre 
+                $personales = DB::select('SELECT gnral_personales.id_personal, gnral_personales.nombre
+                from gnral_personales,adscripcion_personal WHERE gnral_personales.id_personal=adscripcion_personal.id_personal
+                and adscripcion_personal.id_unidad_persona= ? and gnral_personales.id_personal NOT IN(select id_personal from oc_oficio_personal where
+                (CAST(fecha_salida AS DATE) between ? and  ? and estado_oficio=0 )or
+               ( CAST(fecha_regreso AS DATE)  between ? and ? and estado_oficio=0) or
+                ((CAST(fecha_salida AS DATE)<? and estado_oficio=0) and (CAST(fecha_regreso AS DATE)> ? and estado_oficio=0)) or
+               ((CAST(fecha_regreso AS DATE)>? and estado_oficio=0) and (CAST(fecha_salida AS DATE)< ? and estado_oficio=0)))
+               UNION SELECT gnral_personales.id_personal, gnral_personales.nombre
                 from gnral_personales,adscripcion_personal WHERE adscripcion_personal.id_personal=gnral_personales.id_personal
-                 and gnral_personales.tipo_usuario= $id_usuario and gnral_personales.id_personal 
-                 NOT IN(select id_personal from oc_oficio_personal 
-               where (CAST(fecha_salida AS DATE)  between '$fecha_salida' and  '$fecha_regreso' and estado_oficio=0 )
-               or ( CAST(fecha_regreso AS DATE)  between '$fecha_salida' and '$fecha_regreso' and estado_oficio=0)
-               or ((CAST(fecha_salida AS DATE)<'$fecha_salida' and estado_oficio=0) and (CAST(fecha_regreso AS DATE)> '$fecha_salida' and estado_oficio=0))
-              or ((CAST(fecha_regreso AS DATE)>'$fecha_regreso' and estado_oficio=0)and
-              (CAST(fecha_salida AS DATE)< '$fecha_regreso' and estado_oficio=0)))");
+                 and gnral_personales.tipo_usuario= ? and gnral_personales.id_personal
+                 NOT IN(select id_personal from oc_oficio_personal
+               where (CAST(fecha_salida AS DATE)  between ? and  ? and estado_oficio=0 )
+               or ( CAST(fecha_regreso AS DATE)  between ? and ? and estado_oficio=0)
+               or ((CAST(fecha_salida AS DATE)<? and estado_oficio=0) and (CAST(fecha_regreso AS DATE)> ? and estado_oficio=0))
+              or ((CAST(fecha_regreso AS DATE)>? and estado_oficio=0)and
+              (CAST(fecha_salida AS DATE)< ? and estado_oficio=0)))', [$unidad, (string) ($fecha_salida), (string) ($fecha_regreso), (string) ($fecha_salida), (string) ($fecha_regreso), (string) ($fecha_salida), (string) ($fecha_salida), (string) ($fecha_regreso), (string) ($fecha_regreso), $id_usuario, (string) ($fecha_salida), (string) ($fecha_regreso), (string) ($fecha_salida), (string) ($fecha_regreso), (string) ($fecha_salida), (string) ($fecha_salida), (string) ($fecha_regreso), (string) ($fecha_regreso)]);
                 $mensaje = 0;
 
             }
@@ -600,25 +600,25 @@ return back();
     public function destroy(Request $request)
     {
         $id_oficio = $request->input("id_oficio_dep");
-        $conaut= DB::selectOne('SELECT COUNT(oc_oficio_personal.id_oficio_personal) personal from oc_oficio_personal,oc_oficio_vehiculo where oc_oficio_personal.id_oficio_personal=oc_oficio_vehiculo.id_oficio_personal and oc_oficio_personal.id_oficio='.$id_oficio.'');
+        $conaut= DB::selectOne('SELECT COUNT(oc_oficio_personal.id_oficio_personal) personal from oc_oficio_personal,oc_oficio_vehiculo where oc_oficio_personal.id_oficio_personal=oc_oficio_vehiculo.id_oficio_personal and oc_oficio_personal.id_oficio= ?', [$id_oficio]);
         if($conaut->personal >0){
-            $personalauto= DB::select('SELECT oc_oficio_personal.id_oficio_personal from oc_vehiculo,oc_oficio_vehiculo,oc_oficio_personal,gnral_personales,abreviaciones_prof,abreviaciones WHERE oc_vehiculo.id_vehiculo=oc_oficio_vehiculo.id_vehiculo and oc_oficio_vehiculo.id_oficio_personal=oc_oficio_personal.id_oficio_personal and oc_oficio_personal.id_personal=gnral_personales.id_personal and gnral_personales.id_personal=abreviaciones_prof.id_personal and abreviaciones_prof.id_abreviacion=abreviaciones.id_abreviacion and oc_oficio_personal.id_oficio='.$id_oficio.'');
+            $personalauto= DB::select('SELECT oc_oficio_personal.id_oficio_personal from oc_vehiculo,oc_oficio_vehiculo,oc_oficio_personal,gnral_personales,abreviaciones_prof,abreviaciones WHERE oc_vehiculo.id_vehiculo=oc_oficio_vehiculo.id_vehiculo and oc_oficio_vehiculo.id_oficio_personal=oc_oficio_personal.id_oficio_personal and oc_oficio_personal.id_personal=gnral_personales.id_personal and gnral_personales.id_personal=abreviaciones_prof.id_personal and abreviaciones_prof.id_abreviacion=abreviaciones.id_abreviacion and oc_oficio_personal.id_oficio= ?', [$id_oficio]);
             foreach($personalauto as $personal){
-                DB::delete('DELETE FROM oc_oficio_vehiculo WHERE id_oficio_personal='.$personal->id_oficio_personal.'');
+                DB::delete('DELETE FROM oc_oficio_vehiculo WHERE id_oficio_personal= ?', [$personal->id_oficio_personal]);
                 oc_oficio_personal::destroy($personal->id_oficio_personal);
 
             }
         }
-        $sinaut= DB::selectOne('SELECT COUNT(oc_oficio_personal.id_oficio_personal) personal from oc_oficio_personal where  oc_oficio_personal.automovil=1 and  oc_oficio_personal.id_oficio='.$id_oficio.'');
+        $sinaut= DB::selectOne('SELECT COUNT(oc_oficio_personal.id_oficio_personal) personal from oc_oficio_personal where  oc_oficio_personal.automovil=1 and  oc_oficio_personal.id_oficio= ?', [$id_oficio]);
         $sinaut=$sinaut->personal;
         if($sinaut >0){
-            $personalsinauto= DB::select('SELECT oc_oficio_personal.id_oficio_personal from oc_oficio_personal,gnral_personales,abreviaciones_prof,abreviaciones WHERE oc_oficio_personal.automovil=1 and   oc_oficio_personal.id_personal=gnral_personales.id_personal and gnral_personales.id_personal=abreviaciones_prof.id_personal and abreviaciones_prof.id_abreviacion=abreviaciones.id_abreviacion and oc_oficio_personal.id_oficio='.$id_oficio.'');
+            $personalsinauto= DB::select('SELECT oc_oficio_personal.id_oficio_personal from oc_oficio_personal,gnral_personales,abreviaciones_prof,abreviaciones WHERE oc_oficio_personal.automovil=1 and   oc_oficio_personal.id_personal=gnral_personales.id_personal and gnral_personales.id_personal=abreviaciones_prof.id_personal and abreviaciones_prof.id_abreviacion=abreviaciones.id_abreviacion and oc_oficio_personal.id_oficio= ?', [$id_oficio]);
             foreach($personalsinauto as $personal){
                 oc_oficio_personal::destroy($personal->id_oficio_personal);
             }
 
         }
-        DB::delete('DELETE FROM  oc_depend_domicilio WHERE id_oficio='.$id_oficio.'');
+        DB::delete('DELETE FROM  oc_depend_domicilio WHERE id_oficio= ?', [$id_oficio]);
         oc_oficio::find($id_oficio)-> delete();
         return redirect('/oficios/solicitud');
     }
@@ -626,7 +626,7 @@ return back();
     public function comisionadoeliminado($id_oficio_personal)
     {
 
-        $oficio = DB::selectOne(' SELECT oc_oficio_personal.id_oficio_personal,oc_oficio_personal.automovil from oc_oficio_personal where oc_oficio_personal.id_oficio_personal='.$id_oficio_personal.'');
+        $oficio = DB::selectOne(' SELECT oc_oficio_personal.id_oficio_personal,oc_oficio_personal.automovil from oc_oficio_personal where oc_oficio_personal.id_oficio_personal= ?', [$id_oficio_personal]);
         $oficio=$oficio->automovil;
         if($oficio == 1)
         {
@@ -635,14 +635,14 @@ return back();
         if($oficio == 2)
         {
             oc_oficio_personal::destroy($id_oficio_personal);
-            DB::delete('DELETE FROM oc_oficio_vehiculo WHERE id_oficio_personal='.$id_oficio_personal.'');
+            DB::delete('DELETE FROM oc_oficio_vehiculo WHERE id_oficio_personal= ?', [$id_oficio_personal]);
         }
 
         return back();
     }
     public function auto(Request $request,$id_personal,$id_oficio){
 
-        $oficios=DB::selectOne('SELECT oc_oficio.id_oficio,oc_oficio.fecha_salida,oc_oficio.fecha_regreso from oc_oficio WHERE oc_oficio.id_oficio='.$id_oficio.'');
+        $oficios=DB::selectOne('SELECT oc_oficio.id_oficio,oc_oficio.fecha_salida,oc_oficio.fecha_regreso from oc_oficio WHERE oc_oficio.id_oficio= ?', [$id_oficio]);
         $fecha_salida=$oficios->fecha_salida;
         $fecha_regreso=$oficios->fecha_regreso;
 if($id_personal == 342)
@@ -654,13 +654,13 @@ if($id_personal == 342)
 else {
 
 
-    $director = DB::selectOne('SELECT COUNT(gnral_unidad_personal.id_personal) numero from gnral_unidad_personal WHERE gnral_unidad_personal.id_personal=' . $id_personal . ' and gnral_unidad_personal.id_unidad_admin=3');
+    $director = DB::selectOne('SELECT COUNT(gnral_unidad_personal.id_personal) numero from gnral_unidad_personal WHERE gnral_unidad_personal.id_personal= ? and gnral_unidad_personal.id_unidad_admin=3', [$id_personal]);
     if ($director->numero == 1) {
-        $automoviles = DB::select("SELECT * from oc_vehiculo WHERE oc_vehiculo.id_asignacion=2 and oc_vehiculo.id_vehiculo NOT IN (SELECT DISTINCT oc_oficio_vehiculo.id_vehiculo from oc_oficio_vehiculo WHERE (oc_oficio_vehiculo.fecha_salida<= '$fecha_salida' and oc_oficio_vehiculo.fecha_regreso >= '$fecha_salida') OR (oc_oficio_vehiculo.fecha_regreso<= '$fecha_regreso' AND oc_oficio_vehiculo.fecha_salida>='$fecha_regreso') OR (oc_oficio_vehiculo.fecha_salida>='$fecha_salida' and oc_oficio_vehiculo.fecha_regreso<='$fecha_regreso'))");
+        $automoviles = DB::select('SELECT * from oc_vehiculo WHERE oc_vehiculo.id_asignacion=2 and oc_vehiculo.id_vehiculo NOT IN (SELECT DISTINCT oc_oficio_vehiculo.id_vehiculo from oc_oficio_vehiculo WHERE (oc_oficio_vehiculo.fecha_salida<= ? and oc_oficio_vehiculo.fecha_regreso >= ?) OR (oc_oficio_vehiculo.fecha_regreso<= ? AND oc_oficio_vehiculo.fecha_salida>=?) OR (oc_oficio_vehiculo.fecha_salida>=? and oc_oficio_vehiculo.fecha_regreso<=?))', [(string) ($fecha_salida), (string) ($fecha_salida), (string) ($fecha_regreso), (string) ($fecha_regreso), (string) ($fecha_salida), (string) ($fecha_regreso)]);
 
     }
     if ($director->numero == 0) {
-        $contralor = DB::selectOne('SELECT COUNT(gnral_unidad_personal.id_personal) numero from gnral_unidad_personal WHERE gnral_unidad_personal.id_personal=' . $id_personal . ' and gnral_unidad_personal.id_unidad_admin=40');
+        $contralor = DB::selectOne('SELECT COUNT(gnral_unidad_personal.id_personal) numero from gnral_unidad_personal WHERE gnral_unidad_personal.id_personal= ? and gnral_unidad_personal.id_unidad_admin=40', [$id_personal]);
         if ($contralor->numero == 1) {
             $automoviles = DB::select("SELECT * from oc_vehiculo WHERE oc_vehiculo.id_asignacion=3");
             //$automoviles = DB::select("SELECT * from oc_vehiculo WHERE oc_vehiculo.id_asignacion=3 and oc_vehiculo.id_vehiculo NOT IN (SELECT DISTINCT oc_oficio_vehiculo.id_vehiculo from oc_oficio_vehiculo WHERE (oc_oficio_vehiculo.fecha_salida<= '$fecha_salida' and oc_oficio_vehiculo.fecha_regreso >= '$fecha_salida') OR (oc_oficio_vehiculo.fecha_regreso<= '$fecha_regreso' AND oc_oficio_vehiculo.fecha_salida>='$fecha_regreso') OR (oc_oficio_vehiculo.fecha_salida>='$fecha_salida' and oc_oficio_vehiculo.fecha_regreso<='$fecha_regreso'))");
@@ -676,14 +676,14 @@ else {
     }
     public function viatico(Request $request,$id_personal,$id_oficio){
         $id_periodo = Session::get('periodotrabaja');
-        $jefesdivision= DB::selectOne('SELECT COUNT(gnral_jefes_periodos.id_personal)num FROM gnral_personales,gnral_jefes_periodos,gnral_carreras,gnral_periodos WHERE gnral_personales.id_personal=gnral_jefes_periodos.id_personal AND gnral_carreras.id_carrera=gnral_jefes_periodos.id_carrera and gnral_periodos.id_periodo=gnral_jefes_periodos.id_periodo AND gnral_jefes_periodos.id_periodo='.$id_periodo.' and gnral_jefes_periodos.id_personal='.$id_personal.'');
+        $jefesdivision= DB::selectOne('SELECT COUNT(gnral_jefes_periodos.id_personal)num FROM gnral_personales,gnral_jefes_periodos,gnral_carreras,gnral_periodos WHERE gnral_personales.id_personal=gnral_jefes_periodos.id_personal AND gnral_carreras.id_carrera=gnral_jefes_periodos.id_carrera and gnral_periodos.id_periodo=gnral_jefes_periodos.id_periodo AND gnral_jefes_periodos.id_periodo= ? and gnral_jefes_periodos.id_personal= ?', [$id_periodo, $id_personal]);
 
         if($jefesdivision->num == 1 || $jefesdivision->num == 2 )
           {
             $viaticos= DB::select("select *from oc_respuesta where id_respuesta=1");
            }
         if( $jefesdivision->num == 0){
-        $jefedepartamento= DB::selectOne('SELECT COUNT(gnral_unidad_personal.id_personal)num FROM gnral_unidad_personal WHERE gnral_unidad_personal.id_personal='.$id_personal.'');
+        $jefedepartamento= DB::selectOne('SELECT COUNT(gnral_unidad_personal.id_personal)num FROM gnral_unidad_personal WHERE gnral_unidad_personal.id_personal= ?', [$id_personal]);
         if($jefedepartamento->num ==1){
         $viaticos= DB::select("select *from oc_respuesta where id_respuesta=1");
         }
@@ -696,11 +696,11 @@ else {
     }
     public function dependencia($id_dependencia){
         //registrar comisionados
-       $dependencias= DB::selectOne('SELECT oc_depend_domicilio.*,gnral_municipios.id_municipio,gnral_municipios.id_estado FROM oc_depend_domicilio,gnral_municipios 
-   WHERE gnral_municipios.id_municipio=oc_depend_domicilio.id_municipio 
-   and oc_depend_domicilio.id_depend_domicilio ='.$id_dependencia.'');
+       $dependencias= DB::selectOne('SELECT oc_depend_domicilio.*,gnral_municipios.id_municipio,gnral_municipios.id_estado FROM oc_depend_domicilio,gnral_municipios
+   WHERE gnral_municipios.id_municipio=oc_depend_domicilio.id_municipio
+   and oc_depend_domicilio.id_depend_domicilio = ?', [$id_dependencia]);
         $estados = Estados::all();
-        $municipios= DB::select('SELECT * FROM gnral_municipios WHERE gnral_municipios.id_estado='.$dependencias->id_estado.'');
+        $municipios= DB::select('SELECT * FROM gnral_municipios WHERE gnral_municipios.id_estado= ?', [$dependencias->id_estado]);
         return view('comision_oficio.partialsof.edit_dependencia', compact('estados','dependencias','municipios'));
 
     }
@@ -732,7 +732,7 @@ else {
     public function  eliminar_dependencia(Request $request)
     {
         $id_dependecia_domicilio = $request->input("id_dependencia");
-        DB::delete('DELETE FROM oc_depend_domicilio WHERE id_depend_domicilio='.$id_dependecia_domicilio.'');
+        DB::delete('DELETE FROM oc_depend_domicilio WHERE id_depend_domicilio= ?', [$id_dependecia_domicilio]);
 
         return back();
     }
@@ -776,19 +776,19 @@ else {
     }
     public function modificaroficio_aceptado($id_oficio_personal){
         $estados = Estados::all();
-        $ofic=DB::selectOne('SELECT * FROM oc_oficio_personal WHERE id_oficio_personal = '.$id_oficio_personal.' ORDER BY id_oficio DESC');
+        $ofic=DB::selectOne('SELECT * FROM oc_oficio_personal WHERE id_oficio_personal = ? ORDER BY id_oficio DESC', [$id_oficio_personal]);
        $id_oficio=$ofic->id_oficio;
-        $encontrado= DB::selectOne('SELECT oc_oficio.id_oficio,1 numero FROM oc_oficio,oc_oficio_personal WHERE oc_oficio_personal.id_oficio=oc_oficio.id_oficio AND oc_oficio.id_oficio='.$id_oficio.' UNION Select oc_oficio.id_oficio,0 numero from oc_oficio where oc_oficio.id_oficio='.$id_oficio.' and not exists (select oc_oficio_personal.id_oficio from oc_oficio_personal where oc_oficio.id_oficio = oc_oficio_personal.id_oficio)');
+        $encontrado= DB::selectOne('SELECT oc_oficio.id_oficio,1 numero FROM oc_oficio,oc_oficio_personal WHERE oc_oficio_personal.id_oficio=oc_oficio.id_oficio AND oc_oficio.id_oficio= ? UNION Select oc_oficio.id_oficio,0 numero from oc_oficio where oc_oficio.id_oficio= ? and not exists (select oc_oficio_personal.id_oficio from oc_oficio_personal where oc_oficio.id_oficio = oc_oficio_personal.id_oficio)', [$id_oficio, $id_oficio]);
         $encontrado=$encontrado->numero;
-        $dependencias_r=DB::selectOne('SELECT count(oc_depend_domicilio.id_depend_domicilio) dependenciasr  FROM oc_depend_domicilio WHERE oc_depend_domicilio.id_oficio ='.$id_oficio.'');
+        $dependencias_r=DB::selectOne('SELECT count(oc_depend_domicilio.id_depend_domicilio) dependenciasr  FROM oc_depend_domicilio WHERE oc_depend_domicilio.id_oficio = ?', [$id_oficio]);
         $solicitudes=DB::selectOne('SELECT oc_oficio.id_oficio,oc_oficio.desc_comision,
-    oc_oficio.fecha_salida,oc_oficio.fecha_regreso,oc_oficio.hora_s,oc_oficio.hora_r 
-    from oc_oficio WHERE oc_oficio.id_oficio='.$id_oficio.'');
-        $dependencias= DB::select('SELECT oc_depend_domicilio.*,gnral_municipios.nombre_municipio,gnral_estados.nombre_estado FROM oc_depend_domicilio,gnral_estados,gnral_municipios WHERE oc_depend_domicilio.id_municipio=gnral_municipios.id_municipio and gnral_municipios.id_estado=gnral_estados.id_estado and oc_depend_domicilio.id_oficio= '.$id_oficio.'');
-        $lugar_s=DB::selectOne('SELECT oc_lugar.descripcion from oc_oficio,oc_lugar WHERE oc_oficio.id_lugar_salida=oc_lugar.id_lugar and oc_oficio.id_oficio='.$id_oficio.'');
-        $lugar_r=DB::selectOne('SELECT oc_lugar.descripcion from oc_oficio,oc_lugar WHERE oc_oficio.id_lugar_entrada=oc_lugar.id_lugar and oc_oficio.id_oficio='.$id_oficio.'');
-        $comisionados=DB::select('SELECT oc_vehiculo.modelo,oc_vehiculo.placas,oc_oficio_vehiculo.licencia,gnral_personales.nombre,abreviaciones.titulo,oc_oficio_personal.viaticos,oc_oficio_personal.automovil,oc_oficio_personal.id_personal,oc_oficio_personal.id_oficio_personal from oc_vehiculo,oc_oficio_vehiculo,oc_oficio_personal,gnral_personales,abreviaciones_prof,abreviaciones WHERE oc_vehiculo.id_vehiculo=oc_oficio_vehiculo.id_vehiculo and oc_oficio_vehiculo.id_oficio_personal=oc_oficio_personal.id_oficio_personal and oc_oficio_personal.id_personal=gnral_personales.id_personal and gnral_personales.id_personal=abreviaciones_prof.id_personal and abreviaciones_prof.id_abreviacion=abreviaciones.id_abreviacion and oc_oficio_personal.id_oficio='.$id_oficio.' and oc_oficio_personal.automovil=2 UNION SELECT 0,0,0,gnral_personales.nombre,abreviaciones.titulo,oc_oficio_personal.viaticos,oc_oficio_personal.automovil,oc_oficio_personal.id_personal,oc_oficio_personal.id_oficio_personal from oc_oficio_personal,gnral_personales,abreviaciones_prof,abreviaciones WHERE oc_oficio_personal.id_personal=gnral_personales.id_personal and gnral_personales.id_personal=abreviaciones_prof.id_personal and abreviaciones_prof.id_abreviacion=abreviaciones.id_abreviacion and oc_oficio_personal.automovil=1 and oc_oficio_personal.id_oficio='.$id_oficio.'');
-        $oficios=DB::selectOne('SELECT oc_oficio.id_oficio,oc_oficio.fecha_salida,oc_oficio.fecha_regreso from oc_oficio WHERE oc_oficio.id_oficio='.$id_oficio.'');
+    oc_oficio.fecha_salida,oc_oficio.fecha_regreso,oc_oficio.hora_s,oc_oficio.hora_r
+    from oc_oficio WHERE oc_oficio.id_oficio= ?', [$id_oficio]);
+        $dependencias= DB::select('SELECT oc_depend_domicilio.*,gnral_municipios.nombre_municipio,gnral_estados.nombre_estado FROM oc_depend_domicilio,gnral_estados,gnral_municipios WHERE oc_depend_domicilio.id_municipio=gnral_municipios.id_municipio and gnral_municipios.id_estado=gnral_estados.id_estado and oc_depend_domicilio.id_oficio= ?', [$id_oficio]);
+        $lugar_s=DB::selectOne('SELECT oc_lugar.descripcion from oc_oficio,oc_lugar WHERE oc_oficio.id_lugar_salida=oc_lugar.id_lugar and oc_oficio.id_oficio= ?', [$id_oficio]);
+        $lugar_r=DB::selectOne('SELECT oc_lugar.descripcion from oc_oficio,oc_lugar WHERE oc_oficio.id_lugar_entrada=oc_lugar.id_lugar and oc_oficio.id_oficio= ?', [$id_oficio]);
+        $comisionados=DB::select('SELECT oc_vehiculo.modelo,oc_vehiculo.placas,oc_oficio_vehiculo.licencia,gnral_personales.nombre,abreviaciones.titulo,oc_oficio_personal.viaticos,oc_oficio_personal.automovil,oc_oficio_personal.id_personal,oc_oficio_personal.id_oficio_personal from oc_vehiculo,oc_oficio_vehiculo,oc_oficio_personal,gnral_personales,abreviaciones_prof,abreviaciones WHERE oc_vehiculo.id_vehiculo=oc_oficio_vehiculo.id_vehiculo and oc_oficio_vehiculo.id_oficio_personal=oc_oficio_personal.id_oficio_personal and oc_oficio_personal.id_personal=gnral_personales.id_personal and gnral_personales.id_personal=abreviaciones_prof.id_personal and abreviaciones_prof.id_abreviacion=abreviaciones.id_abreviacion and oc_oficio_personal.id_oficio= ? and oc_oficio_personal.automovil=2 UNION SELECT 0,0,0,gnral_personales.nombre,abreviaciones.titulo,oc_oficio_personal.viaticos,oc_oficio_personal.automovil,oc_oficio_personal.id_personal,oc_oficio_personal.id_oficio_personal from oc_oficio_personal,gnral_personales,abreviaciones_prof,abreviaciones WHERE oc_oficio_personal.id_personal=gnral_personales.id_personal and gnral_personales.id_personal=abreviaciones_prof.id_personal and abreviaciones_prof.id_abreviacion=abreviaciones.id_abreviacion and oc_oficio_personal.automovil=1 and oc_oficio_personal.id_oficio= ?', [$id_oficio, $id_oficio]);
+        $oficios=DB::selectOne('SELECT oc_oficio.id_oficio,oc_oficio.fecha_salida,oc_oficio.fecha_regreso from oc_oficio WHERE oc_oficio.id_oficio= ?', [$id_oficio]);
 
 
 
@@ -799,14 +799,14 @@ else {
 
     }
     public function editar_comisionado($id_comisionado){
-        $comisionado=DB::selectOne('SELECT oc_oficio_personal.*,gnral_personales.nombre FROM oc_oficio_personal,gnral_personales WHERE gnral_personales.id_personal=oc_oficio_personal.id_personal and oc_oficio_personal.id_oficio_personal='.$id_comisionado.'');
-        $director = DB::selectOne('SELECT COUNT(gnral_unidad_personal.id_personal) numero from gnral_unidad_personal WHERE gnral_unidad_personal.id_personal=' .$comisionado->id_personal. ' and gnral_unidad_personal.id_unidad_admin=3');
+        $comisionado=DB::selectOne('SELECT oc_oficio_personal.*,gnral_personales.nombre FROM oc_oficio_personal,gnral_personales WHERE gnral_personales.id_personal=oc_oficio_personal.id_personal and oc_oficio_personal.id_oficio_personal= ?', [$id_comisionado]);
+        $director = DB::selectOne('SELECT COUNT(gnral_unidad_personal.id_personal) numero from gnral_unidad_personal WHERE gnral_unidad_personal.id_personal= ? and gnral_unidad_personal.id_unidad_admin=3', [$comisionado->id_personal]);
         if ($director->numero == 1) {
             $automoviles = DB::select("SELECT * from oc_vehiculo WHERE oc_vehiculo.id_asignacion=2");
 
         }
         if ($director->numero == 0) {
-            $contralor = DB::selectOne('SELECT COUNT(gnral_unidad_personal.id_personal) numero from gnral_unidad_personal WHERE gnral_unidad_personal.id_personal=' . $comisionado->id_personal. ' and gnral_unidad_personal.id_unidad_admin=40');
+            $contralor = DB::selectOne('SELECT COUNT(gnral_unidad_personal.id_personal) numero from gnral_unidad_personal WHERE gnral_unidad_personal.id_personal= ? and gnral_unidad_personal.id_unidad_admin=40', [$comisionado->id_personal]);
             if ($contralor->numero == 1) {
                 $automoviles = DB::select("SELECT * from oc_vehiculo WHERE oc_vehiculo.id_asignacion=3");
                 //$automoviles = DB::select("SELECT * from oc_vehiculo WHERE oc_vehiculo.id_asignacion=3 and oc_vehiculo.id_vehiculo NOT IN (SELECT DISTINCT oc_oficio_vehiculo.id_vehiculo from oc_oficio_vehiculo WHERE (oc_oficio_vehiculo.fecha_salida<= '$fecha_salida' and oc_oficio_vehiculo.fecha_regreso >= '$fecha_salida') OR (oc_oficio_vehiculo.fecha_regreso<= '$fecha_regreso' AND oc_oficio_vehiculo.fecha_salida>='$fecha_regreso') OR (oc_oficio_vehiculo.fecha_salida>='$fecha_salida' and oc_oficio_vehiculo.fecha_regreso<='$fecha_regreso'))");
@@ -818,14 +818,14 @@ else {
             }
         }
         $id_periodo = Session::get('periodotrabaja');
-        $jefesdivision= DB::selectOne('SELECT COUNT(gnral_jefes_periodos.id_personal)num FROM gnral_personales,gnral_jefes_periodos,gnral_carreras,gnral_periodos WHERE gnral_personales.id_personal=gnral_jefes_periodos.id_personal AND gnral_carreras.id_carrera=gnral_jefes_periodos.id_carrera and gnral_periodos.id_periodo=gnral_jefes_periodos.id_periodo AND gnral_jefes_periodos.id_periodo='.$id_periodo.' and gnral_jefes_periodos.id_personal='.$comisionado->id_personal.'');
+        $jefesdivision= DB::selectOne('SELECT COUNT(gnral_jefes_periodos.id_personal)num FROM gnral_personales,gnral_jefes_periodos,gnral_carreras,gnral_periodos WHERE gnral_personales.id_personal=gnral_jefes_periodos.id_personal AND gnral_carreras.id_carrera=gnral_jefes_periodos.id_carrera and gnral_periodos.id_periodo=gnral_jefes_periodos.id_periodo AND gnral_jefes_periodos.id_periodo= ? and gnral_jefes_periodos.id_personal= ?', [$id_periodo, $comisionado->id_personal]);
 
         if($jefesdivision->num == 1 || $jefesdivision->num == 2)
         {
             $respuestas= DB::select("select *from oc_respuesta where id_respuesta=1");
         }
         if( $jefesdivision->num == 0){
-            $jefedepartamento= DB::selectOne('SELECT COUNT(gnral_unidad_personal.id_personal)num FROM gnral_unidad_personal WHERE gnral_unidad_personal.id_personal='.$comisionado->id_personal.'');
+            $jefedepartamento= DB::selectOne('SELECT COUNT(gnral_unidad_personal.id_personal)num FROM gnral_unidad_personal WHERE gnral_unidad_personal.id_personal= ?', [$comisionado->id_personal]);
             if($jefedepartamento->num ==1){
                 $respuestas= DB::select("select *from oc_respuesta where id_respuesta=1");
             }
@@ -838,7 +838,7 @@ else {
         if($con_auto == 2){
            $auto=2;
             $comi=$comisionado->id_oficio_personal;
-            $auto_comisionado=DB::selectOne('SELECT * FROM oc_oficio_vehiculo WHERE id_oficio_personal ='.$comi.'');
+            $auto_comisionado=DB::selectOne('SELECT * FROM oc_oficio_vehiculo WHERE id_oficio_personal = ?', [$comi]);
 
 
         }
@@ -860,23 +860,23 @@ else {
 
         ]);
         $id_oficio_comisionado = $request->input("id_oficio_comisionado");
-        $oficio=DB::selectOne('SELECT  *from oc_oficio_personal where id_oficio_personal= '.$id_oficio_comisionado.'');
+        $oficio=DB::selectOne('SELECT  *from oc_oficio_personal where id_oficio_personal= ?', [$id_oficio_comisionado]);
 $ofici=$oficio->id_oficio;
-        $oficio=DB::selectOne(' SELECT * FROM oc_oficio WHERE id_oficio = '.$ofici.'');
+        $oficio=DB::selectOne(' SELECT * FROM oc_oficio WHERE id_oficio = ?', [$ofici]);
 $fecha_salida=$oficio->fecha_salida;
         $fecha_regreso=$oficio->fecha_regreso;
 
         $viaticos = $request->input("viaticos");
         $automoviles = $request->input("automoviles");
        if($automoviles == 2){
-           $con_auto=DB::selectOne('SELECT count(id_oficio_personal) num from oc_oficio_vehiculo where id_oficio_personal= '.$id_oficio_comisionado.'');
+           $con_auto=DB::selectOne('SELECT count(id_oficio_personal) num from oc_oficio_vehiculo where id_oficio_personal= ?', [$id_oficio_comisionado]);
            $automovil = $request->input("automovil");
            $licencia = $request->input("licencia");
         // dd($con_auto);
            if($con_auto->num ==1)
            {
 
-               DB::update("UPDATE oc_oficio_personal SET viaticos = $viaticos,automovil = $automoviles,fecha_salida = '$fecha_salida',fecha_regreso = '$fecha_regreso' WHERE oc_oficio_personal.id_oficio_personal = $id_oficio_comisionado");
+               DB::update('UPDATE oc_oficio_personal SET viaticos = ?,automovil = ?,fecha_salida = ?,fecha_regreso = ? WHERE oc_oficio_personal.id_oficio_personal = ?', [$viaticos, $automoviles, (string) ($fecha_salida), (string) ($fecha_regreso), $id_oficio_comisionado]);
               // DB::update("UPDATE oc_oficio_vehiculo SET id_vehiculo = $automovil,licencia = '$licencia',fecha_salida = '$fecha_salida',fecha_regreso = '$fecha_regreso' WHERE oc_oficio_vehiculo.id_oficio_personal = $id_oficio_comisionado");
                //DB::update("UPDATE oc_oficio_vehiculo SET id_vehiculo = ?, licencia = ?, fecha_salida = ?, fecha_regreso = ? WHERE oc_oficio_vehiculo.id_oficio_personal = $id_oficio_comisionado", [$automovil, $licencia, $fecha_salida, $fecha_regreso]);
                DB::table('oc_oficio_vehiculo')
@@ -889,7 +889,7 @@ $fecha_salida=$oficio->fecha_salida;
 
            }
            else{
-               DB::update("UPDATE oc_oficio_personal SET viaticos = $viaticos,automovil=$automoviles WHERE id_oficio_personal= $id_oficio_comisionado");
+               DB::update('UPDATE oc_oficio_personal SET viaticos = ?,automovil= ? WHERE id_oficio_personal= ?', [$viaticos, $automoviles, $id_oficio_comisionado]);
                DB:: table('oc_oficio_vehiculo')->insert(['id_vehiculo'=>$automovil,'id_oficio_personal'=>$id_oficio_comisionado,'licencia'=>$licencia,'fecha_salida'=>$fecha_salida,'fecha_regreso'=>$fecha_regreso]);
 
 
@@ -898,15 +898,15 @@ $fecha_salida=$oficio->fecha_salida;
 
        }
        else{
-           $con_auto=DB::selectOne('SELECT count(id_oficio_personal) num from oc_oficio_vehiculo where id_oficio_personal= '.$id_oficio_comisionado.'');
+           $con_auto=DB::selectOne('SELECT count(id_oficio_personal) num from oc_oficio_vehiculo where id_oficio_personal= ?', [$id_oficio_comisionado]);
            if($con_auto->num ==1)
            {
-               DB::update("UPDATE oc_oficio_personal SET viaticos= $viaticos,automovil=$automoviles,fecha_salida =$fecha_salida,fecha_regreso =$fecha_regreso WHERE oc_oficio_personal.id_oficio_personal= $id_oficio_comisionado");
+               DB::update('UPDATE oc_oficio_personal SET viaticos= ?,automovil= ?,fecha_salida = ?,fecha_regreso = ? WHERE oc_oficio_personal.id_oficio_personal= ?', [$viaticos, $automoviles, $fecha_salida, $fecha_regreso, $id_oficio_comisionado]);
 
-               DB::delete('DELETE FROM oc_oficio_vehiculo WHERE id_oficio_personal='.$id_oficio_comisionado.'');
+               DB::delete('DELETE FROM oc_oficio_vehiculo WHERE id_oficio_personal= ?', [$id_oficio_comisionado]);
            }
            else{
-               DB::update("UPDATE oc_oficio_personal SET viaticos= $viaticos,automovil=$automoviles,fecha_salida=$fecha_salida,fecha_regreso=$fecha_regreso WHERE oc_oficio_personal.id_oficio_personal= $id_oficio_comisionado");
+               DB::update('UPDATE oc_oficio_personal SET viaticos= ?,automovil= ?,fecha_salida= ?,fecha_regreso= ? WHERE oc_oficio_personal.id_oficio_personal= ?', [$viaticos, $automoviles, $fecha_salida, $fecha_regreso, $id_oficio_comisionado]);
 
            }
        }

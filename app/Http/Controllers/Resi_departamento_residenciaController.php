@@ -81,7 +81,7 @@ return view('residencia.departamento_residencia.inicio_residencia');
         ->select('gnral_carreras.*')
         ->get();
         $mostrar = 0;
-        
+
         return view('residencia.departamento_servicio_social.inicio_carrera_servicio_social',compact('carreras', 'mostrar'));
     }
 
@@ -172,7 +172,7 @@ return view('residencia.departamento_residencia.inicio_residencia');
             'Servicio Social calificado correctamente.'
         );
     }
-        
+
         public function estadisticas_residencia(){
         return view('residencia.departamento_residencia.inicio_estadisticas');
         }
@@ -538,11 +538,11 @@ return view('residencia.departamento_residencia.carreras_estadisticas',compact('
                 ->get();
             $total_alumnos = DB::select('SELECT COUNT(gnral_carreras.id_carrera)contar, gnral_carreras.nombre, gnral_carreras.id_carrera
             from gnral_carreras, resi_anteproyecto, resi_proy_empresa, resi_asesores WHERE
-             resi_proy_empresa.id_anteproyecto=resi_anteproyecto.id_anteproyecto and 
+             resi_proy_empresa.id_anteproyecto=resi_anteproyecto.id_anteproyecto and
              resi_anteproyecto.autorizacion_departamento=1 and
-            resi_anteproyecto.id_anteproyecto = resi_asesores.id_anteproyecto and resi_asesores.id_periodo='.$periodo.' 
-            and resi_asesores.id_carrera = gnral_carreras.id_carrera and resi_proy_empresa.id_empresa='.$empresa->id_empresa.' 
-GROUP by gnral_carreras.id_carrera');
+            resi_anteproyecto.id_anteproyecto = resi_asesores.id_anteproyecto and resi_asesores.id_periodo= ?
+            and resi_asesores.id_carrera = gnral_carreras.id_carrera and resi_proy_empresa.id_empresa= ?
+GROUP by gnral_carreras.id_carrera', [$periodo, $empresa->id_empresa]);
             $array_alumnos=array();
             foreach ( $total_alumnos as $total){
                 $dat_al['carrera']=$total->nombre;
@@ -585,19 +585,19 @@ GROUP by gnral_carreras.id_carrera');
 gnral_alumnos.amaterno,resi_proyecto.nom_proyecto,resi_empresa.nombre empresa,resi_sector.descripcion sector,resi_giro.descripcion giro,resi_empresa.domicilio,resi_empresa.tel_empresa,
 resi_empresa.correo,resi_empresa.dir_gral,resi_proy_empresa.asesor asesor_externo,gnral_carreras.nombre carrera,resi_proy_empresa.puesto,gnral_personales.nombre asesor_interno,abreviaciones.titulo from gnral_alumnos,resi_anteproyecto,resi_proy_empresa,resi_empresa,resi_giro,resi_sector,resi_proyecto,
 resi_asesores,gnral_personales,abreviaciones_prof,abreviaciones,gnral_carreras
-WHERE gnral_alumnos.id_carrera=gnral_carreras.id_carrera and gnral_alumnos.id_alumno=resi_anteproyecto.id_alumno and resi_anteproyecto.id_anteproyecto=resi_proy_empresa.id_anteproyecto 
+WHERE gnral_alumnos.id_carrera=gnral_carreras.id_carrera and gnral_alumnos.id_alumno=resi_anteproyecto.id_alumno and resi_anteproyecto.id_anteproyecto=resi_proy_empresa.id_anteproyecto
 and resi_proy_empresa.id_empresa=resi_empresa.id_empresa
-and resi_proy_empresa.id_giro=resi_giro.id_giro and 
-resi_proy_empresa.id_sector=resi_sector.id_sector and 
+and resi_proy_empresa.id_giro=resi_giro.id_giro and
+resi_proy_empresa.id_sector=resi_sector.id_sector and
 resi_anteproyecto.id_proyecto=resi_proyecto.id_proyecto
-and resi_asesores.id_periodo='.$periodo.'
+and resi_asesores.id_periodo= ?
 and resi_anteproyecto.autorizacion_departamento=1
 and resi_anteproyecto.id_anteproyecto=resi_asesores.id_anteproyecto
-and resi_asesores.id_carrera='.$carrera->id_carrera.'
+and resi_asesores.id_carrera= ?
 and resi_asesores.id_profesor=gnral_personales.id_personal
 and gnral_personales.id_personal=abreviaciones_prof.id_personal
 and abreviaciones_prof.id_abreviacion=abreviaciones.id_abreviacion
-ORDER BY gnral_alumnos.apaterno,gnral_alumnos.amaterno,gnral_alumnos.nombre  ASC');
+ORDER BY gnral_alumnos.apaterno,gnral_alumnos.amaterno,gnral_alumnos.nombre  ASC', [$periodo, $carrera->id_carrera]);
 
 
                 $array_generales=array();

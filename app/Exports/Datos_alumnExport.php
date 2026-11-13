@@ -37,7 +37,7 @@ class Datos_alumnExport implements FromCollection, WithHeadings, WithTitle
         // $carrera2=DB::select('SELECT * FROM `gnral_carreras` WHERE `id_carrera` ='.$this->id_carrera.'');
         // dd($carrera);
 
-        $datos_generales = DB::select('SELECT 
+        $datos_generales = DB::select('SELECT
                 gnral_alumnos.id_alumno,
                 gnral_alumnos.cuenta,
                 gnral_alumnos.nombre,
@@ -75,7 +75,7 @@ class Datos_alumnExport implements FromCollection, WithHeadings, WithTitle
                 gnral_alumnos.numero_seguro_social,
                 gnral_alumnos.id_semestre,
                 gnral_alumnos.id_escuela_procedencia,
-                gnral_alumnos.id_institucion 
+                gnral_alumnos.id_institucion
                 FROM
                 gnral_alumnos,
                 eva_validacion_de_cargas,
@@ -83,28 +83,28 @@ class Datos_alumnExport implements FromCollection, WithHeadings, WithTitle
                 gnral_semestres,
                 gnral_grupos,
                 gnral_estados,
-                gnral_municipios 
+                gnral_municipios
                 WHERE
-                gnral_grupos.id_grupo=gnral_alumnos.grupo 
-                and gnral_alumnos.estado=gnral_estados.id_estado 
-                and gnral_alumnos.id_municipio=gnral_municipios.id_municipio 
-                and gnral_alumnos.id_semestre=gnral_semestres.id_semestre 
-                AND gnral_carreras.id_carrera=gnral_alumnos.id_carrera 
+                gnral_grupos.id_grupo=gnral_alumnos.grupo
+                and gnral_alumnos.estado=gnral_estados.id_estado
+                and gnral_alumnos.id_municipio=gnral_municipios.id_municipio
+                and gnral_alumnos.id_semestre=gnral_semestres.id_semestre
+                AND gnral_carreras.id_carrera=gnral_alumnos.id_carrera
                 AND eva_validacion_de_cargas.id_alumno=gnral_alumnos.id_alumno
-                and eva_validacion_de_cargas.id_periodo=' . $periodo . ' 
-                and eva_validacion_de_cargas.estado_validacion in (2,8,9) 
-                and gnral_carreras.id_carrera=' . $this->id_carrera . ' 
-                ORDER BY gnral_alumnos.apaterno ASC');
+                and eva_validacion_de_cargas.id_periodo= ?
+                and eva_validacion_de_cargas.estado_validacion in (2,8,9)
+                and gnral_carreras.id_carrera= ?
+                ORDER BY gnral_alumnos.apaterno ASC', [$periodo, $this->id_carrera]);
 
         $array_generales = array();
 
         foreach ($datos_generales as $dato) {
 
-            $tutor = DB::selectOne('SELECT * FROM `eva_tutor` WHERE `id_alumno` =' . $dato->id_alumno . '');
+            $tutor = DB::selectOne('SELECT * FROM `eva_tutor` WHERE `id_alumno` = ?', [$dato->id_alumno]);
 
-            $contar_escuela = DB::selectOne('SELECT count(id_alumno) contar from gnral_alumnos,gnral_escuela_procedencia 
-                where gnral_alumnos.id_escuela_procedencia=gnral_escuela_procedencia.id_escuela_procedencia 
-                and gnral_alumnos.id_alumno=' . $dato->id_alumno . ' ');
+            $contar_escuela = DB::selectOne('SELECT count(id_alumno) contar from gnral_alumnos,gnral_escuela_procedencia
+                where gnral_alumnos.id_escuela_procedencia=gnral_escuela_procedencia.id_escuela_procedencia
+                and gnral_alumnos.id_alumno= ? ', [$dato->id_alumno]);
 
             $contar_escuela = $contar_escuela->contar;
 
@@ -196,7 +196,7 @@ class Datos_alumnExport implements FromCollection, WithHeadings, WithTitle
 
                 } else {
 
-                    $institucion = DB::selectOne('SELECT * FROM gnral_instituciones_edu WHERE id_institucion= ' . $dato->id_institucion . '');
+                    $institucion = DB::selectOne('SELECT * FROM gnral_instituciones_edu WHERE id_institucion= ?', [$dato->id_institucion]);
 
                     $dat_generales['nombre_escuela'] = $institucion->nombre_escuela;
                     //dd($institucion->nombre_escuela);
@@ -211,7 +211,7 @@ class Datos_alumnExport implements FromCollection, WithHeadings, WithTitle
 
             } else {
 
-                $escuela_procedencia = DB::selectOne('SELECT * FROM `gnral_escuela_procedencia` WHERE `id_escuela_procedencia` = ' . $dato->id_escuela_procedencia . ' ');
+                $escuela_procedencia = DB::selectOne('SELECT * FROM `gnral_escuela_procedencia` WHERE `id_escuela_procedencia` = ? ', [$dato->id_escuela_procedencia]);
 
                 $dat_generales['nombre_escuela'] = $escuela_procedencia->nombre_escuela;
                 $dat_generales['estado_escuela'] = $escuela_procedencia->estado;

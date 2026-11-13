@@ -88,18 +88,18 @@ class Tu_Eva_pdf_fo17Controller extends Controller
                                 FROM tu_grupo_tutorias tu_grupo_t
                                 INNER JOIN tu_grupo_semestre tu_grupo_s
                                 ON tu_grupo_s.id_grupo_tutorias = tu_grupo_t.id_grupo_tutorias
-                                INNER JOIN exp_asigna_tutor exp_asigna_t 
+                                INNER JOIN exp_asigna_tutor exp_asigna_t
                                 ON exp_asigna_t.id_asigna_tutor = tu_grupo_s.id_asigna_tutor
-                                INNER JOIN gnral_personales gnral_p 
-                                ON gnral_p.id_personal = exp_asigna_t.id_personal 
-                                INNER JOIN gnral_jefes_periodos gnral_j 
+                                INNER JOIN gnral_personales gnral_p
+                                ON gnral_p.id_personal = exp_asigna_t.id_personal
+                                INNER JOIN gnral_jefes_periodos gnral_j
                                 ON gnral_j.id_jefe_periodo = exp_asigna_t.id_jefe_periodo
                                 INNER JOIN gnral_carreras car
                                 ON car.id_carrera = gnral_j.id_carrera
-                                WHERE tu_grupo_s.id_grupo_semestre = '.$id_grupo_semestre.' and gnral_j.id_periodo ='.$periodo.' ');
-        $con_q = 'select count(*) con from tu_eva_fo17 where id_asigna_tutor = '.$datos1->id_asigna_tutor.' and per = '.$per.' ';
+                                WHERE tu_grupo_s.id_grupo_semestre = ? and gnral_j.id_periodo = ? ', [$id_grupo_semestre, $periodo]);
+        $con_q = 'select count(*) con from tu_eva_fo17 where id_asigna_tutor = ? and per = ? ';
         //dd($con_q);
-        $con = DB::selectone($con_q);
+        $con = DB::selectone($con_q, [$datos1->id_asigna_tutor, $per]);
         //dd($con);
         //dd($datos1);
         // $per_c = DB::SELECTONE('SELECT id_personal FROM `gnral_personales` WHERE tipo_usuario = '.$id_usuario.' ');
@@ -137,32 +137,32 @@ class Tu_Eva_pdf_fo17Controller extends Controller
                                     ON per.id_periodo = periodo.id_periodo
                                     INNER JOIN gnral_carreras carrera
                                     ON carrera.id_carrera = periodo.id_carrera
-                                    WHERE tutor.id_asigna_tutor =  '.$datos1->id_asigna_tutor.' ');
+                                    WHERE tutor.id_asigna_tutor =  ? ', [$datos1->id_asigna_tutor]);
             //dd($datos_tutor);
 
             $res = DB::selectone('select  id_fo17,id_asigna_tutor,per,IF(experiencia=1,"Si","No") experiencia,anos_tutor, IF(planeacion=1,"Si","No") planeacion,com_planeacion,fecha_establecida,fecha_final,(
-            CASE 
+            CASE
                 WHEN tu.pregunta1 = 1 THEN "Mala"
                 WHEN tu.pregunta1 = 2 THEN "Regular"
                 WHEN tu.pregunta1 = 3 THEN "Buena"
                 WHEN tu.pregunta1 = 4 THEN "Muy buena"
                 WHEN tu.pregunta1 = 5 THEN "Excelente"
             END) pregunta1,
-            (CASE 
+            (CASE
                 WHEN tu.pregunta2 = 1 THEN "Mala"
                 WHEN tu.pregunta2 = 2 THEN "Regular"
                 WHEN tu.pregunta2 = 3 THEN "Buena"
                 WHEN tu.pregunta2 = 4 THEN "Muy buena"
                 WHEN tu.pregunta2 = 5 THEN "Excelente"
             END)pregunta2,
-            (CASE 
+            (CASE
                 WHEN tu.pregunta3 = 1 THEN "Mala"
                 WHEN tu.pregunta3 = 2 THEN "Regular"
                 WHEN tu.pregunta3 = 3 THEN "Buena"
                 WHEN tu.pregunta3 = 4 THEN "Muy buena"
                 WHEN tu.pregunta3 = 5 THEN "Excelente"
             END)pregunta3,
-            (CASE 
+            (CASE
                 WHEN tu.pregunta4 = 1 THEN "Mala"
                 WHEN tu.pregunta4 = 2 THEN "Regular"
                 WHEN tu.pregunta4 = 3 THEN "Buena"
@@ -176,42 +176,42 @@ class Tu_Eva_pdf_fo17Controller extends Controller
                 WHEN tu.pregunta5 = 4 THEN "Muy buena"
                 WHEN tu.pregunta5 = 5 THEN "Excelente"
             END)pregunta5,
-            (CASE 
+            (CASE
                 WHEN tu.pregunta6 = 1 THEN "Mala"
                 WHEN tu.pregunta6 = 2 THEN "Regular"
                 WHEN tu.pregunta6 = 3 THEN "Buena"
                 WHEN tu.pregunta6 = 4 THEN "Muy buena"
                 WHEN tu.pregunta6 = 5 THEN "Excelente"
             END)pregunta6,
-            (CASE 
+            (CASE
                 WHEN tu.pregunta7 = 1 THEN "Mala"
                 WHEN tu.pregunta7 = 2 THEN "Regular"
                 WHEN tu.pregunta7 = 3 THEN "Buena"
                 WHEN tu.pregunta7 = 4 THEN "Muy buena"
                 WHEN tu.pregunta7 = 5 THEN "Excelente"
             END)pregunta7,
-            (CASE 
+            (CASE
                 WHEN tu.pregunta8 = 1 THEN "Mala"
                 WHEN tu.pregunta8 = 2 THEN "Regular"
                 WHEN tu.pregunta8 = 3 THEN "Buena"
                 WHEN tu.pregunta8 = 4 THEN "Muy buena"
                 WHEN tu.pregunta8 = 5 THEN "Excelente"
             END)pregunta8,
-            (CASE 
+            (CASE
                 WHEN tu.pregunta9 = 1 THEN "Mala"
                 WHEN tu.pregunta9 = 2 THEN "Regular"
                 WHEN tu.pregunta9 = 3 THEN "Buena"
                 WHEN tu.pregunta9 = 4 THEN "Muy buena"
                 WHEN tu.pregunta9 = 5 THEN "Excelente"
             END)pregunta9,
-            (CASE 
+            (CASE
                 WHEN tu.pregunta10= 1 THEN "Mala"
                 WHEN tu.pregunta10 = 2 THEN "Regular"
                 WHEN tu.pregunta10 = 3 THEN "Buena"
                 WHEN tu.pregunta10 = 4 THEN "Muy buena"
                 WHEN tu.pregunta10 = 5 THEN "Excelente"
             END)pregunta10,
-            comentario,fecha_registro  from tu_eva_fo17 tu where id_asigna_tutor = '.$datos1->id_asigna_tutor.' and per = '.$per.' ');
+            comentario,fecha_registro  from tu_eva_fo17 tu where id_asigna_tutor = ? and per = ? ', [$datos1->id_asigna_tutor, $per]);
             /// id_fo17,id_asigna_tutor,id_asigna_cordinador,per,IF(experiencia=1,"Si","No") experiencia,anos_tutor, IF(planeacion=1,"Si","No") planeacion,com_planeacion,fecha_establecida,fecha_final,pregunta1,pregunta2,pregunta3,pregunta4,pregunta5,pregunta6,pregunta7,pregunta8,pregunta9,pregunta10,comentario,fecha_registro
 
             //dd($res);

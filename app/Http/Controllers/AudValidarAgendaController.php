@@ -58,7 +58,7 @@ class AudValidarAgendaController extends Controller
     {
         //
         $this->horas_f=[];
-        $datos=json_decode($_GET['datos']);
+        $datos=json_decode(request()->query('datos'));
         $fecha="";
         $id_area=0;
         $id_auditor=0;
@@ -206,7 +206,7 @@ class AudValidarAgendaController extends Controller
         //
 
         Session::forget('procesos-agenda');
-        Session::put('procesos-agenda',json_decode($_GET['data']));
+        Session::put('procesos-agenda',json_decode(request()->query('data')));
 
         return redirect('auditorias/agenda/'.$id);
     }
@@ -246,7 +246,7 @@ class AudValidarAgendaController extends Controller
 
     public function disponibilidad($id){
        //  dd($_GET['datos']);
-        $datos=json_decode($_GET['datos']);
+        $datos=json_decode(request()->query('datos'));
         //dd($datos);
         $fecha="";
         $areas=[];
@@ -317,7 +317,7 @@ class AudValidarAgendaController extends Controller
     }
 
     public function hora($id){
-        $datos=json_decode($_GET['datos']);
+        $datos=json_decode(request()->query('datos'));
         $fecha="";
         $areas=[];
         $responsables=[];

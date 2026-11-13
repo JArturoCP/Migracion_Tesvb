@@ -88,49 +88,49 @@ class Resi_Solicitud_pdfController extends Controller
 
         $id_usuario = Session::get('usuario_alumno');
         $periodo = Session::get('periodo_actual');
-        $datosalumno=DB::selectOne('select * FROM gnral_alumnos WHERE id_usuario='.$id_usuario.'');
+        $datosalumno=DB::selectOne('select * FROM gnral_alumnos WHERE id_usuario= ?', [$id_usuario]);
         $id_alumno=$datosalumno->id_alumno;
         // dd($id_alumno);
         $id_carrera=$datosalumno->id_carrera;
 
-        $datos_jefe=DB::selectOne('SELECT abreviaciones.titulo, gnral_personales.nombre, gnral_carreras.nombre carrera 
-        from abreviaciones, abreviaciones_prof, gnral_personales, gnral_carreras, gnral_jefes_periodos 
-        where abreviaciones.id_abreviacion = abreviaciones_prof.id_abreviacion and 
+        $datos_jefe=DB::selectOne('SELECT abreviaciones.titulo, gnral_personales.nombre, gnral_carreras.nombre carrera
+        from abreviaciones, abreviaciones_prof, gnral_personales, gnral_carreras, gnral_jefes_periodos
+        where abreviaciones.id_abreviacion = abreviaciones_prof.id_abreviacion and
         abreviaciones_prof.id_personal = gnral_personales.id_personal and
-        gnral_personales.id_personal = gnral_jefes_periodos.id_personal and 
-        gnral_jefes_periodos.id_carrera = gnral_carreras.id_carrera and gnral_jefes_periodos.id_carrera = '.$id_carrera.'
-           and gnral_jefes_periodos.id_periodo = '.$periodo.' ');
+        gnral_personales.id_personal = gnral_jefes_periodos.id_personal and
+        gnral_jefes_periodos.id_carrera = gnral_carreras.id_carrera and gnral_jefes_periodos.id_carrera = ?
+           and gnral_jefes_periodos.id_periodo = ? ', [$id_carrera, $periodo]);
          //dd($datos_jefe);
 
         $periodo_seguimiento= $periodo+1;
-        $nombre_periodo_seguimiento=DB::selectOne('SELECT * FROM `gnral_periodos` WHERE `id_periodo` ='.$periodo_seguimiento.' ');
+        $nombre_periodo_seguimiento=DB::selectOne('SELECT * FROM `gnral_periodos` WHERE `id_periodo` = ? ', [$periodo_seguimiento]);
 
         $opciones_proyecto =DB::select('SELECT * FROM `resi_opcion_proy_soli` ORDER BY `resi_opcion_proy_soli`.`nombre_opcion` ASC');
 
-        $anteproyecto=DB::selectOne('select resi_anteproyecto.id_anteproyecto from resi_anteproyecto where resi_anteproyecto.id_alumno='.$id_alumno.' and resi_anteproyecto.id_periodo='.$periodo.' ');
+        $anteproyecto=DB::selectOne('select resi_anteproyecto.id_anteproyecto from resi_anteproyecto where resi_anteproyecto.id_alumno= ? and resi_anteproyecto.id_periodo= ? ', [$id_alumno, $periodo]);
 
         $datos_empresa=DB::selectOne('SELECT resi_proy_empresa.*,resi_giro.descripcion giro, resi_sector.descripcion sector,
-        resi_empresa.nombre, resi_empresa.domicilio,resi_empresa.tel_empresa, resi_empresa.correo,resi_empresa.dir_gral, 
+        resi_empresa.nombre, resi_empresa.domicilio,resi_empresa.tel_empresa, resi_empresa.correo,resi_empresa.dir_gral,
         resi_proyecto.nom_proyecto from resi_proy_empresa, resi_empresa, resi_giro, resi_sector, resi_proyecto, resi_anteproyecto
         where resi_proy_empresa.id_empresa = resi_empresa.id_empresa and resi_proy_empresa.id_giro = resi_giro.id_giro and
-        resi_proy_empresa.id_sector = resi_sector.id_sector and resi_proyecto.id_proyecto = resi_anteproyecto.id_proyecto and 
-        resi_proy_empresa.id_anteproyecto = resi_anteproyecto.id_anteproyecto and resi_anteproyecto.id_anteproyecto ='.$id_anteproyecto.' ');
+        resi_proy_empresa.id_sector = resi_sector.id_sector and resi_proyecto.id_proyecto = resi_anteproyecto.id_proyecto and
+        resi_proy_empresa.id_anteproyecto = resi_anteproyecto.id_anteproyecto and resi_anteproyecto.id_anteproyecto = ? ', [$id_anteproyecto]);
 
          //dd($datos_empresa);
         $nombre_preyecto= $datos_empresa->nom_proyecto;
         $nombre_proyecto2=str_replace("[\n|\r|\n\r]",'',$nombre_preyecto);
 
 
-            $reg_solicitud = DB::selectOne('SELECT * FROM `resi_reg_solicitud` WHERE `id_anteproyecto` ='.$id_anteproyecto.'');
+            $reg_solicitud = DB::selectOne('SELECT * FROM `resi_reg_solicitud` WHERE `id_anteproyecto` = ?', [$id_anteproyecto]);
 
 
 //dd($reg_solicitud);
 
         $datos_alumn = DB::selectOne('SELECT gnral_alumnos.*, gnral_municipios.nombre_municipio,
        gnral_seguro_social.descripcion seguro_social, users.email,gnral_carreras.nombre carrera from gnral_alumnos, gnral_municipios, gnral_seguro_social, users, gnral_carreras
-       where gnral_alumnos.id_municipio = gnral_municipios.id_municipio and gnral_alumnos.id_seguro_social = gnral_seguro_social.id_seguro_social 
+       where gnral_alumnos.id_municipio = gnral_municipios.id_municipio and gnral_alumnos.id_seguro_social = gnral_seguro_social.id_seguro_social
        and gnral_alumnos.id_carrera = gnral_carreras.id_carrera
-       and gnral_alumnos.id_usuario = users.id and gnral_alumnos.id_alumno ='.$id_alumno.' ');
+       and gnral_alumnos.id_usuario = users.id and gnral_alumnos.id_alumno = ? ', [$id_alumno]);
 
         $domicilio_empresa=str_replace("[\n|\r|\n\r]",'',$datos_empresa->domicilio);
 

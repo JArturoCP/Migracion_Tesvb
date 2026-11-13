@@ -75,12 +75,12 @@ class Amb_encargadosController extends Controller
         return $procedimientos;
     }
     public function ver_procedimiento_periodo($id_periodo){
-        $procedimientos=DB::select('SELECT amb_documentacion_encargados.*,gnral_personales.nombre,amb_procedimientos.nom_procedimiento 
-from amb_documentacion_encargados, amb_procedimientos, amb_encargados, gnral_personales 
+        $procedimientos=DB::select('SELECT amb_documentacion_encargados.*,gnral_personales.nombre,amb_procedimientos.nom_procedimiento
+from amb_documentacion_encargados, amb_procedimientos, amb_encargados, gnral_personales
 where amb_documentacion_encargados.id_encargado=amb_encargados.id_encargado and
-      amb_encargados.id_procedimiento=amb_procedimientos.id_procedimiento and 
+      amb_encargados.id_procedimiento=amb_procedimientos.id_procedimiento and
       amb_encargados.id_personal=gnral_personales.id_personal and
-      amb_documentacion_encargados.id_periodo_amb='.$id_periodo.'');
+      amb_documentacion_encargados.id_periodo_amb= ?', [$id_periodo]);
         return $procedimientos;
     }
     public function eliminar_procedimiento($id_procedimiento){
@@ -201,13 +201,13 @@ where amb_documentacion_encargados.id_encargado=amb_encargados.id_encargado and
             ->where('gnral_personales.tipo_usuario','=',$id_usuario)
             ->get();
         $id_personal=$id_personal[0]->id_personal;
-        $procedimientos=DB::select('SELECT amb_documentacion_encargados.*,gnral_personales.nombre,amb_procedimientos.nom_procedimiento 
-from amb_documentacion_encargados, amb_procedimientos, amb_encargados, gnral_personales 
+        $procedimientos=DB::select('SELECT amb_documentacion_encargados.*,gnral_personales.nombre,amb_procedimientos.nom_procedimiento
+from amb_documentacion_encargados, amb_procedimientos, amb_encargados, gnral_personales
 where amb_documentacion_encargados.id_encargado=amb_encargados.id_encargado and
-      amb_encargados.id_procedimiento=amb_procedimientos.id_procedimiento and 
+      amb_encargados.id_procedimiento=amb_procedimientos.id_procedimiento and
       amb_encargados.id_personal=gnral_personales.id_personal and
-      gnral_personales.id_personal='.$id_personal.' and 
-      amb_documentacion_encargados.id_periodo_amb='.$id_periodo.'');
+      gnral_personales.id_personal= ? and
+      amb_documentacion_encargados.id_periodo_amb= ?', [$id_personal, $id_periodo]);
         return $procedimientos;
     }
     public function estado_documentacion_amb($id_encargado){
@@ -216,14 +216,14 @@ where amb_documentacion_encargados.id_encargado=amb_encargados.id_encargado and
             ->get();
         $id_periodo=$periodo[0]->id_periodo_amb;
 
-        $contar=DB::selectOne('SELECT count( 	id_documentacion_encar) contar 
-        from amb_documentacion_encargados where id_periodo_amb='.$id_periodo.' and id_encargado='.$id_encargado.' ');
+        $contar=DB::selectOne('SELECT count( 	id_documentacion_encar) contar
+        from amb_documentacion_encargados where id_periodo_amb= ? and id_encargado= ? ', [$id_periodo, $id_encargado]);
 
         $estado_actual=0;
         if($contar->contar == 0){
             $estado_actual=0;
         } else{
-            $contar1=DB::selectOne('SELECT *from amb_documentacion_encargados where id_periodo_amb='.$id_periodo.' and id_encargado='.$id_encargado.' ');
+            $contar1=DB::selectOne('SELECT *from amb_documentacion_encargados where id_periodo_amb= ? and id_encargado= ? ', [$id_periodo, $id_encargado]);
             $contar1=$contar1->estado_envio_doc;
             //verificacion de estado de envio de la documentacion 0 todavia no enviado 1 enviado
             if($contar1 == 0) {
@@ -258,7 +258,7 @@ where amb_documentacion_encargados.id_encargado=amb_encargados.id_encargado and
             ->get();
 
         /*
-        $estado_doc=DB::selectOne('SELECT count( 	id_documentacion_encar) contar 
+        $estado_doc=DB::selectOne('SELECT count( 	id_documentacion_encar) contar
         from amb_documentacion_encargados where id_periodo_amb='.$id_periodo.' and id_encargado='.$id_encargado.' ');
         $estado_doc=$estado_doc->contar;
         dd($estado_doc);
@@ -424,7 +424,7 @@ where amb_documentacion_encargados.id_encargado=amb_encargados.id_encargado and
             ->get();
         $id_periodo=$periodo[0]->id_periodo_amb;
 
-        $documentacion=DB::select('SELECT *from amb_documentacion_encargados where id_periodo_amb='.$id_periodo.' and id_encargado='.$id_encargado.' ');
+        $documentacion=DB::select('SELECT *from amb_documentacion_encargados where id_periodo_amb= ? and id_encargado= ? ', [$id_periodo, $id_encargado]);
         return $documentacion;
     }
     public function respuestas(){
@@ -756,8 +756,8 @@ where amb_documentacion_encargados.id_encargado=amb_encargados.id_encargado and
         $id_encargado=$documentacion[0]->id_encargado;
         $pro=DB::selectOne('SELECT gnral_personales.nombre,amb_procedimientos.nom_procedimiento,amb_encargados.*
 from gnral_personales, amb_procedimientos,amb_encargados where
-        amb_encargados.id_personal=gnral_personales.id_personal and 
-        amb_encargados.id_procedimiento=amb_procedimientos.id_procedimiento and amb_encargados.id_encargado='.$id_encargado.'');
+        amb_encargados.id_personal=gnral_personales.id_personal and
+        amb_encargados.id_procedimiento=amb_procedimientos.id_procedimiento and amb_encargados.id_encargado= ?', [$id_encargado]);
         $nombre_encargado=$pro->nombre;
         $nombre_procedimiento=$pro->nom_procedimiento;
         $hoy = date("Y-m-d H:i:s");
@@ -797,8 +797,8 @@ WHERE gnral_unidad_personal.id_personal=gnral_personales.id_personal and gnral_u
         $id_encargado=$documentacion[0]->id_encargado;
         $pro=DB::selectOne('SELECT gnral_personales.nombre,amb_procedimientos.nom_procedimiento,amb_encargados.*
 from gnral_personales, amb_procedimientos,amb_encargados where
-        amb_encargados.id_personal=gnral_personales.id_personal and 
-        amb_encargados.id_procedimiento=amb_procedimientos.id_procedimiento and amb_encargados.id_encargado='.$id_encargado.'');
+        amb_encargados.id_personal=gnral_personales.id_personal and
+        amb_encargados.id_procedimiento=amb_procedimientos.id_procedimiento and amb_encargados.id_encargado= ?', [$id_encargado]);
         $nombre_encargado=$pro->nombre;
         $nombre_procedimiento=$pro->nom_procedimiento;
 
@@ -919,8 +919,8 @@ WHERE gnral_unidad_personal.id_personal=gnral_personales.id_personal and gnral_u
     public function estado_registro_encargado($id_periodo,$id_encargado){
 
 
-        $contar=DB::selectOne('SELECT count( 	id_documentacion_encar) contar 
-        from amb_documentacion_encargados where id_periodo_amb='.$id_periodo.' and id_encargado='.$id_encargado.' ');
+        $contar=DB::selectOne('SELECT count( 	id_documentacion_encar) contar
+        from amb_documentacion_encargados where id_periodo_amb= ? and id_encargado= ? ', [$id_periodo, $id_encargado]);
 
 
         if($contar->contar == 0){

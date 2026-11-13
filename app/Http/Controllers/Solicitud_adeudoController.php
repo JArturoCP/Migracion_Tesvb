@@ -53,19 +53,19 @@ ORDER BY `gnral_carreras`.`id_carrera` ASC');
             gnral_alumnos.apaterno,gnral_alumnos.amaterno,gnral_carreras.id_carrera,gnral_carreras.nombre carrera,
             gnral_semestres.descripcion semestre from gnral_alumnos,gnral_carreras,gnral_semestres
             WHERE gnral_alumnos.id_carrera=gnral_carreras.id_carrera and
-            gnral_alumnos.id_semestre=gnral_semestres.id_semestre and gnral_carreras.id_carrera=' . $id_carrera . '
-             ORDER BY gnral_alumnos.apaterno ASC,gnral_alumnos.amaterno ASC,gnral_alumnos.nombre ASC  ');
+            gnral_alumnos.id_semestre=gnral_semestres.id_semestre and gnral_carreras.id_carrera= ?
+             ORDER BY gnral_alumnos.apaterno ASC,gnral_alumnos.amaterno ASC,gnral_alumnos.nombre ASC  ', [$id_carrera]);
 
         $alumnos_adeudo = DB::select('SELECT adeudo_departamento.fecha_registro,adeudo_departamento.comentario,adeudo_departamento.id_adeudo_departamento,gnral_alumnos.id_alumno,gnral_alumnos.cuenta,gnral_alumnos.nombre,
             gnral_alumnos.apaterno,gnral_alumnos.amaterno,gnral_carreras.id_carrera,gnral_carreras.siglas ,
-            gnral_semestres.descripcion semestre  FROM 
-            adeudo_departamento,gnral_alumnos,gnral_semestres,gnral_carreras WHERE 
+            gnral_semestres.descripcion semestre  FROM
+            adeudo_departamento,gnral_alumnos,gnral_semestres,gnral_carreras WHERE
             gnral_alumnos.id_alumno=adeudo_departamento.id_alumno and
             gnral_carreras.id_carrera=gnral_alumnos.id_carrera and
             gnral_semestres.id_semestre=gnral_alumnos.id_semestre
-            and gnral_carreras.id_carrera=' . $id_carrera . '
-            and adeudo_departamento.id_departamento = ' . $unidad . '  
-            ORDER BY gnral_alumnos.apaterno ASC,gnral_alumnos.amaterno ASC,gnral_alumnos.nombre ASC ');
+            and gnral_carreras.id_carrera= ?
+            and adeudo_departamento.id_departamento = ?
+            ORDER BY gnral_alumnos.apaterno ASC,gnral_alumnos.amaterno ASC,gnral_alumnos.nombre ASC ', [$id_carrera, $unidad]);
 
 
         $carreras = DB::select('SELECT * FROM gnral_carreras WHERE gnral_carreras.id_carrera not in (9,11,15)
@@ -112,7 +112,7 @@ ORDER BY `gnral_carreras`.`id_carrera` ASC');
     {
 
         $id_adeudo_departamento = $request->input("id_adeudo_carrera");
-        DB::delete('DELETE FROM `adeudo_departamento` WHERE `adeudo_departamento`.`id_adeudo_departamento` = ' . $id_adeudo_departamento . '');
+        DB::delete('DELETE FROM `adeudo_departamento` WHERE `adeudo_departamento`.`id_adeudo_departamento` = ?', [$id_adeudo_departamento]);
 
 
         return back();
@@ -139,8 +139,8 @@ ORDER BY `gnral_carreras`.`id_carrera` ASC');
             gnral_alumnos.apaterno,gnral_alumnos.amaterno,gnral_carreras.id_carrera,gnral_carreras.nombre carrera,
             gnral_semestres.descripcion semestre from gnral_alumnos,gnral_carreras,gnral_semestres
             WHERE gnral_alumnos.id_carrera=gnral_carreras.id_carrera and
-            gnral_alumnos.id_semestre=gnral_semestres.id_semestre and gnral_carreras.id_carrera=' . $id_carrera . '  
-ORDER BY gnral_alumnos.apaterno ASC,gnral_alumnos.amaterno ASC,gnral_alumnos.nombre ASC');
+            gnral_alumnos.id_semestre=gnral_semestres.id_semestre and gnral_carreras.id_carrera= ?
+ORDER BY gnral_alumnos.apaterno ASC,gnral_alumnos.amaterno ASC,gnral_alumnos.nombre ASC', [$id_carrera]);
 
         return view('constancia_adeudo.constancias_carreras', compact('estado', 'carreras', 'alumnos', 'id_carrera'));
 
@@ -148,8 +148,8 @@ ORDER BY gnral_alumnos.apaterno ASC,gnral_alumnos.amaterno ASC,gnral_alumnos.nom
 
     public function ver_estado_alumno($id_alumno)
     {
-        $adeudo_departamento = DB::selectOne('SELECT COUNT(id_adeudo_departamento)adeudo  
-                        FROM adeudo_departamento WHERE id_alumno = ' . $id_alumno . ' ');
+        $adeudo_departamento = DB::selectOne('SELECT COUNT(id_adeudo_departamento)adeudo
+                        FROM adeudo_departamento WHERE id_alumno = ? ', [$id_alumno]);
         $adeudo_departamento = $adeudo_departamento->adeudo;
 
         if ($adeudo_departamento == 0) {
@@ -161,8 +161,8 @@ ORDER BY gnral_alumnos.apaterno ASC,gnral_alumnos.amaterno ASC,gnral_alumnos.nom
             $departamento_carrera = array();
             $adeudo_dep = DB::select('SELECT gnral_unidad_administrativa.nom_departamento,
                                 adeudo_departamento.comentario FROM adeudo_departamento,
-                                gnral_unidad_administrativa WHERE adeudo_departamento.id_alumno = ' . $id_alumno . ' 
-                                and gnral_unidad_administrativa.id_unidad_admin=adeudo_departamento.id_departamento ');
+                                gnral_unidad_administrativa WHERE adeudo_departamento.id_alumno = ?
+                                and gnral_unidad_administrativa.id_unidad_admin=adeudo_departamento.id_departamento ', [$id_alumno]);
 
             foreach ($adeudo_dep as $ade) {
                 $nombrea['nombre'] = $ade->nom_departamento;
@@ -170,9 +170,9 @@ ORDER BY gnral_alumnos.apaterno ASC,gnral_alumnos.amaterno ASC,gnral_alumnos.nom
                 array_push($departamento_carrera, $nombrea);
             }
             $adeudo_informacion = DB::selectOne('SELECT COUNT(id_adeudo_departamento) contar
-                                from adeudo_departamento where id_alumno=' . $id_alumno . ' and id_departamento=50');
+                                from adeudo_departamento where id_alumno= ? and id_departamento=50', [$id_alumno]);
             if ($adeudo_informacion->contar > 0) {
-                $informacion = DB::select('SELECT  *from adeudo_departamento where id_alumno=' . $id_alumno . ' and id_departamento=50');
+                $informacion = DB::select('SELECT  *from adeudo_departamento where id_alumno= ? and id_departamento=50', [$id_alumno]);
                 foreach ($informacion as $info) {
                     $nombre_info['nombre'] = "CENTRO DE INFORMACIÓN";
                     $nombre_info['comentario'] = $info->comentario;
@@ -181,9 +181,9 @@ ORDER BY gnral_alumnos.apaterno ASC,gnral_alumnos.amaterno ASC,gnral_alumnos.nom
 
             }
             $adeudo_bolsa = DB::selectOne('SELECT COUNT(id_adeudo_departamento) contar
-                                from adeudo_departamento where id_alumno=' . $id_alumno . ' and id_departamento=100');
+                                from adeudo_departamento where id_alumno= ? and id_departamento=100', [$id_alumno]);
             if ($adeudo_bolsa->contar > 0) {
-                $bolsa = DB::select('SELECT  *from adeudo_departamento where id_alumno=' . $id_alumno . ' and id_departamento=100');
+                $bolsa = DB::select('SELECT  *from adeudo_departamento where id_alumno= ? and id_departamento=100', [$id_alumno]);
                 foreach ($bolsa as $bolsa) {
                     $nombre_bolsa['nombre'] = "BOLSA DE TRABAJO Y SEGUIMIENTO DE EGRESADOS";
                     $nombre_bolsa['comentario'] = $bolsa->comentario;
@@ -200,7 +200,7 @@ ORDER BY gnral_alumnos.apaterno ASC,gnral_alumnos.amaterno ASC,gnral_alumnos.nom
 
         $nombre_alum="NÚMERO DE CUENTA".mb_strtoupper($alumno[0]->cuenta,'utf-8')." NOMBRE: ".mb_strtoupper($alumno[0]->apaterno,'utf-8')." ".mb_strtoupper($alumno[0]->amaterno,'utf-8')." ".mb_strtoupper($alumno[0]->nombre,'utf-8');
         $adeudo_encuesta = DB::selectOne('SELECT COUNT(id_adeudo_constancia) contar
-                                from adeudo_constancia_departamento where id_alumno=' . $id_alumno . '');
+                                from adeudo_constancia_departamento where id_alumno= ?', [$id_alumno]);
         $adeudo_encuesta=$adeudo_encuesta->contar;
         if($adeudo_encuesta == 0){
             $adeudo_encuesta=0;
@@ -216,11 +216,11 @@ ORDER BY gnral_alumnos.apaterno ASC,gnral_alumnos.amaterno ASC,gnral_alumnos.nom
     public function verificacion_adeudo_alumno()
     {
         $id_usuario = Session::get('usuario_alumno');
-        $datosalumno=DB::selectOne('select * FROM `gnral_alumnos` WHERE id_usuario='.$id_usuario.'');
+        $datosalumno=DB::selectOne('select * FROM `gnral_alumnos` WHERE id_usuario= ?', [$id_usuario]);
         $id_alumno=$datosalumno->id_alumno;
 
-        $adeudo_departamento = DB::selectOne('SELECT COUNT(id_adeudo_departamento)adeudo  
-                        FROM adeudo_departamento WHERE id_alumno = ' . $id_alumno . ' ');
+        $adeudo_departamento = DB::selectOne('SELECT COUNT(id_adeudo_departamento)adeudo
+                        FROM adeudo_departamento WHERE id_alumno = ? ', [$id_alumno]);
         $adeudo_departamento = $adeudo_departamento->adeudo;
 
         if ($adeudo_departamento == 0) {
@@ -232,8 +232,8 @@ ORDER BY gnral_alumnos.apaterno ASC,gnral_alumnos.amaterno ASC,gnral_alumnos.nom
             $departamento_carrera = array();
             $adeudo_dep = DB::select('SELECT gnral_unidad_administrativa.nom_departamento,
                                 adeudo_departamento.comentario FROM adeudo_departamento,
-                                gnral_unidad_administrativa WHERE adeudo_departamento.id_alumno = ' . $id_alumno . ' 
-                                and gnral_unidad_administrativa.id_unidad_admin=adeudo_departamento.id_departamento ');
+                                gnral_unidad_administrativa WHERE adeudo_departamento.id_alumno = ?
+                                and gnral_unidad_administrativa.id_unidad_admin=adeudo_departamento.id_departamento ', [$id_alumno]);
 
             foreach ($adeudo_dep as $ade) {
                 $nombrea['nombre'] = $ade->nom_departamento;
@@ -241,9 +241,9 @@ ORDER BY gnral_alumnos.apaterno ASC,gnral_alumnos.amaterno ASC,gnral_alumnos.nom
                 array_push($departamento_carrera, $nombrea);
             }
             $adeudo_informacion = DB::selectOne('SELECT COUNT(id_adeudo_departamento) contar
-                                from adeudo_departamento where id_alumno=' . $id_alumno . ' and id_departamento=50');
+                                from adeudo_departamento where id_alumno= ? and id_departamento=50', [$id_alumno]);
             if ($adeudo_informacion->contar > 0) {
-                $informacion = DB::select('SELECT  *from adeudo_departamento where id_alumno=' . $id_alumno . ' and id_departamento=50');
+                $informacion = DB::select('SELECT  *from adeudo_departamento where id_alumno= ? and id_departamento=50', [$id_alumno]);
                 foreach ($informacion as $info) {
                     $nombre_info['nombre'] = "CENTRO DE INFORMACIÓN";
                     $nombre_info['comentario'] = $info->comentario;
@@ -252,9 +252,9 @@ ORDER BY gnral_alumnos.apaterno ASC,gnral_alumnos.amaterno ASC,gnral_alumnos.nom
 
             }
             $adeudo_bolsa = DB::selectOne('SELECT COUNT(id_adeudo_departamento) contar
-                                from adeudo_departamento where id_alumno=' . $id_alumno . ' and id_departamento=100');
+                                from adeudo_departamento where id_alumno= ? and id_departamento=100', [$id_alumno]);
             if ($adeudo_bolsa->contar > 0) {
-                $bolsa = DB::select('SELECT  *from adeudo_departamento where id_alumno=' . $id_alumno . ' and id_departamento=100');
+                $bolsa = DB::select('SELECT  *from adeudo_departamento where id_alumno= ? and id_departamento=100', [$id_alumno]);
                 foreach ($bolsa as $bolsa) {
                     $nombre_bolsa['nombre'] = "BOLSA DE TRABAJO Y SEGUIMIENTO DE EGRESADOS";
                     $nombre_bolsa['comentario'] = $bolsa->comentario;
@@ -269,8 +269,8 @@ ORDER BY gnral_alumnos.apaterno ASC,gnral_alumnos.amaterno ASC,gnral_alumnos.nom
 
     }
     public function constancia_alumno_editar($id_adeudo_departamento){
-       $comentario=DB::selectOne('SELECT gnral_alumnos.cuenta,gnral_alumnos.nombre,gnral_alumnos.apaterno,gnral_alumnos.amaterno,adeudo_departamento.* FROM  `adeudo_departamento`,gnral_alumnos 
-WHERE  gnral_alumnos.id_alumno=adeudo_departamento.id_alumno and `id_adeudo_departamento` = '.$id_adeudo_departamento.'');
+       $comentario=DB::selectOne('SELECT gnral_alumnos.cuenta,gnral_alumnos.nombre,gnral_alumnos.apaterno,gnral_alumnos.amaterno,adeudo_departamento.* FROM  `adeudo_departamento`,gnral_alumnos
+WHERE  gnral_alumnos.id_alumno=adeudo_departamento.id_alumno and `id_adeudo_departamento` = ?', [$id_adeudo_departamento]);
        return view('constancia_adeudo.editar_comentario_adeudo', compact('comentario'));
     }
     public function editado_alumno_deudor(Request$request,$id_adeudo_departamento){
@@ -282,7 +282,7 @@ WHERE  gnral_alumnos.id_alumno=adeudo_departamento.id_alumno and `id_adeudo_depa
        // dd($comentario);
         $periodo = Session::get('periodo_actual');
         $fecha = date("d-m-Y");
-        DB::update("UPDATE adeudo_departamento SET id_periodo =$periodo,fecha_registro='$fecha',comentario ='$comentario'  WHERE adeudo_departamento.id_adeudo_departamento=$id_adeudo_departamento");
+        DB::update('UPDATE adeudo_departamento SET id_periodo = ?,fecha_registro=?,comentario =?  WHERE adeudo_departamento.id_adeudo_departamento= ?', [$periodo, (string) ($fecha), (string) ($comentario), $id_adeudo_departamento]);
 
 return back();
     }
@@ -301,18 +301,18 @@ ORDER BY `gnral_carreras`.`id_carrera` ASC');
             gnral_alumnos.apaterno,gnral_alumnos.amaterno,gnral_carreras.id_carrera,gnral_carreras.nombre carrera,
             gnral_semestres.descripcion semestre from gnral_alumnos,gnral_carreras,gnral_semestres
             WHERE gnral_alumnos.id_carrera=gnral_carreras.id_carrera and
-            gnral_alumnos.id_semestre=gnral_semestres.id_semestre and gnral_carreras.id_carrera=' . $id_carrera . '
-             ORDER BY gnral_alumnos.apaterno ASC,gnral_alumnos.amaterno ASC,gnral_alumnos.nombre ASC  ');
+            gnral_alumnos.id_semestre=gnral_semestres.id_semestre and gnral_carreras.id_carrera= ?
+             ORDER BY gnral_alumnos.apaterno ASC,gnral_alumnos.amaterno ASC,gnral_alumnos.nombre ASC  ', [$id_carrera]);
 
         $alumnos_adeudo = DB::select('SELECT adeudo_constancia_departamento.id_adeudo_constancia, adeudo_constancia_departamento.fecha_registro,adeudo_constancia_departamento.comentario,gnral_alumnos.id_alumno,gnral_alumnos.cuenta,gnral_alumnos.nombre,
             gnral_alumnos.apaterno,gnral_alumnos.amaterno,gnral_carreras.id_carrera,gnral_carreras.siglas ,
-            gnral_semestres.descripcion semestre  FROM 
-            adeudo_constancia_departamento,gnral_alumnos,gnral_semestres,gnral_carreras WHERE 
+            gnral_semestres.descripcion semestre  FROM
+            adeudo_constancia_departamento,gnral_alumnos,gnral_semestres,gnral_carreras WHERE
             gnral_alumnos.id_alumno=adeudo_constancia_departamento.id_alumno and
             gnral_carreras.id_carrera=gnral_alumnos.id_carrera and
             gnral_semestres.id_semestre=gnral_alumnos.id_semestre
-            and gnral_carreras.id_carrera='.$id_carrera.'
-            ORDER BY gnral_alumnos.apaterno ASC,gnral_alumnos.amaterno ASC,gnral_alumnos.nombre ASC');
+            and gnral_carreras.id_carrera= ?
+            ORDER BY gnral_alumnos.apaterno ASC,gnral_alumnos.amaterno ASC,gnral_alumnos.nombre ASC', [$id_carrera]);
         $carreras = DB::select('SELECT * FROM gnral_carreras WHERE gnral_carreras.id_carrera not in (9,11,15)
 ORDER BY `gnral_carreras`.`id_carrera` ASC');
 
@@ -333,7 +333,7 @@ ORDER BY `gnral_carreras`.`id_carrera` ASC');
     }
     public function eliminar_datos_encuesta(Request $request,$id_carrera){
         $id_adeudo_encuestas = $request->input("id_adeudo_encuestas");
-        DB::delete('DELETE FROM `adeudo_constancia_departamento` WHERE `adeudo_constancia_departamento`.`id_adeudo_constancia` = ' . $id_adeudo_encuestas . '');
+        DB::delete('DELETE FROM `adeudo_constancia_departamento` WHERE `adeudo_constancia_departamento`.`id_adeudo_constancia` = ?', [$id_adeudo_encuestas]);
 
 
         return back();

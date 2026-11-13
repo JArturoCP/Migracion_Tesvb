@@ -38,11 +38,11 @@ class MunicipiosExport implements FromArray, WithTitle
         $tot_municipio=0;
         $datos_municipios=DB::select('SELECT COUNT(gnral_alumnos.id_municipio) cantidad,gnral_municipios.nombre_municipio municipio
             FROM gnral_alumnos,gnral_municipios,eva_validacion_de_cargas  WHERE
-           eva_validacion_de_cargas.estado_validacion IN (2,8,9) and 
+           eva_validacion_de_cargas.estado_validacion IN (2,8,9) and
                eva_validacion_de_cargas.id_alumno=gnral_alumnos.id_alumno and
-                eva_validacion_de_cargas.id_periodo='.$periodo.'  AND
+                eva_validacion_de_cargas.id_periodo= ?  AND
             gnral_alumnos.id_municipio=gnral_municipios.id_municipio AND
-            id_carrera='.$this->id_carrera.' GROUP BY gnral_municipios.id_municipio ORDER BY cantidad DESC');
+            id_carrera= ? GROUP BY gnral_municipios.id_municipio ORDER BY cantidad DESC', [$periodo, $this->id_carrera]);
         $array_municipios=array();
 
         foreach ($datos_municipios as $dato)

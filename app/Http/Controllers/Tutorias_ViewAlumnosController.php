@@ -101,7 +101,7 @@ class Tutorias_ViewAlumnosController extends Controller
         $semestre_actual = DB::selectOne('SELECT id_periodo FROM eva_semestre_alumno WHERE id_alumno = ? ORDER BY id_semestres_al DESC', [$datos->id_alumno]);
     // Periodo actual
         $periodo_actual = DB::selectOne('SELECT * FROM gnral_periodos WHERE estado = 1');
-        
+
     // Si el último periodo registrado es anterior al periodo actual,
     // mostramos un semestre menos.
     if ($semestre_actual && $periodo_actual) {
@@ -149,7 +149,7 @@ class Tutorias_ViewAlumnosController extends Controller
             AND gnral_alumnos.id_semestre=gnral_semestres.id_semestre
             AND gnral_personales.id_personal=exp_asigna_tutor.id_personal
             AND exp_asigna_tutor.id_asigna_generacion=exp_asigna_generacion.id_asigna_generacion
-            AND exp_asigna_alumnos.id_alumno='.$request->id);
+            AND exp_asigna_alumnos.id_alumno= ?', [$request->id]);
 
         $data['areas']= Tutorias_areas_canalizacion::all();
        // $data['subareas']= Tutoriassubareas_canalizacion::all();

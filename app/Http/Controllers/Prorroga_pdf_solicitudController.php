@@ -55,8 +55,8 @@ class Prorroga_pdf_solicitudController extends Controller
         $no_cuenta=$datosalumno[0]->cuenta;
         $id_alumno=$datosalumno[0]->id_alumno;
         $prorroga_solicitudes=DB::selectOne('SELECT prorroga_solicitudes.*,gnral_semestres.descripcion semestre
- FROM `prorroga_solicitudes`,gnral_semestres WHERE prorroga_solicitudes.id_semestre=gnral_semestres.id_semestre and 
-  prorroga_solicitudes.id_alumno = '.$id_alumno.' AND prorroga_solicitudes.id_periodo = '.$id_periodo.'');
+ FROM `prorroga_solicitudes`,gnral_semestres WHERE prorroga_solicitudes.id_semestre=gnral_semestres.id_semestre and
+  prorroga_solicitudes.id_alumno = ? AND prorroga_solicitudes.id_periodo = ?', [$id_alumno, $id_periodo]);
         $pdf=new PDF_Prorroga_pdf_solicitudController($orientation='P',$unit='mm',$format='Letter');
         #Establecemos los márgenes izquierda, arriba y derecha:
         $pdf->SetMargins(20, 25 , 20);

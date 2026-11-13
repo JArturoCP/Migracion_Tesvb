@@ -147,7 +147,7 @@ class SgcAgendaController extends Controller
     }
 
     public function setAuditor(Request $request){
-        dd("entro");
+        abort(501, 'Funcionalidad no disponible.');
     }
 
     private function generateDateRange(Carbon $start_date, Carbon $end_date) {

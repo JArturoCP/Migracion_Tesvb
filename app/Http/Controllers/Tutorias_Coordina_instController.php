@@ -51,7 +51,7 @@ class Tutorias_Coordina_instController extends Controller
                                   FROM plan_actividades,exp_generacion
                                   WHERE plan_actividades.id_generacion=exp_generacion.id_generacion
                                   AND plan_actividades.deleted_at is null
-                                  AND plan_actividades.id_generacion='.$request->id_generacion.'  and plan_actividades.id_periodo = '.$periodo_actual.'');
+                                  AND plan_actividades.id_generacion= ?  and plan_actividades.id_periodo = ?', [$request->id_generacion, $periodo_actual]);
         return $datos;
     }
     public function agregar(Request $request)
@@ -77,7 +77,7 @@ class Tutorias_Coordina_instController extends Controller
                                 AND plan_actividades.id_generacion=exp_generacion.id_generacion
                                 AND plan_actividades.deleted_at is null
                                 AND plan_asigna_planeacion_actividad.deleted_at is null
-                                AND plan_actividades.id_plan_actividad='.$request->id.' ');
+                                AND plan_actividades.id_plan_actividad= ? ', [$request->id]);
         return $data;
     }
     public function vereliminar(Request $request)
@@ -86,7 +86,7 @@ class Tutorias_Coordina_instController extends Controller
                                 FROM plan_actividades,exp_generacion
                                 WHERE  plan_actividades.id_generacion=exp_generacion.id_generacion
                                 AND plan_actividades.deleted_at is null
-                                AND plan_actividades.id_plan_actividad='.$request->id.' ');
+                                AND plan_actividades.id_plan_actividad= ? ', [$request->id]);
         return $data;
     }
     public function del(Request $request)
@@ -105,7 +105,7 @@ class Tutorias_Coordina_instController extends Controller
                                 FROM plan_actividades,exp_generacion
                                 WHERE  plan_actividades.id_generacion=exp_generacion.id_generacion
                                 AND plan_actividades.deleted_at is null
-                                AND plan_actividades.id_plan_actividad='.$request->id.' ');
+                                AND plan_actividades.id_plan_actividad= ? ', [$request->id]);
         return $data;
     }
     public function enviaupd(Request $request)
@@ -124,7 +124,7 @@ class Tutorias_Coordina_instController extends Controller
                                 FROM plan_actividades,exp_generacion
                                 WHERE  plan_actividades.id_generacion=exp_generacion.id_generacion
                                 AND plan_actividades.deleted_at is null
-                                AND plan_actividades.id_plan_actividad='.$request->id.' ');
+                                AND plan_actividades.id_plan_actividad= ? ', [$request->id]);
         return $data;
     }
     /*public function store(Request $request)

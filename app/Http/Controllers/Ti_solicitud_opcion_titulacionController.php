@@ -135,20 +135,20 @@ class Ti_solicitud_opcion_titulacionController extends Controller
         $fech= $num. ' de '.$mes.' del '.$ano;
 
 
-        $alumno=DB::selectOne('SELECT ti_reg_datos_alum.*,gnral_carreras.nombre carrera FROM ti_reg_datos_alum,gnral_carreras WHERE ti_reg_datos_alum.id_carrera = gnral_carreras.id_carrera and  ti_reg_datos_alum.id_alumno ='.$id_alumno.'');
+        $alumno=DB::selectOne('SELECT ti_reg_datos_alum.*,gnral_carreras.nombre carrera FROM ti_reg_datos_alum,gnral_carreras WHERE ti_reg_datos_alum.id_carrera = gnral_carreras.id_carrera and  ti_reg_datos_alum.id_alumno = ?', [$id_alumno]);
         $nombre_alumno=$alumno->nombre_al." ".$alumno->apaterno." ".$alumno->amaterno;
         $carrera=$alumno->carrera;
         $cuenta=$alumno->no_cuenta;
-        $opcion_titulacion=DB::selectOne('SELECT * FROM `ti_opciones_titulacion` WHERE `id_opcion_titulacion` ='.$alumno->id_opcion_titulacion.'');
+        $opcion_titulacion=DB::selectOne('SELECT * FROM `ti_opciones_titulacion` WHERE `id_opcion_titulacion` = ?', [$alumno->id_opcion_titulacion]);
         $opcion_titulacion=$opcion_titulacion->opcion_titulacion;
 
         $jefe_titulacion=$alumno->nombre_jefe_titulacion;
         $jefe_division=$alumno->nombre_jefe_division;
         $nombre_proyecto=$alumno->nom_proyecto;
 
-        $domicilio=DB::selectOne('SELECT gnral_estados.nombre_estado,gnral_municipios.nombre_municipio 
-FROM gnral_estados, gnral_municipios,ti_reg_datos_alum WHERE gnral_estados.id_estado=gnral_municipios.id_estado 
-    and ti_reg_datos_alum.municipio_domicilio=gnral_municipios.id_municipio and ti_reg_datos_alum.municipio_domicilio='.$alumno->municipio_domicilio.'');
+        $domicilio=DB::selectOne('SELECT gnral_estados.nombre_estado,gnral_municipios.nombre_municipio
+FROM gnral_estados, gnral_municipios,ti_reg_datos_alum WHERE gnral_estados.id_estado=gnral_municipios.id_estado
+    and ti_reg_datos_alum.municipio_domicilio=gnral_municipios.id_municipio and ti_reg_datos_alum.municipio_domicilio= ?', [$alumno->municipio_domicilio]);
 
         $municipio=$domicilio->nombre_estado;
         $estado=$domicilio->nombre_estado;

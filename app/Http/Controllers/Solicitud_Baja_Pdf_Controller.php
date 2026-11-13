@@ -11,7 +11,7 @@ class PDFBaja extends FPDF
 {
     function Header()
     {
-        
+
         $this->Image(public_path('assets/img/logo.png'), 13, 8, 45);
 
         $this->SetFillColor(198, 40, 40);
@@ -23,7 +23,7 @@ class PDFBaja extends FPDF
 
         $this->Image(public_path('img/servicios.png'), 161, 14, 40);
 
-        
+
         $this->SetFont('Arial', 'B', 11);
         $this->SetXY(13, 42);
         $this->Cell(190, 6, utf8_decode('TECNOLÓGICO DE ESTUDIOS SUPERIORES DE VALLE DE BRAVO'), 0, 1, 'C');
@@ -38,7 +38,7 @@ class PDFBaja extends FPDF
         $this->SetTextColor(0, 0, 0);**/
     }
 
-    
+
     function SectionBox($x, $y, $w, $h)
     {
         $this->SetDrawColor(160, 160, 160);
@@ -46,7 +46,7 @@ class PDFBaja extends FPDF
         $this->SetDrawColor(0, 0, 0);
     }
 
-    
+
     function CampoDato($x, $y, $w, $h, $valor, $etiqueta)
     {
         $this->SetDrawColor(0, 0, 0);
@@ -61,7 +61,7 @@ class PDFBaja extends FPDF
         $this->Cell($w, 4, utf8_decode($etiqueta), 0, 0, 'C');
     }
 
-    
+
     function Checkbox($x, $y, $checked = false)
     {
         $this->Rect($x, $y, 4, 4);
@@ -75,7 +75,7 @@ class PDFBaja extends FPDF
 
 class Solicitud_Baja_Pdf_Controller extends Controller
 {
-    
+
     public function imprimir($id_alumno, $id, $tipo)
     {
         $periodoActual = DB::selectOne('SELECT id_periodo FROM gnral_periodos WHERE estado = 1 LIMIT 1');
@@ -90,9 +90,9 @@ class Solicitud_Baja_Pdf_Controller extends Controller
                 . 'No se puede generar la solicitud de baja: el alumno tiene adeudo pendiente en departamento o carrera.</h3>');
         }
 
-        $alumno = DB::selectOne('SELECT * FROM gnral_alumnos WHERE id_alumno = ' . (int) $id_alumno);
-        $carrera = DB::selectOne('SELECT * FROM gnral_carreras WHERE id_carrera = ' . (int) $alumno->id_carrera);
-        $seguroSocial = DB::selectOne('SELECT * FROM gnral_seguro_social WHERE id_seguro_social = ' . (int) $alumno->id_seguro_social);
+        $alumno = DB::selectOne('SELECT * FROM gnral_alumnos WHERE id_alumno = ?', [(int) $id_alumno]);
+        $carrera = DB::selectOne('SELECT * FROM gnral_carreras WHERE id_carrera = ?', [(int) $alumno->id_carrera]);
+        $seguroSocial = DB::selectOne('SELECT * FROM gnral_seguro_social WHERE id_seguro_social = ?', [(int) $alumno->id_seguro_social]);
 
         $validacion = DB::table('eva_validacion_de_cargas')
             ->where('id', $id)
@@ -109,7 +109,7 @@ class Solicitud_Baja_Pdf_Controller extends Controller
         $pdf->SetAutoPageBreak(true, 10);
         $pdf->AddPage();
 
-        
+
         $pdf->SectionBox(13, 54, 190, 50);
 
         $pdf->CampoDato(15, 57, 186, 8,
@@ -125,7 +125,7 @@ class Solicitud_Baja_Pdf_Controller extends Controller
         $pdf->CampoDato(111, 89, 90, 8,
             $tipoBajaTexto, 'Tipo de baja (Temporal o Definitiva)');
 
-        
+
         $pdf->SectionBox(13, 108, 190, 32);
 
         $pdf->SetFont('Arial', 'B', 9);
@@ -140,7 +140,7 @@ class Solicitud_Baja_Pdf_Controller extends Controller
             . 'Bolsa de Trabajo y Seguimiento de Egresados, Centro de Información y Centro de Cómputo.'
         ), 0, 'C');
 
-        
+
         $pdf->SectionBox(13, 142, 190, 36);
 
         $pdf->SetFont('Arial', 'B', 8);
@@ -185,7 +185,7 @@ class Solicitud_Baja_Pdf_Controller extends Controller
         $pdf->SetXY(18, 194);
         $pdf->MultiCell(180, 5.5, utf8_decode($motivo), 0, 'L');
 
-    
+
         $pdf->SectionBox(13, 220, 190, 8);
         $pdf->SetFont('Arial', '', 9);
         $pdf->SetXY(13, 220);
@@ -194,7 +194,7 @@ class Solicitud_Baja_Pdf_Controller extends Controller
             $fecha->translatedFormat('F') . ' del ' . $fecha->year
         ), 0, 0, 'C');
 
-       
+
         $pdf->SectionBox(13, 232, 60, 28);
         $pdf->Line(18, 250, 68, 250);
         $pdf->SetFont('Arial', 'B', 7);
@@ -209,7 +209,7 @@ class Solicitud_Baja_Pdf_Controller extends Controller
             'Si el estudiante que solicita la baja temporal está en un plan de estudios en liquidación, deberá sujetarse a los lineamientos que marque el nuevo plan de estudios cuando reingrese.'
         ), 0, 'C');
 
-        
+
         $pdf->SectionBox(143, 232, 60, 28);
         $pdf->Line(148, 250, 198, 250);
         $pdf->SetFont('Arial', 'B', 7);
@@ -248,7 +248,7 @@ class Solicitud_Baja_Pdf_Controller extends Controller
               AND id_periodo = ?
         ", [$id_alumno, $periodoActual->id_periodo]);
 
-        // IDs especiales que no existen en gnral_unidad_administrativa 
+        // IDs especiales que no existen en gnral_unidad_administrativa
         $unidadesEspeciales = [
             50  => 'Centro de Información',
             100 => 'Bolsa de Trabajo y Seguimiento de Egresados',

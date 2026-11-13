@@ -22,13 +22,13 @@ class In_historial_alumController extends Controller
        return view('ingles.departamento.carreras_historial',compact('carreras'));
     }
     public function ver_alumnos_carrera($id_carrera){
-        $alumnos=DB::select('SELECT gnral_alumnos.id_alumno,gnral_alumnos.cuenta, 
-       gnral_alumnos.nombre,gnral_alumnos.apaterno,gnral_alumnos.amaterno 
-from gnral_alumnos,in_validar_carga where gnral_alumnos.id_alumno = in_validar_carga.id_alumno 
-AND gnral_alumnos.id_carrera = '.$id_carrera.'
+        $alumnos=DB::select('SELECT gnral_alumnos.id_alumno,gnral_alumnos.cuenta,
+       gnral_alumnos.nombre,gnral_alumnos.apaterno,gnral_alumnos.amaterno
+from gnral_alumnos,in_validar_carga where gnral_alumnos.id_alumno = in_validar_carga.id_alumno
+AND gnral_alumnos.id_carrera = ?
 GROUP BY gnral_alumnos.id_alumno ORDER BY `gnral_alumnos`.`apaterno`,
-                                          `gnral_alumnos`.`amaterno`, `gnral_alumnos`.`nombre` DESC 
-');
+                                          `gnral_alumnos`.`amaterno`, `gnral_alumnos`.`nombre` DESC
+', [$id_carrera]);
         $periodo_actual=DB::selectOne('SELECT in_periodos.* from in_periodos where estado_historial=1 ');
        /// dd($periodo_actual);
 
@@ -40,13 +40,13 @@ GROUP BY gnral_alumnos.id_alumno ORDER BY `gnral_alumnos`.`apaterno`,
             $dat_alumnos['id_alumno'] = $alumno->id_alumno;
             $dat_alumnos['cuenta'] = $alumno->cuenta;
             $dat_alumnos['nombre'] = mb_strtoupper($alumno->apaterno, 'utf-8') . " " . mb_strtoupper($alumno->amaterno, 'utf-8') . " " . mb_strtoupper($alumno->nombre, 'utf-8');
-            $periodos=DB::select('SELECT in_periodos.* from in_periodos where id_periodo_ingles <'.$periodo_actual->id_periodo_ingles.' and id_periodo_ingles >1');
+            $periodos=DB::select('SELECT in_periodos.* from in_periodos where id_periodo_ingles < ? and id_periodo_ingles >1', [$periodo_actual->id_periodo_ingles]);
 
             $array_periodo=array();
             foreach ($periodos as $periodo){
                 $validacion_carga= DB::selectOne('SELECT count(in_validar_carga.id_validar_carga) validacion
-              from in_validar_carga where id_alumno='.$alumno->id_alumno.' 
-              and id_periodo='.$periodo->id_periodo_ingles.' and id_estado=2 ');
+              from in_validar_carga where id_alumno= ?
+              and id_periodo= ? and id_estado=2 ', [$alumno->id_alumno, $periodo->id_periodo_ingles]);
                 if($validacion_carga->validacion == 0)
                 {
                     $cal['id_periodo'] = $periodo->id_periodo_ingles;
@@ -54,12 +54,12 @@ GROUP BY gnral_alumnos.id_alumno ORDER BY `gnral_alumnos`.`apaterno`,
                     $cal['calificacion']=0;
                     $cal['descripcion']="";
                 }else{
-                    $carga=DB::selectOne('SELECT * FROM `in_carga_academica_ingles` 
-                   WHERE `id_alumno` = '.$alumno->id_alumno.' AND `id_periodo_ingles` = '.$periodo->id_periodo_ingles.' ');
-                    $nivel=DB::selectOne('SELECT * FROM `in_niveles_ingles` WHERE `id_niveles_ingles` = '.$carga->id_nivel.' ');
+                    $carga=DB::selectOne('SELECT * FROM `in_carga_academica_ingles`
+                   WHERE `id_alumno` = ? AND `id_periodo_ingles` = ? ', [$alumno->id_alumno, $periodo->id_periodo_ingles]);
+                    $nivel=DB::selectOne('SELECT * FROM `in_niveles_ingles` WHERE `id_niveles_ingles` = ? ', [$carga->id_nivel]);
                     $nivel=$nivel->descripcion;
-                    $calificacion=DB::selectOne('SELECT SUM(calificacion) calificacion 
-                  from in_evaluar_calificacion where id_carga_ingles='.$carga->id_carga_ingles.'');
+                    $calificacion=DB::selectOne('SELECT SUM(calificacion) calificacion
+                  from in_evaluar_calificacion where id_carga_ingles= ?', [$carga->id_carga_ingles]);
                     if($calificacion->calificacion == 0){
                         $cali=0;
                     }else{
@@ -80,7 +80,7 @@ GROUP BY gnral_alumnos.id_alumno ORDER BY `gnral_alumnos`.`apaterno`,
             $dat_alumnos['calificaciones']=$array_periodo;
 
             array_push($array_alumnos, $dat_alumnos);
-            $carrera=DB::selectOne('SELECT * FROM `gnral_carreras` WHERE `id_carrera` = '.$id_carrera.' ORDER BY `id_carrera` ASC ');
+            $carrera=DB::selectOne('SELECT * FROM `gnral_carreras` WHERE `id_carrera` = ? ORDER BY `id_carrera` ASC ', [$id_carrera]);
 
         }
         return view('ingles.departamento.mostrar_calificaciones',compact('array_alumnos','periodos','carrera','id_carrera'));
@@ -113,12 +113,12 @@ GROUP BY gnral_alumnos.id_alumno ORDER BY `gnral_alumnos`.`apaterno`,
 
             $excel->sheet(''.$carrer, function($sheet) use($id_carrera)
             {
-                $alumnos=DB::select('SELECT gnral_alumnos.id_alumno,gnral_alumnos.cuenta, 
-       gnral_alumnos.nombre,gnral_alumnos.apaterno,gnral_alumnos.amaterno 
-from gnral_alumnos,in_validar_carga where gnral_alumnos.id_alumno = in_validar_carga.id_alumno 
+                $alumnos=DB::select('SELECT gnral_alumnos.id_alumno,gnral_alumnos.cuenta,
+       gnral_alumnos.nombre,gnral_alumnos.apaterno,gnral_alumnos.amaterno
+from gnral_alumnos,in_validar_carga where gnral_alumnos.id_alumno = in_validar_carga.id_alumno
 AND gnral_alumnos.id_carrera = '.$id_carrera.'
 GROUP BY gnral_alumnos.id_alumno ORDER BY `gnral_alumnos`.`apaterno`,
-                                          `gnral_alumnos`.`amaterno`, `gnral_alumnos`.`nombre` DESC 
+                                          `gnral_alumnos`.`amaterno`, `gnral_alumnos`.`nombre` DESC
 ');
                 $periodo_actual=DB::selectOne('SELECT in_periodos.* from in_periodos where estado_historial=1 ');
 
@@ -135,7 +135,7 @@ GROUP BY gnral_alumnos.id_alumno ORDER BY `gnral_alumnos`.`apaterno`,
                     $array_periodo = array();
                     foreach ($periodos as $periodo) {
                         $validacion_carga = DB::selectOne('SELECT count(in_validar_carga.id_validar_carga) validacion
-              from in_validar_carga where id_alumno=' . $alumno->id_alumno . ' 
+              from in_validar_carga where id_alumno=' . $alumno->id_alumno . '
               and id_periodo=' . $periodo->id_periodo_ingles . ' and id_estado=2 ');
                         if ($validacion_carga->validacion == 0) {
                             $cal['id_periodo'] = $periodo->id_periodo_ingles;
@@ -143,11 +143,11 @@ GROUP BY gnral_alumnos.id_alumno ORDER BY `gnral_alumnos`.`apaterno`,
                             $cal['calificacion'] = 0;
                             $cal['descripcion'] = "";
                         } else {
-                            $carga = DB::selectOne('SELECT * FROM `in_carga_academica_ingles` 
+                            $carga = DB::selectOne('SELECT * FROM `in_carga_academica_ingles`
                    WHERE `id_alumno` = ' . $alumno->id_alumno . ' AND `id_periodo_ingles` = ' . $periodo->id_periodo_ingles . ' ');
                             $nivel = DB::selectOne('SELECT * FROM `in_niveles_ingles` WHERE `id_niveles_ingles` = ' . $carga->id_nivel . ' ');
                             $nivel = $nivel->descripcion;
-                            $calificacion = DB::selectOne('SELECT SUM(calificacion) calificacion 
+                            $calificacion = DB::selectOne('SELECT SUM(calificacion) calificacion
                   from in_evaluar_calificacion where id_carga_ingles=' . $carga->id_carga_ingles . '');
                             if ($calificacion->calificacion == 0) {
                                 $cali = 0;
@@ -187,7 +187,7 @@ GROUP BY gnral_alumnos.id_alumno ORDER BY `gnral_alumnos`.`apaterno`,
     public function historial_calificaciones_excel($id_carrera){
         //Session::put('historial_id_carrera',$id_carrera);
 
-        $carr=DB::selectOne('SELECT * FROM `gnral_carreras` WHERE `id_carrera` = '.$id_carrera.'');
+        $carr=DB::selectOne('SELECT * FROM `gnral_carreras` WHERE `id_carrera` = ?', [$id_carrera]);
         if($carr->id_carrera == 2){
             $carrer="I S C";
         }
@@ -211,7 +211,7 @@ GROUP BY gnral_alumnos.id_alumno ORDER BY `gnral_alumnos`.`apaterno`,
 
 
         $alumnos = DB::select("
-    SELECT DISTINCT 
+    SELECT DISTINCT
         ga.id_alumno,
         ga.cuenta,
         ga.nombre,
@@ -219,7 +219,7 @@ GROUP BY gnral_alumnos.id_alumno ORDER BY `gnral_alumnos`.`apaterno`,
         ga.amaterno,
         icai.id_nivel
     FROM gnral_alumnos ga
-    JOIN in_carga_academica_ingles icai 
+    JOIN in_carga_academica_ingles icai
         ON icai.id_alumno = ga.id_alumno
     WHERE ga.id_carrera = ?
       AND icai.id_nivel = 10

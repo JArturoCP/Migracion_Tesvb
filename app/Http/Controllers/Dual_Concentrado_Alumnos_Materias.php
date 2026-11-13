@@ -34,14 +34,14 @@ class Dual_Concentrado_Alumnos_Materias extends Controller
         JOIN gnral_materias ON eva_carga_academica.id_materia = gnral_materias.id_materia
         JOIN gnral_reticulas ON gnral_materias.id_reticula = gnral_reticulas.id_reticula
         LEFT JOIN eva_validacion_de_cargas ON eva_carga_academica.id_alumno = eva_validacion_de_cargas.id_alumno
-        AND eva_validacion_de_cargas.id_periodo = eva_carga_academica.id_periodo 
-        WHERE cal_duales_actuales.id_periodo = ' . $id_periodo . '  
-        AND eva_carga_academica.id_status_materia = 1 
-        AND eva_carga_academica.id_periodo = ' . $id_periodo . '
+        AND eva_validacion_de_cargas.id_periodo = eva_carga_academica.id_periodo
+        WHERE cal_duales_actuales.id_periodo = ?
+        AND eva_carga_academica.id_status_materia = 1
+        AND eva_carga_academica.id_periodo = ?
         AND eva_validacion_de_cargas.estado_validacion= 8
-        AND eva_carga_academica.id_materia = ' . $id_materia . '
+        AND eva_carga_academica.id_materia = ?
         GROUP BY gnral_alumnos.id_alumno, gnral_alumnos.cuenta, gnral_alumnos.nombre, gnral_alumnos.apaterno, gnral_alumnos.amaterno
-        ORDER BY gnral_alumnos.apaterno, gnral_alumnos.amaterno, gnral_alumnos.nombre ASC');
+        ORDER BY gnral_alumnos.apaterno, gnral_alumnos.amaterno, gnral_alumnos.nombre ASC', [$id_periodo, $id_periodo, $id_materia]);
         //dd($alumnos);
 
         $id_alumno = collect($alumnos)->pluck('id_alumno')->toArray();
@@ -67,12 +67,12 @@ class Dual_Concentrado_Alumnos_Materias extends Controller
         JOIN gnral_periodos ON eva_carga_academica.id_periodo = gnral_periodos.id_periodo
         JOIN gnral_alumnos ON eva_carga_academica.id_alumno = gnral_alumnos.id_alumno
         JOIN eva_validacion_de_cargas ON gnral_alumnos.id_alumno = eva_validacion_de_cargas.id_alumno
-        WHERE gnral_periodos.id_periodo = ' . $id_periodo . '
-        AND eva_carga_academica.id_materia = ' . $id_materia . '
+        WHERE gnral_periodos.id_periodo = ?
+        AND eva_carga_academica.id_materia = ?
         AND gnral_periodos.id_periodo = eva_validacion_de_cargas.id_periodo
         AND eva_validacion_de_cargas.estado_validacion = 8
         AND eva_status_materia.id_status_materia = 1
-        GROUP BY gnral_materias.id_materia');
+        GROUP BY gnral_materias.id_materia', [$id_periodo, $id_materia]);
         //dd($materia_seleccionada);
 
         $array_materias=array();
@@ -93,8 +93,8 @@ class Dual_Concentrado_Alumnos_Materias extends Controller
             $mayor_unidades= $mayor_unidades > $dat_alumno->unidades ? $mayor_unidades : $dat_alumno->unidades;
             $array_calificaciones=array();
             $calificaciones=DB::select('SELECT * FROM cal_evaluaciones
-                      WHERE id_carga_academica='.$dat_alumno->id_carga_academica.'
-                      ORDER BY cal_evaluaciones.id_unidad');
+                      WHERE id_carga_academica= ?
+                      ORDER BY cal_evaluaciones.id_unidad', [$dat_alumno->id_carga_academica]);
             $calificaciones != null ? $unidades_evaluadas=0 : $unidades_evaluadas=1;
             foreach ($calificaciones as $calificacion)
             {
@@ -153,9 +153,9 @@ class Dual_Concentrado_Alumnos_Materias extends Controller
             $estado_materia=0;
             foreach ($array_materias as $materiass) {
 //dd($array_materias);
-                $inscrito = DB::selectOne('SELECT * FROM `eva_carga_academica` 
-                  WHERE `id_materia` = '.$materiass['id_materia'].' AND `id_status_materia` = 1 
-                  AND `id_periodo` = '.$id_periodo. ' and id_alumno='.$alumno->id_alumno.'');
+                $inscrito = DB::selectOne('SELECT * FROM `eva_carga_academica`
+                  WHERE `id_materia` = ? AND `id_status_materia` = 1
+                  AND `id_periodo` = ? and id_alumno= ?', [$materiass['id_materia'], $id_periodo, $alumno->id_alumno]);
 //dd($inscrito);
                 if ($inscrito == null) {
                     $datos_alumnos['id_carga_academica'] = 0;
@@ -172,13 +172,13 @@ class Dual_Concentrado_Alumnos_Materias extends Controller
                     $datos_alumnos['estado'] = 2;
 
 
-                    $materia_promedio = DB::selectOne('SELECT SUM(calificacion) suma FROM `cal_evaluaciones` WHERE `id_carga_academica` =' . $inscrito->id_carga_academica . ' and calificacion >=70');
+                    $materia_promedio = DB::selectOne('SELECT SUM(calificacion) suma FROM `cal_evaluaciones` WHERE `id_carga_academica` = ? and calificacion >=70', [$inscrito->id_carga_academica]);
                     $materia_promedio = $materia_promedio->suma;
 
-                    $contar_unidades_pasadas = DB::selectOne('SELECT count(calificacion) suma FROM `cal_evaluaciones` WHERE `id_carga_academica` = ' . $inscrito->id_carga_academica . ' and calificacion >=70');
+                    $contar_unidades_pasadas = DB::selectOne('SELECT count(calificacion) suma FROM `cal_evaluaciones` WHERE `id_carga_academica` = ? and calificacion >=70', [$inscrito->id_carga_academica]);
                     $contar_unidades_pasadas = $contar_unidades_pasadas->suma;
 
-                    $contar_unidades_sumativas = DB::selectOne('SELECT count(calificacion) num FROM `cal_evaluaciones` WHERE `id_carga_academica` = ' . $inscrito->id_carga_academica . ' and esc=1');
+                    $contar_unidades_sumativas = DB::selectOne('SELECT count(calificacion) num FROM `cal_evaluaciones` WHERE `id_carga_academica` = ? and esc=1', [$inscrito->id_carga_academica]);
                     $contar_unidades_sumativas = $contar_unidades_sumativas->num;
                     if ($contar_unidades_pasadas == $materiass['unidades']) {
                         if ($materia_promedio == 0) {
@@ -362,5 +362,5 @@ class Dual_Concentrado_Alumnos_Materias extends Controller
                 'com','numero_promedio_aprobado','numero_alumno','numero_promedio_reprobado','materias_calificaciones','bajas','promedio_general'));
 
     }
-    
+
 }

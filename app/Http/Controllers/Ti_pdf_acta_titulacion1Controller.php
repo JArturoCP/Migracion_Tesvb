@@ -29,7 +29,7 @@ class Ti_pdf_acta_titulacion1Controller extends Controller
 {
     public function index($id_alumno){
         $etiqueta=DB::selectOne('SELECT * FROM etiqueta WHERE id_etiqueta = 1 ');
-        $fecha_titulacion=DB::selectOne('SELECT * FROM `ti_fecha_jurado_alumn` WHERE `id_alumno` ='.$id_alumno.'');
+        $fecha_titulacion=DB::selectOne('SELECT * FROM `ti_fecha_jurado_alumn` WHERE `id_alumno` = ?', [$id_alumno]);
 
         $dia_titulacion=  substr($fecha_titulacion->fecha_titulacion, 0, 2);
         $mes_titulacion=  substr($fecha_titulacion->fecha_titulacion, 3, 2);
@@ -72,37 +72,37 @@ class Ti_pdf_acta_titulacion1Controller extends Controller
         if($mes_titulacion == 12){
             $mes_titulacion="diciembre";
         }
-        $dato_presidente=DB::selectOne('SELECT gnral_personales.nombre,gnral_personales.cedula, ti_jurado_alumno.*, abreviaciones.titulo  
-    FROM ti_jurado_alumno, gnral_personales,abreviaciones_prof, abreviaciones WHERE ti_jurado_alumno.id_alumno = '.$id_alumno.'
-        AND ti_jurado_alumno.id_tipo_jurado = 1 and gnral_personales.id_personal= ti_jurado_alumno.id_personal 
-                                                                                and abreviaciones_prof.id_personal = gnral_personales.id_personal 
-                                                                                and abreviaciones_prof.id_abreviacion = abreviaciones.id_abreviacion');
+        $dato_presidente=DB::selectOne('SELECT gnral_personales.nombre,gnral_personales.cedula, ti_jurado_alumno.*, abreviaciones.titulo
+    FROM ti_jurado_alumno, gnral_personales,abreviaciones_prof, abreviaciones WHERE ti_jurado_alumno.id_alumno = ?
+        AND ti_jurado_alumno.id_tipo_jurado = 1 and gnral_personales.id_personal= ti_jurado_alumno.id_personal
+                                                                                and abreviaciones_prof.id_personal = gnral_personales.id_personal
+                                                                                and abreviaciones_prof.id_abreviacion = abreviaciones.id_abreviacion', [$id_alumno]);
        $nombre_presidente=$dato_presidente->titulo." ".$dato_presidente->nombre;
 
-       $dato_secretario = DB::selectOne('SELECT gnral_personales.nombre,gnral_personales.cedula, ti_jurado_alumno.*, abreviaciones.titulo  
-    FROM ti_jurado_alumno, gnral_personales,abreviaciones_prof, abreviaciones WHERE ti_jurado_alumno.id_alumno = '.$id_alumno.'
-        AND ti_jurado_alumno.id_tipo_jurado = 2 and gnral_personales.id_personal= ti_jurado_alumno.id_personal 
-                                                                                and abreviaciones_prof.id_personal = gnral_personales.id_personal 
-                                                                                and abreviaciones_prof.id_abreviacion = abreviaciones.id_abreviacion');
+       $dato_secretario = DB::selectOne('SELECT gnral_personales.nombre,gnral_personales.cedula, ti_jurado_alumno.*, abreviaciones.titulo
+    FROM ti_jurado_alumno, gnral_personales,abreviaciones_prof, abreviaciones WHERE ti_jurado_alumno.id_alumno = ?
+        AND ti_jurado_alumno.id_tipo_jurado = 2 and gnral_personales.id_personal= ti_jurado_alumno.id_personal
+                                                                                and abreviaciones_prof.id_personal = gnral_personales.id_personal
+                                                                                and abreviaciones_prof.id_abreviacion = abreviaciones.id_abreviacion', [$id_alumno]);
         $nombre_secretario=$dato_secretario->titulo." ".$dato_secretario->nombre;
 
-        $dato_vocal = DB::selectOne('SELECT gnral_personales.nombre,gnral_personales.cedula, ti_jurado_alumno.*, abreviaciones.titulo  
-    FROM ti_jurado_alumno, gnral_personales,abreviaciones_prof, abreviaciones WHERE ti_jurado_alumno.id_alumno = '.$id_alumno.'
-        AND ti_jurado_alumno.id_tipo_jurado = 3 and gnral_personales.id_personal= ti_jurado_alumno.id_personal 
-                                                                                and abreviaciones_prof.id_personal = gnral_personales.id_personal 
-                                                                                and abreviaciones_prof.id_abreviacion = abreviaciones.id_abreviacion');
+        $dato_vocal = DB::selectOne('SELECT gnral_personales.nombre,gnral_personales.cedula, ti_jurado_alumno.*, abreviaciones.titulo
+    FROM ti_jurado_alumno, gnral_personales,abreviaciones_prof, abreviaciones WHERE ti_jurado_alumno.id_alumno = ?
+        AND ti_jurado_alumno.id_tipo_jurado = 3 and gnral_personales.id_personal= ti_jurado_alumno.id_personal
+                                                                                and abreviaciones_prof.id_personal = gnral_personales.id_personal
+                                                                                and abreviaciones_prof.id_abreviacion = abreviaciones.id_abreviacion', [$id_alumno]);
         $nombre_vocal=$dato_vocal->titulo." ".$dato_vocal->nombre;
 
         $datos_alumno=DB::selectOne('SELECT ti_reg_datos_alum.*,ti_opciones_titulacion.opcion_titulacion,
        ti_tipo_titulo_obtenido.tipo_titulo from ti_reg_datos_alum,ti_opciones_titulacion,ti_tipo_titulo_obtenido
-where ti_reg_datos_alum.id_opcion_titulacion = ti_opciones_titulacion.id_opcion_titulacion and 
-      ti_reg_datos_alum.id_carrera=ti_tipo_titulo_obtenido.id_carrera and ti_reg_datos_alum.id_alumno='.$id_alumno.'');
+where ti_reg_datos_alum.id_opcion_titulacion = ti_opciones_titulacion.id_opcion_titulacion and
+      ti_reg_datos_alum.id_carrera=ti_tipo_titulo_obtenido.id_carrera and ti_reg_datos_alum.id_alumno= ?', [$id_alumno]);
 
         $nombre_alumno=$datos_alumno->nombre_al." ".$datos_alumno->apaterno." ".$datos_alumno->amaterno;
         $opcion_titulacion=$datos_alumno->opcion_titulacion;
         $titulo_obtenido=$datos_alumno->tipo_titulo;
 
-        $acta_titulacion=DB::selectOne('SELECT * FROM `ti_acta_titulaciones` WHERE `id_alumno` ='.$id_alumno.'');
+        $acta_titulacion=DB::selectOne('SELECT * FROM `ti_acta_titulaciones` WHERE `id_alumno` = ?', [$id_alumno]);
         $numero_acta=$acta_titulacion->numero_acta_titulacion;
         $numero_libro=$acta_titulacion->numero_libro_acta_titulacion;
         $foja_acta_titulacion=$acta_titulacion->foja_acta_titulacion;
@@ -205,7 +205,7 @@ where ti_reg_datos_alum.id_opcion_titulacion = ti_opciones_titulacion.id_opcion_
     }
     public function acta_extención_examen($id_alumno){
         $etiqueta=DB::selectOne('SELECT * FROM etiqueta WHERE id_etiqueta = 1 ');
-        $fecha_titulacion=DB::selectOne('SELECT * FROM `ti_fecha_jurado_alumn` WHERE `id_alumno` ='.$id_alumno.'');
+        $fecha_titulacion=DB::selectOne('SELECT * FROM `ti_fecha_jurado_alumn` WHERE `id_alumno` = ?', [$id_alumno]);
 
         $dia_titulacion=  substr($fecha_titulacion->fecha_titulacion, 0, 2);
         $mes_titulacion=  substr($fecha_titulacion->fecha_titulacion, 3, 2);
@@ -248,46 +248,46 @@ where ti_reg_datos_alum.id_opcion_titulacion = ti_opciones_titulacion.id_opcion_
         if($mes_titulacion == 12){
             $mes_titulacion="diciembre";
         }
-        $dato_presidente=DB::selectOne('SELECT gnral_personales.nombre,gnral_personales.cedula, ti_jurado_alumno.*, abreviaciones.titulo  
-    FROM ti_jurado_alumno, gnral_personales,abreviaciones_prof, abreviaciones WHERE ti_jurado_alumno.id_alumno = '.$id_alumno.'
-        AND ti_jurado_alumno.id_tipo_jurado = 1 and gnral_personales.id_personal= ti_jurado_alumno.id_personal 
-                                                                                and abreviaciones_prof.id_personal = gnral_personales.id_personal 
-                                                                                and abreviaciones_prof.id_abreviacion = abreviaciones.id_abreviacion');
+        $dato_presidente=DB::selectOne('SELECT gnral_personales.nombre,gnral_personales.cedula, ti_jurado_alumno.*, abreviaciones.titulo
+    FROM ti_jurado_alumno, gnral_personales,abreviaciones_prof, abreviaciones WHERE ti_jurado_alumno.id_alumno = ?
+        AND ti_jurado_alumno.id_tipo_jurado = 1 and gnral_personales.id_personal= ti_jurado_alumno.id_personal
+                                                                                and abreviaciones_prof.id_personal = gnral_personales.id_personal
+                                                                                and abreviaciones_prof.id_abreviacion = abreviaciones.id_abreviacion', [$id_alumno]);
         $nombre_presidente=$dato_presidente->titulo." ".$dato_presidente->nombre;
 
-        $dato_secretario = DB::selectOne('SELECT gnral_personales.nombre,gnral_personales.cedula, ti_jurado_alumno.*, abreviaciones.titulo  
-    FROM ti_jurado_alumno, gnral_personales,abreviaciones_prof, abreviaciones WHERE ti_jurado_alumno.id_alumno = '.$id_alumno.'
-        AND ti_jurado_alumno.id_tipo_jurado = 2 and gnral_personales.id_personal= ti_jurado_alumno.id_personal 
-                                                                                and abreviaciones_prof.id_personal = gnral_personales.id_personal 
-                                                                                and abreviaciones_prof.id_abreviacion = abreviaciones.id_abreviacion');
+        $dato_secretario = DB::selectOne('SELECT gnral_personales.nombre,gnral_personales.cedula, ti_jurado_alumno.*, abreviaciones.titulo
+    FROM ti_jurado_alumno, gnral_personales,abreviaciones_prof, abreviaciones WHERE ti_jurado_alumno.id_alumno = ?
+        AND ti_jurado_alumno.id_tipo_jurado = 2 and gnral_personales.id_personal= ti_jurado_alumno.id_personal
+                                                                                and abreviaciones_prof.id_personal = gnral_personales.id_personal
+                                                                                and abreviaciones_prof.id_abreviacion = abreviaciones.id_abreviacion', [$id_alumno]);
         $nombre_secretario=$dato_secretario->titulo." ".$dato_secretario->nombre;
 
-        $dato_vocal = DB::selectOne('SELECT gnral_personales.nombre,gnral_personales.cedula, ti_jurado_alumno.*, abreviaciones.titulo  
-    FROM ti_jurado_alumno, gnral_personales,abreviaciones_prof, abreviaciones WHERE ti_jurado_alumno.id_alumno = '.$id_alumno.'
-        AND ti_jurado_alumno.id_tipo_jurado = 3 and gnral_personales.id_personal= ti_jurado_alumno.id_personal 
-                                                                                and abreviaciones_prof.id_personal = gnral_personales.id_personal 
-                                                                                and abreviaciones_prof.id_abreviacion = abreviaciones.id_abreviacion');
+        $dato_vocal = DB::selectOne('SELECT gnral_personales.nombre,gnral_personales.cedula, ti_jurado_alumno.*, abreviaciones.titulo
+    FROM ti_jurado_alumno, gnral_personales,abreviaciones_prof, abreviaciones WHERE ti_jurado_alumno.id_alumno = ?
+        AND ti_jurado_alumno.id_tipo_jurado = 3 and gnral_personales.id_personal= ti_jurado_alumno.id_personal
+                                                                                and abreviaciones_prof.id_personal = gnral_personales.id_personal
+                                                                                and abreviaciones_prof.id_abreviacion = abreviaciones.id_abreviacion', [$id_alumno]);
         $nombre_vocal=$dato_vocal->titulo." ".$dato_vocal->nombre;
 
         $datos_alumno=DB::selectOne('SELECT ti_reg_datos_alum.*,ti_opciones_titulacion.opcion_titulacion,
        ti_tipo_titulo_obtenido.tipo_titulo from ti_reg_datos_alum,ti_opciones_titulacion,ti_tipo_titulo_obtenido
-where ti_reg_datos_alum.id_opcion_titulacion = ti_opciones_titulacion.id_opcion_titulacion and 
-      ti_reg_datos_alum.id_carrera=ti_tipo_titulo_obtenido.id_carrera and ti_reg_datos_alum.id_alumno='.$id_alumno.'');
+where ti_reg_datos_alum.id_opcion_titulacion = ti_opciones_titulacion.id_opcion_titulacion and
+      ti_reg_datos_alum.id_carrera=ti_tipo_titulo_obtenido.id_carrera and ti_reg_datos_alum.id_alumno= ?', [$id_alumno]);
 
         $nombre_alumno=$datos_alumno->nombre_al." ".$datos_alumno->apaterno." ".$datos_alumno->amaterno;
         $opcion_titulacion=$datos_alumno->opcion_titulacion;
         $titulo_obtenido=$datos_alumno->tipo_titulo;
 
-        $acta_titulacion=DB::selectOne('SELECT * FROM `ti_acta_titulaciones` WHERE `id_alumno` ='.$id_alumno.'');
+        $acta_titulacion=DB::selectOne('SELECT * FROM `ti_acta_titulaciones` WHERE `id_alumno` = ?', [$id_alumno]);
         $numero_acta=$acta_titulacion->numero_acta_titulacion;
         $numero_libro=$acta_titulacion->numero_libro_acta_titulacion;
         $foja_acta_titulacion=$acta_titulacion->foja_acta_titulacion;
         $hora_conformidad=$acta_titulacion->hora_conformidad_acta;
         $hora_levantamiento=$acta_titulacion->hora_levantamiento_acta;
 
-        $reg_al=DB::selectOne('SELECT ti_datos_alumno_reg_dep.*, ti_decisiones_jurado.decision  
-FROM ti_datos_alumno_reg_dep,ti_decisiones_jurado WHERE ti_datos_alumno_reg_dep.id_decision=ti_decisiones_jurado.id_decision 
-                                                    and ti_datos_alumno_reg_dep.id_alumno='.$id_alumno.'');
+        $reg_al=DB::selectOne('SELECT ti_datos_alumno_reg_dep.*, ti_decisiones_jurado.decision
+FROM ti_datos_alumno_reg_dep,ti_decisiones_jurado WHERE ti_datos_alumno_reg_dep.id_decision=ti_decisiones_jurado.id_decision
+                                                    and ti_datos_alumno_reg_dep.id_alumno= ?', [$id_alumno]);
         $id_sexo=$reg_al->id_sexo;
         if($id_sexo == 1){
             $argumento="del";

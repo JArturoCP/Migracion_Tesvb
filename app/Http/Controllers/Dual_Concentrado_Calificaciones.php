@@ -30,23 +30,23 @@ class Dual_Concentrado_Calificaciones extends Controller
     {
         $carrera = $id_carrera;
         $periodo = Session::get('periodo_actual');
-        $grupos = DB::select('SELECT DISTINCT m.id_semestre, hp.grupo ,c.id_carrera FROM 
-                gnral_periodos pe, gnral_carreras c, gnral_periodo_carreras pc, gnral_horarios h, gnral_materias m, 
-                gnral_personales p, gnral_materias_perfiles mf, gnral_horas_profesores hp,gnral_grupos g WHERE 
-                mf.id_personal = p.id_personal AND 
-                mf.id_materia = m.id_materia AND 
-                mf.id_materia_perfil = hp.id_materia_perfil AND 
-                hp.id_horario_profesor = h.id_horario_profesor AND 
-                h.id_periodo_carrera = pc.id_periodo_carrera AND 
-                pc.id_periodo = pe.id_periodo AND 
-                pe.id_periodo =' . $periodo . ' AND 
-                pc.id_carrera = c.id_carrera AND 
-                c.id_carrera =' . $carrera . '
-                ORDER BY m.id_semestre ASC ');
+        $grupos = DB::select('SELECT DISTINCT m.id_semestre, hp.grupo ,c.id_carrera FROM
+                gnral_periodos pe, gnral_carreras c, gnral_periodo_carreras pc, gnral_horarios h, gnral_materias m,
+                gnral_personales p, gnral_materias_perfiles mf, gnral_horas_profesores hp,gnral_grupos g WHERE
+                mf.id_personal = p.id_personal AND
+                mf.id_materia = m.id_materia AND
+                mf.id_materia_perfil = hp.id_materia_perfil AND
+                hp.id_horario_profesor = h.id_horario_profesor AND
+                h.id_periodo_carrera = pc.id_periodo_carrera AND
+                pc.id_periodo = pe.id_periodo AND
+                pe.id_periodo = ? AND
+                pc.id_carrera = c.id_carrera AND
+                c.id_carrera = ?
+                ORDER BY m.id_semestre ASC ', [$periodo, $carrera]);
        // dd($grupos);
 
 
-        $carr = DB::selectOne('SELECT * FROM `gnral_carreras` WHERE `id_carrera` = ' . $id_carrera . '');
+        $carr = DB::selectOne('SELECT * FROM `gnral_carreras` WHERE `id_carrera` = ?', [$id_carrera]);
         $nombre_carrera = $carr->nombre;
         return view('duales.concentrado_calificaciones_duales.concentrado_semestres', compact('grupos', 'nombre_carrera'));
 
@@ -55,7 +55,7 @@ class Dual_Concentrado_Calificaciones extends Controller
     public function concentrado_materias($id_carrera, $id_semestre, $grupo)
     {
         $id_periodo = Session::get('periodo_actual');
-        $carr = DB::selectOne('SELECT * FROM gnral_carreras WHERE id_carrera = '.$id_carrera.'');
+        $carr = DB::selectOne('SELECT * FROM gnral_carreras WHERE id_carrera = ?', [$id_carrera]);
         //dd($carr);
         $nombre_carrera = $carr->nombre;
         $id_alumno = 0;
@@ -69,25 +69,25 @@ class Dual_Concentrado_Calificaciones extends Controller
         JOIN gnral_materias ON eva_carga_academica.id_materia = gnral_materias.id_materia
         JOIN gnral_reticulas ON gnral_materias.id_reticula = gnral_reticulas.id_reticula
         LEFT JOIN eva_validacion_de_cargas ON eva_carga_academica.id_alumno = eva_validacion_de_cargas.id_alumno
-        AND eva_validacion_de_cargas.id_periodo = eva_carga_academica.id_periodo 
-        WHERE cal_duales_actuales.id_periodo = ' . $id_periodo . '  
-        AND gnral_alumnos.id_carrera = ' . $id_carrera . '
-        AND gnral_materias.id_semestre > 5  
-        AND gnral_reticulas.id_carrera = ' . $id_carrera . '
-        AND eva_carga_academica.id_status_materia = 1 
-        AND eva_carga_academica.id_periodo = ' . $id_periodo . '
-        AND eva_carga_academica.grupo = ' . $grupo . ' 
+        AND eva_validacion_de_cargas.id_periodo = eva_carga_academica.id_periodo
+        WHERE cal_duales_actuales.id_periodo = ?
+        AND gnral_alumnos.id_carrera = ?
+        AND gnral_materias.id_semestre > 5
+        AND gnral_reticulas.id_carrera = ?
+        AND eva_carga_academica.id_status_materia = 1
+        AND eva_carga_academica.id_periodo = ?
+        AND eva_carga_academica.grupo = ?
         AND (eva_validacion_de_cargas.estado_validacion IN (2, 8, 10) OR eva_validacion_de_cargas.estado_validacion IS NULL)
         GROUP BY
-            gnral_alumnos.id_alumno, 
-            gnral_alumnos.cuenta, 
-            gnral_alumnos.nombre, 
-            gnral_alumnos.apaterno, 
+            gnral_alumnos.id_alumno,
+            gnral_alumnos.cuenta,
+            gnral_alumnos.nombre,
+            gnral_alumnos.apaterno,
             gnral_alumnos.amaterno
         ORDER BY
             gnral_alumnos.apaterno,
             gnral_alumnos.amaterno,
-            gnral_alumnos.nombre ASC');
+            gnral_alumnos.nombre ASC', [$id_periodo, $id_carrera, $id_carrera, $id_periodo, $grupo]);
         //dd($alumnos);
 
        $materias = DB::select('SELECT gnral_materias.id_materia,MAX(gnral_materias.nombre) AS materias,MAX(gnral_materias.unidades) AS unidades,MAX(gnral_materias.clave) AS clave,MAX(eva_tipo_curso.nombre_curso) AS nombre_curso,MAX(eva_carga_academica.id_carga_academica) AS id_carga_academica,MAX(eva_carga_academica.grupo) AS grupo,MAX(gnral_materias.id_semestre) AS id_semestre,MAX(gnral_materias.creditos) AS creditos,MAX(eva_status_materia.nombre_status) AS nombre_status
@@ -100,14 +100,14 @@ class Dual_Concentrado_Calificaciones extends Controller
         JOIN gnral_alumnos ON eva_carga_academica.id_alumno = gnral_alumnos.id_alumno
         JOIN eva_validacion_de_cargas ON gnral_alumnos.id_alumno = eva_validacion_de_cargas.id_alumno
         JOIN gnral_carreras ON gnral_alumnos.id_carrera = gnral_carreras.id_carrera
-        WHERE gnral_periodos.id_periodo = '.$id_periodo.'  
+        WHERE gnral_periodos.id_periodo = ?
         AND eva_carga_academica.id_materia NOT IN (773,845,853,1160,1263,1264,1265,1443,1496,1502,1565,1566,1567,1568,1569,1571)
         AND gnral_periodos.id_periodo = eva_validacion_de_cargas.id_periodo
-        AND eva_validacion_de_cargas.id_alumno IN (SELECT cal_duales_actuales.id_alumno FROM cal_duales_actuales 
-            WHERE cal_duales_actuales.id_periodo = '.$id_periodo.')
+        AND eva_validacion_de_cargas.id_alumno IN (SELECT cal_duales_actuales.id_alumno FROM cal_duales_actuales
+            WHERE cal_duales_actuales.id_periodo = ?)
         AND eva_status_materia.id_status_materia = 1
-        AND gnral_alumnos.id_carrera = '.$id_carrera.'
-        GROUP BY gnral_materias.id_materia');
+        AND gnral_alumnos.id_carrera = ?
+        GROUP BY gnral_materias.id_materia', [$id_periodo, $id_periodo, $id_carrera]);
 
         /*$materias = DB::select('SELECT gnral_materias.id_materia, gnral_materias.nombre AS materias, gnral_materias.unidades, gnral_materias.id_materia, eva_tipo_curso.nombre_curso,
             eva_carga_academica.id_carga_academica, eva_carga_academica.grupo, gnral_materias.id_semestre,

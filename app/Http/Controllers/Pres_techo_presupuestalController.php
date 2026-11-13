@@ -11,13 +11,13 @@ class Pres_techo_presupuestalController extends Controller
         $year = date('Y');
         $year = $year+1;
 
-        $proyectos=DB::select('SELECT * FROM `pres_proyectos` 
-        where   year = '.$year.' and id_estado = 1 and id_proyecto NOT in (SELECT id_proyecto from pres_presupuesto_anteproyecto where year ='.$year.')
-        ORDER BY `nombre_proyecto` ASC');
+        $proyectos=DB::select('SELECT * FROM `pres_proyectos`
+        where   year = ? and id_estado = 1 and id_proyecto NOT in (SELECT id_proyecto from pres_presupuesto_anteproyecto where year = ?)
+        ORDER BY `nombre_proyecto` ASC', [$year, $year]);
 
-        $registro_proyectos=DB::select('SELECT pres_presupuesto_anteproyecto.*, pres_proyectos.nombre_proyecto 
+        $registro_proyectos=DB::select('SELECT pres_presupuesto_anteproyecto.*, pres_proyectos.nombre_proyecto
         from pres_presupuesto_anteproyecto, pres_proyectos WHERE pres_presupuesto_anteproyecto.id_proyecto = pres_proyectos.id_proyecto
-        and pres_presupuesto_anteproyecto.year='.$year.' ORDER BY pres_proyectos.nombre_proyecto ASC');
+        and pres_presupuesto_anteproyecto.year= ? ORDER BY pres_proyectos.nombre_proyecto ASC', [$year]);
 
         $presupuestos_anteproyectos=array();
         $contar_f=0;
@@ -29,8 +29,8 @@ class Pres_techo_presupuestalController extends Controller
             $reg['nombre_proyecto']=$registro_proyecto->nombre_proyecto;
 
             $reg_fuentes=array();
-            $fuentes_financiamiento=DB::select('SELECT pres_fuentes_financiamiento.* 
-            from pres_fuentes_financiamiento where id_presupuesto_ante ='.$registro_proyecto->id_presupuesto.' ORDER BY id_capitulo ASC');
+            $fuentes_financiamiento=DB::select('SELECT pres_fuentes_financiamiento.*
+            from pres_fuentes_financiamiento where id_presupuesto_ante = ? ORDER BY id_capitulo ASC', [$registro_proyecto->id_presupuesto]);
             $total_presupuesto_estatal=0;
             $total_presupuesto_federal=0;
             $total_presupuesto_propios=0;
@@ -137,13 +137,13 @@ class Pres_techo_presupuestalController extends Controller
         return back();
     }
     public function agregar_fuentes_financiamiento_ante($id_presupuesto){
-        $proyecto=DB::selectOne('SELECT pres_presupuesto_anteproyecto.*, pres_proyectos.nombre_proyecto 
+        $proyecto=DB::selectOne('SELECT pres_presupuesto_anteproyecto.*, pres_proyectos.nombre_proyecto
         from pres_presupuesto_anteproyecto, pres_proyectos WHERE pres_presupuesto_anteproyecto.id_proyecto = pres_proyectos.id_proyecto
-        and pres_presupuesto_anteproyecto.id_presupuesto ='.$id_presupuesto.' ');
+        and pres_presupuesto_anteproyecto.id_presupuesto = ? ', [$id_presupuesto]);
 
         $capitulos=DB::select('SELECT pres_capitulos.* from pres_capitulos
-      where pres_capitulos.id_capitulo NOT in (SELECT pres_fuentes_financiamiento.id_capitulo 
-      from pres_fuentes_financiamiento WHERE pres_fuentes_financiamiento.id_presupuesto_ante='.$id_presupuesto.') ORDER BY pres_capitulos.id_capitulo ASC');
+      where pres_capitulos.id_capitulo NOT in (SELECT pres_fuentes_financiamiento.id_capitulo
+      from pres_fuentes_financiamiento WHERE pres_fuentes_financiamiento.id_presupuesto_ante= ?) ORDER BY pres_capitulos.id_capitulo ASC', [$id_presupuesto]);
 
         return view('departamento_finanzas.techo_presupuestal_anteproyecto.partials_agregar_capitulo',compact('proyecto','capitulos'));
     }
@@ -202,10 +202,10 @@ class Pres_techo_presupuestalController extends Controller
     }
     public function mod_fuentes_financiamiento($id_fuente_financiamiento){
         $capitulo=DB::selectOne('SELECT pres_fuentes_financiamiento.*, pres_proyectos.nombre_proyecto,
-        pres_presupuesto_anteproyecto.year from pres_fuentes_financiamiento, pres_presupuesto_anteproyecto, pres_proyectos 
+        pres_presupuesto_anteproyecto.year from pres_fuentes_financiamiento, pres_presupuesto_anteproyecto, pres_proyectos
         where pres_fuentes_financiamiento.id_presupuesto_ante = pres_presupuesto_anteproyecto.id_presupuesto and
         pres_proyectos.id_proyecto =pres_presupuesto_anteproyecto.id_proyecto and
-        pres_fuentes_financiamiento.id_fuente_financiamiento ='.$id_fuente_financiamiento.'');
+        pres_fuentes_financiamiento.id_fuente_financiamiento = ?', [$id_fuente_financiamiento]);
 
         return view('departamento_finanzas.techo_presupuestal_anteproyecto.partials_modificar_capitulo',compact('capitulo'));
 
@@ -267,9 +267,9 @@ class Pres_techo_presupuestalController extends Controller
 
 
 
-        $registro_proyectos=DB::select('SELECT pres_presupuesto_anteproyecto.*,pres_proyectos.nombre_proyecto 
-        FROM pres_presupuesto_anteproyecto,pres_proyectos WHERE pres_presupuesto_anteproyecto.id_proyecto ='.$id_proyecto.' 
-        and pres_presupuesto_anteproyecto.id_proyecto = pres_proyectos.id_proyecto and pres_presupuesto_anteproyecto.year='.$year.'');
+        $registro_proyectos=DB::select('SELECT pres_presupuesto_anteproyecto.*,pres_proyectos.nombre_proyecto
+        FROM pres_presupuesto_anteproyecto,pres_proyectos WHERE pres_presupuesto_anteproyecto.id_proyecto = ?
+        and pres_presupuesto_anteproyecto.id_proyecto = pres_proyectos.id_proyecto and pres_presupuesto_anteproyecto.year= ?', [$id_proyecto, $year]);
 
 
         $presupuestos_anteproyectos=array();
@@ -282,8 +282,8 @@ class Pres_techo_presupuestalController extends Controller
             $reg['nombre_proyecto']=$registro_proyecto->nombre_proyecto;
 
             $reg_fuentes=array();
-            $fuentes_financiamiento=DB::select('SELECT pres_fuentes_financiamiento.* 
-            from pres_fuentes_financiamiento where id_presupuesto_ante ='.$registro_proyecto->id_presupuesto.' ORDER BY id_capitulo ASC');
+            $fuentes_financiamiento=DB::select('SELECT pres_fuentes_financiamiento.*
+            from pres_fuentes_financiamiento where id_presupuesto_ante = ? ORDER BY id_capitulo ASC', [$registro_proyecto->id_presupuesto]);
 
             $total_presupuesto_estatal=0;
             $total_presupuesto_federal=0;
@@ -377,10 +377,10 @@ class Pres_techo_presupuestalController extends Controller
 
 
         $requisiciones = DB::select('SELECT pres_actividades_req_ante.*,pres_mes.mes, pres_proyectos.nombre_proyecto,
-       pres_metas.meta, pres_partida_pres.nombre_partida, pres_partida_pres.clave_presupuestal from pres_actividades_req_ante, pres_mes,pres_proyectos,pres_metas,pres_partida_pres  
+       pres_metas.meta, pres_partida_pres.nombre_partida, pres_partida_pres.clave_presupuestal from pres_actividades_req_ante, pres_mes,pres_proyectos,pres_metas,pres_partida_pres
        WHERE pres_actividades_req_ante.id_mes = pres_mes.id_mes and pres_proyectos.id_proyecto = pres_actividades_req_ante.id_proyecto
-       and pres_actividades_req_ante.id_meta = pres_metas.id_meta and pres_actividades_req_ante.id_actividades_req_ante='.$id_actividades_req_ante.' and pres_actividades_req_ante.id_partida_pres = pres_partida_pres.id_partida_pres 
-       ORDER BY `pres_mes`.`id_mes` ASC');
+       and pres_actividades_req_ante.id_meta = pres_metas.id_meta and pres_actividades_req_ante.id_actividades_req_ante= ? and pres_actividades_req_ante.id_partida_pres = pres_partida_pres.id_partida_pres
+       ORDER BY `pres_mes`.`id_mes` ASC', [$id_actividades_req_ante]);
         //dd($requisiciones);
 
         $requisiciones2=array();
@@ -409,8 +409,8 @@ class Pres_techo_presupuestalController extends Controller
             $req['nombre_proyecto']=$requisicion->nombre_proyecto;
             $req['meta']=$requisicion->meta;
             $bienes=array();
-            $bienes_servicios=DB::select('SELECT * FROM `pres_reg_material_req_ante` 
-             WHERE `id_actividades_req_ante` = '.$requisicion->id_actividades_req_ante.'');
+            $bienes_servicios=DB::select('SELECT * FROM `pres_reg_material_req_ante`
+             WHERE `id_actividades_req_ante` = ?', [$requisicion->id_actividades_req_ante]);
             foreach ( $bienes_servicios as $servicio) {
                 $serv['id_reg_material_ant']=$servicio->id_reg_material_ant;
                 $serv['descripcion']=$servicio->descripcion;
@@ -425,9 +425,9 @@ class Pres_techo_presupuestalController extends Controller
             $req['servicios']=$bienes;
             array_push($requisiciones2, $req);
         }
-        $datos_req_envio = DB::selectOne('SELECT pres_req_mat_ante.* from pres_req_mat_ante, 
-        pres_actividades_req_ante WHERE  pres_req_mat_ante.id_req_mat_ante = pres_actividades_req_ante.id_req_mat_ante 
-        and pres_actividades_req_ante.id_actividades_req_ante ='.$id_actividades_req_ante.'');
+        $datos_req_envio = DB::selectOne('SELECT pres_req_mat_ante.* from pres_req_mat_ante,
+        pres_actividades_req_ante WHERE  pres_req_mat_ante.id_req_mat_ante = pres_actividades_req_ante.id_req_mat_ante
+        and pres_actividades_req_ante.id_actividades_req_ante = ?', [$id_actividades_req_ante]);
 
 
         return view('departamento_finanzas.jefe_departamento.ver_registroactividades', compact( 'requisiciones2','datos_req_envio','total_req','id_actividades_req_ante'));

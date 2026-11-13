@@ -142,8 +142,8 @@ class Ti_oficio_mencion_honorificaController extends Controller
 {
     public function index($id_fecha_jurado_alumn){
         $registro_fecha=DB::selectOne('SELECT ti_fecha_jurado_alumn.*, ti_horarios_dias.horario_dia, ti_horarios_dias.hora  FROM
-        ti_fecha_jurado_alumn,ti_horarios_dias WHERE ti_fecha_jurado_alumn.id_horarios_dias = ti_horarios_dias.id_horarios_dias 
-        and ti_fecha_jurado_alumn.id_fecha_jurado_alumn='.$id_fecha_jurado_alumn.'');
+        ti_fecha_jurado_alumn,ti_horarios_dias WHERE ti_fecha_jurado_alumn.id_horarios_dias = ti_horarios_dias.id_horarios_dias
+        and ti_fecha_jurado_alumn.id_fecha_jurado_alumn= ?', [$id_fecha_jurado_alumn]);
 
 
 
@@ -157,7 +157,7 @@ class Ti_oficio_mencion_honorificaController extends Controller
 
         $numero_oficio=$registro_fecha->mencion_honorifica;
 
-        $datos_alumnos=DB::selectOne('SELECT * FROM `ti_reg_datos_alum` WHERE `id_alumno` = '.$registro_fecha->id_alumno.'');
+        $datos_alumnos=DB::selectOne('SELECT * FROM `ti_reg_datos_alum` WHERE `id_alumno` = ?', [$registro_fecha->id_alumno]);
         $curp=$datos_alumnos->curp_al;
         $genero=substr($curp, 10,1);
         if($genero == "H"){
@@ -167,9 +167,9 @@ class Ti_oficio_mencion_honorificaController extends Controller
             $del="DE LA";
             $el="la";
         }
-        $alumno=DB::selectOne('SELECT ti_reg_datos_alum.*,gnral_carreras.nombre carrera 
-FROM ti_reg_datos_alum,gnral_carreras WHERE ti_reg_datos_alum.id_carrera = gnral_carreras.id_carrera 
-                                        and  ti_reg_datos_alum.id_alumno ='.$registro_fecha->id_alumno.'');
+        $alumno=DB::selectOne('SELECT ti_reg_datos_alum.*,gnral_carreras.nombre carrera
+FROM ti_reg_datos_alum,gnral_carreras WHERE ti_reg_datos_alum.id_carrera = gnral_carreras.id_carrera
+                                        and  ti_reg_datos_alum.id_alumno = ?', [$registro_fecha->id_alumno]);
        $cuenta=$alumno->no_cuenta;
 
         $promedio=$alumno->promedio_general_tesvb ;

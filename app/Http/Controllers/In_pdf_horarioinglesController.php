@@ -70,28 +70,28 @@ class In_pdf_horarioinglesController extends Controller
     public function index($id_profesor){
         $periodo_ingles=Session::get('periodo_ingles');
 
-        $per_ingles=DB::selectOne('SELECT * FROM in_periodos WHERE id_periodo_ingles = '.$periodo_ingles.'');
+        $per_ingles=DB::selectOne('SELECT * FROM in_periodos WHERE id_periodo_ingles = ?', [$periodo_ingles]);
       //  dd($per_ingles);
         //horarios
-        $sem78=DB::selectOne('SELECT COUNT(in_hrs_horas_profesor.id_semana) contar FROM in_hrs_horas_profesor where  id_profesor='.$id_profesor.' and id_periodo='.$periodo_ingles.' and id_semana in (1,16,31,46,61,76)');
-        $sem89=DB::selectOne('SELECT COUNT(in_hrs_horas_profesor.id_semana) contar FROM in_hrs_horas_profesor where  id_profesor='.$id_profesor.' and id_periodo='.$periodo_ingles.' and id_semana in (2,17,32,47,62,77)');
-        $sem910=DB::selectOne('SELECT COUNT(in_hrs_horas_profesor.id_semana) contar FROM in_hrs_horas_profesor where  id_profesor='.$id_profesor.' and id_periodo='.$periodo_ingles.' and id_semana in (3,18,33,48,63,78)');
-        $sem1011=DB::selectOne('SELECT COUNT(in_hrs_horas_profesor.id_semana) contar FROM in_hrs_horas_profesor where  id_profesor='.$id_profesor.' and id_periodo='.$periodo_ingles.' and id_semana in (4,19,34,49,64,79)');
-        $sem1112=DB::selectOne('SELECT COUNT(in_hrs_horas_profesor.id_semana) contar FROM in_hrs_horas_profesor where  id_profesor='.$id_profesor.' and id_periodo='.$periodo_ingles.' and id_semana in (5,20,35,50,65,80)');
-        $sem1213=DB::selectOne('SELECT COUNT(in_hrs_horas_profesor.id_semana) contar FROM in_hrs_horas_profesor where  id_profesor='.$id_profesor.' and id_periodo='.$periodo_ingles.' and id_semana in (6,21,36,51,66,81)');
-        $sem1314=DB::selectOne('SELECT COUNT(in_hrs_horas_profesor.id_semana) contar FROM in_hrs_horas_profesor where  id_profesor='.$id_profesor.' and id_periodo='.$periodo_ingles.' and id_semana in (7,22,37,52,67,82)');
-        $sem1415=DB::selectOne('SELECT COUNT(in_hrs_horas_profesor.id_semana) contar FROM in_hrs_horas_profesor where  id_profesor='.$id_profesor.' and id_periodo='.$periodo_ingles.' and id_semana in (8,23,38,53,68,83)');
-        $sem1516=DB::selectOne('SELECT COUNT(in_hrs_horas_profesor.id_semana) contar FROM in_hrs_horas_profesor where  id_profesor='.$id_profesor.' and id_periodo='.$periodo_ingles.' and id_semana in (9,24,39,54,69,84)');
-        $sem1617=DB::selectOne('SELECT COUNT(in_hrs_horas_profesor.id_semana) contar FROM in_hrs_horas_profesor where  id_profesor='.$id_profesor.' and id_periodo='.$periodo_ingles.' and id_semana in (10,25,40,55,70,85)');
-        $sem1718=DB::selectOne('SELECT COUNT(in_hrs_horas_profesor.id_semana) contar FROM in_hrs_horas_profesor where  id_profesor='.$id_profesor.' and id_periodo='.$periodo_ingles.' and id_semana in (11,26,41,56,71,86)');
-        $sem1819=DB::selectOne('SELECT COUNT(in_hrs_horas_profesor.id_semana) contar FROM in_hrs_horas_profesor where  id_profesor='.$id_profesor.' and id_periodo='.$periodo_ingles.' and id_semana in (12,27,42,57,72,87)');
-        $sem1920=DB::selectOne('SELECT COUNT(in_hrs_horas_profesor.id_semana) contar FROM in_hrs_horas_profesor where  id_profesor='.$id_profesor.' and id_periodo='.$periodo_ingles.' and id_semana in (13,28,43,58,73,88)');
+        $sem78=DB::selectOne('SELECT COUNT(in_hrs_horas_profesor.id_semana) contar FROM in_hrs_horas_profesor where  id_profesor= ? and id_periodo= ? and id_semana in (1,16,31,46,61,76)', [$id_profesor, $periodo_ingles]);
+        $sem89=DB::selectOne('SELECT COUNT(in_hrs_horas_profesor.id_semana) contar FROM in_hrs_horas_profesor where  id_profesor= ? and id_periodo= ? and id_semana in (2,17,32,47,62,77)', [$id_profesor, $periodo_ingles]);
+        $sem910=DB::selectOne('SELECT COUNT(in_hrs_horas_profesor.id_semana) contar FROM in_hrs_horas_profesor where  id_profesor= ? and id_periodo= ? and id_semana in (3,18,33,48,63,78)', [$id_profesor, $periodo_ingles]);
+        $sem1011=DB::selectOne('SELECT COUNT(in_hrs_horas_profesor.id_semana) contar FROM in_hrs_horas_profesor where  id_profesor= ? and id_periodo= ? and id_semana in (4,19,34,49,64,79)', [$id_profesor, $periodo_ingles]);
+        $sem1112=DB::selectOne('SELECT COUNT(in_hrs_horas_profesor.id_semana) contar FROM in_hrs_horas_profesor where  id_profesor= ? and id_periodo= ? and id_semana in (5,20,35,50,65,80)', [$id_profesor, $periodo_ingles]);
+        $sem1213=DB::selectOne('SELECT COUNT(in_hrs_horas_profesor.id_semana) contar FROM in_hrs_horas_profesor where  id_profesor= ? and id_periodo= ? and id_semana in (6,21,36,51,66,81)', [$id_profesor, $periodo_ingles]);
+        $sem1314=DB::selectOne('SELECT COUNT(in_hrs_horas_profesor.id_semana) contar FROM in_hrs_horas_profesor where  id_profesor= ? and id_periodo= ? and id_semana in (7,22,37,52,67,82)', [$id_profesor, $periodo_ingles]);
+        $sem1415=DB::selectOne('SELECT COUNT(in_hrs_horas_profesor.id_semana) contar FROM in_hrs_horas_profesor where  id_profesor= ? and id_periodo= ? and id_semana in (8,23,38,53,68,83)', [$id_profesor, $periodo_ingles]);
+        $sem1516=DB::selectOne('SELECT COUNT(in_hrs_horas_profesor.id_semana) contar FROM in_hrs_horas_profesor where  id_profesor= ? and id_periodo= ? and id_semana in (9,24,39,54,69,84)', [$id_profesor, $periodo_ingles]);
+        $sem1617=DB::selectOne('SELECT COUNT(in_hrs_horas_profesor.id_semana) contar FROM in_hrs_horas_profesor where  id_profesor= ? and id_periodo= ? and id_semana in (10,25,40,55,70,85)', [$id_profesor, $periodo_ingles]);
+        $sem1718=DB::selectOne('SELECT COUNT(in_hrs_horas_profesor.id_semana) contar FROM in_hrs_horas_profesor where  id_profesor= ? and id_periodo= ? and id_semana in (11,26,41,56,71,86)', [$id_profesor, $periodo_ingles]);
+        $sem1819=DB::selectOne('SELECT COUNT(in_hrs_horas_profesor.id_semana) contar FROM in_hrs_horas_profesor where  id_profesor= ? and id_periodo= ? and id_semana in (12,27,42,57,72,87)', [$id_profesor, $periodo_ingles]);
+        $sem1920=DB::selectOne('SELECT COUNT(in_hrs_horas_profesor.id_semana) contar FROM in_hrs_horas_profesor where  id_profesor= ? and id_periodo= ? and id_semana in (13,28,43,58,73,88)', [$id_profesor, $periodo_ingles]);
 
         //
-        $total_horas=DB::selectOne('SELECT count(in_hrs_horas_profesor.id_semana)total FROM in_hrs_horas_profesor where id_profesor='.$id_profesor.' and id_periodo='.$periodo_ingles.'');
+        $total_horas=DB::selectOne('SELECT count(in_hrs_horas_profesor.id_semana)total FROM in_hrs_horas_profesor where id_profesor= ? and id_periodo= ?', [$id_profesor, $periodo_ingles]);
         $total_horas=$total_horas->total;
-        $horario_profesores=DB::select('SELECT in_hrs_horas_profesor.id_semana FROM in_hrs_horas_profesor where id_profesor='.$id_profesor.' and id_periodo='.$periodo_ingles.'');
-       $nombre_profesor=DB::selectOne('SELECT * FROM in_profesores_ingles WHERE id_profesores ='.$id_profesor.' ');
+        $horario_profesores=DB::select('SELECT in_hrs_horas_profesor.id_semana FROM in_hrs_horas_profesor where id_profesor= ? and id_periodo= ?', [$id_profesor, $periodo_ingles]);
+       $nombre_profesor=DB::selectOne('SELECT * FROM in_profesores_ingles WHERE id_profesores = ? ', [$id_profesor]);
        $nombre_profesor=$nombre_profesor->nombre.' '.$nombre_profesor->apellido_paterno.' '.$nombre_profesor->apellido_materno;
         $array_horario_ing=array();
         $array_semana=array();
@@ -136,12 +136,12 @@ class In_pdf_horarioinglesController extends Controller
         $profesores_horario=DB::select('
 SELECT in_hrs_horas_profesor.id_semana,in_profesores_ingles.*,in_grupo_ingles.descripcion grupo,
 in_niveles_ingles.descripcion nivel,in_hrs_horas_profesor.id_hrs_horas_profesor,in_hrs_horas_profesor.id_grupo,in_hrs_horas_profesor.id_nivel
- FROM in_hrs_horas_profesor,in_profesores_ingles,in_niveles_ingles,in_grupo_ingles 
- where id_profesor='.$id_profesor.' and id_periodo='.$periodo_ingles.' 
+ FROM in_hrs_horas_profesor,in_profesores_ingles,in_niveles_ingles,in_grupo_ingles
+ where id_profesor= ? and id_periodo= ?
  and in_hrs_horas_profesor.id_profesor=in_profesores_ingles.id_profesores
-  and in_hrs_horas_profesor.id_grupo=in_grupo_ingles.id_grupo_ingles and 
-  in_hrs_horas_profesor.id_nivel=in_niveles_ingles.id_niveles_ingles 
-  ORDER BY in_hrs_horas_profesor.id_semana ASC');
+  and in_hrs_horas_profesor.id_grupo=in_grupo_ingles.id_grupo_ingles and
+  in_hrs_horas_profesor.id_nivel=in_niveles_ingles.id_niveles_ingles
+  ORDER BY in_hrs_horas_profesor.id_semana ASC', [$id_profesor, $periodo_ingles]);
 
         foreach ($profesores_horario as $profesor_hor)
         {

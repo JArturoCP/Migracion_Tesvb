@@ -869,8 +869,7 @@ class AnalisisReprobacionController extends Controller
             ->join('gnral_materias as m', 'm.id_materia', '=', 'ca.id_materia')
             ->join('gnral_reticulas as r', 'r.id_reticula', '=', 'm.id_reticula')
             ->join('cal_evaluaciones as ev', 'ev.id_carga_academica', '=', 'ca.id_carga_academica')
-            ->join(DB::raw('(' . $subMaterias->toSql() . ') as mr'), 'mr.id_alumno', '=', 'ca.id_alumno')
-            ->mergeBindings($subMaterias)
+            ->joinSub($subMaterias, 'mr', 'mr.id_alumno', '=', 'ca.id_alumno')
             ->where('ca.id_periodo', $periodoId)
             ->where('r.id_carrera', $carreraId)
             ->where('ev.calificacion', '<', self::CALIFICACION_MINIMA_APROBATORIA);
@@ -949,8 +948,7 @@ class AnalisisReprobacionController extends Controller
                     $join->where('ev.id_unidad', '=', $unidadId);
                 }
             })
-            ->leftJoin(DB::raw('(' . $subMaterias->toSql() . ') as mr'), 'mr.id_alumno', '=', 'ca.id_alumno')
-            ->mergeBindings($subMaterias)
+            ->leftJoinSub($subMaterias, 'mr', 'mr.id_alumno', '=', 'ca.id_alumno')
             ->where('ca.id_periodo', $periodoId)
             ->where('r.id_carrera', $carreraId)
             ->where('ca.id_materia', $materiaId)

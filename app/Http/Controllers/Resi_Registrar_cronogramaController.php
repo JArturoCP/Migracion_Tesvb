@@ -10,15 +10,15 @@ class Resi_Registrar_cronogramaController extends Controller
     public function index(){
         $id_usuario = Session::get('usuario_alumno');
         $periodo = Session::get('periodo_actual');
-        $datosalumno=DB::selectOne('select * FROM gnral_alumnos WHERE id_usuario='.$id_usuario.'');
+        $datosalumno=DB::selectOne('select * FROM gnral_alumnos WHERE id_usuario= ?', [$id_usuario]);
         $alumno=$datosalumno->id_alumno;
-        $anteproyecto=DB::selectOne('SELECT resi_anteproyecto.id_anteproyecto FROM resi_anteproyecto where resi_anteproyecto.id_alumno='.$alumno.' and resi_anteproyecto.id_periodo='.$periodo.'');
+        $anteproyecto=DB::selectOne('SELECT resi_anteproyecto.id_anteproyecto FROM resi_anteproyecto where resi_anteproyecto.id_alumno= ? and resi_anteproyecto.id_periodo= ?', [$alumno, $periodo]);
         $anteproyecto=$anteproyecto->id_anteproyecto;
 
        // if ($periodo%2==0){
             //par
-            $semana_asignadas = DB::select('SELECT * FROM resi_cronograma WHERE id_anteproyecto = '.$anteproyecto.'');
-            $asignadas = DB::selectOne('select max(resi_cronograma.no_semana)maxima FROM resi_cronograma WHERE id_anteproyecto = '.$anteproyecto.'');
+            $semana_asignadas = DB::select('SELECT * FROM resi_cronograma WHERE id_anteproyecto = ?', [$anteproyecto]);
+            $asignadas = DB::selectOne('select max(resi_cronograma.no_semana)maxima FROM resi_cronograma WHERE id_anteproyecto = ?', [$anteproyecto]);
 
 
             $array_periodos = array();
@@ -114,7 +114,7 @@ class Resi_Registrar_cronogramaController extends Controller
 
 
       //  }*/
-        $enviado_anteproyecto=DB::selectOne('select resi_anteproyecto.estado_enviado proy from resi_anteproyecto where resi_anteproyecto.id_alumno='.$alumno.' and resi_anteproyecto.id_periodo='.$periodo.'');
+        $enviado_anteproyecto=DB::selectOne('select resi_anteproyecto.estado_enviado proy from resi_anteproyecto where resi_anteproyecto.id_alumno= ? and resi_anteproyecto.id_periodo= ?', [$alumno, $periodo]);
         $enviado_anteproyecto=$enviado_anteproyecto->proy;
 
         return view('residencia.partials.cronograma',compact('semanas','enviado_anteproyecto'));
@@ -123,11 +123,11 @@ class Resi_Registrar_cronogramaController extends Controller
         $no_semana=$id_actividad;
         $id_usuario = Session::get('usuario_alumno');
         $periodo = Session::get('periodo_actual');
-        $datosalumno=DB::selectOne('select * FROM gnral_alumnos WHERE id_usuario='.$id_usuario.'');
+        $datosalumno=DB::selectOne('select * FROM gnral_alumnos WHERE id_usuario= ?', [$id_usuario]);
         $alumno=$datosalumno->id_alumno;
-        $anteproyecto=DB::selectOne('SELECT resi_anteproyecto.id_anteproyecto FROM resi_anteproyecto where resi_anteproyecto.id_alumno='.$alumno.' and resi_anteproyecto.id_periodo='.$periodo.'');
+        $anteproyecto=DB::selectOne('SELECT resi_anteproyecto.id_anteproyecto FROM resi_anteproyecto where resi_anteproyecto.id_alumno= ? and resi_anteproyecto.id_periodo= ?', [$alumno, $periodo]);
         $id_anteproyecto=$anteproyecto->id_anteproyecto;
-       $fecha_semana=DB::selectOne('SELECT * FROM `resi_fecha_anteproyecto` WHERE `semana` = '.$no_semana.' ');
+       $fecha_semana=DB::selectOne('SELECT * FROM `resi_fecha_anteproyecto` WHERE `semana` = ? ', [$no_semana]);
         return view('residencia.partials.insertar_actividad',compact('no_semana','id_anteproyecto','fecha_semana'));
 
 
@@ -153,7 +153,7 @@ class Resi_Registrar_cronogramaController extends Controller
         return back();
     }
     public function moficar_actividad($id_cronograma){
-        $cronograma=DB::selectOne('SELECT * FROM resi_cronograma WHERE id_cronograma = '.$id_cronograma.'');
+        $cronograma=DB::selectOne('SELECT * FROM resi_cronograma WHERE id_cronograma = ?', [$id_cronograma]);
         return view('residencia.partials.modificar_actividad', compact('cronograma'));
     }
     public function moficacion_actividad(Request $request){
@@ -168,7 +168,7 @@ class Resi_Registrar_cronogramaController extends Controller
         $id_cronograma = $request->input("id_cronograma");
         $fecha_final = $request->input("fecha_s");
         $actividades = $request->input("actividades");
-        DB::update("UPDATE resi_cronograma SET resi_cronograma.actividad ='$actividades',resi_cronograma.f_inicio ='$fecha_inicial',resi_cronograma.f_termino ='$fecha_final' WHERE resi_cronograma.id_cronograma= $id_cronograma");
+        DB::update('UPDATE resi_cronograma SET resi_cronograma.actividad =?,resi_cronograma.f_inicio =?,resi_cronograma.f_termino =? WHERE resi_cronograma.id_cronograma= ?', [(string) ($actividades), (string) ($fecha_inicial), (string) ($fecha_final), $id_cronograma]);
         return back();
     }
 

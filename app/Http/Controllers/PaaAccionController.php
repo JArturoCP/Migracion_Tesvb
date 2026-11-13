@@ -12,7 +12,7 @@ use Session;
 class PaaAccionController extends Controller
 {
     public function index(){
-        $acciones=DB::select('SELECT pa_accion.id_accion,pa_accion.nom_accion,pa_unimed.id_unimed,pa_unimed.nom_unimed 
+        $acciones=DB::select('SELECT pa_accion.id_accion,pa_accion.nom_accion,pa_unimed.id_unimed,pa_unimed.nom_unimed
 FROM pa_accion,pa_unimed where pa_accion.id_unimed=pa_unimed.id_unimed');
         $unidades=DB::select('SELECT * FROM pa_unimed ORDER BY pa_unimed.nom_unimed ASC');
 
@@ -33,8 +33,8 @@ public function store(Request $request){
        // dd($request);
 }
 public function editar($id){
-        $accion=DB::selectOne('SELECT pa_accion.id_accion,pa_accion.nom_accion,pa_unimed.id_unimed,pa_unimed.nom_unimed 
-FROM pa_accion,pa_unimed where pa_accion.id_unimed=pa_unimed.id_unimed and pa_accion.id_accion='.$id.' ORDER BY pa_accion.nom_accion ASC');
+        $accion=DB::selectOne('SELECT pa_accion.id_accion,pa_accion.nom_accion,pa_unimed.id_unimed,pa_unimed.nom_unimed
+FROM pa_accion,pa_unimed where pa_accion.id_unimed=pa_unimed.id_unimed and pa_accion.id_accion= ? ORDER BY pa_accion.nom_accion ASC', [$id]);
         $unidades=DB::select('SELECT * FROM pa_unimed ORDER BY pa_unimed.nom_unimed ASC');
     return view('informe_paa.modificar_accion', compact('accion', 'id','unidades'));
 
@@ -57,6 +57,5 @@ public function modificar(Request $request){
     return back();
     //return redire
 
-        dd($request);
 }
 }

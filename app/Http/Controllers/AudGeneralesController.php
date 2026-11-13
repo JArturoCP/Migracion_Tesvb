@@ -207,7 +207,7 @@ class AudGeneralesController extends Controller
     public function destroy($id)
     {
         //
-        $request=$_REQUEST;
+        $request=request()->all();
         if ($request['accion']=="area"){
             AudAreaGeneralUnidad::where('id_area_general',$id)->delete();
             AudAreaGeneral::find($id)->delete();

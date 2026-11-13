@@ -94,7 +94,7 @@ class SgcDetallePlanController extends Controller
     public function update(Request $request, $id)
     {
         //
-        dd("llego");
+        abort(501, 'Funcionalidad no disponible.');
     }
 
     /**

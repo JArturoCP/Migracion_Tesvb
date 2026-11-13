@@ -13,10 +13,10 @@ class Pres_periodo_antController extends Controller
 
         $year= date('Y');
         $year= $year+1;
-        $reg_periodo=DB::selectOne('SELECT count(id_peri_anteproyecto)contar from pres_periodo_anteproyecto WHERE year ='.$year.'');
-        $activo_periodo=DB::selectOne('SELECT count(id_peri_anteproyecto)contar from pres_periodo_anteproyecto WHERE year ='.$year.' and  id_activacion = 1');
-        $periodo_activo=DB::selectOne('SELECT *from pres_periodo_anteproyecto WHERE year ='.$year.'  ');
-        $periodo_finalizado=DB::selectOne('SELECT count(id_peri_anteproyecto)contar from pres_periodo_anteproyecto WHERE id_activacion = 2 and year ='.$year.' ');
+        $reg_periodo=DB::selectOne('SELECT count(id_peri_anteproyecto)contar from pres_periodo_anteproyecto WHERE year = ?', [$year]);
+        $activo_periodo=DB::selectOne('SELECT count(id_peri_anteproyecto)contar from pres_periodo_anteproyecto WHERE year = ? and  id_activacion = 1', [$year]);
+        $periodo_activo=DB::selectOne('SELECT *from pres_periodo_anteproyecto WHERE year = ?  ', [$year]);
+        $periodo_finalizado=DB::selectOne('SELECT count(id_peri_anteproyecto)contar from pres_periodo_anteproyecto WHERE id_activacion = 2 and year = ? ', [$year]);
 
         return view('departamento_finanzas.requisicion_mat_anteproyecto.periodos_anteproyecto',compact('periodos','reg_periodo','activo_periodo','periodo_activo','periodo_finalizado','year'));
 
@@ -49,7 +49,7 @@ class Pres_periodo_antController extends Controller
     }
     public function modificar_periodos_anteproyecto($id_periodo){
 
-       $periodo=DB::selectOne('SELECT * FROM `pres_periodo_anteproyecto` WHERE `id_peri_anteproyecto` = '.$id_periodo.'');
+       $periodo=DB::selectOne('SELECT * FROM `pres_periodo_anteproyecto` WHERE `id_peri_anteproyecto` = ?', [$id_periodo]);
         $fecha_i= date('d-m-Y', strtotime($periodo->fecha_inicio));
         $fecha_f= date('d-m-Y', strtotime( $periodo->fecha_final));
        return view('departamento_finanzas.requisicion_mat_anteproyecto.partials_modificar_periodo',compact('periodo','fecha_i','fecha_f'));
@@ -85,7 +85,7 @@ class Pres_periodo_antController extends Controller
 
     }
     public  function activar_periodo_anteproyecto($id_periodo){
-        $periodo=DB::selectOne('SELECT * FROM `pres_periodo_anteproyecto` WHERE `id_peri_anteproyecto` = '.$id_periodo.'');
+        $periodo=DB::selectOne('SELECT * FROM `pres_periodo_anteproyecto` WHERE `id_peri_anteproyecto` = ?', [$id_periodo]);
         $fecha_i= date('d-m-Y', strtotime($periodo->fecha_inicio));
         $fecha_f= date('d-m-Y', strtotime( $periodo->fecha_final));
 
@@ -133,7 +133,7 @@ class Pres_periodo_antController extends Controller
         return back();
     }
     public function modificar_partida_presupuestal($id_partida){
-        $partida=DB::selectOne('SELECT * FROM `pres_partida_pres` WHERE `id_partida_pres` = '.$id_partida.'');
+        $partida=DB::selectOne('SELECT * FROM `pres_partida_pres` WHERE `id_partida_pres` = ?', [$id_partida]);
         return view('departamento_finanzas.catalogo.partials_modificar_partida',compact('partida'));
     }
     public function guardar_modificacion_partida(Request $request,$id_partida){
@@ -156,7 +156,7 @@ class Pres_periodo_antController extends Controller
     public function proyectos_presupuestales( ){
         $year= date('Y');
         $year= $year+1;
-        $proyectos=DB::select('SELECT * FROM pres_proyectos where year='.$year.' ORDER BY pres_proyectos.nombre_proyecto ASC ');
+        $proyectos=DB::select('SELECT * FROM pres_proyectos where year= ? ORDER BY pres_proyectos.nombre_proyecto ASC ', [$year]);
         return view('departamento_finanzas.catalogo.proyectos',compact('proyectos','year'));
     }
     public function guardar_proyecto(Request $request){
@@ -176,7 +176,7 @@ class Pres_periodo_antController extends Controller
         return back();
     }
     public function modificar_proyecto($id_proyecto){
-        $proyecto=DB::selectOne('SELECT * FROM `pres_proyectos` WHERE `id_proyecto` = '.$id_proyecto.' ORDER BY `nombre_proyecto` ASC ');
+        $proyecto=DB::selectOne('SELECT * FROM `pres_proyectos` WHERE `id_proyecto` = ? ORDER BY `nombre_proyecto` ASC ', [$id_proyecto]);
         return view('departamento_finanzas.catalogo.partials_modificar_proyecto',compact('proyecto'));
     }
     public function guardar_modificacion_proyecto(Request $request, $id_proyecto){
@@ -196,14 +196,14 @@ class Pres_periodo_antController extends Controller
     public function proyectos_metas(Request $request){
         $year= date('Y');
         $year= $year+1;
-        $proyectos=DB::select('SELECT * FROM pres_proyectos WHERE year = '.$year.' and id_estado = 1 ORDER BY nombre_proyecto ASC ');
+        $proyectos=DB::select('SELECT * FROM pres_proyectos WHERE year = ? and id_estado = 1 ORDER BY nombre_proyecto ASC ', [$year]);
         return view('departamento_finanzas.catalogo.inicio_proyectos',compact('proyectos','year'));
     }
     public function metas_presupuestales($id_proyecto){
 
 
-       $metas=DB::select('SELECT * FROM `pres_metas` WHERE `id_proyecto` = '.$id_proyecto.'  ORDER BY `pres_metas`.`id_meta` ASC ');
-        $proyecto=DB::selectOne('SELECT * FROM `pres_proyectos` WHERE `id_proyecto` = '.$id_proyecto.' ORDER BY `nombre_proyecto` ASC ');
+       $metas=DB::select('SELECT * FROM `pres_metas` WHERE `id_proyecto` = ?  ORDER BY `pres_metas`.`id_meta` ASC ', [$id_proyecto]);
+        $proyecto=DB::selectOne('SELECT * FROM `pres_proyectos` WHERE `id_proyecto` = ? ORDER BY `nombre_proyecto` ASC ', [$id_proyecto]);
 
         return view('departamento_finanzas.catalogo.metas',compact('metas','proyecto'));
     }
@@ -224,7 +224,7 @@ class Pres_periodo_antController extends Controller
         return back();
     }
     public function modificar_meta($id_meta){
-        $meta=DB::selectOne('SELECT * FROM `pres_metas` WHERE `id_meta` = '.$id_meta.' ORDER BY `meta` ASC ');
+        $meta=DB::selectOne('SELECT * FROM `pres_metas` WHERE `id_meta` = ? ORDER BY `meta` ASC ', [$id_meta]);
         return view('departamento_finanzas.catalogo.partials_modificar_meta',compact('meta'));
     }
     public function guardar_modificacion_meta(Request $request, $id_meta){
@@ -242,7 +242,7 @@ class Pres_periodo_antController extends Controller
         return back();
     }
     public function activar_proyecto($id_proyecto){
-        $proyecto=DB::selectOne('SELECT * FROM `pres_proyectos` WHERE `id_proyecto` = '.$id_proyecto.'');
+        $proyecto=DB::selectOne('SELECT * FROM `pres_proyectos` WHERE `id_proyecto` = ?', [$id_proyecto]);
         return view('departamento_finanzas.catalogo.partials_activar_proyecto',compact('proyecto'));
     }
     public function guardar_activacion_proyecto(Request $request,$id_proyecto){
@@ -254,7 +254,7 @@ class Pres_periodo_antController extends Controller
         return back();
     }
     public function desactivar_proyecto($id_proyecto){
-        $proyecto=DB::selectOne('SELECT * FROM `pres_proyectos` WHERE `id_proyecto` = '.$id_proyecto.'');
+        $proyecto=DB::selectOne('SELECT * FROM `pres_proyectos` WHERE `id_proyecto` = ?', [$id_proyecto]);
         return view('departamento_finanzas.catalogo.partials_desactivar_proyecto',compact('proyecto'));
     }
     public function guardar_desactivacion_proyecto(Request $request, $id_proyecto){

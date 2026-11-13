@@ -65,315 +65,315 @@ class Tutorias_GraficasGeneracionController extends Controller
                      FROM exp_generales
         			JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
                      JOIN exp_civil_estados ON exp_generales.id_estado_civil=exp_civil_estados.id_estado_civil
-                     WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta, 1, 4)='.$request->generacion.' AND exp_civil_estados.desc_ec="Soltero") as soltero, (select COUNT(exp_generales.id_exp_general)
+                     WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta, 1, 4)= ? AND exp_civil_estados.desc_ec="Soltero") as soltero, (select COUNT(exp_generales.id_exp_general)
                      FROM exp_generales
         			JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
                      JOIN exp_civil_estados ON exp_generales.id_estado_civil=exp_civil_estados.id_estado_civil
-                     WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta, 1, 4)='.$request->generacion.' AND exp_civil_estados.desc_ec="Casado") as casado,(select COUNT(exp_generales.id_exp_general)
+                     WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta, 1, 4)= ? AND exp_civil_estados.desc_ec="Casado") as casado,(select COUNT(exp_generales.id_exp_general)
                      FROM exp_generales
         			JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
                      JOIN exp_civil_estados ON exp_generales.id_estado_civil=exp_civil_estados.id_estado_civil
-                     WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta, 1, 4)='.$request->generacion.' AND exp_civil_estados.desc_ec="Unión libre") as unionlibre, (select COUNT(exp_generales.id_exp_general)
+                     WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta, 1, 4)= ? AND exp_civil_estados.desc_ec="Unión libre") as unionlibre, (select COUNT(exp_generales.id_exp_general)
                      FROM exp_generales
         			JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
                      JOIN exp_civil_estados ON exp_generales.id_estado_civil=exp_civil_estados.id_estado_civil
-                     WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta, 1, 4)='.$request->generacion.' AND exp_civil_estados.desc_ec="Divorciado") as divorsiado,(select COUNT(exp_generales.id_exp_general)
+                     WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta, 1, 4)= ? AND exp_civil_estados.desc_ec="Divorciado") as divorsiado,(select COUNT(exp_generales.id_exp_general)
                      FROM exp_generales
         			JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
                      JOIN exp_civil_estados ON exp_generales.id_estado_civil=exp_civil_estados.id_estado_civil
-                     WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta, 1, 4)='.$request->generacion.' AND exp_civil_estados.desc_ec="Viudo") as viudo');
+                     WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta, 1, 4)= ? AND exp_civil_estados.desc_ec="Viudo") as viudo', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
 
         $estadoF=DB::select('SELECT (select COUNT(exp_generales.id_exp_general)
                      FROM exp_generales
         			 JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
                      JOIN exp_civil_estados ON exp_generales.id_estado_civil=exp_civil_estados.id_estado_civil
-                     WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta, 1, 4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_civil_estados.desc_ec="Soltero") as soltero, (select COUNT(exp_generales.id_exp_general)
+                     WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta, 1, 4)= ? AND exp_generales.sexo="F" AND exp_civil_estados.desc_ec="Soltero") as soltero, (select COUNT(exp_generales.id_exp_general)
                      FROM exp_generales
         			 JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
                      JOIN exp_civil_estados ON exp_generales.id_estado_civil=exp_civil_estados.id_estado_civil
-                     WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta, 1, 4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_civil_estados.desc_ec="Casado") as casado,(select COUNT(exp_generales.id_exp_general)
+                     WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta, 1, 4)= ? AND exp_generales.sexo="F" AND exp_civil_estados.desc_ec="Casado") as casado,(select COUNT(exp_generales.id_exp_general)
                      FROM exp_generales
         			 JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
                      JOIN exp_civil_estados ON exp_generales.id_estado_civil=exp_civil_estados.id_estado_civil
-                     WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta, 1, 4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_civil_estados.desc_ec="Unión libre") as unionlibre, (select COUNT(exp_generales.id_exp_general)
+                     WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta, 1, 4)= ? AND exp_generales.sexo="F" AND exp_civil_estados.desc_ec="Unión libre") as unionlibre, (select COUNT(exp_generales.id_exp_general)
                      FROM exp_generales
         			 JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
                      JOIN exp_civil_estados ON exp_generales.id_estado_civil=exp_civil_estados.id_estado_civil
-                     WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta, 1, 4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_civil_estados.desc_ec="Divorciado") as divorsiado,(select COUNT(exp_generales.id_exp_general)
+                     WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta, 1, 4)= ? AND exp_generales.sexo="F" AND exp_civil_estados.desc_ec="Divorciado") as divorsiado,(select COUNT(exp_generales.id_exp_general)
                      FROM exp_generales
         			 JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
                      JOIN exp_civil_estados ON exp_generales.id_estado_civil=exp_civil_estados.id_estado_civil
-                     WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta, 1, 4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_civil_estados.desc_ec="Viudo") as viudo');
+                     WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta, 1, 4)= ? AND exp_generales.sexo="F" AND exp_civil_estados.desc_ec="Viudo") as viudo', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
         $estadoM=DB::select('SELECT (select COUNT(exp_generales.id_exp_general)
                      FROM exp_generales
         			 JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
                      JOIN exp_civil_estados ON exp_generales.id_estado_civil=exp_civil_estados.id_estado_civil
-                     WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta, 1, 4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_civil_estados.desc_ec="Soltero") as soltero, (select COUNT(exp_generales.id_exp_general)
+                     WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta, 1, 4)= ? AND exp_generales.sexo="M" AND exp_civil_estados.desc_ec="Soltero") as soltero, (select COUNT(exp_generales.id_exp_general)
                      FROM exp_generales
         			 JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
                      JOIN exp_civil_estados ON exp_generales.id_estado_civil=exp_civil_estados.id_estado_civil
-                     WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta, 1, 4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_civil_estados.desc_ec="Casado") as casado,(select COUNT(exp_generales.id_exp_general)
+                     WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta, 1, 4)= ? AND exp_generales.sexo="M" AND exp_civil_estados.desc_ec="Casado") as casado,(select COUNT(exp_generales.id_exp_general)
                      FROM exp_generales
         			 JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
                      JOIN exp_civil_estados ON exp_generales.id_estado_civil=exp_civil_estados.id_estado_civil
-                     WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta, 1, 4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_civil_estados.desc_ec="Unión libre") as unionlibre, (select COUNT(exp_generales.id_exp_general)
+                     WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta, 1, 4)= ? AND exp_generales.sexo="M" AND exp_civil_estados.desc_ec="Unión libre") as unionlibre, (select COUNT(exp_generales.id_exp_general)
                      FROM exp_generales
         			 JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
                      JOIN exp_civil_estados ON exp_generales.id_estado_civil=exp_civil_estados.id_estado_civil
-                     WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta, 1, 4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_civil_estados.desc_ec="Divorciado") as divorsiado,(select COUNT(exp_generales.id_exp_general)
+                     WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta, 1, 4)= ? AND exp_generales.sexo="M" AND exp_civil_estados.desc_ec="Divorciado") as divorsiado,(select COUNT(exp_generales.id_exp_general)
                      FROM exp_generales
         			 JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
                      JOIN exp_civil_estados ON exp_generales.id_estado_civil=exp_civil_estados.id_estado_civil
-                     WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta, 1, 4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_civil_estados.desc_ec="Viudo") as viudo');
+                     WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta, 1, 4)= ? AND exp_generales.sexo="M" AND exp_civil_estados.desc_ec="Viudo") as viudo', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
 
         $nivelgen=DB::select('Select (select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                        JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.nivel_economico="A/B") as AB, (select COUNT(exp_generales.id_exp_general)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.nivel_economico="A/B") as AB, (select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                        JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.nivel_economico="C+") as CC,(select COUNT(exp_generales.id_exp_general)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.nivel_economico="C+") as CC,(select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                        JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.nivel_economico="C") as C, (select COUNT(exp_generales.id_exp_general)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.nivel_economico="C") as C, (select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.nivel_economico="C-") as CCC, (select COUNT(exp_generales.id_exp_general)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.nivel_economico="C-") as CCC, (select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.nivel_economico="D+") as DD, (select COUNT(exp_generales.id_exp_general)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.nivel_economico="D+") as DD, (select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.nivel_economico="D") as D,  (select COUNT(exp_generales.id_exp_general)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.nivel_economico="D") as D,  (select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                      JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.nivel_economico="E") as E');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.nivel_economico="E") as E', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
         $nivelF=DB::select('Select (select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_generales.nivel_economico="A/B") as AB, (select COUNT(exp_generales.id_exp_general)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_generales.nivel_economico="A/B") as AB, (select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_generales.nivel_economico="C+") as CC,(select COUNT(exp_generales.id_exp_general)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_generales.nivel_economico="C+") as CC,(select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_generales.nivel_economico="C") as C, (select COUNT(exp_generales.id_exp_general)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_generales.nivel_economico="C") as C, (select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_generales.nivel_economico="C-") as CCC, (select COUNT(exp_generales.id_exp_general)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_generales.nivel_economico="C-") as CCC, (select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_generales.nivel_economico="D+") as DD, (select COUNT(exp_generales.id_exp_general)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_generales.nivel_economico="D+") as DD, (select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_generales.nivel_economico="D") as D,  (select COUNT(exp_generales.id_exp_general)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_generales.nivel_economico="D") as D,  (select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_generales.nivel_economico="E") as E');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_generales.nivel_economico="E") as E', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
         $nivelM=DB::select('Select (select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                        JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_generales.nivel_economico="A/B") as AB, (select COUNT(exp_generales.id_exp_general)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_generales.nivel_economico="A/B") as AB, (select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                        JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_generales.nivel_economico="C+") as CC,(select COUNT(exp_generales.id_exp_general)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_generales.nivel_economico="C+") as CC,(select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_generales.nivel_economico="C") as C, (select COUNT(exp_generales.id_exp_general)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_generales.nivel_economico="C") as C, (select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                        JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND  SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_generales.nivel_economico="C-") as CCC, (select COUNT(exp_generales.id_exp_general)
+                      WHERE  exp_generales.id_carrera= ? AND  SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_generales.nivel_economico="C-") as CCC, (select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                        JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_generales.nivel_economico="D+") as DD, (select COUNT(exp_generales.id_exp_general)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_generales.nivel_economico="D+") as DD, (select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                        JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_generales.nivel_economico="D") as D,  (select COUNT(exp_generales.id_exp_general)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_generales.nivel_economico="D") as D,  (select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                        JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_generales.nivel_economico="E") as E');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_generales.nivel_economico="E") as E', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
 
         $trabajagen=DB::select('SELECT (select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.'  AND exp_generales.trabaja=1) as SI, (select COUNT(exp_generales.id_exp_general)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ?  AND exp_generales.trabaja=1) as SI, (select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                      JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.'  AND exp_generales.trabaja=2) as NOO');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ?  AND exp_generales.trabaja=2) as NOO', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
         $trabajaF=DB::select('SELECT (select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                     JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.'  AND exp_generales.sexo="F" AND exp_generales.trabaja=1) as SI, (select COUNT(exp_generales.id_exp_general)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ?  AND exp_generales.sexo="F" AND exp_generales.trabaja=1) as SI, (select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                      JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.'  AND exp_generales.sexo="F" AND exp_generales.trabaja=2) as NOO');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ?  AND exp_generales.sexo="F" AND exp_generales.trabaja=2) as NOO', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
         $trabajaM=DB::select('SELECT (select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                      JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.'  AND exp_generales.sexo="M" AND exp_generales.trabaja=1) as SI, (select COUNT(exp_generales.id_exp_general)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ?  AND exp_generales.sexo="M" AND exp_generales.trabaja=1) as SI, (select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                      JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.'  AND exp_generales.sexo="M" AND exp_generales.trabaja=2) as NOO');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ?  AND exp_generales.sexo="M" AND exp_generales.trabaja=2) as NOO', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
 
         $academicogen=DB::select('SELECT (select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                      JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.estado=1) as R, (select COUNT(exp_generales.id_exp_general)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.estado=1) as R, (select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                      JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.estado=2) as I, (select COUNT(exp_generales.id_exp_general)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.estado=2) as I, (select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                      JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.estado=3) as S, (select COUNT(exp_generales.id_exp_general)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.estado=3) as S, (select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.estado=4) as BJ, (select COUNT(exp_generales.id_exp_general)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.estado=4) as BJ, (select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                      JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.estado=5) as BD');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.estado=5) as BD', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
         $academicoF=DB::select('SELECT (select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                      JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.'  AND exp_generales.sexo="F" AND exp_generales.estado=1) as R, (select COUNT(exp_generales.id_exp_general)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ?  AND exp_generales.sexo="F" AND exp_generales.estado=1) as R, (select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                      JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.'  AND exp_generales.sexo="F" AND exp_generales.estado=2) as I, (select COUNT(exp_generales.id_exp_general)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ?  AND exp_generales.sexo="F" AND exp_generales.estado=2) as I, (select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.'  AND exp_generales.sexo="F" AND exp_generales.estado=3) as S, (select COUNT(exp_generales.id_exp_general)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ?  AND exp_generales.sexo="F" AND exp_generales.estado=3) as S, (select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                      JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.'  AND exp_generales.sexo="F" AND exp_generales.estado=4) as BJ, (select COUNT(exp_generales.id_exp_general)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ?  AND exp_generales.sexo="F" AND exp_generales.estado=4) as BJ, (select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.'  AND exp_generales.sexo="F" AND exp_generales.estado=5) as BD');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ?  AND exp_generales.sexo="F" AND exp_generales.estado=5) as BD', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
         $academicoM=DB::select('SELECT (select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                      JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_generales.estado=1) as R, (select COUNT(exp_generales.id_exp_general)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_generales.estado=1) as R, (select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                      JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_generales.estado=2) as I, (select COUNT(exp_generales.id_exp_general)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_generales.estado=2) as I, (select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                      JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_generales.estado=3) as S, (select COUNT(exp_generales.id_exp_general)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_generales.estado=3) as S, (select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                      JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_generales.estado=4) as BJ, (select COUNT(exp_generales.id_exp_general)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_generales.estado=4) as BJ, (select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                     JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_generales.estado=5) as BD');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_generales.estado=5) as BD', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
 
         $becagen=DB::select('SELECT (select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                     JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.beca=1) as SI, (select COUNT(exp_generales.id_exp_general)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.beca=1) as SI, (select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                      JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.beca=2) as NOO');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.beca=2) as NOO', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
         $becaF=DB::select('SELECT (select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                      JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_generales.beca=1) as SI, (select COUNT(exp_generales.id_exp_general)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_generales.beca=1) as SI, (select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_generales.beca=2) as NOO');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_generales.beca=2) as NOO', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
         $becaM=DB::select('SELECT (select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                      JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_generales.beca=1) as SI, (select COUNT(exp_generales.id_exp_general)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_generales.beca=1) as SI, (select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                      JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_generales.beca=2) as NOO');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_generales.beca=2) as NOO', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
 
         $tbecagen=DB::select('SELECT (select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.id_expbeca=1) as Ma, (select COUNT(exp_generales.id_exp_general)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.id_expbeca=1) as Ma, (select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                      JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.id_expbeca=2) as Be, (select COUNT(exp_generales.id_exp_general)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.id_expbeca=2) as Be, (select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.id_expbeca=3) as Pe, (select COUNT(exp_generales.id_exp_general)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.id_expbeca=3) as Pe, (select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                      JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.id_expbeca=4) as Ea');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.id_expbeca=4) as Ea', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
         $tbecaF=DB::select('SELECT (select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                      JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_generales.id_expbeca=1) as Ma, (select COUNT(exp_generales.id_exp_general)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_generales.id_expbeca=1) as Ma, (select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                      JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_generales.id_expbeca=2) as Be, (select COUNT(exp_generales.id_exp_general)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_generales.id_expbeca=2) as Be, (select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                      JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_generales.id_expbeca=3) as Pe, (select COUNT(exp_generales.id_exp_general)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_generales.id_expbeca=3) as Pe, (select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                      JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_generales.id_expbeca=4) as Ea');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_generales.id_expbeca=4) as Ea', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
         $tbecaM=DB::select('SELECT (select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                      JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_generales.id_expbeca=1) as Ma, (select COUNT(exp_generales.id_exp_general)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_generales.id_expbeca=1) as Ma, (select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                      JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_generales.id_expbeca=2) as Be, (select COUNT(exp_generales.id_exp_general)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_generales.id_expbeca=2) as Be, (select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_generales.id_expbeca=3) as Pe, (select COUNT(exp_generales.id_exp_general)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_generales.id_expbeca=3) as Pe, (select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                      JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_generales.id_expbeca=4) as Ea');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_generales.id_expbeca=4) as Ea', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
 
         $hijosgen=DB::select('SELECT (select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                      JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.no_hijos=1) as C, (select COUNT(exp_generales.id_exp_general)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.no_hijos=1) as C, (select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                      JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.no_hijos=2) as U, (select COUNT(exp_generales.id_exp_general)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.no_hijos=2) as U, (select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                      JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.no_hijos=3) as D, (select COUNT(exp_generales.id_exp_general)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.no_hijos=3) as D, (select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                      JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.no_hijos=4) as T, (select COUNT(exp_generales.id_exp_general)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.no_hijos=4) as T, (select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                      JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.no_hijos=5) as M');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.no_hijos=5) as M', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
         $hijosF=DB::select('SELECT (select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                      JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_generales.no_hijos=1) as C, (select COUNT(exp_generales.id_exp_general)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_generales.no_hijos=1) as C, (select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                      JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_generales.no_hijos=2) as U, (select COUNT(exp_generales.id_exp_general)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_generales.no_hijos=2) as U, (select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_generales.no_hijos=3) as D, (select COUNT(exp_generales.id_exp_general)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_generales.no_hijos=3) as D, (select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_generales.no_hijos=4) as T, (select COUNT(exp_generales.id_exp_general)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_generales.no_hijos=4) as T, (select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_generales.no_hijos=5) as M');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_generales.no_hijos=5) as M', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
         $hijosM=DB::select('SELECT (select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                      JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_generales.no_hijos=1) as C, (select COUNT(exp_generales.id_exp_general)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_generales.no_hijos=1) as C, (select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                      JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_generales.no_hijos=2) as U, (select COUNT(exp_generales.id_exp_general)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_generales.no_hijos=2) as U, (select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                      JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_generales.no_hijos=3) as D, (select COUNT(exp_generales.id_exp_general)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_generales.no_hijos=3) as D, (select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                     JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_generales.no_hijos=4) as T, (select COUNT(exp_generales.id_exp_general)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_generales.no_hijos=4) as T, (select COUNT(exp_generales.id_exp_general)
                       FROM exp_generales
                      JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_generales.no_hijos=5) as M');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_generales.no_hijos=5) as M', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
 
         $totalcontestaron=Session::get('total_alumnos');
         $hombres=Session::get('total_mujeres');
@@ -966,104 +966,104 @@ class Tutorias_GraficasGeneracionController extends Controller
         $gustagen=DB::select('SELECT (select COUNT(exp_antecedentes_academicos.id_alumno)
                       FROM exp_antecedentes_academicos JOIN exp_generales ON exp_generales.id_alumno=exp_antecedentes_academicos.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_antecedentes_academicos.tegusta_carrera_elegida=1) as SI, (select COUNT(exp_antecedentes_academicos.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_antecedentes_academicos.tegusta_carrera_elegida=1) as SI, (select COUNT(exp_antecedentes_academicos.id_alumno)
                       FROM exp_antecedentes_academicos JOIN exp_generales ON exp_generales.id_alumno=exp_antecedentes_academicos.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_antecedentes_academicos.tegusta_carrera_elegida=2) as NOO');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_antecedentes_academicos.tegusta_carrera_elegida=2) as NOO', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
         $gustaF=DB::select('SELECT (select COUNT(exp_antecedentes_academicos.id_alumno)
                       FROM exp_antecedentes_academicos
                       JOIN exp_generales ON exp_generales.id_alumno=exp_antecedentes_academicos.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_antecedentes_academicos.tegusta_carrera_elegida=1) as SI, (select COUNT(exp_antecedentes_academicos.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_antecedentes_academicos.tegusta_carrera_elegida=1) as SI, (select COUNT(exp_antecedentes_academicos.id_alumno)
                       FROM exp_antecedentes_academicos JOIN exp_generales ON exp_generales.id_alumno=exp_antecedentes_academicos.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_antecedentes_academicos.tegusta_carrera_elegida=2) as NOO');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_antecedentes_academicos.tegusta_carrera_elegida=2) as NOO', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
         $gustaM=DB::select('SELECT (select COUNT(exp_antecedentes_academicos.id_alumno)
                       FROM exp_antecedentes_academicos
                       JOIN exp_generales ON exp_generales.id_alumno=exp_antecedentes_academicos.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_antecedentes_academicos.tegusta_carrera_elegida=1) as SI, (select COUNT(exp_antecedentes_academicos.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_antecedentes_academicos.tegusta_carrera_elegida=1) as SI, (select COUNT(exp_antecedentes_academicos.id_alumno)
                       FROM exp_antecedentes_academicos JOIN exp_generales ON exp_generales.id_alumno=exp_antecedentes_academicos.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_antecedentes_academicos.tegusta_carrera_elegida=2) as NOO');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_antecedentes_academicos.tegusta_carrera_elegida=2) as NOO', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
 
         $estimulagen=DB::select('SELECT (select COUNT(exp_antecedentes_academicos.id_alumno)
                       FROM exp_antecedentes_academicos JOIN exp_generales ON exp_generales.id_alumno=exp_antecedentes_academicos.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_antecedentes_academicos.teestimula_familia=1) as SI, (select COUNT(exp_antecedentes_academicos.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_antecedentes_academicos.teestimula_familia=1) as SI, (select COUNT(exp_antecedentes_academicos.id_alumno)
                       FROM exp_antecedentes_academicos JOIN exp_generales ON exp_generales.id_alumno=exp_antecedentes_academicos.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_antecedentes_academicos.teestimula_familia=2) as NOO');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_antecedentes_academicos.teestimula_familia=2) as NOO', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
         $estimulaF=DB::select('SELECT (select COUNT(exp_antecedentes_academicos.id_alumno)
                       FROM exp_antecedentes_academicos
                       JOIN exp_generales ON exp_generales.id_alumno=exp_antecedentes_academicos.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_antecedentes_academicos.teestimula_familia=1) as SI, (select COUNT(exp_antecedentes_academicos.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_antecedentes_academicos.teestimula_familia=1) as SI, (select COUNT(exp_antecedentes_academicos.id_alumno)
                       FROM exp_antecedentes_academicos JOIN exp_generales ON exp_generales.id_alumno=exp_antecedentes_academicos.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_antecedentes_academicos.teestimula_familia=2) as NOO');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_antecedentes_academicos.teestimula_familia=2) as NOO', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
         $estimulaM=DB::select('SELECT (select COUNT(exp_antecedentes_academicos.id_alumno)
                       FROM exp_antecedentes_academicos
                       JOIN exp_generales ON exp_generales.id_alumno=exp_antecedentes_academicos.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_antecedentes_academicos.teestimula_familia=1) as SI, (select COUNT(exp_antecedentes_academicos.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_antecedentes_academicos.teestimula_familia=1) as SI, (select COUNT(exp_antecedentes_academicos.id_alumno)
                       FROM exp_antecedentes_academicos JOIN exp_generales ON exp_generales.id_alumno=exp_antecedentes_academicos.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_antecedentes_academicos.teestimula_familia=2) as NOO');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_antecedentes_academicos.teestimula_familia=2) as NOO', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
 
         $otragen=DB::select('SELECT (select COUNT(exp_antecedentes_academicos.id_alumno)
                       FROM exp_antecedentes_academicos JOIN exp_generales ON exp_generales.id_alumno=exp_antecedentes_academicos.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_antecedentes_academicos.otra_carrera_ini=1) as SI, (select COUNT(exp_antecedentes_academicos.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_antecedentes_academicos.otra_carrera_ini=1) as SI, (select COUNT(exp_antecedentes_academicos.id_alumno)
                       FROM exp_antecedentes_academicos JOIN exp_generales ON exp_generales.id_alumno=exp_antecedentes_academicos.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_antecedentes_academicos.otra_carrera_ini=2) as NOO');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_antecedentes_academicos.otra_carrera_ini=2) as NOO', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
         $otraF=DB::select('SELECT (select COUNT(exp_antecedentes_academicos.id_alumno)
                       FROM exp_antecedentes_academicos
                       JOIN exp_generales ON exp_generales.id_alumno=exp_antecedentes_academicos.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_antecedentes_academicos.otra_carrera_ini=1) as SI, (select COUNT(exp_antecedentes_academicos.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_antecedentes_academicos.otra_carrera_ini=1) as SI, (select COUNT(exp_antecedentes_academicos.id_alumno)
                       FROM exp_antecedentes_academicos JOIN exp_generales ON exp_generales.id_alumno=exp_antecedentes_academicos.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_antecedentes_academicos.otra_carrera_ini=2) as NOO');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_antecedentes_academicos.otra_carrera_ini=2) as NOO', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
         $otraM=DB::select('SELECT (select COUNT(exp_antecedentes_academicos.id_alumno)
                       FROM exp_antecedentes_academicos
                       JOIN exp_generales ON exp_generales.id_alumno=exp_antecedentes_academicos.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_antecedentes_academicos.otra_carrera_ini=1) as SI, (select COUNT(exp_antecedentes_academicos.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_antecedentes_academicos.otra_carrera_ini=1) as SI, (select COUNT(exp_antecedentes_academicos.id_alumno)
                       FROM exp_antecedentes_academicos JOIN exp_generales ON exp_generales.id_alumno=exp_antecedentes_academicos.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_antecedentes_academicos.otra_carrera_ini=2) as NOO');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_antecedentes_academicos.otra_carrera_ini=2) as NOO', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
 
         $bachgen=DB::select('SELECT (select COUNT(exp_antecedentes_academicos.id_alumno)
                       FROM exp_antecedentes_academicos JOIN exp_generales ON exp_generales.id_alumno=exp_antecedentes_academicos.id_alumno
                       JOIN exp_bachillerato ON exp_bachillerato.id_bachillerato=exp_antecedentes_academicos.id_bachillerato
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_bachillerato.desc_bachillerato="Técnico") as T, (select COUNT(exp_antecedentes_academicos.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_bachillerato.desc_bachillerato="Técnico") as T, (select COUNT(exp_antecedentes_academicos.id_alumno)
                       FROM exp_antecedentes_academicos JOIN exp_generales ON exp_generales.id_alumno=exp_antecedentes_academicos.id_alumno
                       JOIN exp_bachillerato ON exp_bachillerato.id_bachillerato=exp_antecedentes_academicos.id_bachillerato
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_bachillerato.desc_bachillerato="General") as G');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_bachillerato.desc_bachillerato="General") as G', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
         $bachF=DB::select('SELECT (select COUNT(exp_antecedentes_academicos.id_alumno)
                       FROM exp_antecedentes_academicos
                       JOIN exp_generales ON exp_generales.id_alumno=exp_antecedentes_academicos.id_alumno
                       JOIN exp_bachillerato ON exp_bachillerato.id_bachillerato=exp_antecedentes_academicos.id_bachillerato
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_bachillerato.desc_bachillerato="Técnico") as T, (select COUNT(exp_antecedentes_academicos.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_bachillerato.desc_bachillerato="Técnico") as T, (select COUNT(exp_antecedentes_academicos.id_alumno)
                       FROM exp_antecedentes_academicos JOIN exp_generales ON exp_generales.id_alumno=exp_antecedentes_academicos.id_alumno
                       JOIN exp_bachillerato ON exp_bachillerato.id_bachillerato=exp_antecedentes_academicos.id_bachillerato
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_bachillerato.desc_bachillerato="General") as G');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_bachillerato.desc_bachillerato="General") as G', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
         $bachM=DB::select('SELECT (select COUNT(exp_antecedentes_academicos.id_alumno)
                       FROM exp_antecedentes_academicos
                       JOIN exp_generales ON exp_generales.id_alumno=exp_antecedentes_academicos.id_alumno
                       JOIN exp_bachillerato ON exp_bachillerato.id_bachillerato=exp_antecedentes_academicos.id_bachillerato
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_bachillerato.desc_bachillerato="Técnico") as T, (select COUNT(exp_antecedentes_academicos.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_bachillerato.desc_bachillerato="Técnico") as T, (select COUNT(exp_antecedentes_academicos.id_alumno)
                       FROM exp_antecedentes_academicos JOIN exp_generales ON exp_generales.id_alumno=exp_antecedentes_academicos.id_alumno
                       JOIN exp_bachillerato ON exp_bachillerato.id_bachillerato=exp_antecedentes_academicos.id_bachillerato
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_bachillerato.desc_bachillerato="General") as G');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_bachillerato.desc_bachillerato="General") as G', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
 
         return response()->json(
             [
@@ -1122,175 +1122,175 @@ class Tutorias_GraficasGeneracionController extends Controller
                       JOIN exp_generales ON exp_generales.id_alumno=exp_datos_familiares.id_alumno
         			  JOIN exp_opc_vives ON exp_opc_vives.id_opc_vives=exp_datos_familiares.id_opc_vives
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_opc_vives.desc_opc="Con los padres") as CP,  (select COUNT(exp_datos_familiares.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_opc_vives.desc_opc="Con los padres") as CP,  (select COUNT(exp_datos_familiares.id_alumno)
                       FROM exp_datos_familiares
                       JOIN exp_generales ON exp_generales.id_alumno=exp_datos_familiares.id_alumno
         			  JOIN exp_opc_vives ON exp_opc_vives.id_opc_vives=exp_datos_familiares.id_opc_vives
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_opc_vives.desc_opc="Con otros estudiantes") as CE,
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_opc_vives.desc_opc="Con otros estudiantes") as CE,
                       (select COUNT(exp_datos_familiares.id_alumno)
                       FROM exp_datos_familiares
                       JOIN exp_generales ON exp_generales.id_alumno=exp_datos_familiares.id_alumno
         			  JOIN exp_opc_vives ON exp_opc_vives.id_opc_vives=exp_datos_familiares.id_opc_vives
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_opc_vives.desc_opc="Con tios u otros familiares") as CT,  (select COUNT(exp_datos_familiares.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_opc_vives.desc_opc="Con tios u otros familiares") as CT,  (select COUNT(exp_datos_familiares.id_alumno)
                       FROM exp_datos_familiares
                       JOIN exp_generales ON exp_generales.id_alumno=exp_datos_familiares.id_alumno
         			  JOIN exp_opc_vives ON exp_opc_vives.id_opc_vives=exp_datos_familiares.id_opc_vives
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_opc_vives.desc_opc="Solo") as S');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_opc_vives.desc_opc="Solo") as S', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
 
         $vivesF=DB::select('SELECT (select COUNT(exp_datos_familiares.id_alumno)
                       FROM exp_datos_familiares
                       JOIN exp_generales ON exp_generales.id_alumno=exp_datos_familiares.id_alumno
         			  JOIN exp_opc_vives ON exp_opc_vives.id_opc_vives=exp_datos_familiares.id_opc_vives
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_opc_vives.desc_opc="Con los padres") as CP,  (select COUNT(exp_datos_familiares.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_opc_vives.desc_opc="Con los padres") as CP,  (select COUNT(exp_datos_familiares.id_alumno)
                       FROM exp_datos_familiares
                       JOIN exp_generales ON exp_generales.id_alumno=exp_datos_familiares.id_alumno
         			  JOIN exp_opc_vives ON exp_opc_vives.id_opc_vives=exp_datos_familiares.id_opc_vives
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_opc_vives.desc_opc="Con otros estudiantes") as CE,
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_opc_vives.desc_opc="Con otros estudiantes") as CE,
                       (select COUNT(exp_datos_familiares.id_alumno)
                       FROM exp_datos_familiares
                       JOIN exp_generales ON exp_generales.id_alumno=exp_datos_familiares.id_alumno
         			  JOIN exp_opc_vives ON exp_opc_vives.id_opc_vives=exp_datos_familiares.id_opc_vives
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_opc_vives.desc_opc="Con tios u otros familiares") as CT,  (select COUNT(exp_datos_familiares.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_opc_vives.desc_opc="Con tios u otros familiares") as CT,  (select COUNT(exp_datos_familiares.id_alumno)
                       FROM exp_datos_familiares
                       JOIN exp_generales ON exp_generales.id_alumno=exp_datos_familiares.id_alumno
         			  JOIN exp_opc_vives ON exp_opc_vives.id_opc_vives=exp_datos_familiares.id_opc_vives
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_opc_vives.desc_opc="Solo") as S');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_opc_vives.desc_opc="Solo") as S', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
         $vivesM=DB::select('SELECT (select COUNT(exp_datos_familiares.id_alumno)
                       FROM exp_datos_familiares
                       JOIN exp_generales ON exp_generales.id_alumno=exp_datos_familiares.id_alumno
         			JOIN exp_opc_vives ON exp_opc_vives.id_opc_vives=exp_datos_familiares.id_opc_vives
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_opc_vives.desc_opc="Con los padres") as CP,  (select COUNT(exp_datos_familiares.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_opc_vives.desc_opc="Con los padres") as CP,  (select COUNT(exp_datos_familiares.id_alumno)
                       FROM exp_datos_familiares
                       JOIN exp_generales ON exp_generales.id_alumno=exp_datos_familiares.id_alumno
         			JOIN exp_opc_vives ON exp_opc_vives.id_opc_vives=exp_datos_familiares.id_opc_vives
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_opc_vives.desc_opc="Con otros estudiantes") as CE,
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_opc_vives.desc_opc="Con otros estudiantes") as CE,
                       (select COUNT(exp_datos_familiares.id_alumno)
                       FROM exp_datos_familiares
                       JOIN exp_generales ON exp_generales.id_alumno=exp_datos_familiares.id_alumno
         			JOIN exp_opc_vives ON exp_opc_vives.id_opc_vives=exp_datos_familiares.id_opc_vives
                      JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_opc_vives.desc_opc="Con tios u otros familiares") as CT,  (select COUNT(exp_datos_familiares.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_opc_vives.desc_opc="Con tios u otros familiares") as CT,  (select COUNT(exp_datos_familiares.id_alumno)
                       FROM exp_datos_familiares
                       JOIN exp_generales ON exp_generales.id_alumno=exp_datos_familiares.id_alumno
         			JOIN exp_opc_vives ON exp_opc_vives.id_opc_vives=exp_datos_familiares.id_opc_vives
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_opc_vives.desc_opc="Solo") as S');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_opc_vives.desc_opc="Solo") as S', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
 
         $etgen=DB::select('SELECT (select COUNT(exp_datos_familiares.id_alumno)
                       FROM exp_datos_familiares
                       JOIN exp_generales ON exp_generales.id_alumno=exp_datos_familiares.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_datos_familiares.etnia_indigena=1) as SI,(select COUNT(exp_datos_familiares.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_datos_familiares.etnia_indigena=1) as SI,(select COUNT(exp_datos_familiares.id_alumno)
                       FROM exp_datos_familiares
                       JOIN exp_generales ON exp_generales.id_alumno=exp_datos_familiares.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_datos_familiares.etnia_indigena=2) as NOO');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_datos_familiares.etnia_indigena=2) as NOO', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
         $etF=DB::select('SELECT (select COUNT(exp_datos_familiares.id_alumno)
                       FROM exp_datos_familiares
                       JOIN exp_generales ON exp_generales.id_alumno=exp_datos_familiares.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_datos_familiares.etnia_indigena=1) as SI,(select COUNT(exp_datos_familiares.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_datos_familiares.etnia_indigena=1) as SI,(select COUNT(exp_datos_familiares.id_alumno)
                       FROM exp_datos_familiares
                       JOIN exp_generales ON exp_generales.id_alumno=exp_datos_familiares.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_datos_familiares.etnia_indigena=2) as NOO');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_datos_familiares.etnia_indigena=2) as NOO', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
         $etM=DB::select('SELECT (select COUNT(exp_datos_familiares.id_alumno)
                       FROM exp_datos_familiares
                       JOIN exp_generales ON exp_generales.id_alumno=exp_datos_familiares.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_datos_familiares.etnia_indigena=1) as SI,(select COUNT(exp_datos_familiares.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_datos_familiares.etnia_indigena=1) as SI,(select COUNT(exp_datos_familiares.id_alumno)
                       FROM exp_datos_familiares
                       JOIN exp_generales ON exp_generales.id_alumno=exp_datos_familiares.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_datos_familiares.etnia_indigena=2) as NOO');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_datos_familiares.etnia_indigena=2) as NOO', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
         $hagen=DB::select('SELECT (select COUNT(exp_datos_familiares.id_alumno)
                       FROM exp_datos_familiares
                       JOIN exp_generales ON exp_generales.id_alumno=exp_datos_familiares.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_datos_familiares.hablas_lengua_indigena=1) as SI,(select COUNT(exp_datos_familiares.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_datos_familiares.hablas_lengua_indigena=1) as SI,(select COUNT(exp_datos_familiares.id_alumno)
                       FROM exp_datos_familiares
                       JOIN exp_generales ON exp_generales.id_alumno=exp_datos_familiares.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_datos_familiares.hablas_lengua_indigena=2) as NOO');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_datos_familiares.hablas_lengua_indigena=2) as NOO', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
         $haF=DB::select('SELECT (select COUNT(exp_datos_familiares.id_alumno)
                       FROM exp_datos_familiares
                       JOIN exp_generales ON exp_generales.id_alumno=exp_datos_familiares.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_datos_familiares.hablas_lengua_indigena=1) as SI,(select COUNT(exp_datos_familiares.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_datos_familiares.hablas_lengua_indigena=1) as SI,(select COUNT(exp_datos_familiares.id_alumno)
                       FROM exp_datos_familiares
                       JOIN exp_generales ON exp_generales.id_alumno=exp_datos_familiares.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_datos_familiares.hablas_lengua_indigena=2) as NOO');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_datos_familiares.hablas_lengua_indigena=2) as NOO', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
         $haM=DB::select('SELECT (select COUNT(exp_datos_familiares.id_alumno)
                       FROM exp_datos_familiares
                       JOIN exp_generales ON exp_generales.id_alumno=exp_datos_familiares.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_datos_familiares.hablas_lengua_indigena=1) as SI,(select COUNT(exp_datos_familiares.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_datos_familiares.hablas_lengua_indigena=1) as SI,(select COUNT(exp_datos_familiares.id_alumno)
                       FROM exp_datos_familiares
                       JOIN exp_generales ON exp_generales.id_alumno=exp_datos_familiares.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_datos_familiares.hablas_lengua_indigena=2) as NOO');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_datos_familiares.hablas_lengua_indigena=2) as NOO', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
 
         $ufgen=DB::select('SELECT (select COUNT(exp_datos_familiares.id_alumno)
                       FROM exp_datos_familiares
                       JOIN exp_generales ON exp_generales.id_alumno=exp_datos_familiares.id_alumno
         			  JOIN exp_familia_union ON exp_datos_familiares.id_familia_union=exp_familia_union.id_familia_union
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_familia_union.desc_union="Unida") as U,  (select COUNT(exp_datos_familiares.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_familia_union.desc_union="Unida") as U,  (select COUNT(exp_datos_familiares.id_alumno)
                       FROM exp_datos_familiares
                       JOIN exp_generales ON exp_generales.id_alumno=exp_datos_familiares.id_alumno
         			  JOIN exp_familia_union ON exp_datos_familiares.id_familia_union=exp_familia_union.id_familia_union
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_familia_union.desc_union="Muy unida") as MU,
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_familia_union.desc_union="Muy unida") as MU,
                       (select COUNT(exp_datos_familiares.id_alumno)
                       FROM exp_datos_familiares
                       JOIN exp_generales ON exp_generales.id_alumno=exp_datos_familiares.id_alumno
         			  JOIN exp_familia_union ON exp_datos_familiares.id_familia_union=exp_familia_union.id_familia_union
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_familia_union.desc_union="Disfuncional") as D');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_familia_union.desc_union="Disfuncional") as D', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
         $ufF=DB::select('SELECT (select COUNT(exp_datos_familiares.id_alumno)
                       FROM exp_datos_familiares
                       JOIN exp_generales ON exp_generales.id_alumno=exp_datos_familiares.id_alumno
         			  JOIN exp_familia_union ON exp_datos_familiares.id_familia_union=exp_familia_union.id_familia_union
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_familia_union.desc_union="Unida") as U,  (select COUNT(exp_datos_familiares.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_familia_union.desc_union="Unida") as U,  (select COUNT(exp_datos_familiares.id_alumno)
                       FROM exp_datos_familiares
                       JOIN exp_generales ON exp_generales.id_alumno=exp_datos_familiares.id_alumno
         			  JOIN exp_familia_union ON exp_datos_familiares.id_familia_union=exp_familia_union.id_familia_union
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_familia_union.desc_union="Muy unida") as MU,
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_familia_union.desc_union="Muy unida") as MU,
                       (select COUNT(exp_datos_familiares.id_alumno)
                       FROM exp_datos_familiares
                       JOIN exp_generales ON exp_generales.id_alumno=exp_datos_familiares.id_alumno
         			  JOIN exp_familia_union ON exp_datos_familiares.id_familia_union=exp_familia_union.id_familia_union
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_familia_union.desc_union="Disfuncional") as D');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_familia_union.desc_union="Disfuncional") as D', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
         $ufM=DB::select('SELECT (select COUNT(exp_datos_familiares.id_alumno)
                       FROM exp_datos_familiares
                       JOIN exp_generales ON exp_generales.id_alumno=exp_datos_familiares.id_alumno
         			  JOIN exp_familia_union ON exp_datos_familiares.id_familia_union=exp_familia_union.id_familia_union
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_familia_union.desc_union="Unida") as U,  (select COUNT(exp_datos_familiares.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_familia_union.desc_union="Unida") as U,  (select COUNT(exp_datos_familiares.id_alumno)
                       FROM exp_datos_familiares
                       JOIN exp_generales ON exp_generales.id_alumno=exp_datos_familiares.id_alumno
         			  JOIN exp_familia_union ON exp_datos_familiares.id_familia_union=exp_familia_union.id_familia_union
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_familia_union.desc_union="Muy unida") as MU,
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_familia_union.desc_union="Muy unida") as MU,
                       (select COUNT(exp_datos_familiares.id_alumno)
                       FROM exp_datos_familiares
                       JOIN exp_generales ON exp_generales.id_alumno=exp_datos_familiares.id_alumno
         			  JOIN exp_familia_union ON exp_datos_familiares.id_familia_union=exp_familia_union.id_familia_union
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_familia_union.desc_union="Disfuncional") as D');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_familia_union.desc_union="Disfuncional") as D', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
 
 
         return response()->json(
@@ -1350,81 +1350,81 @@ class Tutorias_GraficasGeneracionController extends Controller
                       JOIN exp_generales ON exp_generales.id_alumno=exp_habitos_estudio.id_alumno
         			  JOIN exp_opc_tiempo ON exp_opc_tiempo.id_opc_tiempo=exp_habitos_estudio.tiempo_empleado_estudiar
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_opc_tiempo.desc_opc="Menos de 1 hora") as M, (select COUNT(exp_habitos_estudio.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_opc_tiempo.desc_opc="Menos de 1 hora") as M, (select COUNT(exp_habitos_estudio.id_alumno)
                       FROM exp_habitos_estudio
                       JOIN exp_generales ON exp_generales.id_alumno=exp_habitos_estudio.id_alumno
         			  JOIN exp_opc_tiempo ON exp_opc_tiempo.id_opc_tiempo=exp_habitos_estudio.tiempo_empleado_estudiar
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_opc_tiempo.desc_opc="1 hora") as U, (select COUNT(exp_habitos_estudio.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_opc_tiempo.desc_opc="1 hora") as U, (select COUNT(exp_habitos_estudio.id_alumno)
                       FROM exp_habitos_estudio
                       JOIN exp_generales ON exp_generales.id_alumno=exp_habitos_estudio.id_alumno
         			  JOIN exp_opc_tiempo ON exp_opc_tiempo.id_opc_tiempo=exp_habitos_estudio.tiempo_empleado_estudiar
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_opc_tiempo.desc_opc="2 horas") as D, (select COUNT(exp_habitos_estudio.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_opc_tiempo.desc_opc="2 horas") as D, (select COUNT(exp_habitos_estudio.id_alumno)
                       FROM exp_habitos_estudio
                       JOIN exp_generales ON exp_generales.id_alumno=exp_habitos_estudio.id_alumno
         			  JOIN exp_opc_tiempo ON exp_opc_tiempo.id_opc_tiempo=exp_habitos_estudio.tiempo_empleado_estudiar
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_opc_tiempo.desc_opc="3 horas") as T, (select COUNT(exp_habitos_estudio.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_opc_tiempo.desc_opc="3 horas") as T, (select COUNT(exp_habitos_estudio.id_alumno)
                       FROM exp_habitos_estudio
                       JOIN exp_generales ON exp_generales.id_alumno=exp_habitos_estudio.id_alumno
         			  JOIN exp_opc_tiempo ON exp_opc_tiempo.id_opc_tiempo=exp_habitos_estudio.tiempo_empleado_estudiar
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_opc_tiempo.desc_opc="Más de 4 horas") as C');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_opc_tiempo.desc_opc="Más de 4 horas") as C', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
 
         $tiF=DB::select('SELECT (select COUNT(exp_habitos_estudio.id_alumno)
                       FROM exp_habitos_estudio
                       JOIN exp_generales ON exp_generales.id_alumno=exp_habitos_estudio.id_alumno
         			  JOIN exp_opc_tiempo ON exp_opc_tiempo.id_opc_tiempo=exp_habitos_estudio.tiempo_empleado_estudiar
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_opc_tiempo.desc_opc="Menos de 1 hora") as M, (select COUNT(exp_habitos_estudio.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_opc_tiempo.desc_opc="Menos de 1 hora") as M, (select COUNT(exp_habitos_estudio.id_alumno)
                       FROM exp_habitos_estudio
                       JOIN exp_generales ON exp_generales.id_alumno=exp_habitos_estudio.id_alumno
         			  JOIN exp_opc_tiempo ON exp_opc_tiempo.id_opc_tiempo=exp_habitos_estudio.tiempo_empleado_estudiar
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_opc_tiempo.desc_opc="1 hora") as U, (select COUNT(exp_habitos_estudio.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_opc_tiempo.desc_opc="1 hora") as U, (select COUNT(exp_habitos_estudio.id_alumno)
                       FROM exp_habitos_estudio
                       JOIN exp_generales ON exp_generales.id_alumno=exp_habitos_estudio.id_alumno
         			  JOIN exp_opc_tiempo ON exp_opc_tiempo.id_opc_tiempo=exp_habitos_estudio.tiempo_empleado_estudiar
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_opc_tiempo.desc_opc="2 horas") as D, (select COUNT(exp_habitos_estudio.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_opc_tiempo.desc_opc="2 horas") as D, (select COUNT(exp_habitos_estudio.id_alumno)
                       FROM exp_habitos_estudio
                       JOIN exp_generales ON exp_generales.id_alumno=exp_habitos_estudio.id_alumno
         			  JOIN exp_opc_tiempo ON exp_opc_tiempo.id_opc_tiempo=exp_habitos_estudio.tiempo_empleado_estudiar
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_opc_tiempo.desc_opc="3 horas") as T, (select COUNT(exp_habitos_estudio.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_opc_tiempo.desc_opc="3 horas") as T, (select COUNT(exp_habitos_estudio.id_alumno)
                       FROM exp_habitos_estudio
                       JOIN exp_generales ON exp_generales.id_alumno=exp_habitos_estudio.id_alumno
         			  JOIN exp_opc_tiempo ON exp_opc_tiempo.id_opc_tiempo=exp_habitos_estudio.tiempo_empleado_estudiar
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_opc_tiempo.desc_opc="Más de 4 horas") as C');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_opc_tiempo.desc_opc="Más de 4 horas") as C', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
 
         $tiM=DB::select('SELECT (select COUNT(exp_habitos_estudio.id_alumno)
                       FROM exp_habitos_estudio
                       JOIN exp_generales ON exp_generales.id_alumno=exp_habitos_estudio.id_alumno
         			  JOIN exp_opc_tiempo ON exp_opc_tiempo.id_opc_tiempo=exp_habitos_estudio.tiempo_empleado_estudiar
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_opc_tiempo.desc_opc="Menos de 1 hora") as M, (select COUNT(exp_habitos_estudio.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_opc_tiempo.desc_opc="Menos de 1 hora") as M, (select COUNT(exp_habitos_estudio.id_alumno)
                       FROM exp_habitos_estudio
                       JOIN exp_generales ON exp_generales.id_alumno=exp_habitos_estudio.id_alumno
         			  JOIN exp_opc_tiempo ON exp_opc_tiempo.id_opc_tiempo=exp_habitos_estudio.tiempo_empleado_estudiar
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_opc_tiempo.desc_opc="1 hora") as U, (select COUNT(exp_habitos_estudio.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_opc_tiempo.desc_opc="1 hora") as U, (select COUNT(exp_habitos_estudio.id_alumno)
                       FROM exp_habitos_estudio
                       JOIN exp_generales ON exp_generales.id_alumno=exp_habitos_estudio.id_alumno
         			  JOIN exp_opc_tiempo ON exp_opc_tiempo.id_opc_tiempo=exp_habitos_estudio.tiempo_empleado_estudiar
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_opc_tiempo.desc_opc="2 horas") as D, (select COUNT(exp_habitos_estudio.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_opc_tiempo.desc_opc="2 horas") as D, (select COUNT(exp_habitos_estudio.id_alumno)
                       FROM exp_habitos_estudio
                       JOIN exp_generales ON exp_generales.id_alumno=exp_habitos_estudio.id_alumno
         			  JOIN exp_opc_tiempo ON exp_opc_tiempo.id_opc_tiempo=exp_habitos_estudio.tiempo_empleado_estudiar
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_opc_tiempo.desc_opc="3 horas") as T, (select COUNT(exp_habitos_estudio.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_opc_tiempo.desc_opc="3 horas") as T, (select COUNT(exp_habitos_estudio.id_alumno)
                       FROM exp_habitos_estudio
                       JOIN exp_generales ON exp_generales.id_alumno=exp_habitos_estudio.id_alumno
         			  JOIN exp_opc_tiempo ON exp_opc_tiempo.id_opc_tiempo=exp_habitos_estudio.tiempo_empleado_estudiar
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_opc_tiempo.desc_opc="Más de 4 horas") as C');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_opc_tiempo.desc_opc="Más de 4 horas") as C', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
 
         return response()->json(
             [
@@ -1451,249 +1451,249 @@ class Tutorias_GraficasGeneracionController extends Controller
                       FROM exp_formacion_integral
                       JOIN exp_generales ON exp_generales.id_alumno=exp_formacion_integral.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_formacion_integral.practica_deporte=1) as SI,(select COUNT(exp_formacion_integral.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_formacion_integral.practica_deporte=1) as SI,(select COUNT(exp_formacion_integral.id_alumno)
                       FROM exp_formacion_integral
                       JOIN exp_generales ON exp_generales.id_alumno=exp_formacion_integral.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_formacion_integral.practica_deporte=2) as NOO');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_formacion_integral.practica_deporte=2) as NOO', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
         $deF=DB::select('SELECT (select COUNT(exp_formacion_integral.id_alumno)
                       FROM exp_formacion_integral
                       JOIN exp_generales ON exp_generales.id_alumno=exp_formacion_integral.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_formacion_integral.practica_deporte=1) as SI,(select COUNT(exp_formacion_integral.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_formacion_integral.practica_deporte=1) as SI,(select COUNT(exp_formacion_integral.id_alumno)
                       FROM exp_formacion_integral
                       JOIN exp_generales ON exp_generales.id_alumno=exp_formacion_integral.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_formacion_integral.practica_deporte=2) as NOO');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_formacion_integral.practica_deporte=2) as NOO', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
         $deM=DB::select('SELECT (select COUNT(exp_formacion_integral.id_alumno)
                       FROM exp_formacion_integral
                       JOIN exp_generales ON exp_generales.id_alumno=exp_formacion_integral.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_formacion_integral.practica_deporte=1) as SI,(select COUNT(exp_formacion_integral.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_formacion_integral.practica_deporte=1) as SI,(select COUNT(exp_formacion_integral.id_alumno)
                       FROM exp_formacion_integral
                       JOIN exp_generales ON exp_generales.id_alumno=exp_formacion_integral.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_formacion_integral.practica_deporte=2) as NOO');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_formacion_integral.practica_deporte=2) as NOO', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
 
         $argen=DB::select('SELECT (select COUNT(exp_formacion_integral.id_alumno)
                       FROM exp_formacion_integral
                       JOIN exp_generales ON exp_generales.id_alumno=exp_formacion_integral.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_formacion_integral.practica_artistica=1) as SI,(select COUNT(exp_formacion_integral.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_formacion_integral.practica_artistica=1) as SI,(select COUNT(exp_formacion_integral.id_alumno)
                       FROM exp_formacion_integral
                       JOIN exp_generales ON exp_generales.id_alumno=exp_formacion_integral.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_formacion_integral.practica_artistica=2) as NOO');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_formacion_integral.practica_artistica=2) as NOO', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
         $arF=DB::select('SELECT (select COUNT(exp_formacion_integral.id_alumno)
                       FROM exp_formacion_integral
                       JOIN exp_generales ON exp_generales.id_alumno=exp_formacion_integral.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_formacion_integral.practica_artistica=1) as SI,(select COUNT(exp_formacion_integral.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_formacion_integral.practica_artistica=1) as SI,(select COUNT(exp_formacion_integral.id_alumno)
                       FROM exp_formacion_integral
                       JOIN exp_generales ON exp_generales.id_alumno=exp_formacion_integral.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_formacion_integral.practica_artistica=2) as NOO');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_formacion_integral.practica_artistica=2) as NOO', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
         $arM=DB::select('SELECT (select COUNT(exp_formacion_integral.id_alumno)
                       FROM exp_formacion_integral
                       JOIN exp_generales ON exp_generales.id_alumno=exp_formacion_integral.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_formacion_integral.practica_artistica=1) as SI,(select COUNT(exp_formacion_integral.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_formacion_integral.practica_artistica=1) as SI,(select COUNT(exp_formacion_integral.id_alumno)
                       FROM exp_formacion_integral
                       JOIN exp_generales ON exp_generales.id_alumno=exp_formacion_integral.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_formacion_integral.practica_artistica=2) as NOO');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_formacion_integral.practica_artistica=2) as NOO', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
         $culturasgen=DB::select('SELECT (select COUNT(exp_formacion_integral.id_alumno)
                       FROM exp_formacion_integral
                       JOIN exp_generales ON exp_generales.id_alumno=exp_formacion_integral.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_formacion_integral.actividades_culturales=1) as SI,(select COUNT(exp_formacion_integral.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_formacion_integral.actividades_culturales=1) as SI,(select COUNT(exp_formacion_integral.id_alumno)
                       FROM exp_formacion_integral
                       JOIN exp_generales ON exp_generales.id_alumno=exp_formacion_integral.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_formacion_integral.actividades_culturales=2) as NOO');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_formacion_integral.actividades_culturales=2) as NOO', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
         $culturasF=DB::select('SELECT (select COUNT(exp_formacion_integral.id_alumno)
                       FROM exp_formacion_integral
                       JOIN exp_generales ON exp_generales.id_alumno=exp_formacion_integral.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_formacion_integral.actividades_culturales=1) as SI,(select COUNT(exp_formacion_integral.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_formacion_integral.actividades_culturales=1) as SI,(select COUNT(exp_formacion_integral.id_alumno)
                       FROM exp_formacion_integral
                       JOIN exp_generales ON exp_generales.id_alumno=exp_formacion_integral.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_formacion_integral.actividades_culturales=2) as NOO');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_formacion_integral.actividades_culturales=2) as NOO', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
         $culturasM=DB::select('SELECT (select COUNT(exp_formacion_integral.id_alumno)
                       FROM exp_formacion_integral
                       JOIN exp_generales ON exp_generales.id_alumno=exp_formacion_integral.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_formacion_integral.actividades_culturales=1) as SI,(select COUNT(exp_formacion_integral.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_formacion_integral.actividades_culturales=1) as SI,(select COUNT(exp_formacion_integral.id_alumno)
                       FROM exp_formacion_integral
                       JOIN exp_generales ON exp_generales.id_alumno=exp_formacion_integral.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_formacion_integral.actividades_culturales=2) as NOO');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_formacion_integral.actividades_culturales=2) as NOO', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
 
         $enfcgen=DB::select('SELECT (select COUNT(exp_formacion_integral.id_alumno)
                       FROM exp_formacion_integral
                       JOIN exp_generales ON exp_generales.id_alumno=exp_formacion_integral.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_formacion_integral.enfermedad_cronica=1) as SI,(select COUNT(exp_formacion_integral.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_formacion_integral.enfermedad_cronica=1) as SI,(select COUNT(exp_formacion_integral.id_alumno)
                       FROM exp_formacion_integral
                       JOIN exp_generales ON exp_generales.id_alumno=exp_formacion_integral.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_formacion_integral.enfermedad_cronica=2) as NOO');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_formacion_integral.enfermedad_cronica=2) as NOO', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
         $enfcF=DB::select('SELECT (select COUNT(exp_formacion_integral.id_alumno)
                       FROM exp_formacion_integral
                       JOIN exp_generales ON exp_generales.id_alumno=exp_formacion_integral.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_formacion_integral.enfermedad_cronica=1) as SI,(select COUNT(exp_formacion_integral.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_formacion_integral.enfermedad_cronica=1) as SI,(select COUNT(exp_formacion_integral.id_alumno)
                       FROM exp_formacion_integral
                       JOIN exp_generales ON exp_generales.id_alumno=exp_formacion_integral.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_formacion_integral.enfermedad_cronica=2) as NOO');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_formacion_integral.enfermedad_cronica=2) as NOO', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
         $enfcM=DB::select('SELECT (select COUNT(exp_formacion_integral.id_alumno)
                       FROM exp_formacion_integral
                       JOIN exp_generales ON exp_generales.id_alumno=exp_formacion_integral.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_formacion_integral.enfermedad_cronica=1) as SI,(select COUNT(exp_formacion_integral.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_formacion_integral.enfermedad_cronica=1) as SI,(select COUNT(exp_formacion_integral.id_alumno)
                       FROM exp_formacion_integral
                       JOIN exp_generales ON exp_generales.id_alumno=exp_formacion_integral.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_formacion_integral.enfermedad_cronica=2) as NOO');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_formacion_integral.enfermedad_cronica=2) as NOO', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
 
         $penfcgen=DB::select('SELECT (select COUNT(exp_formacion_integral.id_alumno)
                       FROM exp_formacion_integral
                       JOIN exp_generales ON exp_generales.id_alumno=exp_formacion_integral.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_formacion_integral.enf_cron_padre=1) as SI,(select COUNT(exp_formacion_integral.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_formacion_integral.enf_cron_padre=1) as SI,(select COUNT(exp_formacion_integral.id_alumno)
                       FROM exp_formacion_integral
                       JOIN exp_generales ON exp_generales.id_alumno=exp_formacion_integral.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_formacion_integral.enf_cron_padre=2) as NOO');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_formacion_integral.enf_cron_padre=2) as NOO', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
         $penfcF=DB::select('SELECT (select COUNT(exp_formacion_integral.id_alumno)
                       FROM exp_formacion_integral
                       JOIN exp_generales ON exp_generales.id_alumno=exp_formacion_integral.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_formacion_integral.enf_cron_padre=1) as SI,(select COUNT(exp_formacion_integral.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_formacion_integral.enf_cron_padre=1) as SI,(select COUNT(exp_formacion_integral.id_alumno)
                       FROM exp_formacion_integral
                       JOIN exp_generales ON exp_generales.id_alumno=exp_formacion_integral.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_formacion_integral.enf_cron_padre=2) as NOO');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_formacion_integral.enf_cron_padre=2) as NOO', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
         $penfcM=DB::select('SELECT (select COUNT(exp_formacion_integral.id_alumno)
                       FROM exp_formacion_integral
                       JOIN exp_generales ON exp_generales.id_alumno=exp_formacion_integral.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_formacion_integral.enf_cron_padre=1) as SI,(select COUNT(exp_formacion_integral.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_formacion_integral.enf_cron_padre=1) as SI,(select COUNT(exp_formacion_integral.id_alumno)
                       FROM exp_formacion_integral
                       JOIN exp_generales ON exp_generales.id_alumno=exp_formacion_integral.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_formacion_integral.enf_cron_padre=2) as NOO');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_formacion_integral.enf_cron_padre=2) as NOO', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
         $operaciongen=DB::select('SELECT (select COUNT(exp_formacion_integral.id_alumno)
                       FROM exp_formacion_integral
                       JOIN exp_generales ON exp_generales.id_alumno=exp_formacion_integral.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_formacion_integral.operacion=1) as SI,(select COUNT(exp_formacion_integral.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_formacion_integral.operacion=1) as SI,(select COUNT(exp_formacion_integral.id_alumno)
                       FROM exp_formacion_integral
                       JOIN exp_generales ON exp_generales.id_alumno=exp_formacion_integral.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_formacion_integral.operacion=2) as NOO');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_formacion_integral.operacion=2) as NOO', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
         $operacionF=DB::select('SELECT (select COUNT(exp_formacion_integral.id_alumno)
                       FROM exp_formacion_integral
                       JOIN exp_generales ON exp_generales.id_alumno=exp_formacion_integral.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_formacion_integral.operacion=1) as SI,(select COUNT(exp_formacion_integral.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_formacion_integral.operacion=1) as SI,(select COUNT(exp_formacion_integral.id_alumno)
                       FROM exp_formacion_integral
                       JOIN exp_generales ON exp_generales.id_alumno=exp_formacion_integral.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_formacion_integral.operacion=2) as NOO');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_formacion_integral.operacion=2) as NOO', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
         $operacionM=DB::select('SELECT (select COUNT(exp_formacion_integral.id_alumno)
                       FROM exp_formacion_integral
                       JOIN exp_generales ON exp_generales.id_alumno=exp_formacion_integral.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_formacion_integral.operacion=1) as SI,(select COUNT(exp_formacion_integral.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_formacion_integral.operacion=1) as SI,(select COUNT(exp_formacion_integral.id_alumno)
                       FROM exp_formacion_integral
                       JOIN exp_generales ON exp_generales.id_alumno=exp_formacion_integral.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_formacion_integral.operacion=2) as NOO');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_formacion_integral.operacion=2) as NOO', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
         $visualgen=DB::select('SELECT (select COUNT(exp_formacion_integral.id_alumno)
                       FROM exp_formacion_integral
                       JOIN exp_generales ON exp_generales.id_alumno=exp_formacion_integral.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_formacion_integral.enfer_visual=1) as SI,(select COUNT(exp_formacion_integral.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_formacion_integral.enfer_visual=1) as SI,(select COUNT(exp_formacion_integral.id_alumno)
                       FROM exp_formacion_integral
                       JOIN exp_generales ON exp_generales.id_alumno=exp_formacion_integral.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_formacion_integral.enfer_visual=2) as NOO');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_formacion_integral.enfer_visual=2) as NOO', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
         $visualF=DB::select('SELECT (select COUNT(exp_formacion_integral.id_alumno)
                       FROM exp_formacion_integral
                       JOIN exp_generales ON exp_generales.id_alumno=exp_formacion_integral.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_formacion_integral.enfer_visual=1) as SI,(select COUNT(exp_formacion_integral.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_formacion_integral.enfer_visual=1) as SI,(select COUNT(exp_formacion_integral.id_alumno)
                       FROM exp_formacion_integral
                       JOIN exp_generales ON exp_generales.id_alumno=exp_formacion_integral.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_formacion_integral.enfer_visual=2) as NOO');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_formacion_integral.enfer_visual=2) as NOO', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
         $visualM=DB::select('SELECT (select COUNT(exp_formacion_integral.id_alumno)
                       FROM exp_formacion_integral
                       JOIN exp_generales ON exp_generales.id_alumno=exp_formacion_integral.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_formacion_integral.enfer_visual=1) as SI,(select COUNT(exp_formacion_integral.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_formacion_integral.enfer_visual=1) as SI,(select COUNT(exp_formacion_integral.id_alumno)
                       FROM exp_formacion_integral
                       JOIN exp_generales ON exp_generales.id_alumno=exp_formacion_integral.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_formacion_integral.enfer_visual=2) as NOO');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_formacion_integral.enfer_visual=2) as NOO', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
         $lentesgen=DB::select('SELECT (select COUNT(exp_formacion_integral.id_alumno)
                       FROM exp_formacion_integral
                       JOIN exp_generales ON exp_generales.id_alumno=exp_formacion_integral.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_formacion_integral.usas_lentes=1) as SI,(select COUNT(exp_formacion_integral.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_formacion_integral.usas_lentes=1) as SI,(select COUNT(exp_formacion_integral.id_alumno)
                       FROM exp_formacion_integral
                       JOIN exp_generales ON exp_generales.id_alumno=exp_formacion_integral.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_formacion_integral.usas_lentes=2) as NOO');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_formacion_integral.usas_lentes=2) as NOO', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
         $lentesF=DB::select('SELECT (select COUNT(exp_formacion_integral.id_alumno)
                       FROM exp_formacion_integral
                       JOIN exp_generales ON exp_generales.id_alumno=exp_formacion_integral.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_formacion_integral.usas_lentes=1) as SI,(select COUNT(exp_formacion_integral.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_formacion_integral.usas_lentes=1) as SI,(select COUNT(exp_formacion_integral.id_alumno)
                       FROM exp_formacion_integral
                       JOIN exp_generales ON exp_generales.id_alumno=exp_formacion_integral.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_formacion_integral.usas_lentes=2) as NOO');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_formacion_integral.usas_lentes=2) as NOO', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
         $lentesM=DB::select('SELECT (select COUNT(exp_formacion_integral.id_alumno)
                       FROM exp_formacion_integral
                       JOIN exp_generales ON exp_generales.id_alumno=exp_formacion_integral.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_formacion_integral.usas_lentes=1) as SI,(select COUNT(exp_formacion_integral.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_formacion_integral.usas_lentes=1) as SI,(select COUNT(exp_formacion_integral.id_alumno)
                       FROM exp_formacion_integral
                       JOIN exp_generales ON exp_generales.id_alumno=exp_formacion_integral.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_formacion_integral.usas_lentes=2) as NOO');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_formacion_integral.usas_lentes=2) as NOO', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
 
         $medgen=DB::select('SELECT (select COUNT(exp_formacion_integral.id_alumno)
                       FROM exp_formacion_integral
                       JOIN exp_generales ON exp_generales.id_alumno=exp_formacion_integral.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_formacion_integral.medicamento_controlado=1) as SI,(select COUNT(exp_formacion_integral.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_formacion_integral.medicamento_controlado=1) as SI,(select COUNT(exp_formacion_integral.id_alumno)
                       FROM exp_formacion_integral
                       JOIN exp_generales ON exp_generales.id_alumno=exp_formacion_integral.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_formacion_integral.medicamento_controlado=2) as NOO');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_formacion_integral.medicamento_controlado=2) as NOO', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
         $medF=DB::select('SELECT (select COUNT(exp_formacion_integral.id_alumno)
                       FROM exp_formacion_integral
                       JOIN exp_generales ON exp_generales.id_alumno=exp_formacion_integral.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_formacion_integral.medicamento_controlado=1) as SI,(select COUNT(exp_formacion_integral.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_formacion_integral.medicamento_controlado=1) as SI,(select COUNT(exp_formacion_integral.id_alumno)
                       FROM exp_formacion_integral
                       JOIN exp_generales ON exp_generales.id_alumno=exp_formacion_integral.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_formacion_integral.medicamento_controlado=2) as NOO');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_formacion_integral.medicamento_controlado=2) as NOO', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
         $medM=DB::select('SELECT (select COUNT(exp_formacion_integral.id_alumno)
                       FROM exp_formacion_integral
                       JOIN exp_generales ON exp_generales.id_alumno=exp_formacion_integral.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_formacion_integral.medicamento_controlado=1) as SI,(select COUNT(exp_formacion_integral.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_formacion_integral.medicamento_controlado=1) as SI,(select COUNT(exp_formacion_integral.id_alumno)
                       FROM exp_formacion_integral
                       JOIN exp_generales ON exp_generales.id_alumno=exp_formacion_integral.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_formacion_integral.medicamento_controlado=2) as NOO');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_formacion_integral.medicamento_controlado=2) as NOO', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
 
         return response()->json(
             [
@@ -1807,580 +1807,580 @@ class Tutorias_GraficasGeneracionController extends Controller
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_area_psicopedagogica.trabajo_equipo=1) as E,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_area_psicopedagogica.trabajo_equipo=1) as E,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_area_psicopedagogica.trabajo_equipo=2) as MB, (select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_area_psicopedagogica.trabajo_equipo=2) as MB, (select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_area_psicopedagogica.trabajo_equipo=3) as B,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_area_psicopedagogica.trabajo_equipo=3) as B,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_area_psicopedagogica.trabajo_equipo=4) as R,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_area_psicopedagogica.trabajo_equipo=4) as R,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_area_psicopedagogica.trabajo_equipo=5) as M');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_area_psicopedagogica.trabajo_equipo=5) as M', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
 
         $traeF=DB::select('SELECT (select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_area_psicopedagogica.trabajo_equipo=1) as E,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_area_psicopedagogica.trabajo_equipo=1) as E,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_area_psicopedagogica.trabajo_equipo=2) as MB, (select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_area_psicopedagogica.trabajo_equipo=2) as MB, (select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_area_psicopedagogica.trabajo_equipo=3) as B,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_area_psicopedagogica.trabajo_equipo=3) as B,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_area_psicopedagogica.trabajo_equipo=4) as R,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_area_psicopedagogica.trabajo_equipo=4) as R,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_area_psicopedagogica.trabajo_equipo=5) as M');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_area_psicopedagogica.trabajo_equipo=5) as M', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
         $traeM=DB::select('SELECT (select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_area_psicopedagogica.trabajo_equipo=1) as E,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_area_psicopedagogica.trabajo_equipo=1) as E,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_area_psicopedagogica.trabajo_equipo=2) as MB, (select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_area_psicopedagogica.trabajo_equipo=2) as MB, (select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_area_psicopedagogica.trabajo_equipo=3) as B,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_area_psicopedagogica.trabajo_equipo=3) as B,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_area_psicopedagogica.trabajo_equipo=4) as R,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_area_psicopedagogica.trabajo_equipo=4) as R,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_area_psicopedagogica.trabajo_equipo=5) as M');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_area_psicopedagogica.trabajo_equipo=5) as M', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
 
         $rengen=DB::select('SELECT (select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_area_psicopedagogica.rendimiento_escolar=1) as E,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_area_psicopedagogica.rendimiento_escolar=1) as E,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_area_psicopedagogica.rendimiento_escolar=2) as MB, (select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_area_psicopedagogica.rendimiento_escolar=2) as MB, (select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_area_psicopedagogica.rendimiento_escolar=3) as B,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_area_psicopedagogica.rendimiento_escolar=3) as B,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_area_psicopedagogica.rendimiento_escolar=4) as R,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_area_psicopedagogica.rendimiento_escolar=4) as R,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_area_psicopedagogica.rendimiento_escolar=5) as M');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_area_psicopedagogica.rendimiento_escolar=5) as M', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
 
         $renF=DB::select('SELECT (select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_area_psicopedagogica.rendimiento_escolar=1) as E,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_area_psicopedagogica.rendimiento_escolar=1) as E,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_area_psicopedagogica.rendimiento_escolar=2) as MB, (select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_area_psicopedagogica.rendimiento_escolar=2) as MB, (select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_area_psicopedagogica.rendimiento_escolar=3) as B,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_area_psicopedagogica.rendimiento_escolar=3) as B,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_area_psicopedagogica.rendimiento_escolar=4) as R,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_area_psicopedagogica.rendimiento_escolar=4) as R,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_area_psicopedagogica.rendimiento_escolar=5) as M');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_area_psicopedagogica.rendimiento_escolar=5) as M', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
         $renM=DB::select('SELECT (select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_area_psicopedagogica.rendimiento_escolar=1) as E,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_area_psicopedagogica.rendimiento_escolar=1) as E,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_area_psicopedagogica.rendimiento_escolar=2) as MB, (select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_area_psicopedagogica.rendimiento_escolar=2) as MB, (select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_area_psicopedagogica.rendimiento_escolar=3) as B,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_area_psicopedagogica.rendimiento_escolar=3) as B,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_area_psicopedagogica.rendimiento_escolar=4) as R,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_area_psicopedagogica.rendimiento_escolar=4) as R,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_area_psicopedagogica.rendimiento_escolar=5) as M');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_area_psicopedagogica.rendimiento_escolar=5) as M', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
         $comgen=DB::select('SELECT (select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_area_psicopedagogica.conocimiento_compu=1) as E,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_area_psicopedagogica.conocimiento_compu=1) as E,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_area_psicopedagogica.conocimiento_compu=2) as MB, (select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_area_psicopedagogica.conocimiento_compu=2) as MB, (select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_area_psicopedagogica.conocimiento_compu=3) as B,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_area_psicopedagogica.conocimiento_compu=3) as B,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_area_psicopedagogica.conocimiento_compu=4) as R,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_area_psicopedagogica.conocimiento_compu=4) as R,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_area_psicopedagogica.conocimiento_compu=5) as M');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_area_psicopedagogica.conocimiento_compu=5) as M', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
 
         $comF=DB::select('SELECT (select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_area_psicopedagogica.conocimiento_compu=1) as E,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_area_psicopedagogica.conocimiento_compu=1) as E,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_area_psicopedagogica.conocimiento_compu=2) as MB, (select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_area_psicopedagogica.conocimiento_compu=2) as MB, (select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_area_psicopedagogica.conocimiento_compu=3) as B,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_area_psicopedagogica.conocimiento_compu=3) as B,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_area_psicopedagogica.conocimiento_compu=4) as R,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_area_psicopedagogica.conocimiento_compu=4) as R,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_area_psicopedagogica.conocimiento_compu=5) as M');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_area_psicopedagogica.conocimiento_compu=5) as M', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
         $comM=DB::select('SELECT (select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_area_psicopedagogica.conocimiento_compu=1) as E,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_area_psicopedagogica.conocimiento_compu=1) as E,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_area_psicopedagogica.conocimiento_compu=2) as MB, (select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_area_psicopedagogica.conocimiento_compu=2) as MB, (select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_area_psicopedagogica.conocimiento_compu=3) as B,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_area_psicopedagogica.conocimiento_compu=3) as B,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_area_psicopedagogica.conocimiento_compu=4) as R,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_area_psicopedagogica.conocimiento_compu=4) as R,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_area_psicopedagogica.conocimiento_compu=5) as M');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_area_psicopedagogica.conocimiento_compu=5) as M', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
         $retgen=DB::select('SELECT (select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_area_psicopedagogica.comprension=1) as E,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_area_psicopedagogica.comprension=1) as E,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_area_psicopedagogica.comprension=2) as MB, (select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_area_psicopedagogica.comprension=2) as MB, (select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_area_psicopedagogica.comprension=3) as B,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_area_psicopedagogica.comprension=3) as B,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_area_psicopedagogica.comprension=4) as R,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_area_psicopedagogica.comprension=4) as R,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_area_psicopedagogica.comprension=5) as M');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_area_psicopedagogica.comprension=5) as M', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
 
         $retF=DB::select('SELECT (select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN  gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_area_psicopedagogica.comprension=1) as E,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_area_psicopedagogica.comprension=1) as E,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN  gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_area_psicopedagogica.comprension=2) as MB, (select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_area_psicopedagogica.comprension=2) as MB, (select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN  gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_area_psicopedagogica.comprension=3) as B,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_area_psicopedagogica.comprension=3) as B,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN  gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_area_psicopedagogica.comprension=4) as R,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_area_psicopedagogica.comprension=4) as R,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN  gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_area_psicopedagogica.comprension=5) as M');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_area_psicopedagogica.comprension=5) as M', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
         $retM=DB::select('SELECT (select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_area_psicopedagogica.comprension=1) as E,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_area_psicopedagogica.comprension=1) as E,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_area_psicopedagogica.comprension=2) as MB, (select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_area_psicopedagogica.comprension=2) as MB, (select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_area_psicopedagogica.comprension=3) as B,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_area_psicopedagogica.comprension=3) as B,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_area_psicopedagogica.comprension=4) as R,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_area_psicopedagogica.comprension=4) as R,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_area_psicopedagogica.comprension=5) as M');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_area_psicopedagogica.comprension=5) as M', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
 
         $exagen=DB::select('SELECT (select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_area_psicopedagogica.preparacion=1) as E,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_area_psicopedagogica.preparacion=1) as E,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_area_psicopedagogica.preparacion=2) as MB, (select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_area_psicopedagogica.preparacion=2) as MB, (select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_area_psicopedagogica.preparacion=3) as B,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_area_psicopedagogica.preparacion=3) as B,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_area_psicopedagogica.preparacion=4) as R,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_area_psicopedagogica.preparacion=4) as R,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_area_psicopedagogica.preparacion=5) as M');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_area_psicopedagogica.preparacion=5) as M', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
 
         $exaF=DB::select('SELECT (select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_area_psicopedagogica.preparacion=1) as E,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_area_psicopedagogica.preparacion=1) as E,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_area_psicopedagogica.preparacion=2) as MB, (select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_area_psicopedagogica.preparacion=2) as MB, (select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_area_psicopedagogica.preparacion=3) as B,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_area_psicopedagogica.preparacion=3) as B,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_area_psicopedagogica.preparacion=4) as R,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_area_psicopedagogica.preparacion=4) as R,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_area_psicopedagogica.preparacion=5) as M');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_area_psicopedagogica.preparacion=5) as M', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
         $exaM=DB::select('SELECT (select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_area_psicopedagogica.preparacion=1) as E,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_area_psicopedagogica.preparacion=1) as E,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_area_psicopedagogica.preparacion=2) as MB, (select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_area_psicopedagogica.preparacion=2) as MB, (select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_area_psicopedagogica.preparacion=3) as B,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_area_psicopedagogica.preparacion=3) as B,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_area_psicopedagogica.preparacion=4) as R,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_area_psicopedagogica.preparacion=4) as R,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_area_psicopedagogica.preparacion=5) as M');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_area_psicopedagogica.preparacion=5) as M', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
         $congen=DB::select('SELECT (select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_area_psicopedagogica.concentracion=1) as E,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_area_psicopedagogica.concentracion=1) as E,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_area_psicopedagogica.concentracion=2) as MB, (select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_area_psicopedagogica.concentracion=2) as MB, (select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_area_psicopedagogica.concentracion=3) as B,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_area_psicopedagogica.concentracion=3) as B,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_area_psicopedagogica.concentracion=4) as R,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_area_psicopedagogica.concentracion=4) as R,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_area_psicopedagogica.concentracion=5) as M');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_area_psicopedagogica.concentracion=5) as M', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
 
         $conF=DB::select('SELECT (select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_area_psicopedagogica.concentracion=1) as E,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_area_psicopedagogica.concentracion=1) as E,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_area_psicopedagogica.concentracion=2) as MB, (select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_area_psicopedagogica.concentracion=2) as MB, (select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_area_psicopedagogica.concentracion=3) as B,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_area_psicopedagogica.concentracion=3) as B,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_area_psicopedagogica.concentracion=4) as R,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_area_psicopedagogica.concentracion=4) as R,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_area_psicopedagogica.concentracion=5) as M');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_area_psicopedagogica.concentracion=5) as M', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
         $conM=DB::select('SELECT (select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_area_psicopedagogica.concentracion=1) as E,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_area_psicopedagogica.concentracion=1) as E,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_area_psicopedagogica.concentracion=2) as MB, (select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_area_psicopedagogica.concentracion=2) as MB, (select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_area_psicopedagogica.concentracion=3) as B,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_area_psicopedagogica.concentracion=3) as B,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_area_psicopedagogica.concentracion=4) as R,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_area_psicopedagogica.concentracion=4) as R,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_area_psicopedagogica.concentracion=5) as M');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_area_psicopedagogica.concentracion=5) as M', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
         $bbgen=DB::select('SELECT (select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_area_psicopedagogica.busqueda_bibliografica=1) as E,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_area_psicopedagogica.busqueda_bibliografica=1) as E,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_area_psicopedagogica.busqueda_bibliografica=2) as MB, (select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_area_psicopedagogica.busqueda_bibliografica=2) as MB, (select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_area_psicopedagogica.busqueda_bibliografica=3) as B,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_area_psicopedagogica.busqueda_bibliografica=3) as B,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_area_psicopedagogica.busqueda_bibliografica=4) as R,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_area_psicopedagogica.busqueda_bibliografica=4) as R,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_area_psicopedagogica.busqueda_bibliografica=5) as M');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_area_psicopedagogica.busqueda_bibliografica=5) as M', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
 
         $bbF=DB::select('SELECT (select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN  gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_area_psicopedagogica.busqueda_bibliografica=1) as E,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_area_psicopedagogica.busqueda_bibliografica=1) as E,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN  gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_area_psicopedagogica.busqueda_bibliografica=2) as MB, (select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_area_psicopedagogica.busqueda_bibliografica=2) as MB, (select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN  gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_area_psicopedagogica.busqueda_bibliografica=3) as B,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_area_psicopedagogica.busqueda_bibliografica=3) as B,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN  gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_area_psicopedagogica.busqueda_bibliografica=4) as R,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_area_psicopedagogica.busqueda_bibliografica=4) as R,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN  gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_area_psicopedagogica.busqueda_bibliografica=5) as M');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_area_psicopedagogica.busqueda_bibliografica=5) as M', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
         $bbM=DB::select('SELECT (select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN  gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_area_psicopedagogica.busqueda_bibliografica=1) as E,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_area_psicopedagogica.busqueda_bibliografica=1) as E,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN  gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_area_psicopedagogica.busqueda_bibliografica=2) as MB, (select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_area_psicopedagogica.busqueda_bibliografica=2) as MB, (select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN  gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_area_psicopedagogica.busqueda_bibliografica=3) as B,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_area_psicopedagogica.busqueda_bibliografica=3) as B,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN  gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_area_psicopedagogica.busqueda_bibliografica=4) as R,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_area_psicopedagogica.busqueda_bibliografica=4) as R,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN  gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_area_psicopedagogica.busqueda_bibliografica=5) as M');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_area_psicopedagogica.busqueda_bibliografica=5) as M', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
         $oigen=DB::select('SELECT (select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN  gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_area_psicopedagogica.otro_idioma=1) as E,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_area_psicopedagogica.otro_idioma=1) as E,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN  gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_area_psicopedagogica.otro_idioma=2) as MB, (select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_area_psicopedagogica.otro_idioma=2) as MB, (select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN  gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_area_psicopedagogica.otro_idioma=3) as B,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_area_psicopedagogica.otro_idioma=3) as B,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN  gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_area_psicopedagogica.otro_idioma=4) as R,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_area_psicopedagogica.otro_idioma=4) as R,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN  gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_area_psicopedagogica.otro_idioma=5) as M');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_area_psicopedagogica.otro_idioma=5) as M', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
 
         $oiF=DB::select('SELECT (select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_area_psicopedagogica.otro_idioma=1) as E,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_area_psicopedagogica.otro_idioma=1) as E,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_area_psicopedagogica.otro_idioma=2) as MB, (select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_area_psicopedagogica.otro_idioma=2) as MB, (select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_area_psicopedagogica.otro_idioma=3) as B,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_area_psicopedagogica.otro_idioma=3) as B,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_area_psicopedagogica.otro_idioma=4) as R,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_area_psicopedagogica.otro_idioma=4) as R,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_area_psicopedagogica.otro_idioma=5) as M');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_area_psicopedagogica.otro_idioma=5) as M', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
         $oiM=DB::select('SELECT (select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_area_psicopedagogica.otro_idioma=1) as E,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_area_psicopedagogica.otro_idioma=1) as E,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_area_psicopedagogica.otro_idioma=2) as MB, (select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_area_psicopedagogica.otro_idioma=2) as MB, (select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_area_psicopedagogica.otro_idioma=3) as B,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_area_psicopedagogica.otro_idioma=3) as B,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_area_psicopedagogica.otro_idioma=4) as R,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_area_psicopedagogica.otro_idioma=4) as R,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_area_psicopedagogica.otro_idioma=5) as M');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_area_psicopedagogica.otro_idioma=5) as M', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
         $spgen=DB::select('SELECT (select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_area_psicopedagogica.solucion_problemas=1) as E,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_area_psicopedagogica.solucion_problemas=1) as E,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_area_psicopedagogica.solucion_problemas=2) as MB, (select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_area_psicopedagogica.solucion_problemas=2) as MB, (select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_area_psicopedagogica.solucion_problemas=3) as B,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_area_psicopedagogica.solucion_problemas=3) as B,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_area_psicopedagogica.solucion_problemas=4) as R,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_area_psicopedagogica.solucion_problemas=4) as R,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_area_psicopedagogica.solucion_problemas=5) as M');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_area_psicopedagogica.solucion_problemas=5) as M', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
 
         $spF=DB::select('SELECT (select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_area_psicopedagogica.solucion_problemas=1) as E,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_area_psicopedagogica.solucion_problemas=1) as E,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_area_psicopedagogica.solucion_problemas=2) as MB, (select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_area_psicopedagogica.solucion_problemas=2) as MB, (select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_area_psicopedagogica.solucion_problemas=3) as B,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_area_psicopedagogica.solucion_problemas=3) as B,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_area_psicopedagogica.solucion_problemas=4) as R,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_area_psicopedagogica.solucion_problemas=4) as R,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="F" AND exp_area_psicopedagogica.solucion_problemas=5) as M');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="F" AND exp_area_psicopedagogica.solucion_problemas=5) as M', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
         $spM=DB::select('SELECT (select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_area_psicopedagogica.solucion_problemas=1) as E,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_area_psicopedagogica.solucion_problemas=1) as E,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_area_psicopedagogica.solucion_problemas=2) as MB, (select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_area_psicopedagogica.solucion_problemas=2) as MB, (select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_area_psicopedagogica.solucion_problemas=3) as B,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_area_psicopedagogica.solucion_problemas=3) as B,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_area_psicopedagogica.solucion_problemas=4) as R,(select COUNT(exp_area_psicopedagogica.id_alumno)
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_area_psicopedagogica.solucion_problemas=4) as R,(select COUNT(exp_area_psicopedagogica.id_alumno)
                       FROM exp_area_psicopedagogica
                       JOIN exp_generales ON exp_generales.id_alumno=exp_area_psicopedagogica.id_alumno
                       JOIN gnral_alumnos ON gnral_alumnos.id_alumno=exp_generales.id_alumno
-                      WHERE  exp_generales.id_carrera='.$request->id_carrera.' AND SUBSTRING(gnral_alumnos.cuenta,1,4)='.$request->generacion.' AND exp_generales.sexo="M" AND exp_area_psicopedagogica.solucion_problemas=5) as M');
+                      WHERE  exp_generales.id_carrera= ? AND SUBSTRING(gnral_alumnos.cuenta,1,4)= ? AND exp_generales.sexo="M" AND exp_area_psicopedagogica.solucion_problemas=5) as M', [$request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion, $request->id_carrera, $request->generacion]);
 
 
         return response()->json(

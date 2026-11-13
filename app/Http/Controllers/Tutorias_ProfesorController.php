@@ -36,8 +36,8 @@ class Tutorias_ProfesorController extends Controller
 
 
         $datos->map(function ($value, $key) {
-            $gen=DB::selectOne('SELECT count(id_carrera)contar from exp_generales where id_alumno='.$value->id_alumno.'
- and id_carrera>0');
+            $gen=DB::selectOne('SELECT count(id_carrera)contar from exp_generales where id_alumno= ?
+ and id_carrera>0', [$value->id_alumno]);
            // $gen=Tutorias_Exp_generale::where('id_alumno',$value->id_alumno)->count();
             if($gen->contar ==0)
             {
@@ -67,32 +67,32 @@ class Tutorias_ProfesorController extends Controller
         $plan=DB::select('SELECT plan_asigna_planeacion_tutor.id_asigna_generacion,
        plan_asigna_planeacion_tutor.id_plan_actividad, plan_asigna_planeacion_tutor.id_asigna_planeacion_tutor,
        plan_actividades.desc_actividad,plan_actividades.objetivo_actividad,
-       DATE_FORMAT(plan_actividades.fi_actividad,"%d-%m-%Y") as fi_actividad, 
+       DATE_FORMAT(plan_actividades.fi_actividad,"%d-%m-%Y") as fi_actividad,
        DATE_FORMAT(plan_actividades.ff_actividad,"%d-%m-%Y") as ff_actividad,
-       plan_asigna_planeacion_tutor.boton FROM plan_actividades, plan_asigna_planeacion_tutor 
-where plan_actividades.id_plan_actividad = plan_asigna_planeacion_tutor.id_plan_actividad 
-  and plan_asigna_planeacion_tutor.id_asigna_generacion='.$request->id_asigna_generacion.' 
-ORDER by plan_actividades.fi_actividad asc,plan_actividades.ff_actividad asc');
+       plan_asigna_planeacion_tutor.boton FROM plan_actividades, plan_asigna_planeacion_tutor
+where plan_actividades.id_plan_actividad = plan_asigna_planeacion_tutor.id_plan_actividad
+  and plan_asigna_planeacion_tutor.id_asigna_generacion= ?
+ORDER by plan_actividades.fi_actividad asc,plan_actividades.ff_actividad asc', [$request->id_asigna_generacion]);
 
         return $plan;
     }
     public function enviados(Request $request)
     {
         $data['env']=DB::select('SELECT * FROM `plan_asigna_planeacion_tutor`
-WHERE `id_asigna_planeacion_tutor` = '.$request->id_asigna_planeacion_tutor.' ORDER BY `id_asigna_planeacion_tutor` DESC');
+WHERE `id_asigna_planeacion_tutor` = ? ORDER BY `id_asigna_planeacion_tutor` DESC', [$request->id_asigna_planeacion_tutor]);
 
         return $data;
     }
     public function selecciona(Request $request)
     {
-        $id_generacion=DB::selectOne('SELECT * FROM `exp_asigna_generacion` WHERE `id_asigna_generacion` = '.$request->id_asigna_generacion.'');
+        $id_generacion=DB::selectOne('SELECT * FROM `exp_asigna_generacion` WHERE `id_asigna_generacion` = ?', [$request->id_asigna_generacion]);
         $id_generacion=$id_generacion->id_generacion;
         $periodo = Session::get('periodo_actual');
-        $selecc=DB::select('SELECT * FROM `plan_actividades` 
-WHERE `id_generacion` = '.$id_generacion.' AND `id_periodo` = '.$periodo.' AND `id_estado` = 1 
-and id_plan_actividad NOT IN (SELECT id_plan_actividad FROM plan_asigna_planeacion_tutor 
-where id_asigna_generacion = '.$request->id_asigna_generacion.')
-ORDER BY `plan_actividades`.`fi_actividad` ASC ');
+        $selecc=DB::select('SELECT * FROM `plan_actividades`
+WHERE `id_generacion` = ? AND `id_periodo` = ? AND `id_estado` = 1
+and id_plan_actividad NOT IN (SELECT id_plan_actividad FROM plan_asigna_planeacion_tutor
+where id_asigna_generacion = ?)
+ORDER BY `plan_actividades`.`fi_actividad` ASC ', [$id_generacion, $periodo, $request->id_asigna_generacion]);
       /*  $selecc=DB::select('SELECT exp_asigna_generacion.id_asigna_generacion,
                           plan_asigna_planeacion_actividad.id_asigna_planeacion_actividad,
                           plan_actividades.desc_actividad,plan_actividades.objetivo_actividad,
@@ -118,15 +118,15 @@ ORDER BY `plan_actividades`.`fi_actividad` ASC ');
     public  function grupos()
     {
         //dd(Session::get('id_periodo'));
-        $datos=DB::select('SELECT gnral_carreras.id_carrera, gnral_carreras.nombre,exp_generacion.generacion, 
+        $datos=DB::select('SELECT gnral_carreras.id_carrera, gnral_carreras.nombre,exp_generacion.generacion,
                 exp_asigna_generacion.grupo, exp_asigna_generacion.id_asigna_generacion,exp_asigna_tutor.id_asigna_tutor from gnral_jefes_periodos
                 JOIN exp_asigna_tutor on exp_asigna_tutor.id_jefe_periodo=gnral_jefes_periodos.id_jefe_periodo JOIN
                 gnral_personales ON gnral_personales.id_personal=exp_asigna_tutor.id_personal JOIN gnral_carreras on
-                gnral_carreras.id_carrera=gnral_jefes_periodos.id_carrera JOIN exp_asigna_generacion ON 
+                gnral_carreras.id_carrera=gnral_jefes_periodos.id_carrera JOIN exp_asigna_generacion ON
                 exp_asigna_generacion.id_asigna_generacion=exp_asigna_tutor.id_asigna_generacion JOIN exp_generacion
-                ON exp_generacion.id_generacion=exp_asigna_generacion.id_generacion where 
-                gnral_jefes_periodos.id_periodo='.Session::get('periodo_actual').' and 
-                exp_asigna_tutor.deleted_at is null and gnral_personales.tipo_usuario='.Auth::user()->id);
+                ON exp_generacion.id_generacion=exp_asigna_generacion.id_generacion where
+                gnral_jefes_periodos.id_periodo= ? and
+                exp_asigna_tutor.deleted_at is null and gnral_personales.tipo_usuario= ?', [Session::get('periodo_actual'), Auth::user()->id]);
          $array_datos=array();
         foreach($datos as $dato){
             $dat['id_carrera']=$dato->id_carrera;
@@ -135,7 +135,7 @@ ORDER BY `plan_actividades`.`fi_actividad` ASC ');
             $dat['grupo']=$dato->grupo;
             $dat['id_asigna_generacion']=$dato->id_asigna_generacion;
             $dat['id_asigna_tutor']=$dato->id_asigna_tutor;
-            $estado_semestre=DB::selectOne('SELECT count(id_grupo_semestre)contar from tu_grupo_semestre where id_asigna_tutor ='.$dato->id_asigna_tutor.'');
+            $estado_semestre=DB::selectOne('SELECT count(id_grupo_semestre)contar from tu_grupo_semestre where id_asigna_tutor = ?', [$dato->id_asigna_tutor]);
             $estado_semestre=$estado_semestre->contar;
             if($estado_semestre == 0){
                 $dat['estado_semestre']=0;
@@ -145,9 +145,9 @@ ORDER BY `plan_actividades`.`fi_actividad` ASC ');
             }else{
                 $dat['estado_semestre']=1;
                 $grupo=DB::selectOne('SELECT tu_grupo_tutorias.descripcion grupo_semestre,
-       tu_grupo_semestre.id_grupo_semestre,tu_grupo_semestre.id_grupo_tutorias from tu_grupo_semestre, tu_grupo_tutorias where 
-    tu_grupo_tutorias.id_grupo_tutorias = tu_grupo_semestre.id_grupo_tutorias 
-    and tu_grupo_semestre.id_asigna_tutor='.$dato->id_asigna_tutor.'');
+       tu_grupo_semestre.id_grupo_semestre,tu_grupo_semestre.id_grupo_tutorias from tu_grupo_semestre, tu_grupo_tutorias where
+    tu_grupo_tutorias.id_grupo_tutorias = tu_grupo_semestre.id_grupo_tutorias
+    and tu_grupo_semestre.id_asigna_tutor= ?', [$dato->id_asigna_tutor]);
                 $dat['nombre_semestre']=$grupo->grupo_semestre;
                 $dat['id_grupo_semestre']=$grupo->id_grupo_semestre;
                 $dat['id_grupo_tutorias']=$grupo->id_grupo_tutorias ;
@@ -164,7 +164,7 @@ ORDER BY `plan_actividades`.`fi_actividad` ASC ');
     }
     public function cambio(Request $request)
     {
-        DB::update('UPDATE exp_asigna_alumnos set estado='.$request->estado.' where id_asigna_alumno='.$request->id_asigna_alumno);
+        DB::update('UPDATE exp_asigna_alumnos set estado= ? where id_asigna_alumno= ?', [$request->estado, $request->id_asigna_alumno]);
     }
 
     public function ev(Request $request)
@@ -245,8 +245,8 @@ ORDER BY `plan_actividades`.`fi_actividad` ASC ');
                             AND plan_actividades.deleted_at is null
                             AND plan_asigna_planeacion_actividad.deleted_at is null
                             AND exp_asigna_tutor.deleted_at is null
-                            AND exp_asigna_generacion.id_asigna_generacion='.$request->id_gen.'
-                            AND plan_asigna_planeacion_actividad.id_asigna_planeacion_actividad='.$request->id_plan);
+                            AND exp_asigna_generacion.id_asigna_generacion= ?
+                            AND plan_asigna_planeacion_actividad.id_asigna_planeacion_actividad= ?', [$request->id_gen, $request->id_plan]);
 
         return $data;
     }

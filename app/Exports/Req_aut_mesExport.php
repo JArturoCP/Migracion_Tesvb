@@ -19,19 +19,19 @@ class Req_aut_mesExport implements FromView
     public function view():View
     {
         $proyecto = DB::selectOne('SELECT pres_presupuesto_anteproyecto.*,pres_proyectos.nombre_proyecto from pres_presupuesto_anteproyecto, pres_proyectos
-       WHERE pres_presupuesto_anteproyecto.id_proyecto = pres_proyectos.id_proyecto and pres_presupuesto_anteproyecto.id_presupuesto =' . $this->id_presupuesto. ' ');
+       WHERE pres_presupuesto_anteproyecto.id_proyecto = pres_proyectos.id_proyecto and pres_presupuesto_anteproyecto.id_presupuesto = ? ', [$this->id_presupuesto]);
 
-        $fuente_financiamiento=DB::select('SELECT * FROM `pres_fuentes_financiamiento` WHERE `id_presupuesto_ante` = '.$this->id_presupuesto.' 
-        ORDER BY `pres_fuentes_financiamiento`.`id_capitulo` ASC');
+        $fuente_financiamiento=DB::select('SELECT * FROM `pres_fuentes_financiamiento` WHERE `id_presupuesto_ante` = ?
+        ORDER BY `pres_fuentes_financiamiento`.`id_capitulo` ASC', [$this->id_presupuesto]);
         $capitulos=DB::select('SELECT * FROM `pres_capitulos` ORDER BY `pres_capitulos`.`id_capitulo` ASC ');
         $array_cap=array();
         foreach ($capitulos as $capitulo){
             $cap['id_capitulo']=$capitulo->id_capitulo;
             $cap['capitulo']=$capitulo->capitulo;
-            $presupuesto_ante_proy=DB::selectOne('SELECT pres_fuentes_financiamiento.*, pres_capitulos.capitulo from 
+            $presupuesto_ante_proy=DB::selectOne('SELECT pres_fuentes_financiamiento.*, pres_capitulos.capitulo from
                pres_fuentes_financiamiento, pres_capitulos where pres_fuentes_financiamiento.id_capitulo = pres_capitulos.id_capitulo and
-                pres_capitulos.id_capitulo='.$capitulo->id_capitulo.'
-                and pres_fuentes_financiamiento.id_presupuesto_ante = '.$this->id_presupuesto.' ORDER BY `pres_fuentes_financiamiento`.`id_capitulo` ASC');
+                pres_capitulos.id_capitulo= ?
+                and pres_fuentes_financiamiento.id_presupuesto_ante = ? ORDER BY `pres_fuentes_financiamiento`.`id_capitulo` ASC', [$capitulo->id_capitulo, $this->id_presupuesto]);
 
             if($presupuesto_ante_proy == null){
                 $cap['id_fuente_financiamiento'] = 0;
@@ -66,7 +66,7 @@ class Req_aut_mesExport implements FromView
         $contar_numero_partida=0;
         foreach($fuente_financiamiento as $presupuesto){
 
-            $contar_partida=DB::selectOne('SELECT count(id_partida_pres)contar from pres_partida_pres WHERE id_capitulo ='.$presupuesto->id_capitulo.'');
+            $contar_partida=DB::selectOne('SELECT count(id_partida_pres)contar from pres_partida_pres WHERE id_capitulo = ?', [$presupuesto->id_capitulo]);
 
             if($contar_partida->contar == 0){
                 $contar_partida=0;
@@ -90,8 +90,8 @@ class Req_aut_mesExport implements FromView
                 $dat_cap['financiamiento_propios']=$presupuesto->financiamiento_propios;
                 $dat_cap['total_financiamiento']=$presupuesto->total_financiamiento;
 
-                $partidas=DB::select('SELECT pres_partida_pres.* from pres_partida_pres 
-               WHERE id_capitulo = '.$presupuesto->id_capitulo.' ORDER BY `clave_presupuestal` ASC');
+                $partidas=DB::select('SELECT pres_partida_pres.* from pres_partida_pres
+               WHERE id_capitulo = ? ORDER BY `clave_presupuestal` ASC', [$presupuesto->id_capitulo]);
 
 
                 $array_partidas=array();
@@ -101,21 +101,21 @@ class Req_aut_mesExport implements FromView
                     $dat_p['nombre_partida']= $partida->nombre_partida;
                     $dat_p['clave_presupuestal']= $partida->clave_presupuestal;
 
-                    $meses=DB::select('SELECT * FROM `pres_mes` WHERE `id_mes` = '.$this->id_mes.' ');
+                    $meses=DB::select('SELECT * FROM `pres_mes` WHERE `id_mes` = ? ', [$this->id_mes]);
                     $array_meses=array();
                     $suma_total_mes=0;
                     foreach ($meses as $mes){
                         $dat_meses['id_mes']=$mes->id_mes;
                         $dat_meses['mes']=$mes->mes;
                         $requisiciones=DB::select('SELECT pres_actividades_req_ante.* from pres_actividades_req_ante,
-                       pres_req_mat_ante where pres_actividades_req_ante.id_proyecto = '.$proyecto->id_proyecto.' and pres_actividades_req_ante.id_partida_pres = '.$partida->id_partida_pres.' 
-                       and pres_actividades_req_ante.id_mes  = '.$mes->id_mes.' and pres_actividades_req_ante.id_autorizacion= 4
-                        and pres_req_mat_ante.id_req_mat_ante = pres_actividades_req_ante.id_req_mat_ante and  pres_req_mat_ante.year_requisicion= '.$proyecto->year.' ');
+                       pres_req_mat_ante where pres_actividades_req_ante.id_proyecto = ? and pres_actividades_req_ante.id_partida_pres = ?
+                       and pres_actividades_req_ante.id_mes  = ? and pres_actividades_req_ante.id_autorizacion= 4
+                        and pres_req_mat_ante.id_req_mat_ante = pres_actividades_req_ante.id_req_mat_ante and  pres_req_mat_ante.year_requisicion= ? ', [$proyecto->id_proyecto, $partida->id_partida_pres, $mes->id_mes, $proyecto->year]);
 
                         $suma_req1=0;
                         $array_req=array();
                         foreach ($requisiciones as $requisicion){
-                            $suma_req=DB::selectOne('SELECT SUM(importe) suma_material from pres_reg_material_req_ante WHERE id_actividades_req_ante = '.$requisicion->id_actividades_req_ante.'');
+                            $suma_req=DB::selectOne('SELECT SUM(importe) suma_material from pres_reg_material_req_ante WHERE id_actividades_req_ante = ?', [$requisicion->id_actividades_req_ante]);
 
                             if($suma_req== null ){
                                 $dat_req['id_actividades_req_ante']=$requisicion->id_actividades_req_ante;
@@ -169,11 +169,11 @@ class Req_aut_mesExport implements FromView
 
 
         $proyecto = DB::selectOne('SELECT pres_presupuesto_anteproyecto.*,pres_proyectos.nombre_proyecto from pres_presupuesto_anteproyecto, pres_proyectos
-       WHERE pres_presupuesto_anteproyecto.id_proyecto = pres_proyectos.id_proyecto and pres_presupuesto_anteproyecto.id_presupuesto =' . $this->id_presupuesto . ' ');
+       WHERE pres_presupuesto_anteproyecto.id_proyecto = pres_proyectos.id_proyecto and pres_presupuesto_anteproyecto.id_presupuesto = ? ', [$this->id_presupuesto]);
        $id_presupuesto=$this->id_presupuesto;
         $id_mes=$this->id_mes;
         $etiqueta=DB::selectOne('SELECT * FROM `etiqueta` WHERE `id_etiqueta` = 1');
-        $mes=DB::selectOne('SELECT * FROM `pres_mes` WHERE `id_mes` = '.$id_mes.' ');
+        $mes=DB::selectOne('SELECT * FROM `pres_mes` WHERE `id_mes` = ? ', [$id_mes]);
 return view('departamento_finanzas.exceles.excel_anteproyecto_aut_mes',compact('id_presupuesto','array_cap','array_capitulos','id_mes','etiqueta','proyecto','mes'));
     }
 }

@@ -114,9 +114,9 @@ class Cal_pdf_acta_dualController extends Controller
             $datos_alumnos['semestre']=$materias->semestre;
             $datos_alumnos['clave']=$materias->clave;
 
-            $materia_promedio=DB::selectOne('SELECT SUM(calificacion) suma FROM `cal_evaluaciones` WHERE `id_carga_academica` ='.$materias->id_carga_academica.' and calificacion >=70');
+            $materia_promedio=DB::selectOne('SELECT SUM(calificacion) suma FROM `cal_evaluaciones` WHERE `id_carga_academica` = ? and calificacion >=70', [$materias->id_carga_academica]);
             $materia_promedio=$materia_promedio->suma;
-            $contar_unidades_pasadas=DB::selectOne('SELECT count(calificacion) suma FROM `cal_evaluaciones` WHERE `id_carga_academica` = '.$materias->id_carga_academica.' and calificacion >=70');
+            $contar_unidades_pasadas=DB::selectOne('SELECT count(calificacion) suma FROM `cal_evaluaciones` WHERE `id_carga_academica` = ? and calificacion >=70', [$materias->id_carga_academica]);
             $contar_unidades_pasadas=$contar_unidades_pasadas->suma;
             if($contar_unidades_pasadas ==$materias->unidades){
                 if($materia_promedio == 0){

@@ -96,9 +96,9 @@ class Resi_pdf_dictamen_anteproyectoController extends Controller
         //CARRERA
         $id_usuario = Session::get('usuario_alumno');
         $periodo = Session::get('periodo_actual');
-        $datosalumno=DB::selectOne('select * FROM gnral_alumnos WHERE id_usuario='.$id_usuario.'');
-        $anteproyectos=DB::selectOne('SELECT resi_anteproyecto.*,resi_proyecto.nom_proyecto,resi_proyecto.id_tipo_proyecto FROM resi_anteproyecto,resi_proyecto 
-WHERE resi_proyecto.id_proyecto=resi_anteproyecto.id_proyecto and resi_anteproyecto.id_alumno='.$datosalumno->id_alumno.' and resi_anteproyecto.id_periodo='.$periodo.'');
+        $datosalumno=DB::selectOne('select * FROM gnral_alumnos WHERE id_usuario= ?', [$id_usuario]);
+        $anteproyectos=DB::selectOne('SELECT resi_anteproyecto.*,resi_proyecto.nom_proyecto,resi_proyecto.id_tipo_proyecto FROM resi_anteproyecto,resi_proyecto
+WHERE resi_proyecto.id_proyecto=resi_anteproyecto.id_proyecto and resi_anteproyecto.id_alumno= ? and resi_anteproyecto.id_periodo= ?', [$datosalumno->id_alumno, $periodo]);
 
        //dd($anteproyectos);
 
@@ -112,7 +112,7 @@ WHERE resi_proyecto.id_proyecto=resi_anteproyecto.id_proyecto and resi_anteproye
       $redondear_nombre=$redondear_nombre*5;
       //////////
         /// empresa
-        $empresa=DB::selectOne('select resi_proy_empresa.*,resi_empresa.* from resi_proy_empresa,resi_empresa where resi_proy_empresa.id_empresa=resi_empresa.id_empresa and resi_proy_empresa.id_anteproyecto='.$anteproyectos->id_anteproyecto.'');
+        $empresa=DB::selectOne('select resi_proy_empresa.*,resi_empresa.* from resi_proy_empresa,resi_empresa where resi_proy_empresa.id_empresa=resi_empresa.id_empresa and resi_proy_empresa.id_anteproyecto= ?', [$anteproyectos->id_anteproyecto]);
        //dd($empresa);
         $nombre_empresa=str_replace("[\n|\r|\n\r]",'',$empresa->nombre);
         $domicilio_empresa=str_replace("[\n|\r|\n\r]",'',$empresa->domicilio);
@@ -128,7 +128,7 @@ WHERE resi_proyecto.id_proyecto=resi_anteproyecto.id_proyecto and resi_anteproye
         $nombre_alumno='C.'.$datosalumno->nombre.' '.$datosalumno->apaterno.' '.$datosalumno->amaterno;
        // dd($datosalumno);
        $id_carrera=$datosalumno->id_carrera;
-       $carrera=DB::selectOne('SELECT * FROM gnral_carreras WHERE id_carrera ='.$id_carrera.'');
+       $carrera=DB::selectOne('SELECT * FROM gnral_carreras WHERE id_carrera = ?', [$id_carrera]);
         $carrera=$carrera->nombre;
 
         $pdf=new PDF_Resi_pdf_dictamen_anteproyectoController($orientation='P',$unit='mm',$format='Letter');
@@ -291,15 +291,15 @@ WHERE resi_proyecto.id_proyecto=resi_anteproyecto.id_proyecto and resi_anteproye
         $pdf->Cell(110,5,utf8_decode($nombre_alumno),1,1,'C');
         $pdf->AddPage();
         $id_anteproyecto=$anteproyectos->id_anteproyecto;
-        $objetivos=DB::selectOne('SELECT * FROM resi_objetivos WHERE id_anteproyecto = '.$id_anteproyecto.'');
+        $objetivos=DB::selectOne('SELECT * FROM resi_objetivos WHERE id_anteproyecto = ?', [$id_anteproyecto]);
         $objetivo_general=$objetivos->obj_general;
         $objetivo_especifico=$objetivos->obj_especifico;
-        $alcances=DB::selectOne('SELECT * FROM resi_alcances WHERE id_anteproyecto = '.$id_anteproyecto.'');
+        $alcances=DB::selectOne('SELECT * FROM resi_alcances WHERE id_anteproyecto = ?', [$id_anteproyecto]);
         $alcance=$alcances->alcances;
         $delimitacion=$alcances->limitaciones;
-        $justificacion=DB::selectOne('SELECT * FROM resi_justificacion WHERE id_anteproyecto = '.$id_anteproyecto.'');
+        $justificacion=DB::selectOne('SELECT * FROM resi_justificacion WHERE id_anteproyecto = ?', [$id_anteproyecto]);
         $justificacion=$justificacion->justificacion;
-        $marco_teorico=DB::selectOne('SELECT * FROM resi_marco_teorico WHERE id_anteproyecto = '.$id_anteproyecto.'');
+        $marco_teorico=DB::selectOne('SELECT * FROM resi_marco_teorico WHERE id_anteproyecto = ?', [$id_anteproyecto]);
         $marco_teorico=$marco_teorico->marco_teorico;
 
         $pdf->Ln(5);
@@ -332,7 +332,7 @@ WHERE resi_proyecto.id_proyecto=resi_anteproyecto.id_proyecto and resi_anteproye
         $pdf->Cell(115,5,"Actividad",1,1,'C',true);
 
 
-        $cronogramas=DB::select('SELECT * FROM resi_cronograma WHERE id_anteproyecto = '.$id_anteproyecto.' ORDER BY resi_cronograma.no_semana ASC');
+        $cronogramas=DB::select('SELECT * FROM resi_cronograma WHERE id_anteproyecto = ? ORDER BY resi_cronograma.no_semana ASC', [$id_anteproyecto]);
       // dd($cronogramas);
         foreach ($cronogramas as $cronograma){
             $actividad=str_replace("[\n|\r|\n\r]",'',$cronograma->actividad);

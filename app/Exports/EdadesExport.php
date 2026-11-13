@@ -35,9 +35,9 @@ class EdadesExport implements FromArray, WithTitle
         $periodo=Session::get('periodo_actual');
         $tot_edades=0;
 
-        $datos_edades=DB::select('SELECT COUNT(gnral_alumnos.id_alumno) cantidad,edad FROM gnral_alumnos, eva_validacion_de_cargas WHERE 
- eva_validacion_de_cargas.id_alumno=gnral_alumnos.id_alumno and eva_validacion_de_cargas.id_periodo='.$periodo.' and gnral_alumnos.id_carrera='.$this->id_carrera.'
-  and eva_validacion_de_cargas.estado_validacion  IN (2,8,9)and   edad!=\'\'GROUP BY edad');
+        $datos_edades=DB::select('SELECT COUNT(gnral_alumnos.id_alumno) cantidad,edad FROM gnral_alumnos, eva_validacion_de_cargas WHERE
+ eva_validacion_de_cargas.id_alumno=gnral_alumnos.id_alumno and eva_validacion_de_cargas.id_periodo= ? and gnral_alumnos.id_carrera= ?
+  and eva_validacion_de_cargas.estado_validacion  IN (2,8,9)and   edad!=\'\'GROUP BY edad', [$periodo, $this->id_carrera]);
         $array_edades=array();
         foreach ($datos_edades as $dato)
         {

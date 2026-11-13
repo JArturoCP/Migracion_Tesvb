@@ -11,16 +11,16 @@ class Ti_autorizar_dat_personalesController extends Controller
 {
 
     public function index(){
-        $carreras=DB::select('SELECT * FROM `gnral_carreras` WHERE `id_carrera` 
+        $carreras=DB::select('SELECT * FROM `gnral_carreras` WHERE `id_carrera`
                                          NOT IN (9,11,15) ');
 
         return view('titulacion.jefe_titulacion.autorizar_seg_parte.carreras_seg_parte',compact('carreras'));
     }
     public function carrera_alum_reg_datos($id_carrera){
-        $carrera=DB::selectOne('SELECT * FROM `gnral_carreras` WHERE `id_carrera` = '.$id_carrera.'');
+        $carrera=DB::selectOne('SELECT * FROM `gnral_carreras` WHERE `id_carrera` = ?', [$id_carrera]);
 
-        $registro_alumnos=DB::select('SELECT ti_reg_datos_alum.*, gnral_carreras.nombre carrera FROM ti_reg_datos_alum,gnral_carreras 
-WHERE ti_reg_datos_alum.id_estado_enviado in (1,3) and gnral_carreras.id_carrera=ti_reg_datos_alum.id_carrera and ti_reg_datos_alum.id_carrera='.$id_carrera.' ');
+        $registro_alumnos=DB::select('SELECT ti_reg_datos_alum.*, gnral_carreras.nombre carrera FROM ti_reg_datos_alum,gnral_carreras
+WHERE ti_reg_datos_alum.id_estado_enviado in (1,3) and gnral_carreras.id_carrera=ti_reg_datos_alum.id_carrera and ti_reg_datos_alum.id_carrera= ? ', [$id_carrera]);
 
         return view('titulacion.jefe_titulacion.autorizar_seg_parte.proceso_revision_datos_personales',compact('registro_alumnos','id_carrera','carrera'));
     }
@@ -33,9 +33,9 @@ WHERE ti_reg_datos_alum.id_estado_enviado in (1,3) and gnral_carreras.id_carrera
     gnral_unidad_personal.id_unidad_admin = 28 and
      gnral_personales.id_personal=gnral_unidad_personal.id_personal ');
         $alumno=DB::selectOne('SELECT gnral_alumnos.id_carrera,gnral_alumnos.cuenta,gnral_alumnos.nombre,
-       gnral_alumnos.apaterno,gnral_alumnos.amaterno,ti_reg_datos_alum.correo_electronico 
+       gnral_alumnos.apaterno,gnral_alumnos.amaterno,ti_reg_datos_alum.correo_electronico
 from gnral_alumnos,ti_reg_datos_alum where gnral_alumnos.id_alumno = ti_reg_datos_alum.id_alumno
-                            and ti_reg_datos_alum.id_reg_dato_alum='.$id_reg_dato_alum.'');
+                            and ti_reg_datos_alum.id_reg_dato_alum= ?', [$id_reg_dato_alum]);
         $nombre_alumno="Estudiante: ".$alumno->cuenta.' '.$alumno->nombre.' '.$alumno->apaterno.' '.$alumno->amaterno;
         $correo_alumno=$alumno->correo_electronico;
 
@@ -76,9 +76,9 @@ from gnral_alumnos,ti_reg_datos_alum where gnral_alumnos.id_alumno = ti_reg_dato
     gnral_unidad_personal.id_unidad_admin = 28 and
      gnral_personales.id_personal=gnral_unidad_personal.id_personal ');
         $alumno=DB::selectOne('SELECT gnral_alumnos.id_carrera,gnral_alumnos.cuenta,gnral_alumnos.nombre,
-       gnral_alumnos.apaterno,gnral_alumnos.amaterno,ti_reg_datos_alum.correo_electronico,ti_reg_datos_alum.id_tipo_donacion 
+       gnral_alumnos.apaterno,gnral_alumnos.amaterno,ti_reg_datos_alum.correo_electronico,ti_reg_datos_alum.id_tipo_donacion
 from gnral_alumnos,ti_reg_datos_alum where gnral_alumnos.id_alumno = ti_reg_datos_alum.id_alumno
-                            and ti_reg_datos_alum.id_reg_dato_alum='.$id_reg_dato_alum.'');
+                            and ti_reg_datos_alum.id_reg_dato_alum= ?', [$id_reg_dato_alum]);
 
         $nombre_alumno="Estudiante: ".$alumno->cuenta.' '.$alumno->nombre.' '.$alumno->apaterno.' '.$alumno->amaterno;
         $correo_alumno=$alumno->correo_electronico;
@@ -121,9 +121,9 @@ from gnral_alumnos,ti_reg_datos_alum where gnral_alumnos.id_alumno = ti_reg_dato
     gnral_unidad_personal.id_unidad_admin = 28 and
      gnral_personales.id_personal=gnral_unidad_personal.id_personal ');
         $alumno=DB::selectOne('SELECT gnral_alumnos.id_carrera,gnral_alumnos.cuenta,gnral_alumnos.nombre,
-       gnral_alumnos.apaterno,gnral_alumnos.amaterno,ti_reg_datos_alum.correo_electronico,ti_reg_datos_alum.id_tipo_donacion 
+       gnral_alumnos.apaterno,gnral_alumnos.amaterno,ti_reg_datos_alum.correo_electronico,ti_reg_datos_alum.id_tipo_donacion
 from gnral_alumnos,ti_reg_datos_alum where gnral_alumnos.id_alumno = ti_reg_datos_alum.id_alumno
-                            and ti_reg_datos_alum.id_reg_dato_alum='.$id_reg_dato_alum.'');
+                            and ti_reg_datos_alum.id_reg_dato_alum= ?', [$id_reg_dato_alum]);
 
         $nombre_alumno="Estudiante: ".$alumno->cuenta.' '.$alumno->nombre.' '.$alumno->apaterno.' '.$alumno->amaterno;
         $correo_alumno=$alumno->correo_electronico;
@@ -195,12 +195,12 @@ from gnral_alumnos,ti_reg_datos_alum where gnral_alumnos.id_alumno = ti_reg_dato
         return redirect('/titulacion/autorizar_datos_personales');
     }
     public function autorizacion_entrega_cd(){
-        $alumnos=DB::select('SELECT ti_reg_datos_alum.*, ti_opciones_titulacion.opcion_titulacion 
-FROM ti_reg_datos_alum, ti_opciones_titulacion WHERE ti_reg_datos_alum.id_opcion_titulacion = ti_opciones_titulacion.id_opcion_titulacion 
+        $alumnos=DB::select('SELECT ti_reg_datos_alum.*, ti_opciones_titulacion.opcion_titulacion
+FROM ti_reg_datos_alum, ti_opciones_titulacion WHERE ti_reg_datos_alum.id_opcion_titulacion = ti_opciones_titulacion.id_opcion_titulacion
             and ti_reg_datos_alum.id_estado_enviado = 4 ORDER by ti_reg_datos_alum.apaterno desc,ti_reg_datos_alum.amaterno desc,ti_reg_datos_alum.nombre_al desc');
 
-        $registro_titulacion=DB::select('SELECT ti_reg_datos_alum.*, ti_opciones_titulacion.opcion_titulacion  
-FROM ti_reg_datos_alum,ti_opciones_titulacion WHERE ti_opciones_titulacion.id_opcion_titulacion= ti_reg_datos_alum.id_opcion_titulacion 
+        $registro_titulacion=DB::select('SELECT ti_reg_datos_alum.*, ti_opciones_titulacion.opcion_titulacion
+FROM ti_reg_datos_alum,ti_opciones_titulacion WHERE ti_opciones_titulacion.id_opcion_titulacion= ti_reg_datos_alum.id_opcion_titulacion
                                                 and  ti_reg_datos_alum.id_estado_enviado = 5  and ti_reg_datos_alum.id_enviado_biblioteca = 0
 ORDER by ti_reg_datos_alum.apaterno desc,ti_reg_datos_alum.amaterno desc,ti_reg_datos_alum.nombre_al desc');
 
@@ -212,10 +212,10 @@ ORDER by ti_reg_datos_alum.apaterno desc,ti_reg_datos_alum.amaterno desc,ti_reg_
             $dat['nombre']=$registro_titulacion->nombre_al.' '.$registro_titulacion->apaterno.' '.$registro_titulacion->amaterno;
             $dat['id_enviado_biblioteca']=$registro_titulacion->id_enviado_biblioteca;
             $dat['id_alumno']=$registro_titulacion->id_alumno;
-            $datos=DB::selectOne('SELECT * FROM `ti_fecha_jurado_alumn` WHERE `id_alumno` ='.$registro_titulacion->id_alumno.'');
+            $datos=DB::selectOne('SELECT * FROM `ti_fecha_jurado_alumn` WHERE `id_alumno` = ?', [$registro_titulacion->id_alumno]);
 
-            $presidente=DB::selectOne('SELECT * FROM `gnral_personales` WHERE `id_personal` ='.$datos->asesor.'');
-            $secretario=DB::selectOne('SELECT * FROM `gnral_personales` WHERE `id_personal` ='.$datos->revisor.'');
+            $presidente=DB::selectOne('SELECT * FROM `gnral_personales` WHERE `id_personal` = ?', [$datos->asesor]);
+            $secretario=DB::selectOne('SELECT * FROM `gnral_personales` WHERE `id_personal` = ?', [$datos->revisor]);
             $presidente=$presidente->nombre;
             $secretario=$secretario->nombre;
             $dat['presidente']=$presidente;
@@ -235,7 +235,7 @@ ORDER by ti_reg_datos_alum.apaterno desc,ti_reg_datos_alum.amaterno desc,ti_reg_
 
     }
     public function mostrar_datos_alumno_informacion($id_reg_dato_alum){
-        $dato_alumno=DB::selectOne('SELECT * FROM `ti_reg_datos_alum` WHERE `id_reg_dato_alum` = '.$id_reg_dato_alum.'');
+        $dato_alumno=DB::selectOne('SELECT * FROM `ti_reg_datos_alum` WHERE `id_reg_dato_alum` = ?', [$id_reg_dato_alum]);
 
         if($dato_alumno->id_opcion_titulacion == 1 || $dato_alumno->id_opcion_titulacion == 3 || $dato_alumno->id_opcion_titulacion == 5 || $dato_alumno->id_opcion_titulacion == 6 )
         {
@@ -244,8 +244,8 @@ ORDER by ti_reg_datos_alum.apaterno desc,ti_reg_datos_alum.amaterno desc,ti_reg_
             $estado_archivo= 0;
         }
         $id_periodo = Session::get('periodotrabaja');
-        $personales=DB::select('select DISTINCT gnral_personales.id_personal,gnral_personales.nombre FROM gnral_personales, gnral_horarios,gnral_periodo_carreras WHERE gnral_horarios.id_periodo_carrera=gnral_periodo_carreras.id_periodo_carrera AND gnral_horarios.id_personal=gnral_personales.id_personal and gnral_periodo_carreras.id_periodo='.$id_periodo.' ORDER BY `gnral_personales`.`nombre` ASC; ');
-        $personas=DB::select('select DISTINCT gnral_personales.id_personal,gnral_personales.nombre FROM gnral_personales, gnral_horarios,gnral_periodo_carreras WHERE gnral_horarios.id_periodo_carrera=gnral_periodo_carreras.id_periodo_carrera AND gnral_horarios.id_personal=gnral_personales.id_personal and gnral_periodo_carreras.id_periodo='.$id_periodo.' ORDER BY `gnral_personales`.`nombre` ASC;');
+        $personales=DB::select('select DISTINCT gnral_personales.id_personal,gnral_personales.nombre FROM gnral_personales, gnral_horarios,gnral_periodo_carreras WHERE gnral_horarios.id_periodo_carrera=gnral_periodo_carreras.id_periodo_carrera AND gnral_horarios.id_personal=gnral_personales.id_personal and gnral_periodo_carreras.id_periodo= ? ORDER BY `gnral_personales`.`nombre` ASC; ', [$id_periodo]);
+        $personas=DB::select('select DISTINCT gnral_personales.id_personal,gnral_personales.nombre FROM gnral_personales, gnral_horarios,gnral_periodo_carreras WHERE gnral_horarios.id_periodo_carrera=gnral_periodo_carreras.id_periodo_carrera AND gnral_horarios.id_personal=gnral_personales.id_personal and gnral_periodo_carreras.id_periodo= ? ORDER BY `gnral_personales`.`nombre` ASC;', [$id_periodo]);
 
         return view('titulacion.jefe_titulacion.autorizar_seg_parte.mostrar_datos_centro',compact('dato_alumno','personales','personas','estado_archivo'));
 
@@ -262,7 +262,7 @@ ORDER by ti_reg_datos_alum.apaterno desc,ti_reg_datos_alum.amaterno desc,ti_reg_
         $fecha_actual = date("Y-m-d H:i:s");
 
 
-        $registro_alumnos = DB::selectOne('SELECT * FROM `ti_reg_datos_alum` WHERE `id_reg_dato_alum` = ' . $id_reg_dato_alum . '');
+        $registro_alumnos = DB::selectOne('SELECT * FROM `ti_reg_datos_alum` WHERE `id_reg_dato_alum` = ?', [$id_reg_dato_alum]);
         $cuenta = $registro_alumnos->no_cuenta;
         $id_alumno = $registro_alumnos->id_alumno;
 
@@ -324,24 +324,24 @@ ORDER by ti_reg_datos_alum.apaterno desc,ti_reg_datos_alum.amaterno desc,ti_reg_
         return back();
     }
     public function proceso_modificacion_datos_alumno($id_carrera){
-        $carrera=DB::selectOne('SELECT * FROM `gnral_carreras` WHERE `id_carrera` = '.$id_carrera.'');
-        $registro_alumnos=DB::select('SELECT ti_reg_datos_alum.*, gnral_carreras.nombre carrera FROM ti_reg_datos_alum,gnral_carreras 
-WHERE ti_reg_datos_alum.id_estado_enviado=2 and gnral_carreras.id_carrera=ti_reg_datos_alum.id_carrera and  ti_reg_datos_alum.id_carrera='.$id_carrera.' ');
+        $carrera=DB::selectOne('SELECT * FROM `gnral_carreras` WHERE `id_carrera` = ?', [$id_carrera]);
+        $registro_alumnos=DB::select('SELECT ti_reg_datos_alum.*, gnral_carreras.nombre carrera FROM ti_reg_datos_alum,gnral_carreras
+WHERE ti_reg_datos_alum.id_estado_enviado=2 and gnral_carreras.id_carrera=ti_reg_datos_alum.id_carrera and  ti_reg_datos_alum.id_carrera= ? ', [$id_carrera]);
 
         return view('titulacion.jefe_titulacion.autorizar_seg_parte.proceso_modificacion_datos_alumno',compact('registro_alumnos','id_carrera','carrera'));
     }
     public function faltante_datos_alumno($id_carrera){
-        $carrera=DB::selectOne('SELECT * FROM `gnral_carreras` WHERE `id_carrera` = '.$id_carrera.'');
-        $registro_alumnos=DB::select('SELECT ti_reg_datos_alum.*, gnral_carreras.nombre carrera FROM ti_reg_datos_alum,gnral_carreras 
-WHERE ti_reg_datos_alum.id_estado_enviado=4 and gnral_carreras.id_carrera=ti_reg_datos_alum.id_carrera and  ti_reg_datos_alum.id_carrera='.$id_carrera.'');
+        $carrera=DB::selectOne('SELECT * FROM `gnral_carreras` WHERE `id_carrera` = ?', [$id_carrera]);
+        $registro_alumnos=DB::select('SELECT ti_reg_datos_alum.*, gnral_carreras.nombre carrera FROM ti_reg_datos_alum,gnral_carreras
+WHERE ti_reg_datos_alum.id_estado_enviado=4 and gnral_carreras.id_carrera=ti_reg_datos_alum.id_carrera and  ti_reg_datos_alum.id_carrera= ?', [$id_carrera]);
 
         return view('titulacion.jefe_titulacion.autorizar_seg_parte.proceso_faltante_entregar_centro_informacion',compact('registro_alumnos','id_carrera','carrera'));
     }
     public function autorizados_datos_alumno($id_carrera){
-        $carrera=DB::selectOne('SELECT * FROM `gnral_carreras` WHERE `id_carrera` = '.$id_carrera.'');
-        $registro_alumnos=DB::select('SELECT ti_reg_datos_alum.*, gnral_carreras.nombre carrera FROM ti_reg_datos_alum,gnral_carreras 
-WHERE ti_reg_datos_alum.id_estado_enviado=5 and gnral_carreras.id_carrera=ti_reg_datos_alum.id_carrera and  ti_reg_datos_alum.id_carrera='.$id_carrera.' and ti_reg_datos_alum.id_liberado_titulado =0  
-ORDER BY `ti_reg_datos_alum`.`fecha_registro`  DESC');
+        $carrera=DB::selectOne('SELECT * FROM `gnral_carreras` WHERE `id_carrera` = ?', [$id_carrera]);
+        $registro_alumnos=DB::select('SELECT ti_reg_datos_alum.*, gnral_carreras.nombre carrera FROM ti_reg_datos_alum,gnral_carreras
+WHERE ti_reg_datos_alum.id_estado_enviado=5 and gnral_carreras.id_carrera=ti_reg_datos_alum.id_carrera and  ti_reg_datos_alum.id_carrera= ? and ti_reg_datos_alum.id_liberado_titulado =0
+ORDER BY `ti_reg_datos_alum`.`fecha_registro`  DESC', [$id_carrera]);
 
         return view('titulacion.jefe_titulacion.autorizar_seg_parte.proceso_autorizados_datos_alumno',compact('registro_alumnos','id_carrera','carrera'));
     }
@@ -352,7 +352,7 @@ ORDER BY `ti_reg_datos_alum`.`fecha_registro`  DESC');
         return view('titulacion.jefe_titulacion.autorizar_seg_parte.mostrar_dat_aut_alum_ti',compact('id_alumno','id_carrera'));
     }
     public function editar_reporte_titulacion($id_alumno){
-        $dato_alumno=DB::selectOne('SELECT * FROM `ti_reg_datos_alum` WHERE `id_alumno` = '.$id_alumno.'');
+        $dato_alumno=DB::selectOne('SELECT * FROM `ti_reg_datos_alum` WHERE `id_alumno` = ?', [$id_alumno]);
         if($dato_alumno->id_opcion_titulacion == 1 || $dato_alumno->id_opcion_titulacion == 3 || $dato_alumno->id_opcion_titulacion == 5 || $dato_alumno->id_opcion_titulacion == 6 )
         {
             $estado_archivo= 1;
@@ -360,17 +360,17 @@ ORDER BY `ti_reg_datos_alum`.`fecha_registro`  DESC');
             $estado_archivo= 0;
         }
         $id_periodo = Session::get('periodotrabaja');
-        $personales=DB::select('select DISTINCT gnral_personales.id_personal,gnral_personales.nombre FROM gnral_personales, gnral_horarios,gnral_periodo_carreras WHERE gnral_horarios.id_periodo_carrera=gnral_periodo_carreras.id_periodo_carrera AND gnral_horarios.id_personal=gnral_personales.id_personal and gnral_periodo_carreras.id_periodo='.$id_periodo.' ORDER BY `gnral_personales`.`nombre` ASC; ');
-        $personas=DB::select('select DISTINCT gnral_personales.id_personal,gnral_personales.nombre FROM gnral_personales, gnral_horarios,gnral_periodo_carreras WHERE gnral_horarios.id_periodo_carrera=gnral_periodo_carreras.id_periodo_carrera AND gnral_horarios.id_personal=gnral_personales.id_personal and gnral_periodo_carreras.id_periodo='.$id_periodo.' ORDER BY `gnral_personales`.`nombre` ASC;');
+        $personales=DB::select('select DISTINCT gnral_personales.id_personal,gnral_personales.nombre FROM gnral_personales, gnral_horarios,gnral_periodo_carreras WHERE gnral_horarios.id_periodo_carrera=gnral_periodo_carreras.id_periodo_carrera AND gnral_horarios.id_personal=gnral_personales.id_personal and gnral_periodo_carreras.id_periodo= ? ORDER BY `gnral_personales`.`nombre` ASC; ', [$id_periodo]);
+        $personas=DB::select('select DISTINCT gnral_personales.id_personal,gnral_personales.nombre FROM gnral_personales, gnral_horarios,gnral_periodo_carreras WHERE gnral_horarios.id_periodo_carrera=gnral_periodo_carreras.id_periodo_carrera AND gnral_horarios.id_personal=gnral_personales.id_personal and gnral_periodo_carreras.id_periodo= ? ORDER BY `gnral_personales`.`nombre` ASC;', [$id_periodo]);
 
-        $dat_reg_fecha=DB::selectOne('SELECT * FROM `ti_fecha_jurado_alumn` WHERE `id_alumno` ='.$id_alumno.'');
+        $dat_reg_fecha=DB::selectOne('SELECT * FROM `ti_fecha_jurado_alumn` WHERE `id_alumno` = ?', [$id_alumno]);
 
         return view('titulacion.jefe_titulacion.autorizar_seg_parte.modal_mod_datos_reporte_informacion',compact('dato_alumno','personales','personas','dat_reg_fecha','estado_archivo'));
 
 
     }
     public function editar_reporte_titulacion_centro($id_alumno){
-        $dato_alumno=DB::selectOne('SELECT * FROM `ti_reg_datos_alum` WHERE `id_alumno` = '.$id_alumno.'');
+        $dato_alumno=DB::selectOne('SELECT * FROM `ti_reg_datos_alum` WHERE `id_alumno` = ?', [$id_alumno]);
         if($dato_alumno->id_opcion_titulacion == 1 || $dato_alumno->id_opcion_titulacion == 3 || $dato_alumno->id_opcion_titulacion == 5 || $dato_alumno->id_opcion_titulacion == 6 )
         {
             $estado_archivo= 1;
@@ -380,7 +380,7 @@ ORDER BY `ti_reg_datos_alum`.`fecha_registro`  DESC');
 
         $personales=DB::select('SELECT * FROM `gnral_personales` ORDER BY `gnral_personales`.`nombre` ASC ');
         $personas=DB::select('SELECT * FROM `gnral_personales` ORDER BY `gnral_personales`.`nombre` ASC ');
-        $dat_reg_fecha=DB::selectOne('SELECT * FROM `ti_fecha_jurado_alumn` WHERE `id_alumno` ='.$id_alumno.'');
+        $dat_reg_fecha=DB::selectOne('SELECT * FROM `ti_fecha_jurado_alumn` WHERE `id_alumno` = ?', [$id_alumno]);
 
         return view('titulacion.jefe_titulacion.autorizar_seg_parte.modal_mod_reporte_tit_compu',compact('dato_alumno','personales','personas','dat_reg_fecha','estado_archivo'));
 
@@ -397,7 +397,7 @@ ORDER BY `ti_reg_datos_alum`.`fecha_registro`  DESC');
 
 
 
-        $registro_alumnos=DB::selectOne('SELECT * FROM `ti_reg_datos_alum` WHERE `id_reg_dato_alum` = '.$id_reg_dato_alum.'');
+        $registro_alumnos=DB::selectOne('SELECT * FROM `ti_reg_datos_alum` WHERE `id_reg_dato_alum` = ?', [$id_reg_dato_alum]);
         $cuenta=$registro_alumnos->no_cuenta;
         $id_alumno=$registro_alumnos->id_alumno;
 
@@ -448,7 +448,7 @@ ORDER BY `ti_reg_datos_alum`.`fecha_registro`  DESC');
 
 
 
-        $registro_alumnos=DB::selectOne('SELECT * FROM `ti_reg_datos_alum` WHERE `id_reg_dato_alum` = '.$id_reg_dato_alum.'');
+        $registro_alumnos=DB::selectOne('SELECT * FROM `ti_reg_datos_alum` WHERE `id_reg_dato_alum` = ?', [$id_reg_dato_alum]);
         $cuenta=$registro_alumnos->no_cuenta;
         $id_alumno=$registro_alumnos->id_alumno;
 
@@ -469,7 +469,7 @@ ORDER BY `ti_reg_datos_alum`.`fecha_registro`  DESC');
     }
     public function enviar_reporte_titulacion($id_alumno)
     {
-        $reg_alumno=DB::selectOne('SELECT * FROM `ti_reg_datos_alum` WHERE `id_alumno` = '.$id_alumno.'');
+        $reg_alumno=DB::selectOne('SELECT * FROM `ti_reg_datos_alum` WHERE `id_alumno` = ?', [$id_alumno]);
 
         return view('titulacion.jefe_titulacion.autorizar_seg_parte.enviar_reporte_centro_informacion',compact('reg_alumno'));
     }
@@ -477,63 +477,63 @@ ORDER BY `ti_reg_datos_alum`.`fecha_registro`  DESC');
         $id_reg_dato_alum=$request->input('id_reg_dato_alum');
 
         $datos_jefe_titulacion=DB::selectOne('SELECT abreviaciones.titulo, gnral_personales.nombre,  gnral_personales.sexo
-from abreviaciones, abreviaciones_prof, gnral_personales,gnral_unidad_personal 
-where abreviaciones.id_abreviacion=abreviaciones_prof.id_abreviacion 
-  and abreviaciones_prof.id_personal = gnral_personales.id_personal 
-  and gnral_unidad_personal.id_personal=gnral_personales.id_personal 
+from abreviaciones, abreviaciones_prof, gnral_personales,gnral_unidad_personal
+where abreviaciones.id_abreviacion=abreviaciones_prof.id_abreviacion
+  and abreviaciones_prof.id_personal = gnral_personales.id_personal
+  and gnral_unidad_personal.id_personal=gnral_personales.id_personal
   and gnral_unidad_personal.id_unidad_admin= 28');
         $nombre_jefe_titulacion=$datos_jefe_titulacion->titulo.' '.$datos_jefe_titulacion->nombre;
         $sexo_jefe_titulacion=$datos_jefe_titulacion->sexo;
 
-        $datos_director_general=DB::selectOne('SELECT abreviaciones.titulo, gnral_personales.nombre,gnral_personales.sexo 
-from abreviaciones, abreviaciones_prof, gnral_personales,gnral_unidad_personal 
-where abreviaciones.id_abreviacion=abreviaciones_prof.id_abreviacion 
-  and abreviaciones_prof.id_personal = gnral_personales.id_personal 
+        $datos_director_general=DB::selectOne('SELECT abreviaciones.titulo, gnral_personales.nombre,gnral_personales.sexo
+from abreviaciones, abreviaciones_prof, gnral_personales,gnral_unidad_personal
+where abreviaciones.id_abreviacion=abreviaciones_prof.id_abreviacion
+  and abreviaciones_prof.id_personal = gnral_personales.id_personal
   and gnral_unidad_personal.id_personal=gnral_personales.id_personal and gnral_unidad_personal.id_unidad_admin= 3');
         $nombre_director_general=$datos_director_general->titulo.' '.$datos_director_general->nombre;
         $sexo_director_general=$datos_director_general->sexo;
 
-        $datos_director_academico=DB::selectOne('SELECT abreviaciones.titulo, gnral_personales.nombre,gnral_personales.sexo 
-from abreviaciones, abreviaciones_prof, gnral_personales,gnral_unidad_personal 
-where abreviaciones.id_abreviacion=abreviaciones_prof.id_abreviacion 
-  and abreviaciones_prof.id_personal = gnral_personales.id_personal 
+        $datos_director_academico=DB::selectOne('SELECT abreviaciones.titulo, gnral_personales.nombre,gnral_personales.sexo
+from abreviaciones, abreviaciones_prof, gnral_personales,gnral_unidad_personal
+where abreviaciones.id_abreviacion=abreviaciones_prof.id_abreviacion
+  and abreviaciones_prof.id_personal = gnral_personales.id_personal
   and gnral_unidad_personal.id_personal=gnral_personales.id_personal and gnral_unidad_personal.id_unidad_admin= 5');
         $nombre_director_academico=$datos_director_academico->titulo.' '.$datos_director_academico->nombre;
         $sexo_director_academico=$datos_director_academico->sexo;
 
-        $datos_subdirector_servicios=DB::selectOne('SELECT abreviaciones.titulo, gnral_personales.nombre,gnral_personales.sexo 
-from abreviaciones, abreviaciones_prof, gnral_personales,gnral_unidad_personal 
-where abreviaciones.id_abreviacion=abreviaciones_prof.id_abreviacion 
-  and abreviaciones_prof.id_personal = gnral_personales.id_personal 
+        $datos_subdirector_servicios=DB::selectOne('SELECT abreviaciones.titulo, gnral_personales.nombre,gnral_personales.sexo
+from abreviaciones, abreviaciones_prof, gnral_personales,gnral_unidad_personal
+where abreviaciones.id_abreviacion=abreviaciones_prof.id_abreviacion
+  and abreviaciones_prof.id_personal = gnral_personales.id_personal
   and gnral_unidad_personal.id_personal=gnral_personales.id_personal and gnral_unidad_personal.id_unidad_admin= 16');
         $nombre_subdirector_servicios=$datos_subdirector_servicios->titulo.' '.$datos_subdirector_servicios->nombre;
         $sexo_subdirector_servicios=$datos_subdirector_servicios->sexo;
 
-        $datos_jefe_personal=DB::selectOne('SELECT abreviaciones.titulo, gnral_personales.nombre,gnral_personales.sexo 
-from abreviaciones, abreviaciones_prof, gnral_personales,gnral_unidad_personal 
-where abreviaciones.id_abreviacion=abreviaciones_prof.id_abreviacion 
-  and abreviaciones_prof.id_personal = gnral_personales.id_personal 
+        $datos_jefe_personal=DB::selectOne('SELECT abreviaciones.titulo, gnral_personales.nombre,gnral_personales.sexo
+from abreviaciones, abreviaciones_prof, gnral_personales,gnral_unidad_personal
+where abreviaciones.id_abreviacion=abreviaciones_prof.id_abreviacion
+  and abreviaciones_prof.id_personal = gnral_personales.id_personal
   and gnral_unidad_personal.id_personal=gnral_personales.id_personal and gnral_unidad_personal.id_unidad_admin= 23');
         $nombre_jefe_personal=$datos_jefe_personal->titulo.' '.$datos_jefe_personal->nombre;
         $sexo_jefe_personal=$datos_jefe_personal->sexo;
 
 
-        $datos_jefe_recursos=DB::selectOne('SELECT abreviaciones.titulo, gnral_personales.nombre,gnral_personales.sexo 
-from abreviaciones, abreviaciones_prof, gnral_personales,gnral_unidad_personal 
-where abreviaciones.id_abreviacion=abreviaciones_prof.id_abreviacion 
-  and abreviaciones_prof.id_personal = gnral_personales.id_personal 
+        $datos_jefe_recursos=DB::selectOne('SELECT abreviaciones.titulo, gnral_personales.nombre,gnral_personales.sexo
+from abreviaciones, abreviaciones_prof, gnral_personales,gnral_unidad_personal
+where abreviaciones.id_abreviacion=abreviaciones_prof.id_abreviacion
+  and abreviaciones_prof.id_personal = gnral_personales.id_personal
   and gnral_unidad_personal.id_personal=gnral_personales.id_personal and gnral_unidad_personal.id_unidad_admin= 24');
         $nombre_jefe_recursos=$datos_jefe_recursos->titulo.' '.$datos_jefe_recursos->nombre;
         $sexo_jefe_recursos=$datos_jefe_recursos->sexo;
 
 
-        $dat_alumno=DB::selectOne('SELECT * FROM `ti_reg_datos_alum` WHERE `id_reg_dato_alum` ='.$id_reg_dato_alum.'');
+        $dat_alumno=DB::selectOne('SELECT * FROM `ti_reg_datos_alum` WHERE `id_reg_dato_alum` = ?', [$id_reg_dato_alum]);
         $id_jefe_division=$dat_alumno->id_jefe_division;
 
-        $datos_jefe_division=DB::selectOne('SELECT abreviaciones.titulo,gnral_personales.nombre,gnral_personales.sexo 
-FROM abreviaciones, abreviaciones_prof,gnral_personales where abreviaciones.id_abreviacion=abreviaciones_prof.id_abreviacion 
-                                                          and abreviaciones_prof.id_personal=gnral_personales.id_personal 
-                                                          and gnral_personales.id_personal='.$id_jefe_division.'');
+        $datos_jefe_division=DB::selectOne('SELECT abreviaciones.titulo,gnral_personales.nombre,gnral_personales.sexo
+FROM abreviaciones, abreviaciones_prof,gnral_personales where abreviaciones.id_abreviacion=abreviaciones_prof.id_abreviacion
+                                                          and abreviaciones_prof.id_personal=gnral_personales.id_personal
+                                                          and gnral_personales.id_personal= ?', [$id_jefe_division]);
         $nombre_jefe_division=$datos_jefe_division->titulo.' '.$datos_jefe_division->nombre;
         $sexo_jefe_division=$datos_jefe_division->sexo;
 
@@ -573,12 +573,12 @@ FROM abreviaciones, abreviaciones_prof,gnral_personales where abreviaciones.id_a
     }
 public function carrera_informacion($id_carera)
 {
-    $registro_titulacion = DB::select('SELECT ti_reg_datos_alum.*, ti_opciones_titulacion.opcion_titulacion  
-        FROM ti_reg_datos_alum, ti_opciones_titulacion 
+    $registro_titulacion = DB::select('SELECT ti_reg_datos_alum.*, ti_opciones_titulacion.opcion_titulacion
+        FROM ti_reg_datos_alum, ti_opciones_titulacion
         WHERE ti_reg_datos_alum.id_carrera = ?
-        AND ti_reg_datos_alum.id_estado_enviado = 5 
-        AND ti_reg_datos_alum.id_enviado_biblioteca = 1 
-        AND ti_reg_datos_alum.id_opcion_titulacion IN (1,3,5,6) 
+        AND ti_reg_datos_alum.id_estado_enviado = 5
+        AND ti_reg_datos_alum.id_enviado_biblioteca = 1
+        AND ti_reg_datos_alum.id_opcion_titulacion IN (1,3,5,6)
         AND ti_opciones_titulacion.id_opcion_titulacion = ti_reg_datos_alum.id_opcion_titulacion
         ORDER BY ti_reg_datos_alum.nom_proyecto DESC', [$id_carera]);
 

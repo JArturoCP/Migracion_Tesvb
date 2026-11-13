@@ -182,7 +182,8 @@ class Egel_ExamenController extends Controller
 
     } catch (\Exception $e) {
         DB::rollBack();
-        dd($e->getMessage());
+        report($e);
+        return back()->withErrors(['error' => 'No se pudieron guardar las preguntas: ' . $e->getMessage()])->withInput();
     }
 }
 

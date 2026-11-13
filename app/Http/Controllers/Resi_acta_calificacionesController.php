@@ -75,19 +75,19 @@ class Resi_acta_calificacionesController extends Controller
 gnral_alumnos.amaterno,gnral_carreras.nombre carrera,resi_proyecto.nom_proyecto,resi_proy_empresa.asesor,
 resi_empresa.nombre empresa from gnral_alumnos,gnral_carreras,resi_anteproyecto,resi_proy_empresa,
 resi_empresa,resi_proyecto where gnral_alumnos.id_carrera=gnral_carreras.id_carrera and
- resi_anteproyecto.id_alumno=gnral_alumnos.id_alumno and resi_anteproyecto.id_proyecto=resi_proyecto.id_proyecto 
+ resi_anteproyecto.id_alumno=gnral_alumnos.id_alumno and resi_anteproyecto.id_proyecto=resi_proyecto.id_proyecto
  and resi_anteproyecto.id_anteproyecto=resi_proy_empresa.id_anteproyecto and
   resi_proy_empresa.id_empresa=resi_empresa.id_empresa and
-   resi_anteproyecto.id_anteproyecto='.$id_anteproyecto.'');
-        $asesor_anteproyecto=DB::selectOne('SELECT abreviaciones.titulo, gnral_personales.nombre,gnral_periodos.periodo 
-FROM gnral_personales,abreviaciones_prof,abreviaciones,gnral_periodos,resi_asesores 
+   resi_anteproyecto.id_anteproyecto= ?', [$id_anteproyecto]);
+        $asesor_anteproyecto=DB::selectOne('SELECT abreviaciones.titulo, gnral_personales.nombre,gnral_periodos.periodo
+FROM gnral_personales,abreviaciones_prof,abreviaciones,gnral_periodos,resi_asesores
 where resi_asesores.id_profesor=gnral_personales.id_personal and
  gnral_personales.id_personal=abreviaciones_prof.id_personal and
   abreviaciones_prof.id_abreviacion=abreviaciones.id_abreviacion and
    resi_asesores.id_periodo=gnral_periodos.id_periodo and
-    resi_asesores.id_anteproyecto='.$id_anteproyecto.'');
+    resi_asesores.id_anteproyecto= ?', [$id_anteproyecto]);
         //dd($alumno);
-        $promedio_residencia=DB::selectOne('SELECT * FROM `resi_promedio_general_residencia` WHERE `id_anteproyecto` ='.$id_anteproyecto.'');
+        $promedio_residencia=DB::selectOne('SELECT * FROM `resi_promedio_general_residencia` WHERE `id_anteproyecto` = ?', [$id_anteproyecto]);
         $promedio_residencia=$promedio_residencia->promedio_general;
 
         $pdf=new PDF_Resi_acta_calificacionesController($orientation='L',$unit='mm',$format='Letter');
@@ -143,7 +143,7 @@ where resi_asesores.id_profesor=gnral_personales.id_personal and
 
         }
 
-        $observacion=DB::selectOne('SELECT * FROM `resi_calificar_residencia` WHERE `id_anteproyecto` ='.$id_anteproyecto.'');
+        $observacion=DB::selectOne('SELECT * FROM `resi_calificar_residencia` WHERE `id_anteproyecto` = ?', [$id_anteproyecto]);
         $observacion=mb_strtoupper($observacion->observacion,'utf-8');
         $pdf->MultiCell(240,5,utf8_decode('OBSERVACIONES: '.$observacion),1);
         $pdf->SetFont('Arial','',7);
@@ -170,7 +170,7 @@ where resi_asesores.id_profesor=gnral_personales.id_personal and
         $pdf->Cell(115,15,utf8_decode(''),'LTR',1,'C');
         /*
         $nombre_jefe=DB::selectOne('SELECT abreviaciones.titulo, gnral_personales.nombre from abreviaciones, abreviaciones_prof, gnral_personales,
-        gnral_unidad_personal where abreviaciones.id_abreviacion = abreviaciones_prof.id_abreviacion and abreviaciones_prof.id_personal = gnral_personales.id_personal 
+        gnral_unidad_personal where abreviaciones.id_abreviacion = abreviaciones_prof.id_abreviacion and abreviaciones_prof.id_personal = gnral_personales.id_personal
         and gnral_personales.id_personal = gnral_unidad_personal.id_personal and gnral_unidad_personal.id_unidad_admin = 20');
         $nombre_jefe=$nombre_jefe->titulo." ".$nombre_jefe->nombre;
          */

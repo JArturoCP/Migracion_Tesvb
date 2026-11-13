@@ -25,10 +25,10 @@ class Tutorias_AsignaTutorController extends Controller
                                 from exp_generacion, exp_asigna_generacion WHERE exp_generacion.id_generacion=exp_asigna_generacion.id_generacion
                               AND exp_asigna_generacion.id_asigna_generacion NOT IN (SELECT exp_asigna_generacion.id_asigna_generacion
                               from gnral_personales, exp_asigna_tutor,exp_asigna_generacion,exp_generacion where
-                               exp_asigna_tutor.id_personal=gnral_personales.id_personal AND exp_asigna_tutor.id_asigna_generacion=exp_asigna_generacion.id_asigna_generacion AND 
-                               exp_asigna_generacion.id_generacion=exp_generacion.id_generacion and exp_asigna_tutor.deleted_at is null AND exp_asigna_tutor.id_jefe_periodo='.Session::get('id_jefe_periodo').') 
-                               and exp_asigna_generacion.deleted_at is null 
-                               and exp_asigna_generacion.id_jefe_periodo='.Session::get('id_jefe_periodo').' ORDER BY exp_generacion.generacion');
+                               exp_asigna_tutor.id_personal=gnral_personales.id_personal AND exp_asigna_tutor.id_asigna_generacion=exp_asigna_generacion.id_asigna_generacion AND
+                               exp_asigna_generacion.id_generacion=exp_generacion.id_generacion and exp_asigna_tutor.deleted_at is null AND exp_asigna_tutor.id_jefe_periodo= ?)
+                               and exp_asigna_generacion.deleted_at is null
+                               and exp_asigna_generacion.id_jefe_periodo= ? ORDER BY exp_generacion.generacion', [Session::get('id_jefe_periodo'), Session::get('id_jefe_periodo')]);
 
         $datos['profesores']=$datosProf;
         if($noGrupo==null)

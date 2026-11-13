@@ -18,12 +18,12 @@ class Tutorias_CoordinadorCarreraController extends Controller
 
 
         $carreras=DB::select('select gnral_carreras.nombre,gnral_carreras.id_carrera from exp_asigna_coordinador
-            JOIN gnral_personales ON exp_asigna_coordinador.id_personal=gnral_personales.id_personal 
-            JOIN gnral_jefes_periodos ON exp_asigna_coordinador.id_jefe_periodo=gnral_jefes_periodos.id_jefe_periodo 
-            JOIN gnral_carreras ON gnral_carreras.id_carrera=gnral_jefes_periodos.id_carrera WHERE exp_asigna_coordinador.id_jefe_periodo 
-            IN (SELECT gnral_jefes_periodos.id_jefe_periodo from gnral_jefes_periodos 
-            JOIN gnral_personales ON gnral_personales.id_personal=gnral_jefes_periodos.id_personal where gnral_jefes_periodos.id_periodo='.Session::get('periodo_actual').') AND 
-            exp_asigna_coordinador.deleted_at is null AND gnral_personales.tipo_usuario='.Auth::user()->id.'  ORDER BY gnral_carreras.nombre ');
+            JOIN gnral_personales ON exp_asigna_coordinador.id_personal=gnral_personales.id_personal
+            JOIN gnral_jefes_periodos ON exp_asigna_coordinador.id_jefe_periodo=gnral_jefes_periodos.id_jefe_periodo
+            JOIN gnral_carreras ON gnral_carreras.id_carrera=gnral_jefes_periodos.id_carrera WHERE exp_asigna_coordinador.id_jefe_periodo
+            IN (SELECT gnral_jefes_periodos.id_jefe_periodo from gnral_jefes_periodos
+            JOIN gnral_personales ON gnral_personales.id_personal=gnral_jefes_periodos.id_personal where gnral_jefes_periodos.id_periodo= ?) AND
+            exp_asigna_coordinador.deleted_at is null AND gnral_personales.tipo_usuario= ?  ORDER BY gnral_carreras.nombre ', [Session::get('periodo_actual'), Auth::user()->id]);
        /* $carreras=DB::table('exp_asigna_coordinador')
             ->join('gnral_personales','gnral_personales.id_personal','=','exp_asigna_coordinador.id_personal')
             ->join('gnral_jefes_periodos','exp_asigna_coordinador.id_jefe_periodo','=','gnral_jefes_periodos.id_jefe_periodo')
@@ -39,11 +39,11 @@ class Tutorias_CoordinadorCarreraController extends Controller
     {
 
         $carreras=DB::select('select gnral_carreras.nombre,gnral_carreras.id_carrera from exp_asigna_coordinador
-            JOIN gnral_personales ON exp_asigna_coordinador.id_personal=gnral_personales.id_personal 
-            JOIN gnral_jefes_periodos ON exp_asigna_coordinador.id_jefe_periodo=gnral_jefes_periodos.id_jefe_periodo 
-            JOIN gnral_carreras ON gnral_carreras.id_carrera=gnral_jefes_periodos.id_carrera WHERE exp_asigna_coordinador.id_jefe_periodo 
-            IN (SELECT gnral_jefes_periodos.id_jefe_periodo from gnral_jefes_periodos where gnral_jefes_periodos.id_periodo='.Session::get('periodo_actual').') AND 
-            exp_asigna_coordinador.deleted_at is null ORDER BY gnral_carreras.nombre ');
+            JOIN gnral_personales ON exp_asigna_coordinador.id_personal=gnral_personales.id_personal
+            JOIN gnral_jefes_periodos ON exp_asigna_coordinador.id_jefe_periodo=gnral_jefes_periodos.id_jefe_periodo
+            JOIN gnral_carreras ON gnral_carreras.id_carrera=gnral_jefes_periodos.id_carrera WHERE exp_asigna_coordinador.id_jefe_periodo
+            IN (SELECT gnral_jefes_periodos.id_jefe_periodo from gnral_jefes_periodos where gnral_jefes_periodos.id_periodo= ?) AND
+            exp_asigna_coordinador.deleted_at is null ORDER BY gnral_carreras.nombre ', [Session::get('periodo_actual')]);
         /* $carreras=DB::table('exp_asigna_coordinador')
              ->join('gnral_personales','gnral_personales.id_personal','=','exp_asigna_coordinador.id_personal')
              ->join('gnral_jefes_periodos','exp_asigna_coordinador.id_jefe_periodo','=','gnral_jefes_periodos.id_jefe_periodo')
@@ -68,7 +68,7 @@ class Tutorias_CoordinadorCarreraController extends Controller
         $generaciones=Tutorias_Exp_generacion::all();
         $generaciones->map(function ($value,$key){
             $value->grupos=DB::select('SELECT *FROM exp_asigna_generacion  where exp_asigna_generacion.deleted_at is null
- and id_jefe_periodo='.Session::get('id_jefe_periodo').' and id_generacion='.$value->id_generacion);
+ and id_jefe_periodo= ? and id_generacion= ?', [Session::get('id_jefe_periodo'), $value->id_generacion]);
         });
         return $generaciones;
     }

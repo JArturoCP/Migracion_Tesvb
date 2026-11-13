@@ -108,33 +108,33 @@ class Ti_pdf_cert_antecedentesController extends Controller
         ti_reg_datos_alum.fecha_ingreso_tesvb,ti_reg_datos_alum.fecha_egreso_tesvb,ti_reg_datos_alum.id_nacionalidad,
 ti_descuentos_alum.id_preparatoria,ti_reg_datos_alum.mencion_honorifica
 
-FROM ti_datos_alumno_reg_dep,ti_clave_carrera, ti_nacionalidad, ti_genero, ti_sexo,ti_preparatatoria,ti_entidades_federativas, 
+FROM ti_datos_alumno_reg_dep,ti_clave_carrera, ti_nacionalidad, ti_genero, ti_sexo,ti_preparatatoria,ti_entidades_federativas,
      ti_tipo_titulo_obtenido, ti_numeros_titulos,ti_autorizacion_reconocimiento, ti_fundamento_legal_s_s, ti_reg_datos_alum,ti_decisiones_jurado,ti_descuentos_alum
      WHERE ti_reg_datos_alum.id_carrera= ti_clave_carrera.id_carrera and  ti_reg_datos_alum.id_nacionalidad = ti_nacionalidad.id_nacionalidad and
-ti_datos_alumno_reg_dep.id_genero = ti_genero.id_genero and ti_datos_alumno_reg_dep.id_sexo = ti_sexo.id_sexo 
+ti_datos_alumno_reg_dep.id_genero = ti_genero.id_genero and ti_datos_alumno_reg_dep.id_sexo = ti_sexo.id_sexo
 and ti_descuentos_alum.id_preparatoria = ti_preparatatoria.id_preparatoria and
                 ti_preparatatoria.id_entidad_federativa = ti_entidades_federativas.id_entidad_federativa  and
                 ti_datos_alumno_reg_dep.id_numero_titulo =ti_numeros_titulos.id_numero_titulo and
-ti_datos_alumno_reg_dep.id_tipo_titulo = ti_tipo_titulo_obtenido.id_tipo_titulo and 
-    ti_datos_alumno_reg_dep.id_decision = ti_decisiones_jurado.id_decision and 
+ti_datos_alumno_reg_dep.id_tipo_titulo = ti_tipo_titulo_obtenido.id_tipo_titulo and
+    ti_datos_alumno_reg_dep.id_decision = ti_decisiones_jurado.id_decision and
     ti_fundamento_legal_s_s.id_fundamento_legal = ti_datos_alumno_reg_dep.id_fundamento_legal AND
-    ti_reg_datos_alum.id_alumno=ti_datos_alumno_reg_dep.id_alumno and 
-     ti_reg_datos_alum.id_alumno=ti_descuentos_alum.id_alumno  and 
+    ti_reg_datos_alum.id_alumno=ti_datos_alumno_reg_dep.id_alumno and
+     ti_reg_datos_alum.id_alumno=ti_descuentos_alum.id_alumno  and
     ti_autorizacion_reconocimiento.id_autorizacion_reconocimiento =ti_datos_alumno_reg_dep.id_autorizacion_reconocimiento
-    and      ti_datos_alumno_reg_dep.id_alumno ='.$id_alumno.'');
+    and      ti_datos_alumno_reg_dep.id_alumno = ?', [$id_alumno]);
 
         $registro_datos=DB::selectOne('SELECT ti_reg_datos_alum.*,ti_tipo_estudiante.tipo_estudiante,
-       gnral_carreras.nombre as carrera,gnral_estados.nombre_estado,ti_opciones_titulacion.opcion_titulacion 
-FROM ti_reg_datos_alum,ti_tipo_estudiante,gnral_carreras,gnral_estados, ti_opciones_titulacion 
+       gnral_carreras.nombre as carrera,gnral_estados.nombre_estado,ti_opciones_titulacion.opcion_titulacion
+FROM ti_reg_datos_alum,ti_tipo_estudiante,gnral_carreras,gnral_estados, ti_opciones_titulacion
 where ti_reg_datos_alum.id_tipo_estudiante= ti_tipo_estudiante.id_tipo_estudiante
   and ti_reg_datos_alum.id_carrera = gnral_carreras.id_carrera  and
-gnral_estados.id_estado= ti_reg_datos_alum.entidad_federativa 
-  and ti_reg_datos_alum.id_opcion_titulacion = ti_opciones_titulacion.id_opcion_titulacion and 
-ti_reg_datos_alum.id_alumno='.$id_alumno.'');
+gnral_estados.id_estado= ti_reg_datos_alum.entidad_federativa
+  and ti_reg_datos_alum.id_opcion_titulacion = ti_opciones_titulacion.id_opcion_titulacion and
+ti_reg_datos_alum.id_alumno= ?', [$id_alumno]);
         $subdirector_escolares=$registro_datos->nombre_subdirector_servicios;
         $jefe_titulacion=$registro_datos->nombre_jefe_titulacion;
 
-        $fecha_titulacion=DB::selectOne('SELECT * FROM `ti_fecha_jurado_alumn` WHERE `id_alumno` ='.$id_alumno.'');
+        $fecha_titulacion=DB::selectOne('SELECT * FROM `ti_fecha_jurado_alumn` WHERE `id_alumno` = ?', [$id_alumno]);
 
         $dia_titulacion=  substr($fecha_titulacion->fecha_titulacion, 0, 2);
         $mes_titulacion=  substr($fecha_titulacion->fecha_titulacion, 3, 2);

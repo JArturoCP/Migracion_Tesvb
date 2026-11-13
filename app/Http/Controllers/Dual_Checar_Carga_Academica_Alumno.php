@@ -23,7 +23,7 @@ class Dual_Checar_Carga_Academica_Alumno extends Controller
         $usuario = Session::get('usuario');
         /*dd($usuario);*/
         // Obtener alumno mediante su cuenta
-        $id_alu = DB::selectOne('SELECT id_alumno  FROM gnral_alumnos  WHERE id_alumno = '.$usuario.'');
+        $id_alu = DB::selectOne('SELECT id_alumno  FROM gnral_alumnos  WHERE id_alumno = ?', [$usuario]);
         //dd($id_alu);
 
         if ($id_alu == null) {
@@ -45,7 +45,7 @@ class Dual_Checar_Carga_Academica_Alumno extends Controller
         $usuario = 1;
 
         // Buscar validación de carga
-        $des = DB::selectOne('SELECT *  FROM eva_validacion_de_cargas  WHERE id_alumno = ' . $id_alu . '  AND id_periodo = ' . $periodo);
+        $des = DB::selectOne('SELECT *  FROM eva_validacion_de_cargas  WHERE id_alumno = ?  AND id_periodo = ?', [$id_alu, $periodo]);
 
         $datos_carga = array();
 
@@ -94,8 +94,8 @@ class Dual_Checar_Carga_Academica_Alumno extends Controller
             AND eva_carga_academica.grupo = gnral_grupos.id_grupo
             AND eva_carga_academica.id_alumno = gnral_alumnos.id_alumno
             AND eva_status_materia.id_status_materia = 1
-            AND gnral_periodos.id_periodo = ' . $periodo . '
-            AND eva_carga_academica.id_alumno = ' . $id_alu
+            AND gnral_periodos.id_periodo = ?
+            AND eva_carga_academica.id_alumno = ?', [$periodo, $id_alu]
         );
 
         foreach ($consulta1 as $cons) {
@@ -131,17 +131,17 @@ class Dual_Checar_Carga_Academica_Alumno extends Controller
                      abreviaciones_prof,
                      abreviaciones
 
-                WHERE gnral_periodo_carreras.id_periodo = ' . $periodo . '
+                WHERE gnral_periodo_carreras.id_periodo = ?
                 AND gnral_horarios.id_periodo_carrera = gnral_periodo_carreras.id_periodo_carrera
                 AND gnral_horarios.id_personal = gnral_personales.id_personal
                 AND gnral_horas_profesores.id_horario_profesor = gnral_horarios.id_horario_profesor
                 AND gnral_horas_profesores.id_materia_perfil = gnral_materias_perfiles.id_materia_perfil
                 AND gnral_materias_perfiles.id_materia = gnral_materias.id_materia
                 AND gnral_materias.id_reticula = gnral_reticulas.id_reticula
-                AND gnral_horas_profesores.grupo = ' . $cons->grupo . '
+                AND gnral_horas_profesores.grupo = ?
                 AND gnral_personales.id_personal = abreviaciones_prof.id_personal
                 AND abreviaciones_prof.id_abreviacion = abreviaciones.id_abreviacion
-                AND gnral_materias.id_materia = ' . $cons->id_materia
+                AND gnral_materias.id_materia = ?', [$periodo, $cons->grupo, $cons->id_materia]
             );
 
             foreach ($profesores as $prof) {
@@ -218,7 +218,7 @@ class Dual_Checar_Carga_Academica_Alumno extends Controller
         $adeudo_departamento = DB::selectOne(
             'SELECT COUNT(id_adeudo_departamento) AS adeudo
              FROM adeudo_departamento
-             WHERE id_alumno = ' . $id_alu
+             WHERE id_alumno = ?', [$id_alu]
         );
 
         $adeudo_departamento = $adeudo_departamento->adeudo;
@@ -241,9 +241,9 @@ class Dual_Checar_Carga_Academica_Alumno extends Controller
                  FROM adeudo_departamento,
                       gnral_unidad_administrativa
 
-                 WHERE adeudo_departamento.id_alumno = ' . $id_alu . '
+                 WHERE adeudo_departamento.id_alumno = ?
                  AND gnral_unidad_administrativa.id_unidad_admin =
-                     adeudo_departamento.id_departamento'
+                     adeudo_departamento.id_departamento', [$id_alu]
             );
 
             foreach ($adeudo_dep as $ade) {
@@ -260,8 +260,8 @@ class Dual_Checar_Carga_Academica_Alumno extends Controller
             $adeudo_informacion = DB::selectOne(
                 'SELECT COUNT(id_adeudo_departamento) AS contar
                  FROM adeudo_departamento
-                 WHERE id_alumno = ' . $id_alu . '
-                 AND id_departamento = 50'
+                 WHERE id_alumno = ?
+                 AND id_departamento = 50', [$id_alu]
             );
 
             if ($adeudo_informacion->contar > 0) {
@@ -269,8 +269,8 @@ class Dual_Checar_Carga_Academica_Alumno extends Controller
                 $informacion = DB::select(
                     'SELECT *
                      FROM adeudo_departamento
-                     WHERE id_alumno = ' . $id_alu . '
-                     AND id_departamento = 50'
+                     WHERE id_alumno = ?
+                     AND id_departamento = 50', [$id_alu]
                 );
 
                 foreach ($informacion as $info) {
@@ -291,8 +291,8 @@ class Dual_Checar_Carga_Academica_Alumno extends Controller
             $adeudo_bolsa = DB::selectOne(
                 'SELECT COUNT(id_adeudo_departamento) AS contar
                  FROM adeudo_departamento
-                 WHERE id_alumno = ' . $id_alu . '
-                 AND id_departamento = 100'
+                 WHERE id_alumno = ?
+                 AND id_departamento = 100', [$id_alu]
             );
 
             if ($adeudo_bolsa->contar > 0) {
@@ -300,8 +300,8 @@ class Dual_Checar_Carga_Academica_Alumno extends Controller
                 $bolsa = DB::select(
                     'SELECT *
                      FROM adeudo_departamento
-                     WHERE id_alumno = ' . $id_alu . '
-                     AND id_departamento = 100'
+                     WHERE id_alumno = ?
+                     AND id_departamento = 100', [$id_alu]
                 );
 
                 foreach ($bolsa as $bolsa_item) {
@@ -346,7 +346,7 @@ class Dual_Checar_Carga_Academica_Alumno extends Controller
         $creditoss = 0;
         $periodo = Session::get('periodo_actual');
         $usuario = 2;
-        $validaciones=DB::select('SELECT eva_validacion_de_cargas.estado_validacion,eva_validacion_de_cargas.descripcion, eva_validacion_de_cargas.id_alumno, eva_validacion_de_cargas.id 
+        $validaciones=DB::select('SELECT eva_validacion_de_cargas.estado_validacion,eva_validacion_de_cargas.descripcion, eva_validacion_de_cargas.id_alumno, eva_validacion_de_cargas.id
         FROM eva_validacion_de_cargas WHERE eva_validacion_de_cargas.id_alumno= ? AND eva_validacion_de_cargas.id_periodo= ?',[$id_alumno,$periodo]);
         //dd($validaciones);
         if (count($validaciones) == 0) {
@@ -401,8 +401,8 @@ class Dual_Checar_Carga_Academica_Alumno extends Controller
              AND eva_carga_academica.id_alumno =
                  gnral_alumnos.id_alumno
              AND eva_status_materia.id_status_materia = 1
-             AND gnral_periodos.id_periodo = ' . $periodo . '
-             AND eva_carga_academica.id_alumno = ' . $alumno
+             AND gnral_periodos.id_periodo = ?
+             AND eva_carga_academica.id_alumno = ?', [$periodo, $alumno]
         );
 
         foreach ($consulta1 as $cons) {
@@ -440,7 +440,7 @@ class Dual_Checar_Carga_Academica_Alumno extends Controller
                       abreviaciones_prof,
                       abreviaciones
 
-                 WHERE gnral_periodo_carreras.id_periodo = ' . $periodo . '
+                 WHERE gnral_periodo_carreras.id_periodo = ?
                  AND gnral_horarios.id_periodo_carrera =
                      gnral_periodo_carreras.id_periodo_carrera
                  AND gnral_horarios.id_personal =
@@ -453,13 +453,13 @@ class Dual_Checar_Carga_Academica_Alumno extends Controller
                      gnral_materias.id_materia
                  AND gnral_materias.id_reticula =
                      gnral_reticulas.id_reticula
-                 AND gnral_horas_profesores.grupo = ' . $cons->grupo . '
+                 AND gnral_horas_profesores.grupo = ?
                  AND gnral_personales.id_personal =
                      abreviaciones_prof.id_personal
                  AND abreviaciones_prof.id_abreviacion =
                      abreviaciones.id_abreviacion
                  AND gnral_materias.id_materia =
-                     ' . $cons->id_materia
+                     ?', [$periodo, $cons->grupo, $cons->id_materia]
             );
 
             foreach ($profesores as $prof) {
@@ -510,7 +510,7 @@ class Dual_Checar_Carga_Academica_Alumno extends Controller
 
              FROM gnral_alumnos
 
-             WHERE id_alumno = ' . $alumno
+             WHERE id_alumno = ?', [$alumno]
         );
 
         $cuenta_y_nom =
@@ -530,7 +530,7 @@ class Dual_Checar_Carga_Academica_Alumno extends Controller
         $adeudo_departamento = DB::selectOne(
             'SELECT COUNT(id_adeudo_departamento) AS adeudo
              FROM adeudo_departamento
-             WHERE id_alumno = ' . $alumno
+             WHERE id_alumno = ?', [$alumno]
         );
 
         if ($adeudo_departamento->adeudo == 0) {
@@ -551,9 +551,9 @@ class Dual_Checar_Carga_Academica_Alumno extends Controller
                  FROM adeudo_departamento,
                       gnral_unidad_administrativa
 
-                 WHERE adeudo_departamento.id_alumno = ' . $alumno . '
+                 WHERE adeudo_departamento.id_alumno = ?
                  AND gnral_unidad_administrativa.id_unidad_admin =
-                     adeudo_departamento.id_departamento'
+                     adeudo_departamento.id_departamento', [$alumno]
             );
 
             foreach ($adeudo_dep as $ade) {
@@ -576,8 +576,8 @@ class Dual_Checar_Carga_Academica_Alumno extends Controller
             $informacion = DB::select(
                 'SELECT *
                  FROM adeudo_departamento
-                 WHERE id_alumno = ' . $alumno . '
-                 AND id_departamento = 50'
+                 WHERE id_alumno = ?
+                 AND id_departamento = 50', [$alumno]
             );
 
             foreach ($informacion as $info) {
@@ -600,8 +600,8 @@ class Dual_Checar_Carga_Academica_Alumno extends Controller
             $bolsa = DB::select(
                 'SELECT *
                  FROM adeudo_departamento
-                 WHERE id_alumno = ' . $alumno . '
-                 AND id_departamento = 100'
+                 WHERE id_alumno = ?
+                 AND id_departamento = 100', [$alumno]
             );
 
             foreach ($bolsa as $bolsa_item) {
@@ -627,7 +627,7 @@ class Dual_Checar_Carga_Academica_Alumno extends Controller
         $estado_sem_act = DB::selectOne(
             'SELECT COUNT(id_semestres_al) AS contar
              FROM eva_semestre_alumno
-             WHERE id_alumno = ' . $alumno
+             WHERE id_alumno = ?', [$alumno]
         );
 
         $estado_sem_act = $estado_sem_act->contar;
@@ -655,11 +655,11 @@ class Dual_Checar_Carga_Academica_Alumno extends Controller
                   gnral_periodos,
                   eva_semestre_alumno
 
-             WHERE eva_semestre_alumno.id_alumno = ' . $alumno . '
+             WHERE eva_semestre_alumno.id_alumno = ?
              AND eva_semestre_alumno.id_periodo =
                  gnral_periodos.id_periodo
              AND eva_semestre_alumno.id_semestre =
-                 gnral_semestres.id_semestre'
+                 gnral_semestres.id_semestre', [$alumno]
         );
 
         return view(
@@ -705,7 +705,7 @@ class Dual_Checar_Carga_Academica_Alumno extends Controller
         $grupo = DB::selectOne(
             'SELECT grupo
              FROM gnral_alumnos
-             WHERE cuenta = ' . $usuario
+             WHERE cuenta = ?', [$usuario]
         );
 
         $grupo = $grupo->grupo;
@@ -715,7 +715,7 @@ class Dual_Checar_Carga_Academica_Alumno extends Controller
         $id_alu = DB::selectOne(
             'SELECT id_alumno
              FROM gnral_alumnos
-             WHERE cuenta = ' . $usuario
+             WHERE cuenta = ?', [$usuario]
         );
 
         $id_alu = $id_alu->id_alumno;
@@ -734,9 +734,9 @@ class Dual_Checar_Carga_Academica_Alumno extends Controller
                 'SELECT *
                  FROM eva_carga_academica
 
-                 WHERE id_materia = ' . $checks[$i] . '
-                 AND id_periodo = ' . $periodo . '
-                 AND id_alumno = ' . $id_alu
+                 WHERE id_materia = ?
+                 AND id_periodo = ?
+                 AND id_alumno = ?', [$checks[$i], $periodo, $id_alu]
             );
 
             if ($verifica == null) {
@@ -758,8 +758,8 @@ class Dual_Checar_Carga_Academica_Alumno extends Controller
             'SELECT *
              FROM eva_validacion_de_cargas
 
-             WHERE id_alumno = ' . $id_alu . '
-             AND id_periodo = ' . $periodo
+             WHERE id_alumno = ?
+             AND id_periodo = ?', [$id_alu, $periodo]
         );
 
         if ($checar == null) {
@@ -804,7 +804,7 @@ class Dual_Checar_Carga_Academica_Alumno extends Controller
         /*
          * Buscar adeudos
          */
-        $adeudo = DB::selectOne( 'SELECT COUNT(id_adeudo_departamento) AS total  FROM adeudo_departamento WHERE id_alumno = ' . $id );
+        $adeudo = DB::selectOne( 'SELECT COUNT(id_adeudo_departamento) AS total  FROM adeudo_departamento WHERE id_alumno = ?', [$id] );
 
         /*
          * ============================================================
@@ -827,7 +827,7 @@ class Dual_Checar_Carga_Academica_Alumno extends Controller
          * 888 = enviada a Servicios Escolares
          * ============================================================
          */
-        DB::update( 'UPDATE eva_validacion_de_cargas  SET estado_validacion = 888 WHERE id_alumno = ' . $id . '  AND id_periodo = ' . $periodo );
+        DB::update( 'UPDATE eva_validacion_de_cargas  SET estado_validacion = 888 WHERE id_alumno = ?  AND id_periodo = ?', [$id, $periodo] );
 
          return redirect('/duales/checar_carga_academica')
         ->with(

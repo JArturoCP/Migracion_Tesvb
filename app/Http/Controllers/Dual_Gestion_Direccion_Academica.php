@@ -21,7 +21,7 @@ class Dual_Gestion_Direccion_Academica extends Controller
     {
         $carrera = $id_carrera;
         //dd($carrera);
-        $carr = DB::selectOne('SELECT * FROM `gnral_carreras` WHERE `id_carrera` = ' . $id_carrera . '');
+        $carr = DB::selectOne('SELECT * FROM `gnral_carreras` WHERE `id_carrera` = ?', [$id_carrera]);
         $nombre_carrera = $carr->nombre;
         $id_periodo=Session::get('periodotrabaja');
         $docentes = DB::table('cal_duales_actuales')
@@ -35,14 +35,14 @@ class Dual_Gestion_Direccion_Academica extends Controller
         ->where('cal_duales_actuales.id_periodo', $id_periodo)
         ->where('gnral_alumnos.id_carrera', $carrera)
         ->get();
-        /*$datos = DB::select('SELECT DISTINCT gnral_personales.nombre as profesor, abreviaciones.titulo, cal_duales_actuales.* 
-        FROM cal_duales_actuales, gnral_alumnos,gnral_personales, abreviaciones_prof, abreviaciones 
-        WHERE gnral_alumnos.id_alumno = cal_duales_actuales.id_alumno 
-          AND cal_duales_actuales.id_personal = gnral_personales.id_personal 
+        /*$datos = DB::select('SELECT DISTINCT gnral_personales.nombre as profesor, abreviaciones.titulo, cal_duales_actuales.*
+        FROM cal_duales_actuales, gnral_alumnos,gnral_personales, abreviaciones_prof, abreviaciones
+        WHERE gnral_alumnos.id_alumno = cal_duales_actuales.id_alumno
+          AND cal_duales_actuales.id_personal = gnral_personales.id_personal
           AND gnral_personales.id_personal = abreviaciones_prof.id_personal
           AND gnral_alumnos.id_carrera='.$id_carrera.'
           AND cal_duales_actuales.id_periodo = '.$id_periodo.'
-          AND abreviaciones_prof.id_abreviacion 
+          AND abreviaciones_prof.id_abreviacion
           AND abreviaciones_prof.id_abreviacion = abreviaciones.id_abreviacion');*/
         //dd($datos);
 
@@ -51,10 +51,10 @@ class Dual_Gestion_Direccion_Academica extends Controller
     public function ver_alumnos_duales($id_personal)
     {
         $docente = $id_personal;
-        $doc = DB::selectOne('SELECT * FROM gnral_personales WHERE id_personal = '.$id_personal.' ');
+        $doc = DB::selectOne('SELECT * FROM gnral_personales WHERE id_personal = ? ', [$id_personal]);
         $nombre_docente = $doc->nombre;
         $id_periodo = Session::get('periodo_actual');
-        $alumnos = DB::select('SELECT gnral_alumnos.id_alumno,  gnral_alumnos.cuenta,  gnral_alumnos.nombre,  gnral_alumnos.apaterno,  gnral_alumnos.amaterno, 
+        $alumnos = DB::select('SELECT gnral_alumnos.id_alumno,  gnral_alumnos.cuenta,  gnral_alumnos.nombre,  gnral_alumnos.apaterno,  gnral_alumnos.amaterno,
         cal_duales_actuales.id_duales_actuales, eva_validacion_de_cargas.estado_validacion,
         eva_validacion_de_cargas.id
         FROM  gnral_alumnos
@@ -63,14 +63,14 @@ class Dual_Gestion_Direccion_Academica extends Controller
         JOIN gnral_materias ON eva_carga_academica.id_materia = gnral_materias.id_materia
         JOIN gnral_reticulas ON gnral_materias.id_reticula = gnral_reticulas.id_reticula
         LEFT JOIN eva_validacion_de_cargas ON eva_carga_academica.id_alumno = eva_validacion_de_cargas.id_alumno
-        AND eva_validacion_de_cargas.id_periodo = eva_carga_academica.id_periodo 
-        WHERE cal_duales_actuales.id_periodo = '.$id_periodo.'   
-        AND eva_carga_academica.id_status_materia = 1 
-        AND eva_carga_academica.id_periodo = '.$id_periodo.'
-        AND cal_duales_actuales.id_personal = '.$docente.'
+        AND eva_validacion_de_cargas.id_periodo = eva_carga_academica.id_periodo
+        WHERE cal_duales_actuales.id_periodo = ?
+        AND eva_carga_academica.id_status_materia = 1
+        AND eva_carga_academica.id_periodo = ?
+        AND cal_duales_actuales.id_personal = ?
         AND eva_validacion_de_cargas.estado_validacion= 8
         GROUP BY gnral_alumnos.id_alumno, gnral_alumnos.cuenta, gnral_alumnos.nombre, gnral_alumnos.apaterno, gnral_alumnos.amaterno
-        ORDER BY gnral_alumnos.apaterno, gnral_alumnos.amaterno, gnral_alumnos.nombre ASC');
+        ORDER BY gnral_alumnos.apaterno, gnral_alumnos.amaterno, gnral_alumnos.nombre ASC', [$id_periodo, $id_periodo, $docente]);
         //dd($alumnos);
 
         $docentes = DB::table('cal_duales_actuales')
@@ -106,9 +106,9 @@ class Dual_Gestion_Direccion_Academica extends Controller
             ->where('id_estado','>', 0)
             ->get();
         $calificar_dual=$calificar_dual[0]->calificado;
-        $profesores=DB::select('SELECT gnral_personales.id_personal,gnral_personales.nombre,abreviaciones.titulo 
+        $profesores=DB::select('SELECT gnral_personales.id_personal,gnral_personales.nombre,abreviaciones.titulo
         FROM abreviaciones_prof,abreviaciones,gnral_personales where
-        gnral_personales.id_personal=abreviaciones_prof.id_personal and 
+        gnral_personales.id_personal=abreviaciones_prof.id_personal and
         abreviaciones_prof.id_abreviacion=abreviaciones.id_abreviacion ORDER BY `gnral_personales`.`nombre` ASC');
 
         if($calificar_dual == 0){
@@ -133,12 +133,12 @@ class Dual_Gestion_Direccion_Academica extends Controller
                                 and eva_carga_academica.id_periodo=gnral_periodos.id_periodo
                                 and eva_carga_academica.grupo=gnral_grupos.id_grupo
                                 and eva_carga_academica.id_alumno=gnral_alumnos.id_alumno
-                                and gnral_periodos.id_periodo='.$id_periodo.'
+                                and gnral_periodos.id_periodo= ?
                                 and eva_carga_academica.id_materia  NOT IN (773,845,853,1160,1263,1264,1265,1443,1496,1502,1565,1566,1567,1568,1569,1571)
                                 and gnral_alumnos.id_alumno=eva_validacion_de_cargas.id_alumno
                                 and gnral_periodos.id_periodo=eva_validacion_de_cargas.id_periodo
-                                and eva_validacion_de_cargas.id_alumno='.$id_alumno.'
-                                and eva_status_materia.id_status_materia=1');
+                                and eva_validacion_de_cargas.id_alumno= ?
+                                and eva_status_materia.id_status_materia=1', [$id_periodo, $id_alumno]);
         $array_materias=array();
         $mayor_unidades=0;
         $esc_alumno=false;
@@ -156,8 +156,8 @@ class Dual_Gestion_Direccion_Academica extends Controller
             $mayor_unidades= $mayor_unidades > $dat_alumno->unidades ? $mayor_unidades : $dat_alumno->unidades;
             $array_calificaciones=array();
             $calificaciones=DB::select('SELECT * FROM cal_evaluaciones
-                      WHERE id_carga_academica='.$dat_alumno->id_carga_academica.'
-                      ORDER BY cal_evaluaciones.id_unidad');
+                      WHERE id_carga_academica= ?
+                      ORDER BY cal_evaluaciones.id_unidad', [$dat_alumno->id_carga_academica]);
             $calificaciones != null ? $unidades_evaluadas=0 : $unidades_evaluadas=1;
             foreach ($calificaciones as $calificacion)
             {

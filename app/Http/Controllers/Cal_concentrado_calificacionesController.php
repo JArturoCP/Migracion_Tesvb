@@ -27,20 +27,20 @@ class Cal_concentrado_calificacionesController extends Controller
 
         $carrera = $id_carrera;
         $periodo = Session::get('periodo_actual');
-        $grupos = DB::select('select DISTINCT m.id_semestre, hp.grupo ,c.id_carrera FROM 
-                gnral_periodos pe, gnral_carreras c, gnral_periodo_carreras pc, gnral_horarios h, gnral_materias m, 
-                gnral_personales p, gnral_materias_perfiles mf, gnral_horas_profesores hp,gnral_grupos g WHERE 
-                mf.id_personal = p.id_personal AND 
-                mf.id_materia = m.id_materia AND 
-                mf.id_materia_perfil = hp.id_materia_perfil AND 
-                hp.id_horario_profesor = h.id_horario_profesor AND 
-                h.id_periodo_carrera = pc.id_periodo_carrera AND 
-                pc.id_periodo = pe.id_periodo AND 
-                pe.id_periodo =' . $periodo . ' AND 
-                pc.id_carrera = c.id_carrera AND 
-                c.id_carrera =' . $carrera . '
-                ORDER BY m.id_semestre ASC ');
-        $carr=DB::selectOne('SELECT * FROM `gnral_carreras` WHERE `id_carrera` = '.$id_carrera.'');
+        $grupos = DB::select('select DISTINCT m.id_semestre, hp.grupo ,c.id_carrera FROM
+                gnral_periodos pe, gnral_carreras c, gnral_periodo_carreras pc, gnral_horarios h, gnral_materias m,
+                gnral_personales p, gnral_materias_perfiles mf, gnral_horas_profesores hp,gnral_grupos g WHERE
+                mf.id_personal = p.id_personal AND
+                mf.id_materia = m.id_materia AND
+                mf.id_materia_perfil = hp.id_materia_perfil AND
+                hp.id_horario_profesor = h.id_horario_profesor AND
+                h.id_periodo_carrera = pc.id_periodo_carrera AND
+                pc.id_periodo = pe.id_periodo AND
+                pe.id_periodo = ? AND
+                pc.id_carrera = c.id_carrera AND
+                c.id_carrera = ?
+                ORDER BY m.id_semestre ASC ', [$periodo, $carrera]);
+        $carr=DB::selectOne('SELECT * FROM `gnral_carreras` WHERE `id_carrera` = ?', [$id_carrera]);
         $nombre_carrera=$carr->nombre;
         return view('servicios_escolares.concentrado_calificaciones.concentrado_semestres', compact('grupos','nombre_carrera'));
 
@@ -53,45 +53,45 @@ class Cal_concentrado_calificacionesController extends Controller
         set_time_limit(300); // Alternativa si ini_set no funciona
 
         $id_periodo = Session::get('periodo_actual');
-        $carr=DB::selectOne('SELECT * FROM `gnral_carreras` WHERE `id_carrera` = '.$id_carrera.'');
+        $carr=DB::selectOne('SELECT * FROM `gnral_carreras` WHERE `id_carrera` = ?', [$id_carrera]);
         $nombre_carrera=$carr->nombre;
 
         $alumnos = DB::select('SELECT  gnral_alumnos.id_alumno,gnral_alumnos.cuenta,gnral_alumnos.nombre,
 gnral_alumnos.apaterno,gnral_alumnos.amaterno,eva_validacion_de_cargas.estado_validacion FROM eva_carga_academica,gnral_materias, gnral_alumnos,
-eva_validacion_de_cargas,gnral_reticulas WHERE  gnral_materias.id_semestre=' . $id_semestre . '
-and gnral_reticulas.id_carrera=' . $id_carrera . ' and gnral_materias.id_reticula=gnral_reticulas.id_reticula and 
-eva_carga_academica.id_materia = gnral_materias.id_materia AND eva_carga_academica.id_status_materia = 1 
-AND eva_carga_academica.id_periodo = ' . $id_periodo . ' AND eva_carga_academica.grupo = ' . $grupo . ' 
+eva_validacion_de_cargas,gnral_reticulas WHERE  gnral_materias.id_semestre= ?
+and gnral_reticulas.id_carrera= ? and gnral_materias.id_reticula=gnral_reticulas.id_reticula and
+eva_carga_academica.id_materia = gnral_materias.id_materia AND eva_carga_academica.id_status_materia = 1
+AND eva_carga_academica.id_periodo = ? AND eva_carga_academica.grupo = ?
 and gnral_alumnos.id_alumno=eva_carga_academica.id_alumno and
   eva_validacion_de_cargas.id_alumno=eva_carga_academica.id_alumno and eva_validacion_de_cargas.id_periodo=eva_carga_academica.id_periodo
   and eva_carga_academica.id_materia NOT IN (845,1160,1263,1264,1265,1443,1496,1502,1565,1566,1567,1568,1569,1571,1939)
-  and eva_validacion_de_cargas.estado_validacion in (2,9,10) GROUP by gnral_alumnos.id_alumno  
-ORDER BY gnral_alumnos.apaterno,gnral_alumnos.amaterno,gnral_alumnos.nombre  ASC');
+  and eva_validacion_de_cargas.estado_validacion in (2,9,10) GROUP by gnral_alumnos.id_alumno
+ORDER BY gnral_alumnos.apaterno,gnral_alumnos.amaterno,gnral_alumnos.nombre  ASC', [$id_semestre, $id_carrera, $id_periodo, $grupo]);
 
 
 
-        $materias = DB::select('select DISTINCT  gnral_periodo_carreras.id_carrera,gnral_horas_profesores.grupo,gnral_materias.creditos,gnral_materias.id_semestre,gnral_materias.unidades,gnral_materias.id_materia, gnral_materias.clave,gnral_materias.nombre materia,abreviaciones.titulo,gnral_personales.nombre,gnral_horarios.aprobado FROM 
-            gnral_horarios,gnral_horas_profesores,gnral_materias_perfiles,gnral_materias,gnral_personales, 
-            hrs_rhps,gnral_periodo_carreras,abreviaciones_prof,abreviaciones WHERE 
-            gnral_periodo_carreras.id_carrera=' . $id_carrera . ' AND 
-            gnral_periodo_carreras.id_periodo=' . $id_periodo . ' AND 
-            gnral_materias.id_semestre=' . $id_semestre . ' AND 
-            gnral_horas_profesores.grupo=' . $grupo . ' AND 
-            gnral_horarios.id_periodo_carrera=gnral_periodo_carreras.id_periodo_carrera AND  
-            gnral_horarios.id_personal=gnral_personales.id_personal AND 
-            gnral_horas_profesores.id_horario_profesor=gnral_horarios.id_horario_profesor AND 
-            gnral_horas_profesores.id_materia_perfil=gnral_materias_perfiles.id_materia_perfil AND 
-            gnral_materias_perfiles.id_materia=gnral_materias.id_materia AND 
-            hrs_rhps.id_hrs_profesor=gnral_horas_profesores.id_hrs_profesor and abreviaciones_prof.id_personal=gnral_personales.id_personal 
-            and abreviaciones_prof.id_abreviacion=abreviaciones.id_abreviacion  order by gnral_materias.nombre ASC ');
+        $materias = DB::select('select DISTINCT  gnral_periodo_carreras.id_carrera,gnral_horas_profesores.grupo,gnral_materias.creditos,gnral_materias.id_semestre,gnral_materias.unidades,gnral_materias.id_materia, gnral_materias.clave,gnral_materias.nombre materia,abreviaciones.titulo,gnral_personales.nombre,gnral_horarios.aprobado FROM
+            gnral_horarios,gnral_horas_profesores,gnral_materias_perfiles,gnral_materias,gnral_personales,
+            hrs_rhps,gnral_periodo_carreras,abreviaciones_prof,abreviaciones WHERE
+            gnral_periodo_carreras.id_carrera= ? AND
+            gnral_periodo_carreras.id_periodo= ? AND
+            gnral_materias.id_semestre= ? AND
+            gnral_horas_profesores.grupo= ? AND
+            gnral_horarios.id_periodo_carrera=gnral_periodo_carreras.id_periodo_carrera AND
+            gnral_horarios.id_personal=gnral_personales.id_personal AND
+            gnral_horas_profesores.id_horario_profesor=gnral_horarios.id_horario_profesor AND
+            gnral_horas_profesores.id_materia_perfil=gnral_materias_perfiles.id_materia_perfil AND
+            gnral_materias_perfiles.id_materia=gnral_materias.id_materia AND
+            hrs_rhps.id_hrs_profesor=gnral_horas_profesores.id_hrs_profesor and abreviaciones_prof.id_personal=gnral_personales.id_personal
+            and abreviaciones_prof.id_abreviacion=abreviaciones.id_abreviacion  order by gnral_materias.nombre ASC ', [$id_carrera, $id_periodo, $id_semestre, $grupo]);
 
         $array_mat=array();
         $array_mat_sin=array();
         $mat_calificada=0;
         $mat_sin_cal=0;
         foreach ($materias as $materia) {
-            $calificada=DB::selectOne('SELECT count(id_calificar_sumativas) contar_sumativas FROM `gnral_calificar_sumativas` 
-           WHERE `id_materia` = '.$materia->id_materia.' AND `id_grupo` = '.$materia->grupo.' AND `id_estado` = 1 AND `id_periodo` = '.$id_periodo.'');
+            $calificada=DB::selectOne('SELECT count(id_calificar_sumativas) contar_sumativas FROM `gnral_calificar_sumativas`
+           WHERE `id_materia` = ? AND `id_grupo` = ? AND `id_estado` = 1 AND `id_periodo` = ?', [$materia->id_materia, $materia->grupo, $id_periodo]);
             $calificada=$calificada->contar_sumativas;
 
 
@@ -151,9 +151,9 @@ ORDER BY gnral_alumnos.apaterno,gnral_alumnos.amaterno,gnral_alumnos.nombre  ASC
               $estado_materia=0;
               foreach ($array_mat as $materiass) {
 
-                      $inscrito = DB::selectOne('SELECT * FROM `eva_carga_academica` 
-                  WHERE `id_materia` = '.$materiass['id_materia'].' AND `id_status_materia` = 1 
-                  AND `id_periodo` = '.$id_periodo. ' AND `grupo` = ' . $grupo . ' and id_alumno='.$alumno->id_alumno.'');
+                      $inscrito = DB::selectOne('SELECT * FROM `eva_carga_academica`
+                  WHERE `id_materia` = ? AND `id_status_materia` = 1
+                  AND `id_periodo` = ? AND `grupo` = ? and id_alumno= ?', [$materiass['id_materia'], $id_periodo, $grupo, $alumno->id_alumno]);
 //dd($inscrito);
                       if ($inscrito == null) {
                           $datos_alumnos['id_carga_academica'] = 0;
@@ -170,13 +170,13 @@ ORDER BY gnral_alumnos.apaterno,gnral_alumnos.amaterno,gnral_alumnos.nombre  ASC
                           $datos_alumnos['estado'] = 2;
 
 
-                          $materia_promedio = DB::selectOne('SELECT SUM(calificacion) suma FROM `cal_evaluaciones` WHERE `id_carga_academica` =' . $inscrito->id_carga_academica . ' and calificacion >=70');
+                          $materia_promedio = DB::selectOne('SELECT SUM(calificacion) suma FROM `cal_evaluaciones` WHERE `id_carga_academica` = ? and calificacion >=70', [$inscrito->id_carga_academica]);
                           $materia_promedio = $materia_promedio->suma;
 
-                          $contar_unidades_pasadas = DB::selectOne('SELECT count(calificacion) suma FROM `cal_evaluaciones` WHERE `id_carga_academica` = ' . $inscrito->id_carga_academica . ' and calificacion >=70');
+                          $contar_unidades_pasadas = DB::selectOne('SELECT count(calificacion) suma FROM `cal_evaluaciones` WHERE `id_carga_academica` = ? and calificacion >=70', [$inscrito->id_carga_academica]);
                           $contar_unidades_pasadas = $contar_unidades_pasadas->suma;
 
-                          $contar_unidades_sumativas = DB::selectOne('SELECT count(calificacion) num FROM `cal_evaluaciones` WHERE `id_carga_academica` = ' . $inscrito->id_carga_academica . ' and esc=1');
+                          $contar_unidades_sumativas = DB::selectOne('SELECT count(calificacion) num FROM `cal_evaluaciones` WHERE `id_carga_academica` = ? and esc=1', [$inscrito->id_carga_academica]);
                           $contar_unidades_sumativas = $contar_unidades_sumativas->num;
 
                           if ($contar_unidades_pasadas == $materiass['unidades']) {
@@ -372,13 +372,13 @@ ORDER BY gnral_alumnos.apaterno,gnral_alumnos.amaterno,gnral_alumnos.nombre  ASC
     }
     public function modificaciones_cargas_cademicas(){
         $id_periodo = Session::get('periodo_actual');
-       $historial=DB::select('SELECT gnral_alumnos.cuenta,gnral_alumnos.nombre alumno, 
+       $historial=DB::select('SELECT gnral_alumnos.cuenta,gnral_alumnos.nombre alumno,
        gnral_alumnos.apaterno,gnral_alumnos.amaterno,gnral_personales.nombre ,
        cal_usuario_estado.* from gnral_alumnos,gnral_personales,cal_usuario_estado,
-    eva_validacion_de_cargas where gnral_alumnos.id_alumno=eva_validacion_de_cargas.id_alumno 
+    eva_validacion_de_cargas where gnral_alumnos.id_alumno=eva_validacion_de_cargas.id_alumno
                 and eva_validacion_de_cargas.id=cal_usuario_estado.id_validacion_carga and
-        gnral_personales.tipo_usuario=cal_usuario_estado.id_usuario and 
-        eva_validacion_de_cargas.id_periodo='.$id_periodo.' ORDER BY `cal_usuario_estado`.`fecha` DESC ');
+        gnral_personales.tipo_usuario=cal_usuario_estado.id_usuario and
+        eva_validacion_de_cargas.id_periodo= ? ORDER BY `cal_usuario_estado`.`fecha` DESC ', [$id_periodo]);
        return view('servicios_escolares.historial_modificaciones_carga',compact('historial'));
     }
 

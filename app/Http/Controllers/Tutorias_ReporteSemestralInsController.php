@@ -18,12 +18,12 @@ class Tutorias_ReporteSemestralInsController extends Controller
       foreach($carreras as $carrera){
         $dat['id_carrera']=$carrera->id_carrera;
         $dat['nombre']=$carrera->nombre;
-        $observacion = DB::selectOne('SELECT COUNT(id_carrera) contar from rep_institucional where id_periodo = '.$periodo_actual.' AND id_carrera = '.$carrera->id_carrera.'');
+        $observacion = DB::selectOne('SELECT COUNT(id_carrera) contar from rep_institucional where id_periodo = ? AND id_carrera = ?', [$periodo_actual, $carrera->id_carrera]);
         if($observacion->contar == 0){
             $dat['estado']=1;
             $dat['observacion']='';
         }else{
-            $observaciones = DB::selectOne('SELECT *from rep_institucional where id_periodo = '.$periodo_actual.' AND id_carrera = '.$carrera->id_carrera.'');
+            $observaciones = DB::selectOne('SELECT *from rep_institucional where id_periodo = ? AND id_carrera = ?', [$periodo_actual, $carrera->id_carrera]);
             $dat['estado']=2;
             $dat['observacion']=$observaciones->observaciones;
         }
@@ -43,9 +43,9 @@ return back ();
     }
     public function editar_observacion_carrera($id_carrera){
         $periodo_actual=Session::get('periodo_actual');
-        $observaciones = DB::selectOne('SELECT *from rep_institucional where id_periodo = '.$periodo_actual.' AND id_carrera = '.$id_carrera.'');
+        $observaciones = DB::selectOne('SELECT *from rep_institucional where id_periodo = ? AND id_carrera = ?', [$periodo_actual, $id_carrera]);
         return view('tutorias.coordina_inst.reportecarrerains.mood_observacion',compact('observaciones'));
-    } 
+    }
     public function guardar_mod_observacion_inst(Request $request, $id_repinstitucional){
         $hoy = date("Y-m-d H:i:s");
         DB::table('rep_institucional')

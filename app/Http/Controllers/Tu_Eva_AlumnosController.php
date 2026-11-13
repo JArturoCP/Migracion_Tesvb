@@ -32,10 +32,10 @@ class Tu_Eva_AlumnosController extends Controller
                                 ON gnral_je.id_jefe_periodo = exp_asigna_t.id_jefe_periodo
                                 INNER JOIN gnral_personales gnral_p
                                 ON gnral_p.id_personal = exp_asigna_t.id_personal
-                                WHERE gnral_je.id_periodo = '.$periodo.' AND gnral_a.id_usuario = '.$id_usuario.' ');
+                                WHERE gnral_je.id_periodo = ? AND gnral_a.id_usuario = ? ', [$periodo, $id_usuario]);
         //dd($alumno);
 
-        $estado_eva = DB::selectOne('SELECT COUNT(id_asigna_alumno) x FROM tu_eva_resultados_formulario WHERE id_asigna_alumno = '.$alumno->id_asigna_alumno.' AND id_asigna_tutor = '.$alumno->id_asigna_tutor.' ');
+        $estado_eva = DB::selectOne('SELECT COUNT(id_asigna_alumno) x FROM tu_eva_resultados_formulario WHERE id_asigna_alumno = ? AND id_asigna_tutor = ? ', [$alumno->id_asigna_alumno, $alumno->id_asigna_tutor]);
         //dd($estado_eva );
         $estado1 = 0;
         foreach($estado_eva as $estado):
@@ -56,7 +56,7 @@ class Tu_Eva_AlumnosController extends Controller
                 $message = "Evaluacion realizada";
                /* echo "<script type='text/javascript'>
                             alert('$message');
-                            window.location.href ='http://127.0.0.1:8000/tutorias/inicioalu';//cambiar a la pagina del tec 
+                            window.location.href ='http://127.0.0.1:8000/tutorias/inicioalu';//cambiar a la pagina del tec
                       </script>" ;*/
                 break;
         }
@@ -115,7 +115,7 @@ class Tu_Eva_AlumnosController extends Controller
         $servicios_del_programa_de_tutoria = $request->secion4_pregunta1 + $request->secion4_pregunta2 + $request->secion4_pregunta3 + $request->secion4_pregunta4 + $request->secion4_pregunta5 + $request->secion4_pregunta6;
         $tus_logros_y_avances = $request->secion5_pregunta1 + $request->secion5_pregunta2 + $request->secion5_pregunta3 + $request->secion5_pregunta4 + $request->secion5_pregunta5 + $request->secion5_pregunta6 + $request->secion5_pregunta7 + $request->secion5_pregunta8 + $request->secion5_pregunta9;
 
-        DB::INSERT('INSERT INTO tu_eva_resultados_formulario VALUES(0,'.$request->id_asigna_alumno.','.$request->id_asigna_tutor.',now(),'.$gestion.','.$actitud.', '.$disponibilidad_confianza.', '.$servicios_del_programa_de_tutoria.','.$tus_logros_y_avances.',"'.$request->comentarios.'")');
+        DB::INSERT('INSERT INTO tu_eva_resultados_formulario VALUES(0,?,?,now(),?,?, ?, ?,?,?)', [$request->id_asigna_alumno, $request->id_asigna_tutor, $gestion, $actitud, $disponibilidad_confianza, $servicios_del_programa_de_tutoria, $tus_logros_y_avances, (string) ($request->comentarios)]);
         //dd('hola1');
         //return view('/tutoras_evaluacion/evaluacion_al_tutor_dos/');
         return redirect('/tutoras_evaluacion/evaluacion_al_tutor');
@@ -191,7 +191,7 @@ class Tu_Eva_AlumnosController extends Controller
         $tus_logros_y_avances = 0;
         //dd($gestion);
 
-        DB::INSERT('INSERT INTO tu_eva_resultados_formulario VALUES(0,'.$request->id_asigna_alumno.','.$request->id_asigna_tutor.',now(),'.$gestion.','.$actitud.','.$disponibilidad_confianza.', '.$servicios_del_programa_de_tutoria.','.$tus_logros_y_avances.',"'.$request->comentarios.'")');
+        DB::INSERT('INSERT INTO tu_eva_resultados_formulario VALUES(0,?,?,now(),?,?,?, ?,?,?)', [$request->id_asigna_alumno, $request->id_asigna_tutor, $gestion, $actitud, $disponibilidad_confianza, $servicios_del_programa_de_tutoria, $tus_logros_y_avances, (string) ($request->comentarios)]);
 
         return redirect('/tutoras_evaluacion/evaluacion_al_tutor/dos/');
     }
@@ -216,7 +216,7 @@ class Tu_Eva_AlumnosController extends Controller
                                 ON gnral_je.id_jefe_periodo = exp_asigna_t.id_jefe_periodo
                                 INNER JOIN gnral_personales gnral_p
                                 ON gnral_p.id_personal = exp_asigna_t.id_personal
-                                WHERE gnral_je.id_periodo = '.$periodo.' AND gnral_a.id_usuario = '.$id_usuario.' ');
+                                WHERE gnral_je.id_periodo = ? AND gnral_a.id_usuario = ? ', [$periodo, $id_usuario]);
         //dd($alumno);
 
         return view('tutorias.eva_tutorias.alumnos_index_dos',compact('alumno'));
@@ -241,7 +241,7 @@ class Tu_Eva_AlumnosController extends Controller
         $servicios_del_programa_de_tutoria = $request->secion4_pregunta1 + $request->secion4_pregunta2 + $request->secion4_pregunta3 + $request->secion4_pregunta4 + $request->secion4_pregunta5 + $request->secion4_pregunta6;
         //dd($disponibilidad_confianza);
 
-        DB::update('UPDATE tu_eva_resultados_formulario SET disponibilidad_confianza = '.$disponibilidad_confianza.', servicios_del_programa_de_tutoria = '.$servicios_del_programa_de_tutoria.' WHERE id_asigna_alumno = '.$request->id_asigna_alumno.' and id_asigna_tutor = '.$request->id_asigna_tutor.'; ');//primer modificacion
+        DB::update('UPDATE tu_eva_resultados_formulario SET disponibilidad_confianza = ?, servicios_del_programa_de_tutoria = ? WHERE id_asigna_alumno = ? and id_asigna_tutor = ?; ', [$disponibilidad_confianza, $servicios_del_programa_de_tutoria, $request->id_asigna_alumno, $request->id_asigna_tutor]);//primer modificacion
 
         return redirect('/tutoras_evaluacion/evaluacion_al_tutor/tres/');
     }
@@ -265,7 +265,7 @@ class Tu_Eva_AlumnosController extends Controller
                                 ON gnral_je.id_jefe_periodo = exp_asigna_t.id_jefe_periodo
                                 INNER JOIN gnral_personales gnral_p
                                 ON gnral_p.id_personal = exp_asigna_t.id_personal
-                                WHERE gnral_je.id_periodo = '.$periodo.' AND gnral_a.id_usuario = '.$id_usuario.' ');
+                                WHERE gnral_je.id_periodo = ? AND gnral_a.id_usuario = ? ', [$periodo, $id_usuario]);
         //dd($alumno);
 
         return view('tutorias.eva_tutorias.alumnos_index_tres',compact('alumno'));
@@ -288,7 +288,7 @@ class Tu_Eva_AlumnosController extends Controller
         $tus_logros_y_avances = $request->secion5_pregunta1 + $request->secion5_pregunta2 + $request->secion5_pregunta3 + $request->secion5_pregunta4 + $request->secion5_pregunta5 + $request->secion5_pregunta6 + $request->secion5_pregunta7 + $request->secion5_pregunta8 + $request->secion5_pregunta9;
         //dd($tus_logros_y_avances);
 
-        DB::update('UPDATE tu_eva_resultados_formulario SET tus_logros_y_avances = '.$tus_logros_y_avances.', comentario = "'.$request->comentarios.'" WHERE id_asigna_alumno = '.$request->id_asigna_alumno.' and id_asigna_tutor = '.$request->id_asigna_tutor.' ');
+        DB::update('UPDATE tu_eva_resultados_formulario SET tus_logros_y_avances = ?, comentario = ? WHERE id_asigna_alumno = ? and id_asigna_tutor = ? ', [$tus_logros_y_avances, (string) ($request->comentarios), $request->id_asigna_alumno, $request->id_asigna_tutor]);
 
        return redirect('/tutorias/');
     }

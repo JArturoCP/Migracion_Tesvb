@@ -19,32 +19,32 @@ class PDFlistasController extends Controller
     public function generaListas($id_docente,$id_materia,$id_grupo,$unidades)
     {
         //dd($id_docente,$id_materia,$id_grupo,$unidades);
-        $mat = DB::selectOne('SELECT  gnral_materias.*,gnral_reticulas.id_reticula,gnral_reticulas.clave clave_rec,gnral_reticulas.id_carrera FROM gnral_materias,gnral_reticulas WHERE id_materia = '.$id_materia.' and gnral_reticulas.id_reticula=gnral_materias.id_reticula');
+        $mat = DB::selectOne('SELECT  gnral_materias.*,gnral_reticulas.id_reticula,gnral_reticulas.clave clave_rec,gnral_reticulas.id_carrera FROM gnral_materias,gnral_reticulas WHERE id_materia = ? and gnral_reticulas.id_reticula=gnral_materias.id_reticula', [$id_materia]);
         $grupo = $mat->id_semestre.'0'.$id_grupo ;
-        $carrera= DB::selectOne('SELECT gnral_carreras.nombre from gnral_carreras,gnral_reticulas,gnral_materias WHERE gnral_carreras.id_carrera=gnral_reticulas.id_carrera and gnral_reticulas.id_reticula=gnral_materias.id_reticula and gnral_materias.id_materia= '.$id_materia.'');
+        $carrera= DB::selectOne('SELECT gnral_carreras.nombre from gnral_carreras,gnral_reticulas,gnral_materias WHERE gnral_carreras.id_carrera=gnral_reticulas.id_carrera and gnral_reticulas.id_reticula=gnral_materias.id_reticula and gnral_materias.id_materia= ?', [$id_materia]);
         $nom_carrera=$carrera->nombre;
-        $profesor=DB::selectOne('SELECT abreviaciones.titulo,gnral_personales.nombre from gnral_personales,abreviaciones_prof,abreviaciones WHERE gnral_personales.id_personal=abreviaciones_prof.id_personal and abreviaciones_prof.id_abreviacion=abreviaciones.id_abreviacion and gnral_personales.id_personal='.$id_docente.'');
+        $profesor=DB::selectOne('SELECT abreviaciones.titulo,gnral_personales.nombre from gnral_personales,abreviaciones_prof,abreviaciones WHERE gnral_personales.id_personal=abreviaciones_prof.id_personal and abreviaciones_prof.id_abreviacion=abreviaciones.id_abreviacion and gnral_personales.id_personal= ?', [$id_docente]);
         $periodo=Session::get('periodo_actual');
 			$esc_alumno=false;
-			$periodoAct=DB::select("select periodo from gnral_periodos where id_periodo=".$periodo."");
+			$periodoAct=DB::select('select periodo from gnral_periodos where id_periodo= ?', [$periodo]);
 			$periodoAct=$periodoAct[0]->periodo;
 
         $alumnos=DB::select('select gnral_alumnos.id_alumno,gnral_alumnos.cuenta,gnral_alumnos.nombre, gnral_alumnos.apaterno,gnral_alumnos.amaterno,gnral_alumnos.id_carrera,eva_carga_academica.id_carga_academica,
  gnral_materias.clave,gnral_materias.nombre materia,gnral_materias.unidades,eva_tipo_curso.nombre_curso,eva_validacion_de_cargas.estado_validacion
                 from gnral_alumnos,gnral_materias,eva_carga_academica, gnral_periodos,eva_tipo_curso,eva_validacion_de_cargas
-                where gnral_periodos.id_periodo='.$periodo.'
-                and gnral_materias.id_materia='.$id_materia.'
-                and eva_carga_academica.grupo='.$id_grupo.'
+                where gnral_periodos.id_periodo= ?
+                and gnral_materias.id_materia= ?
+                and eva_carga_academica.grupo= ?
                 and eva_carga_academica.id_status_materia=1
                 and eva_carga_academica.id_materia=gnral_materias.id_materia
                 and eva_tipo_curso.id_tipo_curso=eva_carga_academica.id_tipo_curso
                 and eva_carga_academica.id_periodo=gnral_periodos.id_periodo
 				and eva_carga_academica.id_alumno=gnral_alumnos.id_alumno
-                and eva_validacion_de_cargas.id_alumno=eva_carga_academica.id_alumno 
+                and eva_validacion_de_cargas.id_alumno=eva_carga_academica.id_alumno
                 and eva_validacion_de_cargas.estado_validacion in (2,9)
                 and eva_validacion_de_cargas.id_periodo= eva_validacion_de_cargas.id_periodo
                 and eva_validacion_de_cargas.id_periodo=gnral_periodos.id_periodo
-                ORDER BY gnral_alumnos.apaterno,gnral_alumnos.amaterno,gnral_alumnos.nombre');
+                ORDER BY gnral_alumnos.apaterno,gnral_alumnos.amaterno,gnral_alumnos.nombre', [$periodo, $id_materia, $id_grupo]);
         //dd($alumnos);
 			$array_alumnos=array();
 			$num_alumnos=0;

@@ -29,39 +29,39 @@ class Dual_Validar_Carga_Academica_Alumno extends Controller
         }else{
             $periodo_activo=0;
         }
-        $consulta=DB::select('SELECT eva_validacion_de_cargas.id, eva_validacion_de_cargas.id_alumno,gnral_alumnos.cuenta, gnral_alumnos.nombre, gnral_alumnos.apaterno, gnral_alumnos.amaterno, gnral_carreras.nombre carreras 
-                                FROM eva_validacion_de_cargas, gnral_alumnos, gnral_carreras 
-                                WHERE eva_validacion_de_cargas.id_periodo='.$periodo.' 
+        $consulta=DB::select('SELECT eva_validacion_de_cargas.id, eva_validacion_de_cargas.id_alumno,gnral_alumnos.cuenta, gnral_alumnos.nombre, gnral_alumnos.apaterno, gnral_alumnos.amaterno, gnral_carreras.nombre carreras
+                                FROM eva_validacion_de_cargas, gnral_alumnos, gnral_carreras
+                                WHERE eva_validacion_de_cargas.id_periodo= ?
                                 AND eva_validacion_de_cargas.estado_validacion= 1
-                                AND eva_validacion_de_cargas.id_alumno=gnral_alumnos.id_alumno 
-                                AND gnral_alumnos.id_carrera=gnral_carreras.id_carrera');
+                                AND eva_validacion_de_cargas.id_alumno=gnral_alumnos.id_alumno
+                                AND gnral_alumnos.id_carrera=gnral_carreras.id_carrera', [$periodo]);
         $consulta2=DB::select('SELECT eva_validacion_de_cargas.id, eva_validacion_de_cargas.id_alumno,
-          gnral_alumnos.cuenta, gnral_alumnos.nombre,gnral_alumnos.apaterno, gnral_alumnos.amaterno, 
-          gnral_carreras.nombre carreras, gnral_semestres.descripcion semestre 
-            FROM eva_validacion_de_cargas, gnral_alumnos, gnral_carreras, gnral_semestres 
-            WHERE eva_validacion_de_cargas.id_periodo='.$periodo.' 
-            AND eva_validacion_de_cargas.estado_validacion= 2 
-            AND eva_validacion_de_cargas.id_alumno=gnral_alumnos.id_alumno 
-            AND gnral_alumnos.id_carrera=gnral_carreras.id_carrera 
-            AND gnral_alumnos.id_semestre = gnral_semestres.id_semestre');
+          gnral_alumnos.cuenta, gnral_alumnos.nombre,gnral_alumnos.apaterno, gnral_alumnos.amaterno,
+          gnral_carreras.nombre carreras, gnral_semestres.descripcion semestre
+            FROM eva_validacion_de_cargas, gnral_alumnos, gnral_carreras, gnral_semestres
+            WHERE eva_validacion_de_cargas.id_periodo= ?
+            AND eva_validacion_de_cargas.estado_validacion= 2
+            AND eva_validacion_de_cargas.id_alumno=gnral_alumnos.id_alumno
+            AND gnral_alumnos.id_carrera=gnral_carreras.id_carrera
+            AND gnral_alumnos.id_semestre = gnral_semestres.id_semestre', [$periodo]);
         // dd($consulta2);
 
 //version nueva
         $consulta3=DB::select('SELECT eva_validacion_de_cargas.id, eva_validacion_de_cargas.id_alumno,
-          gnral_alumnos.cuenta, gnral_alumnos.nombre,gnral_alumnos.apaterno, gnral_alumnos.amaterno, gnral_carreras.nombre carreras, gnral_semestres.descripcion semestre 
-            FROM eva_validacion_de_cargas, gnral_alumnos, gnral_carreras, gnral_semestres 
-            WHERE eva_validacion_de_cargas.id_periodo='.$periodo.' 
-            AND eva_validacion_de_cargas.estado_validacion= 8 
-            AND eva_validacion_de_cargas.id_alumno=gnral_alumnos.id_alumno 
-            AND gnral_alumnos.id_carrera=gnral_carreras.id_carrera 
-            AND gnral_alumnos.id_semestre = gnral_semestres.id_semestre');
+          gnral_alumnos.cuenta, gnral_alumnos.nombre,gnral_alumnos.apaterno, gnral_alumnos.amaterno, gnral_carreras.nombre carreras, gnral_semestres.descripcion semestre
+            FROM eva_validacion_de_cargas, gnral_alumnos, gnral_carreras, gnral_semestres
+            WHERE eva_validacion_de_cargas.id_periodo= ?
+            AND eva_validacion_de_cargas.estado_validacion= 8
+            AND eva_validacion_de_cargas.id_alumno=gnral_alumnos.id_alumno
+            AND gnral_alumnos.id_carrera=gnral_carreras.id_carrera
+            AND gnral_alumnos.id_semestre = gnral_semestres.id_semestre', [$periodo]);
         //version antigua
         $consulta4=DB::select('select eva_validacion_de_cargas.id, eva_validacion_de_cargas.id_alumno,
-          gnral_alumnos.cuenta, gnral_alumnos.nombre,gnral_alumnos.apaterno, gnral_alumnos.amaterno, 
-          gnral_carreras.nombre carreras, gnral_semestres.descripcion semestre FROM eva_validacion_de_cargas, gnral_alumnos, 
-          gnral_carreras, gnral_semestres where eva_validacion_de_cargas.id_periodo='.$periodo.' 
-          AND eva_validacion_de_cargas.estado_validacion=9 AND eva_validacion_de_cargas.id_alumno=gnral_alumnos.id_alumno 
-          AND gnral_alumnos.id_carrera=gnral_carreras.id_carrera and gnral_alumnos.id_semestre = gnral_semestres.id_semestre');
+          gnral_alumnos.cuenta, gnral_alumnos.nombre,gnral_alumnos.apaterno, gnral_alumnos.amaterno,
+          gnral_carreras.nombre carreras, gnral_semestres.descripcion semestre FROM eva_validacion_de_cargas, gnral_alumnos,
+          gnral_carreras, gnral_semestres where eva_validacion_de_cargas.id_periodo= ?
+          AND eva_validacion_de_cargas.estado_validacion=9 AND eva_validacion_de_cargas.id_alumno=gnral_alumnos.id_alumno
+          AND gnral_alumnos.id_carrera=gnral_carreras.id_carrera and gnral_alumnos.id_semestre = gnral_semestres.id_semestre', [$periodo]);
 
         $activar=DB::selectOne('select eva_activa_evaluacion.estado from eva_activa_evaluacion where eva_activa_evaluacion.id=2');
         $activar=$activar->estado;
@@ -213,9 +213,9 @@ class Dual_Validar_Carga_Academica_Alumno extends Controller
 
         if($validez == 1)
         {
-            $carga=DB::selectOne('SELECT * FROM `eva_validacion_de_cargas` WHERE `id` = '.$id.'');
+            $carga=DB::selectOne('SELECT * FROM `eva_validacion_de_cargas` WHERE `id` = ?', [$id]);
             $id_alumno=$carga->id_alumno;
-            $alum=DB::selectOne('SELECT * FROM `gnral_alumnos` WHERE `id_alumno` ='.$id_alumno.'');
+            $alum=DB::selectOne('SELECT * FROM `gnral_alumnos` WHERE `id_alumno` = ?', [$id_alumno]);
             $curp=$alum->curp_al;
             $genero=$al_año=substr($curp, 10,1);
 
@@ -270,7 +270,7 @@ class Dual_Validar_Carga_Academica_Alumno extends Controller
             $edad=$ano_diferencia;
 
             $periodo_act=DB::selectOne('SELECT * FROM `gnral_periodos` WHERE `estado` =1');
-            $period_ins=DB::selectOne('SELECT * FROM `eva_semestre_alumno` WHERE `id_alumno` = '.$id_alumno.'');
+            $period_ins=DB::selectOne('SELECT * FROM `eva_semestre_alumno` WHERE `id_alumno` = ?', [$id_alumno]);
             $periodo_ins=$period_ins->id_periodo;
             $semestresins=$period_ins->id_semestre;
             $semestres_cursados=$periodo_act->id_periodo-$periodo_ins;
@@ -286,7 +286,7 @@ class Dual_Validar_Carga_Academica_Alumno extends Controller
 
             ////encuesta de satisfaccion al cliente inscripcion
             if($encuesta == 1){
-                $estado = DB::selectOne('SELECT count(id_alumno) contar from enc_incripcion where id_alumno = '.$id_alumno.' and id_periodo = '.$periodo.' ');
+                $estado = DB::selectOne('SELECT count(id_alumno) contar from enc_incripcion where id_alumno = ? and id_periodo = ? ', [$id_alumno, $periodo]);
                 if( $estado->contar == 0){
                     DB:: table('enc_incripcion')->insert([
                         'id_periodo' => $periodo,
@@ -296,7 +296,7 @@ class Dual_Validar_Carga_Academica_Alumno extends Controller
             }
             ////encuesta de satisfaccion al cliente reinscripcion
             if($encuesta == 2){
-                $estado = DB::selectOne('SELECT count(id_alumno) contar from enc_reinscripcion where id_alumno = '.$id_alumno.' and id_periodo = '.$periodo.' ');
+                $estado = DB::selectOne('SELECT count(id_alumno) contar from enc_reinscripcion where id_alumno = ? and id_periodo = ? ', [$id_alumno, $periodo]);
                 if( $estado->contar == 0){
                     DB:: table('enc_reinscripcion')->insert([
                         'id_periodo' => $periodo,
@@ -468,9 +468,9 @@ class Dual_Validar_Carga_Academica_Alumno extends Controller
             ->where('id_estado','>', 0)
             ->get();
         $calificar_dual=$calificar_dual[0]->calificado;
-        $profesores=DB::select('SELECT gnral_personales.id_personal,gnral_personales.nombre,abreviaciones.titulo 
+        $profesores=DB::select('SELECT gnral_personales.id_personal,gnral_personales.nombre,abreviaciones.titulo
         FROM abreviaciones_prof,abreviaciones,gnral_personales where
-        gnral_personales.id_personal=abreviaciones_prof.id_personal and 
+        gnral_personales.id_personal=abreviaciones_prof.id_personal and
         abreviaciones_prof.id_abreviacion=abreviaciones.id_abreviacion ORDER BY `gnral_personales`.`nombre` ASC');
 
         if($calificar_dual == 0){
@@ -495,12 +495,12 @@ class Dual_Validar_Carga_Academica_Alumno extends Controller
                                 and eva_carga_academica.id_periodo=gnral_periodos.id_periodo
                                 and eva_carga_academica.grupo=gnral_grupos.id_grupo
                                 and eva_carga_academica.id_alumno=gnral_alumnos.id_alumno
-                                and gnral_periodos.id_periodo='.$id_periodo.'
+                                and gnral_periodos.id_periodo= ?
                                 and eva_carga_academica.id_materia  NOT IN (773,845,853,1160,1263,1264,1265,1443,1496,1565,1566,1567,1568,1569,1571)
                                 and gnral_alumnos.id_alumno=eva_validacion_de_cargas.id_alumno
                                 and gnral_periodos.id_periodo=eva_validacion_de_cargas.id_periodo
-                                and eva_validacion_de_cargas.id_alumno='.$id_alumno.'
-                                and eva_status_materia.id_status_materia=1');
+                                and eva_validacion_de_cargas.id_alumno= ?
+                                and eva_status_materia.id_status_materia=1', [$id_periodo, $id_alumno]);
 
 
         $array_materias=array();
@@ -520,8 +520,8 @@ class Dual_Validar_Carga_Academica_Alumno extends Controller
             $mayor_unidades= $mayor_unidades > $dat_alumno->unidades ? $mayor_unidades : $dat_alumno->unidades;
             $array_calificaciones=array();
             $calificaciones=DB::select('SELECT * FROM cal_evaluaciones
-                      WHERE id_carga_academica='.$dat_alumno->id_carga_academica.'
-                      ORDER BY cal_evaluaciones.id_unidad');
+                      WHERE id_carga_academica= ?
+                      ORDER BY cal_evaluaciones.id_unidad', [$dat_alumno->id_carga_academica]);
             $calificaciones != null ? $unidades_evaluadas=0 : $unidades_evaluadas=1;
             foreach ($calificaciones as $calificacion)
             {
@@ -555,9 +555,9 @@ class Dual_Validar_Carga_Academica_Alumno extends Controller
             array_push($array_materias,$dat_materia);
             //dd($dat_materia["calificaciones"]);
         }
-        $estado_residencia=DB::selectOne('SELECT count(gnral_alumnos.id_alumno) estado_alumno 
-        from resi_asesores, gnral_alumnos, resi_anteproyecto where resi_asesores.id_anteproyecto=resi_anteproyecto.id_anteproyecto 
-        and resi_anteproyecto.id_alumno = gnral_alumnos.id_alumno and resi_asesores.id_periodo='.$id_periodo.' and gnral_alumnos.id_alumno='.$id_alumno.'');
+        $estado_residencia=DB::selectOne('SELECT count(gnral_alumnos.id_alumno) estado_alumno
+        from resi_asesores, gnral_alumnos, resi_anteproyecto where resi_asesores.id_anteproyecto=resi_anteproyecto.id_anteproyecto
+        and resi_anteproyecto.id_alumno = gnral_alumnos.id_alumno and resi_asesores.id_periodo= ? and gnral_alumnos.id_alumno= ?', [$id_periodo, $id_alumno]);
 
 
          if($estado_residencia->estado_alumno == 0){
@@ -566,7 +566,7 @@ class Dual_Validar_Carga_Academica_Alumno extends Controller
              $promedio_residencia=0;
          }else{
              $estado_residencia=1;
-             $residencia=DB::selectOne('SELECT count(id_cal_residencia) residencia FROM cal_residencia WHERE id_alumno='.$id_alumno.'');
+             $residencia=DB::selectOne('SELECT count(id_cal_residencia) residencia FROM cal_residencia WHERE id_alumno= ?', [$id_alumno]);
              $residencia=$residencia->residencia;
              if($residencia == 0){
                  $calificacion_residencia=0;
@@ -574,7 +574,7 @@ class Dual_Validar_Carga_Academica_Alumno extends Controller
              }
              else{
                  $calificacion_residencia=1;
-                 $datos_residencia=DB::selectOne('SELECT *FROM cal_residencia WHERE id_alumno='.$id_alumno.'');
+                 $datos_residencia=DB::selectOne('SELECT *FROM cal_residencia WHERE id_alumno= ?', [$id_alumno]);
                  $promedio_residencia=$datos_residencia->calificacion;
 
              }
@@ -587,13 +587,13 @@ class Dual_Validar_Carga_Academica_Alumno extends Controller
 
     }
     public function calificar_estudiante_duales_actuales($id_carga_academica){
-        $carga_academica=DB::selectOne('SELECT * FROM `eva_carga_academica` WHERE `id_carga_academica`='.$id_carga_academica.'');
+        $carga_academica=DB::selectOne('SELECT * FROM `eva_carga_academica` WHERE `id_carga_academica`= ?', [$id_carga_academica]);
         $id_materia=$carga_academica->id_materia;
-        $materia=DB::selectOne('SELECT * FROM `gnral_materias` WHERE `id_materia` ='.$id_materia.'');
+        $materia=DB::selectOne('SELECT * FROM `gnral_materias` WHERE `id_materia` = ?', [$id_materia]);
         $unidades=$materia->unidades;
         $array_cali=array();
         for($i=1; $i<=$unidades;$i++){
-            $cal=DB::selectOne('SELECT * FROM `cal_evaluaciones` WHERE `id_unidad` = '.$i.' AND `id_carga_academica` = '.$id_carga_academica.'');
+            $cal=DB::selectOne('SELECT * FROM `cal_evaluaciones` WHERE `id_unidad` = ? AND `id_carga_academica` = ?', [$i, $id_carga_academica]);
             $dat_cal['id_unidad']=$i;
             if($cal == null){
                 $dat_cal['calificacion']=0;

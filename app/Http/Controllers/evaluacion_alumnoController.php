@@ -315,7 +315,7 @@ class evaluacion_alumnoController extends Controller
         {
 
 
-            DB::insert('insert into p'.$tabla_a_insertar.' (id_alumno_materia, valor) values (?, ?)', [$datos[$i+2],$datos[$i+($mitad+2)]]);
+            DB::insert('insert into p'.(int) $tabla_a_insertar.' (id_alumno_materia, valor) values (?, ?)', [$datos[$i+2],$datos[$i+($mitad+2)]]);
 
         }
 

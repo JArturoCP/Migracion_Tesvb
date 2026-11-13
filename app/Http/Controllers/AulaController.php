@@ -26,11 +26,11 @@ class AulaController extends Controller
             $edificios = DB::select('select * from hrs_edificios order by nombre');
 
             $aulas = DB::select('select hrs_aulas.id_aula,hrs_aulas.id_aula,hrs_aulas.nombre aula,hrs_edificios.nombre edificio,
-                hrs_aulas.comp estado,gnral_carreras.nombre carrera FROM 
+                hrs_aulas.comp estado,gnral_carreras.nombre carrera FROM
                 hrs_aulas,hrs_edificios,gnral_carreras where
-                hrs_aulas.id_carrera='.$id_carrera.' and
+                hrs_aulas.id_carrera= ? and
                 hrs_aulas.id_edificio=hrs_edificios.id_edificio and
-               hrs_aulas.id_carrera=gnral_carreras.id_carrera order by hrs_aulas.id_aula desc');
+               hrs_aulas.id_carrera=gnral_carreras.id_carrera order by hrs_aulas.id_aula desc', [$id_carrera]);
 
             return view('generales.aulas',compact('aulas','carreras','edificios'));
         }
@@ -39,7 +39,7 @@ class AulaController extends Controller
            $carreras =DB::select('select * from gnral_carreras order by nombre');
             $edificios = DB::select('select * from hrs_edificios order by nombre');
             $aulas = DB::select('select hrs_aulas.id_aula,hrs_aulas.id_aula,hrs_aulas.nombre aula,hrs_edificios.nombre edificio,
-                hrs_aulas.comp estado,gnral_carreras.nombre carrera FROM 
+                hrs_aulas.comp estado,gnral_carreras.nombre carrera FROM
                 hrs_aulas,hrs_edificios,gnral_carreras where
                 hrs_aulas.id_edificio=hrs_edificios.id_edificio and
                hrs_aulas.id_carrera=gnral_carreras.id_carrera order by hrs_aulas.id_aula desc');
@@ -49,19 +49,19 @@ class AulaController extends Controller
     }
     public function estado($id_aula)
     {
-        $estado= DB::selectOne('select comp from hrs_aulas where id_aula='.$id_aula.'');
+        $estado= DB::selectOne('select comp from hrs_aulas where id_aula= ?', [$id_aula]);
         $estado= ($estado->comp);
 
     if($estado==1)
         {
             //cambiar estado a 0
-            $aulas_estado=DB::update('update hrs_aulas SET comp=0 where id_aula='.$id_aula.'');
+            $aulas_estado=DB::update('update hrs_aulas SET comp=0 where id_aula= ?', [$id_aula]);
             return redirect('/generales/aulas');
         }
         else
         {
             //cambiar estado a 1
-            $aulas_estado=DB::update('update hrs_aulas SET comp=1 where id_aula='.$id_aula.'');
+            $aulas_estado=DB::update('update hrs_aulas SET comp=1 where id_aula= ?', [$id_aula]);
             return redirect('/generales/aulas');
         }
     }
@@ -102,7 +102,7 @@ class AulaController extends Controller
         $carreras =DB::select('select * from gnral_carreras order by nombre');
             $edificios = DB::select('select * from hrs_edificios order by nombre');
         $aulas = DB::select('select hrs_aulas.id_aula,hrs_aulas.id_aula,hrs_aulas.nombre aula,hrs_edificios.nombre edificio,
-            hrs_aulas.comp estado,gnral_carreras.nombre carrera FROM 
+            hrs_aulas.comp estado,gnral_carreras.nombre carrera FROM
             hrs_aulas,hrs_edificios,gnral_carreras where
             hrs_aulas.id_edificio=hrs_edificios.id_edificio and
            hrs_aulas.id_carrera=gnral_carreras.id_carrera order by hrs_aulas.id_aula desc');

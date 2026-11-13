@@ -26,7 +26,7 @@ class Tutorias_Exp_asigna_generacion extends Model
             WHERE exp_asigna_generacion.id_generacion=exp_generacion.id_generacion
             AND exp_asigna_generacion.deleted_at is null
             and exp_asigna_generacion.id_jefe_periodo=exp_asigna_tutor.id_jefe_periodo
-           
+
             GROUP BY exp_generacion.generacion ASC');
         return $datos;
     }
@@ -61,8 +61,8 @@ class Tutorias_Exp_asigna_generacion extends Model
                                     AND exp_asigna_tutor.id_asigna_generacion=exp_asigna_generacion.id_asigna_generacion
                                     AND exp_asigna_tutor.id_asigna_tutor=plan_asigna_planeacion_tutor.id_asigna_tutor
                                     AND exp_asigna_tutor.id_personal=gnral_personales.id_personal
-                                    AND gnral_personales.tipo_usuario='.Auth::user()->id.'
-                                    GROUP BY exp_generacion.id_generacion');
+                                    AND gnral_personales.tipo_usuario= ?
+                                    GROUP BY exp_generacion.id_generacion', [Auth::user()->id]);
         return $datos;
     }
 
@@ -79,7 +79,7 @@ AND plan_actividades.id_plan_actividad=plan_asigna_planeacion_actividad.id_plan_
 AND plan_asigna_planeacion_actividad.id_asigna_planeacion_actividad=plan_asigna_planeacion_tutor.id_asigna_planeacion_actividad
 and plan_asigna_planeacion_actividad.id_estado=1
 AND plan_actividades.deleted_at is null
-AND gnral_personales.tipo_usuario='.Auth::user()->id);
+AND gnral_personales.tipo_usuario= ?', [Auth::user()->id]);
         return $datos;
     }
 }

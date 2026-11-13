@@ -71,12 +71,12 @@ class Resi_pdf_oficio_aceptacion_proController extends Controller
 {
     public function index($id_asesores){
         $asesor=DB::selectOne('SELECT resi_oficio_acept_proy.numero_oficio, resi_asesores.* from resi_oficio_acept_proy, resi_asesores
-        where resi_oficio_acept_proy.id_asesores = resi_asesores.id_asesores  and resi_oficio_acept_proy.id_asesores ='.$id_asesores.'');
-        $periodoss=DB::selectOne('SELECT * FROM `gnral_periodos` WHERE `id_periodo` ='.$asesor->id_periodo.'');
+        where resi_oficio_acept_proy.id_asesores = resi_asesores.id_asesores  and resi_oficio_acept_proy.id_asesores = ?', [$id_asesores]);
+        $periodoss=DB::selectOne('SELECT * FROM `gnral_periodos` WHERE `id_periodo` = ?', [$asesor->id_periodo]);
         $periodos=$periodoss->periodo;
         $id_anteproyecto=$asesor->id_anteproyecto;
 
-    
+
         $cronograma_inicio = DB::table('resi_cronograma')
             ->where('id_anteproyecto', $id_anteproyecto)
             ->where('no_semana', 1)
@@ -130,11 +130,11 @@ class Resi_pdf_oficio_aceptacion_proController extends Controller
 
         $nombre_proyecto=str_replace("[\n|\r|\n\r]",'',$anteproyecto[0]->nom_proyecto);
 
-        $asesor_ext=DB::selectOne('SELECT abreviaciones.titulo,gnral_personales.nombre 
-FROM abreviaciones,abreviaciones_prof,gnral_personales,resi_asesores where 
-        abreviaciones.id_abreviacion=abreviaciones_prof.id_abreviacion and 
-    abreviaciones_prof.id_personal=gnral_personales.id_personal and 
-gnral_personales.id_personal=resi_asesores.id_profesor and resi_asesores.id_anteproyecto='.$id_anteproyecto.'');
+        $asesor_ext=DB::selectOne('SELECT abreviaciones.titulo,gnral_personales.nombre
+FROM abreviaciones,abreviaciones_prof,gnral_personales,resi_asesores where
+        abreviaciones.id_abreviacion=abreviaciones_prof.id_abreviacion and
+    abreviaciones_prof.id_personal=gnral_personales.id_personal and
+gnral_personales.id_personal=resi_asesores.id_profesor and resi_asesores.id_anteproyecto= ?', [$id_anteproyecto]);
         $asesor_interno=mb_strtoupper($asesor_ext->titulo,'utf-8')." ".mb_strtoupper($asesor_ext->nombre,'utf-8');
 
 

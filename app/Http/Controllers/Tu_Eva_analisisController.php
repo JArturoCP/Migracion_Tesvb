@@ -24,7 +24,7 @@ class Tu_Eva_analisisController extends Controller
 
         $media = DB::selectOne('select  ROUND(avg(gestion),2) gestion,ROUND(avg(actitud),2) actitud, ROUND(avg(disponibilidad_confianza),2) disponibilidad_confianza, ROUND(avg(servicios_del_programa_de_tutoria),2) servicios_del_programa_de_tutoria, ROUND(avg(tus_logros_y_avances),2) tus_logros_y_avances from tu_eva_analisis_tutores');
         //dd($media);
-        $moda = DB::selectOne('select gestion.gestion, actitud.actitud, disponibilidad_confianza.disponibilidad_confianza, servicios_del_programa_de_tutoria.servicios_del_programa_de_tutoria, tus_logros_y_avances.tus_logros_y_avances   
+        $moda = DB::selectOne('select gestion.gestion, actitud.actitud, disponibilidad_confianza.disponibilidad_confianza, servicios_del_programa_de_tutoria.servicios_del_programa_de_tutoria, tus_logros_y_avances.tus_logros_y_avances
                                     from (
                                         select gestion
                                         from tu_eva_analisis_tutores
@@ -127,7 +127,7 @@ class Tu_Eva_analisisController extends Controller
         $per= Session::get('periodo_actual');
         //dd($periodo);
 
-        $query = " SELECT per.nombre,per.sexo,gp.descripcion, str_to_date(per.fch_ingreso_tesvb,'%Y/%m/%d') fecha, year(now())-year(str_to_date(per.fch_ingreso_tesvb,'%Y/%m/%d'))  as antiguiedad, per.escolaridad,
+        $query = ' SELECT per.nombre,per.sexo,gp.descripcion, str_to_date(per.fch_ingreso_tesvb,\'%Y/%m/%d\') fecha, year(now())-year(str_to_date(per.fch_ingreso_tesvb,\'%Y/%m/%d\'))  as antiguiedad, per.escolaridad,
                            ROUND(((sum(gestion)*4)/(count(per.nombre)*16)),2) gestion,
                            round(((sum(actitud)*4)/(count(per.nombre)*28)),2) actitud,
                            round(((sum(disponibilidad_confianza)*4)/(count(per.nombre)*20)),2) disponibilidad_confianza ,
@@ -142,15 +142,15 @@ class Tu_Eva_analisisController extends Controller
                     INNER JOIN gnral_personales per ON per.id_personal = tutor.id_personal
                     inner join gnral_perfiles gp on per.id_perfil = gp.id_perfil
                     inner join tu_eva_autoevaluacion tea on fo.id_asigna_tutor = tea.id_asigna_tutor
-                    WHERE year(now())-year(str_to_date(per.fch_ingreso_tesvb,'%Y/%m/%d')) < 80 and gjp.id_periodo = {$per}
+                    WHERE year(now())-year(str_to_date(per.fch_ingreso_tesvb,\'%Y/%m/%d\')) < 80 and gjp.id_periodo = ?
                     Group BY per.nombre
                     order by ( ((sum(gestion)*4)/(count(per.nombre)*16))+((sum(actitud)*4)/(count(per.nombre)*28))+((sum(disponibilidad_confianza)*4)/(count(per.nombre)*20))+((sum(servicios_del_programa_de_tutoria)*4)/(count(per.nombre)*24))+((sum(tus_logros_y_avances)*4)/(count(per.nombre)*36)) )/5 desc
-                    limit 10;";
+                    limit 10;';
         //dd($query);
 
-        $top_tutores = DB::select($query);
+        $top_tutores = DB::select($query, [$per]);
 
-        $menos_tutores = DB::select(" SELECT per.nombre,per.sexo,gp.descripcion, str_to_date(per.fch_ingreso_tesvb,'%Y/%m/%d') fecha, year(now())-year(str_to_date(per.fch_ingreso_tesvb,'%Y/%m/%d'))  as antiguiedad, per.escolaridad,
+        $menos_tutores = DB::select(' SELECT per.nombre,per.sexo,gp.descripcion, str_to_date(per.fch_ingreso_tesvb,\'%Y/%m/%d\') fecha, year(now())-year(str_to_date(per.fch_ingreso_tesvb,\'%Y/%m/%d\'))  as antiguiedad, per.escolaridad,
                                                 ROUND(((sum(gestion)*4)/(count(per.nombre)*16)),2) gestion,
                                                round(((sum(actitud)*4)/(count(per.nombre)*28)),2) actitud,
                                                round(((sum(disponibilidad_confianza)*4)/(count(per.nombre)*20)),2) disponibilidad_confianza ,
@@ -165,13 +165,13 @@ class Tu_Eva_analisisController extends Controller
                                         INNER JOIN gnral_personales per ON per.id_personal = tutor.id_personal
                                         inner join gnral_perfiles gp on per.id_perfil = gp.id_perfil
                                         inner join tu_eva_autoevaluacion tea on fo.id_asigna_tutor = tea.id_asigna_tutor
-                                        WHERE year(now())-year(str_to_date(per.fch_ingreso_tesvb,'%Y/%m/%d')) < 80
-                                        and gjp.id_periodo = {$per}
+                                        WHERE year(now())-year(str_to_date(per.fch_ingreso_tesvb,\'%Y/%m/%d\')) < 80
+                                        and gjp.id_periodo = ?
                                         Group BY per.nombre
                                         order by ( ((sum(gestion)*4)/(count(per.nombre)*16))+((sum(actitud)*4)/(count(per.nombre)*28))+((sum(disponibilidad_confianza)*4)/(count(per.nombre)*20))+((sum(servicios_del_programa_de_tutoria)*4)/(count(per.nombre)*24))+((sum(tus_logros_y_avances)*4)/(count(per.nombre)*36)) )/5 asc
-                                        limit 10");
+                                        limit 10', [$per]);
 
-        $gestion = DB::select(" SELECT per.nombre,per.sexo,gp.descripcion, str_to_date(per.fch_ingreso_tesvb,'%Y/%m/%d') fecha, year(now())-year(str_to_date(per.fch_ingreso_tesvb,'%Y/%m/%d'))  as antiguiedad, per.escolaridad,
+        $gestion = DB::select(' SELECT per.nombre,per.sexo,gp.descripcion, str_to_date(per.fch_ingreso_tesvb,\'%Y/%m/%d\') fecha, year(now())-year(str_to_date(per.fch_ingreso_tesvb,\'%Y/%m/%d\'))  as antiguiedad, per.escolaridad,
                                     round((sum(gestion)*4)/(count(per.nombre)*16),2) gestion
                                     FROM
                                         tu_eva_resultados_formulario fo
@@ -180,14 +180,14 @@ class Tu_Eva_analisisController extends Controller
                                     INNER JOIN gnral_personales per ON per.id_personal = tutor.id_personal
                                     inner join gnral_perfiles gp on per.id_perfil = gp.id_perfil
                                     inner join tu_eva_autoevaluacion tea on fo.id_asigna_tutor = tea.id_asigna_tutor
-                                    WHERE year(now())-year(str_to_date(per.fch_ingreso_tesvb,'%Y/%m/%d')) < 80
-                                    and gjp.id_periodo = {$per}
+                                    WHERE year(now())-year(str_to_date(per.fch_ingreso_tesvb,\'%Y/%m/%d\')) < 80
+                                    and gjp.id_periodo = ?
                                     Group BY per.nombre
                                     order by  ((sum(gestion)*4)/(count(per.nombre)*16)) asc
-                                    limit 15 ");
+                                    limit 15 ', [$per]);
 
 
-        $actitud = DB::select(" SELECT per.nombre,per.sexo,gp.descripcion, str_to_date(per.fch_ingreso_tesvb,'%Y/%m/%d') fecha, year(now())-year(str_to_date(per.fch_ingreso_tesvb,'%Y/%m/%d'))  as antiguiedad, per.escolaridad,
+        $actitud = DB::select(' SELECT per.nombre,per.sexo,gp.descripcion, str_to_date(per.fch_ingreso_tesvb,\'%Y/%m/%d\') fecha, year(now())-year(str_to_date(per.fch_ingreso_tesvb,\'%Y/%m/%d\'))  as antiguiedad, per.escolaridad,
                                                round(((sum(actitud)*4)/(count(per.nombre)*28)),2) actitud
                                     FROM
                                         tu_eva_resultados_formulario fo
@@ -196,13 +196,13 @@ class Tu_Eva_analisisController extends Controller
                                     INNER JOIN gnral_personales per ON per.id_personal = tutor.id_personal
                                     inner join gnral_perfiles gp on per.id_perfil = gp.id_perfil
                                     inner join tu_eva_autoevaluacion tea on fo.id_asigna_tutor = tea.id_asigna_tutor
-                                    WHERE year(now())-year(str_to_date(per.fch_ingreso_tesvb,'%Y/%m/%d')) < 80
-                                    and gjp.id_periodo = {$per}
+                                    WHERE year(now())-year(str_to_date(per.fch_ingreso_tesvb,\'%Y/%m/%d\')) < 80
+                                    and gjp.id_periodo = ?
                                     Group BY per.nombre
                                     order by  ((sum(gestion)*4)/(count(per.nombre)*16)) asc
-                                    limit 15; ");
+                                    limit 15; ', [$per]);
 
-        $disponivilidad = DB::select(" SELECT per.nombre,per.sexo,gp.descripcion, str_to_date(per.fch_ingreso_tesvb,'%Y/%m/%d') fecha, year(now())-year(str_to_date(per.fch_ingreso_tesvb,'%Y/%m/%d'))  as antiguiedad, per.escolaridad,
+        $disponivilidad = DB::select(' SELECT per.nombre,per.sexo,gp.descripcion, str_to_date(per.fch_ingreso_tesvb,\'%Y/%m/%d\') fecha, year(now())-year(str_to_date(per.fch_ingreso_tesvb,\'%Y/%m/%d\'))  as antiguiedad, per.escolaridad,
                                                round(((sum(disponibilidad_confianza)*4)/(count(per.nombre)*20)),2) disponibilidad_confianza
                                             FROM
                                                 tu_eva_resultados_formulario fo
@@ -211,13 +211,13 @@ class Tu_Eva_analisisController extends Controller
                                             INNER JOIN gnral_personales per ON per.id_personal = tutor.id_personal
                                             inner join gnral_perfiles gp on per.id_perfil = gp.id_perfil
                                             inner join tu_eva_autoevaluacion tea on fo.id_asigna_tutor = tea.id_asigna_tutor
-                                            WHERE year(now())-year(str_to_date(per.fch_ingreso_tesvb,'%Y/%m/%d')) < 80
-                                            and gjp.id_periodo = {$per}
+                                            WHERE year(now())-year(str_to_date(per.fch_ingreso_tesvb,\'%Y/%m/%d\')) < 80
+                                            and gjp.id_periodo = ?
                                             Group BY per.nombre
                                             order by  ((sum(gestion)*4)/(count(per.nombre)*16)) asc
-                                            limit 15; ");
+                                            limit 15; ', [$per]);
 
-        $servicios_del_programa_de_tutoria = DB::select(" SELECT per.nombre,per.sexo,gp.descripcion, str_to_date(per.fch_ingreso_tesvb,'%Y/%m/%d') fecha, year(now())-year(str_to_date(per.fch_ingreso_tesvb,'%Y/%m/%d'))  as antiguiedad, per.escolaridad,
+        $servicios_del_programa_de_tutoria = DB::select(' SELECT per.nombre,per.sexo,gp.descripcion, str_to_date(per.fch_ingreso_tesvb,\'%Y/%m/%d\') fecha, year(now())-year(str_to_date(per.fch_ingreso_tesvb,\'%Y/%m/%d\'))  as antiguiedad, per.escolaridad,
                                                                     round(((sum(servicios_del_programa_de_tutoria)*4)/(count(per.nombre)*24)),2) servicios_del_programa_de_tutoria
                                                                 FROM
                                                                     tu_eva_resultados_formulario fo
@@ -226,13 +226,13 @@ class Tu_Eva_analisisController extends Controller
                                                                 INNER JOIN gnral_personales per ON per.id_personal = tutor.id_personal
                                                                 inner join gnral_perfiles gp on per.id_perfil = gp.id_perfil
                                                                 inner join tu_eva_autoevaluacion tea on fo.id_asigna_tutor = tea.id_asigna_tutor
-                                                                WHERE year(now())-year(str_to_date(per.fch_ingreso_tesvb,'%Y/%m/%d')) < 80
-                                                                and gjp.id_periodo = {$per}
+                                                                WHERE year(now())-year(str_to_date(per.fch_ingreso_tesvb,\'%Y/%m/%d\')) < 80
+                                                                and gjp.id_periodo = ?
                                                                 Group BY per.nombre
                                                                 order by ((sum(servicios_del_programa_de_tutoria)*4)/(count(per.nombre)*24)) asc
-                                                                limit 15; ");
+                                                                limit 15; ', [$per]);
 
-        $logros = DB::select(" SELECT per.nombre,per.sexo,gp.descripcion, str_to_date(per.fch_ingreso_tesvb,'%Y/%m/%d') fecha, year(now())-year(str_to_date(per.fch_ingreso_tesvb,'%Y/%m/%d'))  as antiguiedad, per.escolaridad,
+        $logros = DB::select(' SELECT per.nombre,per.sexo,gp.descripcion, str_to_date(per.fch_ingreso_tesvb,\'%Y/%m/%d\') fecha, year(now())-year(str_to_date(per.fch_ingreso_tesvb,\'%Y/%m/%d\'))  as antiguiedad, per.escolaridad,
                                          round(((sum(tus_logros_y_avances)*4)/(count(per.nombre)*36)),2) tus_logros_y_avances
                                     FROM
                                         tu_eva_resultados_formulario fo
@@ -241,11 +241,11 @@ class Tu_Eva_analisisController extends Controller
                                     INNER JOIN gnral_personales per ON per.id_personal = tutor.id_personal
                                     inner join gnral_perfiles gp on per.id_perfil = gp.id_perfil
                                     inner join tu_eva_autoevaluacion tea on fo.id_asigna_tutor = tea.id_asigna_tutor
-                                    WHERE year(now())-year(str_to_date(per.fch_ingreso_tesvb,'%Y/%m/%d')) < 80
-                                    and gjp.id_periodo = {$per}
+                                    WHERE year(now())-year(str_to_date(per.fch_ingreso_tesvb,\'%Y/%m/%d\')) < 80
+                                    and gjp.id_periodo = ?
                                     Group BY per.nombre
                                     order by ((sum(tus_logros_y_avances)*4)/(count(per.nombre)*36)) asc
-                                    limit 15; ");
+                                    limit 15; ', [$per]);
         //$docentes = DB::select("  ");
 
 

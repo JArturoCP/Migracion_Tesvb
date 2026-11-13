@@ -41,7 +41,7 @@ class In_validar_gruposController extends Controller
         return view('ingles.departamento.profesores_validar_grupos', compact('profesores', 'cuenta_niveles'));
     }
     public function desactivar_grupos_profesor($id_profesor){
-        $nombre_profesor=DB::selectOne('SELECT * FROM `in_profesores_ingles` WHERE `id_profesores` = '.$id_profesor.'');
+        $nombre_profesor=DB::selectOne('SELECT * FROM `in_profesores_ingles` WHERE `id_profesores` = ?', [$id_profesor]);
 
         $periodo_ingles = Session::get('periodo_ingles');
         $cuenta_niveles = DB::table('in_hrs_ingles_profesor')
@@ -100,7 +100,7 @@ class In_validar_gruposController extends Controller
     public function agregar_usuarios_grupo_prof($id_nivel,$id_grupo){
 
         $periodo_ingles = Session::get('periodo_ingles');
-        $maximo=DB::selectOne('SELECT * FROM `in_maximo_grupo_ingles` WHERE `id_periodo_ingles` = '.$periodo_ingles.'');
+        $maximo=DB::selectOne('SELECT * FROM `in_maximo_grupo_ingles` WHERE `id_periodo_ingles` = ?', [$periodo_ingles]);
         $carreras=DB::select('SELECT * FROM gnral_carreras WHERE id_carrera != 9  and id_carrera != 15');
         $semestres=DB::select('SELECT * FROM `gnral_semestres`');
         $grupos=DB::select('SELECT * FROM `gnral_grupos` WHERE `id_grupo` < 4');
@@ -114,36 +114,36 @@ class In_validar_gruposController extends Controller
     public function consultar_usuarios_grupo_prof($id_nivel,$id_grupo,$id_carrera,$id_semestre,$id_grupos_carrera){
         $periodo_ingles = Session::get('periodo_ingles');
 
-        $estado_estudiantes=DB::selectOne('SELECT count(gnral_alumnos.id_alumno)contar FROM gnral_alumnos, in_voucher_pago where gnral_alumnos.id_usuario = in_voucher_pago.id_usuario 
-        and in_voucher_pago.id_estado_valida_voucher=2 and in_voucher_pago.id_periodo_ingles='.$periodo_ingles.' and gnral_alumnos.id_carrera='.$id_carrera.' 
-        and gnral_alumnos.id_semestre='.$id_semestre.' and gnral_alumnos.grupo='.$id_grupos_carrera.'');
+        $estado_estudiantes=DB::selectOne('SELECT count(gnral_alumnos.id_alumno)contar FROM gnral_alumnos, in_voucher_pago where gnral_alumnos.id_usuario = in_voucher_pago.id_usuario
+        and in_voucher_pago.id_estado_valida_voucher=2 and in_voucher_pago.id_periodo_ingles= ? and gnral_alumnos.id_carrera= ?
+        and gnral_alumnos.id_semestre= ? and gnral_alumnos.grupo= ?', [$periodo_ingles, $id_carrera, $id_semestre, $id_grupos_carrera]);
 
         $estado_estudiantes=$estado_estudiantes->contar;
 
         $estudiantes=DB::select('SELECT gnral_alumnos.id_alumno, gnral_alumnos.cuenta, gnral_alumnos.nombre, gnral_alumnos.apaterno,
-        gnral_alumnos.amaterno FROM gnral_alumnos, in_voucher_pago where gnral_alumnos.id_usuario = in_voucher_pago.id_usuario 
-        and in_voucher_pago.id_estado_valida_voucher=2 and in_voucher_pago.id_periodo_ingles='.$periodo_ingles.' and gnral_alumnos.id_carrera='.$id_carrera.' 
-        and gnral_alumnos.id_semestre='.$id_semestre.' and gnral_alumnos.grupo='.$id_grupos_carrera.' and gnral_alumnos.id_alumno 
-        NOT IN (SELECT id_alumno from in_validar_carga where id_periodo='.$periodo_ingles.' and in_validar_carga.id_estado=2)');
+        gnral_alumnos.amaterno FROM gnral_alumnos, in_voucher_pago where gnral_alumnos.id_usuario = in_voucher_pago.id_usuario
+        and in_voucher_pago.id_estado_valida_voucher=2 and in_voucher_pago.id_periodo_ingles= ? and gnral_alumnos.id_carrera= ?
+        and gnral_alumnos.id_semestre= ? and gnral_alumnos.grupo= ? and gnral_alumnos.id_alumno
+        NOT IN (SELECT id_alumno from in_validar_carga where id_periodo= ? and in_validar_carga.id_estado=2)', [$periodo_ingles, $id_carrera, $id_semestre, $id_grupos_carrera, $periodo_ingles]);
 
 
-        $estudiantes_inscritos=DB::select('SELECT gnral_alumnos.id_alumno, gnral_alumnos.cuenta, gnral_alumnos.nombre, gnral_alumnos.apaterno, gnral_alumnos.amaterno 
-        FROM in_carga_academica_ingles, gnral_alumnos, in_validar_carga WHERE in_carga_academica_ingles.id_nivel ='.$id_nivel.' 
-        AND in_carga_academica_ingles.id_grupo ='.$id_grupo.' AND in_carga_academica_ingles.id_periodo_ingles ='.$periodo_ingles.' 
-        and gnral_alumnos.id_alumno = in_carga_academica_ingles.id_alumno and in_validar_carga.id_alumno=gnral_alumnos.id_alumno 
-        and in_validar_carga.id_periodo=in_carga_academica_ingles.id_periodo_ingles  and in_validar_carga.id_estado=2 ');
+        $estudiantes_inscritos=DB::select('SELECT gnral_alumnos.id_alumno, gnral_alumnos.cuenta, gnral_alumnos.nombre, gnral_alumnos.apaterno, gnral_alumnos.amaterno
+        FROM in_carga_academica_ingles, gnral_alumnos, in_validar_carga WHERE in_carga_academica_ingles.id_nivel = ?
+        AND in_carga_academica_ingles.id_grupo = ? AND in_carga_academica_ingles.id_periodo_ingles = ?
+        and gnral_alumnos.id_alumno = in_carga_academica_ingles.id_alumno and in_validar_carga.id_alumno=gnral_alumnos.id_alumno
+        and in_validar_carga.id_periodo=in_carga_academica_ingles.id_periodo_ingles  and in_validar_carga.id_estado=2 ', [$id_nivel, $id_grupo, $periodo_ingles]);
 
         $total_est_ins=DB::selectOne('SELECT count(gnral_alumnos.id_alumno)contar
-        FROM in_carga_academica_ingles, gnral_alumnos, in_validar_carga WHERE in_carga_academica_ingles.id_nivel ='.$id_nivel.' 
-        AND in_carga_academica_ingles.id_grupo ='.$id_grupo.' AND in_carga_academica_ingles.id_periodo_ingles ='.$periodo_ingles.' 
-        and gnral_alumnos.id_alumno = in_carga_academica_ingles.id_alumno and in_validar_carga.id_alumno=gnral_alumnos.id_alumno 
-        and in_validar_carga.id_periodo=in_carga_academica_ingles.id_periodo_ingles and in_validar_carga.id_estado=2 ');
+        FROM in_carga_academica_ingles, gnral_alumnos, in_validar_carga WHERE in_carga_academica_ingles.id_nivel = ?
+        AND in_carga_academica_ingles.id_grupo = ? AND in_carga_academica_ingles.id_periodo_ingles = ?
+        and gnral_alumnos.id_alumno = in_carga_academica_ingles.id_alumno and in_validar_carga.id_alumno=gnral_alumnos.id_alumno
+        and in_validar_carga.id_periodo=in_carga_academica_ingles.id_periodo_ingles and in_validar_carga.id_estado=2 ', [$id_nivel, $id_grupo, $periodo_ingles]);
 
         $total_est_ins=$total_est_ins->contar;
 
 
         $periodo_ingles = Session::get('periodo_ingles');
-        $maximo=DB::selectOne('SELECT * FROM `in_maximo_grupo_ingles` WHERE `id_periodo_ingles` = '.$periodo_ingles.'');
+        $maximo=DB::selectOne('SELECT * FROM `in_maximo_grupo_ingles` WHERE `id_periodo_ingles` = ?', [$periodo_ingles]);
         $carreras=DB::select('SELECT * FROM gnral_carreras WHERE id_carrera != 9  and id_carrera != 15');
         $semestres=DB::select('SELECT * FROM `gnral_semestres`');
         $grupos=DB::select('SELECT * FROM `gnral_grupos` WHERE `id_grupo` < 4');
@@ -164,7 +164,7 @@ class In_validar_gruposController extends Controller
     }
     public function datos_usuario_ingles($id_alumno,$id_nivel,$id_grupo){
 
-        $datos_alumno=DB::selectOne('SELECT * FROM `gnral_alumnos` WHERE `id_alumno` ='.$id_alumno.'');
+        $datos_alumno=DB::selectOne('SELECT * FROM `gnral_alumnos` WHERE `id_alumno` = ?', [$id_alumno]);
 //dd( $datos_alumno);
         $periodo_ingles = Session::get('periodo_ingles');
 
@@ -271,7 +271,7 @@ class In_validar_gruposController extends Controller
                     $promedio=round($promedio);
 
 
-                    $carga_academica=DB::selectOne('SELECT * FROM `in_carga_academica_ingles` WHERE `id_carga_ingles` ='.$carga_anterior.'');
+                    $carga_academica=DB::selectOne('SELECT * FROM `in_carga_academica_ingles` WHERE `id_carga_ingles` = ?', [$carga_anterior]);
                     // dd($carga_academica);
 
                     if($carga_academica->id_periodo_ingles < 18)

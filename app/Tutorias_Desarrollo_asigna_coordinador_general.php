@@ -17,7 +17,7 @@ class Tutorias_Desarrollo_asigna_coordinador_general extends Model
 
         $datos=DB::select('SELECT desarrollo_asigna_coordinador_general.id_asigna_coordinador_general,desarrollo_asigna_coordinador_general.id_personal,gnral_personales.nombre
                                   FROM desarrollo_asigna_coordinador_general,gnral_personales where desarrollo_asigna_coordinador_general.id_personal=gnral_personales.id_personal and desarrollo_asigna_coordinador_general.deleted_at is null and
-                                  desarrollo_asigna_coordinador_general.id_personal_asigna='.Session::get('desarrollo'));
+                                  desarrollo_asigna_coordinador_general.id_personal_asigna= ?', [Session::get('desarrollo')]);
         return $datos;
     }
 }

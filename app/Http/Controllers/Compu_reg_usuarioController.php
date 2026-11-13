@@ -32,7 +32,7 @@ class Compu_reg_usuarioController extends Controller
 // Verificar el tamaño máximo de POST permitido
         $maxPostSize = ini_get('post_max_size');
    //     echo 'El tamaño máximo de POST permitido es: ' . $maxPostSize;
-        dd($maxFileSize." ".$maxPostSize);
+        return response('Tamaño máximo de archivo: ' . $maxFileSize . ' | Tamaño máximo de POST: ' . $maxPostSize);
 
     }
 }

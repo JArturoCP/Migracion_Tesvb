@@ -17,7 +17,7 @@ class calalumnosController extends Controller
         $mayor_unidades=0;
         $esc_alumno=false;
         $id_usuario = Session::get('usuario_alumno');
-        $datosalumno=DB::selectOne('select * FROM `gnral_alumnos` WHERE id_usuario='.$id_usuario.'');
+        $datosalumno=DB::selectOne('select * FROM `gnral_alumnos` WHERE id_usuario= ?', [$id_usuario]);
         $alumno=$datosalumno->id_alumno;
 
         $docentes=DB::select('select  gnral_materias.id_materia,gnral_materias.nombre as materias,gnral_materias.unidades,gnral_materias.id_materia,eva_tipo_curso.nombre_curso,
@@ -30,13 +30,13 @@ gnral_materias.creditos,eva_status_materia.nombre_status from
                                 and eva_carga_academica.id_periodo=gnral_periodos.id_periodo
                                 and eva_carga_academica.grupo=gnral_grupos.id_grupo
                                 and eva_carga_academica.id_alumno=gnral_alumnos.id_alumno
-                                and gnral_periodos.id_periodo='.$periodo.'
+                                and gnral_periodos.id_periodo= ?
                                 and gnral_alumnos.id_alumno=eva_validacion_de_cargas.id_alumno
                                 and gnral_periodos.id_periodo=eva_validacion_de_cargas.id_periodo
                                 and eva_carga_academica.id_materia  NOT IN (773,845,853,1160,1263,1264,1265,1443,1496,1502,1565,1566,1567,1568,1569,1571)
                                 and eva_validacion_de_cargas.estado_validacion in (2,8,9)
-                                and eva_validacion_de_cargas.id_alumno='.$alumno.'
-                                and eva_status_materia.id_status_materia=1');
+                                and eva_validacion_de_cargas.id_alumno= ?
+                                and eva_status_materia.id_status_materia=1', [$periodo, $alumno]);
 
         $array_materias=array();
         foreach ($docentes as $dat_alumno)
@@ -52,8 +52,8 @@ gnral_materias.creditos,eva_status_materia.nombre_status from
             $mayor_unidades= $mayor_unidades > $dat_alumno->unidades ? $mayor_unidades : $dat_alumno->unidades;
             $array_calificaciones=array();
             $calificaciones=DB::select('SELECT * FROM cal_evaluaciones
-                      WHERE id_carga_academica='.$dat_alumno->id_carga_academica.'
-                      ORDER BY cal_evaluaciones.id_unidad');
+                      WHERE id_carga_academica= ?
+                      ORDER BY cal_evaluaciones.id_unidad', [$dat_alumno->id_carga_academica]);
             $calificaciones != null ? $unidades_evaluadas=0 : $unidades_evaluadas=1;
             foreach ($calificaciones as $calificacion)
             {
@@ -73,14 +73,14 @@ gnral_materias.creditos,eva_status_materia.nombre_status from
                 array_push($array_calificaciones,$dat_calificaciones);
             }
             if($dat_alumno->id_materia == 2258){
-                $estado_servicio=DB::selectOne('SELECT count(id_servicio_social)contar from cal_servicio_social where id_alumno ='.$alumno.'');
+                $estado_servicio=DB::selectOne('SELECT count(id_servicio_social)contar from cal_servicio_social where id_alumno = ?', [$alumno]);
                 if($estado_servicio->contar == 0){
                     $dat_materia['promedio'] = 0;
                     $dat_materia['esc_alumno']=false;
                     $dat_materia["calificaciones"]=$array_calificaciones;
                 }
                 else{
-                    $servicio=DB::selectOne('SELECT *from cal_servicio_social where id_alumno ='.$alumno.'');
+                    $servicio=DB::selectOne('SELECT *from cal_servicio_social where id_alumno = ?', [$alumno]);
                   //  dd($servicio);
                     $dat_materia['promedio'] = $servicio->calificacion;
                     $dat_materia['esc_alumno']=false;
@@ -109,33 +109,33 @@ gnral_materias.creditos,eva_status_materia.nombre_status from
     $profesores=DB::select('select gnral_personales.nombre,gnral_materias.nombre materias,gnral_horas_profesores.grupo,gnral_horas_profesores.id_hrs_profesor ,gnral_materias.id_semestre
                             from gnral_alumnos, gnral_personales,gnral_materias,gnral_materias_perfiles,gnral_horarios,gnral_horas_profesores,gnral_periodo_carreras,gnral_periodos,eva_carga_academica,
                             eva_validacion_de_cargas
-                            where gnral_periodo_carreras.id_periodo=gnral_periodos.id_periodo  
+                            where gnral_periodo_carreras.id_periodo=gnral_periodos.id_periodo
                             and gnral_horarios.id_periodo_carrera=gnral_periodo_carreras.id_periodo_carrera
-                            and gnral_horarios.id_personal=gnral_personales.id_personal 
-                            and gnral_materias_perfiles.id_materia=gnral_materias.id_materia 
-                            and gnral_horas_profesores.id_materia_perfil=gnral_materias_perfiles.id_materia_perfil 
-                            and gnral_horas_profesores.id_horario_profesor=gnral_horarios.id_horario_profesor 
-                            and gnral_periodos.id_periodo='.$periodo.'
-                            and eva_carga_academica.id_periodo=gnral_periodos.id_periodo 
-                            and eva_carga_academica.id_alumno=gnral_alumnos.id_alumno 
-                            and eva_carga_academica.id_materia=gnral_materias.id_materia 
-                            and gnral_alumnos.id_alumno='.$alumno.'
+                            and gnral_horarios.id_personal=gnral_personales.id_personal
+                            and gnral_materias_perfiles.id_materia=gnral_materias.id_materia
+                            and gnral_horas_profesores.id_materia_perfil=gnral_materias_perfiles.id_materia_perfil
+                            and gnral_horas_profesores.id_horario_profesor=gnral_horarios.id_horario_profesor
+                            and gnral_periodos.id_periodo= ?
+                            and eva_carga_academica.id_periodo=gnral_periodos.id_periodo
+                            and eva_carga_academica.id_alumno=gnral_alumnos.id_alumno
+                            and eva_carga_academica.id_materia=gnral_materias.id_materia
+                            and gnral_alumnos.id_alumno= ?
                             and eva_carga_academica.grupo=gnral_horas_profesores.grupo
                             and eva_validacion_de_cargas.id_periodo=gnral_periodos.id_periodo
                             and eva_validacion_de_cargas.id_alumno=gnral_alumnos.id_alumno
                             and eva_carga_academica.id_status_materia=1
-                            and eva_validacion_de_cargas.estado_validacion in (2,8,9)');
+                            and eva_validacion_de_cargas.estado_validacion in (2,8,9)', [$periodo, $alumno]);
 
-         $estado_validacion_carga=DB::selectOne('SELECT count(eva_validacion_de_cargas.id) estado 
-from eva_validacion_de_cargas where id_periodo = '.$periodo.' and estado_validacion in (2,8, 9) and id_alumno ='.$alumno.'');
+         $estado_validacion_carga=DB::selectOne('SELECT count(eva_validacion_de_cargas.id) estado
+from eva_validacion_de_cargas where id_periodo = ? and estado_validacion in (2,8, 9) and id_alumno = ?', [$periodo, $alumno]);
 
-         $estado_residencia=DB::selectOne('SELECT count(eva_validacion_de_cargas.id) estado 
-from eva_validacion_de_cargas, eva_carga_academica where eva_validacion_de_cargas.id_periodo = '.$periodo.' 
-                                                     and eva_validacion_de_cargas.estado_validacion in (2,8, 9) 
-                                                     and eva_validacion_de_cargas.id_alumno ='.$alumno.' 
-                                                     and eva_carga_academica.id_materia IN (773,845,853,1160,1263,1264,1265,1443,1496,1502,1565,1566,1567,1568,1569,1571) 
+         $estado_residencia=DB::selectOne('SELECT count(eva_validacion_de_cargas.id) estado
+from eva_validacion_de_cargas, eva_carga_academica where eva_validacion_de_cargas.id_periodo = ?
+                                                     and eva_validacion_de_cargas.estado_validacion in (2,8, 9)
+                                                     and eva_validacion_de_cargas.id_alumno = ?
+                                                     and eva_carga_academica.id_materia IN (773,845,853,1160,1263,1264,1265,1443,1496,1502,1565,1566,1567,1568,1569,1571)
                                                      and eva_validacion_de_cargas.id_alumno=eva_carga_academica.id_alumno and
-                                                      eva_validacion_de_cargas.id_periodo=eva_carga_academica.id_periodo ');
+                                                      eva_validacion_de_cargas.id_periodo=eva_carga_academica.id_periodo ', [$periodo, $alumno]);
          $estado_residencia=$estado_residencia->estado;
         $proceso=0;
         $cal_residencia=0;
@@ -144,15 +144,15 @@ from eva_validacion_de_cargas, eva_carga_academica where eva_validacion_de_carga
          }else{
              $estado_residencia=1;
              $id_anteproyecto = DB::selectOne('SELECT resi_anteproyecto.id_anteproyecto from resi_anteproyecto,
-                                              resi_asesores WHERE resi_anteproyecto.id_anteproyecto =resi_asesores.id_anteproyecto 
-                                                              and resi_anteproyecto.id_alumno='.$alumno.' and resi_asesores.id_periodo='.$periodo.'');
+                                              resi_asesores WHERE resi_anteproyecto.id_anteproyecto =resi_asesores.id_anteproyecto
+                                                              and resi_anteproyecto.id_alumno= ? and resi_asesores.id_periodo= ?', [$alumno, $periodo]);
              if($id_anteproyecto == null)
              {
                  $proceso=1; //proceso de   validacion de anteproyecto
                  $cal_residencia=0;
              }else{
                  $id_anteproyecto=$id_anteproyecto->id_anteproyecto;
-                $cal_residencia=DB::selectOne('SELECT * FROM `resi_promedio_general_residencia` WHERE `id_anteproyecto` ='.$id_anteproyecto.'');
+                $cal_residencia=DB::selectOne('SELECT * FROM `resi_promedio_general_residencia` WHERE `id_anteproyecto` = ?', [$id_anteproyecto]);
              if($cal_residencia == null){
                  $proceso=2; //proceso  de seguimiento
                  $cal_residencia=0;

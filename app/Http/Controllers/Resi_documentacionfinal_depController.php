@@ -181,7 +181,7 @@ class Resi_documentacionfinal_depController extends Controller
         }else{
             $comentario_seguimiento_externo = $request->input("comentario_seguimiento_externo");
         }
-        $documento=DB::selectOne('select *from resi_liberacion_documentos where id_liberacion_documentos='.$id_liberacion_documentos.'');
+        $documento=DB::selectOne('select *from resi_liberacion_documentos where id_liberacion_documentos= ?', [$id_liberacion_documentos]);
         $correo=$documento->correo_electronico;
         $usuario="c.computo@vbravo.tecnm.mx";
         if($contaraprobado == 11){
@@ -323,9 +323,9 @@ class Resi_documentacionfinal_depController extends Controller
         $anteproyecto_autorizados=DB::select('SELECT gnral_alumnos.cuenta,gnral_alumnos.nombre,gnral_alumnos.apaterno,
        gnral_alumnos.amaterno,resi_anteproyecto.id_anteproyecto,resi_proyecto.id_proyecto,
        resi_proyecto.nom_proyecto,resi_anteproyecto.estado_enviado from resi_anteproyecto,
-    resi_proyecto,gnral_alumnos where resi_anteproyecto.id_alumno=gnral_alumnos.id_alumno 
-and resi_anteproyecto.id_proyecto=resi_proyecto.id_proyecto and resi_anteproyecto.id_periodo='.$periodo.'
-                                  and gnral_alumnos.id_carrera='.$id_carrera.' and resi_anteproyecto.estado_enviado=3');
+    resi_proyecto,gnral_alumnos where resi_anteproyecto.id_alumno=gnral_alumnos.id_alumno
+and resi_anteproyecto.id_proyecto=resi_proyecto.id_proyecto and resi_anteproyecto.id_periodo= ?
+                                  and gnral_alumnos.id_carrera= ? and resi_anteproyecto.estado_enviado=3', [$periodo, $id_carrera]);
 
 
         $array_anteproyecto=array();
@@ -335,12 +335,12 @@ and resi_anteproyecto.id_proyecto=resi_proyecto.id_proyecto and resi_anteproyect
             $dat_ante['cuenta']=$autorizado->cuenta;
             $dat_ante['nom_proyecto']=$autorizado->nom_proyecto;
             $checar_empresa=DB::selectOne('SELECT COUNT(id_anteproyecto)anteproyecto FROM
-                                               `resi_proy_empresa` WHERE `id_anteproyecto` = '.$autorizado->id_anteproyecto.'');
+                                               `resi_proy_empresa` WHERE `id_anteproyecto` = ?', [$autorizado->id_anteproyecto]);
 
             if($checar_empresa->anteproyecto == 0){
                 $dat_ante['estado_empresa']=0;
             }else{
-                $checar_asesor=DB::selectOne('SELECT COUNT(id_anteproyecto)anteproyecto FROM resi_asesores WHERE `id_anteproyecto` = '.$autorizado->id_anteproyecto.'');
+                $checar_asesor=DB::selectOne('SELECT COUNT(id_anteproyecto)anteproyecto FROM resi_asesores WHERE `id_anteproyecto` = ?', [$autorizado->id_anteproyecto]);
                 $checar_asesor=$checar_asesor->anteproyecto;
                 if($checar_asesor == 0){
                     $dat_ante['estado_empresa']=1;
@@ -369,9 +369,9 @@ and resi_anteproyecto.id_proyecto=resi_proyecto.id_proyecto and resi_anteproyect
         $anteproyecto_autorizados=DB::select('SELECT gnral_alumnos.cuenta,gnral_alumnos.nombre,gnral_alumnos.apaterno,
        gnral_alumnos.amaterno,resi_anteproyecto.id_anteproyecto,resi_proyecto.id_proyecto,
        resi_proyecto.nom_proyecto,resi_anteproyecto.estado_enviado from resi_anteproyecto,
-    resi_proyecto,gnral_alumnos where resi_anteproyecto.id_alumno=gnral_alumnos.id_alumno 
-and resi_anteproyecto.id_proyecto=resi_proyecto.id_proyecto and resi_anteproyecto.id_periodo='.$periodo.'
-                                  and gnral_alumnos.id_carrera='.$id_carrera.' and resi_anteproyecto.estado_enviado in (0,2)');
+    resi_proyecto,gnral_alumnos where resi_anteproyecto.id_alumno=gnral_alumnos.id_alumno
+and resi_anteproyecto.id_proyecto=resi_proyecto.id_proyecto and resi_anteproyecto.id_periodo= ?
+                                  and gnral_alumnos.id_carrera= ? and resi_anteproyecto.estado_enviado in (0,2)', [$periodo, $id_carrera]);
 
         $mostrar=1;
         return view('residencia.documento_pressent_resi.mod_anteproyecto_revision',compact('nombre_periodo','carreras','mostrar','anteproyecto_autorizados','id_carrera'));
@@ -387,8 +387,8 @@ and resi_anteproyecto.id_proyecto=resi_proyecto.id_proyecto and resi_anteproyect
             ->select('gnral_carreras.*')
             ->get();
         $anteproyecto_autorizados=DB::select('SELECT gnral_alumnos.cuenta,gnral_alumnos.nombre,gnral_alumnos.apaterno, gnral_alumnos.amaterno,resi_anteproyecto.id_anteproyecto,
-        resi_proyecto.id_proyecto, resi_proyecto.nom_proyecto,resi_anteproyecto.estado_enviado FROM resi_anteproyecto,resi_proyecto,gnral_alumnos WHERE  resi_anteproyecto.id_alumno=gnral_alumnos.id_alumno 
-        AND resi_anteproyecto.id_proyecto=resi_proyecto.id_proyecto and resi_anteproyecto.id_periodo='.$periodo.' AND gnral_alumnos.id_carrera='.$id_carrera.' and resi_anteproyecto.estado_enviado=1');
+        resi_proyecto.id_proyecto, resi_proyecto.nom_proyecto,resi_anteproyecto.estado_enviado FROM resi_anteproyecto,resi_proyecto,gnral_alumnos WHERE  resi_anteproyecto.id_alumno=gnral_alumnos.id_alumno
+        AND resi_anteproyecto.id_proyecto=resi_proyecto.id_proyecto and resi_anteproyecto.id_periodo= ? AND gnral_alumnos.id_carrera= ? and resi_anteproyecto.estado_enviado=1', [$periodo, $id_carrera]);
 
         $mostrar=1;
         return view('residencia.documento_pressent_resi.rev_anteproyecto_alumno',compact('nombre_periodo','carreras','mostrar','anteproyecto_autorizados','id_carrera'));

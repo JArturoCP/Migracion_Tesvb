@@ -12,23 +12,23 @@ class Ti_reg_datos_alumnosController extends Controller
 {
     public function reg_datos_personales(){
         $id_usuario = Session::get('usuario_alumno');
-        $alumno=DB::selectOne('SELECT * FROM `gnral_alumnos` WHERE `id_usuario` = '.$id_usuario.'');
+        $alumno=DB::selectOne('SELECT * FROM `gnral_alumnos` WHERE `id_usuario` = ?', [$id_usuario]);
         $id_alumno=$alumno->id_alumno;
         return view('titulacion.alumno_titulacion.segunda_etapa.registro_datos_personales',compact('id_alumno'));
     }
     public function estado_reg_personales($id_alumno){
-        $contar=DB::selectOne('SELECT count(id_reg_dato_alum) contar from ti_reg_datos_alum WHERE id_alumno='.$id_alumno.'');
+        $contar=DB::selectOne('SELECT count(id_reg_dato_alum) contar from ti_reg_datos_alum WHERE id_alumno= ?', [$id_alumno]);
         $contar=$contar->contar;
         return $contar;
     }
     public function datos_personales($id_alumno){
-        $alumno=DB::selectOne('SELECT * FROM `gnral_alumnos` WHERE `id_alumno` = '.$id_alumno.'');
-        $titulacion=DB::selectOne('SELECT * FROM `ti_requisitos_titulacion` WHERE `id_alumno` = '.$id_alumno.' ');
+        $alumno=DB::selectOne('SELECT * FROM `gnral_alumnos` WHERE `id_alumno` = ?', [$id_alumno]);
+        $titulacion=DB::selectOne('SELECT * FROM `ti_requisitos_titulacion` WHERE `id_alumno` = ? ', [$id_alumno]);
         $correo_electronico=$titulacion->correo_electronico;
         $curp=$alumno->curp_al;
         $id_carrera=$alumno->id_carrera;
         $id_semestre=$alumno->id_semestre;
-        $reg_descuento=DB::selectOne('SELECT * FROM `ti_descuentos_alum` WHERE `id_alumno` = '.$id_alumno.' ');
+        $reg_descuento=DB::selectOne('SELECT * FROM `ti_descuentos_alum` WHERE `id_alumno` = ? ', [$id_alumno]);
         $id_tipo_descuento=$reg_descuento->id_tipo_desc;
         $telefono=$reg_descuento->telefono;
         $id_opcion_titulacion=$titulacion->id_opcion_titulacion;
@@ -67,7 +67,7 @@ class Ti_reg_datos_alumnosController extends Controller
         }
         $jefe_division=DB::selectOne('SELECT gnral_personales.id_personal,gnral_personales.nombre FROM
         gnral_unidad_personal,gnral_personales WHERE gnral_unidad_personal.id_personal=gnral_personales.id_personal
-                                                 and gnral_unidad_personal.id_unidad_admin='.$id_unidad_admin.'');
+                                                 and gnral_unidad_personal.id_unidad_admin= ?', [$id_unidad_admin]);
         $id_personal= $jefe_division->id_personal;
         $nombre_jefe=$jefe_division->nombre;
         $datos_personales=array();
@@ -110,7 +110,7 @@ class Ti_reg_datos_alumnosController extends Controller
         return $estados;
     }
     public function municipios($id_estado){
-        $municipios=DB::select('SELECT * FROM `gnral_municipios` WHERE `id_estado` = '.$id_estado.' ');
+        $municipios=DB::select('SELECT * FROM `gnral_municipios` WHERE `id_estado` = ? ', [$id_estado]);
         return $municipios;
     }
     public function tipo_donaciones($id_tipo_descuento){
@@ -236,8 +236,8 @@ class Ti_reg_datos_alumnosController extends Controller
     }
     public function ver_datos_alumno_registrados($id_alumno){
         $datos_reg=DB::select('SELECT ti_reg_datos_alum.*, gnral_personales.nombre FROM
-                                                         ti_reg_datos_alum, gnral_personales 
-where ti_reg_datos_alum.id_jefe_division=gnral_personales.id_personal and ti_reg_datos_alum.id_alumno='.$id_alumno.' ');
+                                                         ti_reg_datos_alum, gnral_personales
+where ti_reg_datos_alum.id_jefe_division=gnral_personales.id_personal and ti_reg_datos_alum.id_alumno= ? ', [$id_alumno]);
         return $datos_reg;
     }
     public function modificar_datos_alumno(Request $request){
@@ -373,7 +373,7 @@ where ti_reg_datos_alum.id_jefe_division=gnral_personales.id_personal and ti_reg
         ]);
     }
     public function ver_libros($id_reg_dato_alum){
-        $registro_libros=DB::select('SELECT * FROM `ti_titulos_libros` WHERE `id_reg_dato_alumno` = '.$id_reg_dato_alum.' ');
+        $registro_libros=DB::select('SELECT * FROM `ti_titulos_libros` WHERE `id_reg_dato_alumno` = ? ', [$id_reg_dato_alum]);
         return $registro_libros;
     }
     public function modificacion_libro(Request $request){
@@ -393,11 +393,11 @@ where ti_reg_datos_alum.id_jefe_division=gnral_personales.id_personal and ti_reg
     }
     public function eliminacion_libro(Request $request){
         $id_titulo_libro = $request->input("id_titulo_libro");
-        DB::delete('DELETE FROM ti_titulos_libros WHERE id_titulo_libro='.$id_titulo_libro.'');
+        DB::delete('DELETE FROM ti_titulos_libros WHERE id_titulo_libro= ?', [$id_titulo_libro]);
 
     }
     public function ver_material_computo($id_reg_dato_alum){
-        $material_computo=DB::select('SELECT * FROM `ti_equipos_computo` WHERE `id_reg_dato_alum` = '.$id_reg_dato_alum.'');
+        $material_computo=DB::select('SELECT * FROM `ti_equipos_computo` WHERE `id_reg_dato_alum` = ?', [$id_reg_dato_alum]);
         return $material_computo;
     }
     public function modificar_computo(Request $request){
@@ -419,15 +419,15 @@ where ti_reg_datos_alum.id_jefe_division=gnral_personales.id_personal and ti_reg
     }
     public function eliminacion_computo(Request $request){
         $id_equipo_computo = $request->input("id_equipo_computo");
-        DB::delete('DELETE FROM ti_equipos_computo WHERE id_equipo_computo='.$id_equipo_computo.'');
+        DB::delete('DELETE FROM ti_equipos_computo WHERE id_equipo_computo= ?', [$id_equipo_computo]);
     }
     public function contar_libros($id_reg_dato_alum){
-        $contar_libro=DB::selectOne('SELECT COUNT(id_titulo_libro)contar  FROM `ti_titulos_libros` WHERE `id_reg_dato_alumno` = '.$id_reg_dato_alum.'');
+        $contar_libro=DB::selectOne('SELECT COUNT(id_titulo_libro)contar  FROM `ti_titulos_libros` WHERE `id_reg_dato_alumno` = ?', [$id_reg_dato_alum]);
         $contar_libro=$contar_libro->contar;
         return $contar_libro;
     }
     public function contar_computo($id_reg_dato_alum){
-        $contar_computo=DB::selectOne('SELECT COUNT(id_equipo_computo)contar  FROM `ti_equipos_computo` WHERE `id_reg_dato_alum` = '.$id_reg_dato_alum.'');
+        $contar_computo=DB::selectOne('SELECT COUNT(id_equipo_computo)contar  FROM `ti_equipos_computo` WHERE `id_reg_dato_alum` = ?', [$id_reg_dato_alum]);
         $contar_computo=$contar_computo->contar;
         return $contar_computo;
     }
@@ -439,8 +439,8 @@ where ti_reg_datos_alum.id_jefe_division=gnral_personales.id_personal and ti_reg
      gnral_personales.id_personal=gnral_unidad_personal.id_personal ');
         $alumno=DB::selectOne('SELECT gnral_alumnos.cuenta,gnral_alumnos.nombre, gnral_alumnos.apaterno,
        gnral_alumnos.amaterno,ti_reg_datos_alum.correo_electronico from
-    gnral_alumnos,ti_reg_datos_alum where gnral_alumnos.id_alumno = ti_reg_datos_alum.id_alumno 
-                                      and ti_reg_datos_alum.id_reg_dato_alum='.$id_reg_dato_alum.'');
+    gnral_alumnos,ti_reg_datos_alum where gnral_alumnos.id_alumno = ti_reg_datos_alum.id_alumno
+                                      and ti_reg_datos_alum.id_reg_dato_alum= ?', [$id_reg_dato_alum]);
         $nombre_alumno=$alumno->cuenta.' '.$alumno->nombre.' '.$alumno->apaterno.' '.$alumno->amaterno;
         $correo_alumno=$alumno->correo_electronico;
 
@@ -480,8 +480,8 @@ where ti_reg_datos_alum.id_jefe_division=gnral_personales.id_personal and ti_reg
      gnral_personales.id_personal=gnral_unidad_personal.id_personal ');
         $alumno=DB::selectOne('SELECT gnral_alumnos.cuenta,gnral_alumnos.nombre, gnral_alumnos.apaterno,
        gnral_alumnos.amaterno,ti_reg_datos_alum.correo_electronico from
-    gnral_alumnos,ti_reg_datos_alum where gnral_alumnos.id_alumno = ti_reg_datos_alum.id_alumno 
-                                      and ti_reg_datos_alum.id_reg_dato_alum='.$id_reg_dato_alum.'');
+    gnral_alumnos,ti_reg_datos_alum where gnral_alumnos.id_alumno = ti_reg_datos_alum.id_alumno
+                                      and ti_reg_datos_alum.id_reg_dato_alum= ?', [$id_reg_dato_alum]);
         $nombre_alumno=$alumno->cuenta.' '.$alumno->nombre.' '.$alumno->apaterno.' '.$alumno->amaterno;
         $correo_alumno=$alumno->correo_electronico;
 

@@ -10,15 +10,15 @@ class In_mostrar_horariosController extends Controller
 {
 public function index(){
     $periodo_ingles=Session::get('periodo_ingles');
-    $periodo=DB::selectOne('SELECT * FROM in_periodos WHERE id_periodo_ingles ='.$periodo_ingles.'');
+    $periodo=DB::selectOne('SELECT * FROM in_periodos WHERE id_periodo_ingles = ?', [$periodo_ingles]);
     //dd($periodo);
     $profesores=DB::select('SELECT in_profesores_ingles.id_profesores,in_profesores_ingles.nombre,
 in_profesores_ingles.apellido_paterno,in_profesores_ingles.apellido_materno,in_nivel_ingles.descripcion nivel_ingles,
 in_titulo.descripcion titulo,in_profesores_ingles.fecha_emision_titulo,in_profesores_ingles.horas_maximas,
 in_sexo.descripcion sexo FROM in_plantilla_periodo,in_profesores_ingles,in_titulo,in_sexo,in_nivel_ingles WHERE
- in_profesores_ingles.id_nivel_ingles=in_nivel_ingles.id_nivel_ingles and in_sexo.id_sexo=in_profesores_ingles.id_sexo 
-and in_profesores_ingles.id_tipo_titulo=in_titulo.id_titulo and in_profesores_ingles.id_profesores=in_plantilla_periodo.id_profesor 
-and in_plantilla_periodo.id_periodo='.$periodo_ingles.'');
+ in_profesores_ingles.id_nivel_ingles=in_nivel_ingles.id_nivel_ingles and in_sexo.id_sexo=in_profesores_ingles.id_sexo
+and in_profesores_ingles.id_tipo_titulo=in_titulo.id_titulo and in_profesores_ingles.id_profesores=in_plantilla_periodo.id_profesor
+and in_plantilla_periodo.id_periodo= ?', [$periodo_ingles]);
 
 
     //dd($profesores);
@@ -27,7 +27,7 @@ and in_plantilla_periodo.id_periodo='.$periodo_ingles.'');
 public function mostrar_horario_profesor($id_profesor){
     $periodo_ingles=Session::get('periodo_ingles');
 
-    $horario_profesores=DB::select('SELECT in_hrs_horas_profesor.id_semana FROM in_hrs_horas_profesor where id_profesor='.$id_profesor.' and id_periodo='.$periodo_ingles.'');
+    $horario_profesores=DB::select('SELECT in_hrs_horas_profesor.id_semana FROM in_hrs_horas_profesor where id_profesor= ? and id_periodo= ?', [$id_profesor, $periodo_ingles]);
 
     $array_horario_ing=array();
     $array_semana=array();
@@ -72,12 +72,12 @@ public function mostrar_horario_profesor($id_profesor){
     $profesores_horario=DB::select('
 SELECT in_hrs_horas_profesor.id_semana,in_profesores_ingles.*,in_grupo_ingles.descripcion grupo,
 in_niveles_ingles.descripcion nivel,in_hrs_horas_profesor.id_hrs_horas_profesor,in_hrs_horas_profesor.id_grupo,in_hrs_horas_profesor.id_nivel
- FROM in_hrs_horas_profesor,in_profesores_ingles,in_niveles_ingles,in_grupo_ingles 
- where id_profesor='.$id_profesor.' and id_periodo='.$periodo_ingles.' 
+ FROM in_hrs_horas_profesor,in_profesores_ingles,in_niveles_ingles,in_grupo_ingles
+ where id_profesor= ? and id_periodo= ?
  and in_hrs_horas_profesor.id_profesor=in_profesores_ingles.id_profesores
-  and in_hrs_horas_profesor.id_grupo=in_grupo_ingles.id_grupo_ingles and 
-  in_hrs_horas_profesor.id_nivel=in_niveles_ingles.id_niveles_ingles 
-  ORDER BY in_hrs_horas_profesor.id_semana ASC');
+  and in_hrs_horas_profesor.id_grupo=in_grupo_ingles.id_grupo_ingles and
+  in_hrs_horas_profesor.id_nivel=in_niveles_ingles.id_niveles_ingles
+  ORDER BY in_hrs_horas_profesor.id_semana ASC', [$id_profesor, $periodo_ingles]);
 
     foreach ($profesores_horario as $profesor_hor)
     {
@@ -97,7 +97,7 @@ in_niveles_ingles.descripcion nivel,in_hrs_horas_profesor.id_hrs_horas_profesor,
     }
     array_multisort($aux, SORT_ASC, $array_ingles);
     $semanas=DB::select('select * FROM hrs_semanas ORDER by hora,id_semana');
-    $profesor=DB::selectOne('SELECT * FROM `in_profesores_ingles` WHERE `id_profesores` ='.$id_profesor.' ');
+    $profesor=DB::selectOne('SELECT * FROM `in_profesores_ingles` WHERE `id_profesores` = ? ', [$id_profesor]);
     //dd($profesor);
     return view('ingles.profesor_nivel',compact('array_ingles','semanas','profesor'));
 }
@@ -110,7 +110,7 @@ public function mostrar_horario_profesor_grupo(){
 public function mostrar_grupo_nivel($id_grupo,$id_nivel){
     $periodo_ingles=Session::get('periodo_ingles');
 
-    $horario_grupo=DB::select('SELECT * FROM in_hrs_horas_profesor WHERE id_grupo ='.$id_grupo.' AND id_nivel = '.$id_nivel.' AND id_periodo = '.$periodo_ingles.'');
+    $horario_grupo=DB::select('SELECT * FROM in_hrs_horas_profesor WHERE id_grupo = ? AND id_nivel = ? AND id_periodo = ?', [$id_grupo, $id_nivel, $periodo_ingles]);
 
     $array_horario_ing=array();
     $array_semana=array();
@@ -149,12 +149,12 @@ public function mostrar_grupo_nivel($id_grupo,$id_nivel){
         array_push($array_ingles,$array_ing);
     }
     $profesores_horario=DB::select('
-SELECT in_grupo_ingles.descripcion grupo,in_niveles_ingles.descripcion nivel, in_hrs_horas_profesor.* 
-FROM  in_hrs_horas_profesor,in_niveles_ingles,in_grupo_ingles 
-WHERE in_hrs_horas_profesor.id_grupo = '.$id_grupo.' AND in_hrs_horas_profesor.id_nivel = '.$id_nivel.'
- AND in_hrs_horas_profesor.id_periodo = '.$periodo_ingles.' and in_hrs_horas_profesor.id_grupo=in_grupo_ingles.id_grupo_ingles
-  and in_hrs_horas_profesor.id_nivel=in_niveles_ingles.id_niveles_ingles  
-ORDER BY `in_hrs_horas_profesor`.`id_semana` ASC');
+SELECT in_grupo_ingles.descripcion grupo,in_niveles_ingles.descripcion nivel, in_hrs_horas_profesor.*
+FROM  in_hrs_horas_profesor,in_niveles_ingles,in_grupo_ingles
+WHERE in_hrs_horas_profesor.id_grupo = ? AND in_hrs_horas_profesor.id_nivel = ?
+ AND in_hrs_horas_profesor.id_periodo = ? and in_hrs_horas_profesor.id_grupo=in_grupo_ingles.id_grupo_ingles
+  and in_hrs_horas_profesor.id_nivel=in_niveles_ingles.id_niveles_ingles
+ORDER BY `in_hrs_horas_profesor`.`id_semana` ASC', [$id_grupo, $id_nivel, $periodo_ingles]);
 //dd($profesores_horario);
     foreach ($profesores_horario as $profesor_hor)
     {
@@ -173,10 +173,10 @@ ORDER BY `in_hrs_horas_profesor`.`id_semana` ASC');
     $grupos=DB::select('SELECT * FROM in_grupo_ingles');
     $sin_consultar=1;
     $semanas=DB::select('select * FROM hrs_semanas ORDER by hora,id_semana');
-    $profesor=DB::selectOne('SELECT in_profesores_ingles.* FROM in_hrs_ingles_profesor,in_profesores_ingles 
-WHERE in_hrs_ingles_profesor.id_grupo = '.$id_grupo.' AND in_hrs_ingles_profesor.id_nivel = '.$id_nivel.' 
-AND in_hrs_ingles_profesor.id_periodo = '.$periodo_ingles.'
- and in_hrs_ingles_profesor.id_profesor=in_profesores_ingles.id_profesores');
+    $profesor=DB::selectOne('SELECT in_profesores_ingles.* FROM in_hrs_ingles_profesor,in_profesores_ingles
+WHERE in_hrs_ingles_profesor.id_grupo = ? AND in_hrs_ingles_profesor.id_nivel = ?
+AND in_hrs_ingles_profesor.id_periodo = ?
+ and in_hrs_ingles_profesor.id_profesor=in_profesores_ingles.id_profesores', [$id_grupo, $id_nivel, $periodo_ingles]);
     if($profesor == null )
     {
      $no_horario=0;

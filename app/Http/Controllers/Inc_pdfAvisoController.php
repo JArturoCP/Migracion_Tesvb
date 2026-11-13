@@ -38,20 +38,20 @@ class Inc_pdfAvisoController extends Controller
     public function index($id_solicitud){
 
         $solicitud=DB::selectOne('SELECT inc_solicitudes.*, abreviaciones.titulo, gnral_personales.nombre,gnral_personales.id_cargo,gnral_personales.id_personal,gnral_personales.numero_empleado
-        from inc_solicitudes,gnral_personales, abreviaciones_prof, abreviaciones where inc_solicitudes.id_personal = gnral_personales.id_personal 
+        from inc_solicitudes,gnral_personales, abreviaciones_prof, abreviaciones where inc_solicitudes.id_personal = gnral_personales.id_personal
         and gnral_personales.id_personal = abreviaciones_prof.id_personal and abreviaciones_prof.id_abreviacion=abreviaciones.id_abreviacion and
-        inc_solicitudes.id_solicitud='.$id_solicitud.'');
+        inc_solicitudes.id_solicitud= ?', [$id_solicitud]);
 
 
-        $categoria=DB::selectOne('SELECT * FROM `gnral_cargos` WHERE `id_cargo` = '.$solicitud->id_cargo.'');
+        $categoria=DB::selectOne('SELECT * FROM `gnral_cargos` WHERE `id_cargo` = ?', [$solicitud->id_cargo]);
 
 
 
-            $jefe=DB::selectOne('SELECT gnral_unidad_administrativa.id_unidad_admin,gnral_unidad_administrativa.nom_departamento,gnral_personales.nombre, abreviaciones.titulo 
-            FROM gnral_unidad_personal,gnral_unidad_administrativa, gnral_personales, abreviaciones_prof, abreviaciones 
-            WHERE gnral_unidad_personal.id_personal = '.$solicitud->id_jefe.' and gnral_unidad_personal.id_unidad_admin = gnral_unidad_administrativa.id_unidad_admin 
-            and gnral_unidad_personal.id_personal = gnral_personales.id_personal AND gnral_personales.id_personal = abreviaciones_prof.id_personal 
-              and abreviaciones_prof.id_abreviacion = abreviaciones.id_abreviacion');
+            $jefe=DB::selectOne('SELECT gnral_unidad_administrativa.id_unidad_admin,gnral_unidad_administrativa.nom_departamento,gnral_personales.nombre, abreviaciones.titulo
+            FROM gnral_unidad_personal,gnral_unidad_administrativa, gnral_personales, abreviaciones_prof, abreviaciones
+            WHERE gnral_unidad_personal.id_personal = ? and gnral_unidad_personal.id_unidad_admin = gnral_unidad_administrativa.id_unidad_admin
+            and gnral_unidad_personal.id_personal = gnral_personales.id_personal AND gnral_personales.id_personal = abreviaciones_prof.id_personal
+              and abreviaciones_prof.id_abreviacion = abreviaciones.id_abreviacion', [$solicitud->id_jefe]);
 
             $id_unidad_admin=$jefe->id_unidad_admin;
 

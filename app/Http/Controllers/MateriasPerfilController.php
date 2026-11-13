@@ -15,40 +15,40 @@ class MateriasPerfilController extends Controller
     public function index($id_profesor)
     {
         $id_carrera=Session::get('carrera');
-        $reticulas= DB::select('select *from gnral_reticulas WHERE gnral_reticulas.id_carrera='.$id_carrera.'');
+        $reticulas= DB::select('select *from gnral_reticulas WHERE gnral_reticulas.id_carrera= ?', [$id_carrera]);
         $datos_reticulas=array();
 
         $materias_doc=DB::select('select gnral_materias_perfiles.id_materia_perfil, gnral_materias.id_materia, gnral_materias.nombre
             FROM gnral_materias_perfiles, gnral_reticulas, gnral_materias
             WHERE gnral_materias_perfiles.id_materia = gnral_materias.id_materia
             AND gnral_materias.id_reticula = gnral_reticulas.id_reticula
-            AND gnral_reticulas.id_carrera ='.$id_carrera.'
-            AND gnral_materias_perfiles.id_personal = '.$id_profesor.' AND
-            gnral_materias_perfiles.mostrar=1');
+            AND gnral_reticulas.id_carrera = ?
+            AND gnral_materias_perfiles.id_personal = ? AND
+            gnral_materias_perfiles.mostrar=1', [$id_carrera, $id_profesor]);
 
         foreach($reticulas as $reticula)
         {
             $nombre['id_reticula']= $reticula->id_reticula;
             $nombre['reticula']= $reticula->clave;
 
-            $semestres=DB::select('select DISTINCT gnral_materias.id_semestre,gnral_semestres.descripcion semestre FROM 
-                gnral_reticulas,gnral_materias,gnral_semestres WHERE gnral_reticulas.id_reticula='.$reticula->id_reticula.' AND
+            $semestres=DB::select('select DISTINCT gnral_materias.id_semestre,gnral_semestres.descripcion semestre FROM
+                gnral_reticulas,gnral_materias,gnral_semestres WHERE gnral_reticulas.id_reticula= ? AND
                 gnral_materias.id_reticula=gnral_reticulas.id_reticula AND
-                gnral_materias.id_semestre=gnral_semestres.id_semestre order by id_semestre');
+                gnral_materias.id_semestre=gnral_semestres.id_semestre order by id_semestre', [$reticula->id_reticula]);
             $datos_semestres=array();
                 if($semestres!=null)
                 {
-                    foreach($semestres as $semes) 
-                    { 
+                    foreach($semestres as $semes)
+                    {
                         $semestres=array();
                         $semestres['semestre']= $semes->semestre;
                         $semestres['id_semestre']= $semes->id_semestre;
                          $materias=DB::select('select gnral_materias.id_materia,gnral_materias.nombre,gnral_materias.clave,
-                        gnral_materias.id_semestre ,gnral_materias.id_reticula from 
-                        gnral_materias,gnral_reticulas WHERE 
-                        gnral_materias.id_reticula='.$reticula->id_reticula.' AND 
-                        gnral_materias.id_semestre='.$semes->id_semestre.' AND 
-                        gnral_materias.id_reticula=gnral_reticulas.id_reticula');
+                        gnral_materias.id_semestre ,gnral_materias.id_reticula from
+                        gnral_materias,gnral_reticulas WHERE
+                        gnral_materias.id_reticula= ? AND
+                        gnral_materias.id_semestre= ? AND
+                        gnral_materias.id_reticula=gnral_reticulas.id_reticula', [$reticula->id_reticula, $semes->id_semestre]);
                         $nombre_materias=array();
                         if($materias!=null)
                         {
@@ -76,7 +76,7 @@ class MateriasPerfilController extends Controller
                     }
                     $nombre["semestres"]=$datos_semestres;
                     array_push($datos_reticulas,$nombre);
-                }       
+                }
         }
         //dd($datos_reticulas);
 
@@ -91,19 +91,19 @@ class MateriasPerfilController extends Controller
             FROM gnral_materias_perfiles, gnral_reticulas, gnral_materias
             WHERE gnral_materias_perfiles.id_materia = gnral_materias.id_materia
             AND gnral_materias.id_reticula = gnral_reticulas.id_reticula
-            AND gnral_reticulas.id_carrera ='.$id_carrera.'
-            AND gnral_materias_perfiles.id_personal = '.$request->get('prof').' AND
-            gnral_materias_perfiles.mostrar=1');
+            AND gnral_reticulas.id_carrera = ?
+            AND gnral_materias_perfiles.id_personal = ? AND
+            gnral_materias_perfiles.mostrar=1', [$id_carrera, $request->get('prof')]);
 
         $arr_mate=(explode(',', $request->get('materias')));
         $ciclo=count($arr_mate);
 
-        for ($i=0; $i < $ciclo; $i++) 
-        { 
-            $mate_prof = DB::selectOne('select gnral_materias_perfiles.id_materia_perfil from 
-                gnral_materias_perfiles WHERE gnral_materias_perfiles.id_personal='.$request->get('prof').' 
-                AND gnral_materias_perfiles.id_materia='.$arr_mate[$i].' ');
-            if ($mate_prof==null) 
+        for ($i=0; $i < $ciclo; $i++)
+        {
+            $mate_prof = DB::selectOne('select gnral_materias_perfiles.id_materia_perfil from
+                gnral_materias_perfiles WHERE gnral_materias_perfiles.id_personal= ?
+                AND gnral_materias_perfiles.id_materia= ? ', [$request->get('prof'), $arr_mate[$i]]);
+            if ($mate_prof==null)
             {
                 $materias = array(
                     'id_personal' => $request->get('prof'),
@@ -123,7 +123,7 @@ class MateriasPerfilController extends Controller
                 Gnral_Materias_Perfiles::find($mate_prof1)->update($materias);
             }
         }
-        
+
     }
 
     public function create()
@@ -133,7 +133,7 @@ class MateriasPerfilController extends Controller
 
     public function store(Request $request)
     {
-        
+
     }
 
     public function show($id)

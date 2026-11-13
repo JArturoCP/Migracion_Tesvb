@@ -22,23 +22,23 @@ class Migrar extends Controller
         $periodo=Session::get('periodo_actual');
 
     $id_materias=DB::select('select gnral_horas_profesores.id_hrs_profesor,gnral_materias.nombre mat, gnral_carreras.nombre,
-                            CONCAT(gnral_semestres.id_semestre ,"0",gnral_horas_profesores.grupo) grupo, gnral_personales.nombre 
-                            from gnral_materias,gnral_materias_perfiles,gnral_horas_profesores,gnral_horarios,gnral_periodo_carreras,gnral_periodos,gnral_carreras,gnral_personales,gnral_semestres 
-                            where gnral_periodos.id_periodo='.$periodo.'
-                            and gnral_periodo_carreras.id_periodo=gnral_periodos.id_periodo 
-                            and gnral_periodo_carreras.id_carrera=gnral_carreras.id_carrera 
-                            and gnral_horarios.id_periodo_carrera=gnral_periodo_carreras.id_periodo_carrera 
-                            and gnral_materias_perfiles.id_materia=gnral_materias.id_materia 
-                            and gnral_horas_profesores.id_horario_profesor=gnral_horarios.id_horario_profesor 
-                            and gnral_horas_profesores.id_materia_perfil=gnral_materias_perfiles.id_materia_perfil 
-                            and gnral_horarios.id_personal=gnral_personales.id_personal 
-                            and gnral_materias.id_semestre=gnral_semestres.id_semestre');
+                            CONCAT(gnral_semestres.id_semestre ,"0",gnral_horas_profesores.grupo) grupo, gnral_personales.nombre
+                            from gnral_materias,gnral_materias_perfiles,gnral_horas_profesores,gnral_horarios,gnral_periodo_carreras,gnral_periodos,gnral_carreras,gnral_personales,gnral_semestres
+                            where gnral_periodos.id_periodo= ?
+                            and gnral_periodo_carreras.id_periodo=gnral_periodos.id_periodo
+                            and gnral_periodo_carreras.id_carrera=gnral_carreras.id_carrera
+                            and gnral_horarios.id_periodo_carrera=gnral_periodo_carreras.id_periodo_carrera
+                            and gnral_materias_perfiles.id_materia=gnral_materias.id_materia
+                            and gnral_horas_profesores.id_horario_profesor=gnral_horarios.id_horario_profesor
+                            and gnral_horas_profesores.id_materia_perfil=gnral_materias_perfiles.id_materia_perfil
+                            and gnral_horarios.id_personal=gnral_personales.id_personal
+                            and gnral_materias.id_semestre=gnral_semestres.id_semestre', [$periodo]);
     //dd($id_materias);
 
 
 $numero_de_materias_por_carrera=count($id_materias);
 
-foreach ($id_materias as $m) 
+foreach ($id_materias as $m)
 {
       $id_profesor=($m->id_hrs_profesor);
 
@@ -48,45 +48,45 @@ foreach ($id_materias as $m)
 
       $criterios=DB::selectOne('select count(id_criterio) numero from eva_criterio');//obtener el numero de criterios
 
-            //$numero_de_alumnos=DB::selectOne('select COUNT(eva_alumno_materias.id_hrs_profesor)alumnos 
-                      //                        from eva_alumno_materias 
+            //$numero_de_alumnos=DB::selectOne('select COUNT(eva_alumno_materias.id_hrs_profesor)alumnos
+                      //                        from eva_alumno_materias
                         //                      where eva_alumno_materias.id_hrs_profesor='.$id_profesor.'');
 
 
             $criterios=($criterios->numero);//trae el numero de criterios total
             $ciclodiv=$criterios+1;
 
-            for ($i=0; $i <$criterios ; $i++) 
-           { 
+            for ($i=0; $i <$criterios ; $i++)
+           {
 
-               
-               
-                $numero_de_preguntas[$i]=DB::selectOne('select count(id_criterio)pregunta 
-                                                        from eva_pregunta 
-                                                        where id_criterio='.$crit[$i]->id_criterio.'');
+
+
+                $numero_de_preguntas[$i]=DB::selectOne('select count(id_criterio)pregunta
+                                                        from eva_pregunta
+                                                        where id_criterio= ?', [$crit[$i]->id_criterio]);
                 //dd($numero_de_preguntas);
-              
+
                 $entre[]=($numero_de_preguntas[$i]->pregunta);
-          
+
             }
 
            //////////////////////////////////
   $sumacondicion=0;
-            for ($i=0; $i <count($consulta); $i++) 
-            { 
+            for ($i=0; $i <count($consulta); $i++)
+            {
 
                $ii=$i+1;
 
                $cambio=0;
-              
+
                         if($ii==26||$ii==35)
-                         {   
-                          $valor=DB::select('select p'.$ii.'.valor suma 
-                                              FROM p'.$ii.', eva_alumno_materias,gnral_horas_profesores 
-                                              WHERE gnral_horas_profesores.id_hrs_profesor='.$id_profesor.' 
-                                              AND p'.$ii.'.id_alumno_materia=eva_alumno_materias.id_alumno_materia 
-                                              AND eva_alumno_materias.id_hrs_profesor=gnral_horas_profesores.id_hrs_profesor');//obtiene el valor de la primera prgunta
-                       
+                         {
+                          $valor=DB::select('select p' . (int) $ii . '.valor suma
+                                              FROM p' . (int) $ii . ', eva_alumno_materias,gnral_horas_profesores
+                                              WHERE gnral_horas_profesores.id_hrs_profesor= ?
+                                              AND p' . (int) $ii . '.id_alumno_materia=eva_alumno_materias.id_alumno_materia
+                                              AND eva_alumno_materias.id_hrs_profesor=gnral_horas_profesores.id_hrs_profesor', [$id_profesor]);//obtiene el valor de la primera prgunta
+
 //dd($valor);
                             foreach ($valor as $val)
                            {
@@ -117,20 +117,20 @@ foreach ($id_materias as $m)
                         }
                         else
                         {
-                             $valor=DB::selectOne('select SUM(p'.$ii.'.valor) suma 
-                                              FROM p'.$ii.', eva_alumno_materias,gnral_horas_profesores 
-                                              WHERE gnral_horas_profesores.id_hrs_profesor='.$id_profesor.' 
-                                              AND p'.$ii.'.id_alumno_materia=eva_alumno_materias.id_alumno_materia 
-                                              AND eva_alumno_materias.id_hrs_profesor=gnral_horas_profesores.id_hrs_profesor');//obtiene el valor de la primera prgunta
+                             $valor=DB::selectOne('select SUM(p' . (int) $ii . '.valor) suma
+                                              FROM p' . (int) $ii . ', eva_alumno_materias,gnral_horas_profesores
+                                              WHERE gnral_horas_profesores.id_hrs_profesor= ?
+                                              AND p' . (int) $ii . '.id_alumno_materia=eva_alumno_materias.id_alumno_materia
+                                              AND eva_alumno_materias.id_hrs_profesor=gnral_horas_profesores.id_hrs_profesor', [$id_profesor]);//obtiene el valor de la primera prgunta
                           $sumacondicion=$valor->suma;
                         }
 
 
-            $numero_de_alumnos=DB::SelectOne('select COUNT(p'.$ii.'.valor) suma 
-                                              FROM p'.$ii.', eva_alumno_materias,gnral_horas_profesores 
-                                              WHERE gnral_horas_profesores.id_hrs_profesor='.$id_profesor.' 
-                                              AND p'.$ii.'.id_alumno_materia=eva_alumno_materias.id_alumno_materia 
-                                              AND eva_alumno_materias.id_hrs_profesor=gnral_horas_profesores.id_hrs_profesor');
+            $numero_de_alumnos=DB::SelectOne('select COUNT(p' . (int) $ii . '.valor) suma
+                                              FROM p' . (int) $ii . ', eva_alumno_materias,gnral_horas_profesores
+                                              WHERE gnral_horas_profesores.id_hrs_profesor= ?
+                                              AND p' . (int) $ii . '.id_alumno_materia=eva_alumno_materias.id_alumno_materia
+                                              AND eva_alumno_materias.id_hrs_profesor=gnral_horas_profesores.id_hrs_profesor', [$id_profesor]);
 
             $numero_de_alumnos=($numero_de_alumnos->suma);
                        // $p[$i]=($valor->suma);
@@ -145,7 +145,7 @@ foreach ($id_materias as $m)
                          //   dd($numero_de_alumnos);
                             $p2[$i]=(round($p2[$i]*1000)/1000);
                         }
-$criterio_p=DB::selectOne('select eva_pregunta.id_criterio from eva_pregunta WHERE eva_pregunta.no_pregunta='.$ii.'');
+$criterio_p=DB::selectOne('select eva_pregunta.id_criterio from eva_pregunta WHERE eva_pregunta.no_pregunta= ?', [$ii]);
 $criterio_p=$criterio_p->id_criterio;
 
 
@@ -164,14 +164,14 @@ $sumacondicion=0;
 
             }
 
-            
 
-           
+
+
 }
 $mensage_carga="Los resultados de la Evaluacion estan listos para consultarse";
 $color=2;
        return view('evaluacion_docente.Admin.mensages2',compact('mensage_carga','color'));
-  
+
 
 }
 
@@ -207,12 +207,12 @@ $color=2;
         //
     }
 
-     
+
 
 
     public function imprecion()
     {
-          
+
 
           $pdf=new ImpresionMigrar($orientation='P',$unit='mm',$format='Letter');
             $pdf->SetMargins(20, 25 , 20);

@@ -19,7 +19,7 @@ class ActivationRepository
 
     protected function getToken()
     {
-        return hash_hmac('sha256', str_random(40), config('app.key'));
+        return hash_hmac('sha256', \Illuminate\Support\Str::random(40), config('app.key'));
     }
 
     public function createActivation($user)

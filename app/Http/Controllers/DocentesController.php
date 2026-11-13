@@ -19,9 +19,9 @@ use Session;
 
 class DocentesController extends Controller
 {
-     
+
     public function index()
-    {   
+    {
         $jefe_division=session()->has('jefe_division')?session()->has('jefe_division'):false;
         $directivo=session()->has('directivo')?session()->has('directivo'):false;
 
@@ -33,11 +33,11 @@ class DocentesController extends Controller
         gnral_personales.telefono,gnral_personales.celular,gnral_personales.cedula,gnral_personales.sexo
         ,gnral_personales.maximo_horas_ingles,hrs_situaciones.situacion,gnral_perfiles.descripcion,gnral_cargos.cargo,
         gnral_personales.id_cargo
-        FROM 
+        FROM
         gnral_personales,gnral_perfiles,hrs_situaciones,gnral_cargos WHERE
         gnral_personales.id_perfil=gnral_perfiles.id_perfil AND
         gnral_personales.id_situacion=hrs_situaciones.id_situacion AND
-        gnral_personales.id_cargo=gnral_cargos.id_cargo 
+        gnral_personales.id_cargo=gnral_cargos.id_cargo
         UNION
         select gnral_personales.id_personal,gnral_personales.nombre,gnral_personales.esc_procedencia,
         gnral_personales.origen_nac,gnral_personales.fch_nac,gnral_personales.direccion,
@@ -47,7 +47,7 @@ class DocentesController extends Controller
         gnral_personales.telefono,gnral_personales.celular,gnral_personales.cedula,gnral_personales.sexo
         ,gnral_personales.maximo_horas_ingles,hrs_situaciones.situacion,gnral_perfiles.descripcion,"AUN NO ASIGNADO",
         "0" id_cargo
-        FROM 
+        FROM
         gnral_personales,gnral_perfiles,hrs_situaciones,gnral_cargos WHERE
         gnral_personales.id_perfil=gnral_perfiles.id_perfil AND
         gnral_personales.id_situacion=hrs_situaciones.id_situacion AND
@@ -56,7 +56,7 @@ class DocentesController extends Controller
         if($jefe_division==true)
         {
             $id_carrera=Session::get('carrera');
-        $reticulas= DB::select('select *from gnral_reticulas WHERE gnral_reticulas.id_carrera='.$id_carrera.'');
+        $reticulas= DB::select('select *from gnral_reticulas WHERE gnral_reticulas.id_carrera= ?', [$id_carrera]);
        $datos_docente=array();
 
             foreach($docentes as $docent)
@@ -77,9 +77,9 @@ class DocentesController extends Controller
                 FROM gnral_materias_perfiles, gnral_reticulas, gnral_materias
                 WHERE gnral_materias_perfiles.id_materia = gnral_materias.id_materia
                 AND gnral_materias.id_reticula = gnral_reticulas.id_reticula
-                AND gnral_reticulas.id_carrera ='.$id_carrera.'
-                AND gnral_materias_perfiles.id_personal = '.$docent->id_personal.' AND
-                gnral_materias_perfiles.mostrar=1');
+                AND gnral_reticulas.id_carrera = ?
+                AND gnral_materias_perfiles.id_personal = ? AND
+                gnral_materias_perfiles.mostrar=1', [$id_carrera, $docent->id_personal]);
 
                 $nombre_materias=array();
                 foreach($materias as $materia)
@@ -93,7 +93,7 @@ class DocentesController extends Controller
                 $nombre['materias']=$nombre_materias;
                 array_push($datos_docente,$nombre);
             }
-        
+
     //$datos_docente=(json_encode($datos_docente,JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE));
    // dd($datos_docente);
             return view('docentes.mostrar_docentes',compact('reticulas'))->with('docentesss',$datos_docente);
@@ -102,7 +102,7 @@ class DocentesController extends Controller
         {
             return view('docentes.mostrar_docentes',compact('docentes'));
         }
-        
+
     }
 
     public function editar($id_personal)
@@ -138,7 +138,7 @@ class DocentesController extends Controller
         $var_error=Session::get("error");
         $ok = !empty($var_error)?"true":"false";
 
-        $id_doc=DB::selectOne('select gnral_personales.id_personal from gnral_personales where tipo_usuario='.$id_usuario.' ');
+        $id_doc=DB::selectOne('select gnral_personales.id_personal from gnral_personales where tipo_usuario= ? ', [$id_usuario]);
         $id_docente=($id_doc->id_personal);
 
         $cargos = DB::select('select *from gnral_cargos order by cargo');
@@ -146,8 +146,8 @@ class DocentesController extends Controller
         $situaciones = DB::select('select *from hrs_situaciones order by situacion');
         $abreviaciones= DB::select('select *from abreviaciones order by titulo');
         $docente_edit = Gnral_Personales::find($id_docente);
-        $abre_doc1=DB::selectOne('select abreviaciones_prof.id_abreviacion from abreviaciones_prof WHERE 
-            abreviaciones_prof.id_personal='.$id_docente.'');
+        $abre_doc1=DB::selectOne('select abreviaciones_prof.id_abreviacion from abreviaciones_prof WHERE
+            abreviaciones_prof.id_personal= ?', [$id_docente]);
         $abre_doc = isset($abre_doc1->id_abreviacion)?$abre_doc1->id_abreviacion:0;
         //se elimino la variable personales
         return view('docentes.docentes_edit',compact('cargos','perfiles','situaciones','abreviaciones','abre_doc','ok'))->with(['edit' => true, 'docente_edit' => $docente_edit]);
@@ -155,8 +155,8 @@ class DocentesController extends Controller
    /* public function edit($usuario)
     {
         Session::put('id_usuario',$usuario);
-        $var_error=Session::get("error"); 
-        $ok = !empty($var_error)?"true":"false"; 
+        $var_error=Session::get("error");
+        $ok = !empty($var_error)?"true":"false";
 
         $id_doc=DB::selectOne('select gnral_personales.id_personal from gnral_personales where tipo_usuario='.$usuario.' ');
         $id_docente=($id_doc->id_personal);
@@ -166,7 +166,7 @@ class DocentesController extends Controller
         $situaciones = DB::select('select *from hrs_situaciones order by situacion');
         $abreviaciones= DB::select('select *from abreviaciones order by titulo');
         $docente_edit = Gnral_Personales::find($id_docente);
-        $abre_doc1=DB::selectOne('select abreviaciones_prof.id_abreviacion from abreviaciones_prof WHERE 
+        $abre_doc1=DB::selectOne('select abreviaciones_prof.id_abreviacion from abreviaciones_prof WHERE
             abreviaciones_prof.id_personal='.$id_docente.'');
         $abre_doc = isset($abre_doc1->id_abreviacion)?$abre_doc1->id_abreviacion:0;
  //se elimino la variable personales
@@ -178,8 +178,8 @@ class DocentesController extends Controller
         //dd($request);
         $usuario=Session::get('id_usuario');
         $depto=DB::selectOne('select gnral_personales.id_departamento,gnral_personales.horas_maxima,
-        gnral_personales.id_cargo,gnral_personales.maximo_horas_ingles from gnral_personales 
-            where gnral_personales.tipo_usuario='.$usuario.' ');
+        gnral_personales.id_cargo,gnral_personales.maximo_horas_ingles from gnral_personales
+            where gnral_personales.tipo_usuario= ? ', [$usuario]);
 
         $id_abreviacion=$request->get('selectAbreviacion');
 
@@ -191,17 +191,17 @@ class DocentesController extends Controller
             $cadena1="";
             $cadena="";
             $tam=8-$menos;
-            for ($i=0; $i < $tam; $i++) 
-            { 
+            for ($i=0; $i < $tam; $i++)
+            {
                  $cadena1.="0";
             }
-            $cadena.=$cadena1.$request->get('clave_docente'); 
+            $cadena.=$cadena1.$request->get('clave_docente');
             $clave=$cadena;
         }
 
         else
         {
-            $clave=$request->get('clave_docente'); 
+            $clave=$request->get('clave_docente');
         }
 
         $this->validate($request,[
@@ -227,7 +227,7 @@ class DocentesController extends Controller
                 'numero_empleado' => 'required'
 
             ]);
-                
+
                 $personales = array(
                 'nombre' => mb_strtoupper($request->get('nombre_docente'),'utf-8'),
                 'clave' => $clave,
@@ -255,7 +255,7 @@ class DocentesController extends Controller
                     'numero_empleado' => $request->get('numero_empleado')
 
                 );
-        
+
         $cadena="";
                 $cadena.=$clave;
                 $cadena1="";
@@ -264,11 +264,11 @@ class DocentesController extends Controller
         Gnral_Personales::find($id_docente)->update($personales);
 
         $personal=DB::selectOne('select id_personal from gnral_personales where
-                        rfc="'.$cadena1.'" and clave="'.$cadena.'"');
+                        rfc=? and clave=?', [(string) ($cadena1), (string) ($cadena)]);
         $personal=($personal->id_personal);
 
         $checa=DB::selectOne('select id_abreviacion_prof from abreviaciones_prof where
-            id_personal='.$personal.'');
+            id_personal= ?', [$personal]);
         $checa2=isset($checa->id_abreviacion_prof)?$checa->id_abreviacion_prof:0;
         if($checa2==0)
         {
@@ -291,7 +291,7 @@ class DocentesController extends Controller
         return redirect('/home');
         //return view('evaluacion_docente.Alumnos.mensages',compact('mensage_carga','color'));
     }
-    
+
     public function destroy($id_materia)
     {
         $materias = array(

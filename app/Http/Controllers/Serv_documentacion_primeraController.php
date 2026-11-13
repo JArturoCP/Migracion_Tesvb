@@ -163,7 +163,7 @@ class Serv_documentacion_primeraController extends Controller
             ->get();
         $registro_empresa_publica=$registro_empresa_publica[0]->contar;
         if($registro_empresa_publica > 0){
-            DB::delete('DELETE FROM serv_doc_empresa_publica WHERE id_alumno='.$registro_alumno[0]->id_alumno.'');
+            DB::delete('DELETE FROM serv_doc_empresa_publica WHERE id_alumno= ?', [$registro_alumno[0]->id_alumno]);
         }
         $registro_empresa_privada = DB::table('serv_doc_empresa_privada')
             ->select(DB::raw('count(*) as contar'))
@@ -171,7 +171,7 @@ class Serv_documentacion_primeraController extends Controller
             ->get();
         $registro_empresa_privada=$registro_empresa_privada[0]->contar;
         if($registro_empresa_privada > 0){
-            DB::delete('DELETE FROM serv_doc_empresa_privada WHERE id_alumno='.$registro_alumno[0]->id_alumno.'');
+            DB::delete('DELETE FROM serv_doc_empresa_privada WHERE id_alumno= ?', [$registro_alumno[0]->id_alumno]);
 
         }
         DB::table('serv_datos_alumnos')
@@ -255,15 +255,15 @@ class Serv_documentacion_primeraController extends Controller
             $datos_empresa=DB::table('serv_doc_empresa_privada')
                 ->where('id_alumno', '=', $alumno[0]->id_alumno)
                 ->get();
-            DB::delete('DELETE FROM serv_doc_empresa_privada WHERE id_empresa_privada='.$datos_empresa[0]->id_empresa_privada.'');
-            DB::delete('DELETE FROM serv_datos_alumnos WHERE id_datos_alumnos='.$id_datos_alumnos.'');
+            DB::delete('DELETE FROM serv_doc_empresa_privada WHERE id_empresa_privada= ?', [$datos_empresa[0]->id_empresa_privada]);
+            DB::delete('DELETE FROM serv_datos_alumnos WHERE id_datos_alumnos= ?', [$id_datos_alumnos]);
         }
         elseif($id_tipo_empresa == 2){
             $datos_empresa=DB::table('serv_doc_empresa_publica')
                 ->where('id_alumno', '=', $alumno[0]->id_alumno)
                 ->get();
-            DB::delete('DELETE FROM serv_doc_empresa_publica WHERE id_empresa_publica='.$datos_empresa[0]->id_empresa_publica.'');
-            DB::delete('DELETE FROM serv_datos_alumnos WHERE id_datos_alumnos='.$id_datos_alumnos.'');
+            DB::delete('DELETE FROM serv_doc_empresa_publica WHERE id_empresa_publica= ?', [$datos_empresa[0]->id_empresa_publica]);
+            DB::delete('DELETE FROM serv_datos_alumnos WHERE id_datos_alumnos= ?', [$id_datos_alumnos]);
 
         }
         return back();

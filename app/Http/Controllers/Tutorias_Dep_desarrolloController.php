@@ -29,7 +29,7 @@ class Tutorias_Dep_desarrolloController extends Controller
         FROM plan_asigna_planeacion_actividad,plan_actividades
         WHERE plan_actividades.deleted_at is null
         AND plan_actividades.id_plan_actividad=plan_asigna_planeacion_actividad.id_plan_actividad
-        AND plan_asigna_planeacion_actividad.id_plan_actividad='.$id);
+        AND plan_asigna_planeacion_actividad.id_plan_actividad= ?', [$id]);
         //dd($num);
 
         $ic=count($num);
@@ -46,10 +46,10 @@ class Tutorias_Dep_desarrolloController extends Controller
         $data['des']=DB::select('SELECT plan_actividades.id_plan_actividad,plan_actividades.desc_actividad,
                                 plan_actividades.objetivo_actividad, DATE_FORMAT(plan_actividades.fi_actividad,"%d-%m-%Y")as fi_actividad, DATE_FORMAT(plan_actividades.ff_actividad,"%d-%m-%Y")as ff_actividad
                                 FROM plan_actividades,exp_generacion
-                                WHERE 
+                                WHERE
                                plan_actividades.id_generacion=exp_generacion.id_generacion
                                 AND plan_actividades.deleted_at is null
-                                AND plan_actividades.id_plan_actividad='.$request->id.' ');
+                                AND plan_actividades.id_plan_actividad= ? ', [$request->id]);
         return $data;
     }
     public  function actividades(Request $request)
@@ -62,19 +62,19 @@ class Tutorias_Dep_desarrolloController extends Controller
                                   FROM plan_actividades,exp_generacion
                                   WHERE plan_actividades.id_generacion=exp_generacion.id_generacion
                                   AND plan_actividades.deleted_at is null
-                                   AND plan_actividades.id_generacion='.$request->id_generacion.' and plan_actividades.id_periodo = '.$periodo_actual.' ');
+                                   AND plan_actividades.id_generacion= ? and plan_actividades.id_periodo = ? ', [$request->id_generacion, $periodo_actual]);
         return $datos;
     }
     public function verco(Request $request)
     {
-        $data['coor_c']=DB::select('SELECT plan_actividades.id_plan_actividad,plan_actividades.desc_actividad, 
-                                   plan_actividades.objetivo_actividad,plan_actividades.comentario, 
-                                   DATE_FORMAT(plan_actividades.fi_actividad,"%d-%m-%Y")as fi_actividad, 
+        $data['coor_c']=DB::select('SELECT plan_actividades.id_plan_actividad,plan_actividades.desc_actividad,
+                                   plan_actividades.objetivo_actividad,plan_actividades.comentario,
+                                   DATE_FORMAT(plan_actividades.fi_actividad,"%d-%m-%Y")as fi_actividad,
                                    DATE_FORMAT(plan_actividades.ff_actividad,"%d-%m-%Y")as ff_actividad
                                    FROM plan_actividades,exp_generacion
                                    WHERE  plan_actividades.id_generacion=exp_generacion.id_generacion
                                    AND plan_actividades.deleted_at is null
-                                   AND plan_actividades.id_plan_actividad='.$request->id.' ');
+                                   AND plan_actividades.id_plan_actividad= ? ', [$request->id]);
         return $data;
     }
     public function aprueba(Request $request)

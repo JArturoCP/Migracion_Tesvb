@@ -97,10 +97,10 @@ class Resi_pdf_reportes_residenciaController extends Controller
     public function index($id_anteproyecto,$numero){
         $datos=DB::selectOne('SELECT gnral_carreras.nombre carrera,gnral_alumnos.nombre,gnral_alumnos.apaterno,
 gnral_alumnos.amaterno,resi_proyecto.nom_proyecto, resi_empresa.nombre empresa from gnral_carreras,gnral_alumnos,
-resi_anteproyecto,resi_proy_empresa,resi_empresa,resi_proyecto where gnral_carreras.id_carrera=gnral_alumnos.id_carrera 
-and gnral_alumnos.id_alumno=resi_anteproyecto.id_alumno and resi_anteproyecto.id_anteproyecto=resi_proy_empresa.id_anteproyecto 
+resi_anteproyecto,resi_proy_empresa,resi_empresa,resi_proyecto where gnral_carreras.id_carrera=gnral_alumnos.id_carrera
+and gnral_alumnos.id_alumno=resi_anteproyecto.id_alumno and resi_anteproyecto.id_anteproyecto=resi_proy_empresa.id_anteproyecto
 and resi_proy_empresa.id_empresa=resi_empresa.id_empresa
- and resi_anteproyecto.id_anteproyecto='.$id_anteproyecto.' and resi_anteproyecto.id_proyecto=resi_proyecto.id_proyecto');
+ and resi_anteproyecto.id_anteproyecto= ? and resi_anteproyecto.id_proyecto=resi_proyecto.id_proyecto', [$id_anteproyecto]);
       $carrera=mb_strtoupper ($datos->carrera);
       $nombre=mb_strtoupper ($datos->nombre.' '.$datos->apaterno.' '.$datos->amaterno);
       $nombre_proyecto=$datos->nom_proyecto;
@@ -109,13 +109,13 @@ and resi_proy_empresa.id_empresa=resi_empresa.id_empresa
       $empresa=mb_strtoupper($datos->empresa);
       $empresa=str_replace("[\n|\r|\n\r]",'',$empresa);
 
-      $nombre_asesor=DB::selectOne('SELECT abreviaciones.titulo,gnral_personales.nombre  
-FROM resi_asesores,gnral_personales,abreviaciones_prof,abreviaciones WHERE 
+      $nombre_asesor=DB::selectOne('SELECT abreviaciones.titulo,gnral_personales.nombre
+FROM resi_asesores,gnral_personales,abreviaciones_prof,abreviaciones WHERE
 resi_asesores.id_profesor =gnral_personales.id_personal and abreviaciones_prof.id_personal=gnral_personales.id_personal and
- abreviaciones_prof.id_abreviacion=abreviaciones.id_abreviacion and resi_asesores.id_anteproyecto='.$id_anteproyecto.'');
+ abreviaciones_prof.id_abreviacion=abreviaciones.id_abreviacion and resi_asesores.id_anteproyecto= ?', [$id_anteproyecto]);
      $nombre_asesor=mb_strtoupper ($nombre_asesor->titulo.' '.$nombre_asesor->nombre);
-$fechas=DB::selectOne('SELECT MIN(resi_cronograma.f_inicio) fecha_inicial,max(resi_cronograma.f_termino) fecha_final 
-FROM `resi_cronograma` WHERE `id_anteproyecto` = '.$id_anteproyecto.' ORDER BY `resi_cronograma`.`f_inicio` DESC');
+$fechas=DB::selectOne('SELECT MIN(resi_cronograma.f_inicio) fecha_inicial,max(resi_cronograma.f_termino) fecha_final
+FROM `resi_cronograma` WHERE `id_anteproyecto` = ? ORDER BY `resi_cronograma`.`f_inicio` DESC', [$id_anteproyecto]);
 $fecha_inicial= date("d-m-Y",strtotime($fechas->fecha_inicial));
     $fecha_final= date("d-m-Y",strtotime($fechas->fecha_final));
         $pdf=new PDF_Resi_pdf_reportes_residenciaController($orientation='P',$unit='mm',$format='Letter');
@@ -148,11 +148,11 @@ $fecha_inicial= date("d-m-Y",strtotime($fechas->fecha_inicial));
             $semana4=16;
         }
 
-        $cronograma=DB::selectOne('SELECT * FROM `resi_cronograma` WHERE `no_semana` = '.$semana1.' AND `id_anteproyecto` = '.$id_anteproyecto.' ORDER BY `no_semana` ASC');
+        $cronograma=DB::selectOne('SELECT * FROM `resi_cronograma` WHERE `no_semana` = ? AND `id_anteproyecto` = ? ORDER BY `no_semana` ASC', [$semana1, $id_anteproyecto]);
         $fecha1=date("d-m-Y",strtotime($cronograma->f_inicio));
         $fecha2=date("d-m-Y",strtotime($cronograma->f_termino));
         $actividad=str_replace("[\n|\r|\n\r]",'',$cronograma->actividad);
-        $comentarios=DB::selectOne('SELECT * FROM `resi_promedio_rubros` WHERE `id_semana` = '.$semana1.' AND `id_anteproyecto` ='.$id_anteproyecto.'');
+        $comentarios=DB::selectOne('SELECT * FROM `resi_promedio_rubros` WHERE `id_semana` = ? AND `id_anteproyecto` = ?', [$semana1, $id_anteproyecto]);
         $observaciones=$comentarios->observaciones;
         $observaciones=str_replace("[\n|\r|\n\r]",'',$observaciones);
         $pendientes=$comentarios->pendientes;
@@ -229,7 +229,7 @@ $fecha_inicial= date("d-m-Y",strtotime($fechas->fecha_inicial));
         $pdf->SetXY(26, 137);
         $pdf->Cell(35,5,utf8_decode('informe'),'LR',0,'C');
 
-        $rubro_actitud=DB::selectOne('SELECT * FROM `resi_rubro_actitud` WHERE `id_anteproyecto` = '.$id_anteproyecto.' AND `semana` = '.$semana1.'');
+        $rubro_actitud=DB::selectOne('SELECT * FROM `resi_rubro_actitud` WHERE `id_anteproyecto` = ? AND `semana` = ?', [$id_anteproyecto, $semana1]);
         $rubro_actitud=$rubro_actitud->calificacion;
         if($rubro_actitud < 70)
         {
@@ -238,7 +238,7 @@ $fecha_inicial= date("d-m-Y",strtotime($fechas->fecha_inicial));
         else{
             $rubro_actitud=$rubro_actitud;
         }
-        $rubro_aplicacion=DB::selectOne('SELECT * FROM `resi_rubro_aplicacion` WHERE `id_anteproyecto` = '.$id_anteproyecto.' AND `semana` = '.$semana1.'');
+        $rubro_aplicacion=DB::selectOne('SELECT * FROM `resi_rubro_aplicacion` WHERE `id_anteproyecto` = ? AND `semana` = ?', [$id_anteproyecto, $semana1]);
         $rubro_aplicacion=$rubro_aplicacion->calificacion;
         if($rubro_aplicacion < 70)
         {
@@ -247,7 +247,7 @@ $fecha_inicial= date("d-m-Y",strtotime($fechas->fecha_inicial));
         else{
             $rubro_aplicacion=$rubro_aplicacion;
         }
-        $rubro_calidad=DB::selectOne('SELECT * FROM `resi_rubro_calidad` WHERE `id_anteproyecto` = '.$id_anteproyecto.' AND `semana` = '.$semana1.'');
+        $rubro_calidad=DB::selectOne('SELECT * FROM `resi_rubro_calidad` WHERE `id_anteproyecto` = ? AND `semana` = ?', [$id_anteproyecto, $semana1]);
         $rubro_calidad=$rubro_calidad->calificacion;
         if($rubro_calidad < 70)
         {
@@ -256,7 +256,7 @@ $fecha_inicial= date("d-m-Y",strtotime($fechas->fecha_inicial));
         else{
             $rubro_calidad=$rubro_calidad;
         }
-        $rubro_capacidad=DB::selectOne('SELECT * FROM `resi_rubro_capacidad` WHERE `id_anteproyecto` = '.$id_anteproyecto.' AND `semana` = '.$semana1.'');
+        $rubro_capacidad=DB::selectOne('SELECT * FROM `resi_rubro_capacidad` WHERE `id_anteproyecto` = ? AND `semana` = ?', [$id_anteproyecto, $semana1]);
         $rubro_capacidad=$rubro_capacidad->calificacion;
         if($rubro_capacidad < 70)
         {
@@ -265,7 +265,7 @@ $fecha_inicial= date("d-m-Y",strtotime($fechas->fecha_inicial));
         else{
             $rubro_capacidad=$rubro_capacidad;
         }
-        $rubro_responsabilidad=DB::selectOne('SELECT * FROM `resi_rubro_responsabilidad` WHERE `id_anteproyecto` = '.$id_anteproyecto.' AND `semana` = '.$semana1.'');
+        $rubro_responsabilidad=DB::selectOne('SELECT * FROM `resi_rubro_responsabilidad` WHERE `id_anteproyecto` = ? AND `semana` = ?', [$id_anteproyecto, $semana1]);
         $rubro_responsabilidad=$rubro_responsabilidad->calificacion;
         if($rubro_responsabilidad < 70)
         {
@@ -302,11 +302,11 @@ $fecha_inicial= date("d-m-Y",strtotime($fechas->fecha_inicial));
         $pdf->SetXY(165,68);
         $pdf->MultiCell(40,4,utf8_decode($pendientes),0);
 
-        $cronograma=DB::selectOne('SELECT * FROM `resi_cronograma` WHERE `no_semana` = '.$semana2.' AND `id_anteproyecto` = '.$id_anteproyecto.' ORDER BY `no_semana` ASC');
+        $cronograma=DB::selectOne('SELECT * FROM `resi_cronograma` WHERE `no_semana` = ? AND `id_anteproyecto` = ? ORDER BY `no_semana` ASC', [$semana2, $id_anteproyecto]);
         $fecha1=date("d-m-Y",strtotime($cronograma->f_inicio));
         $fecha2=date("d-m-Y",strtotime($cronograma->f_termino));
         $actividad=str_replace("[\n|\r|\n\r]",'',$cronograma->actividad);
-        $comentarios=DB::selectOne('SELECT * FROM `resi_promedio_rubros` WHERE `id_semana` = '.$semana2.' AND `id_anteproyecto` ='.$id_anteproyecto.'');
+        $comentarios=DB::selectOne('SELECT * FROM `resi_promedio_rubros` WHERE `id_semana` = ? AND `id_anteproyecto` = ?', [$semana2, $id_anteproyecto]);
         $observaciones=$comentarios->observaciones;
         $observaciones=str_replace("[\n|\r|\n\r]",'',$observaciones);
         $pendientes=$comentarios->pendientes;
@@ -364,7 +364,7 @@ $fecha_inicial= date("d-m-Y",strtotime($fechas->fecha_inicial));
         $pdf->SetXY(26,229);
         $pdf->Cell(35,1,'','LBR',0,'C');
 
-        $rubro_actitud=DB::selectOne('SELECT * FROM `resi_rubro_actitud` WHERE `id_anteproyecto` = '.$id_anteproyecto.' AND `semana` = '.$semana2.'');
+        $rubro_actitud=DB::selectOne('SELECT * FROM `resi_rubro_actitud` WHERE `id_anteproyecto` = ? AND `semana` = ?', [$id_anteproyecto, $semana2]);
         $rubro_actitud=$rubro_actitud->calificacion;
         if($rubro_actitud < 70)
         {
@@ -373,7 +373,7 @@ $fecha_inicial= date("d-m-Y",strtotime($fechas->fecha_inicial));
         else{
             $rubro_actitud=$rubro_actitud;
         }
-        $rubro_aplicacion=DB::selectOne('SELECT * FROM `resi_rubro_aplicacion` WHERE `id_anteproyecto` = '.$id_anteproyecto.' AND `semana` = '.$semana2.'');
+        $rubro_aplicacion=DB::selectOne('SELECT * FROM `resi_rubro_aplicacion` WHERE `id_anteproyecto` = ? AND `semana` = ?', [$id_anteproyecto, $semana2]);
         $rubro_aplicacion=$rubro_aplicacion->calificacion;
         if($rubro_aplicacion < 70)
         {
@@ -382,7 +382,7 @@ $fecha_inicial= date("d-m-Y",strtotime($fechas->fecha_inicial));
         else{
             $rubro_aplicacion=$rubro_aplicacion;
         }
-        $rubro_calidad=DB::selectOne('SELECT * FROM `resi_rubro_calidad` WHERE `id_anteproyecto` = '.$id_anteproyecto.' AND `semana` = '.$semana2.'');
+        $rubro_calidad=DB::selectOne('SELECT * FROM `resi_rubro_calidad` WHERE `id_anteproyecto` = ? AND `semana` = ?', [$id_anteproyecto, $semana2]);
         $rubro_calidad=$rubro_calidad->calificacion;
         if($rubro_calidad < 70)
         {
@@ -391,7 +391,7 @@ $fecha_inicial= date("d-m-Y",strtotime($fechas->fecha_inicial));
         else{
             $rubro_calidad=$rubro_calidad;
         }
-        $rubro_capacidad=DB::selectOne('SELECT * FROM `resi_rubro_capacidad` WHERE `id_anteproyecto` = '.$id_anteproyecto.' AND `semana` = '.$semana2.'');
+        $rubro_capacidad=DB::selectOne('SELECT * FROM `resi_rubro_capacidad` WHERE `id_anteproyecto` = ? AND `semana` = ?', [$id_anteproyecto, $semana2]);
         $rubro_capacidad=$rubro_capacidad->calificacion;
         if($rubro_capacidad < 70)
         {
@@ -400,7 +400,7 @@ $fecha_inicial= date("d-m-Y",strtotime($fechas->fecha_inicial));
         else{
             $rubro_capacidad=$rubro_capacidad;
         }
-        $rubro_responsabilidad=DB::selectOne('SELECT * FROM `resi_rubro_responsabilidad` WHERE `id_anteproyecto` = '.$id_anteproyecto.' AND `semana` = '.$semana2.'');
+        $rubro_responsabilidad=DB::selectOne('SELECT * FROM `resi_rubro_responsabilidad` WHERE `id_anteproyecto` = ? AND `semana` = ?', [$id_anteproyecto, $semana2]);
         $rubro_responsabilidad=$rubro_responsabilidad->calificacion;
         if($rubro_responsabilidad < 70)
         {
@@ -436,11 +436,11 @@ $fecha_inicial= date("d-m-Y",strtotime($fechas->fecha_inicial));
 
 
         $pdf->AddPage();
-        $cronograma=DB::selectOne('SELECT * FROM `resi_cronograma` WHERE `no_semana` = '.$semana3.' AND `id_anteproyecto` = '.$id_anteproyecto.' ORDER BY `no_semana` ASC');
+        $cronograma=DB::selectOne('SELECT * FROM `resi_cronograma` WHERE `no_semana` = ? AND `id_anteproyecto` = ? ORDER BY `no_semana` ASC', [$semana3, $id_anteproyecto]);
         $fecha1=date("d-m-Y",strtotime($cronograma->f_inicio));
         $fecha2=date("d-m-Y",strtotime($cronograma->f_termino));
         $actividad=str_replace("[\n|\r|\n\r]",'',$cronograma->actividad);
-        $comentarios=DB::selectOne('SELECT * FROM `resi_promedio_rubros` WHERE `id_semana` = '.$semana3.' AND `id_anteproyecto` ='.$id_anteproyecto.'');
+        $comentarios=DB::selectOne('SELECT * FROM `resi_promedio_rubros` WHERE `id_semana` = ? AND `id_anteproyecto` = ?', [$semana3, $id_anteproyecto]);
         $observaciones=$comentarios->observaciones;
         $observaciones=str_replace("[\n|\r|\n\r]",'',$observaciones);
         $pendientes=$comentarios->pendientes;
@@ -512,7 +512,7 @@ $fecha_inicial= date("d-m-Y",strtotime($fechas->fecha_inicial));
         $pdf->Cell(35,5,utf8_decode('informe'),'LR',0,'C');
         $pdf->SetXY(26,142);
         $pdf->Cell(35,1,'','LBR',0,'C');
-        $rubro_actitud=DB::selectOne('SELECT * FROM `resi_rubro_actitud` WHERE `id_anteproyecto` = '.$id_anteproyecto.' AND `semana` = '.$semana3.'');
+        $rubro_actitud=DB::selectOne('SELECT * FROM `resi_rubro_actitud` WHERE `id_anteproyecto` = ? AND `semana` = ?', [$id_anteproyecto, $semana3]);
         $rubro_actitud=$rubro_actitud->calificacion;
         if($rubro_actitud < 70)
         {
@@ -521,7 +521,7 @@ $fecha_inicial= date("d-m-Y",strtotime($fechas->fecha_inicial));
         else{
             $rubro_actitud=$rubro_actitud;
         }
-        $rubro_aplicacion=DB::selectOne('SELECT * FROM `resi_rubro_aplicacion` WHERE `id_anteproyecto` = '.$id_anteproyecto.' AND `semana` = '.$semana3.'');
+        $rubro_aplicacion=DB::selectOne('SELECT * FROM `resi_rubro_aplicacion` WHERE `id_anteproyecto` = ? AND `semana` = ?', [$id_anteproyecto, $semana3]);
         $rubro_aplicacion=$rubro_aplicacion->calificacion;
         if($rubro_aplicacion < 70)
         {
@@ -530,7 +530,7 @@ $fecha_inicial= date("d-m-Y",strtotime($fechas->fecha_inicial));
         else{
             $rubro_aplicacion=$rubro_aplicacion;
         }
-        $rubro_calidad=DB::selectOne('SELECT * FROM `resi_rubro_calidad` WHERE `id_anteproyecto` = '.$id_anteproyecto.' AND `semana` = '.$semana3.'');
+        $rubro_calidad=DB::selectOne('SELECT * FROM `resi_rubro_calidad` WHERE `id_anteproyecto` = ? AND `semana` = ?', [$id_anteproyecto, $semana3]);
         $rubro_calidad=$rubro_calidad->calificacion;
         if($rubro_calidad < 70)
         {
@@ -539,7 +539,7 @@ $fecha_inicial= date("d-m-Y",strtotime($fechas->fecha_inicial));
         else{
             $rubro_calidad=$rubro_calidad;
         }
-        $rubro_capacidad=DB::selectOne('SELECT * FROM `resi_rubro_capacidad` WHERE `id_anteproyecto` = '.$id_anteproyecto.' AND `semana` = '.$semana3.'');
+        $rubro_capacidad=DB::selectOne('SELECT * FROM `resi_rubro_capacidad` WHERE `id_anteproyecto` = ? AND `semana` = ?', [$id_anteproyecto, $semana3]);
         $rubro_capacidad=$rubro_capacidad->calificacion;
         if($rubro_capacidad < 70)
         {
@@ -548,7 +548,7 @@ $fecha_inicial= date("d-m-Y",strtotime($fechas->fecha_inicial));
         else{
             $rubro_capacidad=$rubro_capacidad;
         }
-        $rubro_responsabilidad=DB::selectOne('SELECT * FROM `resi_rubro_responsabilidad` WHERE `id_anteproyecto` = '.$id_anteproyecto.' AND `semana` = '.$semana3.'');
+        $rubro_responsabilidad=DB::selectOne('SELECT * FROM `resi_rubro_responsabilidad` WHERE `id_anteproyecto` = ? AND `semana` = ?', [$id_anteproyecto, $semana3]);
         $rubro_responsabilidad=$rubro_responsabilidad->calificacion;
         if($rubro_responsabilidad < 70)
         {
@@ -580,11 +580,11 @@ $fecha_inicial= date("d-m-Y",strtotime($fechas->fecha_inicial));
         $pdf->SetXY(165,68);
         $pdf->MultiCell(40,4,utf8_decode($pendientes),0);
 
-        $cronograma=DB::selectOne('SELECT * FROM `resi_cronograma` WHERE `no_semana` = '.$semana4.' AND `id_anteproyecto` = '.$id_anteproyecto.' ORDER BY `no_semana` ASC');
+        $cronograma=DB::selectOne('SELECT * FROM `resi_cronograma` WHERE `no_semana` = ? AND `id_anteproyecto` = ? ORDER BY `no_semana` ASC', [$semana4, $id_anteproyecto]);
         $fecha1=date("d-m-Y",strtotime($cronograma->f_inicio));
         $fecha2=date("d-m-Y",strtotime($cronograma->f_termino));
         $actividad=str_replace("[\n|\r|\n\r]",'',$cronograma->actividad);
-        $comentarios=DB::selectOne('SELECT * FROM `resi_promedio_rubros` WHERE `id_semana` = '.$semana4.' AND `id_anteproyecto` ='.$id_anteproyecto.'');
+        $comentarios=DB::selectOne('SELECT * FROM `resi_promedio_rubros` WHERE `id_semana` = ? AND `id_anteproyecto` = ?', [$semana4, $id_anteproyecto]);
         $observaciones=$comentarios->observaciones;
         $observaciones=str_replace("[\n|\r|\n\r]",'',$observaciones);
         $pendientes=$comentarios->pendientes;
@@ -641,7 +641,7 @@ $fecha_inicial= date("d-m-Y",strtotime($fechas->fecha_inicial));
         $pdf->SetXY(26,229);
         $pdf->Cell(35,1,'','LBR',0,'C');
 
-        $rubro_actitud=DB::selectOne('SELECT * FROM `resi_rubro_actitud` WHERE `id_anteproyecto` = '.$id_anteproyecto.' AND `semana` = '.$semana4.'');
+        $rubro_actitud=DB::selectOne('SELECT * FROM `resi_rubro_actitud` WHERE `id_anteproyecto` = ? AND `semana` = ?', [$id_anteproyecto, $semana4]);
         $rubro_actitud=$rubro_actitud->calificacion;
         if($rubro_actitud < 70)
         {
@@ -650,7 +650,7 @@ $fecha_inicial= date("d-m-Y",strtotime($fechas->fecha_inicial));
         else{
             $rubro_actitud=$rubro_actitud;
         }
-        $rubro_aplicacion=DB::selectOne('SELECT * FROM `resi_rubro_aplicacion` WHERE `id_anteproyecto` = '.$id_anteproyecto.' AND `semana` = '.$semana4.'');
+        $rubro_aplicacion=DB::selectOne('SELECT * FROM `resi_rubro_aplicacion` WHERE `id_anteproyecto` = ? AND `semana` = ?', [$id_anteproyecto, $semana4]);
         $rubro_aplicacion=$rubro_aplicacion->calificacion;
         if($rubro_aplicacion < 70)
         {
@@ -659,7 +659,7 @@ $fecha_inicial= date("d-m-Y",strtotime($fechas->fecha_inicial));
         else{
             $rubro_aplicacion=$rubro_aplicacion;
         }
-        $rubro_calidad=DB::selectOne('SELECT * FROM `resi_rubro_calidad` WHERE `id_anteproyecto` = '.$id_anteproyecto.' AND `semana` = '.$semana4.'');
+        $rubro_calidad=DB::selectOne('SELECT * FROM `resi_rubro_calidad` WHERE `id_anteproyecto` = ? AND `semana` = ?', [$id_anteproyecto, $semana4]);
         $rubro_calidad=$rubro_calidad->calificacion;
         if($rubro_calidad < 70)
         {
@@ -668,7 +668,7 @@ $fecha_inicial= date("d-m-Y",strtotime($fechas->fecha_inicial));
         else{
             $rubro_calidad=$rubro_calidad;
         }
-        $rubro_capacidad=DB::selectOne('SELECT * FROM `resi_rubro_capacidad` WHERE `id_anteproyecto` = '.$id_anteproyecto.' AND `semana` = '.$semana4.'');
+        $rubro_capacidad=DB::selectOne('SELECT * FROM `resi_rubro_capacidad` WHERE `id_anteproyecto` = ? AND `semana` = ?', [$id_anteproyecto, $semana4]);
         $rubro_capacidad=$rubro_capacidad->calificacion;
         if($rubro_capacidad < 70)
         {
@@ -677,7 +677,7 @@ $fecha_inicial= date("d-m-Y",strtotime($fechas->fecha_inicial));
         else{
             $rubro_capacidad=$rubro_capacidad;
         }
-        $rubro_responsabilidad=DB::selectOne('SELECT * FROM `resi_rubro_responsabilidad` WHERE `id_anteproyecto` = '.$id_anteproyecto.' AND `semana` = '.$semana4.'');
+        $rubro_responsabilidad=DB::selectOne('SELECT * FROM `resi_rubro_responsabilidad` WHERE `id_anteproyecto` = ? AND `semana` = ?', [$id_anteproyecto, $semana4]);
         $rubro_responsabilidad=$rubro_responsabilidad->calificacion;
         if($rubro_responsabilidad < 70)
         {

@@ -84,34 +84,34 @@ class Tu_Eva_pdf_fo40Controller extends Controller
 {
     public function imprime($periodo)
     {
-        $datos = DB::select(" select gc.nombre carrera,gp.nombre nombre,
+        $datos = DB::select(' select gc.nombre carrera,gp.nombre nombre,
                                                    (case
-                                                       when f.se1 = 1 then 'Cumplió'
-                                                       when f.se1 = 2 then 'No cumplió'
-                                                       when f.se1 = 3 then 'Avance 75%'
-                                                       when f.se1 = 4 then 'Avance 50%'
-                                                       when f.se1 = 5 then 'Avance 25%'
+                                                       when f.se1 = 1 then \'Cumplió\'
+                                                       when f.se1 = 2 then \'No cumplió\'
+                                                       when f.se1 = 3 then \'Avance 75%\'
+                                                       when f.se1 = 4 then \'Avance 50%\'
+                                                       when f.se1 = 5 then \'Avance 25%\'
                                                     end) se1,
                                                     (case
-                                                       when f.se2 = 1 then 'Cumplió'
-                                                       when f.se2 = 2 then 'No cumplió'
-                                                       when f.se2 = 3 then 'Avance 75%'
-                                                       when f.se2 = 4 then 'Avance 50%'
-                                                       when f.se2 = 5 then 'Avance 25%'
+                                                       when f.se2 = 1 then \'Cumplió\'
+                                                       when f.se2 = 2 then \'No cumplió\'
+                                                       when f.se2 = 3 then \'Avance 75%\'
+                                                       when f.se2 = 4 then \'Avance 50%\'
+                                                       when f.se2 = 5 then \'Avance 25%\'
                                                     end) se2,
-                                                    concat(f.com,'  ',f.com2) com ,res1,res2
-                                            from tu_eva_fo40 f 
+                                                    concat(f.com,\'  \',f.com2) com ,res1,res2
+                                            from tu_eva_fo40 f
                                             inner join exp_asigna_coordinador eac on f.id_asigna_coordinador = eac.id_asigna_coordinador
                                             inner join gnral_personales gp on eac.id_personal = gp.id_personal
                                             inner join gnral_jefes_periodos gjp on eac.id_jefe_periodo = gjp.id_jefe_periodo
                                             inner join gnral_carreras gc on gjp.id_carrera = gc.id_carrera
-                                            where f.periodo =  '{$periodo}' ");
+                                            where f.periodo =  ? ', [(string) ($periodo)]);
         $corIn = DB::selectOne(" select  concat(ap.titulo,' ',gp.nombre)   nom from gnral_personales gp
                                         inner join desarrollo_asigna_coordinador_general dacg on gp.id_personal = dacg.id_personal
                                         inner join abreviaciones_prof apf on dacg.id_personal = apf.id_personal
                                         inner join abreviaciones ap on apf.id_abreviacion = ap.id_abreviacion");
         $etiqueta=DB::selectOne('SELECT * FROM etiqueta WHERE id_etiqueta = 1 ');
-        $des = DB::selectOne("select concat(ap.titulo,' ',gp.nombre) nom from gnral_personales gp 
+        $des = DB::selectOne("select concat(ap.titulo,' ',gp.nombre) nom from gnral_personales gp
                                            inner join abreviaciones_prof apf on gp.id_personal = apf.id_personal
                                            inner join abreviaciones ap on apf.id_abreviacion = ap.id_abreviacion
                                            where gp.tipo_usuario = 796");
@@ -168,28 +168,28 @@ class Tu_Eva_pdf_fo40Controller extends Controller
     }
     public function p1($periodo)
     {
-        $datos = DB::select(" select gc.nombre carrera,gp.nombre nombre,
+        $datos = DB::select(' select gc.nombre carrera,gp.nombre nombre,
                                                    (case
-                                                       when f.se1 = 1 then 'Cumplió'
-                                                       when f.se1 = 2 then 'No cumplió'
-                                                       when f.se1 = 3 then 'Avance 75%'
-                                                       when f.se1 = 4 then 'Avance 50%'
-                                                       when f.se1 = 5 then 'Avance 25%'
+                                                       when f.se1 = 1 then \'Cumplió\'
+                                                       when f.se1 = 2 then \'No cumplió\'
+                                                       when f.se1 = 3 then \'Avance 75%\'
+                                                       when f.se1 = 4 then \'Avance 50%\'
+                                                       when f.se1 = 5 then \'Avance 25%\'
                                                     end) se1,
                                                     concat(f.com) com ,res1,res2
-                                            from tu_eva_fo40 f 
+                                            from tu_eva_fo40 f
                                             inner join exp_asigna_coordinador eac on f.id_asigna_coordinador = eac.id_asigna_coordinador
                                             inner join gnral_personales gp on eac.id_personal = gp.id_personal
                                             inner join gnral_jefes_periodos gjp on eac.id_jefe_periodo = gjp.id_jefe_periodo
                                             inner join gnral_carreras gc on gjp.id_carrera = gc.id_carrera
-                                            where f.periodo =  '{$periodo}' ");
+                                            where f.periodo =  ? ', [(string) ($periodo)]);
 
         $corIn = DB::selectOne(" select  concat(ap.titulo,' ',gp.nombre)   nom from gnral_personales gp
                                         inner join desarrollo_asigna_coordinador_general dacg on gp.id_personal = dacg.id_personal
                                         inner join abreviaciones_prof apf on dacg.id_personal = apf.id_personal
                                         inner join abreviaciones ap on apf.id_abreviacion = ap.id_abreviacion");
         $etiqueta=DB::selectOne('SELECT * FROM etiqueta WHERE id_etiqueta = 1 ');
-        $des = DB::selectOne("select concat(ap.titulo,' ',gp.nombre) nom from gnral_personales gp 
+        $des = DB::selectOne("select concat(ap.titulo,' ',gp.nombre) nom from gnral_personales gp
                                            inner join abreviaciones_prof apf on gp.id_personal = apf.id_personal
                                            inner join abreviaciones ap on apf.id_abreviacion = ap.id_abreviacion
                                            where gp.tipo_usuario = 796");

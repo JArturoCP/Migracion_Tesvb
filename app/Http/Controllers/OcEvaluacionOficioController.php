@@ -57,7 +57,7 @@ class OcEvaluacionOficioController extends Controller
             })
             ->orderBy('fecha_hora')
             ->get();
-            
+
             $ofic = DB::table('oc_oficio_personal')
             ->where('id_notificacion', 5)
             ->count();
@@ -79,7 +79,7 @@ class OcEvaluacionOficioController extends Controller
         return view('comision_oficio.historial_oficios_recibidos', compact('ofic','anos_oficios','id_anos','mostrar'));
     }
     public function historial_mostrar($id_anos){
-        $id_a=DB::selectOne('SELECT * FROM oc_anos where id_ano='.$id_anos.'');
+        $id_a=DB::selectOne('SELECT * FROM oc_anos where id_ano= ?', [$id_anos]);
        $id_a=$id_a->descripcion;
        // dd($id_anos);
         $anos_oficios=DB::select('SELECT * FROM oc_anos');
@@ -119,7 +119,7 @@ class OcEvaluacionOficioController extends Controller
     }
     public function historial_mostrar_profesores($id_anos){
         $anos_oficios=DB::select('SELECT * FROM oc_anos');
-        $id_a=DB::selectOne('SELECT * FROM oc_anos where id_ano='.$id_anos.'');
+        $id_a=DB::selectOne('SELECT * FROM oc_anos where id_ano= ?', [$id_anos]);
         $id_a=$id_a->descripcion;
         $mostrar=1;
         $id_periodo = Session::get('periodotrabaja');
@@ -148,23 +148,23 @@ class OcEvaluacionOficioController extends Controller
 
 
         //ver oficio por comisionado
-        $oficios=DB::selectOne('SELECT oc_oficio.id_oficio,oc_oficio.desc_comision,oc_oficio.fecha_salida,oc_oficio.fecha_regreso,oc_oficio.hora_s,oc_oficio.hora_r from oc_oficio,oc_oficio_personal WHERE   oc_oficio.id_oficio=oc_oficio_personal.id_oficio and oc_oficio_personal.id_oficio_personal='.$id_oficio.'');
-        $dependencias=DB::select('SELECT oc_depend_domicilio.*,gnral_estados.nombre_estado,gnral_municipios.nombre_municipio FROM oc_depend_domicilio,gnral_municipios,gnral_estados WHERE oc_depend_domicilio.id_municipio=gnral_municipios.id_municipio 
-and gnral_municipios.id_estado=gnral_estados.id_estado and oc_depend_domicilio.id_oficio ='.$oficios->id_oficio.''); $personales=DB::selectOne('SELECT oc_oficio_vehiculo.licencia, oc_vehiculo.modelo,oc_vehiculo.placas,gnral_personales.nombre,abreviaciones.titulo,oc_oficio_personal.viaticos,oc_oficio_personal.automovil,oc_oficio_personal.id_personal from oc_vehiculo,oc_oficio_vehiculo,oc_oficio_personal,gnral_personales,abreviaciones_prof,abreviaciones WHERE oc_vehiculo.id_vehiculo=oc_oficio_vehiculo.id_vehiculo and oc_oficio_vehiculo.id_oficio_personal=oc_oficio_personal.id_oficio_personal and oc_oficio_personal.id_personal=gnral_personales.id_personal and gnral_personales.id_personal=abreviaciones_prof.id_personal and abreviaciones_prof.id_abreviacion=abreviaciones.id_abreviacion and oc_oficio_personal.id_oficio_personal='.$id_oficio.' and oc_oficio_personal.automovil=2 UNION SELECT 0,0,0,gnral_personales.nombre,abreviaciones.titulo,oc_oficio_personal.viaticos,oc_oficio_personal.automovil,oc_oficio_personal.id_personal from oc_oficio_personal,gnral_personales,abreviaciones_prof,abreviaciones WHERE oc_oficio_personal.id_personal=gnral_personales.id_personal and gnral_personales.id_personal=abreviaciones_prof.id_personal and abreviaciones_prof.id_abreviacion=abreviaciones.id_abreviacion and oc_oficio_personal.automovil=1 and oc_oficio_personal.id_oficio_personal='.$id_oficio.'');
-        $lugar_s=DB::selectOne('SELECT oc_lugar.descripcion from oc_oficio,oc_lugar,oc_oficio_personal WHERE oc_oficio.id_lugar_salida=oc_lugar.id_lugar and oc_oficio.id_oficio=oc_oficio_personal.id_oficio and oc_oficio_personal.id_oficio_personal='.$id_oficio.'');
-        $lugar_r=DB::selectOne('SELECT oc_lugar.descripcion from oc_oficio,oc_lugar,oc_oficio_personal WHERE oc_oficio.id_lugar_entrada=oc_lugar.id_lugar and oc_oficio.id_oficio=oc_oficio_personal.id_oficio and oc_oficio_personal.id_oficio_personal='.$id_oficio.'');
+        $oficios=DB::selectOne('SELECT oc_oficio.id_oficio,oc_oficio.desc_comision,oc_oficio.fecha_salida,oc_oficio.fecha_regreso,oc_oficio.hora_s,oc_oficio.hora_r from oc_oficio,oc_oficio_personal WHERE   oc_oficio.id_oficio=oc_oficio_personal.id_oficio and oc_oficio_personal.id_oficio_personal= ?', [$id_oficio]);
+        $dependencias=DB::select('SELECT oc_depend_domicilio.*,gnral_estados.nombre_estado,gnral_municipios.nombre_municipio FROM oc_depend_domicilio,gnral_municipios,gnral_estados WHERE oc_depend_domicilio.id_municipio=gnral_municipios.id_municipio
+and gnral_municipios.id_estado=gnral_estados.id_estado and oc_depend_domicilio.id_oficio = ?', [$oficios->id_oficio]); $personales=DB::selectOne('SELECT oc_oficio_vehiculo.licencia, oc_vehiculo.modelo,oc_vehiculo.placas,gnral_personales.nombre,abreviaciones.titulo,oc_oficio_personal.viaticos,oc_oficio_personal.automovil,oc_oficio_personal.id_personal from oc_vehiculo,oc_oficio_vehiculo,oc_oficio_personal,gnral_personales,abreviaciones_prof,abreviaciones WHERE oc_vehiculo.id_vehiculo=oc_oficio_vehiculo.id_vehiculo and oc_oficio_vehiculo.id_oficio_personal=oc_oficio_personal.id_oficio_personal and oc_oficio_personal.id_personal=gnral_personales.id_personal and gnral_personales.id_personal=abreviaciones_prof.id_personal and abreviaciones_prof.id_abreviacion=abreviaciones.id_abreviacion and oc_oficio_personal.id_oficio_personal= ? and oc_oficio_personal.automovil=2 UNION SELECT 0,0,0,gnral_personales.nombre,abreviaciones.titulo,oc_oficio_personal.viaticos,oc_oficio_personal.automovil,oc_oficio_personal.id_personal from oc_oficio_personal,gnral_personales,abreviaciones_prof,abreviaciones WHERE oc_oficio_personal.id_personal=gnral_personales.id_personal and gnral_personales.id_personal=abreviaciones_prof.id_personal and abreviaciones_prof.id_abreviacion=abreviaciones.id_abreviacion and oc_oficio_personal.automovil=1 and oc_oficio_personal.id_oficio_personal= ?', [$id_oficio, $id_oficio]);
+        $lugar_s=DB::selectOne('SELECT oc_lugar.descripcion from oc_oficio,oc_lugar,oc_oficio_personal WHERE oc_oficio.id_lugar_salida=oc_lugar.id_lugar and oc_oficio.id_oficio=oc_oficio_personal.id_oficio and oc_oficio_personal.id_oficio_personal= ?', [$id_oficio]);
+        $lugar_r=DB::selectOne('SELECT oc_lugar.descripcion from oc_oficio,oc_lugar,oc_oficio_personal WHERE oc_oficio.id_lugar_entrada=oc_lugar.id_lugar and oc_oficio.id_oficio=oc_oficio_personal.id_oficio and oc_oficio_personal.id_oficio_personal= ?', [$id_oficio]);
         return view('comision_oficio.partialsof.modal_comisionados',compact('dependencias'))->with([ 'personales' => $personales,'oficios' => $oficios,'lugar_s' => $lugar_s,'lugar_r' => $lugar_r]);
     }
     public function editarsudireccion($id_oficio){
 
-        DB::update('UPDATE oc_oficio_personal SET id_notificacion = 4 WHERE oc_oficio_personal.id_oficio='.$id_oficio.'');
-        DB::update('UPDATE oc_oficio SET id_notificacion_solicitud =4  WHERE oc_oficio.id_oficio='.$id_oficio.'');
+        DB::update('UPDATE oc_oficio_personal SET id_notificacion = 4 WHERE oc_oficio_personal.id_oficio= ?', [$id_oficio]);
+        DB::update('UPDATE oc_oficio SET id_notificacion_solicitud =4  WHERE oc_oficio.id_oficio= ?', [$id_oficio]);
         return redirect('/oficios/evaluacionsubdirecion');
 
     }
     public  function permisoeditar($id_oficio){
-        DB::update('UPDATE oc_oficio_personal SET id_notificacion = 4 WHERE oc_oficio_personal.id_oficio='.$id_oficio.'');
-        DB::update('UPDATE oc_oficio SET id_notificacion_solicitud =4  WHERE oc_oficio.id_oficio='.$id_oficio.'');
+        DB::update('UPDATE oc_oficio_personal SET id_notificacion = 4 WHERE oc_oficio_personal.id_oficio= ?', [$id_oficio]);
+        DB::update('UPDATE oc_oficio SET id_notificacion_solicitud =4  WHERE oc_oficio.id_oficio= ?', [$id_oficio]);
         return redirect('/oficios/evaluacion');
     }
     public  function  mostrarvalidados(){
@@ -179,7 +179,7 @@ and gnral_municipios.id_estado=gnral_estados.id_estado and oc_depend_domicilio.i
     }
     public function  notificaciones() {
         $id_usuario = Session::get('usuario_alumno');
-        $noti=DB::selectOne('SELECT COUNT(oc_notificacion.id_notificacion) ofsl from oc_notificacion where  oc_notificacion.id_usuario='.$id_usuario.'');
+        $noti=DB::selectOne('SELECT COUNT(oc_notificacion.id_notificacion) ofsl from oc_notificacion where  oc_notificacion.id_usuario= ?', [$id_usuario]);
 
         return response()->json($noti);
 
@@ -188,16 +188,16 @@ and gnral_municipios.id_estado=gnral_estados.id_estado and oc_depend_domicilio.i
         $oficio_personal = $request->input("personal");
         $estado_oficio = $request->input("optradio");
         if ($estado_oficio == 1){
-        DB::update("UPDATE oc_oficio_personal SET estado_oficio = 1 WHERE oc_oficio_personal.id_oficio_personal= $oficio_personal");
+        DB::update('UPDATE oc_oficio_personal SET estado_oficio = 1 WHERE oc_oficio_personal.id_oficio_personal= ?', [$oficio_personal]);
         }
         else{
-            $oficio=DB::selectOne('SELECT * FROM oc_oficio_personal WHERE id_oficio_personal = '.$oficio_personal.' ORDER BY id_oficio DESC');
+            $oficio=DB::selectOne('SELECT * FROM oc_oficio_personal WHERE id_oficio_personal = ? ORDER BY id_oficio DESC', [$oficio_personal]);
             $oficio=$oficio->id_oficio;
-            $solicitud=DB::selectOne('SELECT * FROM oc_oficio WHERE id_oficio = '.$oficio.' ORDER BY id_oficio DESC');
-            $comisionados=DB::selectOne('SELECT COUNT(oc_oficio_personal.id_oficio_personal) comisionados from oc_oficio_personal WHERE oc_oficio_personal.id_oficio='.$oficio.'');
+            $solicitud=DB::selectOne('SELECT * FROM oc_oficio WHERE id_oficio = ? ORDER BY id_oficio DESC', [$oficio]);
+            $comisionados=DB::selectOne('SELECT COUNT(oc_oficio_personal.id_oficio_personal) comisionados from oc_oficio_personal WHERE oc_oficio_personal.id_oficio= ?', [$oficio]);
            if($comisionados->comisionados == 1)
            {
-               DB::update("UPDATE oc_oficio_personal SET estado_oficio = 2 WHERE oc_oficio_personal.id_oficio_personal= $oficio_personal");
+               DB::update('UPDATE oc_oficio_personal SET estado_oficio = 2 WHERE oc_oficio_personal.id_oficio_personal= ?', [$oficio_personal]);
 
            }
            else{
@@ -209,13 +209,13 @@ and gnral_municipios.id_estado=gnral_estados.id_estado and oc_depend_domicilio.i
                    'hora_r'=>$solicitud->hora_r,'id_lugar_salida'=>$solicitud->id_lugar_salida,'id_lugar_entrada'=>$solicitud->id_lugar_entrada,
                    'fecha_hora'=>$solicitud->fecha_hora,'id_usuario'=>$solicitud->id_usuario,'id_notificacion_solicitud'=>$solicitud->id_notificacion_solicitud
             ]);
-               $dependencias= DB::select('SELECT * FROM oc_depend_domicilio WHERE id_oficio = '.$oficio.' ORDER BY oc_depend_domicilio.id_depend_domicilio ASC');
+               $dependencias= DB::select('SELECT * FROM oc_depend_domicilio WHERE id_oficio = ? ORDER BY oc_depend_domicilio.id_depend_domicilio ASC', [$oficio]);
              foreach ($dependencias as $dependencias){
                  DB:: table('oc_depend_domicilio')->insert(['dependencia'=>$dependencias->dependencia,'domicilio'=>$dependencias->domicilio,
                      'id_oficio'=>$numeross,'id_municipio'=>$dependencias->id_municipio]);
 
              }
-               DB::update("UPDATE oc_oficio_personal SET estado_oficio = 2,id_oficio = $numeross WHERE oc_oficio_personal.id_oficio_personal= $oficio_personal");
+               DB::update('UPDATE oc_oficio_personal SET estado_oficio = 2,id_oficio = ? WHERE oc_oficio_personal.id_oficio_personal= ?', [$numeross, $oficio_personal]);
 
 
            }
@@ -227,7 +227,7 @@ and gnral_municipios.id_estado=gnral_estados.id_estado and oc_depend_domicilio.i
     return back();
     }
     public function estado_dependencia($id_estado){
-        $estadosd=DB::select('SELECT * FROM gnral_estados WHERE id_estado = '.$id_estado.'');
+        $estadosd=DB::select('SELECT * FROM gnral_estados WHERE id_estado = ?', [$id_estado]);
         return response()->json($estadosd);
     }
 

@@ -11,11 +11,11 @@ class Resi_correcciones_anteproyectoControllorer extends Controller
     public function  index(){
         $id_usuario = Session::get('usuario_alumno');
         $periodo = Session::get('periodo_actual');
-        $datosalumno=DB::selectOne('select * FROM gnral_alumnos WHERE id_usuario='.$id_usuario.'');
+        $datosalumno=DB::selectOne('select * FROM gnral_alumnos WHERE id_usuario= ?', [$id_usuario]);
         $alumno=$datosalumno->id_alumno;
         $id_carrera=$datosalumno->id_carrera;
 
-        $permiso_modificar=DB::selectOne('SELECT estado_enviado,id_anteproyecto FROM resi_anteproyecto WHERE id_alumno='.$alumno.' and id_periodo='.$periodo.' ');
+        $permiso_modificar=DB::selectOne('SELECT estado_enviado,id_anteproyecto FROM resi_anteproyecto WHERE id_alumno= ? and id_periodo= ? ', [$alumno, $periodo]);
         if($permiso_modificar == null){
             $modificar=0;
             return view('residencia.correcciones_anteproyecto.corregir_anteproyecto',compact('modificar','datosalumno','tipo_proyecto'));
@@ -25,28 +25,28 @@ class Resi_correcciones_anteproyectoControllorer extends Controller
             if($modificar == 2  || $modificar==3){
                 $periodo = Session::get('periodo_actual');
                 $id_usuario = Session::get('usuario_alumno');
-                $datosalumno=DB::selectOne('select * FROM gnral_alumnos WHERE id_usuario='.$id_usuario.'');
+                $datosalumno=DB::selectOne('select * FROM gnral_alumnos WHERE id_usuario= ?', [$id_usuario]);
                 $alumno=$datosalumno->id_alumno;
-                $portada=DB::selectOne('SELECT resi_anteproyecto.*,resi_proyecto.nom_proyecto,resi_proyecto.id_tipo_proyecto FROM resi_anteproyecto,resi_proyecto 
-                WHERE resi_proyecto.id_proyecto=resi_anteproyecto.id_proyecto AND resi_anteproyecto.id_alumno='.$alumno.' and resi_anteproyecto.id_periodo='.$periodo.'');
+                $portada=DB::selectOne('SELECT resi_anteproyecto.*,resi_proyecto.nom_proyecto,resi_proyecto.id_tipo_proyecto FROM resi_anteproyecto,resi_proyecto
+                WHERE resi_proyecto.id_proyecto=resi_anteproyecto.id_proyecto AND resi_anteproyecto.id_alumno= ? and resi_anteproyecto.id_periodo= ?', [$alumno, $periodo]);
                 $tipo_proyecto=DB::select('SELECT * FROM resi_tipo_proyecto WHERE id_tipo_proyecto=2');
                 //  dd($portada->id_anteproyecto);
-                $contar_evaluacion=DB::selectOne('SELECT * FROM resi_contar_evaluaciones WHERE id_anteproyecto = '.$portada->id_anteproyecto.' ');
+                $contar_evaluacion=DB::selectOne('SELECT * FROM resi_contar_evaluaciones WHERE id_anteproyecto = ? ', [$portada->id_anteproyecto]);
                 $contar_evaluacion=$contar_evaluacion->numero_evaluacion;
                 $comentarios_portada=DB::select('SELECT resi_comentarios_portada.*,gnral_personales.nombre,resi_estado_evaluacion.descripcion
-                FROM resi_comentarios_portada,gnral_personales,resi_estado_evaluacion WHERE resi_comentarios_portada.id_anteproyecto = '.$portada->id_anteproyecto.' 
-                AND resi_comentarios_portada.id_profesor=gnral_personales.id_personal AND resi_comentarios_portada.id_estado_evaluacion=resi_estado_evaluacion.id_estado_evaluacion 
-                AND resi_comentarios_portada.numero_evaluacion='.$contar_evaluacion.' ');
+                FROM resi_comentarios_portada,gnral_personales,resi_estado_evaluacion WHERE resi_comentarios_portada.id_anteproyecto = ?
+                AND resi_comentarios_portada.id_profesor=gnral_personales.id_personal AND resi_comentarios_portada.id_estado_evaluacion=resi_estado_evaluacion.id_estado_evaluacion
+                AND resi_comentarios_portada.numero_evaluacion= ? ', [$portada->id_anteproyecto, $contar_evaluacion]);
                 return view('residencia.correcciones_anteproyecto.corregir_portada',compact('portada','tipo_proyecto','datosalumno','comentarios_portada','modificar'));
 
             }
             else{
                 $modificar=$permiso_modificar->estado_enviado;
-                $revisores_faltan=DB::select('SELECT * FROM resi_revisores,gnral_personales 
-                WHERE gnral_personales.id_personal=resi_revisores.id_profesor and resi_revisores.id_carrera ='.$id_carrera.'  AND resi_revisores.id_periodo ='.$periodo.' 
-                and resi_revisores.id_profesor NOT in (SELECT id_profesor FROM resi_anteproyecto_profesor WHERE id_anteproyecto ='.$permiso_modificar->id_anteproyecto.') ');
+                $revisores_faltan=DB::select('SELECT * FROM resi_revisores,gnral_personales
+                WHERE gnral_personales.id_personal=resi_revisores.id_profesor and resi_revisores.id_carrera = ?  AND resi_revisores.id_periodo = ?
+                and resi_revisores.id_profesor NOT in (SELECT id_profesor FROM resi_anteproyecto_profesor WHERE id_anteproyecto = ?) ', [$id_carrera, $periodo, $permiso_modificar->id_anteproyecto]);
 
-                $revisores=DB::select('SELECT * FROM resi_revisores,gnral_personales WHERE gnral_personales.id_personal=resi_revisores.id_profesor and resi_revisores.id_carrera = '.$id_carrera.' AND resi_revisores.id_periodo = '.$periodo.' ');
+                $revisores=DB::select('SELECT * FROM resi_revisores,gnral_personales WHERE gnral_personales.id_personal=resi_revisores.id_profesor and resi_revisores.id_carrera = ? AND resi_revisores.id_periodo = ? ', [$id_carrera, $periodo]);
 
                 return view('residencia.correcciones_anteproyecto.corregir_anteproyecto',compact('modificar','revisores','revisores_faltan'));
 
@@ -118,17 +118,17 @@ public function guardar_correciones_portada(Request $request)
     public function corregir_objetivos(){
         $id_usuario = Session::get('usuario_alumno');
         $periodo = Session::get('periodo_actual');
-        $datosalumno=DB::selectOne('select * FROM gnral_alumnos WHERE id_usuario='.$id_usuario.'');
+        $datosalumno=DB::selectOne('select * FROM gnral_alumnos WHERE id_usuario= ?', [$id_usuario]);
         $alumno=$datosalumno->id_alumno;
-        $anteproyecto=DB::selectOne('SELECT resi_anteproyecto.id_anteproyecto FROM resi_anteproyecto where resi_anteproyecto.id_alumno='.$alumno.' and resi_anteproyecto.id_periodo='.$periodo.'');
+        $anteproyecto=DB::selectOne('SELECT resi_anteproyecto.id_anteproyecto FROM resi_anteproyecto where resi_anteproyecto.id_alumno= ? and resi_anteproyecto.id_periodo= ?', [$alumno, $periodo]);
         $anteproyecto=$anteproyecto->id_anteproyecto;
-        $contar_evaluacion=DB::selectOne('SELECT * FROM resi_contar_evaluaciones WHERE id_anteproyecto = '.$anteproyecto.' ');
+        $contar_evaluacion=DB::selectOne('SELECT * FROM resi_contar_evaluaciones WHERE id_anteproyecto = ? ', [$anteproyecto]);
         $contar_evaluacion=$contar_evaluacion->numero_evaluacion;
-        $objetivos=DB::selectOne('SELECT * FROM resi_objetivos WHERE id_anteproyecto ='.$anteproyecto.'');
-        $comentarios_objetivos=DB::select('SELECT resi_comentarios_objetivos.*,gnral_personales.nombre,resi_estado_evaluacion.descripcion 
-        FROM resi_comentarios_objetivos,gnral_personales,resi_estado_evaluacion 
-        WHERE resi_comentarios_objetivos.id_anteproyecto = '.$anteproyecto.' and resi_comentarios_objetivos.id_profesor=gnral_personales.id_personal 
-        AND resi_comentarios_objetivos.id_estado_evaluacion=resi_estado_evaluacion.id_estado_evaluacion and resi_comentarios_objetivos.numero_evaluacion='.$contar_evaluacion.'   ');
+        $objetivos=DB::selectOne('SELECT * FROM resi_objetivos WHERE id_anteproyecto = ?', [$anteproyecto]);
+        $comentarios_objetivos=DB::select('SELECT resi_comentarios_objetivos.*,gnral_personales.nombre,resi_estado_evaluacion.descripcion
+        FROM resi_comentarios_objetivos,gnral_personales,resi_estado_evaluacion
+        WHERE resi_comentarios_objetivos.id_anteproyecto = ? and resi_comentarios_objetivos.id_profesor=gnral_personales.id_personal
+        AND resi_comentarios_objetivos.id_estado_evaluacion=resi_estado_evaluacion.id_estado_evaluacion and resi_comentarios_objetivos.numero_evaluacion= ?   ', [$anteproyecto, $contar_evaluacion]);
 
          //dd($comentarios_objetivos);
        // dd($anteproyecto);
@@ -208,16 +208,16 @@ public function guardar_correciones_objetivos(Request $request)
     public function corregir_alcances(){
         $id_usuario = Session::get('usuario_alumno');
         $periodo = Session::get('periodo_actual');
-        $datosalumno=DB::selectOne('select * FROM gnral_alumnos WHERE id_usuario='.$id_usuario.'');
+        $datosalumno=DB::selectOne('select * FROM gnral_alumnos WHERE id_usuario= ?', [$id_usuario]);
         $alumno=$datosalumno->id_alumno;
-        $anteproyecto=DB::selectOne('SELECT resi_anteproyecto.id_anteproyecto FROM resi_anteproyecto where resi_anteproyecto.id_alumno='.$alumno.' and resi_anteproyecto.id_periodo='.$periodo.'');
+        $anteproyecto=DB::selectOne('SELECT resi_anteproyecto.id_anteproyecto FROM resi_anteproyecto where resi_anteproyecto.id_alumno= ? and resi_anteproyecto.id_periodo= ?', [$alumno, $periodo]);
         $anteproyecto=$anteproyecto->id_anteproyecto;
-        $contar_evaluacion=DB::selectOne('SELECT * FROM resi_contar_evaluaciones WHERE id_anteproyecto = '.$anteproyecto.' ');
+        $contar_evaluacion=DB::selectOne('SELECT * FROM resi_contar_evaluaciones WHERE id_anteproyecto = ? ', [$anteproyecto]);
         $contar_evaluacion=$contar_evaluacion->numero_evaluacion;
-        $alcances=DB::selectOne('SELECT * FROM resi_alcances WHERE id_anteproyecto ='.$anteproyecto.'');
-        $comentarios_alcances=DB::select('SELECT resi_comentarios_alcances.*,gnral_personales.nombre,resi_estado_evaluacion.descripcion 
-        FROM resi_comentarios_alcances,gnral_personales,resi_estado_evaluacion WHERE resi_comentarios_alcances.id_anteproyecto = '.$anteproyecto.' 
-        AND resi_comentarios_alcances.id_profesor=gnral_personales.id_personal AND resi_comentarios_alcances.id_estado_evaluacion=resi_estado_evaluacion.id_estado_evaluacion and resi_comentarios_alcances.numero_evaluacion='.$contar_evaluacion.'   ');
+        $alcances=DB::selectOne('SELECT * FROM resi_alcances WHERE id_anteproyecto = ?', [$anteproyecto]);
+        $comentarios_alcances=DB::select('SELECT resi_comentarios_alcances.*,gnral_personales.nombre,resi_estado_evaluacion.descripcion
+        FROM resi_comentarios_alcances,gnral_personales,resi_estado_evaluacion WHERE resi_comentarios_alcances.id_anteproyecto = ?
+        AND resi_comentarios_alcances.id_profesor=gnral_personales.id_personal AND resi_comentarios_alcances.id_estado_evaluacion=resi_estado_evaluacion.id_estado_evaluacion and resi_comentarios_alcances.numero_evaluacion= ?   ', [$anteproyecto, $contar_evaluacion]);
        //dd($alcances);
         return view('residencia.correcciones_anteproyecto.corregir_alcances',compact('anteproyecto','alcances','comentarios_alcances'));
     }
@@ -295,18 +295,18 @@ public function guardar_correciones_alcances(Request $request)
     public function corregir_justificacion(){
         $id_usuario = Session::get('usuario_alumno');
         $periodo = Session::get('periodo_actual');
-        $datosalumno=DB::selectOne('select * FROM gnral_alumnos WHERE id_usuario='.$id_usuario.'');
+        $datosalumno=DB::selectOne('select * FROM gnral_alumnos WHERE id_usuario= ?', [$id_usuario]);
         $alumno=$datosalumno->id_alumno;
-        $anteproyecto=DB::selectOne('SELECT resi_anteproyecto.id_anteproyecto FROM resi_anteproyecto where resi_anteproyecto.id_alumno='.$alumno.' and resi_anteproyecto.id_periodo='.$periodo.'');
+        $anteproyecto=DB::selectOne('SELECT resi_anteproyecto.id_anteproyecto FROM resi_anteproyecto where resi_anteproyecto.id_alumno= ? and resi_anteproyecto.id_periodo= ?', [$alumno, $periodo]);
         $anteproyecto=$anteproyecto->id_anteproyecto;
-        $contar_evaluacion=DB::selectOne('SELECT * FROM resi_contar_evaluaciones WHERE id_anteproyecto = '.$anteproyecto.' ');
+        $contar_evaluacion=DB::selectOne('SELECT * FROM resi_contar_evaluaciones WHERE id_anteproyecto = ? ', [$anteproyecto]);
         $contar_evaluacion=$contar_evaluacion->numero_evaluacion;
-        $justificacion=DB::selectOne('SELECT * FROM resi_justificacion WHERE id_anteproyecto ='.$anteproyecto.'');
-        $comentarios_justificacion=DB::select('SELECT resi_comentarios_justificacion.*,gnral_personales.nombre,resi_estado_evaluacion.descripcion 
-FROM resi_comentarios_justificacion,gnral_personales,resi_estado_evaluacion 
-WHERE resi_comentarios_justificacion.id_anteproyecto = '.$anteproyecto.'
- and resi_comentarios_justificacion.id_profesor=gnral_personales.id_personal 
- and resi_comentarios_justificacion.id_estado_evaluacion=resi_estado_evaluacion.id_estado_evaluacion and resi_comentarios_justificacion.numero_evaluacion='.$contar_evaluacion.'   ');
+        $justificacion=DB::selectOne('SELECT * FROM resi_justificacion WHERE id_anteproyecto = ?', [$anteproyecto]);
+        $comentarios_justificacion=DB::select('SELECT resi_comentarios_justificacion.*,gnral_personales.nombre,resi_estado_evaluacion.descripcion
+FROM resi_comentarios_justificacion,gnral_personales,resi_estado_evaluacion
+WHERE resi_comentarios_justificacion.id_anteproyecto = ?
+ and resi_comentarios_justificacion.id_profesor=gnral_personales.id_personal
+ and resi_comentarios_justificacion.id_estado_evaluacion=resi_estado_evaluacion.id_estado_evaluacion and resi_comentarios_justificacion.numero_evaluacion= ?   ', [$anteproyecto, $contar_evaluacion]);
 
 //dd($justificacion);
         return view('residencia.correcciones_anteproyecto.corregir_justificacion',compact('anteproyecto','justificacion','comentarios_justificacion'));
@@ -382,17 +382,17 @@ return back();
     public function corregir_marco_teorico(){
         $id_usuario = Session::get('usuario_alumno');
         $periodo = Session::get('periodo_actual');
-        $datosalumno=DB::selectOne('select * FROM gnral_alumnos WHERE id_usuario='.$id_usuario.'');
+        $datosalumno=DB::selectOne('select * FROM gnral_alumnos WHERE id_usuario= ?', [$id_usuario]);
         $alumno=$datosalumno->id_alumno;
-        $anteproyecto=DB::selectOne('SELECT resi_anteproyecto.id_anteproyecto FROM resi_anteproyecto where resi_anteproyecto.id_alumno='.$alumno.' and resi_anteproyecto.id_periodo='.$periodo.'');
+        $anteproyecto=DB::selectOne('SELECT resi_anteproyecto.id_anteproyecto FROM resi_anteproyecto where resi_anteproyecto.id_alumno= ? and resi_anteproyecto.id_periodo= ?', [$alumno, $periodo]);
         $anteproyecto=$anteproyecto->id_anteproyecto;
-        $contar_evaluacion=DB::selectOne('SELECT * FROM resi_contar_evaluaciones WHERE id_anteproyecto = '.$anteproyecto.' ');
+        $contar_evaluacion=DB::selectOne('SELECT * FROM resi_contar_evaluaciones WHERE id_anteproyecto = ? ', [$anteproyecto]);
         $contar_evaluacion=$contar_evaluacion->numero_evaluacion;
-        $marco_teorico=DB::selectOne('SELECT * FROM resi_marco_teorico WHERE id_anteproyecto ='.$anteproyecto.'');
-        $comentarios_marco_teorico=DB::select('SELECT resi_comentarios_marcoteorico.*,gnral_personales.nombre,resi_estado_evaluacion.descripcion 
-FROM resi_comentarios_marcoteorico,gnral_personales,resi_estado_evaluacion 
-WHERE resi_comentarios_marcoteorico.id_anteproyecto ='.$anteproyecto.' and resi_comentarios_marcoteorico.id_profesor=gnral_personales.id_personal
-and resi_comentarios_marcoteorico.id_estado_evaluacion=resi_estado_evaluacion.id_estado_evaluacion and resi_comentarios_marcoteorico.numero_evaluacion='.$contar_evaluacion.'  ');
+        $marco_teorico=DB::selectOne('SELECT * FROM resi_marco_teorico WHERE id_anteproyecto = ?', [$anteproyecto]);
+        $comentarios_marco_teorico=DB::select('SELECT resi_comentarios_marcoteorico.*,gnral_personales.nombre,resi_estado_evaluacion.descripcion
+FROM resi_comentarios_marcoteorico,gnral_personales,resi_estado_evaluacion
+WHERE resi_comentarios_marcoteorico.id_anteproyecto = ? and resi_comentarios_marcoteorico.id_profesor=gnral_personales.id_personal
+and resi_comentarios_marcoteorico.id_estado_evaluacion=resi_estado_evaluacion.id_estado_evaluacion and resi_comentarios_marcoteorico.numero_evaluacion= ?  ', [$anteproyecto, $contar_evaluacion]);
 
         //dd($marco_teorico);
         return view('residencia.correcciones_anteproyecto.corregir_marco_teorico',compact('anteproyecto','marco_teorico','comentarios_marco_teorico'));
@@ -469,18 +469,18 @@ public function guardar_correciones_marco_teorico(Request $request)
     public function corregir_cronograma(){
         $id_usuario = Session::get('usuario_alumno');
         $periodo = Session::get('periodo_actual');
-        $datosalumno=DB::selectOne('select * FROM gnral_alumnos WHERE id_usuario='.$id_usuario.'');
+        $datosalumno=DB::selectOne('select * FROM gnral_alumnos WHERE id_usuario= ?', [$id_usuario]);
         $alumno=$datosalumno->id_alumno;
-        $anteproyecto=DB::selectOne('SELECT resi_anteproyecto.id_anteproyecto FROM resi_anteproyecto where resi_anteproyecto.id_alumno='.$alumno.' and resi_anteproyecto.id_periodo='.$periodo.'');
+        $anteproyecto=DB::selectOne('SELECT resi_anteproyecto.id_anteproyecto FROM resi_anteproyecto where resi_anteproyecto.id_alumno= ? and resi_anteproyecto.id_periodo= ?', [$alumno, $periodo]);
         $anteproyecto=$anteproyecto->id_anteproyecto;
-        $contar_evaluacion=DB::selectOne('SELECT * FROM resi_contar_evaluaciones WHERE id_anteproyecto = '.$anteproyecto.' ');
+        $contar_evaluacion=DB::selectOne('SELECT * FROM resi_contar_evaluaciones WHERE id_anteproyecto = ? ', [$anteproyecto]);
         $contar_evaluacion=$contar_evaluacion->numero_evaluacion;
-        $cronograma=DB::select('SELECT * FROM resi_cronograma WHERE id_anteproyecto = '.$anteproyecto.' ORDER BY resi_cronograma.no_semana ASC');
-        $comentarios_cronograma=DB::select('SELECT resi_comentarios_cronograma.*,gnral_personales.nombre,resi_estado_evaluacion.descripcion 
-FROM resi_comentarios_cronograma,gnral_personales,resi_estado_evaluacion 
-WHERE resi_comentarios_cronograma.id_anteproyecto ='.$anteproyecto.' 
-and resi_comentarios_cronograma.id_profesor=gnral_personales.id_personal 
-and resi_comentarios_cronograma.id_estado_evaluacion=resi_estado_evaluacion.id_estado_evaluacion and resi_comentarios_cronograma.numero_evaluacion='.$contar_evaluacion.' ');
+        $cronograma=DB::select('SELECT * FROM resi_cronograma WHERE id_anteproyecto = ? ORDER BY resi_cronograma.no_semana ASC', [$anteproyecto]);
+        $comentarios_cronograma=DB::select('SELECT resi_comentarios_cronograma.*,gnral_personales.nombre,resi_estado_evaluacion.descripcion
+FROM resi_comentarios_cronograma,gnral_personales,resi_estado_evaluacion
+WHERE resi_comentarios_cronograma.id_anteproyecto = ?
+and resi_comentarios_cronograma.id_profesor=gnral_personales.id_personal
+and resi_comentarios_cronograma.id_estado_evaluacion=resi_estado_evaluacion.id_estado_evaluacion and resi_comentarios_cronograma.numero_evaluacion= ? ', [$anteproyecto, $contar_evaluacion]);
       //  dd($cronograma);
         return view('residencia.correcciones_anteproyecto.corregir_cronograma',compact('anteproyecto','cronograma','comentarios_cronograma'));
 
@@ -551,9 +551,9 @@ public function guardar_correciones_cronograma(Request $request)
     public function enviar_anteproyecto(){
         $id_usuario = Session::get('usuario_alumno');
         $periodo = Session::get('periodo_actual');
-        $datosalumno=DB::selectOne('select * FROM gnral_alumnos WHERE id_usuario='.$id_usuario.'');
+        $datosalumno=DB::selectOne('select * FROM gnral_alumnos WHERE id_usuario= ?', [$id_usuario]);
         $alumno=$datosalumno->id_alumno;
-        $anteproyecto=DB::selectOne('SELECT resi_anteproyecto.* FROM resi_anteproyecto where resi_anteproyecto.id_alumno='.$alumno.' and resi_anteproyecto.id_periodo='.$periodo.'');
+        $anteproyecto=DB::selectOne('SELECT resi_anteproyecto.* FROM resi_anteproyecto where resi_anteproyecto.id_alumno= ? and resi_anteproyecto.id_periodo= ?', [$alumno, $periodo]);
         $id_anteproyecto=$anteproyecto->id_anteproyecto;
         $modificar=$anteproyecto->estado_enviado;
         return view('residencia.revisar_anteproyecto.enviar_anteproyecto',compact('id_anteproyecto','modificar'));
@@ -567,36 +567,36 @@ public function guardar_correciones_cronograma(Request $request)
         ]);
 
         $id_anteproyecto = $request->input("id_anteproyecto");
-        $numero_evaluacion=DB::selectOne('SELECT * FROM resi_contar_evaluaciones WHERE id_anteproyecto ='.$id_anteproyecto.' ');
+        $numero_evaluacion=DB::selectOne('SELECT * FROM resi_contar_evaluaciones WHERE id_anteproyecto = ? ', [$id_anteproyecto]);
         $numero_evaluacion=$numero_evaluacion->numero_evaluacion ;
         //dd($numero_evaluacion);
         $numero_evaluacion=($numero_evaluacion)+(1);
 //dd($numero_evaluacion);
-        $contar_profesores=DB::selectOne('SELECT count(id_aceptado) aceptado FROM resi_aceptado_anteproyecto WHERE id_anteproyecto ='.$id_anteproyecto.'');
+        $contar_profesores=DB::selectOne('SELECT count(id_aceptado) aceptado FROM resi_aceptado_anteproyecto WHERE id_anteproyecto = ?', [$id_anteproyecto]);
         $contar_profesores=$contar_profesores->aceptado;
        // dd($contar_profesores);
-        DB::delete('DELETE FROM resi_anteproyecto_profesor WHERE id_anteproyecto='.$id_anteproyecto.'');
+        DB::delete('DELETE FROM resi_anteproyecto_profesor WHERE id_anteproyecto= ?', [$id_anteproyecto]);
         if($contar_profesores == 0)
         {
 
         }
         else{
-        $profesores=DB::select('SELECT *FROM resi_aceptado_anteproyecto WHERE id_anteproyecto ='.$id_anteproyecto.'');
+        $profesores=DB::select('SELECT *FROM resi_aceptado_anteproyecto WHERE id_anteproyecto = ?', [$id_anteproyecto]);
 //dd($profesores);
         foreach ($profesores as $profesor)
         {
             $descripcion_comentario="Autorizado";
             DB:: table('resi_comentarios_portada')->insert(['id_anteproyecto' => $id_anteproyecto,'id_profesor'=> $profesor->id_profesor,'comentario' => $descripcion_comentario,'id_estado_evaluacion' => 1,'estado_evaluacion'=>1,'numero_evaluacion'=>$numero_evaluacion]);
-            $id_objetivos=DB::selectOne('SELECT * FROM resi_objetivos WHERE id_anteproyecto= '.$id_anteproyecto.'');
+            $id_objetivos=DB::selectOne('SELECT * FROM resi_objetivos WHERE id_anteproyecto= ?', [$id_anteproyecto]);
             $id_objetivos=$id_objetivos->id_objetivos;
             DB:: table('resi_comentarios_objetivos')->insert(['id_objetivos' => $id_objetivos,'id_anteproyecto' => $id_anteproyecto,'id_profesor'=> $profesor->id_profesor,'comentario' => $descripcion_comentario,'id_estado_evaluacion' => 1,'estado_evaluacion'=>1,'numero_evaluacion'=>$numero_evaluacion]);
-            $id_alcances=DB::selectOne('SELECT * FROM resi_alcances WHERE id_anteproyecto ='.$id_anteproyecto.' ');
+            $id_alcances=DB::selectOne('SELECT * FROM resi_alcances WHERE id_anteproyecto = ? ', [$id_anteproyecto]);
             $id_alcances=$id_alcances->id_alcances;
             DB:: table('resi_comentarios_alcances')->insert(['id_alcances' => $id_alcances, 'id_anteproyecto' => $id_anteproyecto, 'id_profesor' => $profesor->id_profesor, 'comentario' => $descripcion_comentario, 'id_estado_evaluacion' => 1, 'estado_evaluacion' => 1, 'numero_evaluacion' =>$numero_evaluacion]);
-           $id_justificacion=DB::selectOne('SELECT * FROM resi_justificacion WHERE id_anteproyecto ='.$id_anteproyecto.'');
+           $id_justificacion=DB::selectOne('SELECT * FROM resi_justificacion WHERE id_anteproyecto = ?', [$id_anteproyecto]);
            $id_justificacion=$id_justificacion->id_justificacion;
             DB:: table('resi_comentarios_justificacion')->insert(['id_justificacion' => $id_justificacion,'id_anteproyecto' => $id_anteproyecto,'id_profesor'=> $profesor->id_profesor,'comentario' => $descripcion_comentario,'id_estado_evaluacion' =>1,'estado_evaluacion'=>1,'numero_evaluacion'=>$numero_evaluacion]);
-          $id_marco_teorico=DB::selectOne('SELECT * FROM resi_marco_teorico WHERE id_anteproyecto ='.$id_anteproyecto.'');
+          $id_marco_teorico=DB::selectOne('SELECT * FROM resi_marco_teorico WHERE id_anteproyecto = ?', [$id_anteproyecto]);
            $id_marco_teorico=$id_marco_teorico->id_marco_teorico;
             DB:: table('resi_comentarios_marcoteorico')->insert(['id_marco_teorico' => $id_marco_teorico,'id_anteproyecto' => $id_anteproyecto,'id_profesor'=> $profesor->id_profesor,'comentario' => $descripcion_comentario,'id_estado_evaluacion' => 1,'estado_evaluacion'=>1,'numero_evaluacion'=>$numero_evaluacion]);
 
@@ -605,8 +605,8 @@ public function guardar_correciones_cronograma(Request $request)
 
         }
         }
-        DB::update("UPDATE resi_anteproyecto SET estado_enviado =1 WHERE resi_anteproyecto.id_anteproyecto =$id_anteproyecto");
-        DB::update("UPDATE resi_contar_evaluaciones SET numero_evaluacion='.$numero_evaluacion.' WHERE resi_contar_evaluaciones.id_anteproyecto =$id_anteproyecto");
+        DB::update('UPDATE resi_anteproyecto SET estado_enviado =1 WHERE resi_anteproyecto.id_anteproyecto = ?', [$id_anteproyecto]);
+        DB::update('UPDATE resi_contar_evaluaciones SET numero_evaluacion=? WHERE resi_contar_evaluaciones.id_anteproyecto = ?', ['.' . (string) ($numero_evaluacion) . '.', $id_anteproyecto]);
         return redirect('/residencia/correcciones_anteproyecto');
 
     }
@@ -615,7 +615,7 @@ public function guardar_correciones_cronograma(Request $request)
         //dd($request);
         $id_usuario = Session::get('usuario_alumno');
         $id_periodo = Session::get('periodo_actual');
-        $datosalumno=DB::selectOne('select * FROM gnral_alumnos WHERE id_usuario='.$id_usuario.'');
+        $datosalumno=DB::selectOne('select * FROM gnral_alumnos WHERE id_usuario= ?', [$id_usuario]);
         $id_alumno=$datosalumno->id_alumno;
         $cuenta=$datosalumno->cuenta;
         ///////solicitud de residencia

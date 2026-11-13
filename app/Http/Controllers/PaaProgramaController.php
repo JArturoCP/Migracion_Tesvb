@@ -32,7 +32,7 @@ class PaaProgramaController extends Controller
         //return redirect('/paa/programa_paa');
     }
     public function editar($id){
-        $programa= DB::selectOne('SELECT * FROM pa_programa WHERE id_programa = '.$id.'');
+        $programa= DB::selectOne('SELECT * FROM pa_programa WHERE id_programa = ?', [$id]);
         return response()->json($programa);
     }
     public function modificar(Request $request,$id){

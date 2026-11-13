@@ -15,7 +15,7 @@ class PDF_In_pdf_boletaController extends FPDF
     {
         $this->SetFont('Arial','',8);
         $this->Ln(0);
-        
+
         $this->Image('img/ingles/coordinacion_ingles.png',75,6,135);
 
         $this->Ln(35);
@@ -38,26 +38,26 @@ class In_pdf_boletaController extends Controller
     {
         $periodo_ingles=Session::get('periodo_ingles');
         $resultado_promedio = 0;
-        $alumno = DB::selectOne('SELECT * FROM `gnral_alumnos` WHERE id_alumno = '.$id_alumno.'');
+        $alumno = DB::selectOne('SELECT * FROM `gnral_alumnos` WHERE id_alumno = ?', [$id_alumno]);
         //dd($alumno);
-        $nombre_carrera = DB::selectOne('SELECT * FROM `gnral_carreras` WHERE gnral_carreras.id_carrera = '.$alumno->id_carrera.'');
-        $periodo = DB::selectOne('SELECT * FROM in_periodos WHERE id_periodo_ingles='.$periodo_ingles.'');
+        $nombre_carrera = DB::selectOne('SELECT * FROM `gnral_carreras` WHERE gnral_carreras.id_carrera = ?', [$alumno->id_carrera]);
+        $periodo = DB::selectOne('SELECT * FROM in_periodos WHERE id_periodo_ingles= ?', [$periodo_ingles]);
         $today = date("d-m-Y");
-        $nivel = DB::selectOne('SELECT in_niveles_ingles.descripcion, in_carga_academica_ingles.id_grupo 
+        $nivel = DB::selectOne('SELECT in_niveles_ingles.descripcion, in_carga_academica_ingles.id_grupo
             FROM in_niveles_ingles, in_carga_academica_ingles WHERE in_carga_academica_ingles.id_nivel = in_niveles_ingles.id_niveles_ingles
-            AND in_carga_academica_ingles.id_alumno = '.$id_alumno.' 
-            AND in_carga_academica_ingles.id_periodo_ingles = '.$periodo_ingles.'');
-         $ver_estado_cal = 
-                DB::select('SELECT in_evaluar_calificacion.* 
-                    FROM in_evaluar_calificacion, in_carga_academica_ingles 
-                    WHERE in_carga_academica_ingles.id_alumno = '.$id_alumno.' 
-                    AND in_carga_academica_ingles.id_carga_ingles = in_evaluar_calificacion.id_carga_ingles 
-                    AND in_carga_academica_ingles.id_periodo_ingles = '.$periodo_ingles.'');  
+            AND in_carga_academica_ingles.id_alumno = ?
+            AND in_carga_academica_ingles.id_periodo_ingles = ?', [$id_alumno, $periodo_ingles]);
+         $ver_estado_cal =
+                DB::select('SELECT in_evaluar_calificacion.*
+                    FROM in_evaluar_calificacion, in_carga_academica_ingles
+                    WHERE in_carga_academica_ingles.id_alumno = ?
+                    AND in_carga_academica_ingles.id_carga_ingles = in_evaluar_calificacion.id_carga_ingles
+                    AND in_carga_academica_ingles.id_periodo_ingles = ?', [$id_alumno, $periodo_ingles]);
         $tipo_curso = DB::selectOne('SELECT eva_tipo_curso.nombre_curso from
                  in_carga_academica_ingles,eva_tipo_curso
-                where in_carga_academica_ingles.estado_nivel=eva_tipo_curso.id_tipo_curso 
-                and in_carga_academica_ingles.id_alumno=' .$alumno->id_alumno . ' 
-                and in_carga_academica_ingles.id_periodo_ingles=' .$periodo_ingles. '') ;        
+                where in_carga_academica_ingles.estado_nivel=eva_tipo_curso.id_tipo_curso
+                and in_carga_academica_ingles.id_alumno= ?
+                and in_carga_academica_ingles.id_periodo_ingles= ?', [$alumno->id_alumno, $periodo_ingles]) ;
 
         $pdf=new PDF_In_pdf_boletaController($orientation='L',$unit='mm',$format='Letter');
         #Establecemos los márgenes izquierda, arriba y derecha:
@@ -82,66 +82,66 @@ class In_pdf_boletaController extends Controller
         $pdf->Cell(115,5, utf8_decode('SKILLS'), 1, 0, 'C');
         $pdf->Cell(115,5, utf8_decode('GRADE'), 1, 1, 'C');
 
-        foreach ($ver_estado_cal as $ver_estado_calicacion) 
+        foreach ($ver_estado_cal as $ver_estado_calicacion)
         {
             $resultado_promedio = $resultado_promedio + $ver_estado_calicacion->calificacion;
-           if ($ver_estado_calicacion->id_unidad == 1) 
+           if ($ver_estado_calicacion->id_unidad == 1)
             {
                 $pdf->Cell(115,5, utf8_decode('SPEAKING'),1,0,'R');
-                 if ($ver_estado_calicacion->calificacion<80) 
+                 if ($ver_estado_calicacion->calificacion<80)
             {
                $pdf->Cell(115,5, utf8_decode(''.$ver_estado_calicacion->calificacion),1,1,'C');
             }
-            
-            else 
+
+            else
             {
-                $pdf->Cell(115,5, utf8_decode(''.$ver_estado_calicacion->calificacion),1,1,'C'); 
+                $pdf->Cell(115,5, utf8_decode(''.$ver_estado_calicacion->calificacion),1,1,'C');
             }
-            
+
             }
-           
-            if ($ver_estado_calicacion->id_unidad == 2) 
+
+            if ($ver_estado_calicacion->id_unidad == 2)
             {
               $pdf->Cell(115,5, utf8_decode('WRITING'),1,0,'R');
-            if ($ver_estado_calicacion->calificacion<80) 
+            if ($ver_estado_calicacion->calificacion<80)
             {
                $pdf->Cell(115,5, utf8_decode(''.$ver_estado_calicacion->calificacion),1,1,'C');
             }
-            
-            else 
+
+            else
             {
-                $pdf->Cell(115,5, utf8_decode(''.$ver_estado_calicacion->calificacion),1,1,'C'); 
+                $pdf->Cell(115,5, utf8_decode(''.$ver_estado_calicacion->calificacion),1,1,'C');
             }
-            
+
             }
-            if ($ver_estado_calicacion->id_unidad == 3) 
+            if ($ver_estado_calicacion->id_unidad == 3)
             {
                 $pdf->Cell(115,5, utf8_decode('READING'),1,0,'R');
-                if ($ver_estado_calicacion->calificacion<80) 
+                if ($ver_estado_calicacion->calificacion<80)
             {
                $pdf->Cell(115,5, utf8_decode(''.$ver_estado_calicacion->calificacion),1,1,'C');
             }
-            
-            else 
+
+            else
             {
-                $pdf->Cell(115,5, utf8_decode(''.$ver_estado_calicacion->calificacion),1,1,'C'); 
+                $pdf->Cell(115,5, utf8_decode(''.$ver_estado_calicacion->calificacion),1,1,'C');
             }
             }
-            if ($ver_estado_calicacion->id_unidad == 4) 
+            if ($ver_estado_calicacion->id_unidad == 4)
             {
                 $pdf->Cell(115,5, utf8_decode('LISTENING'),1,0,'R');
 
-                if ($ver_estado_calicacion->calificacion<80) 
+                if ($ver_estado_calicacion->calificacion<80)
             {
                $pdf->Cell(115,5, utf8_decode(''.$ver_estado_calicacion->calificacion),1,1,'C');
             }
-            
-            else 
+
+            else
             {
-                $pdf->Cell(115,5, utf8_decode(''.$ver_estado_calicacion->calificacion),1,1,'C'); 
+                $pdf->Cell(115,5, utf8_decode(''.$ver_estado_calicacion->calificacion),1,1,'C');
             }
             }
-            
+
         }
         $pdf->Cell(115,5, utf8_decode('PROMEDIO GENERAL'),1,0,'R');
         $pdf->Cell(115,5, utf8_decode(round($resultado_promedio/4)),1,1,'C');

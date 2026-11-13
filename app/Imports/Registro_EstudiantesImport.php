@@ -25,7 +25,7 @@ class Registro_EstudiantesImport implements ToCollection, WithHeadingRow
             $da['nombre'] =$dato['nombre'];
             $da['grupo'] =$dato['grupo'];
             $usuario = $dato['usuario'];
-            $estado = DB::selectOne("SELECT COUNT(id) AS contar FROM users WHERE email = '$usuario'");
+            $estado = DB::selectOne('SELECT COUNT(id) AS contar FROM users WHERE email = ?', [(string) ($usuario)]);
 
             $estado=$estado->contar;
             if($estado == 0){

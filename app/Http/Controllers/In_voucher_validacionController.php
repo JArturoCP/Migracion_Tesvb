@@ -23,8 +23,8 @@ class In_voucher_validacionController extends Controller
         WHERE users.id = gnral_alumnos.id_usuario
         AND in_voucher_pago.id_usuario = users.id
         AND in_voucher_pago.id_periodo_ingles = in_periodos.id_periodo_ingles
-        AND in_voucher_pago.id_periodo_ingles = '.$periodo_ingles.' 
-        AND in_voucher_pago.id_estado_valida_voucher = 1');
+        AND in_voucher_pago.id_periodo_ingles = ?
+        AND in_voucher_pago.id_estado_valida_voucher = 1', [$periodo_ingles]);
 
         return view('ingles.cargas_ingles.vouchers_validar', compact('alumnos'));
     }
@@ -35,8 +35,8 @@ class In_voucher_validacionController extends Controller
 
 
 
-        $estado_voucher_excell=DB::selectOne('SELECT COUNT(id_estado_voucher_aut_excel) contar 
-        from in_estado_voucher_aut_excel where id_periodo_ingles ='.$periodo_ingles.'');
+        $estado_voucher_excell=DB::selectOne('SELECT COUNT(id_estado_voucher_aut_excel) contar
+        from in_estado_voucher_aut_excel where id_periodo_ingles = ?', [$periodo_ingles]);
         if($estado_voucher_excell->contar == 0){
             $estado_voucher_excell=0;
             $alumnos=DB::select('SELECT gnral_alumnos.cuenta, gnral_alumnos.nombre, gnral_alumnos.apaterno, gnral_alumnos.amaterno, in_voucher_pago.id_voucher, in_voucher_pago.id_usuario, in_voucher_pago.voucher, in_voucher_pago.linea_captura, in_voucher_pago.fecha_cambio, in_voucher_pago.id_estado_carga_voucher, in_voucher_pago.id_estado_valida_voucher, in_voucher_pago.id_periodo_ingles,in_voucher_pago.id_tipo_voucher
@@ -44,8 +44,8 @@ class In_voucher_validacionController extends Controller
         WHERE users.id = gnral_alumnos.id_usuario
         AND in_voucher_pago.id_usuario = users.id
         AND in_voucher_pago.id_periodo_ingles = in_periodos.id_periodo_ingles
-        AND in_voucher_pago.id_periodo_ingles = '.$periodo_ingles.' 
-        AND in_voucher_pago.id_estado_valida_voucher = 2');
+        AND in_voucher_pago.id_periodo_ingles = ?
+        AND in_voucher_pago.id_estado_valida_voucher = 2', [$periodo_ingles]);
         }else{
             $estado_voucher_excell=1;
             $alumnos=DB::select('SELECT gnral_alumnos.cuenta, gnral_alumnos.nombre, gnral_alumnos.apaterno, gnral_alumnos.amaterno,
@@ -54,9 +54,9 @@ class In_voucher_validacionController extends Controller
         WHERE users.id = gnral_alumnos.id_usuario
         AND in_voucher_pago.id_usuario = users.id
         AND in_voucher_pago.id_periodo_ingles = in_periodos.id_periodo_ingles
-        AND in_voucher_pago.id_periodo_ingles = '.$periodo_ingles.'
-        AND in_voucher_pago.id_estado_valida_voucher = 2 
-        ORDER BY in_voucher_pago.estado_agregacion_excel ASC');
+        AND in_voucher_pago.id_periodo_ingles = ?
+        AND in_voucher_pago.id_estado_valida_voucher = 2
+        ORDER BY in_voucher_pago.estado_agregacion_excel ASC', [$periodo_ingles]);
         }
 
         return view('ingles.cargas_ingles.vouchers_aceptados', compact('alumnos','estado_voucher_excell'));
@@ -71,8 +71,8 @@ class In_voucher_validacionController extends Controller
         WHERE users.id = gnral_alumnos.id_usuario
         AND in_voucher_pago.id_usuario = users.id
         AND in_voucher_pago.id_periodo_ingles = in_periodos.id_periodo_ingles
-        AND in_voucher_pago.id_periodo_ingles = '.$periodo_ingles.' 
-        AND in_voucher_pago.id_estado_valida_voucher = 3');
+        AND in_voucher_pago.id_periodo_ingles = ?
+        AND in_voucher_pago.id_estado_valida_voucher = 3', [$periodo_ingles]);
 
         return view('ingles.cargas_ingles.vouchers_rechazados', compact('alumnos'));
     }
@@ -80,8 +80,8 @@ class In_voucher_validacionController extends Controller
     public function maximo_grupo_alumnos()
     {
         $periodo_ingles=Session::get('periodo_ingles');
-        $estado_maximo = DB::selectOne('SELECT COUNT(id_maximo_grupo_ingles) contar FROM in_maximo_grupo_ingles WHERE id_periodo_ingles = '.$periodo_ingles.'');
-        $periodo = DB::selectOne('SELECT * FROM in_periodos WHERE id_periodo_ingles='.$periodo_ingles.'');
+        $estado_maximo = DB::selectOne('SELECT COUNT(id_maximo_grupo_ingles) contar FROM in_maximo_grupo_ingles WHERE id_periodo_ingles = ?', [$periodo_ingles]);
+        $periodo = DB::selectOne('SELECT * FROM in_periodos WHERE id_periodo_ingles= ?', [$periodo_ingles]);
 
         if ($estado_maximo->contar == 0) {
             $estado_maximo = 0;
@@ -89,7 +89,7 @@ class In_voucher_validacionController extends Controller
         }
         else{
             $estado_maximo = 1;
-            $maximo_estudiantes = DB::selectOne('SELECT * FROM in_maximo_grupo_ingles WHERE id_periodo_ingles = '.$periodo_ingles.'');
+            $maximo_estudiantes = DB::selectOne('SELECT * FROM in_maximo_grupo_ingles WHERE id_periodo_ingles = ?', [$periodo_ingles]);
         }
         return view('ingles.cargas_ingles.maximo_grupo_alumnos', compact('estado_maximo','periodo','maximo_estudiantes'));
     }
@@ -121,10 +121,10 @@ class In_voucher_validacionController extends Controller
     public function modificar_voucher_ingles ($id_voucher)
     {
       $periodo_ingles=Session::get('periodo_ingles');
-      $modificar_voucher =  DB::selectOne('SELECT nombre, apaterno,amaterno,cuenta,id_voucher,id_alumno FROM gnral_alumnos, 
-        in_voucher_pago WHERE gnral_alumnos.id_usuario = in_voucher_pago.id_usuario AND in_voucher_pago.id_voucher = '.$id_voucher.'');
+      $modificar_voucher =  DB::selectOne('SELECT nombre, apaterno,amaterno,cuenta,id_voucher,id_alumno FROM gnral_alumnos,
+        in_voucher_pago WHERE gnral_alumnos.id_usuario = in_voucher_pago.id_usuario AND in_voucher_pago.id_voucher = ?', [$id_voucher]);
       return view ('ingles.departamento.partials_enviar_mod', compact('modificar_voucher'));
-       
+
     }
 
     public function guardar_maximo_grupo_alumnos(Request $request)
@@ -144,7 +144,7 @@ class In_voucher_validacionController extends Controller
     {
         $num_max_alumnos = $request->input('num_max_alumnos');
           $periodo_ingles=Session::get('periodo_ingles');
-        
+
          DB::table('in_maximo_grupo_ingles')
             ->where('id_periodo_ingles',$periodo_ingles)
             ->update([
@@ -178,7 +178,7 @@ class In_voucher_validacionController extends Controller
         WHERE users.id = gnral_alumnos.id_usuario
         AND in_voucher_pago.id_usuario = users.id
         AND in_voucher_pago.id_periodo_ingles = in_periodos.id_periodo_ingles
-        AND in_voucher_pago.id_voucher ='.$id_voucher.'');
+        AND in_voucher_pago.id_voucher = ?', [$id_voucher]);
 
         return view('ingles.cargas_ingles.registro_voucher_alumno',compact('alumno'));
 

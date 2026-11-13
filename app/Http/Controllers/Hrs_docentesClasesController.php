@@ -29,37 +29,37 @@ class Hrs_docentesClasesController extends Controller
             ///agregamos los 2 periodos a consultar
             ///
             $periodo1= 26;
-            $nombre_periodo1=DB::selectOne('SELECT * FROM `gnral_periodos` WHERE `id_periodo` ='.$periodo1.'');
+            $nombre_periodo1=DB::selectOne('SELECT * FROM `gnral_periodos` WHERE `id_periodo` = ?', [$periodo1]);
             $periodo2=27;
-            $nombre_periodo2=DB::selectOne('SELECT * FROM `gnral_periodos` WHERE `id_periodo` ='.$periodo2.'');
+            $nombre_periodo2=DB::selectOne('SELECT * FROM `gnral_periodos` WHERE `id_periodo` = ?', [$periodo2]);
 
-            $docentes = DB::select('select DISTINCT gnral_personales.id_cargo, gnral_cargos.cargo, gnral_horarios.id_personal,gnral_personales.clave,gnral_personales.nombramiento,gnral_personales.fch_ingreso_tesvb,  gnral_horarios.id_horario_profesor, gnral_personales.nombre,gnral_personales.horas_maxima,hrs_situaciones.abrevia,hrs_rhps.id_cargo 
+            $docentes = DB::select('select DISTINCT gnral_personales.id_cargo, gnral_cargos.cargo, gnral_horarios.id_personal,gnral_personales.clave,gnral_personales.nombramiento,gnral_personales.fch_ingreso_tesvb,  gnral_horarios.id_horario_profesor, gnral_personales.nombre,gnral_personales.horas_maxima,hrs_situaciones.abrevia,hrs_rhps.id_cargo
             FROM gnral_horarios, gnral_horas_profesores, hrs_rhps, gnral_personales,gnral_periodo_carreras,gnral_periodos,gnral_carreras,hrs_situaciones,gnral_cargos
-            WHERE 
-            gnral_carreras.id_carrera=' . $carrera->id_carrera. ' AND
-            gnral_periodos.id_periodo= '.$periodo1.' AND
+            WHERE
+            gnral_carreras.id_carrera= ? AND
+            gnral_periodos.id_periodo= ? AND
             gnral_horas_profesores.id_horario_profesor = gnral_horarios.id_horario_profesor
             and gnral_horarios.id_personal=gnral_personales.id_personal
             AND gnral_horarios.id_periodo_carrera = gnral_periodo_carreras.id_periodo_carrera
             AND gnral_periodo_carreras.id_carrera=gnral_carreras.id_carrera AND
             gnral_periodo_carreras.id_periodo=gnral_periodos.id_periodo AND
             gnral_personales.id_situacion=hrs_situaciones.id_situacion AND
-            hrs_rhps.id_hrs_profesor=gnral_horas_profesores.id_hrs_profesor and 
+            hrs_rhps.id_hrs_profesor=gnral_horas_profesores.id_hrs_profesor and
             gnral_personales.id_cargo = gnral_cargos.id_cargo
             union
             SELECT DISTINCT gnral_personales.id_cargo, gnral_cargos.cargo, gnral_horarios.id_personal, gnral_personales.clave,gnral_personales.nombramiento,gnral_personales.fch_ingreso_tesvb, gnral_horarios.id_horario_profesor,gnral_personales.nombre,gnral_personales.horas_maxima,hrs_situaciones.abrevia,hrs_horario_extra_clase.id_cargo
             FROM gnral_horarios,hrs_extra_clase, gnral_personales,gnral_periodo_carreras,gnral_periodos,gnral_carreras,hrs_situaciones,hrs_horario_extra_clase,gnral_cargos
             WHERE
-            gnral_carreras.id_carrera=' . $carrera->id_carrera. ' 
-            AND gnral_periodos.id_periodo= '.$periodo1.'
+            gnral_carreras.id_carrera= ?
+            AND gnral_periodos.id_periodo= ?
             AND hrs_extra_clase.id_horario_profesor=gnral_horarios.id_horario_profesor
             and gnral_horarios.id_personal=gnral_personales.id_personal
             AND gnral_horarios.id_periodo_carrera=gnral_periodo_carreras.id_periodo_carrera
-            AND gnral_periodo_carreras.id_carrera=gnral_carreras.id_carrera 
+            AND gnral_periodo_carreras.id_carrera=gnral_carreras.id_carrera
             AND gnral_periodo_carreras.id_periodo=gnral_periodos.id_periodo AND
             gnral_personales.id_situacion=hrs_situaciones.id_situacion AND
-            hrs_horario_extra_clase.id_extra_clase=hrs_extra_clase.id_extra_clase and 
-            gnral_personales.id_cargo = gnral_cargos.id_cargo');
+            hrs_horario_extra_clase.id_extra_clase=hrs_extra_clase.id_extra_clase and
+            gnral_personales.id_cargo = gnral_cargos.id_cargo', [$carrera->id_carrera, $periodo1, $carrera->id_carrera, $periodo1]);
 
             $datos_docente = array();
             $t_nombra = 0;
@@ -72,8 +72,8 @@ class Hrs_docentesClasesController extends Controller
 
             foreach ($docentes as $docente) {
 
-                $checa = DB::selectOne('select hrs_personal_docentes.id_personal_docente from hrs_personal_docentes where 
-            hrs_personal_docentes.id_horario=' . $docente->id_horario_profesor . '');
+                $checa = DB::selectOne('select hrs_personal_docentes.id_personal_docente from hrs_personal_docentes where
+            hrs_personal_docentes.id_horario= ?', [$docente->id_horario_profesor]);
                 $checa_h = isset($checa->id_personal_docente) ? $checa->id_personal_docente : 0;
                 if ($checa_h == 0) {
                     $casos = array(
@@ -83,9 +83,9 @@ class Hrs_docentesClasesController extends Controller
                     $agrega_caso = Hrs_Personal_Docentes::create($casos);
                 }
 
-                $bloqueo = DB::selectOne('select hrs_personal_docentes.caso from 
+                $bloqueo = DB::selectOne('select hrs_personal_docentes.caso from
             hrs_personal_docentes where
-            hrs_personal_docentes.id_horario=' . $docente->id_horario_profesor . '');
+            hrs_personal_docentes.id_horario= ?', [$docente->id_horario_profesor]);
                 if ($bloqueo->caso == "SI" || $bloqueo->caso == "NO")
                     $tru = $tru + 1;
                 else
@@ -97,9 +97,9 @@ class Hrs_docentesClasesController extends Controller
             FROM gnral_materias_perfiles,gnral_materias,gnral_horarios,gnral_horas_profesores,gnral_periodo_carreras,
             gnral_periodos, gnral_carreras
             WHERE
-            gnral_materias_perfiles.id_personal=' . $docente->id_personal . ' AND
-            gnral_carreras.id_carrera=' . $carrera->id_carrera. ' AND
-            gnral_periodos.id_periodo= '.$periodo1.' AND
+            gnral_materias_perfiles.id_personal= ? AND
+            gnral_carreras.id_carrera= ? AND
+            gnral_periodos.id_periodo= ? AND
             gnral_materias_perfiles.id_materia=gnral_materias.id_materia AND
             gnral_horas_profesores.id_materia_perfil=gnral_materias_perfiles.id_materia_perfil AND
             gnral_horas_profesores.id_horario_profesor=gnral_horarios.id_horario_profesor AND
@@ -114,9 +114,9 @@ class Hrs_docentesClasesController extends Controller
             hrs_actividades_extras,hrs_act_extra_clases,hrs_extra_clase,gnral_horarios,gnral_periodos,gnral_carreras,
             hrs_horario_extra_clase,
             gnral_periodo_carreras WHERE
-            gnral_carreras.id_carrera=' . $carrera->id_carrera . ' AND
-            gnral_periodos.id_periodo = '.$periodo1.' AND
-            gnral_horarios.id_personal=' . $docente->id_personal . ' AND
+            gnral_carreras.id_carrera= ? AND
+            gnral_periodos.id_periodo = ? AND
+            gnral_horarios.id_personal= ? AND
             gnral_horarios.id_periodo_carrera=gnral_periodo_carreras.id_periodo_carrera AND
             gnral_periodo_carreras.id_periodo=gnral_periodos.id_periodo AND
             gnral_periodo_carreras.id_carrera=gnral_carreras.id_carrera AND
@@ -124,7 +124,7 @@ class Hrs_docentesClasesController extends Controller
             hrs_extra_clase.id_act_extra_clase=hrs_act_extra_clases.id_act_extra_clase AND
             hrs_act_extra_clases.id_hrs_actividad_extra=hrs_actividades_extras.id_hrs_actividad_extra AND
             hrs_horario_extra_clase.id_extra_clase=hrs_extra_clase.id_extra_clase
-            GROUP BY hrs_act_extra_clases.id_hrs_actividad_extra,mpf,idmat,hrs_actividades_extras.descripcion');
+            GROUP BY hrs_act_extra_clases.id_hrs_actividad_extra,mpf,idmat,hrs_actividades_extras.descripcion', [$docente->id_personal, $carrera->id_carrera, $periodo1, $carrera->id_carrera, $periodo1, $docente->id_personal]);
 
                 $datos_materias = array();
 
@@ -137,19 +137,19 @@ class Hrs_docentesClasesController extends Controller
                     $nombrem['id_semestre'] = $materia->id_semestre;
 
                     if ($materia->idmat < 20000) {
-                        $grupos = DB::select('select DISTINCT gnral_horas_profesores.grupo 
+                        $grupos = DB::select('select DISTINCT gnral_horas_profesores.grupo
                             FROM gnral_materias_perfiles,gnral_materias,gnral_horarios,gnral_horas_profesores,
                             gnral_periodo_carreras,gnral_periodos,gnral_carreras
                             WHERE
-                            gnral_materias_perfiles.id_materia_perfil=' . $materia->mpf . ' AND
-                            gnral_periodos.id_periodo = '.$periodo1.' AND
-                            gnral_carreras.id_carrera=' . $carrera->id_carrera . ' AND 
+                            gnral_materias_perfiles.id_materia_perfil= ? AND
+                            gnral_periodos.id_periodo = ? AND
+                            gnral_carreras.id_carrera= ? AND
                             gnral_materias_perfiles.id_materia=gnral_materias.id_materia AND
                             gnral_horas_profesores.id_materia_perfil=gnral_materias_perfiles.id_materia_perfil AND
                             gnral_horas_profesores.id_horario_profesor=gnral_horarios.id_horario_profesor AND
                             gnral_horarios.id_periodo_carrera=gnral_periodo_carreras.id_periodo_carrera AND
                             gnral_periodo_carreras.id_periodo=gnral_periodos.id_periodo AND
-                            gnral_periodo_carreras.id_carrera=gnral_carreras.id_carrera');
+                            gnral_periodo_carreras.id_carrera=gnral_carreras.id_carrera', [$materia->mpf, $periodo1, $carrera->id_carrera]);
                         $no_grupos = count($grupos);
                         $t_lic = $no_grupos * $materia->totales;
 
@@ -157,18 +157,18 @@ class Hrs_docentesClasesController extends Controller
                     } else {
                         $hrs_extra = DB::selectOne('select COUNT(hrs_horario_extra_clase.id_hr_extra)T from hrs_horario_extra_clase,
                             gnral_horarios,hrs_extra_clase,hrs_act_extra_clases,gnral_periodo_carreras,gnral_carreras,gnral_periodos
-                            ,hrs_actividades_extras WHERE 
-                            gnral_periodos.id_periodo= '.$periodo1.' AND 
-                            gnral_carreras.id_carrera=' . $carrera->id_carrera . ' AND 
-                            hrs_actividades_extras.id_hrs_actividad_extra=' . $materia->mpf . ' AND 
-                            gnral_horarios.id_personal=' . $docente->id_personal . ' AND 
-                            gnral_periodo_carreras.id_carrera=gnral_carreras.id_carrera AND 
-                            gnral_periodo_carreras.id_periodo=gnral_periodos.id_periodo AND 
-                            gnral_horarios.id_periodo_carrera=gnral_periodo_carreras.id_periodo_carrera AND 
-                            hrs_extra_clase.id_horario_profesor=gnral_horarios.id_horario_profesor AND 
-                            hrs_horario_extra_clase.id_extra_clase=hrs_extra_clase.id_extra_clase AND 
+                            ,hrs_actividades_extras WHERE
+                            gnral_periodos.id_periodo= ? AND
+                            gnral_carreras.id_carrera= ? AND
+                            hrs_actividades_extras.id_hrs_actividad_extra= ? AND
+                            gnral_horarios.id_personal= ? AND
+                            gnral_periodo_carreras.id_carrera=gnral_carreras.id_carrera AND
+                            gnral_periodo_carreras.id_periodo=gnral_periodos.id_periodo AND
+                            gnral_horarios.id_periodo_carrera=gnral_periodo_carreras.id_periodo_carrera AND
+                            hrs_extra_clase.id_horario_profesor=gnral_horarios.id_horario_profesor AND
+                            hrs_horario_extra_clase.id_extra_clase=hrs_extra_clase.id_extra_clase AND
                             hrs_extra_clase.id_act_extra_clase=hrs_act_extra_clases.id_act_extra_clase AND
-                            hrs_act_extra_clases.id_hrs_actividad_extra=hrs_actividades_extras.id_hrs_actividad_extra ');
+                            hrs_act_extra_clases.id_hrs_actividad_extra=hrs_actividades_extras.id_hrs_actividad_extra ', [$periodo1, $carrera->id_carrera, $materia->mpf, $docente->id_personal]);
                         $hrs_extra = ($hrs_extra->T);
                         $materia->T = $hrs_extra;
 
@@ -177,15 +177,15 @@ class Hrs_docentesClasesController extends Controller
                             FROM hrs_act_extra_clases,hrs_extra_clase,
                             gnral_periodo_carreras,gnral_periodos,gnral_horarios,hrs_actividades_extras
                             WHERE
-                            hrs_actividades_extras.id_hrs_actividad_extra=' . $materia->mpf . ' AND
-                            gnral_periodo_carreras.id_periodo='.$periodo1.' AND
-                            gnral_horarios.id_personal=' . $docente->id_personal . ' AND
-                            gnral_periodo_carreras.id_carrera=' .$carrera->id_carrera . ' AND
+                            hrs_actividades_extras.id_hrs_actividad_extra= ? AND
+                            gnral_periodo_carreras.id_periodo= ? AND
+                            gnral_horarios.id_personal= ? AND
+                            gnral_periodo_carreras.id_carrera= ? AND
                             gnral_horarios.id_periodo_carrera=gnral_periodo_carreras.id_periodo_carrera AND
                             gnral_periodo_carreras.id_periodo=gnral_periodos.id_periodo AND
                             hrs_extra_clase.id_act_extra_clase=hrs_act_extra_clases.id_act_extra_clase AND
                             hrs_extra_clase.id_horario_profesor=gnral_horarios.id_horario_profesor AND
-                            hrs_act_extra_clases.id_hrs_actividad_extra=hrs_actividades_extras.id_hrs_actividad_extra');
+                            hrs_act_extra_clases.id_hrs_actividad_extra=hrs_actividades_extras.id_hrs_actividad_extra', [$materia->mpf, $periodo1, $docente->id_personal, $carrera->id_carrera]);
                         $no_grupos = count($grupos);
                         $t_lic = $no_grupos * $hrs_extra;
                     }
@@ -198,16 +198,16 @@ class Hrs_docentesClasesController extends Controller
                 }
                 $nombre["materias"] = $datos_materias;
                 $casoc = DB::selectOne('select DISTINCT hrs_personal_docentes.caso
-                    FROM hrs_personal_docentes 
-                    WHERE hrs_personal_docentes.id_horario=' . $docente->id_horario_profesor . '');
+                    FROM hrs_personal_docentes
+                    WHERE hrs_personal_docentes.id_horario= ?', [$docente->id_horario_profesor]);
 
                 $causac = DB::selectOne('select hrs_personal_docentes.id_caso_factibilidad id,
-                hrs_casos_factibilidades.descripcion from hrs_personal_docentes,hrs_casos_factibilidades where 
-                hrs_personal_docentes.id_horario=' . $docente->id_horario_profesor . ' AND 
-                hrs_personal_docentes.id_caso_factibilidad=hrs_casos_factibilidades.id_caso UNION 
-                select hrs_personal_docentes.id_caso_factibilidad,"0" descripcion from 
-                hrs_personal_docentes where hrs_personal_docentes.id_horario=' . $docente->id_horario_profesor . ' AND 
-                hrs_personal_docentes.id_caso_factibilidad not IN (SELECT id_caso from hrs_casos_factibilidades)');
+                hrs_casos_factibilidades.descripcion from hrs_personal_docentes,hrs_casos_factibilidades where
+                hrs_personal_docentes.id_horario= ? AND
+                hrs_personal_docentes.id_caso_factibilidad=hrs_casos_factibilidades.id_caso UNION
+                select hrs_personal_docentes.id_caso_factibilidad,"0" descripcion from
+                hrs_personal_docentes where hrs_personal_docentes.id_horario= ? AND
+                hrs_personal_docentes.id_caso_factibilidad not IN (SELECT id_caso from hrs_casos_factibilidades)', [$docente->id_horario_profesor, $docente->id_horario_profesor]);
 
                 if ($directivo == true) {
                     if ($casoc->caso == 0)
@@ -262,33 +262,33 @@ class Hrs_docentesClasesController extends Controller
             $carr['docentes'] = $datos_docente;
             array_push($carreras_periodo, $carr);
 
-            $docentes = DB::select('select DISTINCT gnral_personales.id_cargo, gnral_cargos.cargo, gnral_horarios.id_personal,gnral_personales.clave,gnral_personales.nombramiento,gnral_personales.fch_ingreso_tesvb,  gnral_horarios.id_horario_profesor, gnral_personales.nombre,gnral_personales.horas_maxima,hrs_situaciones.abrevia,hrs_rhps.id_cargo 
+            $docentes = DB::select('select DISTINCT gnral_personales.id_cargo, gnral_cargos.cargo, gnral_horarios.id_personal,gnral_personales.clave,gnral_personales.nombramiento,gnral_personales.fch_ingreso_tesvb,  gnral_horarios.id_horario_profesor, gnral_personales.nombre,gnral_personales.horas_maxima,hrs_situaciones.abrevia,hrs_rhps.id_cargo
             FROM gnral_horarios, gnral_horas_profesores, hrs_rhps, gnral_personales,gnral_periodo_carreras,gnral_periodos,gnral_carreras,hrs_situaciones,gnral_cargos
-            WHERE 
-            gnral_carreras.id_carrera=' . $carrera->id_carrera. ' AND
-            gnral_periodos.id_periodo = '.$periodo2.' AND
+            WHERE
+            gnral_carreras.id_carrera= ? AND
+            gnral_periodos.id_periodo = ? AND
             gnral_horas_profesores.id_horario_profesor = gnral_horarios.id_horario_profesor
             and gnral_horarios.id_personal=gnral_personales.id_personal
             AND gnral_horarios.id_periodo_carrera=gnral_periodo_carreras.id_periodo_carrera
             AND gnral_periodo_carreras.id_carrera=gnral_carreras.id_carrera AND
             gnral_periodo_carreras.id_periodo=gnral_periodos.id_periodo AND
             gnral_personales.id_situacion=hrs_situaciones.id_situacion AND
-            hrs_rhps.id_hrs_profesor=gnral_horas_profesores.id_hrs_profesor and 
+            hrs_rhps.id_hrs_profesor=gnral_horas_profesores.id_hrs_profesor and
             gnral_personales.id_cargo = gnral_cargos.id_cargo
             union
             SELECT DISTINCT gnral_personales.id_cargo, gnral_cargos.cargo, gnral_horarios.id_personal, gnral_personales.clave,gnral_personales.nombramiento,gnral_personales.fch_ingreso_tesvb, gnral_horarios.id_horario_profesor,gnral_personales.nombre,gnral_personales.horas_maxima,hrs_situaciones.abrevia,hrs_horario_extra_clase.id_cargo
             FROM gnral_horarios,hrs_extra_clase, gnral_personales,gnral_periodo_carreras,gnral_periodos,gnral_carreras,hrs_situaciones,hrs_horario_extra_clase,gnral_cargos
             WHERE
-            gnral_carreras.id_carrera=' . $carrera->id_carrera. ' 
-            AND gnral_periodos.id_periodo='.$periodo2.'
+            gnral_carreras.id_carrera= ?
+            AND gnral_periodos.id_periodo= ?
             AND hrs_extra_clase.id_horario_profesor=gnral_horarios.id_horario_profesor
             and gnral_horarios.id_personal=gnral_personales.id_personal
             AND gnral_horarios.id_periodo_carrera=gnral_periodo_carreras.id_periodo_carrera
-            AND gnral_periodo_carreras.id_carrera=gnral_carreras.id_carrera 
+            AND gnral_periodo_carreras.id_carrera=gnral_carreras.id_carrera
             AND gnral_periodo_carreras.id_periodo=gnral_periodos.id_periodo AND
             gnral_personales.id_situacion=hrs_situaciones.id_situacion AND
             hrs_horario_extra_clase.id_extra_clase=hrs_extra_clase.id_extra_clase and
-            gnral_personales.id_cargo = gnral_cargos.id_cargo');
+            gnral_personales.id_cargo = gnral_cargos.id_cargo', [$carrera->id_carrera, $periodo2, $carrera->id_carrera, $periodo2]);
 
             $datos_docente = array();
             $t_nombra = 0;
@@ -300,8 +300,8 @@ class Hrs_docentesClasesController extends Controller
             $fals = 0;
 
             foreach ($docentes as $docente) {
-                $checa = DB::selectOne('select hrs_personal_docentes.id_personal_docente from hrs_personal_docentes where 
-            hrs_personal_docentes.id_horario=' . $docente->id_horario_profesor . '');
+                $checa = DB::selectOne('select hrs_personal_docentes.id_personal_docente from hrs_personal_docentes where
+            hrs_personal_docentes.id_horario= ?', [$docente->id_horario_profesor]);
                 $checa_h = isset($checa->id_personal_docente) ? $checa->id_personal_docente : 0;
                 if ($checa_h == 0) {
                     $casos = array(
@@ -311,9 +311,9 @@ class Hrs_docentesClasesController extends Controller
                     $agrega_caso = Hrs_Personal_Docentes::create($casos);
                 }
 
-                $bloqueo = DB::selectOne('select hrs_personal_docentes.caso from 
+                $bloqueo = DB::selectOne('select hrs_personal_docentes.caso from
             hrs_personal_docentes where
-            hrs_personal_docentes.id_horario=' . $docente->id_horario_profesor . '');
+            hrs_personal_docentes.id_horario= ?', [$docente->id_horario_profesor]);
                 if ($bloqueo->caso == "SI" || $bloqueo->caso == "NO")
                     $tru = $tru + 1;
                 else
@@ -325,9 +325,9 @@ class Hrs_docentesClasesController extends Controller
             FROM gnral_materias_perfiles,gnral_materias,gnral_horarios,gnral_horas_profesores,gnral_periodo_carreras,
             gnral_periodos, gnral_carreras
             WHERE
-            gnral_materias_perfiles.id_personal=' . $docente->id_personal . ' AND
-            gnral_carreras.id_carrera=' . $carrera->id_carrera. ' AND
-            gnral_periodos.id_periodo= '.$periodo2.' AND
+            gnral_materias_perfiles.id_personal= ? AND
+            gnral_carreras.id_carrera= ? AND
+            gnral_periodos.id_periodo= ? AND
             gnral_materias_perfiles.id_materia=gnral_materias.id_materia AND
             gnral_horas_profesores.id_materia_perfil=gnral_materias_perfiles.id_materia_perfil AND
             gnral_horas_profesores.id_horario_profesor=gnral_horarios.id_horario_profesor AND
@@ -342,9 +342,9 @@ class Hrs_docentesClasesController extends Controller
             hrs_actividades_extras,hrs_act_extra_clases,hrs_extra_clase,gnral_horarios,gnral_periodos,gnral_carreras,
             hrs_horario_extra_clase,
             gnral_periodo_carreras WHERE
-            gnral_carreras.id_carrera=' . $carrera->id_carrera . ' AND
-            gnral_periodos.id_periodo= '.$periodo2.' AND
-            gnral_horarios.id_personal=' . $docente->id_personal . ' AND
+            gnral_carreras.id_carrera= ? AND
+            gnral_periodos.id_periodo= ? AND
+            gnral_horarios.id_personal= ? AND
             gnral_horarios.id_periodo_carrera=gnral_periodo_carreras.id_periodo_carrera AND
             gnral_periodo_carreras.id_periodo=gnral_periodos.id_periodo AND
             gnral_periodo_carreras.id_carrera=gnral_carreras.id_carrera AND
@@ -352,7 +352,7 @@ class Hrs_docentesClasesController extends Controller
             hrs_extra_clase.id_act_extra_clase=hrs_act_extra_clases.id_act_extra_clase AND
             hrs_act_extra_clases.id_hrs_actividad_extra=hrs_actividades_extras.id_hrs_actividad_extra AND
             hrs_horario_extra_clase.id_extra_clase=hrs_extra_clase.id_extra_clase
-            GROUP BY hrs_act_extra_clases.id_hrs_actividad_extra,mpf,idmat,hrs_actividades_extras.descripcion');
+            GROUP BY hrs_act_extra_clases.id_hrs_actividad_extra,mpf,idmat,hrs_actividades_extras.descripcion', [$docente->id_personal, $carrera->id_carrera, $periodo2, $carrera->id_carrera, $periodo2, $docente->id_personal]);
 
                 $datos_materias = array();
 
@@ -365,19 +365,19 @@ class Hrs_docentesClasesController extends Controller
                     $nombrem['id_semestre'] = $materia->id_semestre;
 
                     if ($materia->idmat < 20000) {
-                        $grupos = DB::select('select DISTINCT gnral_horas_profesores.grupo 
+                        $grupos = DB::select('select DISTINCT gnral_horas_profesores.grupo
                             FROM gnral_materias_perfiles,gnral_materias,gnral_horarios,gnral_horas_profesores,
                             gnral_periodo_carreras,gnral_periodos,gnral_carreras
                             WHERE
-                            gnral_materias_perfiles.id_materia_perfil=' . $materia->mpf . ' AND
-                            gnral_periodos.id_periodo='.$periodo2.' AND
-                            gnral_carreras.id_carrera=' . $carrera->id_carrera . ' AND 
+                            gnral_materias_perfiles.id_materia_perfil= ? AND
+                            gnral_periodos.id_periodo= ? AND
+                            gnral_carreras.id_carrera= ? AND
                             gnral_materias_perfiles.id_materia=gnral_materias.id_materia AND
                             gnral_horas_profesores.id_materia_perfil=gnral_materias_perfiles.id_materia_perfil AND
                             gnral_horas_profesores.id_horario_profesor=gnral_horarios.id_horario_profesor AND
                             gnral_horarios.id_periodo_carrera=gnral_periodo_carreras.id_periodo_carrera AND
                             gnral_periodo_carreras.id_periodo=gnral_periodos.id_periodo AND
-                            gnral_periodo_carreras.id_carrera=gnral_carreras.id_carrera');
+                            gnral_periodo_carreras.id_carrera=gnral_carreras.id_carrera', [$materia->mpf, $periodo2, $carrera->id_carrera]);
                         $no_grupos = count($grupos);
                         $t_lic = $no_grupos * $materia->totales;
 
@@ -385,18 +385,18 @@ class Hrs_docentesClasesController extends Controller
                     } else {
                         $hrs_extra = DB::selectOne('select COUNT(hrs_horario_extra_clase.id_hr_extra)T from hrs_horario_extra_clase,
                             gnral_horarios,hrs_extra_clase,hrs_act_extra_clases,gnral_periodo_carreras,gnral_carreras,gnral_periodos
-                            ,hrs_actividades_extras WHERE 
-                            gnral_periodos.id_periodo='.$periodo2.' AND 
-                            gnral_carreras.id_carrera=' . $carrera->id_carrera . ' AND 
-                            hrs_actividades_extras.id_hrs_actividad_extra=' . $materia->mpf . ' AND 
-                            gnral_horarios.id_personal=' . $docente->id_personal . ' AND 
-                            gnral_periodo_carreras.id_carrera=gnral_carreras.id_carrera AND 
-                            gnral_periodo_carreras.id_periodo=gnral_periodos.id_periodo AND 
-                            gnral_horarios.id_periodo_carrera=gnral_periodo_carreras.id_periodo_carrera AND 
-                            hrs_extra_clase.id_horario_profesor=gnral_horarios.id_horario_profesor AND 
-                            hrs_horario_extra_clase.id_extra_clase=hrs_extra_clase.id_extra_clase AND 
+                            ,hrs_actividades_extras WHERE
+                            gnral_periodos.id_periodo= ? AND
+                            gnral_carreras.id_carrera= ? AND
+                            hrs_actividades_extras.id_hrs_actividad_extra= ? AND
+                            gnral_horarios.id_personal= ? AND
+                            gnral_periodo_carreras.id_carrera=gnral_carreras.id_carrera AND
+                            gnral_periodo_carreras.id_periodo=gnral_periodos.id_periodo AND
+                            gnral_horarios.id_periodo_carrera=gnral_periodo_carreras.id_periodo_carrera AND
+                            hrs_extra_clase.id_horario_profesor=gnral_horarios.id_horario_profesor AND
+                            hrs_horario_extra_clase.id_extra_clase=hrs_extra_clase.id_extra_clase AND
                             hrs_extra_clase.id_act_extra_clase=hrs_act_extra_clases.id_act_extra_clase AND
-                            hrs_act_extra_clases.id_hrs_actividad_extra=hrs_actividades_extras.id_hrs_actividad_extra ');
+                            hrs_act_extra_clases.id_hrs_actividad_extra=hrs_actividades_extras.id_hrs_actividad_extra ', [$periodo2, $carrera->id_carrera, $materia->mpf, $docente->id_personal]);
                         $hrs_extra = ($hrs_extra->T);
                         $materia->T = $hrs_extra;
 
@@ -405,15 +405,15 @@ class Hrs_docentesClasesController extends Controller
                             FROM hrs_act_extra_clases,hrs_extra_clase,
                             gnral_periodo_carreras,gnral_periodos,gnral_horarios,hrs_actividades_extras
                             WHERE
-                            hrs_actividades_extras.id_hrs_actividad_extra=' . $materia->mpf . ' AND
-                            gnral_periodo_carreras.id_periodo= '.$periodo2.' AND
-                            gnral_horarios.id_personal=' . $docente->id_personal . ' AND
-                            gnral_periodo_carreras.id_carrera=' .$carrera->id_carrera . ' AND
+                            hrs_actividades_extras.id_hrs_actividad_extra= ? AND
+                            gnral_periodo_carreras.id_periodo= ? AND
+                            gnral_horarios.id_personal= ? AND
+                            gnral_periodo_carreras.id_carrera= ? AND
                             gnral_horarios.id_periodo_carrera=gnral_periodo_carreras.id_periodo_carrera AND
                             gnral_periodo_carreras.id_periodo=gnral_periodos.id_periodo AND
                             hrs_extra_clase.id_act_extra_clase=hrs_act_extra_clases.id_act_extra_clase AND
                             hrs_extra_clase.id_horario_profesor=gnral_horarios.id_horario_profesor AND
-                            hrs_act_extra_clases.id_hrs_actividad_extra=hrs_actividades_extras.id_hrs_actividad_extra');
+                            hrs_act_extra_clases.id_hrs_actividad_extra=hrs_actividades_extras.id_hrs_actividad_extra', [$materia->mpf, $periodo2, $docente->id_personal, $carrera->id_carrera]);
                         $no_grupos = count($grupos);
                         $t_lic = $no_grupos * $hrs_extra;
                     }
@@ -426,16 +426,16 @@ class Hrs_docentesClasesController extends Controller
                 }
                 $nombre["materias"] = $datos_materias;
                 $casoc = DB::selectOne('select DISTINCT hrs_personal_docentes.caso
-                    FROM hrs_personal_docentes 
-                    WHERE hrs_personal_docentes.id_horario=' . $docente->id_horario_profesor . '');
+                    FROM hrs_personal_docentes
+                    WHERE hrs_personal_docentes.id_horario= ?', [$docente->id_horario_profesor]);
 
                 $causac = DB::selectOne('select hrs_personal_docentes.id_caso_factibilidad id,
-                hrs_casos_factibilidades.descripcion from hrs_personal_docentes,hrs_casos_factibilidades where 
-                hrs_personal_docentes.id_horario=' . $docente->id_horario_profesor . ' AND 
-                hrs_personal_docentes.id_caso_factibilidad=hrs_casos_factibilidades.id_caso UNION 
-                select hrs_personal_docentes.id_caso_factibilidad,"0" descripcion from 
-                hrs_personal_docentes where hrs_personal_docentes.id_horario=' . $docente->id_horario_profesor . ' AND 
-                hrs_personal_docentes.id_caso_factibilidad not IN (SELECT id_caso from hrs_casos_factibilidades)');
+                hrs_casos_factibilidades.descripcion from hrs_personal_docentes,hrs_casos_factibilidades where
+                hrs_personal_docentes.id_horario= ? AND
+                hrs_personal_docentes.id_caso_factibilidad=hrs_casos_factibilidades.id_caso UNION
+                select hrs_personal_docentes.id_caso_factibilidad,"0" descripcion from
+                hrs_personal_docentes where hrs_personal_docentes.id_horario= ? AND
+                hrs_personal_docentes.id_caso_factibilidad not IN (SELECT id_caso from hrs_casos_factibilidades)', [$docente->id_horario_profesor, $docente->id_horario_profesor]);
 
                 if ($directivo == true) {
                     if ($casoc->caso == 0)
@@ -515,37 +515,37 @@ class Hrs_docentesClasesController extends Controller
                 ///agregamos los 2 periodos a consultar
                 ///
                 $periodo1= 26;
-                $nombre_periodo1=DB::selectOne('SELECT * FROM `gnral_periodos` WHERE `id_periodo` ='.$periodo1.'');
+                $nombre_periodo1=DB::selectOne('SELECT * FROM `gnral_periodos` WHERE `id_periodo` = ?', [$periodo1]);
                 $periodo2=27;
-                $nombre_periodo2=DB::selectOne('SELECT * FROM `gnral_periodos` WHERE `id_periodo` ='.$periodo2.'');
+                $nombre_periodo2=DB::selectOne('SELECT * FROM `gnral_periodos` WHERE `id_periodo` = ?', [$periodo2]);
 
-                $docentes = DB::select('select DISTINCT gnral_personales.id_cargo, gnral_cargos.cargo, gnral_horarios.id_personal,gnral_personales.clave,gnral_personales.nombramiento,gnral_personales.fch_ingreso_tesvb,  gnral_horarios.id_horario_profesor, gnral_personales.nombre,gnral_personales.horas_maxima,hrs_situaciones.abrevia,hrs_rhps.id_cargo 
+                $docentes = DB::select('select DISTINCT gnral_personales.id_cargo, gnral_cargos.cargo, gnral_horarios.id_personal,gnral_personales.clave,gnral_personales.nombramiento,gnral_personales.fch_ingreso_tesvb,  gnral_horarios.id_horario_profesor, gnral_personales.nombre,gnral_personales.horas_maxima,hrs_situaciones.abrevia,hrs_rhps.id_cargo
             FROM gnral_horarios, gnral_horas_profesores, hrs_rhps, gnral_personales,gnral_periodo_carreras,gnral_periodos,gnral_carreras,hrs_situaciones,gnral_cargos
-            WHERE 
-            gnral_carreras.id_carrera=' . $carrera->id_carrera. ' AND
-            gnral_periodos.id_periodo= '.$periodo1.' AND
+            WHERE
+            gnral_carreras.id_carrera= ? AND
+            gnral_periodos.id_periodo= ? AND
             gnral_horas_profesores.id_horario_profesor = gnral_horarios.id_horario_profesor
             and gnral_horarios.id_personal=gnral_personales.id_personal
             AND gnral_horarios.id_periodo_carrera = gnral_periodo_carreras.id_periodo_carrera
             AND gnral_periodo_carreras.id_carrera=gnral_carreras.id_carrera AND
             gnral_periodo_carreras.id_periodo=gnral_periodos.id_periodo AND
             gnral_personales.id_situacion=hrs_situaciones.id_situacion AND
-            hrs_rhps.id_hrs_profesor=gnral_horas_profesores.id_hrs_profesor and 
+            hrs_rhps.id_hrs_profesor=gnral_horas_profesores.id_hrs_profesor and
             gnral_personales.id_cargo = gnral_cargos.id_cargo
             union
             SELECT DISTINCT gnral_personales.id_cargo, gnral_cargos.cargo, gnral_horarios.id_personal, gnral_personales.clave,gnral_personales.nombramiento,gnral_personales.fch_ingreso_tesvb, gnral_horarios.id_horario_profesor,gnral_personales.nombre,gnral_personales.horas_maxima,hrs_situaciones.abrevia,hrs_horario_extra_clase.id_cargo
             FROM gnral_horarios,hrs_extra_clase, gnral_personales,gnral_periodo_carreras,gnral_periodos,gnral_carreras,hrs_situaciones,hrs_horario_extra_clase,gnral_cargos
             WHERE
-            gnral_carreras.id_carrera=' . $carrera->id_carrera. ' 
-            AND gnral_periodos.id_periodo= '.$periodo1.'
+            gnral_carreras.id_carrera= ?
+            AND gnral_periodos.id_periodo= ?
             AND hrs_extra_clase.id_horario_profesor=gnral_horarios.id_horario_profesor
             and gnral_horarios.id_personal=gnral_personales.id_personal
             AND gnral_horarios.id_periodo_carrera=gnral_periodo_carreras.id_periodo_carrera
-            AND gnral_periodo_carreras.id_carrera=gnral_carreras.id_carrera 
+            AND gnral_periodo_carreras.id_carrera=gnral_carreras.id_carrera
             AND gnral_periodo_carreras.id_periodo=gnral_periodos.id_periodo AND
             gnral_personales.id_situacion=hrs_situaciones.id_situacion AND
-            hrs_horario_extra_clase.id_extra_clase=hrs_extra_clase.id_extra_clase and 
-            gnral_personales.id_cargo = gnral_cargos.id_cargo');
+            hrs_horario_extra_clase.id_extra_clase=hrs_extra_clase.id_extra_clase and
+            gnral_personales.id_cargo = gnral_cargos.id_cargo', [$carrera->id_carrera, $periodo1, $carrera->id_carrera, $periodo1]);
 
                 $datos_docente = array();
                 $t_nombra = 0;
@@ -558,8 +558,8 @@ class Hrs_docentesClasesController extends Controller
 
                 foreach ($docentes as $docente) {
 
-                    $checa = DB::selectOne('select hrs_personal_docentes.id_personal_docente from hrs_personal_docentes where 
-            hrs_personal_docentes.id_horario=' . $docente->id_horario_profesor . '');
+                    $checa = DB::selectOne('select hrs_personal_docentes.id_personal_docente from hrs_personal_docentes where
+            hrs_personal_docentes.id_horario= ?', [$docente->id_horario_profesor]);
                     $checa_h = isset($checa->id_personal_docente) ? $checa->id_personal_docente : 0;
                     if ($checa_h == 0) {
                         $casos = array(
@@ -569,9 +569,9 @@ class Hrs_docentesClasesController extends Controller
                         $agrega_caso = Hrs_Personal_Docentes::create($casos);
                     }
 
-                    $bloqueo = DB::selectOne('select hrs_personal_docentes.caso from 
+                    $bloqueo = DB::selectOne('select hrs_personal_docentes.caso from
             hrs_personal_docentes where
-            hrs_personal_docentes.id_horario=' . $docente->id_horario_profesor . '');
+            hrs_personal_docentes.id_horario= ?', [$docente->id_horario_profesor]);
                     if ($bloqueo->caso == "SI" || $bloqueo->caso == "NO")
                         $tru = $tru + 1;
                     else
@@ -583,9 +583,9 @@ class Hrs_docentesClasesController extends Controller
             FROM gnral_materias_perfiles,gnral_materias,gnral_horarios,gnral_horas_profesores,gnral_periodo_carreras,
             gnral_periodos, gnral_carreras
             WHERE
-            gnral_materias_perfiles.id_personal=' . $docente->id_personal . ' AND
-            gnral_carreras.id_carrera=' . $carrera->id_carrera. ' AND
-            gnral_periodos.id_periodo= '.$periodo1.' AND
+            gnral_materias_perfiles.id_personal= ? AND
+            gnral_carreras.id_carrera= ? AND
+            gnral_periodos.id_periodo= ? AND
             gnral_materias_perfiles.id_materia=gnral_materias.id_materia AND
             gnral_horas_profesores.id_materia_perfil=gnral_materias_perfiles.id_materia_perfil AND
             gnral_horas_profesores.id_horario_profesor=gnral_horarios.id_horario_profesor AND
@@ -600,9 +600,9 @@ class Hrs_docentesClasesController extends Controller
             hrs_actividades_extras,hrs_act_extra_clases,hrs_extra_clase,gnral_horarios,gnral_periodos,gnral_carreras,
             hrs_horario_extra_clase,
             gnral_periodo_carreras WHERE
-            gnral_carreras.id_carrera=' . $carrera->id_carrera . ' AND
-            gnral_periodos.id_periodo = '.$periodo1.' AND
-            gnral_horarios.id_personal=' . $docente->id_personal . ' AND
+            gnral_carreras.id_carrera= ? AND
+            gnral_periodos.id_periodo = ? AND
+            gnral_horarios.id_personal= ? AND
             gnral_horarios.id_periodo_carrera=gnral_periodo_carreras.id_periodo_carrera AND
             gnral_periodo_carreras.id_periodo=gnral_periodos.id_periodo AND
             gnral_periodo_carreras.id_carrera=gnral_carreras.id_carrera AND
@@ -610,7 +610,7 @@ class Hrs_docentesClasesController extends Controller
             hrs_extra_clase.id_act_extra_clase=hrs_act_extra_clases.id_act_extra_clase AND
             hrs_act_extra_clases.id_hrs_actividad_extra=hrs_actividades_extras.id_hrs_actividad_extra AND
             hrs_horario_extra_clase.id_extra_clase=hrs_extra_clase.id_extra_clase
-            GROUP BY hrs_act_extra_clases.id_hrs_actividad_extra,mpf,idmat,hrs_actividades_extras.descripcion');
+            GROUP BY hrs_act_extra_clases.id_hrs_actividad_extra,mpf,idmat,hrs_actividades_extras.descripcion', [$docente->id_personal, $carrera->id_carrera, $periodo1, $carrera->id_carrera, $periodo1, $docente->id_personal]);
 
                     $datos_materias = array();
 
@@ -623,19 +623,19 @@ class Hrs_docentesClasesController extends Controller
                         $nombrem['id_semestre'] = $materia->id_semestre;
 
                         if ($materia->idmat < 20000) {
-                            $grupos = DB::select('select DISTINCT gnral_horas_profesores.grupo 
+                            $grupos = DB::select('select DISTINCT gnral_horas_profesores.grupo
                             FROM gnral_materias_perfiles,gnral_materias,gnral_horarios,gnral_horas_profesores,
                             gnral_periodo_carreras,gnral_periodos,gnral_carreras
                             WHERE
-                            gnral_materias_perfiles.id_materia_perfil=' . $materia->mpf . ' AND
-                            gnral_periodos.id_periodo = '.$periodo1.' AND
-                            gnral_carreras.id_carrera=' . $carrera->id_carrera . ' AND 
+                            gnral_materias_perfiles.id_materia_perfil= ? AND
+                            gnral_periodos.id_periodo = ? AND
+                            gnral_carreras.id_carrera= ? AND
                             gnral_materias_perfiles.id_materia=gnral_materias.id_materia AND
                             gnral_horas_profesores.id_materia_perfil=gnral_materias_perfiles.id_materia_perfil AND
                             gnral_horas_profesores.id_horario_profesor=gnral_horarios.id_horario_profesor AND
                             gnral_horarios.id_periodo_carrera=gnral_periodo_carreras.id_periodo_carrera AND
                             gnral_periodo_carreras.id_periodo=gnral_periodos.id_periodo AND
-                            gnral_periodo_carreras.id_carrera=gnral_carreras.id_carrera');
+                            gnral_periodo_carreras.id_carrera=gnral_carreras.id_carrera', [$materia->mpf, $periodo1, $carrera->id_carrera]);
                             $no_grupos = count($grupos);
                             $t_lic = $no_grupos * $materia->totales;
 
@@ -643,18 +643,18 @@ class Hrs_docentesClasesController extends Controller
                         } else {
                             $hrs_extra = DB::selectOne('select COUNT(hrs_horario_extra_clase.id_hr_extra)T from hrs_horario_extra_clase,
                             gnral_horarios,hrs_extra_clase,hrs_act_extra_clases,gnral_periodo_carreras,gnral_carreras,gnral_periodos
-                            ,hrs_actividades_extras WHERE 
-                            gnral_periodos.id_periodo= '.$periodo1.' AND 
-                            gnral_carreras.id_carrera=' . $carrera->id_carrera . ' AND 
-                            hrs_actividades_extras.id_hrs_actividad_extra=' . $materia->mpf . ' AND 
-                            gnral_horarios.id_personal=' . $docente->id_personal . ' AND 
-                            gnral_periodo_carreras.id_carrera=gnral_carreras.id_carrera AND 
-                            gnral_periodo_carreras.id_periodo=gnral_periodos.id_periodo AND 
-                            gnral_horarios.id_periodo_carrera=gnral_periodo_carreras.id_periodo_carrera AND 
-                            hrs_extra_clase.id_horario_profesor=gnral_horarios.id_horario_profesor AND 
-                            hrs_horario_extra_clase.id_extra_clase=hrs_extra_clase.id_extra_clase AND 
+                            ,hrs_actividades_extras WHERE
+                            gnral_periodos.id_periodo= ? AND
+                            gnral_carreras.id_carrera= ? AND
+                            hrs_actividades_extras.id_hrs_actividad_extra= ? AND
+                            gnral_horarios.id_personal= ? AND
+                            gnral_periodo_carreras.id_carrera=gnral_carreras.id_carrera AND
+                            gnral_periodo_carreras.id_periodo=gnral_periodos.id_periodo AND
+                            gnral_horarios.id_periodo_carrera=gnral_periodo_carreras.id_periodo_carrera AND
+                            hrs_extra_clase.id_horario_profesor=gnral_horarios.id_horario_profesor AND
+                            hrs_horario_extra_clase.id_extra_clase=hrs_extra_clase.id_extra_clase AND
                             hrs_extra_clase.id_act_extra_clase=hrs_act_extra_clases.id_act_extra_clase AND
-                            hrs_act_extra_clases.id_hrs_actividad_extra=hrs_actividades_extras.id_hrs_actividad_extra ');
+                            hrs_act_extra_clases.id_hrs_actividad_extra=hrs_actividades_extras.id_hrs_actividad_extra ', [$periodo1, $carrera->id_carrera, $materia->mpf, $docente->id_personal]);
                             $hrs_extra = ($hrs_extra->T);
                             $materia->T = $hrs_extra;
 
@@ -663,15 +663,15 @@ class Hrs_docentesClasesController extends Controller
                             FROM hrs_act_extra_clases,hrs_extra_clase,
                             gnral_periodo_carreras,gnral_periodos,gnral_horarios,hrs_actividades_extras
                             WHERE
-                            hrs_actividades_extras.id_hrs_actividad_extra=' . $materia->mpf . ' AND
-                            gnral_periodo_carreras.id_periodo='.$periodo1.' AND
-                            gnral_horarios.id_personal=' . $docente->id_personal . ' AND
-                            gnral_periodo_carreras.id_carrera=' .$carrera->id_carrera . ' AND
+                            hrs_actividades_extras.id_hrs_actividad_extra= ? AND
+                            gnral_periodo_carreras.id_periodo= ? AND
+                            gnral_horarios.id_personal= ? AND
+                            gnral_periodo_carreras.id_carrera= ? AND
                             gnral_horarios.id_periodo_carrera=gnral_periodo_carreras.id_periodo_carrera AND
                             gnral_periodo_carreras.id_periodo=gnral_periodos.id_periodo AND
                             hrs_extra_clase.id_act_extra_clase=hrs_act_extra_clases.id_act_extra_clase AND
                             hrs_extra_clase.id_horario_profesor=gnral_horarios.id_horario_profesor AND
-                            hrs_act_extra_clases.id_hrs_actividad_extra=hrs_actividades_extras.id_hrs_actividad_extra');
+                            hrs_act_extra_clases.id_hrs_actividad_extra=hrs_actividades_extras.id_hrs_actividad_extra', [$materia->mpf, $periodo1, $docente->id_personal, $carrera->id_carrera]);
                             $no_grupos = count($grupos);
                             $t_lic = $no_grupos * $hrs_extra;
                         }
@@ -684,16 +684,16 @@ class Hrs_docentesClasesController extends Controller
                     }
                     $nombre["materias"] = $datos_materias;
                     $casoc = DB::selectOne('select DISTINCT hrs_personal_docentes.caso
-                    FROM hrs_personal_docentes 
-                    WHERE hrs_personal_docentes.id_horario=' . $docente->id_horario_profesor . '');
+                    FROM hrs_personal_docentes
+                    WHERE hrs_personal_docentes.id_horario= ?', [$docente->id_horario_profesor]);
 
                     $causac = DB::selectOne('select hrs_personal_docentes.id_caso_factibilidad id,
-                hrs_casos_factibilidades.descripcion from hrs_personal_docentes,hrs_casos_factibilidades where 
-                hrs_personal_docentes.id_horario=' . $docente->id_horario_profesor . ' AND 
-                hrs_personal_docentes.id_caso_factibilidad=hrs_casos_factibilidades.id_caso UNION 
-                select hrs_personal_docentes.id_caso_factibilidad,"0" descripcion from 
-                hrs_personal_docentes where hrs_personal_docentes.id_horario=' . $docente->id_horario_profesor . ' AND 
-                hrs_personal_docentes.id_caso_factibilidad not IN (SELECT id_caso from hrs_casos_factibilidades)');
+                hrs_casos_factibilidades.descripcion from hrs_personal_docentes,hrs_casos_factibilidades where
+                hrs_personal_docentes.id_horario= ? AND
+                hrs_personal_docentes.id_caso_factibilidad=hrs_casos_factibilidades.id_caso UNION
+                select hrs_personal_docentes.id_caso_factibilidad,"0" descripcion from
+                hrs_personal_docentes where hrs_personal_docentes.id_horario= ? AND
+                hrs_personal_docentes.id_caso_factibilidad not IN (SELECT id_caso from hrs_casos_factibilidades)', [$docente->id_horario_profesor, $docente->id_horario_profesor]);
 
                     if ($directivo == true) {
                         if ($casoc->caso == 0)
@@ -748,33 +748,33 @@ class Hrs_docentesClasesController extends Controller
                 $carr['docentes'] = $datos_docente;
                 array_push($carreras_periodo, $carr);
 
-                $docentes = DB::select('select DISTINCT gnral_personales.id_cargo, gnral_cargos.cargo, gnral_horarios.id_personal,gnral_personales.clave,gnral_personales.nombramiento,gnral_personales.fch_ingreso_tesvb,  gnral_horarios.id_horario_profesor, gnral_personales.nombre,gnral_personales.horas_maxima,hrs_situaciones.abrevia,hrs_rhps.id_cargo 
+                $docentes = DB::select('select DISTINCT gnral_personales.id_cargo, gnral_cargos.cargo, gnral_horarios.id_personal,gnral_personales.clave,gnral_personales.nombramiento,gnral_personales.fch_ingreso_tesvb,  gnral_horarios.id_horario_profesor, gnral_personales.nombre,gnral_personales.horas_maxima,hrs_situaciones.abrevia,hrs_rhps.id_cargo
             FROM gnral_horarios, gnral_horas_profesores, hrs_rhps, gnral_personales,gnral_periodo_carreras,gnral_periodos,gnral_carreras,hrs_situaciones,gnral_cargos
-            WHERE 
-            gnral_carreras.id_carrera=' . $carrera->id_carrera. ' AND
-            gnral_periodos.id_periodo = '.$periodo2.' AND
+            WHERE
+            gnral_carreras.id_carrera= ? AND
+            gnral_periodos.id_periodo = ? AND
             gnral_horas_profesores.id_horario_profesor = gnral_horarios.id_horario_profesor
             and gnral_horarios.id_personal=gnral_personales.id_personal
             AND gnral_horarios.id_periodo_carrera=gnral_periodo_carreras.id_periodo_carrera
             AND gnral_periodo_carreras.id_carrera=gnral_carreras.id_carrera AND
             gnral_periodo_carreras.id_periodo=gnral_periodos.id_periodo AND
             gnral_personales.id_situacion=hrs_situaciones.id_situacion AND
-            hrs_rhps.id_hrs_profesor=gnral_horas_profesores.id_hrs_profesor and 
+            hrs_rhps.id_hrs_profesor=gnral_horas_profesores.id_hrs_profesor and
             gnral_personales.id_cargo = gnral_cargos.id_cargo
             union
             SELECT DISTINCT gnral_personales.id_cargo, gnral_cargos.cargo, gnral_horarios.id_personal, gnral_personales.clave,gnral_personales.nombramiento,gnral_personales.fch_ingreso_tesvb, gnral_horarios.id_horario_profesor,gnral_personales.nombre,gnral_personales.horas_maxima,hrs_situaciones.abrevia,hrs_horario_extra_clase.id_cargo
             FROM gnral_horarios,hrs_extra_clase, gnral_personales,gnral_periodo_carreras,gnral_periodos,gnral_carreras,hrs_situaciones,hrs_horario_extra_clase,gnral_cargos
             WHERE
-            gnral_carreras.id_carrera=' . $carrera->id_carrera. ' 
-            AND gnral_periodos.id_periodo='.$periodo2.'
+            gnral_carreras.id_carrera= ?
+            AND gnral_periodos.id_periodo= ?
             AND hrs_extra_clase.id_horario_profesor=gnral_horarios.id_horario_profesor
             and gnral_horarios.id_personal=gnral_personales.id_personal
             AND gnral_horarios.id_periodo_carrera=gnral_periodo_carreras.id_periodo_carrera
-            AND gnral_periodo_carreras.id_carrera=gnral_carreras.id_carrera 
+            AND gnral_periodo_carreras.id_carrera=gnral_carreras.id_carrera
             AND gnral_periodo_carreras.id_periodo=gnral_periodos.id_periodo AND
             gnral_personales.id_situacion=hrs_situaciones.id_situacion AND
             hrs_horario_extra_clase.id_extra_clase=hrs_extra_clase.id_extra_clase and
-            gnral_personales.id_cargo = gnral_cargos.id_cargo');
+            gnral_personales.id_cargo = gnral_cargos.id_cargo', [$carrera->id_carrera, $periodo2, $carrera->id_carrera, $periodo2]);
 
                 $datos_docente = array();
                 $t_nombra = 0;
@@ -786,8 +786,8 @@ class Hrs_docentesClasesController extends Controller
                 $fals = 0;
 
                 foreach ($docentes as $docente) {
-                    $checa = DB::selectOne('select hrs_personal_docentes.id_personal_docente from hrs_personal_docentes where 
-            hrs_personal_docentes.id_horario=' . $docente->id_horario_profesor . '');
+                    $checa = DB::selectOne('select hrs_personal_docentes.id_personal_docente from hrs_personal_docentes where
+            hrs_personal_docentes.id_horario= ?', [$docente->id_horario_profesor]);
                     $checa_h = isset($checa->id_personal_docente) ? $checa->id_personal_docente : 0;
                     if ($checa_h == 0) {
                         $casos = array(
@@ -797,9 +797,9 @@ class Hrs_docentesClasesController extends Controller
                         $agrega_caso = Hrs_Personal_Docentes::create($casos);
                     }
 
-                    $bloqueo = DB::selectOne('select hrs_personal_docentes.caso from 
+                    $bloqueo = DB::selectOne('select hrs_personal_docentes.caso from
             hrs_personal_docentes where
-            hrs_personal_docentes.id_horario=' . $docente->id_horario_profesor . '');
+            hrs_personal_docentes.id_horario= ?', [$docente->id_horario_profesor]);
                     if ($bloqueo->caso == "SI" || $bloqueo->caso == "NO")
                         $tru = $tru + 1;
                     else
@@ -811,9 +811,9 @@ class Hrs_docentesClasesController extends Controller
             FROM gnral_materias_perfiles,gnral_materias,gnral_horarios,gnral_horas_profesores,gnral_periodo_carreras,
             gnral_periodos, gnral_carreras
             WHERE
-            gnral_materias_perfiles.id_personal=' . $docente->id_personal . ' AND
-            gnral_carreras.id_carrera=' . $carrera->id_carrera. ' AND
-            gnral_periodos.id_periodo= '.$periodo2.' AND
+            gnral_materias_perfiles.id_personal= ? AND
+            gnral_carreras.id_carrera= ? AND
+            gnral_periodos.id_periodo= ? AND
             gnral_materias_perfiles.id_materia=gnral_materias.id_materia AND
             gnral_horas_profesores.id_materia_perfil=gnral_materias_perfiles.id_materia_perfil AND
             gnral_horas_profesores.id_horario_profesor=gnral_horarios.id_horario_profesor AND
@@ -828,9 +828,9 @@ class Hrs_docentesClasesController extends Controller
             hrs_actividades_extras,hrs_act_extra_clases,hrs_extra_clase,gnral_horarios,gnral_periodos,gnral_carreras,
             hrs_horario_extra_clase,
             gnral_periodo_carreras WHERE
-            gnral_carreras.id_carrera=' . $carrera->id_carrera . ' AND
-            gnral_periodos.id_periodo= '.$periodo2.' AND
-            gnral_horarios.id_personal=' . $docente->id_personal . ' AND
+            gnral_carreras.id_carrera= ? AND
+            gnral_periodos.id_periodo= ? AND
+            gnral_horarios.id_personal= ? AND
             gnral_horarios.id_periodo_carrera=gnral_periodo_carreras.id_periodo_carrera AND
             gnral_periodo_carreras.id_periodo=gnral_periodos.id_periodo AND
             gnral_periodo_carreras.id_carrera=gnral_carreras.id_carrera AND
@@ -838,7 +838,7 @@ class Hrs_docentesClasesController extends Controller
             hrs_extra_clase.id_act_extra_clase=hrs_act_extra_clases.id_act_extra_clase AND
             hrs_act_extra_clases.id_hrs_actividad_extra=hrs_actividades_extras.id_hrs_actividad_extra AND
             hrs_horario_extra_clase.id_extra_clase=hrs_extra_clase.id_extra_clase
-            GROUP BY hrs_act_extra_clases.id_hrs_actividad_extra,mpf,idmat,hrs_actividades_extras.descripcion');
+            GROUP BY hrs_act_extra_clases.id_hrs_actividad_extra,mpf,idmat,hrs_actividades_extras.descripcion', [$docente->id_personal, $carrera->id_carrera, $periodo2, $carrera->id_carrera, $periodo2, $docente->id_personal]);
 
                     $datos_materias = array();
 
@@ -851,19 +851,19 @@ class Hrs_docentesClasesController extends Controller
                         $nombrem['id_semestre'] = $materia->id_semestre;
 
                         if ($materia->idmat < 20000) {
-                            $grupos = DB::select('select DISTINCT gnral_horas_profesores.grupo 
+                            $grupos = DB::select('select DISTINCT gnral_horas_profesores.grupo
                             FROM gnral_materias_perfiles,gnral_materias,gnral_horarios,gnral_horas_profesores,
                             gnral_periodo_carreras,gnral_periodos,gnral_carreras
                             WHERE
-                            gnral_materias_perfiles.id_materia_perfil=' . $materia->mpf . ' AND
-                            gnral_periodos.id_periodo='.$periodo2.' AND
-                            gnral_carreras.id_carrera=' . $carrera->id_carrera . ' AND 
+                            gnral_materias_perfiles.id_materia_perfil= ? AND
+                            gnral_periodos.id_periodo= ? AND
+                            gnral_carreras.id_carrera= ? AND
                             gnral_materias_perfiles.id_materia=gnral_materias.id_materia AND
                             gnral_horas_profesores.id_materia_perfil=gnral_materias_perfiles.id_materia_perfil AND
                             gnral_horas_profesores.id_horario_profesor=gnral_horarios.id_horario_profesor AND
                             gnral_horarios.id_periodo_carrera=gnral_periodo_carreras.id_periodo_carrera AND
                             gnral_periodo_carreras.id_periodo=gnral_periodos.id_periodo AND
-                            gnral_periodo_carreras.id_carrera=gnral_carreras.id_carrera');
+                            gnral_periodo_carreras.id_carrera=gnral_carreras.id_carrera', [$materia->mpf, $periodo2, $carrera->id_carrera]);
                             $no_grupos = count($grupos);
                             $t_lic = $no_grupos * $materia->totales;
 
@@ -871,18 +871,18 @@ class Hrs_docentesClasesController extends Controller
                         } else {
                             $hrs_extra = DB::selectOne('select COUNT(hrs_horario_extra_clase.id_hr_extra)T from hrs_horario_extra_clase,
                             gnral_horarios,hrs_extra_clase,hrs_act_extra_clases,gnral_periodo_carreras,gnral_carreras,gnral_periodos
-                            ,hrs_actividades_extras WHERE 
-                            gnral_periodos.id_periodo='.$periodo2.' AND 
-                            gnral_carreras.id_carrera=' . $carrera->id_carrera . ' AND 
-                            hrs_actividades_extras.id_hrs_actividad_extra=' . $materia->mpf . ' AND 
-                            gnral_horarios.id_personal=' . $docente->id_personal . ' AND 
-                            gnral_periodo_carreras.id_carrera=gnral_carreras.id_carrera AND 
-                            gnral_periodo_carreras.id_periodo=gnral_periodos.id_periodo AND 
-                            gnral_horarios.id_periodo_carrera=gnral_periodo_carreras.id_periodo_carrera AND 
-                            hrs_extra_clase.id_horario_profesor=gnral_horarios.id_horario_profesor AND 
-                            hrs_horario_extra_clase.id_extra_clase=hrs_extra_clase.id_extra_clase AND 
+                            ,hrs_actividades_extras WHERE
+                            gnral_periodos.id_periodo= ? AND
+                            gnral_carreras.id_carrera= ? AND
+                            hrs_actividades_extras.id_hrs_actividad_extra= ? AND
+                            gnral_horarios.id_personal= ? AND
+                            gnral_periodo_carreras.id_carrera=gnral_carreras.id_carrera AND
+                            gnral_periodo_carreras.id_periodo=gnral_periodos.id_periodo AND
+                            gnral_horarios.id_periodo_carrera=gnral_periodo_carreras.id_periodo_carrera AND
+                            hrs_extra_clase.id_horario_profesor=gnral_horarios.id_horario_profesor AND
+                            hrs_horario_extra_clase.id_extra_clase=hrs_extra_clase.id_extra_clase AND
                             hrs_extra_clase.id_act_extra_clase=hrs_act_extra_clases.id_act_extra_clase AND
-                            hrs_act_extra_clases.id_hrs_actividad_extra=hrs_actividades_extras.id_hrs_actividad_extra ');
+                            hrs_act_extra_clases.id_hrs_actividad_extra=hrs_actividades_extras.id_hrs_actividad_extra ', [$periodo2, $carrera->id_carrera, $materia->mpf, $docente->id_personal]);
                             $hrs_extra = ($hrs_extra->T);
                             $materia->T = $hrs_extra;
 
@@ -891,15 +891,15 @@ class Hrs_docentesClasesController extends Controller
                             FROM hrs_act_extra_clases,hrs_extra_clase,
                             gnral_periodo_carreras,gnral_periodos,gnral_horarios,hrs_actividades_extras
                             WHERE
-                            hrs_actividades_extras.id_hrs_actividad_extra=' . $materia->mpf . ' AND
-                            gnral_periodo_carreras.id_periodo= '.$periodo2.' AND
-                            gnral_horarios.id_personal=' . $docente->id_personal . ' AND
-                            gnral_periodo_carreras.id_carrera=' .$carrera->id_carrera . ' AND
+                            hrs_actividades_extras.id_hrs_actividad_extra= ? AND
+                            gnral_periodo_carreras.id_periodo= ? AND
+                            gnral_horarios.id_personal= ? AND
+                            gnral_periodo_carreras.id_carrera= ? AND
                             gnral_horarios.id_periodo_carrera=gnral_periodo_carreras.id_periodo_carrera AND
                             gnral_periodo_carreras.id_periodo=gnral_periodos.id_periodo AND
                             hrs_extra_clase.id_act_extra_clase=hrs_act_extra_clases.id_act_extra_clase AND
                             hrs_extra_clase.id_horario_profesor=gnral_horarios.id_horario_profesor AND
-                            hrs_act_extra_clases.id_hrs_actividad_extra=hrs_actividades_extras.id_hrs_actividad_extra');
+                            hrs_act_extra_clases.id_hrs_actividad_extra=hrs_actividades_extras.id_hrs_actividad_extra', [$materia->mpf, $periodo2, $docente->id_personal, $carrera->id_carrera]);
                             $no_grupos = count($grupos);
                             $t_lic = $no_grupos * $hrs_extra;
                         }
@@ -912,16 +912,16 @@ class Hrs_docentesClasesController extends Controller
                     }
                     $nombre["materias"] = $datos_materias;
                     $casoc = DB::selectOne('select DISTINCT hrs_personal_docentes.caso
-                    FROM hrs_personal_docentes 
-                    WHERE hrs_personal_docentes.id_horario=' . $docente->id_horario_profesor . '');
+                    FROM hrs_personal_docentes
+                    WHERE hrs_personal_docentes.id_horario= ?', [$docente->id_horario_profesor]);
 
                     $causac = DB::selectOne('select hrs_personal_docentes.id_caso_factibilidad id,
-                hrs_casos_factibilidades.descripcion from hrs_personal_docentes,hrs_casos_factibilidades where 
-                hrs_personal_docentes.id_horario=' . $docente->id_horario_profesor . ' AND 
-                hrs_personal_docentes.id_caso_factibilidad=hrs_casos_factibilidades.id_caso UNION 
-                select hrs_personal_docentes.id_caso_factibilidad,"0" descripcion from 
-                hrs_personal_docentes where hrs_personal_docentes.id_horario=' . $docente->id_horario_profesor . ' AND 
-                hrs_personal_docentes.id_caso_factibilidad not IN (SELECT id_caso from hrs_casos_factibilidades)');
+                hrs_casos_factibilidades.descripcion from hrs_personal_docentes,hrs_casos_factibilidades where
+                hrs_personal_docentes.id_horario= ? AND
+                hrs_personal_docentes.id_caso_factibilidad=hrs_casos_factibilidades.id_caso UNION
+                select hrs_personal_docentes.id_caso_factibilidad,"0" descripcion from
+                hrs_personal_docentes where hrs_personal_docentes.id_horario= ? AND
+                hrs_personal_docentes.id_caso_factibilidad not IN (SELECT id_caso from hrs_casos_factibilidades)', [$docente->id_horario_profesor, $docente->id_horario_profesor]);
 
                     if ($directivo == true) {
                         if ($casoc->caso == 0)

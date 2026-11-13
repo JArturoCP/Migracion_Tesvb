@@ -16,7 +16,7 @@ class Resi_agregar_empresaController extends Controller
 return view('residencia.empresas',compact('empresas'));
 }
 public  function modificar_empresa($id_empresa){
-      $empresa=DB::selectOne('SELECT * FROM resi_empresa WHERE id_empresa='.$id_empresa.'');
+      $empresa=DB::selectOne('SELECT * FROM resi_empresa WHERE id_empresa= ?', [$id_empresa]);
 //dd($empresa);
         return view('residencia.partials.modificar_empresa',compact('empresa'));
 
@@ -37,7 +37,7 @@ public  function modificacion_empresa(Request $request){
     $correo = $request->input("correo");
     $director_general = $request->input("director_general");
 
-    DB::update("UPDATE resi_empresa SET nombre='$nombre',domicilio='$domicilio',tel_empresa='$telefono',correo='$correo',dir_gral='$director_general'  WHERE resi_empresa.id_empresa=$id_empresa");
+    DB::update('UPDATE resi_empresa SET nombre=?,domicilio=?,tel_empresa=?,correo=?,dir_gral=?  WHERE resi_empresa.id_empresa= ?', [(string) ($nombre), (string) ($domicilio), (string) ($telefono), (string) ($correo), (string) ($director_general), $id_empresa]);
 return back();
 }
 public function insertar_empresa(Request $request){
@@ -62,16 +62,16 @@ public function agregar_empresa(){
     $giros=DB::select('SELECT * FROM `resi_giro`');
     $id_usuario = Session::get('usuario_alumno');
     $periodo = Session::get('periodo_actual');
-    $datosalumno=DB::selectOne('select * FROM gnral_alumnos WHERE id_usuario='.$id_usuario.'');
+    $datosalumno=DB::selectOne('select * FROM gnral_alumnos WHERE id_usuario= ?', [$id_usuario]);
     $alumno=$datosalumno->id_alumno;
-    $anteproyecto=DB::selectOne('SELECT resi_anteproyecto.id_anteproyecto FROM resi_anteproyecto where resi_anteproyecto.id_alumno='.$alumno.' and resi_anteproyecto.id_periodo='.$periodo.'');
+    $anteproyecto=DB::selectOne('SELECT resi_anteproyecto.id_anteproyecto FROM resi_anteproyecto where resi_anteproyecto.id_alumno= ? and resi_anteproyecto.id_periodo= ?', [$alumno, $periodo]);
     if($anteproyecto == null){
     $reg_empresa = 0;
     $proyecto_empresa = 0;
     $emp = 0;
 }
 else {
-    $registro_empresa = DB::selectOne('SELECT count(id_proy_empresa) registro FROM resi_proy_empresa WHERE id_anteproyecto =' . $anteproyecto->id_anteproyecto . '');
+    $registro_empresa = DB::selectOne('SELECT count(id_proy_empresa) registro FROM resi_proy_empresa WHERE id_anteproyecto = ?', [$anteproyecto->id_anteproyecto]);
     $registro_empresa = $registro_empresa->registro;
     if ($registro_empresa == 0) {
         $reg_empresa = 0;
@@ -79,9 +79,9 @@ else {
         $emp = 0;
     } else {
         $reg_empresa = 1;
-        $proyecto_empresa = DB::selectOne('SELECT * FROM resi_proy_empresa WHERE id_anteproyecto =' . $anteproyecto->id_anteproyecto . '');
+        $proyecto_empresa = DB::selectOne('SELECT * FROM resi_proy_empresa WHERE id_anteproyecto = ?', [$anteproyecto->id_anteproyecto]);
 //dd($proyecto_empresa);
-        $emp = DB::selectOne('SELECT * FROM resi_empresa WHERE id_empresa =' . $proyecto_empresa->id_empresa . '');
+        $emp = DB::selectOne('SELECT * FROM resi_empresa WHERE id_empresa = ?', [$proyecto_empresa->id_empresa]);
 
     }
 }   //dd($emp);
@@ -90,7 +90,7 @@ return view('residencia.agregar_empresa_anteproyecto',compact('emp','empresa','a
 
 }
 public function datos_empresa($id_empresa){
-        $empresa=DB::selectOne('SELECT * FROM `resi_empresa` WHERE `id_empresa` ='.$id_empresa.'');
+        $empresa=DB::selectOne('SELECT * FROM `resi_empresa` WHERE `id_empresa` = ?', [$id_empresa]);
     return response()->json($empresa);
 
 }
@@ -136,7 +136,7 @@ public function modificar_empresa_asesor(Request $request){
     $sector = $request->input("sector");
     $giro = $request->input("giro");
     $informacion_empresa = $request->input("informacion_empresa");
-    DB::update("UPDATE resi_proy_empresa SET id_empresa ='$empresa',asesor='$asesor',puesto='$puesto_asesor',id_giro='$giro',id_sector='$sector',informacion_empresa='$informacion_empresa' WHERE resi_proy_empresa.id_anteproyecto=$id_anteproyecto");
+    DB::update('UPDATE resi_proy_empresa SET id_empresa =?,asesor=?,puesto=?,id_giro=?,id_sector=?,informacion_empresa=? WHERE resi_proy_empresa.id_anteproyecto= ?', [(string) ($empresa), (string) ($asesor), (string) ($puesto_asesor), (string) ($giro), (string) ($sector), (string) ($informacion_empresa), $id_anteproyecto]);
 return back();
 }
 public function notificacion_anteproyecto(){

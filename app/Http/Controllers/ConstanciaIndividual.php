@@ -26,7 +26,7 @@ class PDF2ConstanciaIndividual extends FPDF
             $this->Ln(10);
         }
 
-        //PIE DE PAGINA 
+        //PIE DE PAGINA
         function Footer()
         {
             /*
@@ -70,25 +70,25 @@ class ConstanciaIndividual extends Controller
     }
    public function create()
     {
-        
+
     }
     public function store(Request $request)
     {
-        
+
     }
     public function show($id)
     {
-        
+
     }
     public function edit($id_registro_alumno)
     {
         $usuario = Session::get('usuario_alumno');
-        $carrera = Session::get('carrera');   
+        $carrera = Session::get('carrera');
         $periodo=Session::get('periodo_actual');
 
             $personall=DB::selectOne('select gnral_personales.id_personal from gnral_personales,users
                                         where gnral_personales.tipo_usuario=users.id
-                                        and gnral_personales.tipo_usuario='.$usuario.'');
+                                        and gnral_personales.tipo_usuario= ?', [$usuario]);
             $persona=$personall->id_personal;
 
         $etiqueta=DB::selectOne('SELECT etiqueta.descripcion from etiqueta WHERE id_etiqueta=1');
@@ -111,26 +111,26 @@ class ConstanciaIndividual extends Controller
             $pdf->Ln(5);
             $pdf->Cell(80,20,utf8_decode('P R E S E N T E'),0,0,'');
             $pdf->Ln(30);
-            
+
             $jefes=DB::selectOne('select gnral_personales.nombre
-                                        from abreviaciones,abreviaciones_prof,gnral_personales 
-                                        where abreviaciones.id_abreviacion=abreviaciones_prof.id_abreviacion 
-                                        and abreviaciones_prof.id_personal=gnral_personales.id_personal 
-                                        and gnral_personales.id_personal='.$persona.'');
+                                        from abreviaciones,abreviaciones_prof,gnral_personales
+                                        where abreviaciones.id_abreviacion=abreviaciones_prof.id_abreviacion
+                                        and abreviaciones_prof.id_personal=gnral_personales.id_personal
+                                        and gnral_personales.id_personal= ?', [$persona]);
             $nombre_jefe=($jefes->nombre);
 
             $abreviacion_profesor=DB::selectOne('select abreviaciones.titulo,gnral_personales.nombre
-                                        from abreviaciones,abreviaciones_prof,gnral_personales 
-                                        where abreviaciones.id_abreviacion=abreviaciones_prof.id_abreviacion 
-                                        and abreviaciones_prof.id_personal=gnral_personales.id_personal 
-                                        and gnral_personales.id_personal='.$persona.'');
+                                        from abreviaciones,abreviaciones_prof,gnral_personales
+                                        where abreviaciones.id_abreviacion=abreviaciones_prof.id_abreviacion
+                                        and abreviaciones_prof.id_personal=gnral_personales.id_personal
+                                        and gnral_personales.id_personal= ?', [$persona]);
             $abreviacion=($abreviacion_profesor->titulo);
 
 
-            $carreras=DB::selectOne('select gnral_carreras.nombre 
+            $carreras=DB::selectOne('select gnral_carreras.nombre
                                     FROM gnral_carreras,gnral_jefes_periodos
                                     where gnral_carreras.id_carrera=gnral_jefes_periodos.id_carrera
-                                    and gnral_carreras.id_carrera='.$carrera.'');
+                                    and gnral_carreras.id_carrera= ?', [$carrera]);
             $carrera_nombre=($carreras->nombre);
 
             $personales=DB::selectOne('select DISTINCT actividades_complementarias.descripcion,actividades_complementarias.creditos,gnral_personales.nombre docente,abreviaciones.titulo,
@@ -146,9 +146,9 @@ class ConstanciaIndividual extends Controller
                                         and abreviaciones_prof.id_personal=gnral_personales.id_personal
                                         and actcomple_registro_alumnos.cuenta=gnral_alumnos.cuenta
                                         and gnral_periodos.id_periodo=actcomple_registro_alumnos.id_periodo
-                                        and gnral_periodos.id_periodo='.$periodo.'
-                                        and actcomple_registro_alumnos.id_registro_alumno='.$id_registro_alumno.'
-                                        group by descripcion,periodo,nombre,apaterno,amaterno,cuenta,creditos,docente,titulo,promedio');
+                                        and gnral_periodos.id_periodo= ?
+                                        and actcomple_registro_alumnos.id_registro_alumno= ?
+                                        group by descripcion,periodo,nombre,apaterno,amaterno,cuenta,creditos,docente,titulo,promedio', [$periodo, $id_registro_alumno]);
             $actividad=($personales->descripcion);
             $periodo=($personales->periodo);
             $nombre=($personales->nombre);
@@ -212,26 +212,26 @@ if($carrera==9)
             $pdf->Cell(60);
             $pdf->Cell(60,10,utf8_decode('A T E N T A M E N T E'),0,0,'C');
             $pdf->Ln(25);
-            $pdf->SetXY(10,-70); 
+            $pdf->SetXY(10,-70);
             $pdf->MultiCell(100,10,utf8_decode($jefe),0,'C',false);
-            $pdf->SetXY(10,-60); 
+            $pdf->SetXY(10,-60);
             $pdf->MultiCell(90,5,(''.utf8_decode($encarga).''.$jefe_carrera),0,'C',false);
-            $pdf->SetXY(110,-70);           
+            $pdf->SetXY(110,-70);
             $pdf->MultiCell(100,10,utf8_decode($docente_encargado),0,'C',false);
-            $pdf->SetXY(110,-60); 
+            $pdf->SetXY(110,-60);
             $pdf->MultiCell(100,5,$encargadop,0,'C',false);
 
             $pdf->Output();
-            exit();        
-        
+            exit();
+
     }
     public function update(Request $request, $id)
     {
-        
+
     }
     public function destroy($id)
     {
-        
+
     }
 
 

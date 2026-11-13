@@ -40,13 +40,14 @@ class Cal_pdf_historial_academicoController extends Controller
 
         $materias = [];
         $residencia_agregada = false;
-       
-        $alumno=DB::selectOne('SELECT gnral_alumnos.*, gnral_carreras.nombre carrera FROM gnral_carreras,gnral_alumnos WHERE gnral_alumnos.id_carrera=gnral_carreras.id_carrera  AND gnral_alumnos.id_alumno='.$id_alumno.'');
+
+        $alumno=DB::selectOne('SELECT gnral_alumnos.*, gnral_carreras.nombre carrera FROM gnral_carreras,gnral_alumnos WHERE gnral_alumnos.id_carrera=gnral_carreras.id_carrera  AND gnral_alumnos.id_alumno= ?', [$id_alumno]);
         $nombre=mb_strtoupper($alumno->apaterno,'utf-8')." ".mb_strtoupper($alumno->amaterno,'utf-8')." ".mb_strtoupper($alumno->nombre,'utf-8');
         $no_cuenta=mb_strtoupper($alumno->cuenta);
         $carrera=mb_strtoupper($alumno->carrera);
         $id_periodo=Session::get('periodotrabaja');
-        $materias_excluidas = '773,817,845,853,1160,1263,1264,1265,1443,1496,1502,1565,1566,1567,1568,1569,1571,2516,2517,2614,2250';
+        $materias_excluidas = [773, 817, 845, 853, 1160, 1263, 1264, 1265, 1443, 1496, 1502, 1565, 1566, 1567, 1568, 1569, 1571, 2516, 2517, 2614, 2250];
+        $marcadores_excluidas = implode(',', array_fill(0, count($materias_excluidas), '?'));
        if ($calificada == 1) {
             $materias_rep = DB::select(" SELECT eca.id_carga_academica,gm.id_materia,gm.unidades, gm.clave, gm.nombre AS nombre_materia,
             gm.creditos, gp.siglas AS periodo, gp.year, gm.id_semestre, eca.id_tipo_curso,
@@ -60,13 +61,13 @@ class Cal_pdf_historial_academicoController extends Controller
                 INNER JOIN gnral_materias gm ON eca.id_materia = gm.id_materia
                 INNER JOIN gnral_periodos gp ON evc.id_periodo = gp.id_periodo
                 WHERE evc.id_alumno = ?
-                AND eca.id_status_materia = 1 AND eca.id_materia NOT IN ($materias_excluidas)
-                AND gp.id_periodo >= 20 AND gp.id_periodo < ? 
+                AND eca.id_status_materia = 1 AND eca.id_materia NOT IN ($marcadores_excluidas)
+                AND gp.id_periodo >= 20 AND gp.id_periodo < ?
                 AND evc.id_periodo = (SELECT MAX(evc2.id_periodo) FROM eva_validacion_de_cargas evc2
                 INNER JOIN eva_carga_academica eca2 ON evc2.id_alumno = eca2.id_alumno AND evc2.id_periodo = eca2.id_periodo
                 WHERE evc2.id_alumno = evc.id_alumno AND eca2.id_materia = eca.id_materia AND eca2.id_status_materia = 1 AND evc2.id_periodo >= 20 AND evc2.id_periodo < ?)
-                AND evc.estado_validacion IN (2,8,9,10) ORDER BY gm.id_semestre ASC, gm.nombre ASC ", [$id_alumno, $id_periodo, $id_periodo]);
-                
+                AND evc.estado_validacion IN (2,8,9,10) ORDER BY gm.id_semestre ASC, gm.nombre ASC ", [$id_alumno, ...$materias_excluidas, $id_periodo, $id_periodo]);
+
                 foreach ($materias_rep as $materia) {
                     $alumnos_materia = array();
                     $alumnos_materia['id_carga_academica'] = $materia->id_carga_academica;
@@ -95,7 +96,7 @@ class Cal_pdf_historial_academicoController extends Controller
             INNER JOIN gnral_periodos gp ON evc.id_periodo = gp.id_periodo
             WHERE evc.id_alumno = ?
                 AND eca.id_status_materia = 1
-                AND eca.id_materia NOT IN ($materias_excluidas)
+                AND eca.id_materia NOT IN ($marcadores_excluidas)
                 AND gp.id_periodo >= 20
                 AND gp.id_periodo < ?
                 AND evc.id_periodo = (SELECT MAX(evc2.id_periodo) FROM eva_validacion_de_cargas evc2
@@ -105,45 +106,45 @@ class Cal_pdf_historial_academicoController extends Controller
                         AND eca2.id_status_materia = 1
                         AND evc2.id_periodo >= 20
                         AND evc2.id_periodo < ? )
-                        AND evc.estado_validacion IN (2,8,9,10) ORDER BY gm.id_semestre ASC,gm.nombre ASC", [$id_alumno, $id_periodo, $id_periodo]);
+                        AND evc.estado_validacion IN (2,8,9,10) ORDER BY gm.id_semestre ASC,gm.nombre ASC", [$id_alumno, ...$materias_excluidas, $id_periodo, $id_periodo]);
 
             $materias = array();
             foreach ($materias_rep as $materias_rep) {
                 $contar_mat = DB::selectOne('SELECT  count(gnral_materias.id_materia) contar_materia FROM eva_validacion_de_cargas,eva_carga_academica,gnral_materias,gnral_periodos
-                                                        WHERE eva_validacion_de_cargas.id_alumno=' . $id_alumno . ' 
-                                                        AND eva_carga_academica.id_status_materia=1 
-                                                        AND eva_carga_academica.id_materia=' . $materias_rep->id_materia . ' 
-                                                        AND eva_validacion_de_cargas.estado_validacion IN (2,8,9,10) 
+                                                        WHERE eva_validacion_de_cargas.id_alumno= ?
+                                                        AND eva_carga_academica.id_status_materia=1
+                                                        AND eva_carga_academica.id_materia= ?
+                                                        AND eva_validacion_de_cargas.estado_validacion IN (2,8,9,10)
                                                         AND eva_validacion_de_cargas.id_alumno=eva_carga_academica.id_alumno
-                                                        AND eva_validacion_de_cargas.id_periodo=eva_carga_academica.id_periodo 
-                                                        AND eva_validacion_de_cargas.id_periodo=gnral_periodos.id_periodo 
-                                                        AND gnral_periodos.id_periodo >= 20  
-                                                        AND  gnral_periodos.id_periodo <' . $id_periodo . ' 
-                                                        AND eva_carga_academica.id_materia=gnral_materias.id_materia ORDER BY `gnral_materias`.`id_semestre` ASC');
+                                                        AND eva_validacion_de_cargas.id_periodo=eva_carga_academica.id_periodo
+                                                        AND eva_validacion_de_cargas.id_periodo=gnral_periodos.id_periodo
+                                                        AND gnral_periodos.id_periodo >= 20
+                                                        AND  gnral_periodos.id_periodo < ?
+                                                        AND eva_carga_academica.id_materia=gnral_materias.id_materia ORDER BY `gnral_materias`.`id_semestre` ASC', [$id_alumno, $materias_rep->id_materia, $id_periodo]);
 
                 if ($contar_mat->contar_materia > 1) {
-                    $max_periodo = DB::selectOne('SELECT max(eva_validacion_de_cargas.id_periodo) periodo FROM eva_validacion_de_cargas,eva_carga_academica,gnral_materias,gnral_periodos 
-                                                        WHERE eva_validacion_de_cargas.id_alumno=' . $id_alumno . '
-                                                        AND eva_carga_academica.id_status_materia=1 
-                                                        AND eva_carga_academica.id_materia=' . $materias_rep->id_materia . ' 
-                                                        AND eva_validacion_de_cargas.estado_validacion IN (2,8,9,10) 
-                                                        AND eva_validacion_de_cargas.id_alumno=eva_carga_academica.id_alumno 
-                                                        AND eva_validacion_de_cargas.id_periodo=eva_carga_academica.id_periodo 
-                                                        AND eva_validacion_de_cargas.id_periodo=gnral_periodos.id_periodo 
-                                                        AND gnral_periodos.id_periodo >= 20 
-                                                        AND gnral_periodos.id_periodo < ' . $id_periodo . ' 
-                                                        AND eva_carga_academica.id_materia=gnral_materias.id_materia ORDER BY `gnral_materias`.`id_semestre` ASC');
+                    $max_periodo = DB::selectOne('SELECT max(eva_validacion_de_cargas.id_periodo) periodo FROM eva_validacion_de_cargas,eva_carga_academica,gnral_materias,gnral_periodos
+                                                        WHERE eva_validacion_de_cargas.id_alumno= ?
+                                                        AND eva_carga_academica.id_status_materia=1
+                                                        AND eva_carga_academica.id_materia= ?
+                                                        AND eva_validacion_de_cargas.estado_validacion IN (2,8,9,10)
+                                                        AND eva_validacion_de_cargas.id_alumno=eva_carga_academica.id_alumno
+                                                        AND eva_validacion_de_cargas.id_periodo=eva_carga_academica.id_periodo
+                                                        AND eva_validacion_de_cargas.id_periodo=gnral_periodos.id_periodo
+                                                        AND gnral_periodos.id_periodo >= 20
+                                                        AND gnral_periodos.id_periodo < ?
+                                                        AND eva_carga_academica.id_materia=gnral_materias.id_materia ORDER BY `gnral_materias`.`id_semestre` ASC', [$id_alumno, $materias_rep->id_materia, $id_periodo]);
 
                     $max = DB::selectOne('SELECT  eva_carga_academica.id_carga_academica  FROM eva_validacion_de_cargas,eva_carga_academica,gnral_materias,gnral_periodos
-                                                where eva_validacion_de_cargas.id_alumno=' . $id_alumno . ' 
-                                                and eva_carga_academica.id_status_materia=1 
-                                                and eva_carga_academica.id_materia=' . $materias_rep->id_materia . ' 
-                                                and eva_validacion_de_cargas.estado_validacion in (2,8,9,10) 
+                                                where eva_validacion_de_cargas.id_alumno= ?
+                                                and eva_carga_academica.id_status_materia=1
+                                                and eva_carga_academica.id_materia= ?
+                                                and eva_validacion_de_cargas.estado_validacion in (2,8,9,10)
                                                 and eva_validacion_de_cargas.id_alumno=eva_carga_academica.id_alumno
-                                                and eva_validacion_de_cargas.id_periodo=eva_carga_academica.id_periodo 
-                                                and eva_validacion_de_cargas.id_periodo=gnral_periodos.id_periodo 
-                                                and gnral_periodos.id_periodo = ' . $max_periodo->periodo . ' 
-                                                and eva_carga_academica.id_materia=gnral_materias.id_materia ORDER BY `gnral_materias`.`id_semestre` ASC');
+                                                and eva_validacion_de_cargas.id_periodo=eva_carga_academica.id_periodo
+                                                and eva_validacion_de_cargas.id_periodo=gnral_periodos.id_periodo
+                                                and gnral_periodos.id_periodo = ?
+                                                and eva_carga_academica.id_materia=gnral_materias.id_materia ORDER BY `gnral_materias`.`id_semestre` ASC', [$id_alumno, $materias_rep->id_materia, $max_periodo->periodo]);
 
                     $materias_n = DB::selectOne("SELECT gm.*, eca.id_tipo_curso,eca.id_carga_academica, gp.year,gp.siglas, gp.id_periodo,
                     CASE
@@ -185,11 +186,11 @@ class Cal_pdf_historial_academicoController extends Controller
                         WHEN eca.tipo_alumno = 'R' THEN 'REE'
                         END AS tipo_alumno
                             FROM eva_validacion_de_cargas evc
-                                INNER JOIN eva_carga_academica eca ON evc.id_alumno = eca.id_alumno 
+                                INNER JOIN eva_carga_academica eca ON evc.id_alumno = eca.id_alumno
                                 AND evc.id_periodo = eca.id_periodo
                                 INNER JOIN gnral_materias gm ON eca.id_materia = gm.id_materia
                                 INNER JOIN gnral_periodos gp ON evc.id_periodo = gp.id_periodo
-                                WHERE evc.id_alumno = ? 
+                                WHERE evc.id_alumno = ?
                                     AND eca.id_status_materia = 1
                                     AND eca.id_materia = ?
                                     AND evc.estado_validacion IN (2,8,9,10)
@@ -243,11 +244,11 @@ class Cal_pdf_historial_academicoController extends Controller
             $datos_alumnos['year'] = $mat['year'];
             $datos_alumnos['id_tipo_curso'] = $mat['id_tipo_curso'];
             $datos_alumnos['tipo_alumno'] = $mat['tipo_alumno'];
-            $materia_promedio = DB::selectOne('SELECT SUM(calificacion) suma FROM cal_evaluaciones WHERE id_carga_academica =' . $mat['id_carga_academica'] . ' AND calificacion >= 70');
+            $materia_promedio = DB::selectOne('SELECT SUM(calificacion) suma FROM cal_evaluaciones WHERE id_carga_academica = ? AND calificacion >= 70', [$mat['id_carga_academica']]);
             $materia_promedio = $materia_promedio->suma ?? 0;
-            $contar_unidades_pasadas = DB::selectOne('SELECT COUNT(calificacion) suma FROM cal_evaluaciones WHERE id_carga_academica = ' . $mat['id_carga_academica'] . ' AND calificacion >= 70');
+            $contar_unidades_pasadas = DB::selectOne('SELECT COUNT(calificacion) suma FROM cal_evaluaciones WHERE id_carga_academica = ? AND calificacion >= 70', [$mat['id_carga_academica']]);
             $contar_unidades_pasadas = $contar_unidades_pasadas->suma ?? 0;
-            $contar_sumativa = DB::selectOne('SELECT COUNT(esc) contar FROM cal_evaluaciones WHERE id_carga_academica = ' . $mat['id_carga_academica'] . ' AND esc = 1');
+            $contar_sumativa = DB::selectOne('SELECT COUNT(esc) contar FROM cal_evaluaciones WHERE id_carga_academica = ? AND esc = 1', [$mat['id_carga_academica']]);
             $contar_sumativa = $contar_sumativa->contar ?? 0;
             $promedio = 0;
             $te = '';
@@ -295,7 +296,7 @@ class Cal_pdf_historial_academicoController extends Controller
         $datos_servicio = array();
         $datos_actividades = array();
         foreach ($alumnos as $alum) {
-            $eliminacion_mat = DB::selectOne('SELECT COUNT(id_carga_academica) total FROM cal_eliminacion_materia WHERE id_carga_academica=' . $alum['id_carga_academica'] . '');
+            $eliminacion_mat = DB::selectOne('SELECT COUNT(id_carga_academica) total FROM cal_eliminacion_materia WHERE id_carga_academica= ?', [$alum['id_carga_academica']]);
             if ($eliminacion_mat->total == 0) {
                 $suma_mat++;
                 $datos_alu['numero'] = $suma_materia;
@@ -322,10 +323,10 @@ class Cal_pdf_historial_academicoController extends Controller
             }
         }
 
-        $residencia = DB::selectOne('SELECT COUNT(id_cal_residencia) residencia  FROM cal_residencia  WHERE id_alumno = '.$id_alumno.'');
+        $residencia = DB::selectOne('SELECT COUNT(id_cal_residencia) residencia  FROM cal_residencia  WHERE id_alumno = ?', [$id_alumno]);
 
         if ($residencia->residencia > 0 && !$residencia_agregada) {
-            $datos_residencia = DB::selectOne('SELECT *  FROM cal_residencia WHERE id_alumno = '.$id_alumno.'');
+            $datos_residencia = DB::selectOne('SELECT *  FROM cal_residencia WHERE id_alumno = ?', [$id_alumno]);
             $suma_mat++;
             $promedio_final += $datos_residencia->calificacion;
             if ($datos_residencia->calificacion >= 70) {
@@ -334,7 +335,7 @@ class Cal_pdf_historial_academicoController extends Controller
             $residencia_agregada = true;
         }
 
-        $servicio_social=DB::selectOne('SELECT count(id_servicio_social) servicio FROM cal_servicio_social WHERE id_alumno='.$id_alumno.'');
+        $servicio_social=DB::selectOne('SELECT count(id_servicio_social) servicio FROM cal_servicio_social WHERE id_alumno= ?', [$id_alumno]);
         $servicio_social=$servicio_social->servicio;
         if($servicio_social == 0){
             $servicio=0;
@@ -342,7 +343,7 @@ class Cal_pdf_historial_academicoController extends Controller
         }
         else{
             $servicio=10;
-            $datos_servicio=DB::selectOne('SELECT *FROM cal_servicio_social WHERE id_alumno='.$id_alumno.'');
+            $datos_servicio=DB::selectOne('SELECT *FROM cal_servicio_social WHERE id_alumno= ?', [$id_alumno]);
             $promedio_servicio=$datos_servicio->calificacion;
             $promedio_final=$promedio_final+$promedio_servicio;
             $suma_mat++;
@@ -352,14 +353,14 @@ class Cal_pdf_historial_academicoController extends Controller
         }
 
 
-        $actividades_complementaria=DB::selectOne('SELECT count(id_actividades_comple)actividades from cal_actividades_complementarias WHERE id_alumno='.$id_alumno.'');
+        $actividades_complementaria=DB::selectOne('SELECT count(id_actividades_comple)actividades from cal_actividades_complementarias WHERE id_alumno= ?', [$id_alumno]);
         $actividades_complementaria=$actividades_complementaria->actividades;
         if($actividades_complementaria == 0){
             $actividades=0;
         }
         else{
             $actividades=5;
-            $datos_actividades=DB::selectOne('SELECT *from cal_actividades_complementarias WHERE id_alumno='.$id_alumno.'');
+            $datos_actividades=DB::selectOne('SELECT *from cal_actividades_complementarias WHERE id_alumno= ?', [$id_alumno]);
 
             $contar_creditos=$contar_creditos+$actividades;
         }

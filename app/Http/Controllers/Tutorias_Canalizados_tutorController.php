@@ -56,7 +56,7 @@ class Tutorias_Canalizados_tutorController extends Controller
             AND exp_asigna_alumnos.deleted_at is null
             AND exp_asigna_generacion.deleted_at is null
             AND exp_asigna_tutor.deleted_at is null
-            AND exp_asigna_alumnos.id_alumno='.$request->id);
+            AND exp_asigna_alumnos.id_alumno= ?', [$request->id]);
         return $data;
     }
 

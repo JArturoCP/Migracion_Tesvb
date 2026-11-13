@@ -14,21 +14,21 @@ class Dual_Carga_Academica_Alumno extends Controller
     {
         $id_periodo = Session::get('periodotrabaja');
         $id_carrera = Session::get('carrera');
-        $reticulas = DB::select('select *from gnral_reticulas WHERE gnral_reticulas.id_carrera=' . $id_carrera . '');
+        $reticulas = DB::select('select *from gnral_reticulas WHERE gnral_reticulas.id_carrera= ?', [$id_carrera]);
         $datos_reticulas = array();
 
         $plantillas = DB::select('SELECT  gnral_alumnos.id_alumno,gnral_alumnos.cuenta,gnral_alumnos.nombre,gnral_alumnos.apaterno, gnral_alumnos.amaterno,
-        cal_duales_actuales.id_duales_actuales  
-        FROM gnral_alumnos, cal_duales_actuales 
-        WHERE gnral_alumnos.id_alumno = cal_duales_actuales.id_alumno 
-        AND cal_duales_actuales.id_periodo = ' . $id_periodo . ' 
-        AND gnral_alumnos.id_carrera = ' . $id_carrera . ' ');
+        cal_duales_actuales.id_duales_actuales
+        FROM gnral_alumnos, cal_duales_actuales
+        WHERE gnral_alumnos.id_alumno = cal_duales_actuales.id_alumno
+        AND cal_duales_actuales.id_periodo = ?
+        AND gnral_alumnos.id_carrera = ? ', [$id_periodo, $id_carrera]);
 
     /*    $plantillas = DB::select('SELECT gnral_alumnos.id_alumno, gnral_alumnos.nombre, gnral_alumnos.apaterno, gnral_alumnos.amaterno,
        MAX(cal_duales_actuales.id_duales_actuales) AS id_duales_actuales
         FROM gnral_alumnos
         INNER JOIN cal_duales_actuales ON gnral_alumnos.id_alumno = cal_duales_actuales.id_alumno
-        WHERE cal_duales_actuales.id_periodo = ' . $id_periodo . ' 
+        WHERE cal_duales_actuales.id_periodo = ' . $id_periodo . '
               AND gnral_alumnos.id_carrera = ' . $id_carrera . '
         GROUP BY gnral_alumnos.id_alumno, gnral_alumnos.nombre, gnral_alumnos.apaterno, gnral_alumnos.amaterno');
     */
@@ -36,7 +36,7 @@ class Dual_Carga_Academica_Alumno extends Controller
         $materias_alumnos_duales = DB::select('SELECT gnral_materias.id_materia, gnral_materias.nombre
             FROM gnral_reticulas, gnral_materias
             WHERE gnral_materias.id_reticula = gnral_reticulas.id_reticula
-            AND gnral_reticulas.id_carrera =' . $id_carrera . '');
+            AND gnral_reticulas.id_carrera = ?', [$id_carrera]);
 
 
         //dd($materias_alumnos_duales);
@@ -45,10 +45,10 @@ class Dual_Carga_Academica_Alumno extends Controller
             $nombre['id_reticula'] = $reticula->id_reticula;
             $nombre['reticula'] = $reticula->clave;
 
-            $semestres = DB::select('SELECT DISTINCT gnral_materias.id_semestre,gnral_semestres.descripcion semestre FROM 
-                gnral_reticulas,gnral_materias,gnral_semestres WHERE gnral_reticulas.id_reticula=' . $reticula->id_reticula . ' AND
+            $semestres = DB::select('SELECT DISTINCT gnral_materias.id_semestre,gnral_semestres.descripcion semestre FROM
+                gnral_reticulas,gnral_materias,gnral_semestres WHERE gnral_reticulas.id_reticula= ? AND
                 gnral_materias.id_reticula=gnral_reticulas.id_reticula AND
-                gnral_materias.id_semestre=gnral_semestres.id_semestre order by id_semestre');
+                gnral_materias.id_semestre=gnral_semestres.id_semestre order by id_semestre', [$reticula->id_reticula]);
             $datos_semestres = array();
             if ($semestres != null) {
                 foreach ($semestres as $semes) {
@@ -56,11 +56,11 @@ class Dual_Carga_Academica_Alumno extends Controller
                     $semestres['semestre'] = $semes->semestre;
                     $semestres['id_semestre'] = $semes->id_semestre;
                     $materias = DB::select('SELECT gnral_materias.id_materia,gnral_materias.nombre,gnral_materias.clave,
-                        gnral_materias.id_semestre ,gnral_materias.id_reticula 
-                        FROM gnral_materias,gnral_reticulas WHERE 
-                        gnral_materias.id_reticula=' . $reticula->id_reticula . ' AND 
-                        gnral_materias.id_semestre=' . $semes->id_semestre . ' AND 
-                        gnral_materias.id_reticula=gnral_reticulas.id_reticula');
+                        gnral_materias.id_semestre ,gnral_materias.id_reticula
+                        FROM gnral_materias,gnral_reticulas WHERE
+                        gnral_materias.id_reticula= ? AND
+                        gnral_materias.id_semestre= ? AND
+                        gnral_materias.id_reticula=gnral_reticulas.id_reticula', [$reticula->id_reticula, $semes->id_semestre]);
                     $nombre_materias = array();
                     if ($materias != null) {
                         foreach ($materias as $mates) {
@@ -87,7 +87,7 @@ class Dual_Carga_Academica_Alumno extends Controller
             }
         }
         //dd($datos_reticulas);
-        $estado_periodo=DB::selectOne('SELECT count(id_periodo)contar FROM gnral_periodos WHERE estado = 1 and id_periodo='.$id_periodo.'');
+        $estado_periodo=DB::selectOne('SELECT count(id_periodo)contar FROM gnral_periodos WHERE estado = 1 and id_periodo= ?', [$id_periodo]);
         $estado_periodo=$estado_periodo->contar;
 
         return view('duales.llenar_carga_academica_dual', compact('plantillas','materias_alumnos_duales','estado_periodo'))->with('reticulas', $datos_reticulas);

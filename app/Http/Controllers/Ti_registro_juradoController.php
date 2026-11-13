@@ -12,9 +12,9 @@ class Ti_registro_juradoController extends Controller
 {
     public function otraf(){
         $id_usuario = Session::get('usuario_alumno');
-        $alumno=DB::selectOne('SELECT * FROM `gnral_alumnos` WHERE `id_usuario` = '.$id_usuario.'');
+        $alumno=DB::selectOne('SELECT * FROM `gnral_alumnos` WHERE `id_usuario` = ?', [$id_usuario]);
         $id_alumno=$alumno->id_alumno;
-        $estado_fecha=DB::selectOne('SELECT COUNT(id_fecha_jurado_alumn) contar from ti_fecha_jurado_alumn where id_alumno='.$id_alumno.'');
+        $estado_fecha=DB::selectOne('SELECT COUNT(id_fecha_jurado_alumn) contar from ti_fecha_jurado_alumn where id_alumno= ?', [$id_alumno]);
         $estado_fecha=$estado_fecha->contar;
         if($estado_fecha == 0) {
             $estado = 0;
@@ -30,9 +30,9 @@ class Ti_registro_juradoController extends Controller
         $id_usuario = Session::get('usuario_alumno');
         $id_periodo = Session::get('periodotrabaja');
         $id_carrera = Session::get('carrera');
-        $alumno=DB::selectOne('SELECT * FROM `gnral_alumnos` WHERE `id_usuario` = '.$id_usuario.'');
+        $alumno=DB::selectOne('SELECT * FROM `gnral_alumnos` WHERE `id_usuario` = ?', [$id_usuario]);
         $id_alumno=$alumno->id_alumno;
-        $estado_fecha=DB::selectOne('SELECT COUNT(id_fecha_jurado_alumn) contar from ti_fecha_jurado_alumn where  id_horarios_dias > 0 and  id_alumno='.$id_alumno.' and id_autorizar_agendar_jurado =1');
+        $estado_fecha=DB::selectOne('SELECT COUNT(id_fecha_jurado_alumn) contar from ti_fecha_jurado_alumn where  id_horarios_dias > 0 and  id_alumno= ? and id_autorizar_agendar_jurado =1', [$id_alumno]);
         $estado_fecha=$estado_fecha->contar;
         $estado_jurado=0;
         $presidente=0;
@@ -60,24 +60,24 @@ class Ti_registro_juradoController extends Controller
             $salas=DB::select('SELECT * FROM `ti_sala` WHERE `id_estado` =1 ');
             $estado=1;
             $horarios=DB::select('SELECT * FROM `ti_horarios_dias` ');
-            $registro_fecha=DB::selectOne('SELECT ti_fecha_jurado_alumn.*,ti_horarios_dias.horario_dia FROM ti_fecha_jurado_alumn,ti_horarios_dias 
-WHERE ti_fecha_jurado_alumn.id_horarios_dias=ti_horarios_dias.id_horarios_dias 
-  and ti_fecha_jurado_alumn.id_alumno='.$id_alumno.'');
+            $registro_fecha=DB::selectOne('SELECT ti_fecha_jurado_alumn.*,ti_horarios_dias.horario_dia FROM ti_fecha_jurado_alumn,ti_horarios_dias
+WHERE ti_fecha_jurado_alumn.id_horarios_dias=ti_horarios_dias.id_horarios_dias
+  and ti_fecha_jurado_alumn.id_alumno= ?', [$id_alumno]);
 
 
 
 
             /*
-            $personales = DB::select("select gnral_personales.id_personal,gnral_personales.nombre 
-                   FROM gnral_personales, gnral_horarios, abreviaciones_prof,abreviaciones,gnral_cargos 
-                  WHERE gnral_horarios.id_periodo_carrera=$id_periodo_carrera AND gnral_horarios.id_personal=gnral_personales.id_personal and 
+            $personales = DB::select("select gnral_personales.id_personal,gnral_personales.nombre
+                   FROM gnral_personales, gnral_horarios, abreviaciones_prof,abreviaciones,gnral_cargos
+                  WHERE gnral_horarios.id_periodo_carrera=$id_periodo_carrera AND gnral_horarios.id_personal=gnral_personales.id_personal and
                   abreviaciones_prof.id_personal=gnral_personales.id_personal and abreviaciones_prof.id_abreviacion=abreviaciones.id_abreviacion and
-                   gnral_cargos.id_cargo=gnral_personales.id_cargo and gnral_personales.id_personal NOT IN(SELECT ti_jurado_alumno.id_personal from ti_jurado_alumno,ti_fecha_jurado_alumn 
+                   gnral_cargos.id_cargo=gnral_personales.id_cargo and gnral_personales.id_personal NOT IN(SELECT ti_jurado_alumno.id_personal from ti_jurado_alumno,ti_fecha_jurado_alumn
                    where ti_jurado_alumno.id_fecha_jurado_alumn=ti_fecha_jurado_alumn.id_fecha_jurado_alumn and
                          ti_fecha_jurado_alumn.fecha_titulacion=$registro_fecha->fecha_titulacion and ti_fecha_jurado_alumn.id_horarios_dias=$registro_fecha->id_horarios_dias )");
             */
 
-            $estado_jurado=DB::selectOne('SELECT COUNT(id_jurado_alumno) contar from ti_jurado_alumno where id_alumno='.$id_alumno.'');
+            $estado_jurado=DB::selectOne('SELECT COUNT(id_jurado_alumno) contar from ti_jurado_alumno where id_alumno= ?', [$id_alumno]);
             $estado_jurado=$estado_jurado->contar;
 
             if($estado_jurado == 0){
@@ -86,54 +86,54 @@ WHERE ti_fecha_jurado_alumn.id_horarios_dias=ti_horarios_dias.id_horarios_dias
             }else {
                 $estado_jurado = 1;
             }
-            $presidente=DB::selectOne('SELECT count(id_jurado_alumno)contar from ti_jurado_alumno WHERE id_alumno='.$id_alumno.' and id_tipo_jurado=1');
+            $presidente=DB::selectOne('SELECT count(id_jurado_alumno)contar from ti_jurado_alumno WHERE id_alumno= ? and id_tipo_jurado=1', [$id_alumno]);
             $presidente=$presidente->contar;
             if($presidente == 0){
                 $presidente=0;
                 $dato_presidente=0;
             }else{
                 $presidente=1;
-                $dato_presidente=DB::selectOne('SELECT gnral_personales.nombre, ti_jurado_alumno.*  
-    FROM ti_jurado_alumno, gnral_personales WHERE ti_jurado_alumno.id_alumno = '.$id_alumno.' 
-        AND ti_jurado_alumno.id_tipo_jurado = 1 and gnral_personales.id_personal= ti_jurado_alumno.id_personal');
+                $dato_presidente=DB::selectOne('SELECT gnral_personales.nombre, ti_jurado_alumno.*
+    FROM ti_jurado_alumno, gnral_personales WHERE ti_jurado_alumno.id_alumno = ?
+        AND ti_jurado_alumno.id_tipo_jurado = 1 and gnral_personales.id_personal= ti_jurado_alumno.id_personal', [$id_alumno]);
             }
-            $secretario=DB::selectOne('SELECT count(id_jurado_alumno)contar from ti_jurado_alumno WHERE id_alumno='.$id_alumno.' and id_tipo_jurado=2');
+            $secretario=DB::selectOne('SELECT count(id_jurado_alumno)contar from ti_jurado_alumno WHERE id_alumno= ? and id_tipo_jurado=2', [$id_alumno]);
             $secretario=$secretario->contar;
             if($secretario == 0){
                 $secretario=0;
                 $dato_secretario=0;
             }else{
                 $secretario=1;
-                $dato_secretario=DB::selectOne('SELECT gnral_personales.nombre, ti_jurado_alumno.*  
-    FROM ti_jurado_alumno, gnral_personales WHERE ti_jurado_alumno.id_alumno = '.$id_alumno.' 
-        AND ti_jurado_alumno.id_tipo_jurado = 2 and gnral_personales.id_personal= ti_jurado_alumno.id_personal');
+                $dato_secretario=DB::selectOne('SELECT gnral_personales.nombre, ti_jurado_alumno.*
+    FROM ti_jurado_alumno, gnral_personales WHERE ti_jurado_alumno.id_alumno = ?
+        AND ti_jurado_alumno.id_tipo_jurado = 2 and gnral_personales.id_personal= ti_jurado_alumno.id_personal', [$id_alumno]);
             }
-            $vocal=DB::selectOne('SELECT count(id_jurado_alumno)contar from ti_jurado_alumno WHERE id_alumno='.$id_alumno.' and id_tipo_jurado=3');
+            $vocal=DB::selectOne('SELECT count(id_jurado_alumno)contar from ti_jurado_alumno WHERE id_alumno= ? and id_tipo_jurado=3', [$id_alumno]);
             $vocal=$vocal->contar;
             if($vocal == 0){
                 $vocal=0;
                 $dato_vocal=0;
             }else{
                 $vocal=1;
-                $dato_vocal=DB::selectOne('SELECT gnral_personales.nombre, ti_jurado_alumno.*  
-    FROM ti_jurado_alumno, gnral_personales WHERE ti_jurado_alumno.id_alumno = '.$id_alumno.' 
-        AND ti_jurado_alumno.id_tipo_jurado = 3 and gnral_personales.id_personal= ti_jurado_alumno.id_personal');
+                $dato_vocal=DB::selectOne('SELECT gnral_personales.nombre, ti_jurado_alumno.*
+    FROM ti_jurado_alumno, gnral_personales WHERE ti_jurado_alumno.id_alumno = ?
+        AND ti_jurado_alumno.id_tipo_jurado = 3 and gnral_personales.id_personal= ti_jurado_alumno.id_personal', [$id_alumno]);
             }
-            $suplente=DB::selectOne('SELECT count(id_jurado_alumno)contar from ti_jurado_alumno WHERE id_alumno='.$id_alumno.' and id_tipo_jurado=4');
+            $suplente=DB::selectOne('SELECT count(id_jurado_alumno)contar from ti_jurado_alumno WHERE id_alumno= ? and id_tipo_jurado=4', [$id_alumno]);
             $suplente=$suplente->contar;
             if($suplente == 0){
                 $suplente=0;
                 $dato_suplente=0;
             }else{
                 $suplente=1;
-                $dato_suplente=DB::selectOne('SELECT gnral_personales.nombre, ti_jurado_alumno.*  
-    FROM ti_jurado_alumno, gnral_personales WHERE ti_jurado_alumno.id_alumno = '.$id_alumno.' 
-        AND ti_jurado_alumno.id_tipo_jurado = 4 and gnral_personales.id_personal= ti_jurado_alumno.id_personal');
+                $dato_suplente=DB::selectOne('SELECT gnral_personales.nombre, ti_jurado_alumno.*
+    FROM ti_jurado_alumno, gnral_personales WHERE ti_jurado_alumno.id_alumno = ?
+        AND ti_jurado_alumno.id_tipo_jurado = 4 and gnral_personales.id_personal= ti_jurado_alumno.id_personal', [$id_alumno]);
             }
 
 
-            $estado_enc= DB::selectOne('SELECT count(id_titulacion) contar 
-          from enc_titulacion where id_alumno ='.$id_alumno.'');
+            $estado_enc= DB::selectOne('SELECT count(id_titulacion) contar
+          from enc_titulacion where id_alumno = ?', [$id_alumno]);
 
             if($estado_enc->contar == 0){
                 $estado_enc=0;
@@ -177,9 +177,9 @@ WHERE ti_fecha_jurado_alumn.id_horarios_dias=ti_horarios_dias.id_horarios_dias
 
     }
     public function modificar_fecha_titulacion($id_alumno){
-        $registro_fecha=DB::selectOne('SELECT ti_fecha_jurado_alumn.*,ti_horarios_dias.horario_dia FROM ti_fecha_jurado_alumn,ti_horarios_dias 
-WHERE ti_fecha_jurado_alumn.id_horarios_dias=ti_horarios_dias.id_horarios_dias 
-  and ti_fecha_jurado_alumn.id_alumno='.$id_alumno.'');
+        $registro_fecha=DB::selectOne('SELECT ti_fecha_jurado_alumn.*,ti_horarios_dias.horario_dia FROM ti_fecha_jurado_alumn,ti_horarios_dias
+WHERE ti_fecha_jurado_alumn.id_horarios_dias=ti_horarios_dias.id_horarios_dias
+  and ti_fecha_jurado_alumn.id_alumno= ?', [$id_alumno]);
         $horarios=DB::select('SELECT * FROM `ti_horarios_dias` ');
 
         return view('titulacion.alumno_titulacion.tercera_etapa.modal_modificar_fecha', compact('registro_fecha','horarios'));
@@ -209,18 +209,18 @@ WHERE ti_fecha_jurado_alumn.id_horarios_dias=ti_horarios_dias.id_horarios_dias
     public function agregar_presidente($id_alumno){
         $id_periodo = Session::get('periodotrabaja');
         $id_carrera = Session::get('carrera');
-        $id_periodo_carrera = DB::selectOne('select id_periodo_carrera from gnral_periodo_carreras where id_periodo=' . $id_periodo . ' AND id_carrera=' . $id_carrera . '');
+        $id_periodo_carrera = DB::selectOne('select id_periodo_carrera from gnral_periodo_carreras where id_periodo= ? AND id_carrera= ?', [$id_periodo, $id_carrera]);
         $id_periodo_carrera = $id_periodo_carrera->id_periodo_carrera;
 
-        $personales = DB::select("select gnral_personales.id_personal,gnral_personales.nombre 
-                   FROM gnral_personales, gnral_horarios, abreviaciones_prof,abreviaciones,gnral_cargos 
-                  WHERE gnral_horarios.id_periodo_carrera=$id_periodo_carrera AND gnral_horarios.id_personal=gnral_personales.id_personal and 
+        $personales = DB::select('select gnral_personales.id_personal,gnral_personales.nombre
+                   FROM gnral_personales, gnral_horarios, abreviaciones_prof,abreviaciones,gnral_cargos
+                  WHERE gnral_horarios.id_periodo_carrera= ? AND gnral_horarios.id_personal=gnral_personales.id_personal and
                   abreviaciones_prof.id_personal=gnral_personales.id_personal and abreviaciones_prof.id_abreviacion=abreviaciones.id_abreviacion and
-                   gnral_cargos.id_cargo=gnral_personales.id_cargo ");
+                   gnral_cargos.id_cargo=gnral_personales.id_cargo ', [$id_periodo_carrera]);
 
-        $registro_fecha=DB::selectOne('SELECT ti_fecha_jurado_alumn.*,ti_horarios_dias.horario_dia FROM ti_fecha_jurado_alumn,ti_horarios_dias 
-WHERE ti_fecha_jurado_alumn.id_horarios_dias=ti_horarios_dias.id_horarios_dias 
-  and ti_fecha_jurado_alumn.id_alumno='.$id_alumno.'');
+        $registro_fecha=DB::selectOne('SELECT ti_fecha_jurado_alumn.*,ti_horarios_dias.horario_dia FROM ti_fecha_jurado_alumn,ti_horarios_dias
+WHERE ti_fecha_jurado_alumn.id_horarios_dias=ti_horarios_dias.id_horarios_dias
+  and ti_fecha_jurado_alumn.id_alumno= ?', [$id_alumno]);
 
 
         return view('titulacion.alumno_titulacion.tercera_etapa.modal_agregar_presidente',compact('personales','registro_fecha'));
@@ -235,7 +235,7 @@ WHERE ti_fecha_jurado_alumn.id_horarios_dias=ti_horarios_dias.id_horarios_dias
         $fecha_hoy = date("Y-m-d H:i:s");
 
         $id_fecha_jurado_alumn = $request->input("id_fecha_jurado_alumn");
-        $fecha_registro=DB::selectOne('SELECT * FROM `ti_fecha_jurado_alumn` WHERE id_fecha_jurado_alumn='.$id_fecha_jurado_alumn.'');
+        $fecha_registro=DB::selectOne('SELECT * FROM `ti_fecha_jurado_alumn` WHERE id_fecha_jurado_alumn= ?', [$id_fecha_jurado_alumn]);
         $id_alumno=$fecha_registro->id_alumno;
         $presidente = $request->input("presidente");
 
@@ -253,21 +253,21 @@ WHERE ti_fecha_jurado_alumn.id_horarios_dias=ti_horarios_dias.id_horarios_dias
     }
     public function modificar_presidente($id_alumno){
         $id_periodo = Session::get('periodotrabaja');
-        $id_carrera = DB::selectOne('SELECT * FROM `ti_reg_datos_alum` WHERE `id_alumno` = '.$id_alumno.'');
+        $id_carrera = DB::selectOne('SELECT * FROM `ti_reg_datos_alum` WHERE `id_alumno` = ?', [$id_alumno]);
         $id_carrera=$id_carrera->id_carrera;
-        $id_periodo_carrera = DB::selectOne('select id_periodo_carrera from gnral_periodo_carreras where id_periodo=' . $id_periodo . ' AND id_carrera=' . $id_carrera . '');
+        $id_periodo_carrera = DB::selectOne('select id_periodo_carrera from gnral_periodo_carreras where id_periodo= ? AND id_carrera= ?', [$id_periodo, $id_carrera]);
         $id_periodo_carrera = $id_periodo_carrera->id_periodo_carrera;
 
 
-        $personales = DB::select("select gnral_personales.id_personal,gnral_personales.nombre 
-                   FROM gnral_personales, gnral_horarios, abreviaciones_prof,abreviaciones,gnral_cargos 
-                  WHERE gnral_horarios.id_periodo_carrera=$id_periodo_carrera AND gnral_horarios.id_personal=gnral_personales.id_personal and 
+        $personales = DB::select('select gnral_personales.id_personal,gnral_personales.nombre
+                   FROM gnral_personales, gnral_horarios, abreviaciones_prof,abreviaciones,gnral_cargos
+                  WHERE gnral_horarios.id_periodo_carrera= ? AND gnral_horarios.id_personal=gnral_personales.id_personal and
                   abreviaciones_prof.id_personal=gnral_personales.id_personal and abreviaciones_prof.id_abreviacion=abreviaciones.id_abreviacion and
-                   gnral_cargos.id_cargo=gnral_personales.id_cargo ");
+                   gnral_cargos.id_cargo=gnral_personales.id_cargo ', [$id_periodo_carrera]);
 
 
-        $registro_jurado=DB::selectOne('SELECT * FROM `ti_jurado_alumno` 
-WHERE `id_alumno` = '.$id_alumno.' AND `id_tipo_jurado` = 1 ');
+        $registro_jurado=DB::selectOne('SELECT * FROM `ti_jurado_alumno`
+WHERE `id_alumno` = ? AND `id_tipo_jurado` = 1 ', [$id_alumno]);
 
 
         return view('titulacion.alumno_titulacion.tercera_etapa.modal_modificar_presidente',compact('personales','registro_jurado'));
@@ -296,18 +296,18 @@ WHERE `id_alumno` = '.$id_alumno.' AND `id_tipo_jurado` = 1 ');
     public function agregar_secretario($id_alumno){
         $id_periodo = Session::get('periodotrabaja');
         $id_carrera = Session::get('carrera');
-        $id_periodo_carrera = DB::selectOne('select id_periodo_carrera from gnral_periodo_carreras where id_periodo=' . $id_periodo . ' AND id_carrera=' . $id_carrera . '');
+        $id_periodo_carrera = DB::selectOne('select id_periodo_carrera from gnral_periodo_carreras where id_periodo= ? AND id_carrera= ?', [$id_periodo, $id_carrera]);
         $id_periodo_carrera = $id_periodo_carrera->id_periodo_carrera;
 
-        $personales = DB::select("select gnral_personales.id_personal,gnral_personales.nombre 
-                   FROM gnral_personales, gnral_horarios, abreviaciones_prof,abreviaciones,gnral_cargos 
-                  WHERE gnral_horarios.id_periodo_carrera=$id_periodo_carrera AND gnral_horarios.id_personal=gnral_personales.id_personal and 
+        $personales = DB::select('select gnral_personales.id_personal,gnral_personales.nombre
+                   FROM gnral_personales, gnral_horarios, abreviaciones_prof,abreviaciones,gnral_cargos
+                  WHERE gnral_horarios.id_periodo_carrera= ? AND gnral_horarios.id_personal=gnral_personales.id_personal and
                   abreviaciones_prof.id_personal=gnral_personales.id_personal and abreviaciones_prof.id_abreviacion=abreviaciones.id_abreviacion and
-                   gnral_cargos.id_cargo=gnral_personales.id_cargo ");
+                   gnral_cargos.id_cargo=gnral_personales.id_cargo ', [$id_periodo_carrera]);
 
-        $registro_fecha=DB::selectOne('SELECT ti_fecha_jurado_alumn.*,ti_horarios_dias.horario_dia FROM ti_fecha_jurado_alumn,ti_horarios_dias 
-WHERE ti_fecha_jurado_alumn.id_horarios_dias=ti_horarios_dias.id_horarios_dias 
-  and ti_fecha_jurado_alumn.id_alumno='.$id_alumno.'');
+        $registro_fecha=DB::selectOne('SELECT ti_fecha_jurado_alumn.*,ti_horarios_dias.horario_dia FROM ti_fecha_jurado_alumn,ti_horarios_dias
+WHERE ti_fecha_jurado_alumn.id_horarios_dias=ti_horarios_dias.id_horarios_dias
+  and ti_fecha_jurado_alumn.id_alumno= ?', [$id_alumno]);
 
 
         return view('titulacion.alumno_titulacion.tercera_etapa.modal_agregar_secretario',compact('personales','registro_fecha'));
@@ -321,7 +321,7 @@ WHERE ti_fecha_jurado_alumn.id_horarios_dias=ti_horarios_dias.id_horarios_dias
         $fecha_hoy = date("Y-m-d H:i:s");
 
         $id_fecha_jurado_alumn = $request->input("id_fecha_jurado_alumn");
-        $fecha_registro=DB::selectOne('SELECT * FROM `ti_fecha_jurado_alumn` WHERE id_fecha_jurado_alumn='.$id_fecha_jurado_alumn.'');
+        $fecha_registro=DB::selectOne('SELECT * FROM `ti_fecha_jurado_alumn` WHERE id_fecha_jurado_alumn= ?', [$id_fecha_jurado_alumn]);
         $id_alumno=$fecha_registro->id_alumno;
         $secretario = $request->input("secretario");
 
@@ -337,19 +337,19 @@ WHERE ti_fecha_jurado_alumn.id_horarios_dias=ti_horarios_dias.id_horarios_dias
     }
     public function modificar_secretario($id_alumno){
         $id_periodo = Session::get('periodotrabaja');
-        $id_carrera = DB::selectOne('SELECT * FROM `ti_reg_datos_alum` WHERE `id_alumno` = '.$id_alumno.'');
+        $id_carrera = DB::selectOne('SELECT * FROM `ti_reg_datos_alum` WHERE `id_alumno` = ?', [$id_alumno]);
         $id_carrera=$id_carrera->id_carrera;
-        $id_periodo_carrera = DB::selectOne('select id_periodo_carrera from gnral_periodo_carreras where id_periodo=' . $id_periodo . ' AND id_carrera=' . $id_carrera . '');
+        $id_periodo_carrera = DB::selectOne('select id_periodo_carrera from gnral_periodo_carreras where id_periodo= ? AND id_carrera= ?', [$id_periodo, $id_carrera]);
         $id_periodo_carrera = $id_periodo_carrera->id_periodo_carrera;
 
-        $personales = DB::select("select gnral_personales.id_personal,gnral_personales.nombre 
-                   FROM gnral_personales, gnral_horarios, abreviaciones_prof,abreviaciones,gnral_cargos 
-                  WHERE gnral_horarios.id_periodo_carrera=$id_periodo_carrera AND gnral_horarios.id_personal=gnral_personales.id_personal and 
+        $personales = DB::select('select gnral_personales.id_personal,gnral_personales.nombre
+                   FROM gnral_personales, gnral_horarios, abreviaciones_prof,abreviaciones,gnral_cargos
+                  WHERE gnral_horarios.id_periodo_carrera= ? AND gnral_horarios.id_personal=gnral_personales.id_personal and
                   abreviaciones_prof.id_personal=gnral_personales.id_personal and abreviaciones_prof.id_abreviacion=abreviaciones.id_abreviacion and
-                   gnral_cargos.id_cargo=gnral_personales.id_cargo ");
+                   gnral_cargos.id_cargo=gnral_personales.id_cargo ', [$id_periodo_carrera]);
 
-        $registro_jurado=DB::selectOne('SELECT * FROM `ti_jurado_alumno` 
-WHERE `id_alumno` = '.$id_alumno.' AND `id_tipo_jurado` = 2 ');
+        $registro_jurado=DB::selectOne('SELECT * FROM `ti_jurado_alumno`
+WHERE `id_alumno` = ? AND `id_tipo_jurado` = 2 ', [$id_alumno]);
 
         return view('titulacion.alumno_titulacion.tercera_etapa.modal_modificar_secretario',compact('personales','registro_jurado'));
 
@@ -373,18 +373,18 @@ WHERE `id_alumno` = '.$id_alumno.' AND `id_tipo_jurado` = 2 ');
     public function agregar_vocal($id_alumno){
         $id_periodo = Session::get('periodotrabaja');
         $id_carrera = Session::get('carrera');
-        $id_periodo_carrera = DB::selectOne('select id_periodo_carrera from gnral_periodo_carreras where id_periodo=' . $id_periodo . ' AND id_carrera=' . $id_carrera . '');
+        $id_periodo_carrera = DB::selectOne('select id_periodo_carrera from gnral_periodo_carreras where id_periodo= ? AND id_carrera= ?', [$id_periodo, $id_carrera]);
         $id_periodo_carrera = $id_periodo_carrera->id_periodo_carrera;
 
-        $personales = DB::select("select gnral_personales.id_personal,gnral_personales.nombre 
-                   FROM gnral_personales, gnral_horarios, abreviaciones_prof,abreviaciones,gnral_cargos 
-                  WHERE gnral_horarios.id_periodo_carrera=$id_periodo_carrera AND gnral_horarios.id_personal=gnral_personales.id_personal and 
+        $personales = DB::select('select gnral_personales.id_personal,gnral_personales.nombre
+                   FROM gnral_personales, gnral_horarios, abreviaciones_prof,abreviaciones,gnral_cargos
+                  WHERE gnral_horarios.id_periodo_carrera= ? AND gnral_horarios.id_personal=gnral_personales.id_personal and
                   abreviaciones_prof.id_personal=gnral_personales.id_personal and abreviaciones_prof.id_abreviacion=abreviaciones.id_abreviacion and
-                   gnral_cargos.id_cargo=gnral_personales.id_cargo ");
+                   gnral_cargos.id_cargo=gnral_personales.id_cargo ', [$id_periodo_carrera]);
 
-        $registro_fecha=DB::selectOne('SELECT ti_fecha_jurado_alumn.*,ti_horarios_dias.horario_dia FROM ti_fecha_jurado_alumn,ti_horarios_dias 
-WHERE ti_fecha_jurado_alumn.id_horarios_dias=ti_horarios_dias.id_horarios_dias 
-  and ti_fecha_jurado_alumn.id_alumno='.$id_alumno.'');
+        $registro_fecha=DB::selectOne('SELECT ti_fecha_jurado_alumn.*,ti_horarios_dias.horario_dia FROM ti_fecha_jurado_alumn,ti_horarios_dias
+WHERE ti_fecha_jurado_alumn.id_horarios_dias=ti_horarios_dias.id_horarios_dias
+  and ti_fecha_jurado_alumn.id_alumno= ?', [$id_alumno]);
 
 
         return view('titulacion.alumno_titulacion.tercera_etapa.modal_agregar_vocal',compact('personales','registro_fecha'));
@@ -398,7 +398,7 @@ WHERE ti_fecha_jurado_alumn.id_horarios_dias=ti_horarios_dias.id_horarios_dias
         $fecha_hoy = date("Y-m-d H:i:s");
 
         $id_fecha_jurado_alumn = $request->input("id_fecha_jurado_alumn");
-        $fecha_registro=DB::selectOne('SELECT * FROM `ti_fecha_jurado_alumn` WHERE id_fecha_jurado_alumn='.$id_fecha_jurado_alumn.'');
+        $fecha_registro=DB::selectOne('SELECT * FROM `ti_fecha_jurado_alumn` WHERE id_fecha_jurado_alumn= ?', [$id_fecha_jurado_alumn]);
         $id_alumno=$fecha_registro->id_alumno;
         $vocal = $request->input("vocal");
 
@@ -414,19 +414,19 @@ WHERE ti_fecha_jurado_alumn.id_horarios_dias=ti_horarios_dias.id_horarios_dias
     }
     public function modificar_vocal($id_alumno){
         $id_periodo = Session::get('periodotrabaja');
-        $id_carrera = DB::selectOne('SELECT * FROM `ti_reg_datos_alum` WHERE `id_alumno` = '.$id_alumno.'');
+        $id_carrera = DB::selectOne('SELECT * FROM `ti_reg_datos_alum` WHERE `id_alumno` = ?', [$id_alumno]);
         $id_carrera=$id_carrera->id_carrera;
-        $id_periodo_carrera = DB::selectOne('select id_periodo_carrera from gnral_periodo_carreras where id_periodo=' . $id_periodo . ' AND id_carrera=' . $id_carrera . '');
+        $id_periodo_carrera = DB::selectOne('select id_periodo_carrera from gnral_periodo_carreras where id_periodo= ? AND id_carrera= ?', [$id_periodo, $id_carrera]);
         $id_periodo_carrera = $id_periodo_carrera->id_periodo_carrera;
 
-        $personales = DB::select("select gnral_personales.id_personal,gnral_personales.nombre 
-                   FROM gnral_personales, gnral_horarios, abreviaciones_prof,abreviaciones,gnral_cargos 
-                  WHERE gnral_horarios.id_periodo_carrera=$id_periodo_carrera AND gnral_horarios.id_personal=gnral_personales.id_personal and 
+        $personales = DB::select('select gnral_personales.id_personal,gnral_personales.nombre
+                   FROM gnral_personales, gnral_horarios, abreviaciones_prof,abreviaciones,gnral_cargos
+                  WHERE gnral_horarios.id_periodo_carrera= ? AND gnral_horarios.id_personal=gnral_personales.id_personal and
                   abreviaciones_prof.id_personal=gnral_personales.id_personal and abreviaciones_prof.id_abreviacion=abreviaciones.id_abreviacion and
-                   gnral_cargos.id_cargo=gnral_personales.id_cargo ");
+                   gnral_cargos.id_cargo=gnral_personales.id_cargo ', [$id_periodo_carrera]);
 
-        $registro_jurado=DB::selectOne('SELECT * FROM `ti_jurado_alumno` 
-WHERE `id_alumno` = '.$id_alumno.' AND `id_tipo_jurado` = 3 ');
+        $registro_jurado=DB::selectOne('SELECT * FROM `ti_jurado_alumno`
+WHERE `id_alumno` = ? AND `id_tipo_jurado` = 3 ', [$id_alumno]);
 
         return view('titulacion.alumno_titulacion.tercera_etapa.modal_modificar_vocal',compact('personales','registro_jurado'));
 
@@ -452,18 +452,18 @@ WHERE `id_alumno` = '.$id_alumno.' AND `id_tipo_jurado` = 3 ');
     public function agregar_suplente($id_alumno){
         $id_periodo = Session::get('periodotrabaja');
         $id_carrera = Session::get('carrera');
-        $id_periodo_carrera = DB::selectOne('select id_periodo_carrera from gnral_periodo_carreras where id_periodo=' . $id_periodo . ' AND id_carrera=' . $id_carrera . '');
+        $id_periodo_carrera = DB::selectOne('select id_periodo_carrera from gnral_periodo_carreras where id_periodo= ? AND id_carrera= ?', [$id_periodo, $id_carrera]);
         $id_periodo_carrera = $id_periodo_carrera->id_periodo_carrera;
 
-        $personales = DB::select("select gnral_personales.id_personal,gnral_personales.nombre 
-                   FROM gnral_personales, gnral_horarios, abreviaciones_prof,abreviaciones,gnral_cargos 
-                  WHERE gnral_horarios.id_periodo_carrera=$id_periodo_carrera AND gnral_horarios.id_personal=gnral_personales.id_personal and 
+        $personales = DB::select('select gnral_personales.id_personal,gnral_personales.nombre
+                   FROM gnral_personales, gnral_horarios, abreviaciones_prof,abreviaciones,gnral_cargos
+                  WHERE gnral_horarios.id_periodo_carrera= ? AND gnral_horarios.id_personal=gnral_personales.id_personal and
                   abreviaciones_prof.id_personal=gnral_personales.id_personal and abreviaciones_prof.id_abreviacion=abreviaciones.id_abreviacion and
-                   gnral_cargos.id_cargo=gnral_personales.id_cargo ");
+                   gnral_cargos.id_cargo=gnral_personales.id_cargo ', [$id_periodo_carrera]);
 
-        $registro_fecha=DB::selectOne('SELECT ti_fecha_jurado_alumn.*,ti_horarios_dias.horario_dia FROM ti_fecha_jurado_alumn,ti_horarios_dias 
-WHERE ti_fecha_jurado_alumn.id_horarios_dias=ti_horarios_dias.id_horarios_dias 
-  and ti_fecha_jurado_alumn.id_alumno='.$id_alumno.'');
+        $registro_fecha=DB::selectOne('SELECT ti_fecha_jurado_alumn.*,ti_horarios_dias.horario_dia FROM ti_fecha_jurado_alumn,ti_horarios_dias
+WHERE ti_fecha_jurado_alumn.id_horarios_dias=ti_horarios_dias.id_horarios_dias
+  and ti_fecha_jurado_alumn.id_alumno= ?', [$id_alumno]);
 
 
         return view('titulacion.alumno_titulacion.tercera_etapa.modal_agregar_suplente',compact('personales','registro_fecha'));
@@ -477,7 +477,7 @@ WHERE ti_fecha_jurado_alumn.id_horarios_dias=ti_horarios_dias.id_horarios_dias
         $fecha_hoy = date("Y-m-d H:i:s");
 
         $id_fecha_jurado_alumn = $request->input("id_fecha_jurado_alumn");
-        $fecha_registro=DB::selectOne('SELECT * FROM `ti_fecha_jurado_alumn` WHERE id_fecha_jurado_alumn='.$id_fecha_jurado_alumn.'');
+        $fecha_registro=DB::selectOne('SELECT * FROM `ti_fecha_jurado_alumn` WHERE id_fecha_jurado_alumn= ?', [$id_fecha_jurado_alumn]);
         $id_alumno=$fecha_registro->id_alumno;
         $suplente = $request->input("suplente");
 
@@ -493,19 +493,19 @@ WHERE ti_fecha_jurado_alumn.id_horarios_dias=ti_horarios_dias.id_horarios_dias
     public function modificar_suplente ($id_alumno){
 
         $id_periodo = Session::get('periodotrabaja');
-        $id_carrera = DB::selectOne('SELECT * FROM `ti_reg_datos_alum` WHERE `id_alumno` = '.$id_alumno.'');
+        $id_carrera = DB::selectOne('SELECT * FROM `ti_reg_datos_alum` WHERE `id_alumno` = ?', [$id_alumno]);
         $id_carrera=$id_carrera->id_carrera;
-        $id_periodo_carrera = DB::selectOne('select id_periodo_carrera from gnral_periodo_carreras where id_periodo=' . $id_periodo . ' AND id_carrera=' . $id_carrera . '');
+        $id_periodo_carrera = DB::selectOne('select id_periodo_carrera from gnral_periodo_carreras where id_periodo= ? AND id_carrera= ?', [$id_periodo, $id_carrera]);
         $id_periodo_carrera = $id_periodo_carrera->id_periodo_carrera;
 
-        $personales = DB::select("select gnral_personales.id_personal,gnral_personales.nombre 
-                   FROM gnral_personales, gnral_horarios, abreviaciones_prof,abreviaciones,gnral_cargos 
-                  WHERE gnral_horarios.id_periodo_carrera=$id_periodo_carrera AND gnral_horarios.id_personal=gnral_personales.id_personal and 
+        $personales = DB::select('select gnral_personales.id_personal,gnral_personales.nombre
+                   FROM gnral_personales, gnral_horarios, abreviaciones_prof,abreviaciones,gnral_cargos
+                  WHERE gnral_horarios.id_periodo_carrera= ? AND gnral_horarios.id_personal=gnral_personales.id_personal and
                   abreviaciones_prof.id_personal=gnral_personales.id_personal and abreviaciones_prof.id_abreviacion=abreviaciones.id_abreviacion and
-                   gnral_cargos.id_cargo=gnral_personales.id_cargo ");
+                   gnral_cargos.id_cargo=gnral_personales.id_cargo ', [$id_periodo_carrera]);
 
-        $registro_jurado=DB::selectOne('SELECT * FROM `ti_jurado_alumno` 
-WHERE `id_alumno` = '.$id_alumno.' AND `id_tipo_jurado` = 4 ');
+        $registro_jurado=DB::selectOne('SELECT * FROM `ti_jurado_alumno`
+WHERE `id_alumno` = ? AND `id_tipo_jurado` = 4 ', [$id_alumno]);
 
 
         return view('titulacion.alumno_titulacion.tercera_etapa.modal_modificar_suplente',compact('personales','registro_jurado'));
@@ -535,10 +535,10 @@ WHERE `id_alumno` = '.$id_alumno.' AND `id_tipo_jurado` = 4 ');
     gnral_unidad_personal.id_unidad_admin = 28 and
      gnral_personales.id_personal=gnral_unidad_personal.id_personal ');
         $alumno=DB::selectOne('SELECT ti_reg_datos_alum.no_cuenta,ti_reg_datos_alum.nombre_al,ti_reg_datos_alum.apaterno,
-       ti_reg_datos_alum.amaterno,ti_reg_datos_alum.correo_electronico, ti_fecha_jurado_alumn.* 
-from ti_reg_datos_alum,ti_fecha_jurado_alumn 
-WHERE ti_fecha_jurado_alumn.id_alumno=ti_reg_datos_alum.id_alumno and 
-      ti_reg_datos_alum.id_alumno='.$id_alumno.'');
+       ti_reg_datos_alum.amaterno,ti_reg_datos_alum.correo_electronico, ti_fecha_jurado_alumn.*
+from ti_reg_datos_alum,ti_fecha_jurado_alumn
+WHERE ti_fecha_jurado_alumn.id_alumno=ti_reg_datos_alum.id_alumno and
+      ti_reg_datos_alum.id_alumno= ?', [$id_alumno]);
 
         $nombre_alumno=$alumno->no_cuenta.' '.$alumno->nombre_al.' '.$alumno->apaterno.' '.$alumno->amaterno;
         $correo_alumno=$alumno->correo_electronico;
@@ -581,29 +581,29 @@ WHERE ti_fecha_jurado_alumn.id_alumno=ti_reg_datos_alum.id_alumno and
 //dd($lunes);
 
 
-        $lunes1=DB::select("SELECT ti_reg_datos_alum.nombre_al,ti_reg_datos_alum.apaterno,ti_reg_datos_alum.apaterno,ti_reg_datos_alum.id_carrera,ti_fecha_jurado_alumn.* 
-from ti_fecha_jurado_alumn,ti_reg_datos_alum where ti_fecha_jurado_alumn.fecha_titulacion='$lunes' 
-    and ti_fecha_jurado_alumn.id_estado_enviado in (2,4) 
-     and ti_fecha_jurado_alumn.id_alumno=ti_reg_datos_alum.id_alumno 
-                                               and ti_reg_datos_alum.id_carrera=$id_carrera ");
+        $lunes1=DB::select('SELECT ti_reg_datos_alum.nombre_al,ti_reg_datos_alum.apaterno,ti_reg_datos_alum.apaterno,ti_reg_datos_alum.id_carrera,ti_fecha_jurado_alumn.*
+from ti_fecha_jurado_alumn,ti_reg_datos_alum where ti_fecha_jurado_alumn.fecha_titulacion=?
+    and ti_fecha_jurado_alumn.id_estado_enviado in (2,4)
+     and ti_fecha_jurado_alumn.id_alumno=ti_reg_datos_alum.id_alumno
+                                               and ti_reg_datos_alum.id_carrera= ? ', [(string) ($lunes), $id_carrera]);
 
         $martes=date("Y-m-d",strtotime($fecha_inicial."+1 days"));
 
 
-        $martes1=DB::select("SELECT ti_reg_datos_alum.nombre_al,ti_reg_datos_alum.apaterno,ti_reg_datos_alum.apaterno,ti_reg_datos_alum.id_carrera,ti_fecha_jurado_alumn.* 
-from ti_fecha_jurado_alumn,ti_reg_datos_alum where ti_fecha_jurado_alumn.fecha_titulacion='$martes' 
-    and ti_fecha_jurado_alumn.id_estado_enviado in (2,4) 
-     and ti_fecha_jurado_alumn.id_alumno=ti_reg_datos_alum.id_alumno 
-                                               and ti_reg_datos_alum.id_carrera=$id_carrera ");
+        $martes1=DB::select('SELECT ti_reg_datos_alum.nombre_al,ti_reg_datos_alum.apaterno,ti_reg_datos_alum.apaterno,ti_reg_datos_alum.id_carrera,ti_fecha_jurado_alumn.*
+from ti_fecha_jurado_alumn,ti_reg_datos_alum where ti_fecha_jurado_alumn.fecha_titulacion=?
+    and ti_fecha_jurado_alumn.id_estado_enviado in (2,4)
+     and ti_fecha_jurado_alumn.id_alumno=ti_reg_datos_alum.id_alumno
+                                               and ti_reg_datos_alum.id_carrera= ? ', [(string) ($martes), $id_carrera]);
 
         $miercoles=date("Y-m-d",strtotime($fecha_inicial."+2 days"));
 
 
-        $miercoles1=DB::select("SELECT ti_reg_datos_alum.nombre_al,ti_reg_datos_alum.apaterno,ti_reg_datos_alum.apaterno,ti_reg_datos_alum.id_carrera,ti_fecha_jurado_alumn.* 
-from ti_fecha_jurado_alumn,ti_reg_datos_alum where ti_fecha_jurado_alumn.fecha_titulacion='$miercoles' 
-    and ti_fecha_jurado_alumn.id_estado_enviado in (2,4) 
-     and ti_fecha_jurado_alumn.id_alumno=ti_reg_datos_alum.id_alumno 
-                                               and ti_reg_datos_alum.id_carrera=$id_carrera ");
+        $miercoles1=DB::select('SELECT ti_reg_datos_alum.nombre_al,ti_reg_datos_alum.apaterno,ti_reg_datos_alum.apaterno,ti_reg_datos_alum.id_carrera,ti_fecha_jurado_alumn.*
+from ti_fecha_jurado_alumn,ti_reg_datos_alum where ti_fecha_jurado_alumn.fecha_titulacion=?
+    and ti_fecha_jurado_alumn.id_estado_enviado in (2,4)
+     and ti_fecha_jurado_alumn.id_alumno=ti_reg_datos_alum.id_alumno
+                                               and ti_reg_datos_alum.id_carrera= ? ', [(string) ($miercoles), $id_carrera]);
 
 
         $jueves=date("Y-m-d",strtotime($fecha_inicial."+3 days"));
@@ -624,30 +624,30 @@ from ti_fecha_jurado_alumn,ti_reg_datos_alum where ti_fecha_jurado_alumn.fecha_t
 
         $autorizar_alumnos = DB::select('SELECT ti_fecha_jurado_alumn.*,
        ti_reg_datos_alum.no_cuenta,ti_reg_datos_alum.nombre_al,ti_reg_datos_alum.apaterno,
-       ti_reg_datos_alum.amaterno FROM ti_reg_datos_alum,ti_fecha_jurado_alumn 
+       ti_reg_datos_alum.amaterno FROM ti_reg_datos_alum,ti_fecha_jurado_alumn
 where ti_reg_datos_alum.id_alumno = ti_fecha_jurado_alumn.id_alumno and
-      ti_reg_datos_alum.id_enviado_biblioteca=1 and ti_fecha_jurado_alumn.id_autorizar_agendar_jurado=0 
-  and ti_reg_datos_alum.id_carrera='.$id_carrera.' ');
+      ti_reg_datos_alum.id_enviado_biblioteca=1 and ti_fecha_jurado_alumn.id_autorizar_agendar_jurado=0
+  and ti_reg_datos_alum.id_carrera= ? ', [$id_carrera]);
 
 
         $autorizados_alumnos = DB::select('SELECT ti_fecha_jurado_alumn.*,
        ti_reg_datos_alum.no_cuenta,ti_reg_datos_alum.nombre_al,ti_reg_datos_alum.apaterno,
-       ti_reg_datos_alum.amaterno FROM ti_reg_datos_alum,ti_fecha_jurado_alumn 
+       ti_reg_datos_alum.amaterno FROM ti_reg_datos_alum,ti_fecha_jurado_alumn
 where ti_reg_datos_alum.id_alumno = ti_fecha_jurado_alumn.id_alumno and
       ti_reg_datos_alum.id_enviado_biblioteca=1 and ti_fecha_jurado_alumn.id_autorizar_agendar_jurado=1 and ti_fecha_jurado_alumn.id_liberado_titulado=0
-  and ti_reg_datos_alum.id_carrera='.$id_carrera.' ');
+  and ti_reg_datos_alum.id_carrera= ? ', [$id_carrera]);
 
 
-        $carrera = DB::selectOne('SELECT * FROM `gnral_carreras` WHERE `id_carrera` = ' . $id_carrera. '');
+        $carrera = DB::selectOne('SELECT * FROM `gnral_carreras` WHERE `id_carrera` = ?', [$id_carrera]);
         return view('titulacion.jefe_titulacion.validar_agregar_jurado.alumnos_validar_agregar_jurado',compact('autorizar_alumnos','autorizados_alumnos','carrera'));
 
     }
     public function autorizacion_jurado_alumno($id_fecha_jurado_alumn){
         $alumno=DB::selectOne('SELECT ti_reg_datos_alum.no_cuenta,
        ti_reg_datos_alum.nombre_al,ti_reg_datos_alum.apaterno,ti_reg_datos_alum.amaterno,
-       ti_fecha_jurado_alumn.* FROM ti_reg_datos_alum, ti_fecha_jurado_alumn 
+       ti_fecha_jurado_alumn.* FROM ti_reg_datos_alum, ti_fecha_jurado_alumn
 where ti_reg_datos_alum.id_alumno = ti_fecha_jurado_alumn.id_alumno and
-      ti_fecha_jurado_alumn.id_fecha_jurado_alumn='.$id_fecha_jurado_alumn.'');
+      ti_fecha_jurado_alumn.id_fecha_jurado_alumn= ?', [$id_fecha_jurado_alumn]);
         return view('titulacion.jefe_titulacion.validar_agregar_jurado.autorizar_alumno_agregar_jurado',compact('alumno'));
 
     }
@@ -663,11 +663,11 @@ where ti_reg_datos_alum.id_alumno = ti_fecha_jurado_alumn.id_alumno and
     }
     public function fecha_titulacion_alumnos($fecha_titulacion,$sala_titulacion){
         $id_usuario = Session::get('usuario_alumno');
-        $alumno=DB::selectOne('SELECT * FROM `gnral_alumnos` WHERE `id_usuario` = '.$id_usuario.'');
+        $alumno=DB::selectOne('SELECT * FROM `gnral_alumnos` WHERE `id_usuario` = ?', [$id_usuario]);
         $id_alumno=$alumno->id_alumno;
-        $sala=DB::selectOne('SELECT * FROM `ti_sala` WHERE `id_sala` = '.$sala_titulacion.'');
-        $fecha_hora1=DB::selectOne("SELECT count(id_fecha_jurado_alumn) contar 
-           FROM ti_fecha_jurado_alumn where fecha_titulacion = '$fecha_titulacion' and id_horarios_dias = 1 and id_sala = $sala_titulacion ");
+        $sala=DB::selectOne('SELECT * FROM `ti_sala` WHERE `id_sala` = ?', [$sala_titulacion]);
+        $fecha_hora1=DB::selectOne('SELECT count(id_fecha_jurado_alumn) contar
+           FROM ti_fecha_jurado_alumn where fecha_titulacion = ? and id_horarios_dias = 1 and id_sala = ? ', [(string) ($fecha_titulacion), $sala_titulacion]);
         $fecha_hora1=$fecha_hora1->contar;
         $horas_disponible=array();
         $disponibilidad_dia=0;
@@ -679,8 +679,8 @@ where ti_reg_datos_alum.id_alumno = ti_fecha_jurado_alumn.id_alumno and
         }else{
 
         }
-        $fecha_hora2=DB::selectOne("SELECT count(id_fecha_jurado_alumn) contar 
-           FROM ti_fecha_jurado_alumn where fecha_titulacion = '$fecha_titulacion' and id_horarios_dias = 2 and id_sala = $sala_titulacion ");
+        $fecha_hora2=DB::selectOne('SELECT count(id_fecha_jurado_alumn) contar
+           FROM ti_fecha_jurado_alumn where fecha_titulacion = ? and id_horarios_dias = 2 and id_sala = ? ', [(string) ($fecha_titulacion), $sala_titulacion]);
         $fecha_hora2=$fecha_hora2->contar;
         if($fecha_hora2 == 0){
             $disponibilidad_dia++;
@@ -691,8 +691,8 @@ where ti_reg_datos_alum.id_alumno = ti_fecha_jurado_alumn.id_alumno and
 
         }
 
-        $fecha_hora3=DB::selectOne("SELECT count(id_fecha_jurado_alumn) contar 
-           FROM ti_fecha_jurado_alumn where fecha_titulacion = '$fecha_titulacion' and id_horarios_dias = 3 and id_sala = $sala_titulacion ");
+        $fecha_hora3=DB::selectOne('SELECT count(id_fecha_jurado_alumn) contar
+           FROM ti_fecha_jurado_alumn where fecha_titulacion = ? and id_horarios_dias = 3 and id_sala = ? ', [(string) ($fecha_titulacion), $sala_titulacion]);
         $fecha_hora3=$fecha_hora3->contar;
         if($fecha_hora3 == 0){
             $disponibilidad_dia++;
@@ -702,8 +702,8 @@ where ti_reg_datos_alum.id_alumno = ti_fecha_jurado_alumn.id_alumno and
         }else{
 
         }
-        $fecha_hora4=DB::selectOne("SELECT count(id_fecha_jurado_alumn) contar 
-           FROM ti_fecha_jurado_alumn where fecha_titulacion = '$fecha_titulacion' and id_horarios_dias = 4 and id_sala = $sala_titulacion ");
+        $fecha_hora4=DB::selectOne('SELECT count(id_fecha_jurado_alumn) contar
+           FROM ti_fecha_jurado_alumn where fecha_titulacion = ? and id_horarios_dias = 4 and id_sala = ? ', [(string) ($fecha_titulacion), $sala_titulacion]);
         $fecha_hora4=$fecha_hora4->contar;
         if($fecha_hora4 == 0){
             $disponibilidad_dia++;
@@ -714,8 +714,8 @@ where ti_reg_datos_alum.id_alumno = ti_fecha_jurado_alumn.id_alumno and
 
         }
 
-        $fecha_hora5=DB::selectOne("SELECT count(id_fecha_jurado_alumn) contar 
-           FROM ti_fecha_jurado_alumn where fecha_titulacion = '$fecha_titulacion' and id_horarios_dias = 5 and id_sala = $sala_titulacion ");
+        $fecha_hora5=DB::selectOne('SELECT count(id_fecha_jurado_alumn) contar
+           FROM ti_fecha_jurado_alumn where fecha_titulacion = ? and id_horarios_dias = 5 and id_sala = ? ', [(string) ($fecha_titulacion), $sala_titulacion]);
         $fecha_hora5=$fecha_hora5->contar;
         if($fecha_hora5 == 0){
             $disponibilidad_dia++;

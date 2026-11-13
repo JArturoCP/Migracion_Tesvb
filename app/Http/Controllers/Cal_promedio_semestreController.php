@@ -22,7 +22,7 @@ class Cal_promedio_semestreController extends Controller
         $periodo = Session::get('periodo_actual');
         $grupos = DB::select('SELECT * FROM gnral_semestres ');
 
-        $carr=DB::selectOne('SELECT * FROM `gnral_carreras` WHERE `id_carrera` = '.$id_carrera.'');
+        $carr=DB::selectOne('SELECT * FROM `gnral_carreras` WHERE `id_carrera` = ?', [$id_carrera]);
         $nombre_carrera=$carr->nombre;
         return view('servicios_escolares.promedio_al_periodo.promedio_semestres_carrera', compact('grupos','nombre_carrera','id_carrera'));
     }
@@ -39,15 +39,15 @@ class Cal_promedio_semestreController extends Controller
 
 
         $id_periodo = Session::get('periodo_actual');
-        $carr = DB::selectOne('SELECT * FROM `gnral_carreras` WHERE `id_carrera` = ' . $id_carrera . '');
+        $carr = DB::selectOne('SELECT * FROM `gnral_carreras` WHERE `id_carrera` = ?', [$id_carrera]);
         $nombre_carrera = $carr->nombre;
         $alumnos = DB::select('SELECT gnral_alumnos.id_alumno,gnral_alumnos.cuenta,gnral_alumnos.nombre,gnral_alumnos.apaterno,
-gnral_alumnos.amaterno,eva_validacion_de_cargas.estado_validacion from gnral_alumnos,eva_validacion_de_cargas 
-where gnral_alumnos.id_carrera=' . $id_carrera . ' and gnral_alumnos.id_semestre=' . $id_semestre . ' and 
-gnral_alumnos.id_alumno=eva_validacion_de_cargas.id_alumno and 
-eva_validacion_de_cargas.id_periodo=' . $id_periodo . ' and 
-eva_validacion_de_cargas.estado_validacion in (2,8,9,10)   
-ORDER BY gnral_alumnos.apaterno ASC,gnral_alumnos.amaterno ASC,gnral_alumnos.nombre ASC');
+gnral_alumnos.amaterno,eva_validacion_de_cargas.estado_validacion from gnral_alumnos,eva_validacion_de_cargas
+where gnral_alumnos.id_carrera= ? and gnral_alumnos.id_semestre= ? and
+gnral_alumnos.id_alumno=eva_validacion_de_cargas.id_alumno and
+eva_validacion_de_cargas.id_periodo= ? and
+eva_validacion_de_cargas.estado_validacion in (2,8,9,10)
+ORDER BY gnral_alumnos.apaterno ASC,gnral_alumnos.amaterno ASC,gnral_alumnos.nombre ASC', [$id_carrera, $id_semestre, $id_periodo]);
         $array_datos_alumnos = array();
           $numero1=0;
         foreach ($alumnos as $alumno) {
@@ -81,10 +81,10 @@ ORDER BY gnral_alumnos.apaterno ASC,gnral_alumnos.amaterno ASC,gnral_alumnos.nom
                 $datos_alumnos['semestre']=$materias->semestre;
                 $datos_alumnos['clave']=$materias->clave;
 
-                $materia_promedio=DB::selectOne('SELECT SUM(calificacion) suma FROM `cal_evaluaciones` WHERE `id_carga_academica` ='.$materias->id_carga_academica.' and calificacion >=70');
+                $materia_promedio=DB::selectOne('SELECT SUM(calificacion) suma FROM `cal_evaluaciones` WHERE `id_carga_academica` = ? and calificacion >=70', [$materias->id_carga_academica]);
                 $materia_promedio=$materia_promedio->suma;
 
-                $contar_unidades_pasadas=DB::selectOne('SELECT count(calificacion) suma FROM `cal_evaluaciones` WHERE `id_carga_academica` = '.$materias->id_carga_academica.' and calificacion >=70');
+                $contar_unidades_pasadas=DB::selectOne('SELECT count(calificacion) suma FROM `cal_evaluaciones` WHERE `id_carga_academica` = ? and calificacion >=70', [$materias->id_carga_academica]);
                 $contar_unidades_pasadas=$contar_unidades_pasadas->suma;
 
                 if($contar_unidades_pasadas ==$materias->unidades){

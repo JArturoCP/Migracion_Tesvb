@@ -253,16 +253,7 @@ class Dual_PDF_Carga_Academica_Control extends Controller
 
         if (!$validacion) {
 
-            dd([
-                'mensaje' =>
-                    'No se encontró la validación de la carga académica.',
-
-                'id' =>
-                    $id,
-
-                'periodo' =>
-                    $periodo
-            ]);
+            abort(404, 'No se encontró la validación de la carga académica.');
         }
 
 
@@ -297,13 +288,7 @@ class Dual_PDF_Carga_Academica_Control extends Controller
 
         if (!$datosalumno) {
 
-            dd([
-                'mensaje' =>
-                    'No se encontró el alumno.',
-
-                'id_alumno' =>
-                    $id_usuario
-            ]);
+            abort(404, 'No se encontró el alumno.');
         }
 
 

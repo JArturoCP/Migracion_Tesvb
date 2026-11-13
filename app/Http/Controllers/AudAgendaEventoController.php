@@ -435,7 +435,7 @@ class AudAgendaEventoController extends Controller
     public function valida($id)
     {
         $this->horas_f=[];
-        $datos=json_decode($_GET['datos']);
+        $datos=json_decode(request()->query('datos'));
         $fecha="";
         $id_area=0;
         $id_auditor=0;

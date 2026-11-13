@@ -38,7 +38,7 @@ class PDF_Lab_Horarios extends PDF_PdfHorariosController
 
 class PDF_Lab_HorariosController extends Controller
 {
-    
+
     public function index($id_laboratorio, $fecha_inicial, $fecha_final)
     {
         $fecha_inicial = date('Y-m-d', strtotime($fecha_inicial));
@@ -46,20 +46,20 @@ class PDF_Lab_HorariosController extends Controller
         $id_periodo    = Session::get('periodotrabaja');
 
         $laboratorio = DB::selectOne(
-            'SELECT * FROM lb_laboratorios WHERE id_laboratorio=' . $id_laboratorio
+            'SELECT * FROM lb_laboratorios WHERE id_laboratorio= ?', [$id_laboratorio]
         );
 
-        $horarios = DB::select("SELECT lb_profesores_materia.id_semana
+        $horarios = DB::select('SELECT lb_profesores_materia.id_semana
             FROM gnral_personales, lb_profesores_materia
             WHERE lb_profesores_materia.id_profesor = gnral_personales.id_personal
-              AND lb_profesores_materia.id_periodo = $id_periodo
-              AND lb_profesores_materia.id_laboratorio = $id_laboratorio
+              AND lb_profesores_materia.id_periodo = ?
+              AND lb_profesores_materia.id_laboratorio = ?
             UNION
             SELECT lb_registro_laboratorio.id_semana
             FROM lb_registro_laboratorio
-            WHERE lb_registro_laboratorio.id_laboratorio = $id_laboratorio
-              AND lb_registro_laboratorio.fecha_registro BETWEEN '$fecha_inicial' AND '$fecha_final'
-            ORDER BY id_semana ASC");
+            WHERE lb_registro_laboratorio.id_laboratorio = ?
+              AND lb_registro_laboratorio.fecha_registro BETWEEN ? AND ?
+            ORDER BY id_semana ASC', [$id_periodo, $id_laboratorio, $id_laboratorio, (string) ($fecha_inicial), (string) ($fecha_final)]);
 
         $array_horarios = [];
         foreach ($horarios as $horario) {
@@ -95,20 +95,20 @@ class PDF_Lab_HorariosController extends Controller
         }
 
         // 3) Franjas OCUPADAS: asignación recurrente (ofp=2) y reservas por fecha (ofp=4)
-        $horariosprofesor = DB::select("SELECT lb_profesores_materia.id_semana, lb_profesores_materia.descripcion,
+        $horariosprofesor = DB::select('SELECT lb_profesores_materia.id_semana, lb_profesores_materia.descripcion,
                 gnral_personales.nombre, 2 fop, lb_profesores_materia.id_profesores_materia registro
             FROM gnral_personales, lb_profesores_materia
             WHERE lb_profesores_materia.id_profesor = gnral_personales.id_personal
-              AND lb_profesores_materia.id_periodo = $id_periodo
-              AND lb_profesores_materia.id_laboratorio = $id_laboratorio
+              AND lb_profesores_materia.id_periodo = ?
+              AND lb_profesores_materia.id_laboratorio = ?
             UNION
             SELECT lb_registro_laboratorio.id_semana, lb_registro_laboratorio.descripcion_utilizar,
                 gnral_personales.nombre, 4 fop, lb_registro_laboratorio.id_reg_laboratorio registro
             FROM lb_registro_laboratorio, gnral_personales
             WHERE lb_registro_laboratorio.id_usuario = gnral_personales.id_personal
-              AND lb_registro_laboratorio.id_laboratorio = $id_laboratorio
-              AND lb_registro_laboratorio.fecha_registro BETWEEN '$fecha_inicial' AND '$fecha_final'
-            ORDER BY id_semana ASC");
+              AND lb_registro_laboratorio.id_laboratorio = ?
+              AND lb_registro_laboratorio.fecha_registro BETWEEN ? AND ?
+            ORDER BY id_semana ASC', [$id_periodo, $id_laboratorio, $id_laboratorio, (string) ($fecha_inicial), (string) ($fecha_final)]);
 
         foreach ($horariosprofesor as $h) {
             $array_laboratorios[] = [
@@ -123,7 +123,7 @@ class PDF_Lab_HorariosController extends Controller
         $orden = array_column($array_laboratorios, 'id_semana');
         array_multisort($orden, SORT_ASC, $array_laboratorios);
 
-       
+
         $contenido_semana = [];
         foreach ($array_laboratorios as $row) {
             if ($row['ofp'] == 3) {
@@ -134,18 +134,18 @@ class PDF_Lab_HorariosController extends Controller
             $contenido_semana[$row['id_semana']][] = $texto;
         }
 
-       
+
         $dias    = DB::select('SELECT DISTINCT dia FROM hrs_semanas');
         $horas   = DB::select('SELECT DISTINCT hora FROM hrs_semanas ORDER BY hora');
         $semanas = DB::select('SELECT * FROM hrs_semanas ORDER BY hora, id_semana');
 
-       
+
         $indice_semanas = [];
         foreach ($semanas as $s) {
             $indice_semanas[$s->dia . '|' . $s->hora] = $s->id_semana;
         }
 
-        
+
         $pdf = new PDF_Lab_Horarios('L', 'mm', 'Letter');
         $pdf->SetMargins(5, 20, 0);
         $pdf->SetAutoPageBreak(false); // el salto de página se controla a mano abajo
@@ -236,7 +236,7 @@ class PDF_Lab_HorariosController extends Controller
     }
 
 
- 
+
     private function envolverTexto($pdf, $texto, $ancho_mm)
     {
         $lineas = [];

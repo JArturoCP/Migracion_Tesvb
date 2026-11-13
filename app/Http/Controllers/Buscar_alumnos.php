@@ -15,18 +15,18 @@ class Buscar_alumnos extends Controller
      */
     public function index()
     {
-        
+
         $periodo=Session::get('periodo_actual');
-        $carreras=DB::select('select gnral_carreras.id_carrera, gnral_carreras.nombre,gnral_carreras.COLOR ya, gnral_carreras.COLOR no, gnral_carreras.COLOR por,gnral_carreras.COLOR total FROM `gnral_carreras` WHERE `id_carrera` 
+        $carreras=DB::select('select gnral_carreras.id_carrera, gnral_carreras.nombre,gnral_carreras.COLOR ya, gnral_carreras.COLOR no, gnral_carreras.COLOR por,gnral_carreras.COLOR total FROM `gnral_carreras` WHERE `id_carrera`
                                          NOT IN (9,11,15)');
         $carreras2=DB::select('select*from gnral_carreras');
         $numerop=DB::select('select*from eva_pregunta');
 
         $alumnos=DB::select('select gnral_alumnos.cuenta,gnral_alumnos.nombre,gnral_alumnos.apaterno,gnral_alumnos.amaterno,
-gnral_alumnos.id_semestre,eva_validacion_de_cargas.no_pregunta,gnral_alumnos.id_carrera 
-from eva_validacion_de_cargas,gnral_alumnos,eva_carga_academica 
-WHERE   eva_validacion_de_cargas.id_alumno=gnral_alumnos.id_alumno 
-and eva_validacion_de_cargas.id_periodo='.$periodo.'
+gnral_alumnos.id_semestre,eva_validacion_de_cargas.no_pregunta,gnral_alumnos.id_carrera
+from eva_validacion_de_cargas,gnral_alumnos,eva_carga_academica
+WHERE   eva_validacion_de_cargas.id_alumno=gnral_alumnos.id_alumno
+and eva_validacion_de_cargas.id_periodo= ?
 and eva_validacion_de_cargas.estado_validacion=2
 and eva_carga_academica.id_alumno=eva_validacion_de_cargas.id_alumno
 and eva_validacion_de_cargas.id_periodo=eva_carga_academica.id_periodo
@@ -34,38 +34,38 @@ and eva_carga_academica.id_materia  NOT IN (773,845,853,1160,1263,1264,1265,1443
 774,818,846,1161,1497,1570,1771,2201,2251,2258)
 GROUP by gnral_alumnos.cuenta,gnral_alumnos.nombre,gnral_alumnos.apaterno,gnral_alumnos.amaterno
 ORDER by gnral_alumnos.apaterno,gnral_alumnos.amaterno,gnral_alumnos.nombre
-');
+', [$periodo]);
 
 $total=count($numerop)+1;
 
 foreach ($carreras as $carre)
  {
-     $alumnostodos=DB::select('SELECT gnral_alumnos.id_alumno from eva_validacion_de_cargas,gnral_alumnos,eva_carga_academica 
-WHERE eva_validacion_de_cargas.id_alumno=gnral_alumnos.id_alumno and gnral_alumnos.id_carrera='.$carre->id_carrera.'
-  and eva_validacion_de_cargas.id_periodo='.$periodo.' and eva_validacion_de_cargas.estado_validacion=2 
-  AND eva_carga_academica.id_status_materia=1 and eva_carga_academica.id_alumno=gnral_alumnos.id_alumno 
-  and eva_carga_academica.id_periodo='.$periodo.' and eva_carga_academica.id_materia 
-        NOT IN (773,845,853,1160,1263,1264,1265,1443,1496,1502,1565,1566,1567,1568,1569,1571, 774,818,846,1161,1497,1570,1771,2201,2251,2258,2516) 
-  AND eva_carga_academica.id_status_materia=1 GROUP by eva_validacion_de_cargas.id_alumno');
+     $alumnostodos=DB::select('SELECT gnral_alumnos.id_alumno from eva_validacion_de_cargas,gnral_alumnos,eva_carga_academica
+WHERE eva_validacion_de_cargas.id_alumno=gnral_alumnos.id_alumno and gnral_alumnos.id_carrera= ?
+  and eva_validacion_de_cargas.id_periodo= ? and eva_validacion_de_cargas.estado_validacion=2
+  AND eva_carga_academica.id_status_materia=1 and eva_carga_academica.id_alumno=gnral_alumnos.id_alumno
+  and eva_carga_academica.id_periodo= ? and eva_carga_academica.id_materia
+        NOT IN (773,845,853,1160,1263,1264,1265,1443,1496,1502,1565,1566,1567,1568,1569,1571, 774,818,846,1161,1497,1570,1771,2201,2251,2258,2516)
+  AND eva_carga_academica.id_status_materia=1 GROUP by eva_validacion_de_cargas.id_alumno', [$carre->id_carrera, $periodo, $periodo]);
 
 
     $alumnostodos=count($alumnostodos);
 
 
      $alumnosya=DB::select('select gnral_alumnos.cuenta,gnral_alumnos.nombre,gnral_alumnos.apaterno,gnral_alumnos.amaterno,
-gnral_alumnos.id_semestre,eva_validacion_de_cargas.no_pregunta,gnral_alumnos.id_carrera 
-from eva_validacion_de_cargas,gnral_alumnos,eva_carga_academica 
-WHERE   eva_validacion_de_cargas.id_alumno=gnral_alumnos.id_alumno 
-  and gnral_alumnos.id_carrera='.$carre->id_carrera.'
-and eva_validacion_de_cargas.id_periodo='.$periodo.'
+gnral_alumnos.id_semestre,eva_validacion_de_cargas.no_pregunta,gnral_alumnos.id_carrera
+from eva_validacion_de_cargas,gnral_alumnos,eva_carga_academica
+WHERE   eva_validacion_de_cargas.id_alumno=gnral_alumnos.id_alumno
+  and gnral_alumnos.id_carrera= ?
+and eva_validacion_de_cargas.id_periodo= ?
 and eva_validacion_de_cargas.estado_validacion=2
-and  eva_validacion_de_cargas.no_pregunta='.$total.'
+and  eva_validacion_de_cargas.no_pregunta= ?
 and eva_carga_academica.id_alumno=eva_validacion_de_cargas.id_alumno
 and eva_validacion_de_cargas.id_periodo=eva_carga_academica.id_periodo
 and eva_carga_academica.id_materia  NOT IN (773,845,853,1160,1263,1264,1265,1443,1496,1502,1565,1566,1567,1568,1569,1571,
 774,818,846,1161,1497,1570,1771,2201,2251,2258)
 GROUP by gnral_alumnos.cuenta,gnral_alumnos.nombre,gnral_alumnos.apaterno,gnral_alumnos.amaterno
-ORDER by gnral_alumnos.apaterno,gnral_alumnos.amaterno,gnral_alumnos.nombre');
+ORDER by gnral_alumnos.apaterno,gnral_alumnos.amaterno,gnral_alumnos.nombre', [$carre->id_carrera, $periodo, $total]);
 
     $alumnosya=count($alumnosya);
 
@@ -78,7 +78,7 @@ $carre->no=0;
 $carre->por=0;
 }
 else{
- 
+
 $carre->total=$alumnostodos;
 $carre->ya=$alumnosya;
 $carre->no=$alumnostodos-$alumnosya;
@@ -90,11 +90,11 @@ $carre->por=$por;
 }
 
 
-  
+
 }
 //dd($alumnos);
 
-foreach ($alumnos as $alu) 
+foreach ($alumnos as $alu)
 {
     if($alu->no_pregunta==count($numerop)+1)
     {
@@ -112,7 +112,7 @@ foreach ($alumnos as $alu)
         $porcentaje=$nu=(round($porcentaje*10)/10);
 
         $alu->no_pregunta=$porcentaje;
-       
+
 
     }
     if($alu->no_pregunta==0)
@@ -129,7 +129,7 @@ $activa_eva=$activa_eva->estado;
 
 
 
-$evaluar=DB::selectOne('select*from eva_calificaciones_pre where eva_calificaciones_pre.id_periodo='.$periodo.'');
+$evaluar=DB::selectOne('select*from eva_calificaciones_pre where eva_calificaciones_pre.id_periodo= ?', [$periodo]);
 
 if($evaluar==null)
 {
@@ -141,7 +141,7 @@ else
 }
     // dd($alumnoss);
         return view('evaluacion_docente.Alumnos.buscar',compact('evaluar','carreras','carreras2','alumnos','alumnoss','activa_eva'));
- 
+
 
     }
 
@@ -162,7 +162,7 @@ else
 
         if ($estado==1)
          {
-            
+
             $datos=array('estado'=>2);
             Activa_evaluacion::find($id)->update($datos);
             return $this->index();
@@ -170,19 +170,19 @@ else
          }
          if($estado==2)
          {
-    
+
             $datos=array('estado'=>1);
             Activa_evaluacion::find($id)->update($datos);
-            
+
             return $this->index();
          }
 
-        
+
 
 
 
     }
-   
+
 
     /**
      * Store a newly created resource in storage.

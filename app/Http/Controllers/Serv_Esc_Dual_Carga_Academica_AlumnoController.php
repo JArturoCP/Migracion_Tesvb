@@ -16,7 +16,7 @@ class Serv_Esc_Dual_Carga_Academica_AlumnoController extends Controller
         $datos_reticulas = array();
 
         $plantillas = DB::select('
-    SELECT DISTINCT 
+    SELECT DISTINCT
         gnral_alumnos.id_alumno,
         gnral_alumnos.cuenta,
         gnral_alumnos.nombre,
@@ -26,11 +26,11 @@ class Serv_Esc_Dual_Carga_Academica_AlumnoController extends Controller
         eva_carga_academica.tipo_alumno,
         cal_duales_actuales.id_duales_actuales
     FROM cal_duales_actuales
-    JOIN gnral_alumnos 
+    JOIN gnral_alumnos
         ON gnral_alumnos.id_alumno = cal_duales_actuales.id_alumno
-    JOIN gnral_carreras 
+    JOIN gnral_carreras
         ON gnral_alumnos.id_carrera = gnral_carreras.id_carrera
-    LEFT JOIN eva_carga_academica 
+    LEFT JOIN eva_carga_academica
         ON eva_carga_academica.id_alumno = gnral_alumnos.id_alumno
         AND eva_carga_academica.id_periodo = cal_duales_actuales.id_periodo
     WHERE cal_duales_actuales.id_periodo = ?
@@ -58,10 +58,10 @@ class Serv_Esc_Dual_Carga_Academica_AlumnoController extends Controller
             $nombre['id_reticula'] = $reticula->id_reticula;
             $nombre['reticula'] = $reticula->clave;
 
-            $semestres = DB::select('SELECT DISTINCT gnral_materias.id_semestre,gnral_semestres.descripcion semestre FROM 
-                gnral_reticulas,gnral_materias,gnral_semestres WHERE gnral_reticulas.id_reticula=' . $reticula->id_reticula . ' AND
+            $semestres = DB::select('SELECT DISTINCT gnral_materias.id_semestre,gnral_semestres.descripcion semestre FROM
+                gnral_reticulas,gnral_materias,gnral_semestres WHERE gnral_reticulas.id_reticula= ? AND
                 gnral_materias.id_reticula=gnral_reticulas.id_reticula AND
-                gnral_materias.id_semestre=gnral_semestres.id_semestre order by id_semestre');
+                gnral_materias.id_semestre=gnral_semestres.id_semestre order by id_semestre', [$reticula->id_reticula]);
             $datos_semestres = array();
             if ($semestres != null) {
                 foreach ($semestres as $semes) {
@@ -69,11 +69,11 @@ class Serv_Esc_Dual_Carga_Academica_AlumnoController extends Controller
                     $semestres['semestre'] = $semes->semestre;
                     $semestres['id_semestre'] = $semes->id_semestre;
                     $materias = DB::select('SELECT gnral_materias.id_materia,gnral_materias.nombre,gnral_materias.clave,
-                        gnral_materias.id_semestre ,gnral_materias.id_reticula 
-                        FROM gnral_materias,gnral_reticulas WHERE 
-                        gnral_materias.id_reticula=' . $reticula->id_reticula . ' AND 
-                        gnral_materias.id_semestre=' . $semes->id_semestre . ' AND 
-                        gnral_materias.id_reticula=gnral_reticulas.id_reticula');
+                        gnral_materias.id_semestre ,gnral_materias.id_reticula
+                        FROM gnral_materias,gnral_reticulas WHERE
+                        gnral_materias.id_reticula= ? AND
+                        gnral_materias.id_semestre= ? AND
+                        gnral_materias.id_reticula=gnral_reticulas.id_reticula', [$reticula->id_reticula, $semes->id_semestre]);
                     $nombre_materias = array();
                     if ($materias != null) {
                         foreach ($materias as $mates) {
@@ -100,7 +100,7 @@ class Serv_Esc_Dual_Carga_Academica_AlumnoController extends Controller
             }
         }
         //dd($datos_reticulas);
-        $estado_periodo=DB::selectOne('SELECT count(id_periodo)contar FROM gnral_periodos WHERE estado = 1 and id_periodo='.$id_periodo.'');
+        $estado_periodo=DB::selectOne('SELECT count(id_periodo)contar FROM gnral_periodos WHERE estado = 1 and id_periodo= ?', [$id_periodo]);
         $estado_periodo=$estado_periodo->contar;
 
         return view('servicios_escolares.duales.llenar_carga_academica_dual', compact('plantillas','materias_alumnos_duales','estado_periodo'))->with('reticulas', $datos_reticulas);

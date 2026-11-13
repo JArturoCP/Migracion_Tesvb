@@ -15,7 +15,7 @@ class Pres_reg_req_mat_antController extends Controller
         $year = date('Y');
         $year = $year+1;
         $fecha_actual = date("Y-m-d");
-        $periodo = DB::selectOne('SELECT * FROM `pres_periodo_anteproyecto` WHERE `year` =' . $year . '');
+        $periodo = DB::selectOne('SELECT * FROM `pres_periodo_anteproyecto` WHERE `year` = ?', [$year]);
 
 
         $estado_periodo = 0;
@@ -34,7 +34,7 @@ class Pres_reg_req_mat_antController extends Controller
                 if ($fecha_actual <= $fecha_final and $fecha_actual >= $fecha_inicial) {
 
                     $estado_fecha = 1;
-                    $registros = DB::selectOne('SELECT  *from pres_req_mat_ante where id_unidad_admin = ' . $id_unidad . ' and year_requisicion = ' . $year . '');
+                    $registros = DB::selectOne('SELECT  *from pres_req_mat_ante where id_unidad_admin = ? and year_requisicion = ?', [$id_unidad, $year]);
 
                 } else {
                     $estado_fecha = 2;
@@ -58,10 +58,10 @@ class Pres_reg_req_mat_antController extends Controller
         $year = date('Y');
         $year = $year+1;
         $fecha_actual = date("Y-m-d");
-        $periodo = DB::selectOne('SELECT * FROM `pres_periodo_anteproyecto` WHERE `year` =' . $year . ' and id_activacion=1');
+        $periodo = DB::selectOne('SELECT * FROM `pres_periodo_anteproyecto` WHERE `year` = ? and id_activacion=1', [$year]);
         $id_unidad = Session::get('id_unidad_admin');
         $maxima_requesicion = DB::selectOne('SELECT max(numero_requisicion) numero FROM pres_req_mat_ante
-        WHERE id_unidad_admin=' . $id_unidad . ' and year_requisicion =' . $year . '');
+        WHERE id_unidad_admin= ? and year_requisicion = ?', [$id_unidad, $year]);
         if ($maxima_requesicion == null) {
             $maxima_requesicion = 1;
         } else {
@@ -81,17 +81,17 @@ class Pres_reg_req_mat_antController extends Controller
 
     public function registro_inicio_req_ant($id_req_mat_ante)
     {
-        $datos_req_envio = DB::selectOne('SELECT * FROM `pres_req_mat_ante` WHERE `id_req_mat_ante` = ' . $id_req_mat_ante . '');
+        $datos_req_envio = DB::selectOne('SELECT * FROM `pres_req_mat_ante` WHERE `id_req_mat_ante` = ?', [$id_req_mat_ante]);
 
         $meses = DB::select('SELECT * FROM `pres_mes` ORDER BY `pres_mes`.`id_mes` ASC ');
-        $proyectos = DB::select('SELECT pres_proyectos.* from pres_presupuesto_anteproyecto, pres_proyectos 
-        where pres_proyectos.id_proyecto = pres_presupuesto_anteproyecto.id_proyecto 
-        and pres_presupuesto_anteproyecto.year='.$datos_req_envio->year_requisicion.'  ORDER BY `pres_proyectos`.`nombre_proyecto` ASC ');
+        $proyectos = DB::select('SELECT pres_proyectos.* from pres_presupuesto_anteproyecto, pres_proyectos
+        where pres_proyectos.id_proyecto = pres_presupuesto_anteproyecto.id_proyecto
+        and pres_presupuesto_anteproyecto.year= ?  ORDER BY `pres_proyectos`.`nombre_proyecto` ASC ', [$datos_req_envio->year_requisicion]);
         $requisiciones = DB::select('SELECT pres_actividades_req_ante.*,pres_mes.mes, pres_proyectos.nombre_proyecto,
-       pres_metas.meta, pres_partida_pres.nombre_partida, pres_partida_pres.clave_presupuestal from pres_actividades_req_ante, pres_mes,pres_proyectos,pres_metas,pres_partida_pres  
+       pres_metas.meta, pres_partida_pres.nombre_partida, pres_partida_pres.clave_presupuestal from pres_actividades_req_ante, pres_mes,pres_proyectos,pres_metas,pres_partida_pres
        WHERE pres_actividades_req_ante.id_mes = pres_mes.id_mes and pres_proyectos.id_proyecto = pres_actividades_req_ante.id_proyecto
-       and pres_actividades_req_ante.id_meta = pres_metas.id_meta and pres_actividades_req_ante.id_req_mat_ante  = '.$id_req_mat_ante.' and pres_actividades_req_ante.id_partida_pres = pres_partida_pres.id_partida_pres 
-       ORDER BY `pres_mes`.`id_mes` ASC');
+       and pres_actividades_req_ante.id_meta = pres_metas.id_meta and pres_actividades_req_ante.id_req_mat_ante  = ? and pres_actividades_req_ante.id_partida_pres = pres_partida_pres.id_partida_pres
+       ORDER BY `pres_mes`.`id_mes` ASC', [$id_req_mat_ante]);
         //  dd($requisiciones);
         //dd($requisiciones);
         $partidas_presupuestales=DB::select('SELECT * FROM `pres_partida_pres` ORDER BY `pres_partida_pres`.`clave_presupuestal` ASC');
@@ -144,10 +144,10 @@ class Pres_reg_req_mat_antController extends Controller
             $req['meta']=$requisicion->meta;
             $bienes=array();
 
-            $bienes_servicios=DB::select('SELECT * FROM `pres_reg_material_req_ante` 
-             WHERE `id_actividades_req_ante` = '.$requisicion->id_actividades_req_ante.' ');
+            $bienes_servicios=DB::select('SELECT * FROM `pres_reg_material_req_ante`
+             WHERE `id_actividades_req_ante` = ? ', [$requisicion->id_actividades_req_ante]);
             $contar=DB::selectOne('SELECT count(id_reg_material_ant) contar from pres_reg_material_req_ante
-            where id_actividades_req_ante =  '.$requisicion->id_actividades_req_ante.' ');
+            where id_actividades_req_ante =  ? ', [$requisicion->id_actividades_req_ante]);
             if($contar->contar == 0){
                 $estado_material=true;
             }
@@ -176,31 +176,31 @@ class Pres_reg_req_mat_antController extends Controller
 
     public function registrar_nueva_requisicion_mat(Request $request, $id_req_mat_ante)
     {
-        $datos_requesicion_admin = DB::selectOne('SELECT * FROM `pres_req_mat_ante` WHERE `id_req_mat_ante` =' . $id_req_mat_ante . '');
-        dd($datos_requesicion_admin);
+        $datos_requesicion_admin = DB::selectOne('SELECT * FROM `pres_req_mat_ante` WHERE `id_req_mat_ante` = ?', [$id_req_mat_ante]);
+        abort(501, 'Funcionalidad no disponible.');
     }
 
     public function ver_meta($id_anteproyecto)
     {
-        $metas = DB::select('SELECT * FROM `pres_metas` WHERE `id_proyecto` = ' . $id_anteproyecto . ' ORDER BY `meta` ASC ');
+        $metas = DB::select('SELECT * FROM `pres_metas` WHERE `id_proyecto` = ? ORDER BY `meta` ASC ', [$id_anteproyecto]);
         return $metas;
     }
     public function ver_partida_presupuestal($id_proyecto){
         $year = date('Y');
         $year = $year+1;
-        $anteproyecto=DB::selectOne('SELECT pres_presupuesto_anteproyecto.* from pres_presupuesto_anteproyecto, pres_proyectos 
-        where pres_proyectos.id_proyecto = pres_presupuesto_anteproyecto.id_proyecto and pres_presupuesto_anteproyecto.year='.$year.'
-        and pres_presupuesto_anteproyecto.id_proyecto='.$id_proyecto.' ');
+        $anteproyecto=DB::selectOne('SELECT pres_presupuesto_anteproyecto.* from pres_presupuesto_anteproyecto, pres_proyectos
+        where pres_proyectos.id_proyecto = pres_presupuesto_anteproyecto.id_proyecto and pres_presupuesto_anteproyecto.year= ?
+        and pres_presupuesto_anteproyecto.id_proyecto= ? ', [$year, $id_proyecto]);
         /*
                 $capitulos=DB::select('SELECT pres_fuentes_financiamiento.* from pres_fuentes_financiamiento
         where total_presupuesto > 0 and id_presupuesto_ante ='.$anteproyecto->id_presupuesto.' order by id_capitulo');
         */
-        $capitulos=DB::select('SELECT pres_fuentes_financiamiento.* from pres_fuentes_financiamiento 
-where  id_presupuesto_ante ='.$anteproyecto->id_presupuesto.' order by id_capitulo');
+        $capitulos=DB::select('SELECT pres_fuentes_financiamiento.* from pres_fuentes_financiamiento
+where  id_presupuesto_ante = ? order by id_capitulo', [$anteproyecto->id_presupuesto]);
         $partidas= array();
         foreach ($capitulos as $capitulo){
-            $partidas_pres=DB::select('SELECT * FROM `pres_partida_pres` WHERE `id_capitulo` = '.$capitulo->id_capitulo.' 
-            ORDER BY `pres_partida_pres`.`clave_presupuestal` ASC');
+            $partidas_pres=DB::select('SELECT * FROM `pres_partida_pres` WHERE `id_capitulo` = ?
+            ORDER BY `pres_partida_pres`.`clave_presupuestal` ASC', [$capitulo->id_capitulo]);
             foreach ($partidas_pres as $partidas_pre) {
                 $dat['id_partida_pres'] = $partidas_pre->id_partida_pres;
                 $dat['id_capitulo'] = $partidas_pre->id_capitulo;
@@ -251,21 +251,21 @@ where  id_presupuesto_ante ='.$anteproyecto->id_presupuesto.' order by id_capitu
 
         $requsicion_material = DB::selectOne('SELECT pres_actividades_req_ante.*,pres_mes.mes,
        pres_proyectos.nombre_proyecto, pres_metas.meta from pres_actividades_req_ante, pres_mes,pres_proyectos,pres_metas
-       WHERE pres_actividades_req_ante.id_mes = pres_mes.id_mes and 
+       WHERE pres_actividades_req_ante.id_mes = pres_mes.id_mes and
        pres_proyectos.id_proyecto = pres_actividades_req_ante.id_proyecto
-       and pres_actividades_req_ante.id_meta = pres_metas.id_meta and pres_actividades_req_ante.id_actividades_req_ante =' . $id_actividades_req_ante . '');
+       and pres_actividades_req_ante.id_meta = pres_metas.id_meta and pres_actividades_req_ante.id_actividades_req_ante = ?', [$id_actividades_req_ante]);
 
 
-        $anteproyecto=DB::selectOne('SELECT pres_presupuesto_anteproyecto.* from pres_presupuesto_anteproyecto, pres_proyectos 
-        where pres_proyectos.id_proyecto = pres_presupuesto_anteproyecto.id_proyecto and pres_presupuesto_anteproyecto.year='.$year.'
-        and pres_presupuesto_anteproyecto.id_proyecto='.$requsicion_material->id_proyecto.' ');
+        $anteproyecto=DB::selectOne('SELECT pres_presupuesto_anteproyecto.* from pres_presupuesto_anteproyecto, pres_proyectos
+        where pres_proyectos.id_proyecto = pres_presupuesto_anteproyecto.id_proyecto and pres_presupuesto_anteproyecto.year= ?
+        and pres_presupuesto_anteproyecto.id_proyecto= ? ', [$year, $requsicion_material->id_proyecto]);
 
-        $capitulos=DB::select('SELECT pres_fuentes_financiamiento.* from pres_fuentes_financiamiento 
-where total_presupuesto > 0 and id_presupuesto_ante ='.$anteproyecto->id_presupuesto.' order by id_capitulo');
+        $capitulos=DB::select('SELECT pres_fuentes_financiamiento.* from pres_fuentes_financiamiento
+where total_presupuesto > 0 and id_presupuesto_ante = ? order by id_capitulo', [$anteproyecto->id_presupuesto]);
         $partidas_presupuestales= array();
         foreach ($capitulos as $capitulo){
-            $partidas_pres=DB::select('SELECT * FROM `pres_partida_pres` WHERE `id_capitulo` = '.$capitulo->id_capitulo.' 
-            ORDER BY `pres_partida_pres`.`clave_presupuestal` ASC');
+            $partidas_pres=DB::select('SELECT * FROM `pres_partida_pres` WHERE `id_capitulo` = ?
+            ORDER BY `pres_partida_pres`.`clave_presupuestal` ASC', [$capitulo->id_capitulo]);
             foreach ($partidas_pres as $partidas_pre) {
                 $dat['id_partida_pres'] = $partidas_pre->id_partida_pres;
                 $dat['id_capitulo'] = $partidas_pre->id_capitulo;
@@ -277,7 +277,7 @@ where total_presupuesto > 0 and id_presupuesto_ante ='.$anteproyecto->id_presupu
         //dd($requsicion_material);
         $meses = DB::select('SELECT * FROM `pres_mes` ORDER BY `pres_mes`.`id_mes` ASC ');
         $proyectos = DB::select('SELECT * FROM `pres_proyectos` ORDER BY `pres_proyectos`.`nombre_proyecto` ASC ');
-        $metas = DB::select('SELECT * FROM `pres_metas` WHERE `id_proyecto` = ' . $requsicion_material->id_proyecto . ' ORDER BY `meta` ASC');
+        $metas = DB::select('SELECT * FROM `pres_metas` WHERE `id_proyecto` = ? ORDER BY `meta` ASC', [$requsicion_material->id_proyecto]);
 
         return view('departamento_finanzas.jefe_departamento.partials_modificar_req_mat', compact('requsicion_material', 'meses', 'proyectos', 'metas','partidas_presupuestales'));
 
@@ -317,10 +317,10 @@ where total_presupuesto > 0 and id_presupuesto_ante ='.$anteproyecto->id_presupu
         $requisicion = DB::selectOne('SELECT pres_actividades_req_ante.*,pres_mes.mes,pres_partida_pres.nombre_partida,pres_partida_pres.clave_presupuestal,
        pres_proyectos.nombre_proyecto, pres_metas.meta from pres_actividades_req_ante, pres_mes,pres_proyectos,pres_metas,
        pres_partida_pres
-       WHERE pres_actividades_req_ante.id_mes = pres_mes.id_mes and 
+       WHERE pres_actividades_req_ante.id_mes = pres_mes.id_mes and
        pres_proyectos.id_proyecto = pres_actividades_req_ante.id_proyecto
        and pres_actividades_req_ante.id_partida_pres = pres_partida_pres.id_partida_pres
-       and pres_actividades_req_ante.id_meta = pres_metas.id_meta and pres_actividades_req_ante.id_actividades_req_ante =' . $id_actividades_req_ante . '');
+       and pres_actividades_req_ante.id_meta = pres_metas.id_meta and pres_actividades_req_ante.id_actividades_req_ante = ?', [$id_actividades_req_ante]);
 
         return view('departamento_finanzas.jefe_departamento.partials_eliminar_req_mat', compact('requisicion'));
 
@@ -339,10 +339,10 @@ where total_presupuesto > 0 and id_presupuesto_ante ='.$anteproyecto->id_presupu
         $requisicion = DB::selectOne('SELECT pres_actividades_req_ante.*,pres_mes.mes,pres_partida_pres.nombre_partida,pres_partida_pres.clave_presupuestal,
        pres_proyectos.nombre_proyecto, pres_metas.meta from pres_actividades_req_ante, pres_mes,pres_proyectos,pres_metas,
        pres_partida_pres
-       WHERE pres_actividades_req_ante.id_mes = pres_mes.id_mes and 
+       WHERE pres_actividades_req_ante.id_mes = pres_mes.id_mes and
        pres_proyectos.id_proyecto = pres_actividades_req_ante.id_proyecto
        and pres_partida_pres.id_partida_pres = pres_actividades_req_ante.id_partida_pres
-       and pres_actividades_req_ante.id_meta = pres_metas.id_meta and pres_actividades_req_ante.id_actividades_req_ante =' . $id_actividades_req_ante . '');
+       and pres_actividades_req_ante.id_meta = pres_metas.id_meta and pres_actividades_req_ante.id_actividades_req_ante = ?', [$id_actividades_req_ante]);
 //dd($requisicion);
         return view('departamento_finanzas.jefe_departamento.partials_agregar_req_pdf', compact('requisicion'));
 
@@ -355,10 +355,10 @@ where total_presupuesto > 0 and id_presupuesto_ante ='.$anteproyecto->id_presupu
         $requisicion = DB::selectOne('SELECT pres_actividades_req_ante.*,pres_mes.mes,pres_partida_pres.nombre_partida,pres_partida_pres.clave_presupuestal,
        pres_proyectos.nombre_proyecto, pres_metas.meta from pres_actividades_req_ante, pres_mes,pres_proyectos,pres_metas,
        pres_partida_pres
-       WHERE pres_actividades_req_ante.id_mes = pres_mes.id_mes and 
+       WHERE pres_actividades_req_ante.id_mes = pres_mes.id_mes and
        pres_proyectos.id_proyecto = pres_actividades_req_ante.id_proyecto
        and pres_partida_pres.id_partida_pres = pres_actividades_req_ante.id_partida_pres
-       and pres_actividades_req_ante.id_meta = pres_metas.id_meta and pres_actividades_req_ante.id_actividades_req_ante =' . $id_actividades_req_ante . '');
+       and pres_actividades_req_ante.id_meta = pres_metas.id_meta and pres_actividades_req_ante.id_actividades_req_ante = ?', [$id_actividades_req_ante]);
 
         //dd($requisicion);
 
@@ -376,10 +376,10 @@ where total_presupuesto > 0 and id_presupuesto_ante ='.$anteproyecto->id_presupu
         $requisicion = DB::selectOne('SELECT pres_actividades_req_ante.*,pres_mes.mes,pres_partida_pres.nombre_partida,pres_partida_pres.clave_presupuestal,
        pres_proyectos.nombre_proyecto, pres_metas.meta from pres_actividades_req_ante, pres_mes,pres_proyectos,pres_metas,
        pres_partida_pres
-       WHERE pres_actividades_req_ante.id_mes = pres_mes.id_mes and 
+       WHERE pres_actividades_req_ante.id_mes = pres_mes.id_mes and
        pres_proyectos.id_proyecto = pres_actividades_req_ante.id_proyecto
        and pres_partida_pres.id_partida_pres = pres_actividades_req_ante.id_partida_pres
-       and pres_actividades_req_ante.id_meta = pres_metas.id_meta and pres_actividades_req_ante.id_actividades_req_ante =' . $id_actividades_req_ante . '');
+       and pres_actividades_req_ante.id_meta = pres_metas.id_meta and pres_actividades_req_ante.id_actividades_req_ante = ?', [$id_actividades_req_ante]);
 //dd($requisicion);
         return view('departamento_finanzas.jefe_departamento.partials_agregar_anexo1', compact('requisicion'));
 
@@ -392,10 +392,10 @@ where total_presupuesto > 0 and id_presupuesto_ante ='.$anteproyecto->id_presupu
         $requisicion = DB::selectOne('SELECT pres_actividades_req_ante.*,pres_mes.mes,pres_partida_pres.nombre_partida,pres_partida_pres.clave_presupuestal,
        pres_proyectos.nombre_proyecto, pres_metas.meta from pres_actividades_req_ante, pres_mes,pres_proyectos,pres_metas,
        pres_partida_pres
-       WHERE pres_actividades_req_ante.id_mes = pres_mes.id_mes and 
+       WHERE pres_actividades_req_ante.id_mes = pres_mes.id_mes and
        pres_proyectos.id_proyecto = pres_actividades_req_ante.id_proyecto
        and pres_partida_pres.id_partida_pres = pres_actividades_req_ante.id_partida_pres
-       and pres_actividades_req_ante.id_meta = pres_metas.id_meta and pres_actividades_req_ante.id_actividades_req_ante =' . $id_actividades_req_ante . '');
+       and pres_actividades_req_ante.id_meta = pres_metas.id_meta and pres_actividades_req_ante.id_actividades_req_ante = ?', [$id_actividades_req_ante]);
 
         //dd($requisicion);
 
@@ -413,10 +413,10 @@ where total_presupuesto > 0 and id_presupuesto_ante ='.$anteproyecto->id_presupu
         $requisicion = DB::selectOne('SELECT pres_actividades_req_ante.*,pres_mes.mes,pres_partida_pres.nombre_partida,pres_partida_pres.clave_presupuestal,
        pres_proyectos.nombre_proyecto, pres_metas.meta from pres_actividades_req_ante, pres_mes,pres_proyectos,pres_metas,
        pres_partida_pres
-       WHERE pres_actividades_req_ante.id_mes = pres_mes.id_mes and 
+       WHERE pres_actividades_req_ante.id_mes = pres_mes.id_mes and
        pres_proyectos.id_proyecto = pres_actividades_req_ante.id_proyecto
        and pres_partida_pres.id_partida_pres = pres_actividades_req_ante.id_partida_pres
-       and pres_actividades_req_ante.id_meta = pres_metas.id_meta and pres_actividades_req_ante.id_actividades_req_ante =' . $id_actividades_req_ante . '');
+       and pres_actividades_req_ante.id_meta = pres_metas.id_meta and pres_actividades_req_ante.id_actividades_req_ante = ?', [$id_actividades_req_ante]);
 //dd($requisicion);
         return view('departamento_finanzas.jefe_departamento.partials_agregar_suficiencia_pdf', compact('requisicion'));
     }
@@ -429,10 +429,10 @@ where total_presupuesto > 0 and id_presupuesto_ante ='.$anteproyecto->id_presupu
         $requisicion = DB::selectOne('SELECT pres_actividades_req_ante.*,pres_mes.mes,pres_partida_pres.nombre_partida,pres_partida_pres.clave_presupuestal,
        pres_proyectos.nombre_proyecto, pres_metas.meta from pres_actividades_req_ante, pres_mes,pres_proyectos,pres_metas,
        pres_partida_pres
-       WHERE pres_actividades_req_ante.id_mes = pres_mes.id_mes and 
+       WHERE pres_actividades_req_ante.id_mes = pres_mes.id_mes and
        pres_proyectos.id_proyecto = pres_actividades_req_ante.id_proyecto
        and pres_partida_pres.id_partida_pres = pres_actividades_req_ante.id_partida_pres
-       and pres_actividades_req_ante.id_meta = pres_metas.id_meta and pres_actividades_req_ante.id_actividades_req_ante =' . $id_actividades_req_ante . '');
+       and pres_actividades_req_ante.id_meta = pres_metas.id_meta and pres_actividades_req_ante.id_actividades_req_ante = ?', [$id_actividades_req_ante]);
 
         //dd($requisicion);
 
@@ -450,10 +450,10 @@ where total_presupuesto > 0 and id_presupuesto_ante ='.$anteproyecto->id_presupu
         $requisicion = DB::selectOne('SELECT pres_actividades_req_ante.*,pres_mes.mes,pres_partida_pres.nombre_partida,pres_partida_pres.clave_presupuestal,
        pres_proyectos.nombre_proyecto, pres_metas.meta from pres_actividades_req_ante, pres_mes,pres_proyectos,pres_metas,
        pres_partida_pres
-       WHERE pres_actividades_req_ante.id_mes = pres_mes.id_mes and 
+       WHERE pres_actividades_req_ante.id_mes = pres_mes.id_mes and
        pres_proyectos.id_proyecto = pres_actividades_req_ante.id_proyecto
        and pres_partida_pres.id_partida_pres = pres_actividades_req_ante.id_partida_pres
-       and pres_actividades_req_ante.id_meta = pres_metas.id_meta and pres_actividades_req_ante.id_actividades_req_ante =' . $id_actividades_req_ante . '');
+       and pres_actividades_req_ante.id_meta = pres_metas.id_meta and pres_actividades_req_ante.id_actividades_req_ante = ?', [$id_actividades_req_ante]);
 //dd($requisicion);
         $respuestas = DB::select('SELECT * FROM `ti_respuesta` ');
         return view('departamento_finanzas.jefe_departamento.partials_justificacionpdf', compact('requisicion', 'respuestas'));
@@ -475,10 +475,10 @@ where total_presupuesto > 0 and id_presupuesto_ante ='.$anteproyecto->id_presupu
             $requisicion = DB::selectOne('SELECT pres_actividades_req_ante.*,pres_mes.mes,pres_partida_pres.nombre_partida,pres_partida_pres.clave_presupuestal,
        pres_proyectos.nombre_proyecto, pres_metas.meta from pres_actividades_req_ante, pres_mes,pres_proyectos,pres_metas,
        pres_partida_pres
-       WHERE pres_actividades_req_ante.id_mes = pres_mes.id_mes and 
+       WHERE pres_actividades_req_ante.id_mes = pres_mes.id_mes and
        pres_proyectos.id_proyecto = pres_actividades_req_ante.id_proyecto
        and pres_partida_pres.id_partida_pres = pres_actividades_req_ante.id_partida_pres
-       and pres_actividades_req_ante.id_meta = pres_metas.id_meta and pres_actividades_req_ante.id_actividades_req_ante =' . $id_actividades_req_ante . '');
+       and pres_actividades_req_ante.id_meta = pres_metas.id_meta and pres_actividades_req_ante.id_actividades_req_ante = ?', [$id_actividades_req_ante]);
 
             //dd($requisicion);
 
@@ -499,10 +499,10 @@ where total_presupuesto > 0 and id_presupuesto_ante ='.$anteproyecto->id_presupu
         $requisicion = DB::selectOne('SELECT pres_actividades_req_ante.*,pres_mes.mes,pres_partida_pres.nombre_partida,pres_partida_pres.clave_presupuestal,
        pres_proyectos.nombre_proyecto, pres_metas.meta from pres_actividades_req_ante, pres_mes,pres_proyectos,pres_metas,
        pres_partida_pres
-       WHERE pres_actividades_req_ante.id_mes = pres_mes.id_mes and 
+       WHERE pres_actividades_req_ante.id_mes = pres_mes.id_mes and
        pres_proyectos.id_proyecto = pres_actividades_req_ante.id_proyecto
        and pres_partida_pres.id_partida_pres = pres_actividades_req_ante.id_partida_pres
-       and pres_actividades_req_ante.id_meta = pres_metas.id_meta and pres_actividades_req_ante.id_actividades_req_ante =' . $id_actividades_req_ante . '');
+       and pres_actividades_req_ante.id_meta = pres_metas.id_meta and pres_actividades_req_ante.id_actividades_req_ante = ?', [$id_actividades_req_ante]);
 //dd($requisicion);
         return view('departamento_finanzas.jefe_departamento.partials_mod_req_mat', compact('requisicion'));
 
@@ -515,10 +515,10 @@ where total_presupuesto > 0 and id_presupuesto_ante ='.$anteproyecto->id_presupu
         $requisicion = DB::selectOne('SELECT pres_actividades_req_ante.*,pres_mes.mes,pres_partida_pres.nombre_partida,pres_partida_pres.clave_presupuestal,
        pres_proyectos.nombre_proyecto, pres_metas.meta from pres_actividades_req_ante, pres_mes,pres_proyectos,pres_metas,
        pres_partida_pres
-       WHERE pres_actividades_req_ante.id_mes = pres_mes.id_mes and 
+       WHERE pres_actividades_req_ante.id_mes = pres_mes.id_mes and
        pres_proyectos.id_proyecto = pres_actividades_req_ante.id_proyecto
        and pres_partida_pres.id_partida_pres = pres_actividades_req_ante.id_partida_pres
-       and pres_actividades_req_ante.id_meta = pres_metas.id_meta and pres_actividades_req_ante.id_actividades_req_ante =' . $id_actividades_req_ante . '');
+       and pres_actividades_req_ante.id_meta = pres_metas.id_meta and pres_actividades_req_ante.id_actividades_req_ante = ?', [$id_actividades_req_ante]);
 
         //dd($requisicion);
 
@@ -536,10 +536,10 @@ where total_presupuesto > 0 and id_presupuesto_ante ='.$anteproyecto->id_presupu
         $requisicion = DB::selectOne('SELECT pres_actividades_req_ante.*,pres_mes.mes,pres_partida_pres.nombre_partida,pres_partida_pres.clave_presupuestal,
        pres_proyectos.nombre_proyecto, pres_metas.meta from pres_actividades_req_ante, pres_mes,pres_proyectos,pres_metas,
        pres_partida_pres
-       WHERE pres_actividades_req_ante.id_mes = pres_mes.id_mes and 
+       WHERE pres_actividades_req_ante.id_mes = pres_mes.id_mes and
        pres_proyectos.id_proyecto = pres_actividades_req_ante.id_proyecto
        and pres_partida_pres.id_partida_pres = pres_actividades_req_ante.id_partida_pres
-       and pres_actividades_req_ante.id_meta = pres_metas.id_meta and pres_actividades_req_ante.id_actividades_req_ante =' . $id_actividades_req_ante . '');
+       and pres_actividades_req_ante.id_meta = pres_metas.id_meta and pres_actividades_req_ante.id_actividades_req_ante = ?', [$id_actividades_req_ante]);
 //dd($requisicion);
         return view('departamento_finanzas.jefe_departamento.partials_mod_anexo1', compact('requisicion'));
 
@@ -553,10 +553,10 @@ where total_presupuesto > 0 and id_presupuesto_ante ='.$anteproyecto->id_presupu
         $requisicion = DB::selectOne('SELECT pres_actividades_req_ante.*,pres_mes.mes,pres_partida_pres.nombre_partida,pres_partida_pres.clave_presupuestal,
        pres_proyectos.nombre_proyecto, pres_metas.meta from pres_actividades_req_ante, pres_mes,pres_proyectos,pres_metas,
        pres_partida_pres
-       WHERE pres_actividades_req_ante.id_mes = pres_mes.id_mes and 
+       WHERE pres_actividades_req_ante.id_mes = pres_mes.id_mes and
        pres_proyectos.id_proyecto = pres_actividades_req_ante.id_proyecto
        and pres_partida_pres.id_partida_pres = pres_actividades_req_ante.id_partida_pres
-       and pres_actividades_req_ante.id_meta = pres_metas.id_meta and pres_actividades_req_ante.id_actividades_req_ante =' . $id_actividades_req_ante . '');
+       and pres_actividades_req_ante.id_meta = pres_metas.id_meta and pres_actividades_req_ante.id_actividades_req_ante = ?', [$id_actividades_req_ante]);
 
         //dd($requisicion);
 
@@ -572,10 +572,10 @@ where total_presupuesto > 0 and id_presupuesto_ante ='.$anteproyecto->id_presupu
         $requisicion = DB::selectOne('SELECT pres_actividades_req_ante.*,pres_mes.mes,pres_partida_pres.nombre_partida,pres_partida_pres.clave_presupuestal,
        pres_proyectos.nombre_proyecto, pres_metas.meta from pres_actividades_req_ante, pres_mes,pres_proyectos,pres_metas,
        pres_partida_pres
-       WHERE pres_actividades_req_ante.id_mes = pres_mes.id_mes and 
+       WHERE pres_actividades_req_ante.id_mes = pres_mes.id_mes and
        pres_proyectos.id_proyecto = pres_actividades_req_ante.id_proyecto
        and pres_partida_pres.id_partida_pres = pres_actividades_req_ante.id_partida_pres
-       and pres_actividades_req_ante.id_meta = pres_metas.id_meta and pres_actividades_req_ante.id_actividades_req_ante =' . $id_actividades_req_ante . '');
+       and pres_actividades_req_ante.id_meta = pres_metas.id_meta and pres_actividades_req_ante.id_actividades_req_ante = ?', [$id_actividades_req_ante]);
 //dd($requisicion);
         return view('departamento_finanzas.jefe_departamento.partials_mod_suficiencia', compact('requisicion'));
 
@@ -588,10 +588,10 @@ where total_presupuesto > 0 and id_presupuesto_ante ='.$anteproyecto->id_presupu
         $requisicion = DB::selectOne('SELECT pres_actividades_req_ante.*,pres_mes.mes,pres_partida_pres.nombre_partida,pres_partida_pres.clave_presupuestal,
        pres_proyectos.nombre_proyecto, pres_metas.meta from pres_actividades_req_ante, pres_mes,pres_proyectos,pres_metas,
        pres_partida_pres
-       WHERE pres_actividades_req_ante.id_mes = pres_mes.id_mes and 
+       WHERE pres_actividades_req_ante.id_mes = pres_mes.id_mes and
        pres_proyectos.id_proyecto = pres_actividades_req_ante.id_proyecto
        and pres_partida_pres.id_partida_pres = pres_actividades_req_ante.id_partida_pres
-       and pres_actividades_req_ante.id_meta = pres_metas.id_meta and pres_actividades_req_ante.id_actividades_req_ante =' . $id_actividades_req_ante . '');
+       and pres_actividades_req_ante.id_meta = pres_metas.id_meta and pres_actividades_req_ante.id_actividades_req_ante = ?', [$id_actividades_req_ante]);
 
         //dd($requisicion);
 
@@ -607,10 +607,10 @@ where total_presupuesto > 0 and id_presupuesto_ante ='.$anteproyecto->id_presupu
         $requisicion = DB::selectOne('SELECT pres_actividades_req_ante.*,pres_mes.mes,pres_partida_pres.nombre_partida,pres_partida_pres.clave_presupuestal,
        pres_proyectos.nombre_proyecto, pres_metas.meta from pres_actividades_req_ante, pres_mes,pres_proyectos,pres_metas,
        pres_partida_pres
-       WHERE pres_actividades_req_ante.id_mes = pres_mes.id_mes and 
+       WHERE pres_actividades_req_ante.id_mes = pres_mes.id_mes and
        pres_proyectos.id_proyecto = pres_actividades_req_ante.id_proyecto
        and pres_partida_pres.id_partida_pres = pres_actividades_req_ante.id_partida_pres
-       and pres_actividades_req_ante.id_meta = pres_metas.id_meta and pres_actividades_req_ante.id_actividades_req_ante =' . $id_actividades_req_ante . '');
+       and pres_actividades_req_ante.id_meta = pres_metas.id_meta and pres_actividades_req_ante.id_actividades_req_ante = ?', [$id_actividades_req_ante]);
 //dd($requisicion);
         $respuestas = DB::select('SELECT * FROM `ti_respuesta` ');
         return view('departamento_finanzas.jefe_departamento.partials_mod_justificacion_pdf', compact('requisicion', 'respuestas'));
@@ -633,10 +633,10 @@ where total_presupuesto > 0 and id_presupuesto_ante ='.$anteproyecto->id_presupu
             $requisicion = DB::selectOne('SELECT pres_actividades_req_ante.*,pres_mes.mes,pres_partida_pres.nombre_partida,pres_partida_pres.clave_presupuestal,
        pres_proyectos.nombre_proyecto, pres_metas.meta from pres_actividades_req_ante, pres_mes,pres_proyectos,pres_metas,
        pres_partida_pres
-       WHERE pres_actividades_req_ante.id_mes = pres_mes.id_mes and 
+       WHERE pres_actividades_req_ante.id_mes = pres_mes.id_mes and
        pres_proyectos.id_proyecto = pres_actividades_req_ante.id_proyecto
        and pres_partida_pres.id_partida_pres = pres_actividades_req_ante.id_partida_pres
-       and pres_actividades_req_ante.id_meta = pres_metas.id_meta and pres_actividades_req_ante.id_actividades_req_ante =' . $id_actividades_req_ante . '');
+       and pres_actividades_req_ante.id_meta = pres_metas.id_meta and pres_actividades_req_ante.id_actividades_req_ante = ?', [$id_actividades_req_ante]);
 
             //dd($requisicion);
 
@@ -680,7 +680,7 @@ where total_presupuesto > 0 and id_presupuesto_ante ='.$anteproyecto->id_presupu
 
     }
     public function modificar_servicio($id_reg_material_ant){
-        $servicio=DB::selectOne('SELECT * FROM `pres_reg_material_req_ante` WHERE `id_reg_material_ant` ='.$id_reg_material_ant.'');
+        $servicio=DB::selectOne('SELECT * FROM `pres_reg_material_req_ante` WHERE `id_reg_material_ant` = ?', [$id_reg_material_ant]);
         return view('departamento_finanzas.jefe_departamento.partials_mod_servicio',compact('servicio'));
     }
     public function guardar_mod_bien(Request $request,$id_reg_material_ant){
@@ -711,7 +711,7 @@ where total_presupuesto > 0 and id_presupuesto_ante ='.$anteproyecto->id_presupu
         return back();
     }
     public function eliminar_servicio($id_reg_material_ant){
-        $servicio=DB::selectOne('SELECT * FROM `pres_reg_material_req_ante` WHERE `id_reg_material_ant` ='.$id_reg_material_ant.'');
+        $servicio=DB::selectOne('SELECT * FROM `pres_reg_material_req_ante` WHERE `id_reg_material_ant` = ?', [$id_reg_material_ant]);
         return view('departamento_finanzas.jefe_departamento.partial_eliminar_servicio',compact('servicio'));
     }
     public function guardar_eliminar_bien(Request $request,$id_reg_material_ant){
@@ -728,16 +728,16 @@ where total_presupuesto > 0 and id_presupuesto_ante ='.$anteproyecto->id_presupu
         ]);
         $id_req_mat_ante = $request->input('id_req_mat_ante');
 
-        $requisiciones=DB::selectOne('SELECT * FROM `pres_req_mat_ante` WHERE `id_req_mat_ante` = '.$id_req_mat_ante.'');
+        $requisiciones=DB::selectOne('SELECT * FROM `pres_req_mat_ante` WHERE `id_req_mat_ante` = ?', [$id_req_mat_ante]);
         $year=$requisiciones->year_requisicion;
 
 
         //// jefe de direccion
-        $jefe_finanzas=DB::selectOne('SELECT gnral_unidad_administrativa.nom_departamento, gnral_unidad_personal.id_unidad_persona, 
-        gnral_unidad_personal.id_personal, gnral_unidad_personal.id_unidad_admin, gnral_personales.nombre,gnral_personales.correo, abreviaciones.titulo 
-        from gnral_unidad_administrativa, gnral_unidad_personal, gnral_personales, abreviaciones_prof, abreviaciones 
+        $jefe_finanzas=DB::selectOne('SELECT gnral_unidad_administrativa.nom_departamento, gnral_unidad_personal.id_unidad_persona,
+        gnral_unidad_personal.id_personal, gnral_unidad_personal.id_unidad_admin, gnral_personales.nombre,gnral_personales.correo, abreviaciones.titulo
+        from gnral_unidad_administrativa, gnral_unidad_personal, gnral_personales, abreviaciones_prof, abreviaciones
         where gnral_unidad_administrativa.id_unidad_admin = 22 and gnral_unidad_administrativa.id_unidad_admin = gnral_unidad_personal.id_unidad_admin
-        and gnral_unidad_personal.id_personal = gnral_personales.id_personal and abreviaciones_prof.id_personal = gnral_personales.id_personal 
+        and gnral_unidad_personal.id_personal = gnral_personales.id_personal and abreviaciones_prof.id_personal = gnral_personales.id_personal
           and abreviaciones_prof.id_abreviacion = abreviaciones.id_abreviacion');
         /// ...............................////
 
@@ -745,12 +745,12 @@ where total_presupuesto > 0 and id_presupuesto_ante ='.$anteproyecto->id_presupu
         $correo_jefe_finan=$jefe_finanzas->correo;
         ///
         //// jefe de departamento
-        $jefe_departamento=DB::selectOne('SELECT gnral_unidad_administrativa.nom_departamento, gnral_unidad_personal.id_unidad_persona, 
-        gnral_unidad_personal.id_personal, gnral_unidad_personal.id_unidad_admin, gnral_personales.nombre,gnral_personales.correo, abreviaciones.titulo 
-        from gnral_unidad_administrativa, gnral_unidad_personal, gnral_personales, abreviaciones_prof, abreviaciones 
-        where gnral_unidad_administrativa.id_unidad_admin = '.$requisiciones->id_unidad_admin.' and gnral_unidad_administrativa.id_unidad_admin = gnral_unidad_personal.id_unidad_admin
-        and gnral_unidad_personal.id_personal = gnral_personales.id_personal and abreviaciones_prof.id_personal = gnral_personales.id_personal 
-          and abreviaciones_prof.id_abreviacion = abreviaciones.id_abreviacion');
+        $jefe_departamento=DB::selectOne('SELECT gnral_unidad_administrativa.nom_departamento, gnral_unidad_personal.id_unidad_persona,
+        gnral_unidad_personal.id_personal, gnral_unidad_personal.id_unidad_admin, gnral_personales.nombre,gnral_personales.correo, abreviaciones.titulo
+        from gnral_unidad_administrativa, gnral_unidad_personal, gnral_personales, abreviaciones_prof, abreviaciones
+        where gnral_unidad_administrativa.id_unidad_admin = ? and gnral_unidad_administrativa.id_unidad_admin = gnral_unidad_personal.id_unidad_admin
+        and gnral_unidad_personal.id_personal = gnral_personales.id_personal and abreviaciones_prof.id_personal = gnral_personales.id_personal
+          and abreviaciones_prof.id_abreviacion = abreviaciones.id_abreviacion', [$requisiciones->id_unidad_admin]);
         /// ...............................////
         $nombre_jefe_dep=$jefe_departamento->titulo." ".$jefe_departamento->nombre;
         $correo_jefe_dep=$jefe_departamento->correo;
@@ -788,14 +788,14 @@ where total_presupuesto > 0 and id_presupuesto_ante ='.$anteproyecto->id_presupu
         return redirect('/presupuesto_anteproyecto/registrar_requerimientos_anteproyecto');
     }
     public  function modificar_requisicones($id_req_mat_ante){
-        $datos_req_envio = DB::selectOne('SELECT * FROM `pres_req_mat_ante` WHERE `id_req_mat_ante` = ' . $id_req_mat_ante . '');
+        $datos_req_envio = DB::selectOne('SELECT * FROM `pres_req_mat_ante` WHERE `id_req_mat_ante` = ?', [$id_req_mat_ante]);
         $meses = DB::select('SELECT * FROM `pres_mes` ORDER BY `pres_mes`.`id_mes` ASC ');
         $proyectos = DB::select('SELECT * FROM `pres_proyectos` ORDER BY `pres_proyectos`.`nombre_proyecto` ASC ');
         $requisiciones = DB::select('SELECT pres_actividades_req_ante.*,pres_mes.mes, pres_proyectos.nombre_proyecto,
-       pres_metas.meta, pres_partida_pres.nombre_partida, pres_partida_pres.clave_presupuestal from pres_actividades_req_ante, pres_mes,pres_proyectos,pres_metas,pres_partida_pres  
+       pres_metas.meta, pres_partida_pres.nombre_partida, pres_partida_pres.clave_presupuestal from pres_actividades_req_ante, pres_mes,pres_proyectos,pres_metas,pres_partida_pres
        WHERE pres_actividades_req_ante.id_mes = pres_mes.id_mes and pres_proyectos.id_proyecto = pres_actividades_req_ante.id_proyecto
-       and pres_actividades_req_ante.id_meta = pres_metas.id_meta and pres_actividades_req_ante.id_req_mat_ante  = '.$id_req_mat_ante.' and pres_actividades_req_ante.id_partida_pres = pres_partida_pres.id_partida_pres 
-       ORDER BY `pres_mes`.`id_mes` ASC');
+       and pres_actividades_req_ante.id_meta = pres_metas.id_meta and pres_actividades_req_ante.id_req_mat_ante  = ? and pres_actividades_req_ante.id_partida_pres = pres_partida_pres.id_partida_pres
+       ORDER BY `pres_mes`.`id_mes` ASC', [$id_req_mat_ante]);
         $partidas_presupuestales=DB::select('SELECT * FROM `pres_partida_pres` ORDER BY `pres_partida_pres`.`clave_presupuestal` ASC');
 //dd($partidas_presupuestales);
 
@@ -845,11 +845,11 @@ where total_presupuesto > 0 and id_presupuesto_ante ='.$anteproyecto->id_presupu
             $req['meta']=$requisicion->meta;
             $bienes=array();
             $total_req=0;
-            $bienes_servicios=DB::select('SELECT * FROM `pres_reg_material_req_ante` 
-             WHERE `id_actividades_req_ante` = '.$requisicion->id_actividades_req_ante.'');
+            $bienes_servicios=DB::select('SELECT * FROM `pres_reg_material_req_ante`
+             WHERE `id_actividades_req_ante` = ?', [$requisicion->id_actividades_req_ante]);
 
             $contar=DB::selectOne('SELECT count(id_reg_material_ant) contar from pres_reg_material_req_ante
-            where id_actividades_req_ante =  '.$requisicion->id_actividades_req_ante.' ');
+            where id_actividades_req_ante =  ? ', [$requisicion->id_actividades_req_ante]);
             if($contar->contar == 0){
                 $estado_material=true;
             }
@@ -876,10 +876,10 @@ where total_presupuesto > 0 and id_presupuesto_ante ='.$anteproyecto->id_presupu
     }
     public function modificar_bienes_servicios_anteproyecto($id_actividades_req_ante){
         $requisiciones = DB::select('SELECT pres_actividades_req_ante.*,pres_mes.mes, pres_proyectos.nombre_proyecto,
-       pres_metas.meta, pres_partida_pres.nombre_partida, pres_partida_pres.clave_presupuestal from pres_actividades_req_ante, pres_mes,pres_proyectos,pres_metas,pres_partida_pres  
+       pres_metas.meta, pres_partida_pres.nombre_partida, pres_partida_pres.clave_presupuestal from pres_actividades_req_ante, pres_mes,pres_proyectos,pres_metas,pres_partida_pres
        WHERE pres_actividades_req_ante.id_mes = pres_mes.id_mes and pres_proyectos.id_proyecto = pres_actividades_req_ante.id_proyecto
-       and pres_actividades_req_ante.id_meta = pres_metas.id_meta and pres_actividades_req_ante.id_actividades_req_ante='.$id_actividades_req_ante.' and pres_actividades_req_ante.id_partida_pres = pres_partida_pres.id_partida_pres 
-       ORDER BY `pres_mes`.`id_mes` ASC');
+       and pres_actividades_req_ante.id_meta = pres_metas.id_meta and pres_actividades_req_ante.id_actividades_req_ante= ? and pres_actividades_req_ante.id_partida_pres = pres_partida_pres.id_partida_pres
+       ORDER BY `pres_mes`.`id_mes` ASC', [$id_actividades_req_ante]);
 
         $requisiciones2=array();
         $total_req=0;
@@ -911,8 +911,8 @@ where total_presupuesto > 0 and id_presupuesto_ante ='.$anteproyecto->id_presupu
             $req['cotizacion_pdf']=$requisicion->cotizacion_pdf;
             $bienes=array();
             $total_req=0;
-            $bienes_servicios=DB::select('SELECT * FROM `pres_reg_material_req_ante` 
-             WHERE `id_actividades_req_ante` = '.$requisicion->id_actividades_req_ante.'');
+            $bienes_servicios=DB::select('SELECT * FROM `pres_reg_material_req_ante`
+             WHERE `id_actividades_req_ante` = ?', [$requisicion->id_actividades_req_ante]);
             foreach ( $bienes_servicios as $servicio) {
                 $serv['id_reg_material_ant']=$servicio->id_reg_material_ant;
                 $serv['descripcion']=$servicio->descripcion;
@@ -927,9 +927,9 @@ where total_presupuesto > 0 and id_presupuesto_ante ='.$anteproyecto->id_presupu
             $req['servicios']=$bienes;
             array_push($requisiciones2, $req);
         }
-        $datos_req_envio = DB::selectOne('SELECT pres_req_mat_ante.* from pres_req_mat_ante, 
-        pres_actividades_req_ante WHERE  pres_req_mat_ante.id_req_mat_ante = pres_actividades_req_ante.id_req_mat_ante 
-        and pres_actividades_req_ante.id_actividades_req_ante ='.$id_actividades_req_ante.'');
+        $datos_req_envio = DB::selectOne('SELECT pres_req_mat_ante.* from pres_req_mat_ante,
+        pres_actividades_req_ante WHERE  pres_req_mat_ante.id_req_mat_ante = pres_actividades_req_ante.id_req_mat_ante
+        and pres_actividades_req_ante.id_actividades_req_ante = ?', [$id_actividades_req_ante]);
 
 
         return view('departamento_finanzas.jefe_departamento.modificaciones_material_documentos', compact( 'id_autorizacion','requisiciones2','datos_req_envio','total_req','id_actividades_req_ante'));
@@ -943,16 +943,16 @@ where total_presupuesto > 0 and id_presupuesto_ante ='.$anteproyecto->id_presupu
 
         $id_req_mat_ante = $request->input('id_req_mat_ante');
 
-        $requisiciones=DB::selectOne('SELECT * FROM `pres_req_mat_ante` WHERE `id_req_mat_ante` = '.$id_req_mat_ante.'');
+        $requisiciones=DB::selectOne('SELECT * FROM `pres_req_mat_ante` WHERE `id_req_mat_ante` = ?', [$id_req_mat_ante]);
         $year=$requisiciones->year_requisicion;
 
 
         //// jefe de direccion
-        $jefe_finanzas=DB::selectOne('SELECT gnral_unidad_administrativa.nom_departamento, gnral_unidad_personal.id_unidad_persona, 
-        gnral_unidad_personal.id_personal, gnral_unidad_personal.id_unidad_admin, gnral_personales.nombre,gnral_personales.correo, abreviaciones.titulo 
-        from gnral_unidad_administrativa, gnral_unidad_personal, gnral_personales, abreviaciones_prof, abreviaciones 
+        $jefe_finanzas=DB::selectOne('SELECT gnral_unidad_administrativa.nom_departamento, gnral_unidad_personal.id_unidad_persona,
+        gnral_unidad_personal.id_personal, gnral_unidad_personal.id_unidad_admin, gnral_personales.nombre,gnral_personales.correo, abreviaciones.titulo
+        from gnral_unidad_administrativa, gnral_unidad_personal, gnral_personales, abreviaciones_prof, abreviaciones
         where gnral_unidad_administrativa.id_unidad_admin = 22 and gnral_unidad_administrativa.id_unidad_admin = gnral_unidad_personal.id_unidad_admin
-        and gnral_unidad_personal.id_personal = gnral_personales.id_personal and abreviaciones_prof.id_personal = gnral_personales.id_personal 
+        and gnral_unidad_personal.id_personal = gnral_personales.id_personal and abreviaciones_prof.id_personal = gnral_personales.id_personal
           and abreviaciones_prof.id_abreviacion = abreviaciones.id_abreviacion');
         /// ...............................////
 
@@ -960,12 +960,12 @@ where total_presupuesto > 0 and id_presupuesto_ante ='.$anteproyecto->id_presupu
         $correo_jefe_finan=$jefe_finanzas->correo;
         ///
         //// jefe de departamento
-        $jefe_departamento=DB::selectOne('SELECT gnral_unidad_administrativa.nom_departamento, gnral_unidad_personal.id_unidad_persona, 
-        gnral_unidad_personal.id_personal, gnral_unidad_personal.id_unidad_admin, gnral_personales.nombre,gnral_personales.correo, abreviaciones.titulo 
-        from gnral_unidad_administrativa, gnral_unidad_personal, gnral_personales, abreviaciones_prof, abreviaciones 
-        where gnral_unidad_administrativa.id_unidad_admin = '.$requisiciones->id_unidad_admin.' and gnral_unidad_administrativa.id_unidad_admin = gnral_unidad_personal.id_unidad_admin
-        and gnral_unidad_personal.id_personal = gnral_personales.id_personal and abreviaciones_prof.id_personal = gnral_personales.id_personal 
-          and abreviaciones_prof.id_abreviacion = abreviaciones.id_abreviacion');
+        $jefe_departamento=DB::selectOne('SELECT gnral_unidad_administrativa.nom_departamento, gnral_unidad_personal.id_unidad_persona,
+        gnral_unidad_personal.id_personal, gnral_unidad_personal.id_unidad_admin, gnral_personales.nombre,gnral_personales.correo, abreviaciones.titulo
+        from gnral_unidad_administrativa, gnral_unidad_personal, gnral_personales, abreviaciones_prof, abreviaciones
+        where gnral_unidad_administrativa.id_unidad_admin = ? and gnral_unidad_administrativa.id_unidad_admin = gnral_unidad_personal.id_unidad_admin
+        and gnral_unidad_personal.id_personal = gnral_personales.id_personal and abreviaciones_prof.id_personal = gnral_personales.id_personal
+          and abreviaciones_prof.id_abreviacion = abreviaciones.id_abreviacion', [$requisiciones->id_unidad_admin]);
         /// ...............................////
         $nombre_jefe_dep=$jefe_departamento->titulo." ".$jefe_departamento->nombre;
         $correo_jefe_dep=$jefe_departamento->correo;
@@ -980,7 +980,7 @@ where total_presupuesto > 0 and id_presupuesto_ante ='.$anteproyecto->id_presupu
                 });
 
         */
-        $actividades=DB::select('SELECT *from pres_actividades_req_ante WHERE id_req_mat_ante= '.$id_req_mat_ante.' and id_autorizacion = 2');
+        $actividades=DB::select('SELECT *from pres_actividades_req_ante WHERE id_req_mat_ante= ? and id_autorizacion = 2', [$id_req_mat_ante]);
         foreach ($actividades as $actividad){
             DB::table('pres_actividades_req_ante')
                 ->where('id_actividades_req_ante', $actividad->id_actividades_req_ante)
@@ -1000,10 +1000,10 @@ where total_presupuesto > 0 and id_presupuesto_ante ='.$anteproyecto->id_presupu
         $requisicion = DB::selectOne('SELECT pres_actividades_req_ante.*,pres_mes.mes,pres_partida_pres.nombre_partida,pres_partida_pres.clave_presupuestal,
        pres_proyectos.nombre_proyecto, pres_metas.meta from pres_actividades_req_ante, pres_mes,pres_proyectos,pres_metas,
        pres_partida_pres
-       WHERE pres_actividades_req_ante.id_mes = pres_mes.id_mes and 
+       WHERE pres_actividades_req_ante.id_mes = pres_mes.id_mes and
        pres_proyectos.id_proyecto = pres_actividades_req_ante.id_proyecto
        and pres_partida_pres.id_partida_pres = pres_actividades_req_ante.id_partida_pres
-       and pres_actividades_req_ante.id_meta = pres_metas.id_meta and pres_actividades_req_ante.id_actividades_req_ante =' . $id_actividades_req_ante . '');
+       and pres_actividades_req_ante.id_meta = pres_metas.id_meta and pres_actividades_req_ante.id_actividades_req_ante = ?', [$id_actividades_req_ante]);
 //dd($requisicion);
         return view('departamento_finanzas.jefe_departamento.partials_cotizacion', compact('requisicion'));
 
@@ -1015,10 +1015,10 @@ where total_presupuesto > 0 and id_presupuesto_ante ='.$anteproyecto->id_presupu
         $requisicion = DB::selectOne('SELECT pres_actividades_req_ante.*,pres_mes.mes,pres_partida_pres.nombre_partida,pres_partida_pres.clave_presupuestal,
        pres_proyectos.nombre_proyecto, pres_metas.meta from pres_actividades_req_ante, pres_mes,pres_proyectos,pres_metas,
        pres_partida_pres
-       WHERE pres_actividades_req_ante.id_mes = pres_mes.id_mes and 
+       WHERE pres_actividades_req_ante.id_mes = pres_mes.id_mes and
        pres_proyectos.id_proyecto = pres_actividades_req_ante.id_proyecto
        and pres_partida_pres.id_partida_pres = pres_actividades_req_ante.id_partida_pres
-       and pres_actividades_req_ante.id_meta = pres_metas.id_meta and pres_actividades_req_ante.id_actividades_req_ante =' . $id_actividades_req_ante . '');
+       and pres_actividades_req_ante.id_meta = pres_metas.id_meta and pres_actividades_req_ante.id_actividades_req_ante = ?', [$id_actividades_req_ante]);
 
         //dd($requisicion);
 
@@ -1034,10 +1034,10 @@ where total_presupuesto > 0 and id_presupuesto_ante ='.$anteproyecto->id_presupu
         $requisicion = DB::selectOne('SELECT pres_actividades_req_ante.*,pres_mes.mes,pres_partida_pres.nombre_partida,pres_partida_pres.clave_presupuestal,
        pres_proyectos.nombre_proyecto, pres_metas.meta from pres_actividades_req_ante, pres_mes,pres_proyectos,pres_metas,
        pres_partida_pres
-       WHERE pres_actividades_req_ante.id_mes = pres_mes.id_mes and 
+       WHERE pres_actividades_req_ante.id_mes = pres_mes.id_mes and
        pres_proyectos.id_proyecto = pres_actividades_req_ante.id_proyecto
        and pres_partida_pres.id_partida_pres = pres_actividades_req_ante.id_partida_pres
-       and pres_actividades_req_ante.id_meta = pres_metas.id_meta and pres_actividades_req_ante.id_actividades_req_ante =' . $id_actividades_req_ante . '');
+       and pres_actividades_req_ante.id_meta = pres_metas.id_meta and pres_actividades_req_ante.id_actividades_req_ante = ?', [$id_actividades_req_ante]);
 //dd($requisicion);
         return view('departamento_finanzas.jefe_departamento.partials_mod_cotizacion', compact('requisicion'));
 
@@ -1049,10 +1049,10 @@ where total_presupuesto > 0 and id_presupuesto_ante ='.$anteproyecto->id_presupu
         $requisicion = DB::selectOne('SELECT pres_actividades_req_ante.*,pres_mes.mes,pres_partida_pres.nombre_partida,pres_partida_pres.clave_presupuestal,
        pres_proyectos.nombre_proyecto, pres_metas.meta from pres_actividades_req_ante, pres_mes,pres_proyectos,pres_metas,
        pres_partida_pres
-       WHERE pres_actividades_req_ante.id_mes = pres_mes.id_mes and 
+       WHERE pres_actividades_req_ante.id_mes = pres_mes.id_mes and
        pres_proyectos.id_proyecto = pres_actividades_req_ante.id_proyecto
        and pres_partida_pres.id_partida_pres = pres_actividades_req_ante.id_partida_pres
-       and pres_actividades_req_ante.id_meta = pres_metas.id_meta and pres_actividades_req_ante.id_actividades_req_ante =' . $id_actividades_req_ante . '');
+       and pres_actividades_req_ante.id_meta = pres_metas.id_meta and pres_actividades_req_ante.id_actividades_req_ante = ?', [$id_actividades_req_ante]);
 
         //dd($requisicion);
 

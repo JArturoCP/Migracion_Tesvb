@@ -12,17 +12,17 @@ class Enc_servicio_ccController extends Controller
         $id_usuario = Session::get('usuario_alumno');
 
 
-        $persona=DB::selectOne('SELECT * FROM `gnral_personales` WHERE `tipo_usuario` ='.$id_usuario.'');
+        $persona=DB::selectOne('SELECT * FROM `gnral_personales` WHERE `tipo_usuario` = ?', [$id_usuario]);
 
 
-       $encuestas_mantenimiento=DB::select('SELECT *  FROM `enc_servicio_mantenimiento` WHERE `id_personal` = '.$persona->id_personal.' AND `id_estado` = 1');
+       $encuestas_mantenimiento=DB::select('SELECT *  FROM `enc_servicio_mantenimiento` WHERE `id_personal` = ? AND `id_estado` = 1', [$persona->id_personal]);
 
-       $historial=DB::select('SELECT *  FROM `enc_servicio_mantenimiento` WHERE `id_personal` = '.$persona->id_personal.' AND `id_estado` = 2');
+       $historial=DB::select('SELECT *  FROM `enc_servicio_mantenimiento` WHERE `id_personal` = ? AND `id_estado` = 2', [$persona->id_personal]);
 
        return view('encuestas_satisfacion_cliente.computo.registro_encuestas', compact('encuestas_mantenimiento','historial'));
     }
     public function contestar_encuesta($id_servicio_mantenimieento){
-       $mantenimiento=DB::selectOne('SELECT *  FROM `enc_servicio_mantenimiento` WHERE `id_servicio_mantenimiento` ='.$id_servicio_mantenimieento.'');
+       $mantenimiento=DB::selectOne('SELECT *  FROM `enc_servicio_mantenimiento` WHERE `id_servicio_mantenimiento` = ?', [$id_servicio_mantenimieento]);
      //  dd($mantenimiento);
        return view('encuestas_satisfacion_cliente.computo.encuesta_mantenimiento',compact('mantenimiento'));
     }

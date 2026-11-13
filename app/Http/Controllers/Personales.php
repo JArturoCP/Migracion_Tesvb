@@ -28,7 +28,7 @@ class Personales extends Controller
                 if($per->id_departamento!=0)
                 {
 
-                    $descripcion_depa=DB::selectone('select gnral_departamentos.nombre_departamento from gnral_departamentos where gnral_departamentos.id_departamento='.$per->id_departamento.'');
+                    $descripcion_depa=DB::selectone('select gnral_departamentos.nombre_departamento from gnral_departamentos where gnral_departamentos.id_departamento= ?', [$per->id_departamento]);
                     $per->id_departamento=$descripcion_depa->nombre_departamento;
                 }
 
@@ -92,13 +92,13 @@ class Personales extends Controller
                 if($per->id_departamento!=0)
                 {
 
-                    $descripcion_depa=DB::selectone('select gnral_departamentos.nombre_departamento from gnral_departamentos where gnral_departamentos.id_departamento='.$per->id_departamento.'');
+                    $descripcion_depa=DB::selectone('select gnral_departamentos.nombre_departamento from gnral_departamentos where gnral_departamentos.id_departamento= ?', [$per->id_departamento]);
                     $per->id_departamento=$descripcion_depa->nombre_departamento;
                 }
 
          }  
 
-         $sss=DB::selectone('select gnral_personales.id_personal, gnral_personales.nombre,gnral_personales.clave,gnral_personales.correo,gnral_personales.id_departamento from gnral_personales where gnral_personales.id_personal='.$id.'');
+         $sss=DB::selectone('select gnral_personales.id_personal, gnral_personales.nombre,gnral_personales.clave,gnral_personales.correo,gnral_personales.id_departamento from gnral_personales where gnral_personales.id_personal= ?', [$id]);
         $combo=DB::select('select *from gnral_departamentos');
       
         return view('personal',compact('personal','combo'))->with(['edit'=>true,'consultaedit'=>$sss]);
@@ -133,7 +133,7 @@ class Personales extends Controller
      */
     public function destroy($id)
     {
-         $usuario=DB::selectone('select gnral_personales.tipo_usuario from gnral_personales where gnral_personales.id_personal='.$id.'');
+         $usuario=DB::selectone('select gnral_personales.tipo_usuario from gnral_personales where gnral_personales.id_personal= ?', [$id]);
         $id_us=$usuario->tipo_usuario;
 
 

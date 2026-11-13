@@ -22,9 +22,9 @@ class Tutorias_AsignaCoordinadorController extends Controller
         //
         $datosProfesores=Tutorias_AsignaCoordinador::getAllProf();
 
-        $checkasig=DB::select('SELECT exp_asigna_coordinador.id_asigna_coordinador,exp_asigna_coordinador.id_personal,gnral_personales.nombre FROM exp_asigna_coordinador,gnral_personales where exp_asigna_coordinador.id_personal=gnral_personales.id_personal and 
+        $checkasig=DB::select('SELECT exp_asigna_coordinador.id_asigna_coordinador,exp_asigna_coordinador.id_personal,gnral_personales.nombre FROM exp_asigna_coordinador,gnral_personales where exp_asigna_coordinador.id_personal=gnral_personales.id_personal and
                                    exp_asigna_coordinador.deleted_at is null and
-                                  exp_asigna_coordinador.id_jefe_periodo='.Session::get('id_jefe_periodo'));
+                                  exp_asigna_coordinador.id_jefe_periodo= ?', [Session::get('id_jefe_periodo')]);
         if(count($checkasig)>0)
         {
             $datos['check']=true;
@@ -37,7 +37,7 @@ class Tutorias_AsignaCoordinadorController extends Controller
 
     }
     public function repo(Request $request){
-        dd($request);
+        abort(501, 'Funcionalidad no disponible.');
         $pdf = PDF::loadView('pdf');
         return $pdf->stream();
     }

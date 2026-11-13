@@ -11,7 +11,7 @@ class Tu_eva_exportar_exel_carreraController extends Controller
     public function index($id_carrera)
     {
         Session::put('id_carrera_tutorias',$id_carrera);
-        $carreras = DB::selectOne('SELECT car.nombre FROM gnral_carreras car WHERE car.id_carrera = '.$id_carrera.' ');
+        $carreras = DB::selectOne('SELECT car.nombre FROM gnral_carreras car WHERE car.id_carrera = ? ', [$id_carrera]);
         Excel::create($carreras->nombre,function ($excel)
         {
             $periodo = Session::get('periodo_actual');
@@ -22,15 +22,15 @@ class Tu_eva_exportar_exel_carreraController extends Controller
             $tutores = DB::SELECT('SELECT exp_asigna_t.id_asigna_generacion,tu_grupo_s.id_grupo_semestre,car.nombre carrera, car.id_carrera, tu_grupo_t.descripcion grupo, gnral_p.nombre nombre_tutor, gnral_p.tipo_usuario tipo FROM tu_grupo_tutorias tu_grupo_t
                               INNER JOIN tu_grupo_semestre tu_grupo_s
                               ON tu_grupo_s.id_grupo_tutorias = tu_grupo_t.id_grupo_tutorias
-                              INNER JOIN exp_asigna_tutor exp_asigna_t 
+                              INNER JOIN exp_asigna_tutor exp_asigna_t
                               ON exp_asigna_t.id_asigna_tutor = tu_grupo_s.id_asigna_tutor
-                              INNER JOIN gnral_personales gnral_p 
-                              ON gnral_p.id_personal = exp_asigna_t.id_personal 
-                              INNER JOIN gnral_jefes_periodos gnral_j 
+                              INNER JOIN gnral_personales gnral_p
+                              ON gnral_p.id_personal = exp_asigna_t.id_personal
+                              INNER JOIN gnral_jefes_periodos gnral_j
                               ON gnral_j.id_jefe_periodo = exp_asigna_t.id_jefe_periodo
                               INNER JOIN gnral_carreras car
                               ON car.id_carrera = gnral_j.id_carrera
-                              WHERE gnral_j.id_periodo = '.$periodo.' AND car.id_carrera = '.$id_carrera.' ');
+                              WHERE gnral_j.id_periodo = ? AND car.id_carrera = ? ', [$periodo, $id_carrera]);
 
             $array_grupos = array();
 
@@ -41,7 +41,7 @@ class Tu_eva_exportar_exel_carreraController extends Controller
                 $datos_alumnos = DB::select('SELECT CONCAT(alumno.nombre," ",alumno.apaterno," ",alumno.amaterno) nombre, alumno.cuenta FROM gnral_alumnos alumno
                                                 INNER JOIN exp_asigna_alumnos asigna
                                                 ON asigna.id_alumno = alumno.id_alumno
-                                                WHERE asigna.id_asigna_generacion = '.$tutor->id_asigna_generacion.' AND asigna.id_asigna_alumno NOT IN (SELECT id_asigna_alumno FROM tu_eva_resultados_formulario)');
+                                                WHERE asigna.id_asigna_generacion = ? AND asigna.id_asigna_alumno NOT IN (SELECT id_asigna_alumno FROM tu_eva_resultados_formulario)', [$tutor->id_asigna_generacion]);
                 $array_alumnos = array();
                 foreach ($datos_alumnos as $dato) {
                     $dat_alum['cuenta'] = $dato->cuenta;

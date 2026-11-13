@@ -100,7 +100,6 @@ class RiOPlanseguimientoController extends Controller
             'fecha'=>$request->get('f_entrega'),
         );
 
-        var_dump($factor_mod);
 
         ri_o_planseguimiento::find($id)->update($factor_mod);
         return back();

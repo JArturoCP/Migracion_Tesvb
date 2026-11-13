@@ -27,7 +27,7 @@ class PDF3 extends Fpdf
             */
 			$this->Ln(10);
 		}
-		//PIE DE PAGINA 
+		//PIE DE PAGINA
 		function Footer()
 		{
 		    /*
@@ -73,31 +73,31 @@ class ConstanciaGeneral extends Controller
 	}
 	public function create()
     {
-        
+
     }
     public function store(Request $request)
     {
-        
+
     }
     public function show($id)
     {
-        
+
     }
 	public function edit($id_alumno)
 	{
-		
+
         $usuario = Session::get('usuario_alumno');
-        $carrera = Session::get('carrera');   
+        $carrera = Session::get('carrera');
         $periodo=Session::get('periodo_actual');
 
 
         $personall=DB::selectOne('select gnral_personales.id_personal from gnral_personales,users
                                     where gnral_personales.tipo_usuario=users.id
-                                    and gnral_personales.tipo_usuario='.$usuario.'');
+                                    and gnral_personales.tipo_usuario= ?', [$usuario]);
         $persona=$personall->id_personal;
         $etiqueta=DB::selectOne('SELECT etiqueta.descripcion from etiqueta WHERE id_etiqueta=1');
         $etiqueta=$etiqueta->descripcion;
-    	
+
 		$pdf=new PDF3($orientation='P',$unit='mm',$format='Letter');
 		#Establecemos los márgenes izquierda, arriba y derecha:
 		$pdf->SetMargins(20, 25 , 20);
@@ -121,32 +121,32 @@ class ConstanciaGeneral extends Controller
 
 ////////////////////////////////////CONSULTAS///////////////
 		$jefes=DB::selectOne('select gnral_personales.nombre
-                                        from abreviaciones,abreviaciones_prof,gnral_personales 
-                                        where abreviaciones.id_abreviacion=abreviaciones_prof.id_abreviacion 
-                                        and abreviaciones_prof.id_personal=gnral_personales.id_personal 
-                                        and gnral_personales.id_personal='.$persona.'');
+                                        from abreviaciones,abreviaciones_prof,gnral_personales
+                                        where abreviaciones.id_abreviacion=abreviaciones_prof.id_abreviacion
+                                        and abreviaciones_prof.id_personal=gnral_personales.id_personal
+                                        and gnral_personales.id_personal= ?', [$persona]);
         $nombre_jefe=($jefes->nombre);
 
         $abreviacion_profesor=DB::selectOne('select abreviaciones.titulo,gnral_personales.nombre
-                                        from abreviaciones,abreviaciones_prof,gnral_personales 
-                                        where abreviaciones.id_abreviacion=abreviaciones_prof.id_abreviacion 
-                                        and abreviaciones_prof.id_personal=gnral_personales.id_personal 
-                                        and gnral_personales.id_personal='.$persona.'');
+                                        from abreviaciones,abreviaciones_prof,gnral_personales
+                                        where abreviaciones.id_abreviacion=abreviaciones_prof.id_abreviacion
+                                        and abreviaciones_prof.id_personal=gnral_personales.id_personal
+                                        and gnral_personales.id_personal= ?', [$persona]);
         $abreviacion=($abreviacion_profesor->titulo);
 
-        $carreras=DB::selectOne('select gnral_carreras.nombre 
+        $carreras=DB::selectOne('select gnral_carreras.nombre
                                     FROM gnral_carreras,gnral_jefes_periodos
                                     where gnral_carreras.id_carrera=gnral_jefes_periodos.id_carrera
-                                    and gnral_carreras.id_carrera='.$carrera.'');
+                                    and gnral_carreras.id_carrera= ?', [$carrera]);
         $carrera_nombre=($carreras->nombre);
 
-        $datos_consultas=DB::selectOne('select gnral_alumnos.cuenta, gnral_alumnos.nombre,gnral_alumnos.apaterno,gnral_alumnos.amaterno, SUM(creditos_finales.creditos) creditos,ROUND(AVG(creditos_finales.promedio)) promedio 
-                                    FROM gnral_alumnos,actcomple_registro_alumnos,creditos_finales,gnral_periodos 
-                                    WHERE gnral_alumnos.cuenta=actcomple_registro_alumnos.cuenta 
-                                    and gnral_periodos.id_periodo=actcomple_registro_alumnos.id_periodo 
+        $datos_consultas=DB::selectOne('select gnral_alumnos.cuenta, gnral_alumnos.nombre,gnral_alumnos.apaterno,gnral_alumnos.amaterno, SUM(creditos_finales.creditos) creditos,ROUND(AVG(creditos_finales.promedio)) promedio
+                                    FROM gnral_alumnos,actcomple_registro_alumnos,creditos_finales,gnral_periodos
+                                    WHERE gnral_alumnos.cuenta=actcomple_registro_alumnos.cuenta
+                                    and gnral_periodos.id_periodo=actcomple_registro_alumnos.id_periodo
                                     and actcomple_registro_alumnos.id_registro_alumno=creditos_finales.id_registro_alumno
-                                    and gnral_alumnos.id_alumno='.$id_alumno.' 
-                                    group by gnral_alumnos.cuenta,gnral_alumnos.nombre,gnral_alumnos.apaterno,gnral_alumnos.amaterno');
+                                    and gnral_alumnos.id_alumno= ?
+                                    group by gnral_alumnos.cuenta,gnral_alumnos.nombre,gnral_alumnos.apaterno,gnral_alumnos.amaterno', [$id_alumno]);
         $cuenta=($datos_consultas->cuenta);
         $nombre=($datos_consultas->nombre);
         $ap=($datos_consultas->apaterno);
@@ -214,12 +214,12 @@ if($carrera==9)
     }
     public function update(Request $request, $id)
     {
-        
+
     }
     public function destroy($id)
     {
-        
+
     }
-    
+
 
 }

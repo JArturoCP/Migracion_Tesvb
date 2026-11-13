@@ -80,7 +80,7 @@ class SgcNormAuditoriaController extends Controller
     public function update(Request $request, $id)
     {
         //
-        dd('entra');
+        abort(501, 'Funcionalidad no disponible.');
     }
 
     /**

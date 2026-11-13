@@ -90,9 +90,9 @@ class Cal_pdf_acta_alumnoController extends Controller
         $alum = DB::table('gnral_alumnos')
             ->where('id_alumno', '=', $id_alumno)
             ->get();
-        $turno=DB::selectOne('SELECT * FROM `cal_turno` WHERE `id_turno` = '.$turno.' ');
-        $semestre=DB::selectOne('SELECT * FROM `gnral_semestres` WHERE `id_semestre` ='.$semestre.'');
-        $grupo=DB::selectOne('SELECT * FROM `gnral_grupos` WHERE `id_grupo` ='.$grupo.'');
+        $turno=DB::selectOne('SELECT * FROM `cal_turno` WHERE `id_turno` = ? ', [$turno]);
+        $semestre=DB::selectOne('SELECT * FROM `gnral_semestres` WHERE `id_semestre` = ?', [$semestre]);
+        $grupo=DB::selectOne('SELECT * FROM `gnral_grupos` WHERE `id_grupo` = ?', [$grupo]);
         $id_periodo=Session::get('periodo_actual');
         $nombre_alumno = mb_strtoupper($alum[0]->apaterno, 'utf-8') . " " . mb_strtoupper($alum[0]->amaterno, 'utf-8') . " " . mb_strtoupper($alum[0]->nombre, 'utf-8');
         $carr = DB::table('gnral_carreras')
@@ -146,13 +146,13 @@ gnral_materias.creditos,eva_status_materia.nombre_status,gnral_materias.clave,ev
                                 and eva_carga_academica.id_periodo=gnral_periodos.id_periodo
                                 and eva_carga_academica.grupo=gnral_grupos.id_grupo
                                 and eva_carga_academica.id_alumno=gnral_alumnos.id_alumno
-                                and gnral_periodos.id_periodo='.$id_periodo.'
+                                and gnral_periodos.id_periodo= ?
                                 and eva_carga_academica.id_materia  NOT IN (773,845,853,1160,1263,1264,1265,1443,1496,1502,1565,1566,1567,1568,1569,1571,2250,2517,2516)
                                 and gnral_alumnos.id_alumno=eva_validacion_de_cargas.id_alumno
                                 and gnral_periodos.id_periodo=eva_validacion_de_cargas.id_periodo
                                 and eva_validacion_de_cargas.estado_validacion in (2,8,9)
-                                and eva_validacion_de_cargas.id_alumno='.$id_alumno.'
-                                and eva_status_materia.id_status_materia=1');
+                                and eva_validacion_de_cargas.id_alumno= ?
+                                and eva_status_materia.id_status_materia=1', [$id_periodo, $id_alumno]);
 
         //dd($carga_academica);
 
@@ -175,13 +175,13 @@ gnral_materias.creditos,eva_status_materia.nombre_status,gnral_materias.clave,ev
             $datos_alumnos['creditos']=$materias->creditos;
 
 
-            $materia_promedio=DB::selectOne('SELECT SUM(calificacion) suma FROM `cal_evaluaciones` WHERE `id_carga_academica` ='.$materias->id_carga_academica.' and calificacion >=70');
+            $materia_promedio=DB::selectOne('SELECT SUM(calificacion) suma FROM `cal_evaluaciones` WHERE `id_carga_academica` = ? and calificacion >=70', [$materias->id_carga_academica]);
             $materia_promedio=$materia_promedio->suma;
 
-            $contar_unidades_pasadas=DB::selectOne('SELECT count(calificacion) suma FROM `cal_evaluaciones` WHERE `id_carga_academica` = '.$materias->id_carga_academica.' and calificacion >=70');
+            $contar_unidades_pasadas=DB::selectOne('SELECT count(calificacion) suma FROM `cal_evaluaciones` WHERE `id_carga_academica` = ? and calificacion >=70', [$materias->id_carga_academica]);
             $contar_unidades_pasadas=$contar_unidades_pasadas->suma;
 
-            $contar_sumativa=DB::selectOne('SELECT count(esc) contar FROM `cal_evaluaciones` WHERE `id_carga_academica` = '.$materias->id_carga_academica.' and esc=1');
+            $contar_sumativa=DB::selectOne('SELECT count(esc) contar FROM `cal_evaluaciones` WHERE `id_carga_academica` = ? and esc=1', [$materias->id_carga_academica]);
             $contar_sumativa=$contar_sumativa->contar;
 
             if($contar_unidades_pasadas ==$materias->unidades){
@@ -272,28 +272,28 @@ gnral_materias.creditos,eva_status_materia.nombre_status,gnral_materias.clave,ev
                                 and eva_carga_academica.id_periodo=gnral_periodos.id_periodo
                                 and eva_carga_academica.grupo=gnral_grupos.id_grupo
                                 and eva_carga_academica.id_alumno=gnral_alumnos.id_alumno
-                                and gnral_periodos.id_periodo='.$id_periodo.'
+                                and gnral_periodos.id_periodo= ?
                                  and eva_carga_academica.id_materia   IN (773,845,853,1160,1263,1264,1265,1443,1496,1502,1565,1566,1567,1568,1569,1571,2250,2516,2517)
                                 and gnral_alumnos.id_alumno=eva_validacion_de_cargas.id_alumno
                                 and gnral_periodos.id_periodo=eva_validacion_de_cargas.id_periodo
                                 and eva_validacion_de_cargas.estado_validacion in (2,8,9)
-                                and eva_validacion_de_cargas.id_alumno='.$id_alumno.'
-                                and eva_status_materia.id_status_materia=1');
+                                and eva_validacion_de_cargas.id_alumno= ?
+                                and eva_status_materia.id_status_materia=1', [$id_periodo, $id_alumno]);
         //dd($residencia);
         if($residencia->contar == 0){
 
         }
         else{
             $cal_resi=1;
-            $contar_r=DB::selectOne('SELECT count(id_cal_residencia) contar_residencia  
-FROM `cal_residencia` WHERE `id_alumno` = '.$id_alumno.'');
+            $contar_r=DB::selectOne('SELECT count(id_cal_residencia) contar_residencia
+FROM `cal_residencia` WHERE `id_alumno` = ?', [$id_alumno]);
 
             if($contar_r->contar_residencia == 0){
 
             }
             else{
                 $calificada=1;
-                $resi=DB::selectOne('SELECT   *FROM `cal_residencia` WHERE `id_alumno` = '.$id_alumno.'');
+                $resi=DB::selectOne('SELECT   *FROM `cal_residencia` WHERE `id_alumno` = ?', [$id_alumno]);
                 $suma_materia=$suma_materia+1;
                 $cal_resi=$resi->calificacion;
                 if($cal_resi >= 70) {

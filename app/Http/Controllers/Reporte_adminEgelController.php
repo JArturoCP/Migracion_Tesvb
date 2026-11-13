@@ -37,7 +37,6 @@ class Reporte_adminEgelController extends Controller
     ')
     ->get();
 
-dd($total_alumno);
 $carrera = DB::table('gnral_carreras')
     ->whereIn('id_carrera', [6, 8])
     ->get();

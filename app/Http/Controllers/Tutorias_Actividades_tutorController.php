@@ -42,7 +42,7 @@ class Tutorias_Actividades_tutorController extends Controller
         $num=DB::select('SELECT exp_asigna_generacion.id_asigna_generacion
         FROM exp_asigna_generacion
         WHERE exp_asigna_generacion.deleted_at is null
-        AND exp_asigna_generacion.id_generacion='.$request->id_generacion);
+        AND exp_asigna_generacion.id_generacion= ?', [$request->id_generacion]);
 
         //dd($num);
 
@@ -89,7 +89,7 @@ class Tutorias_Actividades_tutorController extends Controller
         FROM plan_asigna_planeacion_actividad,plan_actividades
         WHERE plan_actividades.deleted_at is null
         AND plan_actividades.id_plan_actividad=plan_asigna_planeacion_actividad.id_plan_actividad
-        AND plan_asigna_planeacion_actividad.id_plan_actividad='.$id);
+        AND plan_asigna_planeacion_actividad.id_plan_actividad= ?', [$id]);
         //dd($num);
         $ic=count($num);
         for ($i = 0; $i <$ic; $i++) {

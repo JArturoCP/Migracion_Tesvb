@@ -16,8 +16,8 @@ class Tu_Eva_CordinadorInstitucionalController extends Controller
     {
         $carreras = DB::select('SELECT car.id_carrera, car.nombre FROM gnral_carreras car
                                 /* Trae las carreras excepto ingles y clturales */
-                                WHERE car.id_carrera NOT IN (9) 
-                                AND car.id_carrera NOT IN (11) 
+                                WHERE car.id_carrera NOT IN (9)
+                                AND car.id_carrera NOT IN (11)
                                 AND car.id_carrera NOT IN (15)');
         //dd($carreras);
         return view('tutorias.eva_tutorias.carreras_index',compact('carreras'));
@@ -26,13 +26,13 @@ class Tu_Eva_CordinadorInstitucionalController extends Controller
     public function estado()
     {
         $periodo=Session::get('periodo_actual');
-        $per = DB::selectOne('SELECT p.estado FROM tu_eva_periodo p INNER JOIN gnral_periodos per ON per.id_periodo = p.id_periodo WHERE per.id_periodo = '.$periodo.' ');
+        $per = DB::selectOne('SELECT p.estado FROM tu_eva_periodo p INNER JOIN gnral_periodos per ON per.id_periodo = p.id_periodo WHERE per.id_periodo = ? ', [$periodo]);
 
         if ($per == null)
         {
 
             DB::insert('INSERT INTO `tu_eva_periodo` ( `id_periodo`, `estado`, `fecha_registro`)
-              VALUES ( '.$periodo.' ,0,now())');
+              VALUES ( ? ,0,now())', [$periodo]);
 
             return redirect('/tutorias/evaluacion_tutor/estado/');
         }
@@ -56,14 +56,14 @@ class Tu_Eva_CordinadorInstitucionalController extends Controller
     {
         $periodo=Session::get('periodo_actual');
         //dd("activa");
-        $con = DB::selectOne('SELECT COUNT(p.id_eva_periodo) con FROM tu_eva_periodo p INNER JOIN gnral_periodos per ON per.id_periodo = p.id_periodo WHERE per.id_periodo = '.$periodo.'  ');
+        $con = DB::selectOne('SELECT COUNT(p.id_eva_periodo) con FROM tu_eva_periodo p INNER JOIN gnral_periodos per ON per.id_periodo = p.id_periodo WHERE per.id_periodo = ?  ', [$periodo]);
         if ($con->con == 0)
         {
-            DB::insert('INSERT INTO tu_eva_periodo VALUES ( NULL, '.$periodo.' , true, now() ) ');
+            DB::insert('INSERT INTO tu_eva_periodo VALUES ( NULL, ? , true, now() ) ', [$periodo]);
             return redirect('/tutorias/evaluacion_tutor/estado/');
         }
         else{
-            DB::update('UPDATE tu_eva_periodo SET estado = 1 WHERE id_periodo = '.$periodo.' ');
+            DB::update('UPDATE tu_eva_periodo SET estado = 1 WHERE id_periodo = ? ', [$periodo]);
             return redirect('/tutorias/evaluacion_tutor/estado/');
         }
     }
@@ -72,14 +72,14 @@ class Tu_Eva_CordinadorInstitucionalController extends Controller
     {
         $periodo=Session::get('periodo_actual');
         //dd("desactiva");
-        DB::update('UPDATE tu_eva_periodo SET estado = 2 WHERE id_periodo = '.$periodo.' ');
-        DB::update('UPDATE tu_eva_periodo SET fecha_final_eva = now() WHERE id_periodo = '.$periodo.' ');
+        DB::update('UPDATE tu_eva_periodo SET estado = 2 WHERE id_periodo = ? ', [$periodo]);
+        DB::update('UPDATE tu_eva_periodo SET fecha_final_eva = now() WHERE id_periodo = ? ', [$periodo]);
         return redirect('/tutorias/evaluacion_tutor/estado/');
     }
 
     public function carreras($id_carrera)
     {
-        $carrera=DB::selectOne('SELECT * FROM `gnral_carreras` WHERE `id_carrera` ='.$id_carrera.'');
+        $carrera=DB::selectOne('SELECT * FROM `gnral_carreras` WHERE `id_carrera` = ?', [$id_carrera]);
         $periodo=Session::get('periodo_actual');
         //dd($periodo);
 
@@ -88,15 +88,15 @@ class Tu_Eva_CordinadorInstitucionalController extends Controller
        gnral_p.tipo_usuario tipo FROM tu_grupo_tutorias tu_grupo_t
                               INNER JOIN tu_grupo_semestre tu_grupo_s
                               ON tu_grupo_s.id_grupo_tutorias = tu_grupo_t.id_grupo_tutorias
-                              INNER JOIN exp_asigna_tutor exp_asigna_t 
+                              INNER JOIN exp_asigna_tutor exp_asigna_t
                               ON exp_asigna_t.id_asigna_tutor = tu_grupo_s.id_asigna_tutor
-                              INNER JOIN gnral_personales gnral_p 
-                              ON gnral_p.id_personal = exp_asigna_t.id_personal 
-                              INNER JOIN gnral_jefes_periodos gnral_j 
+                              INNER JOIN gnral_personales gnral_p
+                              ON gnral_p.id_personal = exp_asigna_t.id_personal
+                              INNER JOIN gnral_jefes_periodos gnral_j
                               ON gnral_j.id_jefe_periodo = exp_asigna_t.id_jefe_periodo
                               INNER JOIN gnral_carreras car
                               ON car.id_carrera = gnral_j.id_carrera
-                              WHERE gnral_j.id_periodo = '.$periodo.' AND car.id_carrera = '.$id_carrera.' ');
+                              WHERE gnral_j.id_periodo = ? AND car.id_carrera = ? ', [$periodo, $id_carrera]);
 
         return view('tutorias.eva_tutorias.cordinador_index',compact('tutores','id_carrera','carrera'));
     }
@@ -105,33 +105,33 @@ class Tu_Eva_CordinadorInstitucionalController extends Controller
     {
         $periodo=Session::get('periodo_actual');
 
-        $datos = DB::SELECT('SELECT exp_asigna_t.id_asigna_tutor,  tu_grupo_s.id_grupo_semestre,car.nombre carrera,car.id_carrera, tu_grupo_t.descripcion grupo, gnral_p.nombre nombre_tutor, gnral_p.tipo_usuario, 
-                                ( (sum(gestion)*4)/ (COUNT(form.id_eva_resultado)*16) ) gestion , 
-                                ( (sum(actitud)*4)/ (COUNT(form.id_eva_resultado)*28) ) actitud, 
+        $datos = DB::SELECT('SELECT exp_asigna_t.id_asigna_tutor,  tu_grupo_s.id_grupo_semestre,car.nombre carrera,car.id_carrera, tu_grupo_t.descripcion grupo, gnral_p.nombre nombre_tutor, gnral_p.tipo_usuario,
+                                ( (sum(gestion)*4)/ (COUNT(form.id_eva_resultado)*16) ) gestion ,
+                                ( (sum(actitud)*4)/ (COUNT(form.id_eva_resultado)*28) ) actitud,
                                 ( (sum(disponibilidad_confianza)*4)/(COUNT(form.id_eva_resultado)*20) ) disponibilidad_confianza,
                                 ( (sum(servicios_del_programa_de_tutoria)*4 )/( COUNT(form.id_eva_resultado)*24 ) )servicios_del_programa_de_tutoria,
                                 ( (sum(tus_logros_y_avances)*4 )/( COUNT(form.id_eva_resultado)*36 ) ) tus_logros_y_avances
                                 FROM tu_grupo_tutorias tu_grupo_t
                                 INNER JOIN tu_grupo_semestre tu_grupo_s
                                 ON tu_grupo_s.id_grupo_tutorias = tu_grupo_t.id_grupo_tutorias
-                                INNER JOIN exp_asigna_tutor exp_asigna_t 
+                                INNER JOIN exp_asigna_tutor exp_asigna_t
                                 ON exp_asigna_t.id_asigna_tutor = tu_grupo_s.id_asigna_tutor
-                                INNER JOIN gnral_personales gnral_p 
-                                ON gnral_p.id_personal = exp_asigna_t.id_personal 
-                                INNER JOIN gnral_jefes_periodos gnral_j 
+                                INNER JOIN gnral_personales gnral_p
+                                ON gnral_p.id_personal = exp_asigna_t.id_personal
+                                INNER JOIN gnral_jefes_periodos gnral_j
                                 ON gnral_j.id_jefe_periodo = exp_asigna_t.id_jefe_periodo
                                 INNER JOIN gnral_carreras car
                                 ON car.id_carrera = gnral_j.id_carrera
                                 INNER JOIN tu_eva_resultados_formulario form
                                 ON form.id_asigna_tutor=exp_asigna_t.id_asigna_tutor
-                                WHERE tu_grupo_s.id_grupo_semestre = '.$id_grupo_semestre.' and gnral_j.id_periodo ='.$periodo.' ');
+                                WHERE tu_grupo_s.id_grupo_semestre = ? and gnral_j.id_periodo = ? ', [$id_grupo_semestre, $periodo]);
         //dd($datos);
         return view('tutorias.eva_tutorias.grafica_index',compact('datos') );
         //dd($datos);
 
     }
 
-    public function resultados_cuestionario($id_grupo_semestre,$grupo,$carrera) 
+    public function resultados_cuestionario($id_grupo_semestre,$grupo,$carrera)
     {
         //dd($id_grupo_semestre);
         $periodo=Session::get('periodo_actual');
@@ -140,22 +140,22 @@ class Tu_Eva_CordinadorInstitucionalController extends Controller
                                 FROM tu_grupo_tutorias tu_grupo_t
                                 INNER JOIN tu_grupo_semestre tu_grupo_s
                                 ON tu_grupo_s.id_grupo_tutorias = tu_grupo_t.id_grupo_tutorias
-                                INNER JOIN exp_asigna_tutor exp_asigna_t 
+                                INNER JOIN exp_asigna_tutor exp_asigna_t
                                 ON exp_asigna_t.id_asigna_tutor = tu_grupo_s.id_asigna_tutor
-                                INNER JOIN gnral_personales gnral_p 
-                                ON gnral_p.id_personal = exp_asigna_t.id_personal 
-                                INNER JOIN gnral_jefes_periodos gnral_j 
+                                INNER JOIN gnral_personales gnral_p
+                                ON gnral_p.id_personal = exp_asigna_t.id_personal
+                                INNER JOIN gnral_jefes_periodos gnral_j
                                 ON gnral_j.id_jefe_periodo = exp_asigna_t.id_jefe_periodo
                                 INNER JOIN gnral_carreras car
                                 ON car.id_carrera = gnral_j.id_carrera
-                                WHERE tu_grupo_s.id_grupo_semestre = '.$id_grupo_semestre.' and gnral_j.id_periodo ='.$periodo.' ');
-        
-        $datos = DB::SELECT('SELECT * FROM tu_eva_autoevaluacion where  id_asigna_tutor = '.$datos1->id_asigna_tutor.' ');
+                                WHERE tu_grupo_s.id_grupo_semestre = ? and gnral_j.id_periodo = ? ', [$id_grupo_semestre, $periodo]);
+
+        $datos = DB::SELECT('SELECT * FROM tu_eva_autoevaluacion where  id_asigna_tutor = ? ', [$datos1->id_asigna_tutor]);
 
 
         //$preguntas = DB::Select('SELECT * FROM tu_eva_formulario_tutor fo, tu_eva_cuestionario eva WHERE fo.id_eva_cuestionario=eva.id_eva_cuestionario and fo.id_asigna_tutor = '.$datos1->id_asigna_tutor.' ');
-        $preguntas = DB::Select('SELECT * FROM tu_eva_formulario_tutor fo, tu_eva_cuestionario eva, tu_eva_calificacion_autoeva au WHERE fo.id_eva_cuestionario=eva.id_eva_cuestionario and au.id_calificacion = fo.calificacion  and fo.id_asigna_tutor = '.$datos1->id_asigna_tutor.' ORDER BY fo.id_eva_formulario_tutor ASC');
-        $con = DB::Selectone('SELECT count(*)  x FROM tu_eva_formulario_tutor fo, tu_eva_cuestionario eva, tu_eva_calificacion_autoeva au WHERE fo.id_eva_cuestionario=eva.id_eva_cuestionario and au.id_calificacion = fo.calificacion  and fo.id_asigna_tutor = '.$datos1->id_asigna_tutor.' ');
+        $preguntas = DB::Select('SELECT * FROM tu_eva_formulario_tutor fo, tu_eva_cuestionario eva, tu_eva_calificacion_autoeva au WHERE fo.id_eva_cuestionario=eva.id_eva_cuestionario and au.id_calificacion = fo.calificacion  and fo.id_asigna_tutor = ? ORDER BY fo.id_eva_formulario_tutor ASC', [$datos1->id_asigna_tutor]);
+        $con = DB::Selectone('SELECT count(*)  x FROM tu_eva_formulario_tutor fo, tu_eva_cuestionario eva, tu_eva_calificacion_autoeva au WHERE fo.id_eva_cuestionario=eva.id_eva_cuestionario and au.id_calificacion = fo.calificacion  and fo.id_asigna_tutor = ? ', [$datos1->id_asigna_tutor]);
 
         //dd($preguntas);
         //dd($datos);
@@ -168,7 +168,7 @@ class Tu_Eva_CordinadorInstitucionalController extends Controller
         {
             return view('tutorias.eva_autoeva_tutor.auto_eva_grafica',compact('datos','preguntas'));
         }
-            
+
     }
 
     public function registro($id_asigna_generacion,$id_carrera)
@@ -177,35 +177,35 @@ class Tu_Eva_CordinadorInstitucionalController extends Controller
         $alumnos_registro = DB::select('SELECT CONCAT(alumno.nombre," ",alumno.apaterno," ",alumno.amaterno) nombre, alumno.cuenta FROM gnral_alumnos alumno
                                         INNER JOIN exp_asigna_alumnos asigna
                                         ON asigna.id_alumno = alumno.id_alumno
-                                        WHERE asigna.id_asigna_generacion = '.$id_asigna_generacion.' AND asigna.id_asigna_alumno NOT IN (SELECT id_asigna_alumno FROM tu_eva_resultados_formulario)
-                                        GROUP BY  alumno.cuenta');
+                                        WHERE asigna.id_asigna_generacion = ? AND asigna.id_asigna_alumno NOT IN (SELECT id_asigna_alumno FROM tu_eva_resultados_formulario)
+                                        GROUP BY  alumno.cuenta', [$id_asigna_generacion]);
 
         //dd($alumnos_registro);
-        $tutor=DB::selectOne('SELECT gnral_personales.nombre, tu_grupo_tutorias.descripcion semestre 
+        $tutor=DB::selectOne('SELECT gnral_personales.nombre, tu_grupo_tutorias.descripcion semestre
                             from gnral_personales, exp_asigna_tutor, tu_grupo_semestre, tu_grupo_tutorias WHERE
-                            gnral_personales.id_personal = exp_asigna_tutor.id_personal  and tu_grupo_semestre.id_asigna_tutor = exp_asigna_tutor.id_asigna_tutor 
-                            and tu_grupo_semestre.id_grupo_tutorias = tu_grupo_tutorias.id_grupo_tutorias and exp_asigna_tutor.id_asigna_generacion='.$id_asigna_generacion.'');
-        $carrera=DB::selectOne('SELECT * FROM `gnral_carreras` WHERE `id_carrera` ='.$id_carrera.'');
+                            gnral_personales.id_personal = exp_asigna_tutor.id_personal  and tu_grupo_semestre.id_asigna_tutor = exp_asigna_tutor.id_asigna_tutor
+                            and tu_grupo_semestre.id_grupo_tutorias = tu_grupo_tutorias.id_grupo_tutorias and exp_asigna_tutor.id_asigna_generacion= ?', [$id_asigna_generacion]);
+        $carrera=DB::selectOne('SELECT * FROM `gnral_carreras` WHERE `id_carrera` = ?', [$id_carrera]);
         return view('tutorias.eva_tutorias.registro_index',compact('alumnos_registro','tutor','carrera','id_carrera') );
     }
 
-    public function tutores_sin_registro() 
+    public function tutores_sin_registro()
     {
         $periodo = Session::get('periodo_actual');
 
         $tutores = DB::SELECT('SELECT gnral_p.nombre nombre_tutor  FROM tu_grupo_tutorias tu_grupo_t
                                 INNER JOIN tu_grupo_semestre tu_grupo_s
                                 ON tu_grupo_s.id_grupo_tutorias = tu_grupo_t.id_grupo_tutorias
-                                INNER JOIN exp_asigna_tutor exp_asigna_t 
+                                INNER JOIN exp_asigna_tutor exp_asigna_t
                                 ON exp_asigna_t.id_asigna_tutor = tu_grupo_s.id_asigna_tutor
-                                INNER JOIN gnral_personales gnral_p 
-                                ON gnral_p.id_personal = exp_asigna_t.id_personal 
-                                INNER JOIN gnral_jefes_periodos gnral_j 
+                                INNER JOIN gnral_personales gnral_p
+                                ON gnral_p.id_personal = exp_asigna_t.id_personal
+                                INNER JOIN gnral_jefes_periodos gnral_j
                                 ON gnral_j.id_jefe_periodo = exp_asigna_t.id_jefe_periodo
                                 INNER JOIN gnral_carreras car
                                 ON car.id_carrera = gnral_j.id_carrera
-                                where gnral_j.id_periodo = '.$periodo.'  and exp_asigna_t.id_asigna_tutor  not in (Select id_asigna_tutor from tu_eva_autoevaluacion )
-                                GROUP BY gnral_p.nombre');
+                                where gnral_j.id_periodo = ?  and exp_asigna_t.id_asigna_tutor  not in (Select id_asigna_tutor from tu_eva_autoevaluacion )
+                                GROUP BY gnral_p.nombre', [$periodo]);
         //dd($tutores);
 
         return view('tutorias.eva_autoeva_tutor.tutores_sin_registro',compact('tutores'));
@@ -219,33 +219,33 @@ class Tu_Eva_CordinadorInstitucionalController extends Controller
                                 FROM tu_grupo_tutorias tu_grupo_t
                                 INNER JOIN tu_grupo_semestre tu_grupo_s
                                 ON tu_grupo_s.id_grupo_tutorias = tu_grupo_t.id_grupo_tutorias
-                                INNER JOIN exp_asigna_tutor exp_asigna_t 
+                                INNER JOIN exp_asigna_tutor exp_asigna_t
                                 ON exp_asigna_t.id_asigna_tutor = tu_grupo_s.id_asigna_tutor
-                                INNER JOIN gnral_personales gnral_p 
-                                ON gnral_p.id_personal = exp_asigna_t.id_personal 
-                                INNER JOIN gnral_jefes_periodos gnral_j 
+                                INNER JOIN gnral_personales gnral_p
+                                ON gnral_p.id_personal = exp_asigna_t.id_personal
+                                INNER JOIN gnral_jefes_periodos gnral_j
                                 ON gnral_j.id_jefe_periodo = exp_asigna_t.id_jefe_periodo
                                 INNER JOIN gnral_carreras car
                                 ON car.id_carrera = gnral_j.id_carrera
-                                WHERE tu_grupo_s.id_grupo_semestre = '.$id_grupo_semestre.' and gnral_j.id_periodo ='.$periodo.' ');
-        $con_q = 'select count(*) con from tu_eva_fo17 where id_asigna_tutor = '.$datos1->id_asigna_tutor.' and per = 1 ';
+                                WHERE tu_grupo_s.id_grupo_semestre = ? and gnral_j.id_periodo = ? ', [$id_grupo_semestre, $periodo]);
+        $con_q = 'select count(*) con from tu_eva_fo17 where id_asigna_tutor = ? and per = 1 ';
 
-        $con = DB::selectone($con_q);
+        $con = DB::selectone($con_q, [$datos1->id_asigna_tutor]);
         $con1 = $con->con;
 
         $id_usuario = Session::get('usuario_alumno');
 
         $id_usuario = Session::get('usuario_alumno');
-        if ($id_usuario == $datos1->tipo_usuario ) 
+        if ($id_usuario == $datos1->tipo_usuario )
             $igual = true;
         else
             $igual = false;
 
         return view('tutorias.eva_seguimiento_tu.periodos',compact('datos1','con1','igual'));
     }
- 
+
     public function seguimiento($per,$id_grupo_semestre)
-    {   
+    {
         $id_usuario = Session::get('usuario_alumno');
         //dd($per);
         $periodo = Session::get('periodo_actual');
@@ -257,19 +257,19 @@ class Tu_Eva_CordinadorInstitucionalController extends Controller
                                 FROM tu_grupo_tutorias tu_grupo_t
                                 INNER JOIN tu_grupo_semestre tu_grupo_s
                                 ON tu_grupo_s.id_grupo_tutorias = tu_grupo_t.id_grupo_tutorias
-                                INNER JOIN exp_asigna_tutor exp_asigna_t 
+                                INNER JOIN exp_asigna_tutor exp_asigna_t
                                 ON exp_asigna_t.id_asigna_tutor = tu_grupo_s.id_asigna_tutor
-                                INNER JOIN gnral_personales gnral_p 
-                                ON gnral_p.id_personal = exp_asigna_t.id_personal 
-                                INNER JOIN gnral_jefes_periodos gnral_j 
+                                INNER JOIN gnral_personales gnral_p
+                                ON gnral_p.id_personal = exp_asigna_t.id_personal
+                                INNER JOIN gnral_jefes_periodos gnral_j
                                 ON gnral_j.id_jefe_periodo = exp_asigna_t.id_jefe_periodo
                                 INNER JOIN gnral_carreras car
                                 ON car.id_carrera = gnral_j.id_carrera
-                                WHERE tu_grupo_s.id_grupo_semestre = '.$id_grupo_semestre.' and gnral_j.id_periodo ='.$periodo.' ');
+                                WHERE tu_grupo_s.id_grupo_semestre = ? and gnral_j.id_periodo = ? ', [$id_grupo_semestre, $periodo]);
         //dd($datos1);
-        $con_q = 'select count(*) con from tu_eva_fo17 where id_asigna_tutor = '.$datos1->id_asigna_tutor.' and per = '.$per.' ';
+        $con_q = 'select count(*) con from tu_eva_fo17 where id_asigna_tutor = ? and per = ? ';
         //dd($con_q);
-        $con = DB::selectone($con_q);
+        $con = DB::selectone($con_q, [$datos1->id_asigna_tutor, $per]);
         //dd($con);
         //dd("hola 1");
         if ($con->con == 0) {
@@ -280,28 +280,28 @@ class Tu_Eva_CordinadorInstitucionalController extends Controller
         {
             //dd('2');
             $res = DB::selectone('select  id_fo17,id_asigna_tutor,per,IF(experiencia=1,"Si","No") experiencia,anos_tutor, IF(planeacion=1,"Si","No") planeacion,com_planeacion,fecha_establecida,fecha_final,(
-                CASE 
+                CASE
                     WHEN tu.pregunta1 = 1 THEN "Mala"
                     WHEN tu.pregunta1 = 2 THEN "Regular"
                     WHEN tu.pregunta1 = 3 THEN "Buena"
                     WHEN tu.pregunta1 = 4 THEN "Muy buena"
                     WHEN tu.pregunta1 = 5 THEN "Excelente"
                 END) pregunta1,
-                (CASE 
+                (CASE
                     WHEN tu.pregunta2 = 1 THEN "Mala"
                     WHEN tu.pregunta2 = 2 THEN "Regular"
                     WHEN tu.pregunta2 = 3 THEN "Buena"
                     WHEN tu.pregunta2 = 4 THEN "Muy buena"
                     WHEN tu.pregunta2 = 5 THEN "Excelente"
                 END)pregunta2,
-                (CASE 
+                (CASE
                     WHEN tu.pregunta3 = 1 THEN "Mala"
                     WHEN tu.pregunta3 = 2 THEN "Regular"
                     WHEN tu.pregunta3 = 3 THEN "Buena"
                     WHEN tu.pregunta3 = 4 THEN "Muy buena"
                     WHEN tu.pregunta3 = 5 THEN "Excelente"
                 END)pregunta3,
-                (CASE 
+                (CASE
                     WHEN tu.pregunta4 = 1 THEN "Mala"
                     WHEN tu.pregunta4 = 2 THEN "Regular"
                     WHEN tu.pregunta4 = 3 THEN "Buena"
@@ -315,54 +315,54 @@ class Tu_Eva_CordinadorInstitucionalController extends Controller
                     WHEN tu.pregunta5 = 4 THEN "Muy buena"
                     WHEN tu.pregunta5 = 5 THEN "Excelente"
                 END)pregunta5,
-                (CASE 
+                (CASE
                     WHEN tu.pregunta6 = 1 THEN "Mala"
                     WHEN tu.pregunta6 = 2 THEN "Regular"
                     WHEN tu.pregunta6 = 3 THEN "Buena"
                     WHEN tu.pregunta6 = 4 THEN "Muy buena"
                     WHEN tu.pregunta6 = 5 THEN "Excelente"
                 END)pregunta6,
-                (CASE 
+                (CASE
                     WHEN tu.pregunta7 = 1 THEN "Mala"
                     WHEN tu.pregunta7 = 2 THEN "Regular"
                     WHEN tu.pregunta7 = 3 THEN "Buena"
                     WHEN tu.pregunta7 = 4 THEN "Muy buena"
                     WHEN tu.pregunta7 = 5 THEN "Excelente"
                 END)pregunta7,
-                (CASE 
+                (CASE
                     WHEN tu.pregunta8 = 1 THEN "Mala"
                     WHEN tu.pregunta8 = 2 THEN "Regular"
                     WHEN tu.pregunta8 = 3 THEN "Buena"
                     WHEN tu.pregunta8 = 4 THEN "Muy buena"
                     WHEN tu.pregunta8 = 5 THEN "Excelente"
                 END)pregunta8,
-                (CASE 
+                (CASE
                     WHEN tu.pregunta9 = 1 THEN "Mala"
                     WHEN tu.pregunta9 = 2 THEN "Regular"
                     WHEN tu.pregunta9 = 3 THEN "Buena"
                     WHEN tu.pregunta9 = 4 THEN "Muy buena"
                     WHEN tu.pregunta9 = 5 THEN "Excelente"
                 END)pregunta9,
-                (CASE 
+                (CASE
                     WHEN tu.pregunta10= 1 THEN "Mala"
                     WHEN tu.pregunta10 = 2 THEN "Regular"
                     WHEN tu.pregunta10 = 3 THEN "Buena"
                     WHEN tu.pregunta10 = 4 THEN "Muy buena"
                     WHEN tu.pregunta10 = 5 THEN "Excelente"
                 END)pregunta10,
-                comentario,fecha_registro  from tu_eva_fo17 tu where id_asigna_tutor = '.$datos1->id_asigna_tutor.' and per = '.$per.' ');
+                comentario,fecha_registro  from tu_eva_fo17 tu where id_asigna_tutor = ? and per = ? ', [$datos1->id_asigna_tutor, $per]);
             /// id_fo17,id_asigna_tutor,id_asigna_cordinador,per,IF(experiencia=1,"Si","No") experiencia,anos_tutor, IF(planeacion=1,"Si","No") planeacion,com_planeacion,fecha_establecida,fecha_final,pregunta1,pregunta2,pregunta3,pregunta4,pregunta5,pregunta6,pregunta7,pregunta8,pregunta9,pregunta10,comentario,fecha_registro
-            
+
             //dd($res);
 
             return view('tutorias.eva_seguimiento_tu.resultado',compact('res','datos1'));
         }
         //dd($datos1);
-        
+
     }
     public function seguimiento_guarda(Request $request)
     {
-                                
+
         //dd($request);
         $this->validate($request,[
             "id_tiempo" => 'required',
@@ -384,37 +384,37 @@ class Tu_Eva_CordinadorInstitucionalController extends Controller
             "pregunta8" => 'required',
             "pregunta9" => 'required',
             "pregunta10" => 'required',
-        ]); 
-        
-        // INSERT INTO tu_eva_fo17 VALUES 
-        // (NULL, {$request->id_asigna_tutor}, {$request->id_cordinador}, 
-        // $request->per}, {$request->id_tiempo}, {$request->anos} , 
+        ]);
+
+        // INSERT INTO tu_eva_fo17 VALUES
+        // (NULL, {$request->id_asigna_tutor}, {$request->id_cordinador},
+        // $request->per}, {$request->id_tiempo}, {$request->anos} ,
         // {$request->planeacion}, ' ' ,
         //  STR_TO_DATE('10 1 1000', '%d %m %Y'),
-        //  STR_TO_DATE('20 2 2000', '%d %m %Y') , 
+        //  STR_TO_DATE('20 2 2000', '%d %m %Y') ,
         // '5' , '5',
-        // '5' , '5','5' , 
+        // '5' , '5','5' ,
         // '5','5' , '5',
         // '5' , '5','com',now() )
 
-        $query = ("  INSERT INTO tu_eva_fo17 VALUES 
-        (NULL, {$request->id_asigna_tutor}, 
-        '{$request->per}', '{$request->id_tiempo}', '{$request->anos}' , 
-        '{$request->planeacion}', ' ' , 
-        STR_TO_DATE('{$request->dia_es} {$request->mes_es} {$request->ano_es}','%d %m %Y'),
-        STR_TO_DATE('{$request->dia_re} {$request->mes_re} {$request->ano_re}','%d %m %Y') , 
-        '{$request->pregunta1}' , '{$request->pregunta2}',
-        '{$request->pregunta3}' , '{$request->pregunta4}','{$request->pregunta5}' , 
-        '{$request->pregunta6}','{$request->pregunta7}' , '{$request->pregunta8}',
-        '{$request->pregunta9}' , '{$request->pregunta10}','{$request->comentarios}',now() ) ");
+        $query = ('  INSERT INTO tu_eva_fo17 VALUES
+        (NULL, ?,
+        ?, ?, ? ,
+        ?, \' \' ,
+        STR_TO_DATE(?,\'%d %m %Y\'),
+        STR_TO_DATE(?,\'%d %m %Y\') ,
+        ? , ?,
+        ? , ?,? ,
+        ?,? , ?,
+        ? , ?,?,now() ) ');
 
         //dd($query);
 
-        DB::Insert($query);
+        DB::Insert($query, [$request->id_asigna_tutor, (string) ($request->per), (string) ($request->id_tiempo), (string) ($request->anos), (string) ($request->planeacion), (string) ($request->dia_es) . ' ' . (string) ($request->mes_es) . ' ' . (string) ($request->ano_es), (string) ($request->dia_re) . ' ' . (string) ($request->mes_re) . ' ' . (string) ($request->ano_re), (string) ($request->pregunta1), (string) ($request->pregunta2), (string) ($request->pregunta3), (string) ($request->pregunta4), (string) ($request->pregunta5), (string) ($request->pregunta6), (string) ($request->pregunta7), (string) ($request->pregunta8), (string) ($request->pregunta9), (string) ($request->pregunta10), (string) ($request->comentarios)]);
 
-        $con_q = 'select planeacion from tu_eva_fo17 where id_asigna_tutor = '.$request->id_asigna_tutor.' and per = '.$request->per.' ';
+        $con_q = 'select planeacion from tu_eva_fo17 where id_asigna_tutor = ? and per = ? ';
         //dd($con_q);
-        $con = DB::selectone($con_q);
+        $con = DB::selectone($con_q, [$request->id_asigna_tutor, $request->per]);
         //dd($con->planeacion);
 
         if ( $con->planeacion == 1 ) {
@@ -423,21 +423,21 @@ class Tu_Eva_CordinadorInstitucionalController extends Controller
         }
         else
         {
-            $come = DB::selectone('select * from tu_eva_fo17 where id_asigna_tutor = '.$request->id_asigna_tutor.' and per = '.$request->per.' ');
+            $come = DB::selectone('select * from tu_eva_fo17 where id_asigna_tutor = ? and per = ? ', [$request->id_asigna_tutor, $request->per]);
             return view('tutorias.eva_seguimiento_tu.com',compact('come'));
         }
-        
+
 
     }
     public function com(Request $request)
     {
         $this->validate($request,[
             "comentarios" => 'required',
-        ]); 
+        ]);
         //dd($request);
-        $query = "UPDATE tu_eva_fo17 SET com_planeacion = '{$request->comentarios}' WHERE per = {$request->per} and id_asigna_tutor = {$request->id_asigna_tutor} ";
+        $query = 'UPDATE tu_eva_fo17 SET com_planeacion = ? WHERE per = ? and id_asigna_tutor = ? ';
         //dd($query);
-        DB::UPDATE($query);
+        DB::UPDATE($query, [(string) ($request->comentarios), $request->per, $request->id_asigna_tutor]);
 
         return redirect('/tutoras_evaluacion/resultado_tutorias_jefe/');
     }
@@ -451,7 +451,7 @@ class Tu_Eva_CordinadorInstitucionalController extends Controller
                                     when month(now()) = 06 then 'Abril-Mayo'
                                     when month(now()) = 07 then 'Abril-Mayo'
                                     when month(now()) = 08 then 'Abril-Mayo'
-                                    
+
                                     when month(now()) = 09 then 'Sep-Nov'
                                     when month(now()) = 10 then 'Sep-Nov'
                                     when month(now()) = 11 then 'Sep-Nov'
@@ -467,7 +467,7 @@ class Tu_Eva_CordinadorInstitucionalController extends Controller
                                     when month(now()) + 3 = 06 then 'Abril-Mayo'
                                     when month(now()) + 2 = 07 then 'Abril-Mayo'
                                     when month(now()) + 1 = 08 then 'Abril-Mayo'
-                                    
+
                                     when month(now()) + 3 = 09 then 'Sep-Nov'
                                     when month(now()) + 2 = 10 then 'Sep-Nov'
                                     when month(now()) + 1 = 11 then 'Sep-Nov'
@@ -482,16 +482,16 @@ class Tu_Eva_CordinadorInstitucionalController extends Controller
         //dd($c);
         //dd('hola');
         $periodo=Session::get('periodo_actual');
-        $existen = DB::Selectone("SELECT COUNT(*) con FROM tu_eva_fo40 WHERE periodo =  '{$periodo}' ");
+        $existen = DB::Selectone('SELECT COUNT(*) con FROM tu_eva_fo40 WHERE periodo =  ? ', [(string) ($periodo)]);
         $con = [
             "con" => "1"
         ];
         if ($existen->con != 0){
-            $con = DB::Selectone("SELECT con FROM tu_eva_fo40 WHERE periodo =  '{$periodo}' ");
+            $con = DB::Selectone('SELECT con FROM tu_eva_fo40 WHERE periodo =  ? ', [(string) ($periodo)]);
             //dd($con);
 
-            $per1 = DB::selectOne(" select res1 per from tu_eva_fo40 where periodo = '{$periodo}'  limit 1 ");
-            $per2 = DB::selectOne(" select res2 per from tu_eva_fo40 where periodo = '{$periodo}'  limit 1 ");
+            $per1 = DB::selectOne(' select res1 per from tu_eva_fo40 where periodo = ?  limit 1 ', [(string) ($periodo)]);
+            $per2 = DB::selectOne(' select res2 per from tu_eva_fo40 where periodo = ?  limit 1 ', [(string) ($periodo)]);
 
             $c = DB::selectOne('SELECT  IF(MONTH(CURRENT_DATE()) IN (8, 2), 1, 0) AS c');
 
@@ -512,7 +512,7 @@ class Tu_Eva_CordinadorInstitucionalController extends Controller
         $id_usuario = Session::get('usuario_alumno');
         //dd($periodo);
         //dd($id_usuario);
-        $cordinadores = DB::Select(" SELECT car.nombre carrera, per.*, cor.id_asigna_coordinador 
+        $cordinadores = DB::Select(' SELECT car.nombre carrera, per.*, cor.id_asigna_coordinador
                                     FROM gnral_personales per
                                     INNER JOIN exp_asigna_coordinador cor
                                     ON cor.id_personal = per.id_personal
@@ -520,12 +520,12 @@ class Tu_Eva_CordinadorInstitucionalController extends Controller
                                     ON je.id_jefe_periodo = cor.id_jefe_periodo
                                     INNER JOIN gnral_carreras car
                                     ON car.id_carrera = je.id_carrera
-                                    WHERE je.id_periodo = '{$periodo}'
-                                    GROUP BY  car.nombre ");
+                                    WHERE je.id_periodo = ?
+                                    GROUP BY  car.nombre ', [(string) ($periodo)]);
 
         //dd($cordinadores);
 
-        $existen = DB::Selectone("SELECT COUNT(*) con FROM tu_eva_fo40 WHERE periodo =  '{$periodo}' AND id_personal = '{$id_usuario}' ");
+        $existen = DB::Selectone('SELECT COUNT(*) con FROM tu_eva_fo40 WHERE periodo =  ? AND id_personal = ? ', [(string) ($periodo), (string) ($id_usuario)]);
         //dd($existen);
 
         $per = DB::selectOne("select (case
@@ -535,7 +535,7 @@ class Tu_Eva_CordinadorInstitucionalController extends Controller
                                     when month(now()) = 06 then 'Abril-Mayo'
                                     when month(now()) = 07 then 'Abril-Mayo'
                                     when month(now()) = 08 then 'Abril-Mayo'
-                                    
+
                                     when month(now()) = 09 then 'Sep-Nov'
                                     when month(now()) = 10 then 'Sep-Nov'
                                     when month(now()) = 11 then 'Sep-Nov'
@@ -551,7 +551,7 @@ class Tu_Eva_CordinadorInstitucionalController extends Controller
                                     when month(now()) + 3 = 06 then 'Abril-Mayo'
                                     when month(now()) + 2 = 07 then 'Abril-Mayo'
                                     when month(now()) + 1 = 08 then 'Abril-Mayo'
-                                    
+
                                     when month(now()) + 3 = 09 then 'Septiembre - Noviembre'
                                     when month(now()) + 2 = 10 then 'Septiembre - Noviembre'
                                     when month(now()) + 1 = 11 then 'Septiembre - Noviembre'
@@ -571,38 +571,38 @@ class Tu_Eva_CordinadorInstitucionalController extends Controller
         else
         {
             $con = 1;
-            $comentarios = DB::Select("SELECT com FROM tu_eva_fo40 WHERE periodo =  '{$periodo}' AND id_personal = '{$id_usuario}' ");
-            $condicion = DB::selectone(" SELECT
-                                        IF(se2 IS NOT NULL, 'Si', 'No') c
+            $comentarios = DB::Select('SELECT com FROM tu_eva_fo40 WHERE periodo =  ? AND id_personal = ? ', [(string) ($periodo), (string) ($id_usuario)]);
+            $condicion = DB::selectone(' SELECT
+                                        IF(se2 IS NOT NULL, \'Si\', \'No\') c
                                     FROM
                                         tu_eva_fo40
                                     WHERE
-                                        periodo = '{$periodo}'  ");
+                                        periodo = ?  ', [(string) ($periodo)]);
 
             if ($condicion->c == 'Si') {
                 //dd('pdf');
-                $datos = DB::select(" select gc.nombre carrera,gp.nombre nombre,
+                $datos = DB::select(' select gc.nombre carrera,gp.nombre nombre,
                                                    (case
-                                                       when f.se1 = 1 then 'Cumplió'
-                                                       when f.se1 = 2 then 'No cumplió'
-                                                       when f.se1 = 3 then 'Avance 75%'
-                                                       when f.se1 = 4 then 'Avance 50%'
-                                                       when f.se1 = 5 then 'Avance 25%'
+                                                       when f.se1 = 1 then \'Cumplió\'
+                                                       when f.se1 = 2 then \'No cumplió\'
+                                                       when f.se1 = 3 then \'Avance 75%\'
+                                                       when f.se1 = 4 then \'Avance 50%\'
+                                                       when f.se1 = 5 then \'Avance 25%\'
                                                     end) se1,
                                                     (case
-                                                       when f.se2 = 1 then 'Cumplió'
-                                                       when f.se2 = 2 then 'No cumplió'
-                                                       when f.se2 = 3 then 'Avance 75%'
-                                                       when f.se2 = 4 then 'Avance 50%'
-                                                       when f.se2 = 5 then 'Avance 25%'
+                                                       when f.se2 = 1 then \'Cumplió\'
+                                                       when f.se2 = 2 then \'No cumplió\'
+                                                       when f.se2 = 3 then \'Avance 75%\'
+                                                       when f.se2 = 4 then \'Avance 50%\'
+                                                       when f.se2 = 5 then \'Avance 25%\'
                                                     end) se2,
-                                                    concat(f.com,'  ',f.com2) com, res1, res2
+                                                    concat(f.com,\'  \',f.com2) com, res1, res2
                                             from tu_eva_fo40 f
                                             inner join exp_asigna_coordinador eac on f.id_asigna_coordinador = eac.id_asigna_coordinador
                                             inner join gnral_personales gp on eac.id_personal = gp.id_personal
                                             inner join gnral_jefes_periodos gjp on eac.id_jefe_periodo = gjp.id_jefe_periodo
                                             inner join gnral_carreras gc on gjp.id_carrera = gc.id_carrera
-                                            where f.periodo =  '{$periodo}' ");
+                                            where f.periodo =  ? ', [(string) ($periodo)]);
                 //dd($datos);
                 return view('tutorias.FO-40.resultados', compact('datos','periodo') );
                 //dd($datos);
@@ -614,7 +614,7 @@ class Tu_Eva_CordinadorInstitucionalController extends Controller
         }
         //dd($con);
         return view('tutorias.FO-40.index', compact('cordinadores','id_usuario', 'per') );
-        
+
     }
     public function fo_40_guarda(Request $request)
     {
@@ -631,7 +631,7 @@ class Tu_Eva_CordinadorInstitucionalController extends Controller
                                     when month(now()) = 06 then 'Abril-Mayo'
                                     when month(now()) = 07 then 'Abril-Mayo'
                                     when month(now()) = 08 then 'Abril-Mayo'
-                                    
+
                                     when month(now()) = 09 then 'Sep-Nov'
                                     when month(now()) = 10 then 'Sep-Nov'
                                     when month(now()) = 11 then 'Sep-Nov'
@@ -647,7 +647,7 @@ class Tu_Eva_CordinadorInstitucionalController extends Controller
                                     when month(now()) + 3 = 06 then 'Abril-Mayo'
                                     when month(now()) + 2 = 07 then 'Abril-Mayo'
                                     when month(now()) + 1 = 08 then 'Abril-Mayo'
-                                    
+
                                     when month(now()) + 5 = 09 then 'Sep-Nov'
                                     when month(now()) + 4 = 10 then 'Sep-Nov'
                                     when month(now()) + 3 = 11 then 'Sep-Nov'
@@ -657,17 +657,17 @@ class Tu_Eva_CordinadorInstitucionalController extends Controller
                                     end ) as per");
 
         if ($request->i == 1) {
-            for ($i=0; $i < $numeroElementos  ; $i++) 
-            { 
-                DB::insert(" INSERT INTO tu_eva_fo40 VALUES (null, '{$periodo}','{$request->id_personal}', '{$request->id_asigna_coordinador[$i]}', '{$request->se1[$i]}', null,  '{$request->com[$i]}', '',now(),now(), '{$per->per}', '{$per2->per}', 1 ) ");
+            for ($i=0; $i < $numeroElementos  ; $i++)
+            {
+                DB::insert(' INSERT INTO tu_eva_fo40 VALUES (null, ?,?, ?, ?, null,  ?, \'\',now(),now(), ?, ?, 1 ) ', [(string) ($periodo), (string) ($request->id_personal), (string) ($request->id_asigna_coordinador[$i]), (string) ($request->se1[$i]), (string) ($request->com[$i]), (string) ($per->per), (string) ($per2->per)]);
             }
-            
+
         }
         if ($request->i == 2) {
             //dd($request);
-            for ($i=0; $i < $numeroElementos  ; $i++) 
-            { 
-                DB::update(" UPDATE tu_eva_fo40 SET se2 = '{$request->se2[$i]}' ,com2 = '{$request->com[$i]}' ,fecha_registro2 = now(), con = 2 WHERE id_asigna_coordinador = '{$request->id_asigna_coordinador[$i]}' and periodo = '{$periodo}' ");
+            for ($i=0; $i < $numeroElementos  ; $i++)
+            {
+                DB::update(' UPDATE tu_eva_fo40 SET se2 = ? ,com2 = ? ,fecha_registro2 = now(), con = 2 WHERE id_asigna_coordinador = ? and periodo = ? ', [(string) ($request->se2[$i]), (string) ($request->com[$i]), (string) ($request->id_asigna_coordinador[$i]), (string) ($periodo)]);
             }
         }
         return redirect('/tutorias/FO-40');

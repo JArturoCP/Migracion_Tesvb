@@ -372,16 +372,16 @@ class Tutorias_GraficasInstitucionController extends Controller
         );
         /*
         return response()->json(
-            ["categoria"=>array_pluck($nivel, 'nivel'),
-                "cantidad"=>array_pluck($nivel, 'cant'),
-                "cattrabaja"=>array_pluck($trabaja, 'trabajo'),
-                "canttrabaja"=>array_pluck($trabaja, 'cant'),
-                "catbeca"=>array_pluck($beca, 'beca'),
-                "cantbeca"=>array_pluck($beca, 'cant'),
-                "catestado"=>array_pluck($estado, 'estado'),
-                "cantestado"=>array_pluck($estado, 'cant'),
-                "catcivil"=>array_pluck($estado, 'estado'),
-                "cantcivil"=>array_pluck($estado, 'cant')],200
+            ["categoria"=>\Illuminate\Support\Arr::pluck($nivel, 'nivel'),
+                "cantidad"=>\Illuminate\Support\Arr::pluck($nivel, 'cant'),
+                "cattrabaja"=>\Illuminate\Support\Arr::pluck($trabaja, 'trabajo'),
+                "canttrabaja"=>\Illuminate\Support\Arr::pluck($trabaja, 'cant'),
+                "catbeca"=>\Illuminate\Support\Arr::pluck($beca, 'beca'),
+                "cantbeca"=>\Illuminate\Support\Arr::pluck($beca, 'cant'),
+                "catestado"=>\Illuminate\Support\Arr::pluck($estado, 'estado'),
+                "cantestado"=>\Illuminate\Support\Arr::pluck($estado, 'cant'),
+                "catcivil"=>\Illuminate\Support\Arr::pluck($estado, 'estado'),
+                "cantcivil"=>\Illuminate\Support\Arr::pluck($estado, 'cant')],200
         );*/
     }
     public function academico()

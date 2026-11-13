@@ -141,19 +141,19 @@ class Ti_pdf_relacion_actasController extends Controller
 {
     public function index($id_relacion_acta_titulacion){
 
-        $consultar_reg=DB::selectOne("SELECT * FROM `ti_relacion_actas_titulacion` WHERE `id_relacion_acta_titulacion` =$id_relacion_acta_titulacion");
+        $consultar_reg=DB::selectOne('SELECT * FROM `ti_relacion_actas_titulacion` WHERE `id_relacion_acta_titulacion` = ?', [$id_relacion_acta_titulacion]);
       $fecha=$consultar_reg->fecha;
       $numero_oficio=$consultar_reg->numero_oficio;
-        $alumnos=DB::select("SELECT ti_reg_datos_alum.id_alumno, 
-       ti_reg_datos_alum.no_cuenta, ti_fecha_jurado_alumn.fecha_titulacion, 
+        $alumnos=DB::select('SELECT ti_reg_datos_alum.id_alumno,
+       ti_reg_datos_alum.no_cuenta, ti_fecha_jurado_alumn.fecha_titulacion,
        ti_reg_datos_alum.nombre_al, ti_reg_datos_alum.apaterno, ti_reg_datos_alum.amaterno,
-       gnral_carreras.nombre carrera,gnral_carreras.id_carrera, ti_datos_alumno_reg_dep.id_numero_titulo 
-from ti_reg_datos_alum, ti_fecha_jurado_alumn, ti_datos_alumno_reg_dep, gnral_carreras 
-WHERE ti_reg_datos_alum.id_alumno = ti_fecha_jurado_alumn.id_alumno 
-  and ti_fecha_jurado_alumn.id_alumno = ti_datos_alumno_reg_dep.id_alumno 
-  and ti_fecha_jurado_alumn.fecha_titulacion ='$fecha' and 
+       gnral_carreras.nombre carrera,gnral_carreras.id_carrera, ti_datos_alumno_reg_dep.id_numero_titulo
+from ti_reg_datos_alum, ti_fecha_jurado_alumn, ti_datos_alumno_reg_dep, gnral_carreras
+WHERE ti_reg_datos_alum.id_alumno = ti_fecha_jurado_alumn.id_alumno
+  and ti_fecha_jurado_alumn.id_alumno = ti_datos_alumno_reg_dep.id_alumno
+  and ti_fecha_jurado_alumn.fecha_titulacion =? and
       ti_reg_datos_alum.id_carrera = gnral_carreras.id_carrera and
-      ti_datos_alumno_reg_dep.id_autorizacion = 4  ");
+      ti_datos_alumno_reg_dep.id_autorizacion = 4  ', [(string) ($fecha)]);
 
 
 
@@ -356,23 +356,23 @@ WHERE ti_reg_datos_alum.id_alumno = ti_fecha_jurado_alumn.id_alumno
         exit();
     }
     public function pdf_relacion_titulos($id_relacion_titulo){
-        $consultar_reg=DB::selectOne("SELECT * FROM `ti_relacion_titulos` WHERE `id_relacion_titulo` = $id_relacion_titulo");
+        $consultar_reg=DB::selectOne('SELECT * FROM `ti_relacion_titulos` WHERE `id_relacion_titulo` = ?', [$id_relacion_titulo]);
         $fecha=$consultar_reg->fecha;
         $numero_oficio=$consultar_reg->numero_oficio;
-        $alumnos=DB::select("SELECT ti_reg_datos_alum.id_alumno, 
-       ti_reg_datos_alum.no_cuenta, ti_fecha_jurado_alumn.fecha_titulacion, 
+        $alumnos=DB::select('SELECT ti_reg_datos_alum.id_alumno,
+       ti_reg_datos_alum.no_cuenta, ti_fecha_jurado_alumn.fecha_titulacion,
        ti_reg_datos_alum.nombre_al, ti_reg_datos_alum.apaterno, ti_reg_datos_alum.amaterno,
        gnral_carreras.nombre carrera,gnral_carreras.id_carrera, ti_datos_alumno_reg_dep.id_numero_titulo,
        ti_numeros_titulos.abreviatura_folio_titulo
 from ti_reg_datos_alum, ti_fecha_jurado_alumn, ti_datos_alumno_reg_dep, gnral_carreras,
 ti_numeros_titulos
-WHERE ti_reg_datos_alum.id_alumno = ti_fecha_jurado_alumn.id_alumno 
-  and ti_fecha_jurado_alumn.id_alumno = ti_datos_alumno_reg_dep.id_alumno 
-  and ti_fecha_jurado_alumn.fecha_titulacion ='$fecha' and 
+WHERE ti_reg_datos_alum.id_alumno = ti_fecha_jurado_alumn.id_alumno
+  and ti_fecha_jurado_alumn.id_alumno = ti_datos_alumno_reg_dep.id_alumno
+  and ti_fecha_jurado_alumn.fecha_titulacion =? and
       ti_reg_datos_alum.id_carrera = gnral_carreras.id_carrera and
-      ti_datos_alumno_reg_dep.id_autorizacion = 4 and 
-      ti_numeros_titulos.id_numero_titulo = ti_datos_alumno_reg_dep.id_numero_titulo 
-      ORDER BY ti_datos_alumno_reg_dep.id_numero_titulo ASC");
+      ti_datos_alumno_reg_dep.id_autorizacion = 4 and
+      ti_numeros_titulos.id_numero_titulo = ti_datos_alumno_reg_dep.id_numero_titulo
+      ORDER BY ti_datos_alumno_reg_dep.id_numero_titulo ASC', [(string) ($fecha)]);
 
 
 
@@ -567,21 +567,21 @@ WHERE ti_reg_datos_alum.id_alumno = ti_fecha_jurado_alumn.id_alumno
         exit();
     }
     public function relacion_pdf_mencion_honorifica($id_relacion_mencion_honorifica){
-        $consultar_reg=DB::selectOne("SELECT * FROM `ti_relacion_mencion_honorifica` WHERE `id_relacion_mencion_honorifica` =  '$id_relacion_mencion_honorifica'");
+        $consultar_reg=DB::selectOne('SELECT * FROM `ti_relacion_mencion_honorifica` WHERE `id_relacion_mencion_honorifica` =  ?', [(string) ($id_relacion_mencion_honorifica)]);
         $fecha=$consultar_reg->fecha;
         $numero_oficio=$consultar_reg->numero_oficio;
-        $alumnos=DB::select("SELECT ti_reg_datos_alum.id_alumno, ti_reg_datos_alum.no_cuenta,
+        $alumnos=DB::select('SELECT ti_reg_datos_alum.id_alumno, ti_reg_datos_alum.no_cuenta,
        ti_fecha_jurado_alumn.fecha_titulacion, ti_reg_datos_alum.nombre_al, ti_reg_datos_alum.apaterno,
-       ti_reg_datos_alum.amaterno, gnral_carreras.nombre carrera, ti_datos_alumno_reg_dep.id_numero_titulo, 
-       ti_mencion_honorifica.no_registro, ti_mencion_honorifica.libro_registro 
+       ti_reg_datos_alum.amaterno, gnral_carreras.nombre carrera, ti_datos_alumno_reg_dep.id_numero_titulo,
+       ti_mencion_honorifica.no_registro, ti_mencion_honorifica.libro_registro
 from ti_reg_datos_alum, ti_fecha_jurado_alumn, ti_datos_alumno_reg_dep, gnral_carreras, ti_mencion_honorifica
 WHERE ti_reg_datos_alum.id_alumno = ti_fecha_jurado_alumn.id_alumno and
-      ti_fecha_jurado_alumn.id_alumno = ti_datos_alumno_reg_dep.id_alumno and 
-      ti_fecha_jurado_alumn.fecha_titulacion ='$fecha'
-  and ti_reg_datos_alum.id_carrera = gnral_carreras.id_carrera 
-  and ti_datos_alumno_reg_dep.id_autorizacion = 4 and 
+      ti_fecha_jurado_alumn.id_alumno = ti_datos_alumno_reg_dep.id_alumno and
+      ti_fecha_jurado_alumn.fecha_titulacion =?
+  and ti_reg_datos_alum.id_carrera = gnral_carreras.id_carrera
+  and ti_datos_alumno_reg_dep.id_autorizacion = 4 and
       ti_reg_datos_alum.mencion_honorifica =1 and
-      ti_mencion_honorifica.id_alumno = ti_reg_datos_alum.id_alumno  ");
+      ti_mencion_honorifica.id_alumno = ti_reg_datos_alum.id_alumno  ', [(string) ($fecha)]);
 
         if($consultar_reg == null){
             $estado_reg=0;

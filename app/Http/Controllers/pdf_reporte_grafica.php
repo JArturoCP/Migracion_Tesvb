@@ -91,12 +91,12 @@ class pdf_reporte_grafica extends Controller
         $pdf->Cell(80);
         $pdf->Cell(35,5,utf8_decode('Tipo de Evaluación: Por Alumnos'),0,0,'C');
         $pdf->Ln();
-        $nombreperiodo=DB::selectOne('select gnral_periodos.periodo from gnral_periodos where gnral_periodos.id_periodo='.$periodo.'');
+        $nombreperiodo=DB::selectOne('select gnral_periodos.periodo from gnral_periodos where gnral_periodos.id_periodo= ?', [$periodo]);
         $pdf->Cell(80);
         $pdf->SetFont('Arial','',8);
         $pdf->Cell(35,5,utf8_decode('Periodo:'. $nombreperiodo->periodo),0,0,'C');
         $pdf->Ln();
-        $profesor=DB::selectOne('select gnral_personales.nombre from gnral_personales where gnral_personales.id_personal='.$id_profesor.'');
+        $profesor=DB::selectOne('select gnral_personales.nombre from gnral_personales where gnral_personales.id_personal= ?', [$id_profesor]);
         $pdf->Cell(80);
         $pdf->SetFont('Arial','B',9);
         $pdf->Cell(35,5,utf8_decode("Evaluación del Docente: ".$profesor->nombre.""),0,0,'C');
@@ -117,34 +117,34 @@ class pdf_reporte_grafica extends Controller
             $id_profesor=$datos[4];/////para consultar con id_hrs_pro
 
 //dd($id_profesor);
-            $carreras=DB::select('select Distinct(gnral_carreras.nombre) carrera,gnral_carreras.id_carrera 
-                      from gnral_materias,gnral_materias_perfiles,gnral_horas_profesores,gnral_horarios,gnral_periodo_carreras,gnral_periodos,gnral_carreras,gnral_personales,gnral_semestres 
-                      where gnral_periodos.id_periodo='.$periodo.'
-                      and gnral_horarios.id_personal='.$id_profesor.' 
-                      and gnral_periodo_carreras.id_periodo=gnral_periodos.id_periodo 
-                      and gnral_periodo_carreras.id_carrera=gnral_carreras.id_carrera 
-                      and gnral_horarios.id_periodo_carrera=gnral_periodo_carreras.id_periodo_carrera 
-                      and gnral_materias_perfiles.id_materia=gnral_materias.id_materia 
-                      and gnral_horas_profesores.id_horario_profesor=gnral_horarios.id_horario_profesor 
-                      and gnral_horas_profesores.id_materia_perfil=gnral_materias_perfiles.id_materia_perfil 
-                      and gnral_horarios.id_personal=gnral_personales.id_personal 
-                      and gnral_materias.id_semestre=gnral_semestres.id_semestre');
+            $carreras=DB::select('select Distinct(gnral_carreras.nombre) carrera,gnral_carreras.id_carrera
+                      from gnral_materias,gnral_materias_perfiles,gnral_horas_profesores,gnral_horarios,gnral_periodo_carreras,gnral_periodos,gnral_carreras,gnral_personales,gnral_semestres
+                      where gnral_periodos.id_periodo= ?
+                      and gnral_horarios.id_personal= ?
+                      and gnral_periodo_carreras.id_periodo=gnral_periodos.id_periodo
+                      and gnral_periodo_carreras.id_carrera=gnral_carreras.id_carrera
+                      and gnral_horarios.id_periodo_carrera=gnral_periodo_carreras.id_periodo_carrera
+                      and gnral_materias_perfiles.id_materia=gnral_materias.id_materia
+                      and gnral_horas_profesores.id_horario_profesor=gnral_horarios.id_horario_profesor
+                      and gnral_horas_profesores.id_materia_perfil=gnral_materias_perfiles.id_materia_perfil
+                      and gnral_horarios.id_personal=gnral_personales.id_personal
+                      and gnral_materias.id_semestre=gnral_semestres.id_semestre', [$periodo, $id_profesor]);
 
         }
         else
         {
-            $carreras=DB::select('select Distinct(gnral_carreras.nombre) carrera,gnral_carreras.id_carrera 
-                      from gnral_materias,gnral_materias_perfiles,gnral_horas_profesores,gnral_horarios,gnral_periodo_carreras,gnral_periodos,gnral_carreras,gnral_personales,gnral_semestres 
-                      where gnral_periodos.id_periodo='.$periodo.'
-                      and gnral_horarios.id_personal='.$id_profesor.' 
-                      and gnral_periodo_carreras.id_periodo=gnral_periodos.id_periodo 
-                      and gnral_periodo_carreras.id_carrera=gnral_carreras.id_carrera 
-                      and gnral_horarios.id_periodo_carrera=gnral_periodo_carreras.id_periodo_carrera 
-                      and gnral_materias_perfiles.id_materia=gnral_materias.id_materia 
-                      and gnral_horas_profesores.id_horario_profesor=gnral_horarios.id_horario_profesor 
-                      and gnral_horas_profesores.id_materia_perfil=gnral_materias_perfiles.id_materia_perfil 
-                      and gnral_horarios.id_personal=gnral_personales.id_personal 
-                      and gnral_materias.id_semestre=gnral_semestres.id_semestre');
+            $carreras=DB::select('select Distinct(gnral_carreras.nombre) carrera,gnral_carreras.id_carrera
+                      from gnral_materias,gnral_materias_perfiles,gnral_horas_profesores,gnral_horarios,gnral_periodo_carreras,gnral_periodos,gnral_carreras,gnral_personales,gnral_semestres
+                      where gnral_periodos.id_periodo= ?
+                      and gnral_horarios.id_personal= ?
+                      and gnral_periodo_carreras.id_periodo=gnral_periodos.id_periodo
+                      and gnral_periodo_carreras.id_carrera=gnral_carreras.id_carrera
+                      and gnral_horarios.id_periodo_carrera=gnral_periodo_carreras.id_periodo_carrera
+                      and gnral_materias_perfiles.id_materia=gnral_materias.id_materia
+                      and gnral_horas_profesores.id_horario_profesor=gnral_horarios.id_horario_profesor
+                      and gnral_horas_profesores.id_materia_perfil=gnral_materias_perfiles.id_materia_perfil
+                      and gnral_horarios.id_personal=gnral_personales.id_personal
+                      and gnral_materias.id_semestre=gnral_semestres.id_semestre', [$periodo, $id_profesor]);
         }
         $datos_carreras=array();
         foreach ($carreras as $carrera)
@@ -154,22 +154,22 @@ class pdf_reporte_grafica extends Controller
             $nombre['nombre_carrera']=$carrera->carrera;
             $nombre['id_carrera']=$carrera->id_carrera;
             $materias=DB::select('select  DISTINCT(gnral_horas_profesores.id_hrs_profesor),gnral_materias.nombre mat, gnral_carreras.nombre,gnral_carreras.id_carrera,gnral_materias.clave,
-        CONCAT(gnral_semestres.id_semestre ,"0",gnral_horas_profesores.grupo) grupo, gnral_personales.nombre nombrepro 
-        from eva_calificaciones_pre, gnral_materias,gnral_materias_perfiles,gnral_horas_profesores,gnral_horarios,gnral_periodo_carreras,gnral_periodos,gnral_carreras,gnral_personales,gnral_semestres 
-        where gnral_periodos.id_periodo='.$periodo.'
-        and gnral_carreras.id_carrera='.$carrera->id_carrera.' 
-        and gnral_horarios.id_personal='.$id_profesor.' 
-        and gnral_periodo_carreras.id_periodo=gnral_periodos.id_periodo 
-        and gnral_periodo_carreras.id_carrera=gnral_carreras.id_carrera 
-        and gnral_horarios.id_periodo_carrera=gnral_periodo_carreras.id_periodo_carrera 
-        and gnral_materias_perfiles.id_materia=gnral_materias.id_materia 
-        and gnral_horas_profesores.id_horario_profesor=gnral_horarios.id_horario_profesor 
-        and gnral_horas_profesores.id_materia_perfil=gnral_materias_perfiles.id_materia_perfil 
-        and gnral_horarios.id_personal=gnral_personales.id_personal 
+        CONCAT(gnral_semestres.id_semestre ,"0",gnral_horas_profesores.grupo) grupo, gnral_personales.nombre nombrepro
+        from eva_calificaciones_pre, gnral_materias,gnral_materias_perfiles,gnral_horas_profesores,gnral_horarios,gnral_periodo_carreras,gnral_periodos,gnral_carreras,gnral_personales,gnral_semestres
+        where gnral_periodos.id_periodo= ?
+        and gnral_carreras.id_carrera= ?
+        and gnral_horarios.id_personal= ?
+        and gnral_periodo_carreras.id_periodo=gnral_periodos.id_periodo
+        and gnral_periodo_carreras.id_carrera=gnral_carreras.id_carrera
+        and gnral_horarios.id_periodo_carrera=gnral_periodo_carreras.id_periodo_carrera
+        and gnral_materias_perfiles.id_materia=gnral_materias.id_materia
+        and gnral_horas_profesores.id_horario_profesor=gnral_horarios.id_horario_profesor
+        and gnral_horas_profesores.id_materia_perfil=gnral_materias_perfiles.id_materia_perfil
+        and gnral_horarios.id_personal=gnral_personales.id_personal
         and gnral_materias.id_semestre=gnral_semestres.id_semestre
         and eva_calificaciones_pre.id_hrs_profesor=gnral_horas_profesores.id_hrs_profesor
         and eva_calificaciones_pre.calificacion_p>0
-');
+', [$periodo, $carrera->id_carrera, $id_profesor]);
 //dd($materias);
 
             $nombre_materias=array();
@@ -191,20 +191,20 @@ class pdf_reporte_grafica extends Controller
         {
             $id_materias=DB::select('select DISTINCT(gnral_horas_profesores.id_hrs_profesor),gnral_materias.nombre mat, gnral_carreras.nombre,gnral_materias.clave,
                             CONCAT(gnral_semestres.id_semestre ,"0",gnral_horas_profesores.grupo) grupo, gnral_personales.nombre nombrepro
-                            from eva_calificaciones_pre, gnral_materias,gnral_materias_perfiles,gnral_horas_profesores,gnral_horarios,gnral_periodo_carreras,gnral_periodos,gnral_carreras,gnral_personales,gnral_semestres 
-                            where gnral_periodos.id_periodo='.$periodo.'
-                            and gnral_horarios.id_personal='.$id_profesor.' 
-                            and gnral_periodo_carreras.id_periodo=gnral_periodos.id_periodo 
-                            and gnral_periodo_carreras.id_carrera=gnral_carreras.id_carrera 
-                            and gnral_horarios.id_periodo_carrera=gnral_periodo_carreras.id_periodo_carrera 
-                            and gnral_materias_perfiles.id_materia=gnral_materias.id_materia 
-                            and gnral_horas_profesores.id_horario_profesor=gnral_horarios.id_horario_profesor 
-                            and gnral_horas_profesores.id_materia_perfil=gnral_materias_perfiles.id_materia_perfil 
-                            and gnral_horarios.id_personal=gnral_personales.id_personal 
+                            from eva_calificaciones_pre, gnral_materias,gnral_materias_perfiles,gnral_horas_profesores,gnral_horarios,gnral_periodo_carreras,gnral_periodos,gnral_carreras,gnral_personales,gnral_semestres
+                            where gnral_periodos.id_periodo= ?
+                            and gnral_horarios.id_personal= ?
+                            and gnral_periodo_carreras.id_periodo=gnral_periodos.id_periodo
+                            and gnral_periodo_carreras.id_carrera=gnral_carreras.id_carrera
+                            and gnral_horarios.id_periodo_carrera=gnral_periodo_carreras.id_periodo_carrera
+                            and gnral_materias_perfiles.id_materia=gnral_materias.id_materia
+                            and gnral_horas_profesores.id_horario_profesor=gnral_horarios.id_horario_profesor
+                            and gnral_horas_profesores.id_materia_perfil=gnral_materias_perfiles.id_materia_perfil
+                            and gnral_horarios.id_personal=gnral_personales.id_personal
                             and gnral_materias.id_semestre=gnral_semestres.id_semestre
                             and eva_calificaciones_pre.id_hrs_profesor=gnral_horas_profesores.id_hrs_profesor
         and eva_calificaciones_pre.calificacion_p>0
-');
+', [$periodo, $id_profesor]);
             $grafica_condicion="GRÁFICA GENERAL";
 //dd($id_materias);
             $g_carrera=0;
@@ -218,23 +218,23 @@ class pdf_reporte_grafica extends Controller
             // dd($carre);
             $id_materias=DB::select('select DISTINCT(gnral_horas_profesores.id_hrs_profesor),gnral_materias.nombre mat, gnral_carreras.nombre,gnral_materias.clave,
                             CONCAT(gnral_semestres.id_semestre ,"0",gnral_horas_profesores.grupo) grupo, gnral_personales.nombre nombrepro
-                            from eva_calificaciones_pre, gnral_materias,gnral_materias_perfiles,gnral_horas_profesores,gnral_horarios,gnral_periodo_carreras,gnral_periodos,gnral_carreras,gnral_personales,gnral_semestres 
-                            where gnral_periodos.id_periodo='.$periodo.'
-                            and gnral_horarios.id_personal='.$id_profesor.' 
-                             and gnral_carreras.id_carrera='.$carre.'
-                            and gnral_periodo_carreras.id_periodo=gnral_periodos.id_periodo 
-                            and gnral_periodo_carreras.id_carrera=gnral_carreras.id_carrera 
-                            and gnral_horarios.id_periodo_carrera=gnral_periodo_carreras.id_periodo_carrera 
-                            and gnral_materias_perfiles.id_materia=gnral_materias.id_materia 
-                            and gnral_horas_profesores.id_horario_profesor=gnral_horarios.id_horario_profesor 
-                            and gnral_horas_profesores.id_materia_perfil=gnral_materias_perfiles.id_materia_perfil 
-                            and gnral_horarios.id_personal=gnral_personales.id_personal 
+                            from eva_calificaciones_pre, gnral_materias,gnral_materias_perfiles,gnral_horas_profesores,gnral_horarios,gnral_periodo_carreras,gnral_periodos,gnral_carreras,gnral_personales,gnral_semestres
+                            where gnral_periodos.id_periodo= ?
+                            and gnral_horarios.id_personal= ?
+                             and gnral_carreras.id_carrera= ?
+                            and gnral_periodo_carreras.id_periodo=gnral_periodos.id_periodo
+                            and gnral_periodo_carreras.id_carrera=gnral_carreras.id_carrera
+                            and gnral_horarios.id_periodo_carrera=gnral_periodo_carreras.id_periodo_carrera
+                            and gnral_materias_perfiles.id_materia=gnral_materias.id_materia
+                            and gnral_horas_profesores.id_horario_profesor=gnral_horarios.id_horario_profesor
+                            and gnral_horas_profesores.id_materia_perfil=gnral_materias_perfiles.id_materia_perfil
+                            and gnral_horarios.id_personal=gnral_personales.id_personal
                             and gnral_materias.id_semestre=gnral_semestres.id_semestre
                             and eva_calificaciones_pre.id_hrs_profesor=gnral_horas_profesores.id_hrs_profesor
-        and eva_calificaciones_pre.calificacion_p>0');
+        and eva_calificaciones_pre.calificacion_p>0', [$periodo, $id_profesor, $carre]);
 
 
-            $nombre_carrera=DB::selectOne('select gnral_carreras.nombre from gnral_carreras where gnral_carreras.id_carrera='.$carre.'');
+            $nombre_carrera=DB::selectOne('select gnral_carreras.nombre from gnral_carreras where gnral_carreras.id_carrera= ?', [$carre]);
 
             $grafica_condicion=$nombre_carrera->nombre;
             $g_carrera=$carre;
@@ -246,20 +246,20 @@ class pdf_reporte_grafica extends Controller
         {
             $id_materias=DB::select('select DISTINCT(gnral_horas_profesores.id_hrs_profesor),gnral_materias.nombre mat, gnral_carreras.nombre,gnral_materias.clave,
                             CONCAT(gnral_semestres.id_semestre ,"0",gnral_horas_profesores.grupo) grupo, gnral_personales.nombre nombrepro
-                            from eva_calificaciones_pre, gnral_materias,gnral_materias_perfiles,gnral_horas_profesores,gnral_horarios,gnral_periodo_carreras,gnral_periodos,gnral_carreras,gnral_personales,gnral_semestres 
-                            where gnral_periodos.id_periodo='.$periodo.'
-                            and gnral_horarios.id_personal='.$id_profesor.' 
-                            and gnral_horas_profesores.id_hrs_profesor='.$id_hrs.'
-                            and gnral_periodo_carreras.id_periodo=gnral_periodos.id_periodo 
-                            and gnral_periodo_carreras.id_carrera=gnral_carreras.id_carrera 
-                            and gnral_horarios.id_periodo_carrera=gnral_periodo_carreras.id_periodo_carrera 
-                            and gnral_materias_perfiles.id_materia=gnral_materias.id_materia 
-                            and gnral_horas_profesores.id_horario_profesor=gnral_horarios.id_horario_profesor 
-                            and gnral_horas_profesores.id_materia_perfil=gnral_materias_perfiles.id_materia_perfil 
-                            and gnral_horarios.id_personal=gnral_personales.id_personal 
+                            from eva_calificaciones_pre, gnral_materias,gnral_materias_perfiles,gnral_horas_profesores,gnral_horarios,gnral_periodo_carreras,gnral_periodos,gnral_carreras,gnral_personales,gnral_semestres
+                            where gnral_periodos.id_periodo= ?
+                            and gnral_horarios.id_personal= ?
+                            and gnral_horas_profesores.id_hrs_profesor= ?
+                            and gnral_periodo_carreras.id_periodo=gnral_periodos.id_periodo
+                            and gnral_periodo_carreras.id_carrera=gnral_carreras.id_carrera
+                            and gnral_horarios.id_periodo_carrera=gnral_periodo_carreras.id_periodo_carrera
+                            and gnral_materias_perfiles.id_materia=gnral_materias.id_materia
+                            and gnral_horas_profesores.id_horario_profesor=gnral_horarios.id_horario_profesor
+                            and gnral_horas_profesores.id_materia_perfil=gnral_materias_perfiles.id_materia_perfil
+                            and gnral_horarios.id_personal=gnral_personales.id_personal
                             and gnral_materias.id_semestre=gnral_semestres.id_semestre
                             and eva_calificaciones_pre.id_hrs_profesor=gnral_horas_profesores.id_hrs_profesor
-        and eva_calificaciones_pre.calificacion_p>0');
+        and eva_calificaciones_pre.calificacion_p>0', [$periodo, $id_profesor, $id_hrs]);
 
             if($id_materias==null)
             {
@@ -283,7 +283,7 @@ class pdf_reporte_grafica extends Controller
         {
 
             //$verifica=DB::selectOne('select * from eva_calificaciones_pre where eva_calificaciones_pre.id_hrs_profesor='.$id->id_hrs_profesor.'');
-            $verifica=DB::selectOne('select id_periodo,no_pregunta,calificacion_p,id_hrs_profesor,id_criterio from eva_calificaciones_pre where eva_calificaciones_pre.id_hrs_profesor='.$id->id_hrs_profesor.' GROUP by id_periodo, no_pregunta,calificacion_p,id_hrs_profesor,id_criterio');
+            $verifica=DB::selectOne('select id_periodo,no_pregunta,calificacion_p,id_hrs_profesor,id_criterio from eva_calificaciones_pre where eva_calificaciones_pre.id_hrs_profesor= ? GROUP by id_periodo, no_pregunta,calificacion_p,id_hrs_profesor,id_criterio', [$id->id_hrs_profesor]);
             if($verifica!=null)
             {
                 $suma=$suma+1;
@@ -328,7 +328,7 @@ class pdf_reporte_grafica extends Controller
 
         foreach ($con_cri as $cri)
         {
-            $cantidad=DB::selectOne('select count(id_criterio) numero from eva_pregunta where eva_pregunta.id_criterio='.$cri->id_criterio.'');
+            $cantidad=DB::selectOne('select count(id_criterio) numero from eva_pregunta where eva_pregunta.id_criterio= ?', [$cri->id_criterio]);
             $arre_div_cri[]=$cantidad->numero;
         }
         $cadena="[";
@@ -336,47 +336,47 @@ class pdf_reporte_grafica extends Controller
         {
 ////////////////////////////////////calcular porcentaje de alumnos
 
-            $total_alumnos_eva=DB::selectone('SELECT SUM(t.alumnos)alumnos 
-                            from (select count(gnral_horas_profesores.id_hrs_profesor) alumnos 
+            $total_alumnos_eva=DB::selectone('SELECT SUM(t.alumnos)alumnos
+                            from (select count(gnral_horas_profesores.id_hrs_profesor) alumnos
                             from gnral_alumnos, gnral_personales,gnral_materias,gnral_materias_perfiles
                             ,gnral_horarios,gnral_horas_profesores,gnral_periodo_carreras,gnral_periodos,eva_carga_academica,
                             eva_validacion_de_cargas
-                            where gnral_periodo_carreras.id_periodo=gnral_periodos.id_periodo  
+                            where gnral_periodo_carreras.id_periodo=gnral_periodos.id_periodo
                             and gnral_horarios.id_periodo_carrera=gnral_periodo_carreras.id_periodo_carrera
-                            and gnral_horarios.id_personal=gnral_personales.id_personal 
-                            and gnral_materias_perfiles.id_materia=gnral_materias.id_materia 
-                            and gnral_horas_profesores.id_materia_perfil=gnral_materias_perfiles.id_materia_perfil 
-                            and gnral_horas_profesores.id_horario_profesor=gnral_horarios.id_horario_profesor 
-                              and gnral_horas_profesores.id_hrs_profesor='.$mat->id_hrs_profesor.'
-                            and gnral_periodos.id_periodo='.$periodo.'
-                            and eva_carga_academica.id_periodo=gnral_periodos.id_periodo 
-                            and eva_carga_academica.id_alumno=gnral_alumnos.id_alumno 
-                            and eva_carga_academica.id_materia=gnral_materias.id_materia 
+                            and gnral_horarios.id_personal=gnral_personales.id_personal
+                            and gnral_materias_perfiles.id_materia=gnral_materias.id_materia
+                            and gnral_horas_profesores.id_materia_perfil=gnral_materias_perfiles.id_materia_perfil
+                            and gnral_horas_profesores.id_horario_profesor=gnral_horarios.id_horario_profesor
+                              and gnral_horas_profesores.id_hrs_profesor= ?
+                            and gnral_periodos.id_periodo= ?
+                            and eva_carga_academica.id_periodo=gnral_periodos.id_periodo
+                            and eva_carga_academica.id_alumno=gnral_alumnos.id_alumno
+                            and eva_carga_academica.id_materia=gnral_materias.id_materia
                             and eva_carga_academica.grupo=gnral_horas_profesores.grupo
                             and eva_validacion_de_cargas.id_periodo=gnral_periodos.id_periodo
                             and eva_validacion_de_cargas.id_alumno=gnral_alumnos.id_alumno
-                            and eva_validacion_de_cargas.estado_validacion=2 
-                            union 
-                            select count(gnral_horas_profesores.id_hrs_profesor) alumnos 
+                            and eva_validacion_de_cargas.estado_validacion=2
+                            union
+                            select count(gnral_horas_profesores.id_hrs_profesor) alumnos
                             from gnral_alumnos, gnral_personales,gnral_materias,gnral_materias_perfiles,
                             gnral_horarios,gnral_horas_profesores,gnral_periodo_carreras,gnral_periodos,eva_carga_academica,
                             eva_validacion_de_cargas
-                            where gnral_periodo_carreras.id_periodo=gnral_periodos.id_periodo  
+                            where gnral_periodo_carreras.id_periodo=gnral_periodos.id_periodo
                             and gnral_horarios.id_periodo_carrera=gnral_periodo_carreras.id_periodo_carrera
-                            and gnral_horarios.id_personal=gnral_personales.id_personal 
-                            and gnral_materias_perfiles.id_materia=gnral_materias.id_materia 
-                            and gnral_horas_profesores.id_materia_perfil=gnral_materias_perfiles.id_materia_perfil 
-                            and gnral_horas_profesores.id_horario_profesor=gnral_horarios.id_horario_profesor 
-                              and gnral_horas_profesores.id_hrs_profesor='.$mat->id_hrs_profesor.'
-                            and gnral_periodos.id_periodo='.$periodo.'
-                            and eva_carga_academica.id_periodo=gnral_periodos.id_periodo 
-                            and eva_carga_academica.id_alumno=gnral_alumnos.id_alumno 
-                            and eva_carga_academica.id_materia=gnral_materias.id_materia 
+                            and gnral_horarios.id_personal=gnral_personales.id_personal
+                            and gnral_materias_perfiles.id_materia=gnral_materias.id_materia
+                            and gnral_horas_profesores.id_materia_perfil=gnral_materias_perfiles.id_materia_perfil
+                            and gnral_horas_profesores.id_horario_profesor=gnral_horarios.id_horario_profesor
+                              and gnral_horas_profesores.id_hrs_profesor= ?
+                            and gnral_periodos.id_periodo= ?
+                            and eva_carga_academica.id_periodo=gnral_periodos.id_periodo
+                            and eva_carga_academica.id_alumno=gnral_alumnos.id_alumno
+                            and eva_carga_academica.id_materia=gnral_materias.id_materia
                             and eva_carga_academica.grupo=gnral_horas_profesores.grupo
                             and eva_validacion_de_cargas.id_periodo=gnral_periodos.id_periodo
                             and eva_validacion_de_cargas.id_alumno=gnral_alumnos.id_alumno
                             and eva_validacion_de_cargas.estado_validacion !=2
-                            and eva_validacion_de_cargas.no_pregunta=49)t');
+                            and eva_validacion_de_cargas.no_pregunta=49)t', [$mat->id_hrs_profesor, $periodo, $mat->id_hrs_profesor, $periodo]);
 
 
             /*
@@ -416,8 +416,8 @@ class pdf_reporte_grafica extends Controller
                 FROM eva_alumno_materias
                     JOIN gnral_alumnos ON gnral_alumnos.cuenta = eva_alumno_materias.cuenta
                     JOIN eva_validacion_de_cargas ON eva_validacion_de_cargas.id_alumno = gnral_alumnos.id_alumno
-                        WHERE eva_alumno_materias.id_hrs_profesor = '.$mat->id_hrs_profesor.'
-                        AND eva_validacion_de_cargas.no_pregunta = 49 AND eva_validacion_de_cargas.id_periodo = '.$periodo.'');
+                        WHERE eva_alumno_materias.id_hrs_profesor = ?
+                        AND eva_validacion_de_cargas.no_pregunta = 49 AND eva_validacion_de_cargas.id_periodo = ?', [$mat->id_hrs_profesor, $periodo]);
 
             //$cantidad_de_alumnos_v=["alumnos"=>count($cantidad_de_alumnos_v)];
 
@@ -454,7 +454,7 @@ class pdf_reporte_grafica extends Controller
 /////modificacion harlock
             // $consulta=DB::select('select* from eva_calificaciones_pre where eva_calificaciones_pre.id_hrs_profesor='.$mat->id_hrs_profesor.' and
             //eva_calificaciones_pre.id_periodo='.$periodo.'');
-            $consulta=DB::select('select id_periodo,no_pregunta,calificacion_p,id_hrs_profesor,id_criterio from eva_calificaciones_pre where eva_calificaciones_pre.id_hrs_profesor='.$mat->id_hrs_profesor.' and  eva_calificaciones_pre.id_periodo='.$periodo.' GROUP by id_periodo, no_pregunta,calificacion_p,id_hrs_profesor,id_criterio');
+            $consulta=DB::select('select id_periodo,no_pregunta,calificacion_p,id_hrs_profesor,id_criterio from eva_calificaciones_pre where eva_calificaciones_pre.id_hrs_profesor= ? and  eva_calificaciones_pre.id_periodo= ? GROUP by id_periodo, no_pregunta,calificacion_p,id_hrs_profesor,id_criterio', [$mat->id_hrs_profesor, $periodo]);
 
             //dd($consulta);
 
@@ -463,12 +463,12 @@ class pdf_reporte_grafica extends Controller
             {
                 if($cons->calificacion_p>=0 && $cons->calificacion_p<3)
                 {
-                    $observacioncad=DB::selectOne('select eva_pregunta.recomendaciones from eva_pregunta where eva_pregunta.no_pregunta='.$cons->no_pregunta.'');
+                    $observacioncad=DB::selectOne('select eva_pregunta.recomendaciones from eva_pregunta where eva_pregunta.no_pregunta= ?', [$cons->no_pregunta]);
                     $cons->id_hrs_profesor=$observacioncad->recomendaciones;
                 }
                 else
                 {
-                    $observacioncad=DB::selectOne('select eva_pregunta.felicitaciones from eva_pregunta where eva_pregunta.no_pregunta='.$cons->no_pregunta.'');
+                    $observacioncad=DB::selectOne('select eva_pregunta.felicitaciones from eva_pregunta where eva_pregunta.no_pregunta= ?', [$cons->no_pregunta]);
                     $cons->id_hrs_profesor=$observacioncad->felicitaciones;
                 }
             }
@@ -591,14 +591,14 @@ class pdf_reporte_grafica extends Controller
 
             {
                 $ii=$i+1;
-                $observacioncad=DB::selectOne('select eva_pregunta.recomendaciones from eva_pregunta where eva_pregunta.no_pregunta='.$ii.'');
+                $observacioncad=DB::selectOne('select eva_pregunta.recomendaciones from eva_pregunta where eva_pregunta.no_pregunta= ?', [$ii]);
 
                 $preguntas[$i]->observacion=$observacioncad->recomendaciones;
             }
             else
             {
                 $ii=$i+1;
-                $observacioncad=DB::selectOne('select eva_pregunta.felicitaciones from eva_pregunta where eva_pregunta.no_pregunta='.$ii.'');
+                $observacioncad=DB::selectOne('select eva_pregunta.felicitaciones from eva_pregunta where eva_pregunta.no_pregunta= ?', [$ii]);
 
                 $preguntas[$i]->observacion=$observacioncad->felicitaciones;
             }
@@ -654,14 +654,14 @@ class pdf_reporte_grafica extends Controller
             }
             //  dd($observacioncri);
             $nombrep['observacioncri']=$observacioncri;
-            $cantidad=DB::selectOne('select count(id_criterio)pregunta 
-                                                        from eva_pregunta 
-                                                        where id_criterio='.$cri->id_criterio.'');
+            $cantidad=DB::selectOne('select count(id_criterio)pregunta
+                                                        from eva_pregunta
+                                                        where id_criterio= ?', [$cri->id_criterio]);
 
             $nombrep['cantidad']=$cantidad->pregunta+1;///////////////////calculando el numero de preguntas por criterio
 
-            $preguntascri=DB::select('select eva_pregunta.descripcion, eva_pregunta.no_pregunta  FROM eva_criterio,eva_pregunta WHERE eva_criterio.id_criterio=eva_pregunta.id_criterio and 
-      eva_criterio.id_criterio='.$cri->id_criterio.'');
+            $preguntascri=DB::select('select eva_pregunta.descripcion, eva_pregunta.no_pregunta  FROM eva_criterio,eva_pregunta WHERE eva_criterio.id_criterio=eva_pregunta.id_criterio and
+      eva_criterio.id_criterio= ?', [$cri->id_criterio]);
 //dd($preguntascri);
             $arrpreguntas=array(
             );

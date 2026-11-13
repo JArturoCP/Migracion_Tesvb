@@ -11,10 +11,10 @@ class In_armar_horarioinglesController extends Controller
 {
     public function index(){
         $periodo_ingles=Session::get('periodo_ingles');
-        $profesores=DB::select('SELECT in_profesores_ingles.* 
-from in_profesores_ingles,in_plantilla_periodo where 
-in_profesores_ingles.id_profesores=in_plantilla_periodo.id_profesor 
-and in_plantilla_periodo.id_periodo='.$periodo_ingles.'');
+        $profesores=DB::select('SELECT in_profesores_ingles.*
+from in_profesores_ingles,in_plantilla_periodo where
+in_profesores_ingles.id_profesores=in_plantilla_periodo.id_profesor
+and in_plantilla_periodo.id_periodo= ?', [$periodo_ingles]);
         $sin_consultar=0;
         $id_grupo=0;
         $id_profesor=0;
@@ -37,12 +37,12 @@ and in_plantilla_periodo.id_periodo='.$periodo_ingles.'');
     public function profesor_horarios($id_profesor,$id_niveles,$id_grupo){
          // dd($id_profesor,$id_niveles,$id_grupo);
         $periodo_ingles=Session::get('periodo_ingles');
-        $registro=DB::selectOne('SELECT count(in_hrs_ingles_profesor.id_hrs_ingles_profesor) prof from in_hrs_ingles_profesor where id_profesor='.$id_profesor.' and id_nivel='.$id_niveles.' and id_grupo='.$id_grupo.' and id_periodo='.$periodo_ingles.'');
+        $registro=DB::selectOne('SELECT count(in_hrs_ingles_profesor.id_hrs_ingles_profesor) prof from in_hrs_ingles_profesor where id_profesor= ? and id_nivel= ? and id_grupo= ? and id_periodo= ?', [$id_profesor, $id_niveles, $id_grupo, $periodo_ingles]);
         $registro=$registro->prof;
        // dd($registro);
         if($registro ==0)
         {
-            $registro_prof=DB::selectOne('SELECT count(in_hrs_ingles_profesor.id_hrs_ingles_profesor) profes from in_hrs_ingles_profesor where id_nivel='.$id_niveles.' and id_grupo='.$id_grupo.' and id_periodo='.$periodo_ingles.'');
+            $registro_prof=DB::selectOne('SELECT count(in_hrs_ingles_profesor.id_hrs_ingles_profesor) profes from in_hrs_ingles_profesor where id_nivel= ? and id_grupo= ? and id_periodo= ?', [$id_niveles, $id_grupo, $periodo_ingles]);
             $registro_prof=$registro_prof->profes;
             //dd($registro_prof);
             if($registro_prof ==0){
@@ -51,9 +51,9 @@ and in_plantilla_periodo.id_periodo='.$periodo_ingles.'');
             }
             else{
                 $nom=DB::selectOne('SELECT in_profesores_ingles.* from
- in_hrs_ingles_profesor,in_profesores_ingles where in_hrs_ingles_profesor.id_nivel='.$id_niveles.'
- and in_hrs_ingles_profesor.id_grupo='.$id_grupo.' and in_hrs_ingles_profesor.id_periodo='.$periodo_ingles.' and
-  in_profesores_ingles.id_profesores=in_hrs_ingles_profesor.id_profesor');
+ in_hrs_ingles_profesor,in_profesores_ingles where in_hrs_ingles_profesor.id_nivel= ?
+ and in_hrs_ingles_profesor.id_grupo= ? and in_hrs_ingles_profesor.id_periodo= ? and
+  in_profesores_ingles.id_profesores=in_hrs_ingles_profesor.id_profesor', [$id_niveles, $id_grupo, $periodo_ingles]);
                 $nombress=$nom;
                 $disponible_grupo=1;
 
@@ -66,14 +66,14 @@ and in_plantilla_periodo.id_periodo='.$periodo_ingles.'');
             $disponible_grupo=0;
 
         }
-        $profesores=DB::select('SELECT in_profesores_ingles.* 
-from in_profesores_ingles,in_plantilla_periodo where 
-in_profesores_ingles.id_profesores=in_plantilla_periodo.id_profesor 
-and in_plantilla_periodo.id_periodo='.$periodo_ingles.'');
+        $profesores=DB::select('SELECT in_profesores_ingles.*
+from in_profesores_ingles,in_plantilla_periodo where
+in_profesores_ingles.id_profesores=in_plantilla_periodo.id_profesor
+and in_plantilla_periodo.id_periodo= ?', [$periodo_ingles]);
         $sin_consultar=1;
         $niveles=DB::select('SELECT * FROM in_niveles_ingles');
         $grupos=DB::select('SELECT * FROM in_grupo_ingles');
-        $horario_profesores=DB::select('SELECT in_hrs_horas_profesor.id_semana FROM in_hrs_horas_profesor where id_profesor='.$id_profesor.' and id_periodo='.$periodo_ingles.'');
+        $horario_profesores=DB::select('SELECT in_hrs_horas_profesor.id_semana FROM in_hrs_horas_profesor where id_profesor= ? and id_periodo= ?', [$id_profesor, $periodo_ingles]);
 
         $array_horario_ing=array();
         $array_semana=array();
@@ -118,12 +118,12 @@ and in_plantilla_periodo.id_periodo='.$periodo_ingles.'');
         $profesores_horario=DB::select('
 SELECT in_hrs_horas_profesor.id_semana,in_profesores_ingles.*,in_grupo_ingles.descripcion grupo,
 in_niveles_ingles.descripcion nivel,in_hrs_horas_profesor.id_hrs_horas_profesor,in_hrs_horas_profesor.id_grupo,in_hrs_horas_profesor.id_nivel
- FROM in_hrs_horas_profesor,in_profesores_ingles,in_niveles_ingles,in_grupo_ingles 
- where id_profesor='.$id_profesor.' and id_periodo='.$periodo_ingles.' 
+ FROM in_hrs_horas_profesor,in_profesores_ingles,in_niveles_ingles,in_grupo_ingles
+ where id_profesor= ? and id_periodo= ?
  and in_hrs_horas_profesor.id_profesor=in_profesores_ingles.id_profesores
-  and in_hrs_horas_profesor.id_grupo=in_grupo_ingles.id_grupo_ingles and 
-  in_hrs_horas_profesor.id_nivel=in_niveles_ingles.id_niveles_ingles 
-  ORDER BY in_hrs_horas_profesor.id_semana ASC');
+  and in_hrs_horas_profesor.id_grupo=in_grupo_ingles.id_grupo_ingles and
+  in_hrs_horas_profesor.id_nivel=in_niveles_ingles.id_niveles_ingles
+  ORDER BY in_hrs_horas_profesor.id_semana ASC', [$id_profesor, $periodo_ingles]);
 
         foreach ($profesores_horario as $profesor_hor)
         {
@@ -146,15 +146,15 @@ in_niveles_ingles.descripcion nivel,in_hrs_horas_profesor.id_hrs_horas_profesor,
         $semanas=DB::select('select * FROM hrs_semanas ORDER by hora,id_semana');
         //dd($disponible_grupo);
 
-        $maximo_horas=DB::selectOne('SELECT COUNT(in_hrs_horas_profesor.id_hrs_horas_profesor) contar_horas FROM in_hrs_horas_profesor WHERE id_grupo='.$id_grupo.' and id_nivel='.$id_niveles.' and in_hrs_horas_profesor.id_periodo='.$periodo_ingles.'');
+        $maximo_horas=DB::selectOne('SELECT COUNT(in_hrs_horas_profesor.id_hrs_horas_profesor) contar_horas FROM in_hrs_horas_profesor WHERE id_grupo= ? and id_nivel= ? and in_hrs_horas_profesor.id_periodo= ?', [$id_grupo, $id_niveles, $periodo_ingles]);
         $maximo_horas=$maximo_horas->contar_horas;
 
 
 //horas del profesor
-        $horas_profesor=DB::selectOne('SELECT * FROM in_profesores_ingles WHERE id_profesores ='.$id_profesor.'');
+        $horas_profesor=DB::selectOne('SELECT * FROM in_profesores_ingles WHERE id_profesores = ?', [$id_profesor]);
         $horas_profesor=$horas_profesor->horas_maximas;
-        $horas_maximas_profesor=DB::selectOne('SELECT count(in_hrs_horas_profesor.id_hrs_horas_profesor) horas 
-from in_hrs_horas_profesor WHERE in_hrs_horas_profesor.id_profesor='.$id_profesor.' and in_hrs_horas_profesor.id_periodo='.$periodo_ingles.'');
+        $horas_maximas_profesor=DB::selectOne('SELECT count(in_hrs_horas_profesor.id_hrs_horas_profesor) horas
+from in_hrs_horas_profesor WHERE in_hrs_horas_profesor.id_profesor= ? and in_hrs_horas_profesor.id_periodo= ?', [$id_profesor, $periodo_ingles]);
         $horas_maximas_profesor=$horas_maximas_profesor->horas;
         if($horas_profesor == $horas_maximas_profesor){
             $horas_max_prof=1;
@@ -166,9 +166,9 @@ from in_hrs_horas_profesor WHERE in_hrs_horas_profesor.id_profesor='.$id_profeso
     }
     public function agregar_horas($id_semana,$id_grupo,$id_profesor,$id_niveles){
         $periodo_ingles=Session::get('periodo_ingles');
-        $estado_reg=DB::selectOne('SELECT count(id_hrs_ingles_profesor)contar FROM `in_hrs_ingles_profesor` 
-          WHERE `id_profesor` = '.$id_profesor.' 
-          AND `id_grupo` ='.$id_grupo.' AND `id_nivel` ='.$id_niveles.' AND `id_periodo` ='.$periodo_ingles.'');
+        $estado_reg=DB::selectOne('SELECT count(id_hrs_ingles_profesor)contar FROM `in_hrs_ingles_profesor`
+          WHERE `id_profesor` = ?
+          AND `id_grupo` = ? AND `id_nivel` = ? AND `id_periodo` = ?', [$id_profesor, $id_grupo, $id_niveles, $periodo_ingles]);
         if($estado_reg->contar == 0)
         {
             DB:: table('in_hrs_ingles_profesor')->insert(['id_profesor'=>$id_profesor,'id_grupo'=>$id_grupo,'id_nivel'=>$id_niveles,'id_periodo'=>$periodo_ingles]);
@@ -180,19 +180,19 @@ from in_hrs_horas_profesor WHERE in_hrs_horas_profesor.id_profesor='.$id_profeso
     }
     public function eliminar_horario_semana($id_registro_horario,$id_grupo,$id_profesor,$id_niveles){
         $periodo_ingles=Session::get('periodo_ingles');
-        $reg_horas=DB::selectOne('SELECT * FROM `in_hrs_horas_profesor` WHERE `id_hrs_horas_profesor` = '.$id_registro_horario.' ');
+        $reg_horas=DB::selectOne('SELECT * FROM `in_hrs_horas_profesor` WHERE `id_hrs_horas_profesor` = ? ', [$id_registro_horario]);
 
-        $contar_horas=DB::selectOne('SELECT COUNT(id_semana) AS contar FROM (SELECT DISTINCT id_semana FROM `in_hrs_horas_profesor` 
-       WHERE id_profesor = '.$reg_horas->id_profesor.' AND id_grupo ='.$reg_horas->id_grupo.' AND id_nivel = '.$reg_horas->id_nivel.' 
-       and id_periodo='.$reg_horas->id_periodo.') AS subconsulta');
+        $contar_horas=DB::selectOne('SELECT COUNT(id_semana) AS contar FROM (SELECT DISTINCT id_semana FROM `in_hrs_horas_profesor`
+       WHERE id_profesor = ? AND id_grupo = ? AND id_nivel = ?
+       and id_periodo= ?) AS subconsulta', [$reg_horas->id_profesor, $reg_horas->id_grupo, $reg_horas->id_nivel, $reg_horas->id_periodo]);
         //$contar_horas=DB::selectOne('SELECT COUNT(id_hrs_horas_profesor)horas FROM in_hrs_horas_profesor WHERE id_profesor = '.$id_profesor.' AND id_grupo ='.$id_grupo.' AND id_nivel = '.$id_niveles.' and id_periodo='.$periodo_ingles.'');
         $contar_horas=$contar_horas->contar;
 
         if($contar_horas==1){
-            DB::delete('DELETE FROM in_hrs_ingles_profesor WHERE id_profesor='.$reg_horas->id_profesor.'  and id_grupo='.$reg_horas->id_grupo.' and id_nivel='.$reg_horas->id_nivel.' and id_periodo='.$reg_horas->id_periodo.'');
+            DB::delete('DELETE FROM in_hrs_ingles_profesor WHERE id_profesor= ?  and id_grupo= ? and id_nivel= ? and id_periodo= ?', [$reg_horas->id_profesor, $reg_horas->id_grupo, $reg_horas->id_nivel, $reg_horas->id_periodo]);
 
         }
-        DB::delete('DELETE FROM in_hrs_horas_profesor WHERE id_hrs_horas_profesor='.$id_registro_horario.'');
+        DB::delete('DELETE FROM in_hrs_horas_profesor WHERE id_hrs_horas_profesor= ?', [$id_registro_horario]);
 
         return back();
     }

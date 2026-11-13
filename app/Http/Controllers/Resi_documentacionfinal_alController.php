@@ -12,20 +12,20 @@ class Resi_documentacionfinal_alController extends Controller
     public function index(){
         $id_usuario = Session::get('usuario_alumno');
         $periodo = Session::get('periodo_actual');
-        $datosalumno=DB::selectOne('select * FROM gnral_alumnos WHERE id_usuario='.$id_usuario.'');
+        $datosalumno=DB::selectOne('select * FROM gnral_alumnos WHERE id_usuario= ?', [$id_usuario]);
         $alumno=$datosalumno->id_alumno;
-        $seguimiento= DB::selectOne('SELECT resi_anteproyecto.id_anteproyecto 
-from resi_anteproyecto,resi_asesores where resi_anteproyecto.id_anteproyecto=resi_asesores.id_anteproyecto 
-and resi_asesores.id_periodo='.$periodo.' and resi_anteproyecto.id_alumno='.$alumno.' ');
+        $seguimiento= DB::selectOne('SELECT resi_anteproyecto.id_anteproyecto
+from resi_anteproyecto,resi_asesores where resi_anteproyecto.id_anteproyecto=resi_asesores.id_anteproyecto
+and resi_asesores.id_periodo= ? and resi_anteproyecto.id_alumno= ? ', [$periodo, $alumno]);
         $id_anteproyecto=$seguimiento->id_anteproyecto;
-        $calificado=DB::selectOne('SELECT * FROM `resi_promedio_general_residencia` WHERE `id_anteproyecto` = '.$id_anteproyecto.'');
+        $calificado=DB::selectOne('SELECT * FROM `resi_promedio_general_residencia` WHERE `id_anteproyecto` = ?', [$id_anteproyecto]);
 
         if($calificado == null){
             $estado_calificado=0;
             return view('residencia.autorizacion_documentos_final_residencia.estado_documentacion_residencia',compact('estado_calificado'));
         }else{
             $estado_calificado=1;
-            $estado_documentacion=DB::selectOne('SELECT * FROM `resi_liberacion_documentos` WHERE `id_anteproyecto` = '.$id_anteproyecto.' ');
+            $estado_documentacion=DB::selectOne('SELECT * FROM `resi_liberacion_documentos` WHERE `id_anteproyecto` = ? ', [$id_anteproyecto]);
             $estado_enviado=$estado_documentacion->id_estado_enviado;
 
             if($estado_enviado == 0) {
@@ -49,7 +49,7 @@ and resi_asesores.id_periodo='.$periodo.' and resi_anteproyecto.id_alumno='.$alu
             ]);
             $id_liberacion_documentos = $request->input("id_liberacion_documentos");
             $correo_electronico_doc = $request->input("correo_electronico_doc");
-            DB::update("UPDATE resi_liberacion_documentos SET correo_electronico='$correo_electronico_doc'  WHERE id_liberacion_documentos=$id_liberacion_documentos");
+            DB::update('UPDATE resi_liberacion_documentos SET correo_electronico=?  WHERE id_liberacion_documentos= ?', [(string) ($correo_electronico_doc), $id_liberacion_documentos]);
         return back();
     }
     public function acta_calificacion_documentacionfinal(Request $request,$id_liberacion_documentos){

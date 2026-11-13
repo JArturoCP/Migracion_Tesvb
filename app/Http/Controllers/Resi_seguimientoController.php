@@ -12,20 +12,20 @@ class Resi_seguimientoController extends Controller
     public function  index(){
         $id_usuario = Session::get('usuario_alumno');
         $periodo = Session::get('periodo_actual');
-        $datosalumno=DB::selectOne('select * FROM gnral_alumnos WHERE id_usuario='.$id_usuario.'');
+        $datosalumno=DB::selectOne('select * FROM gnral_alumnos WHERE id_usuario= ?', [$id_usuario]);
         $alumno=$datosalumno->id_alumno;
 
-        $seguimiento= DB::selectOne('SELECT resi_anteproyecto.id_anteproyecto 
-from resi_anteproyecto,resi_asesores where resi_anteproyecto.id_anteproyecto=resi_asesores.id_anteproyecto 
-and resi_asesores.id_periodo='.$periodo.' and resi_anteproyecto.id_alumno='.$alumno.' ');
+        $seguimiento= DB::selectOne('SELECT resi_anteproyecto.id_anteproyecto
+from resi_anteproyecto,resi_asesores where resi_anteproyecto.id_anteproyecto=resi_asesores.id_anteproyecto
+and resi_asesores.id_periodo= ? and resi_anteproyecto.id_alumno= ? ', [$periodo, $alumno]);
         $id_anteproyecto=$seguimiento->id_anteproyecto;
-        $cronogramas=DB::select('SELECT * FROM `resi_cronograma` WHERE `id_anteproyecto` = '.$id_anteproyecto.' ORDER BY `no_semana` ASC');
+        $cronogramas=DB::select('SELECT * FROM `resi_cronograma` WHERE `id_anteproyecto` = ? ORDER BY `no_semana` ASC', [$id_anteproyecto]);
         //dd($cronogramas);
         foreach ($cronogramas as $cronograma){
-            $contar_evaluacion=DB::selectOne('SELECT count(id_promedios) promedio from resi_promedio_rubros where id_cronograma='.$cronograma->id_cronograma.'');
+            $contar_evaluacion=DB::selectOne('SELECT count(id_promedios) promedio from resi_promedio_rubros where id_cronograma= ?', [$cronograma->id_cronograma]);
 
             if($contar_evaluacion->promedio == 0 ){
-                $semana= DB::selectOne('SELECT * FROM `resi_cronograma` WHERE `id_cronograma` = '.$cronograma->id_cronograma.' ORDER BY `no_semana` ASC');
+                $semana= DB::selectOne('SELECT * FROM `resi_cronograma` WHERE `id_cronograma` = ? ORDER BY `no_semana` ASC', [$cronograma->id_cronograma]);
                 $fecha_termino=$semana->f_termino;
                 // dd($fecha_termino);
                 $fecha_actual = date("Y-m-d");
@@ -48,13 +48,13 @@ and resi_asesores.id_periodo='.$periodo.' and resi_anteproyecto.id_alumno='.$alu
         //dd('hola');
     }
     public function seguimiento_cronograma_alumno($id_anteproyecto){
-        $asignadas = DB::selectOne('SELECT MAX(semana) semana FROM resi_rubro_aplicacion WHERE `id_anteproyecto` = '.$id_anteproyecto.'');
+        $asignadas = DB::selectOne('SELECT MAX(semana) semana FROM resi_rubro_aplicacion WHERE `id_anteproyecto` = ?', [$id_anteproyecto]);
         $asignadas=$asignadas->semana;
         $semanas_asignadas=DB::select('SELECT resi_cronograma.*,resi_promedio_rubros.promedio FROM
- resi_cronograma,resi_promedio_rubros WHERE resi_cronograma.id_cronograma=resi_promedio_rubros.id_cronograma 
- and resi_promedio_rubros.id_anteproyecto='.$id_anteproyecto.'  
-ORDER BY `resi_cronograma`.`no_semana` ASC');
-        $promedio=DB::selectOne('SELECT sum(resi_promedio_rubros.promedio) promedio FROM resi_promedio_rubros WHERE resi_promedio_rubros.id_anteproyecto='.$id_anteproyecto.'');
+ resi_cronograma,resi_promedio_rubros WHERE resi_cronograma.id_cronograma=resi_promedio_rubros.id_cronograma
+ and resi_promedio_rubros.id_anteproyecto= ?
+ORDER BY `resi_cronograma`.`no_semana` ASC', [$id_anteproyecto]);
+        $promedio=DB::selectOne('SELECT sum(resi_promedio_rubros.promedio) promedio FROM resi_promedio_rubros WHERE resi_promedio_rubros.id_anteproyecto= ?', [$id_anteproyecto]);
         if ($promedio == null){
             $promedio=0;
         }
@@ -75,10 +75,10 @@ ORDER BY `resi_cronograma`.`no_semana` ASC');
         }
         $semana_siguiente=$asignadas+1;
         // dd($semana_siguiente);
-        $ultima_semana=DB::selectOne('SELECT MAX(resi_cronograma.no_semana) semana FROM resi_cronograma WHERE `id_anteproyecto` ='.$id_anteproyecto.'');
+        $ultima_semana=DB::selectOne('SELECT MAX(resi_cronograma.no_semana) semana FROM resi_cronograma WHERE `id_anteproyecto` = ?', [$id_anteproyecto]);
 
         $ultima_semana=$ultima_semana->semana+1;
-        $semana= DB::selectOne('SELECT * FROM `resi_cronograma` WHERE `id_anteproyecto` = '.$id_anteproyecto.' and no_semana='.$semana_siguiente.' ORDER BY `no_semana` ASC');
+        $semana= DB::selectOne('SELECT * FROM `resi_cronograma` WHERE `id_anteproyecto` = ? and no_semana= ? ORDER BY `no_semana` ASC', [$id_anteproyecto, $semana_siguiente]);
        if($semana == null){
            $calificar=0;
        }else {
@@ -115,7 +115,7 @@ ORDER BY `resi_cronograma`.`no_semana` ASC');
         $array_peri = array();
         for ($i = $asignacion; $i < $ultima_semana; $i++) {
 
-            $semanass= DB::selectOne('SELECT * FROM `resi_cronograma` WHERE `id_anteproyecto` = '.$id_anteproyecto.' and no_semana='.$i.' ORDER BY `no_semana` ASC');
+            $semanass= DB::selectOne('SELECT * FROM `resi_cronograma` WHERE `id_anteproyecto` = ? and no_semana= ? ORDER BY `no_semana` ASC', [$id_anteproyecto, $i]);
 
 
                 $array_crono['no_semana'] = $i;
@@ -131,23 +131,23 @@ ORDER BY `resi_cronograma`.`no_semana` ASC');
             array_push($array_peri, $array_crono);
         }
         $semanas = array_merge($array_periodos, $array_peri);
-        $ultima=DB::selectOne('SELECT MAX(resi_cronograma.no_semana) semana FROM resi_cronograma WHERE `id_anteproyecto` ='.$id_anteproyecto.'');
+        $ultima=DB::selectOne('SELECT MAX(resi_cronograma.no_semana) semana FROM resi_cronograma WHERE `id_anteproyecto` = ?', [$id_anteproyecto]);
         $ultima=$ultima->semana;
-        $proyecto_calificado=DB::selectOne('SELECT max(id_semana)semana FROM `resi_promedio_rubros` WHERE `id_anteproyecto` ='.$id_anteproyecto.'');
+        $proyecto_calificado=DB::selectOne('SELECT max(id_semana)semana FROM `resi_promedio_rubros` WHERE `id_anteproyecto` = ?', [$id_anteproyecto]);
         $proyecto_calificado=$proyecto_calificado->semana;
         if($ultima== $proyecto_calificado){
            $terminado_proyecto=1;
         }else{
             $terminado_proyecto=0;
         }
-        $promedio_resi=DB::selectOne('SELECT count(id_anteproyecto) numero FROM `resi_promedio_general_residencia` WHERE `id_anteproyecto` ='.$id_anteproyecto.'' );
+        $promedio_resi=DB::selectOne('SELECT count(id_anteproyecto) numero FROM `resi_promedio_general_residencia` WHERE `id_anteproyecto` = ?', [$id_anteproyecto] );
         if($promedio_resi->numero == 0){
             $promedio_final=0;
             $promedio_residencia=0;
         }
         else{
             $promedio_final=1;
-            $promedio_residencia=DB::selectOne('SELECT *FROM `resi_promedio_general_residencia` WHERE `id_anteproyecto` ='.$id_anteproyecto.'' );
+            $promedio_residencia=DB::selectOne('SELECT *FROM `resi_promedio_general_residencia` WHERE `id_anteproyecto` = ?', [$id_anteproyecto] );
             $promedio_residencia=$promedio_residencia->promedio_general;
         }
       $encuesta=DB::table('resi_encuesta_residencia')
@@ -171,22 +171,22 @@ ORDER BY `resi_cronograma`.`no_semana` ASC');
         $periodo = Session::get('periodo_actual');
 
         $segumientos_proyectos=DB::select('SELECT gnral_alumnos.nombre,gnral_alumnos.cuenta,gnral_alumnos.apaterno,
-gnral_alumnos.amaterno,resi_proyecto.nom_proyecto,resi_anteproyecto.id_anteproyecto,resi_anteproyecto.autorizacion_departamento  
-FROM resi_asesores,resi_anteproyecto,resi_proyecto,gnral_alumnos WHERE resi_asesores.id_profesor ='.$id_profesor.' 
- AND resi_asesores.id_periodo = '.$periodo.' and resi_asesores.id_anteproyecto=resi_anteproyecto.id_anteproyecto
-  and resi_anteproyecto.id_alumno=gnral_alumnos.id_alumno 
-and resi_anteproyecto.id_proyecto=resi_proyecto.id_proyecto');
+gnral_alumnos.amaterno,resi_proyecto.nom_proyecto,resi_anteproyecto.id_anteproyecto,resi_anteproyecto.autorizacion_departamento
+FROM resi_asesores,resi_anteproyecto,resi_proyecto,gnral_alumnos WHERE resi_asesores.id_profesor = ?
+ AND resi_asesores.id_periodo = ? and resi_asesores.id_anteproyecto=resi_anteproyecto.id_anteproyecto
+  and resi_anteproyecto.id_alumno=gnral_alumnos.id_alumno
+and resi_anteproyecto.id_proyecto=resi_proyecto.id_proyecto', [$id_profesor, $periodo]);
 
       return view('residencia.seguimiento.consultar_proyectos_aceptados',compact('segumientos_proyectos')) ;
     }
     public function seguimiento_alumno($id_anteproyecto){
-        $cronogramas=DB::select('SELECT * FROM `resi_cronograma` WHERE `id_anteproyecto` = '.$id_anteproyecto.' ORDER BY `no_semana` ASC');
+        $cronogramas=DB::select('SELECT * FROM `resi_cronograma` WHERE `id_anteproyecto` = ? ORDER BY `no_semana` ASC', [$id_anteproyecto]);
        //dd($cronogramas);
         foreach ($cronogramas as $cronograma){
-           $contar_evaluacion=DB::selectOne('SELECT count(id_promedios) promedio from resi_promedio_rubros where id_cronograma='.$cronograma->id_cronograma.'');
+           $contar_evaluacion=DB::selectOne('SELECT count(id_promedios) promedio from resi_promedio_rubros where id_cronograma= ?', [$cronograma->id_cronograma]);
 
            if($contar_evaluacion->promedio == 0 ){
-               $semana= DB::selectOne('SELECT * FROM `resi_cronograma` WHERE `id_cronograma` = '.$cronograma->id_cronograma.' ORDER BY `no_semana` ASC');
+               $semana= DB::selectOne('SELECT * FROM `resi_cronograma` WHERE `id_cronograma` = ? ORDER BY `no_semana` ASC', [$cronograma->id_cronograma]);
                $fecha_termino=$semana->f_termino;
               // dd($fecha_termino);
                $fecha_actual = date("Y-m-d");
@@ -210,13 +210,13 @@ and resi_anteproyecto.id_proyecto=resi_proyecto.id_proyecto');
     }
     public function seguimiento_alumno_residencia($id_anteproyecto){
 
-        $asignadas = DB::selectOne('SELECT MAX(semana) semana FROM resi_rubro_aplicacion WHERE `id_anteproyecto` = '.$id_anteproyecto.'');
+        $asignadas = DB::selectOne('SELECT MAX(semana) semana FROM resi_rubro_aplicacion WHERE `id_anteproyecto` = ?', [$id_anteproyecto]);
         $asignadas=$asignadas->semana;
         $semanas_asignadas=DB::select('SELECT resi_cronograma.*,resi_promedio_rubros.promedio FROM
- resi_cronograma,resi_promedio_rubros WHERE resi_cronograma.id_cronograma=resi_promedio_rubros.id_cronograma 
- and resi_promedio_rubros.id_anteproyecto='.$id_anteproyecto.'  
-ORDER BY `resi_cronograma`.`no_semana` ASC');
-        $promedio=DB::selectOne('SELECT sum(resi_promedio_rubros.promedio) promedio FROM resi_promedio_rubros WHERE resi_promedio_rubros.id_anteproyecto='.$id_anteproyecto.'');
+ resi_cronograma,resi_promedio_rubros WHERE resi_cronograma.id_cronograma=resi_promedio_rubros.id_cronograma
+ and resi_promedio_rubros.id_anteproyecto= ?
+ORDER BY `resi_cronograma`.`no_semana` ASC', [$id_anteproyecto]);
+        $promedio=DB::selectOne('SELECT sum(resi_promedio_rubros.promedio) promedio FROM resi_promedio_rubros WHERE resi_promedio_rubros.id_anteproyecto= ?', [$id_anteproyecto]);
 
         if ($promedio == null){
             $promedio=0;
@@ -240,9 +240,9 @@ ORDER BY `resi_cronograma`.`no_semana` ASC');
        //dd($promedio);
         $semana_siguiente=$asignadas+1;
        // dd($semana_siguiente);
-       $ultima_semana=DB::selectOne('SELECT MAX(resi_cronograma.no_semana) semana FROM resi_cronograma WHERE `id_anteproyecto` ='.$id_anteproyecto.'');
+       $ultima_semana=DB::selectOne('SELECT MAX(resi_cronograma.no_semana) semana FROM resi_cronograma WHERE `id_anteproyecto` = ?', [$id_anteproyecto]);
        $ultima_semana=$ultima_semana->semana+1;
-        $semana= DB::selectOne('SELECT * FROM `resi_cronograma` WHERE `id_anteproyecto` = '.$id_anteproyecto.' and no_semana='.$semana_siguiente.' ORDER BY `no_semana` ASC');
+        $semana= DB::selectOne('SELECT * FROM `resi_cronograma` WHERE `id_anteproyecto` = ? and no_semana= ? ORDER BY `no_semana` ASC', [$id_anteproyecto, $semana_siguiente]);
         if($semana == null){
             $calificar=0;
         }
@@ -278,7 +278,7 @@ ORDER BY `resi_cronograma`.`no_semana` ASC');
         $array_peri = array();
         for ($i = $asignacion; $i < $ultima_semana; $i++) {
 
-            $semanass= DB::selectOne('SELECT * FROM `resi_cronograma` WHERE `id_anteproyecto` = '.$id_anteproyecto.' and no_semana='.$i.' ORDER BY `no_semana` ASC');
+            $semanass= DB::selectOne('SELECT * FROM `resi_cronograma` WHERE `id_anteproyecto` = ? and no_semana= ? ORDER BY `no_semana` ASC', [$id_anteproyecto, $i]);
 
             if ($i == $semana_siguiente and $calificar==1) {
 
@@ -304,9 +304,9 @@ ORDER BY `resi_cronograma`.`no_semana` ASC');
             array_push($array_peri, $array_crono);
         }
         $semanas = array_merge($array_periodos, $array_peri);
-        $ultima=DB::selectOne('SELECT MAX(resi_cronograma.no_semana) semana FROM resi_cronograma WHERE `id_anteproyecto` ='.$id_anteproyecto.'');
+        $ultima=DB::selectOne('SELECT MAX(resi_cronograma.no_semana) semana FROM resi_cronograma WHERE `id_anteproyecto` = ?', [$id_anteproyecto]);
         $ultima=$ultima->semana;
-        $proyecto_calificado=DB::selectOne('SELECT max(id_semana)semana FROM `resi_promedio_rubros` WHERE `id_anteproyecto` ='.$id_anteproyecto.'');
+        $proyecto_calificado=DB::selectOne('SELECT max(id_semana)semana FROM `resi_promedio_rubros` WHERE `id_anteproyecto` = ?', [$id_anteproyecto]);
         $proyecto_calificado=$proyecto_calificado->semana;
         if($ultima== $proyecto_calificado){
             $terminado_proyecto=1;
@@ -314,7 +314,7 @@ ORDER BY `resi_cronograma`.`no_semana` ASC');
             $terminado_proyecto=0;
         }
 
-        $promedio_resi=DB::selectOne('SELECT count(id_anteproyecto) numero FROM `resi_promedio_general_residencia` WHERE `id_anteproyecto` ='.$id_anteproyecto.'' );
+        $promedio_resi=DB::selectOne('SELECT count(id_anteproyecto) numero FROM `resi_promedio_general_residencia` WHERE `id_anteproyecto` = ?', [$id_anteproyecto] );
         if($promedio_resi->numero == 0){
             $promedio_final=0;
             $promedio_residencia=0;
@@ -322,14 +322,14 @@ ORDER BY `resi_cronograma`.`no_semana` ASC');
         }
         else{
             $promedio_final=1;
-            $promedio_residencia=DB::selectOne('SELECT *FROM `resi_promedio_general_residencia` WHERE `id_anteproyecto` ='.$id_anteproyecto.'' );
+            $promedio_residencia=DB::selectOne('SELECT *FROM `resi_promedio_general_residencia` WHERE `id_anteproyecto` = ?', [$id_anteproyecto] );
             $promedio_residencia=$promedio_residencia->promedio_general;
-            $liberar_depto=DB::selectOne('SELECT * FROM `resi_promedio_general_residencia` WHERE `id_anteproyecto` ='.$id_anteproyecto.'');
+            $liberar_depto=DB::selectOne('SELECT * FROM `resi_promedio_general_residencia` WHERE `id_anteproyecto` = ?', [$id_anteproyecto]);
 
 
 
         }
-        $alumno_anteproyecto=DB::selectOne('SELECT gnral_alumnos.cuenta,gnral_alumnos.nombre,gnral_alumnos.apaterno,gnral_alumnos.amaterno from gnral_alumnos,resi_anteproyecto where gnral_alumnos.id_alumno=resi_anteproyecto.id_alumno and resi_anteproyecto.id_anteproyecto='.$id_anteproyecto.'');
+        $alumno_anteproyecto=DB::selectOne('SELECT gnral_alumnos.cuenta,gnral_alumnos.nombre,gnral_alumnos.apaterno,gnral_alumnos.amaterno from gnral_alumnos,resi_anteproyecto where gnral_alumnos.id_alumno=resi_anteproyecto.id_alumno and resi_anteproyecto.id_anteproyecto= ?', [$id_anteproyecto]);
         $nombre_alumno=$alumno_anteproyecto->cuenta." ".$alumno_anteproyecto->nombre." ".$alumno_anteproyecto->apaterno." ".$alumno_anteproyecto->amaterno;
 
 
@@ -362,7 +362,7 @@ return view('residencia.seguimiento.actividades_evaluadas',compact('semanas','pr
         $id_pendiente = $request->input("id_pendiente");
         $pro=$id_actitud+$id_responsabilidad+$id_capacidad+$id_aplicacion+$id_calidad;
         $promedio=$pro/5;
-        $cronograma=DB::selectOne('SELECT * FROM `resi_cronograma` WHERE `id_cronograma` = '.$id_cronograma.' ORDER BY `no_semana` ASC ');
+        $cronograma=DB::selectOne('SELECT * FROM `resi_cronograma` WHERE `id_cronograma` = ? ORDER BY `no_semana` ASC ', [$id_cronograma]);
         $id_anteproyecto=$cronograma->id_anteproyecto;
         $no_semana=$cronograma->no_semana;
         DB:: table('resi_rubro_actitud')->insert(['id_cronograma' =>$id_cronograma,'calificacion' =>$id_actitud,'id_anteproyecto' =>$id_anteproyecto,'semana'=>$no_semana]);
@@ -414,9 +414,9 @@ return back();
 
         $promedio_residencia=$uno+$dos+$tres+$cuatro+$cinco+$seis+$siete+$ocho+$nueve+$diez+$once+$doce;
 
-        $asignadas = DB::selectOne('SELECT MAX(semana) semana FROM resi_rubro_aplicacion WHERE `id_anteproyecto` = '.$id_anteproyecto.'');
+        $asignadas = DB::selectOne('SELECT MAX(semana) semana FROM resi_rubro_aplicacion WHERE `id_anteproyecto` = ?', [$id_anteproyecto]);
         $asignadas=$asignadas->semana;
-        $promedio=DB::selectOne('SELECT sum(resi_promedio_rubros.promedio) promedio FROM resi_promedio_rubros WHERE resi_promedio_rubros.id_anteproyecto='.$id_anteproyecto.'');
+        $promedio=DB::selectOne('SELECT sum(resi_promedio_rubros.promedio) promedio FROM resi_promedio_rubros WHERE resi_promedio_rubros.id_anteproyecto= ?', [$id_anteproyecto]);
        $promedio=$promedio->promedio;
         $promedio_seguimiento=$promedio/$asignadas;
 
@@ -434,7 +434,7 @@ return back();
         DB:: table('resi_liberacion_documentos')->insert(['id_anteproyecto'=>$id_anteproyecto,'id_periodo'=>$periodo]);
 
         ///////inser tabla cal_residencia//////
-        $estudent = DB::selectOne('SELECT id_alumno FROM tesvb_si.resi_anteproyecto where id_anteproyecto='.$id_anteproyecto.' and id_periodo='.$periodo.'');
+        $estudent = DB::selectOne('SELECT id_alumno FROM tesvb_si.resi_anteproyecto where id_anteproyecto= ? and id_periodo= ?', [$id_anteproyecto, $periodo]);
         $cla='RES-0001';
         DB:: table('cal_residencia')
         ->insert(['calificacion' =>$promedio_general,
@@ -490,8 +490,8 @@ return back();
     public function autorizar_imprimir_acta() {
         $periodo = Session::get('periodo_actual');
 
-        $alumnos = DB::select("
-        SELECT 
+        $alumnos = DB::select('
+        SELECT
             ga.id_alumno,
             ga.cuenta,
             ga.nombre,
@@ -506,17 +506,17 @@ return back();
             pr.fecha_registro,
             pr.id_calificar_departamento
         FROM resi_asesores ra
-        JOIN resi_anteproyecto rap 
+        JOIN resi_anteproyecto rap
             ON rap.id_anteproyecto = ra.id_anteproyecto
-        JOIN gnral_alumnos ga 
+        JOIN gnral_alumnos ga
             ON ga.id_alumno = rap.id_alumno
-        JOIN gnral_carreras gc 
+        JOIN gnral_carreras gc
             ON gc.id_carrera = ga.id_carrera
-        JOIN resi_promedio_general_residencia pr 
+        JOIN resi_promedio_general_residencia pr
             ON pr.id_anteproyecto = rap.id_anteproyecto
-        WHERE ra.id_periodo = $periodo
+        WHERE ra.id_periodo = ?
         GROUP BY ga.id_alumno
-    ");
+    ', [$periodo]);
 
         $array_alumn = [];
 
@@ -537,12 +537,12 @@ return back();
             ];
 
             // ESTADO ENCUESTA
-            $estado_encuesta = DB::selectOne("
-            SELECT id_estado 
-            FROM enc_residencia_profesional 
-            WHERE id_alumno = $alumno->id_alumno
+            $estado_encuesta = DB::selectOne('
+            SELECT id_estado
+            FROM enc_residencia_profesional
+            WHERE id_alumno = ?
             LIMIT 1
-        ");
+        ', [$alumno->id_alumno]);
 
             if (!$estado_encuesta) {
                 $alum['estado_encuesta'] = 0;   // No existe encuesta
@@ -557,10 +557,10 @@ return back();
     }
     public function autorizacion_acta_alumno($id_promedio_general){
        $alumno=DB::selectOne('SELECT gnral_alumnos.cuenta,gnral_alumnos.nombre,
-       gnral_alumnos.apaterno,gnral_alumnos.amaterno,gnral_carreras.nombre carrera,resi_promedio_general_residencia.* 
-FROM gnral_alumnos,resi_anteproyecto,resi_promedio_general_residencia,gnral_carreras,resi_asesores 
-WHERE gnral_alumnos.id_alumno=resi_anteproyecto.id_alumno and resi_anteproyecto.id_anteproyecto = resi_promedio_general_residencia.id_anteproyecto 
-  and gnral_alumnos.id_carrera = gnral_carreras.id_carrera and resi_asesores.id_anteproyecto = resi_anteproyecto.id_anteproyecto and resi_promedio_general_residencia.id_promedio_general ='.$id_promedio_general.'');
+       gnral_alumnos.apaterno,gnral_alumnos.amaterno,gnral_carreras.nombre carrera,resi_promedio_general_residencia.*
+FROM gnral_alumnos,resi_anteproyecto,resi_promedio_general_residencia,gnral_carreras,resi_asesores
+WHERE gnral_alumnos.id_alumno=resi_anteproyecto.id_alumno and resi_anteproyecto.id_anteproyecto = resi_promedio_general_residencia.id_anteproyecto
+  and gnral_alumnos.id_carrera = gnral_carreras.id_carrera and resi_asesores.id_anteproyecto = resi_anteproyecto.id_anteproyecto and resi_promedio_general_residencia.id_promedio_general = ?', [$id_promedio_general]);
  //dd($alumno);
    return view('residencia.seguimiento.modal_dato_autorizar_acta',compact('alumno'));
     }
@@ -571,7 +571,7 @@ WHERE gnral_alumnos.id_alumno=resi_anteproyecto.id_alumno and resi_anteproyecto.
 
         $id_promedio_general = $request->input("id_promedio_general");
 
-        $promedio=DB::selectOne('SELECT * FROM `resi_promedio_general_residencia` WHERE `id_promedio_general` = '.$id_promedio_general.'');
+        $promedio=DB::selectOne('SELECT * FROM `resi_promedio_general_residencia` WHERE `id_promedio_general` = ?', [$id_promedio_general]);
         $fecha_reg= $promedio->fecha_registro;
 
         $num=$fecha_reg;
@@ -582,7 +582,7 @@ WHERE gnral_alumnos.id_alumno=resi_anteproyecto.id_alumno and resi_anteproyecto.
         //dd($fecha_r);
 
 
-        $id_alumno = DB::selectOne('SELECT * FROM `resi_anteproyecto` WHERE `id_anteproyecto` ='.$promedio->id_anteproyecto.'');
+        $id_alumno = DB::selectOne('SELECT * FROM `resi_anteproyecto` WHERE `id_anteproyecto` = ?', [$promedio->id_anteproyecto]);
 
         $id_alumno = $id_alumno->id_alumno;
         //dd($promedio);

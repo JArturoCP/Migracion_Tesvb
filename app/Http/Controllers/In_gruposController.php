@@ -110,12 +110,12 @@ class In_gruposController extends Controller
             array_push($array_ingles, $array_ing);
         }
         $profesores_horario = DB::select('
-SELECT in_grupo_ingles.descripcion grupo,in_niveles_ingles.descripcion nivel, in_hrs_horas_profesor.* 
-FROM  in_hrs_horas_profesor,in_niveles_ingles,in_grupo_ingles 
-WHERE in_hrs_horas_profesor.id_grupo = ' . $id_grupo . ' AND in_hrs_horas_profesor.id_nivel = ' . $id_nivel . '
- AND in_hrs_horas_profesor.id_periodo = ' . $periodo_ingles . ' and in_hrs_horas_profesor.id_grupo=in_grupo_ingles.id_grupo_ingles
-  and in_hrs_horas_profesor.id_nivel=in_niveles_ingles.id_niveles_ingles  
-ORDER BY `in_hrs_horas_profesor`.`id_semana` ASC');
+SELECT in_grupo_ingles.descripcion grupo,in_niveles_ingles.descripcion nivel, in_hrs_horas_profesor.*
+FROM  in_hrs_horas_profesor,in_niveles_ingles,in_grupo_ingles
+WHERE in_hrs_horas_profesor.id_grupo = ? AND in_hrs_horas_profesor.id_nivel = ?
+ AND in_hrs_horas_profesor.id_periodo = ? and in_hrs_horas_profesor.id_grupo=in_grupo_ingles.id_grupo_ingles
+  and in_hrs_horas_profesor.id_nivel=in_niveles_ingles.id_niveles_ingles
+ORDER BY `in_hrs_horas_profesor`.`id_semana` ASC', [$id_grupo, $id_nivel, $periodo_ingles]);
 //dd($profesores_horario);
         foreach ($profesores_horario as $profesor_hor) {
             $array_labor['id_semana'] = $profesor_hor->id_semana;
@@ -130,10 +130,10 @@ ORDER BY `in_hrs_horas_profesor`.`id_semana` ASC');
         }
         array_multisort($aux, SORT_ASC, $array_ingles);
 
-        $profesor = DB::selectOne('SELECT in_profesores_ingles.* FROM in_hrs_ingles_profesor,in_profesores_ingles 
-WHERE in_hrs_ingles_profesor.id_grupo = ' . $id_grupo . ' AND in_hrs_ingles_profesor.id_nivel = ' . $id_nivel . ' 
-AND in_hrs_ingles_profesor.id_periodo = ' . $periodo_ingles . '
- and in_hrs_ingles_profesor.id_profesor=in_profesores_ingles.id_profesores');
+        $profesor = DB::selectOne('SELECT in_profesores_ingles.* FROM in_hrs_ingles_profesor,in_profesores_ingles
+WHERE in_hrs_ingles_profesor.id_grupo = ? AND in_hrs_ingles_profesor.id_nivel = ?
+AND in_hrs_ingles_profesor.id_periodo = ?
+ and in_hrs_ingles_profesor.id_profesor=in_profesores_ingles.id_profesores', [$id_grupo, $id_nivel, $periodo_ingles]);
         //dd($profesor);
           $semanas=DB::select('select * FROM hrs_semanas ORDER by hora,id_semana');
         $disponibilidad=1;

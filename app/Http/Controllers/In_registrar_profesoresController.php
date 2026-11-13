@@ -20,7 +20,7 @@ class In_registrar_profesoresController extends Controller
     }
     public function index(){
         $usuario = Session::get('usuario_alumno');
-        $correo = DB::selectOne('select email from users where id=' . $usuario . '');
+        $correo = DB::selectOne('select email from users where id= ?', [$usuario]);
         $nivel_ingles = in_nivel_ingles::all();
         $sexos=in_sexo::all();
         $titulos=in_titulo::all();
@@ -56,7 +56,7 @@ class In_registrar_profesoresController extends Controller
         //  dd($profesores);
         //dd($profesores);
         $agrega_profesor = in_profesores_ingles::create($profesores);
-        DB::update("UPDATE users SET info_ok = 2 WHERE users.id=$usuario");
+        DB::update('UPDATE users SET info_ok = 2 WHERE users.id= ?', [$usuario]);
         return redirect('/home');
 
     }
@@ -67,7 +67,7 @@ class In_registrar_profesoresController extends Controller
     }
     public function recargar_periodo($id_periodo){
         //dd($id_periodo);
-        $periodo_actual_ingles= DB::selectOne('SELECT * FROM in_periodos WHERE id_periodo_ingles ='.$id_periodo.'');
+        $periodo_actual_ingles= DB::selectOne('SELECT * FROM in_periodos WHERE id_periodo_ingles = ?', [$id_periodo]);
         $periodo_actual_ingles=$periodo_actual_ingles->periodo_ingles;
         Session::put('periodo_ingles',$id_periodo);
         Session::put('nombre_periodo_ingles',$periodo_actual_ingles);
@@ -78,7 +78,7 @@ class In_registrar_profesoresController extends Controller
         $nivel_ingles = in_nivel_ingles::all();
         $sexos=in_sexo::all();
         $titulos=in_titulo::all();
-        $datos_profesor=DB::selectOne('SELECT * FROM in_profesores_ingles WHERE id_tipo_usuario ='.$id_usuario.'');
+        $datos_profesor=DB::selectOne('SELECT * FROM in_profesores_ingles WHERE id_tipo_usuario = ?', [$id_usuario]);
         return view('ingles.partials.modificar_profesor', compact('nivel_ingles', 'sexos','titulos','datos_profesor'));
     }
     public function  modificacion_profesor(Request $request){
@@ -100,7 +100,7 @@ class In_registrar_profesoresController extends Controller
         $fecha_emision_titulo =$request->input('fecha_termino');
         $id_sexo = $request->input('sexo');
         $usuario = Session::get('usuario_alumno');
-        DB::update("UPDATE in_profesores_ingles SET nombre ='$nombre' , apellido_paterno ='$apellido_paterno' , apellido_materno ='$apellido_materno' , id_nivel_ingles =$id_nivel_ingles , id_tipo_titulo =$id_tipo_titulo , fecha_emision_titulo ='$fecha_emision_titulo' , id_sexo =$id_sexo  WHERE in_profesores_ingles.id_tipo_usuario =$usuario");
+        DB::update('UPDATE in_profesores_ingles SET nombre =? , apellido_paterno =? , apellido_materno =? , id_nivel_ingles = ? , id_tipo_titulo = ? , fecha_emision_titulo =? , id_sexo = ?  WHERE in_profesores_ingles.id_tipo_usuario = ?', [(string) ($nombre), (string) ($apellido_paterno), (string) ($apellido_materno), $id_nivel_ingles, $id_tipo_titulo, (string) ($fecha_emision_titulo), $id_sexo, $usuario]);
         return back();
 
     }

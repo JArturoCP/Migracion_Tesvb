@@ -30,8 +30,8 @@ class SolicitudAlumnosSubController extends Controller
                                     and gnral_alumnos.id_carrera=gnral_carreras.id_carrera
                                     and actcomple_registro_alumnos.id_periodo=gnral_periodos.id_periodo
                                     and actividades_complementarias.estado=1
-                                    and gnral_periodos.id_periodo='.$periodo.'
-                                    and actcomple_registro_alumnos.liberacion=2');
+                                    and gnral_periodos.id_periodo= ?
+                                    and actcomple_registro_alumnos.liberacion=2', [$periodo]);
 
         $liberacion_sub=DB::select('select DISTINCT actcomple_registro_alumnos.id_registro_alumno,actcomple_categorias.descripcion_cat,gnral_alumnos.cuenta,gnral_alumnos.apaterno,gnral_alumnos.amaterno,gnral_alumnos.nombre alumno,actividades_complementarias.descripcion,actividades_complementarias.horas,
                                     actividades_complementarias.creditos,gnral_semestres.descripcion semestre,abreviaciones.titulo,gnral_personales.nombre docente,gnral_carreras.nombre carrera
@@ -47,8 +47,8 @@ class SolicitudAlumnosSubController extends Controller
                                     and gnral_alumnos.id_carrera=gnral_carreras.id_carrera
                                     and actcomple_registro_alumnos.id_periodo=gnral_periodos.id_periodo
                                     and actividades_complementarias.estado=1
-                                    and gnral_periodos.id_periodo='.$periodo.'
-                                    and actcomple_registro_alumnos.liberacion=1');
+                                    and gnral_periodos.id_periodo= ?
+                                    and actcomple_registro_alumnos.liberacion=1', [$periodo]);
 
         return view('actividades_complementarias.subdireccion.solicitud_alumnos',compact('liberacion_sub','liberacion_subsi'));
     }
@@ -56,28 +56,28 @@ class SolicitudAlumnosSubController extends Controller
 
     public function create()
     {
-       
+
     }
 
 
     public function store(Request $request)
     {
-        
+
     }
 
     public function show($id)
     {
-       
+
     }
 
     public function edit($id)
     {
-       
+
     }
 
     public function update(Request $request, $id)
     {
-        
+
     }
 
 
@@ -85,10 +85,10 @@ class SolicitudAlumnosSubController extends Controller
      public function modifica_jefe(Request $request, $arreglo)
     {
         $datos=(explode(',',$arreglo));
-       
+
         $ciclos=count($datos)/2;
         $limite=count($datos);
-        
+
         $cuenta=array();
         $uno=2;
          for($i=$ciclos;$i<$limite;$i++)
@@ -102,7 +102,7 @@ class SolicitudAlumnosSubController extends Controller
 
 
                     );
-                
+
                  RegistroAlumnos::find($id)->update($datoss);
 
 
@@ -120,10 +120,10 @@ class SolicitudAlumnosSubController extends Controller
    /* public function modifica_jefe_no(Request $request, $arreglo)
     {
         $datos=(explode(',',$arreglo));
-       
+
         $ciclos=count($datos)/2;
         $limite=count($datos);
-        
+
          $cuenta=array();
         $uno=1;
          for($i=$ciclos;$i<$limite;$i++)
@@ -137,7 +137,7 @@ class SolicitudAlumnosSubController extends Controller
 
 
                     );
-                
+
                  RegistroAlumnos::find($id)->update($datoss);
 
 
@@ -149,6 +149,6 @@ class SolicitudAlumnosSubController extends Controller
 
     public function destroy($id)
     {
-       
+
     }
 }

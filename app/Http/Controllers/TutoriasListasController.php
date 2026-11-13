@@ -10,17 +10,17 @@ class TutoriasListasController extends Controller
 {
    public function index(){
       $id_jefe_periodo=Session::get('id_jefe_periodo');
-      $nombre_periodo=DB::selectOne('SELECT gnral_periodos.periodo, gnral_jefes_periodos.* 
-      from gnral_periodos, gnral_jefes_periodos WHERE gnral_periodos.id_periodo = gnral_jefes_periodos.id_periodo 
-      and gnral_jefes_periodos.id_jefe_periodo='.$id_jefe_periodo.'');
+      $nombre_periodo=DB::selectOne('SELECT gnral_periodos.periodo, gnral_jefes_periodos.*
+      from gnral_periodos, gnral_jefes_periodos WHERE gnral_periodos.id_periodo = gnral_jefes_periodos.id_periodo
+      and gnral_jefes_periodos.id_jefe_periodo= ?', [$id_jefe_periodo]);
      $nombre_periodo=$nombre_periodo->periodo;
 
        $grupos_tutorias=DB::select('SELECT exp_asigna_tutor.*,gnral_personales.nombre,
-       exp_asigna_generacion.grupo, exp_generacion.generacion from 
-       exp_asigna_tutor, gnral_personales, exp_asigna_generacion, exp_generacion where 
-       exp_asigna_tutor.id_asigna_generacion = exp_asigna_generacion.id_asigna_generacion 
-      and exp_asigna_tutor.id_personal = gnral_personales.id_personal and exp_asigna_generacion.id_generacion= exp_generacion.id_generacion 
-      and exp_asigna_tutor.id_jefe_periodo ='.$id_jefe_periodo.'  ORDER BY exp_generacion.generacion asc, exp_asigna_generacion.grupo asc ');
+       exp_asigna_generacion.grupo, exp_generacion.generacion from
+       exp_asigna_tutor, gnral_personales, exp_asigna_generacion, exp_generacion where
+       exp_asigna_tutor.id_asigna_generacion = exp_asigna_generacion.id_asigna_generacion
+      and exp_asigna_tutor.id_personal = gnral_personales.id_personal and exp_asigna_generacion.id_generacion= exp_generacion.id_generacion
+      and exp_asigna_tutor.id_jefe_periodo = ?  ORDER BY exp_generacion.generacion asc, exp_asigna_generacion.grupo asc ', [$id_jefe_periodo]);
 
        $array_grupos_tutorias=array();
        foreach ($grupos_tutorias as $grupos){
@@ -31,7 +31,7 @@ class TutoriasListasController extends Controller
            $grup['grupo']=$grupos->grupo;
            $grup['generacion']=$grupos->generacion;
 
-           $estado_semestre_grup=DB::selectOne('SELECT COUNT(id_grupo_semestre)contar FROM tu_grupo_semestre where id_asigna_tutor ='.$grupos->id_asigna_tutor.'');
+           $estado_semestre_grup=DB::selectOne('SELECT COUNT(id_grupo_semestre)contar FROM tu_grupo_semestre where id_asigna_tutor = ?', [$grupos->id_asigna_tutor]);
            $estado_semestre_grup=$estado_semestre_grup->contar;
 
            if($estado_semestre_grup == 0){
@@ -39,9 +39,9 @@ class TutoriasListasController extends Controller
                $grup['nombre_semestre']="";
                $grup['id_grupo_semestre']="";
            }else{
-               $datos_semestre=DB::selectOne('SELECT tu_grupo_tutorias.descripcion semestre, tu_grupo_semestre.* 
-               FROM tu_grupo_semestre, tu_grupo_tutorias WHERE tu_grupo_semestre.id_grupo_tutorias = tu_grupo_tutorias.id_grupo_tutorias 
-               and tu_grupo_semestre.id_asigna_tutor ='.$grupos->id_asigna_tutor.'');
+               $datos_semestre=DB::selectOne('SELECT tu_grupo_tutorias.descripcion semestre, tu_grupo_semestre.*
+               FROM tu_grupo_semestre, tu_grupo_tutorias WHERE tu_grupo_semestre.id_grupo_tutorias = tu_grupo_tutorias.id_grupo_tutorias
+               and tu_grupo_semestre.id_asigna_tutor = ?', [$grupos->id_asigna_tutor]);
 
                $grup['id_estado_semestre']=1;
                $grup['nombre_semestre']=$datos_semestre->semestre;
@@ -55,11 +55,11 @@ class TutoriasListasController extends Controller
 
        $semestres=DB::select('SELECT * FROM `tu_grupo_tutorias` ORDER BY `tu_grupo_tutorias`.`descripcion` ASC');
        $datos_grupo=DB::selectOne('SELECT exp_asigna_tutor.*,gnral_personales.nombre,
-       exp_asigna_generacion.grupo, exp_generacion.generacion from 
-       exp_asigna_tutor, gnral_personales, exp_asigna_generacion, exp_generacion where 
-       exp_asigna_tutor.id_asigna_generacion = exp_asigna_generacion.id_asigna_generacion 
-      and exp_asigna_tutor.id_personal = gnral_personales.id_personal and exp_asigna_generacion.id_generacion= exp_generacion.id_generacion 
-      and exp_asigna_tutor.id_asigna_tutor='.$id_asigna_tutor.' ');
+       exp_asigna_generacion.grupo, exp_generacion.generacion from
+       exp_asigna_tutor, gnral_personales, exp_asigna_generacion, exp_generacion where
+       exp_asigna_tutor.id_asigna_generacion = exp_asigna_generacion.id_asigna_generacion
+      and exp_asigna_tutor.id_personal = gnral_personales.id_personal and exp_asigna_generacion.id_generacion= exp_generacion.id_generacion
+      and exp_asigna_tutor.id_asigna_tutor= ? ', [$id_asigna_tutor]);
 
        return view('tutorias.jefe.modal_reg_semestre',compact('semestres','id_asigna_tutor','datos_grupo'));
 
@@ -80,11 +80,11 @@ class TutoriasListasController extends Controller
        $semestres=DB::select('SELECT * FROM `tu_grupo_tutorias` ORDER BY `tu_grupo_tutorias`.`descripcion` ASC');
        $datos_grupo=DB::selectOne('SELECT exp_asigna_tutor.*,gnral_personales.nombre,tu_grupo_semestre.id_grupo_semestre,tu_grupo_semestre.id_grupo_tutorias,
        exp_asigna_generacion.grupo, exp_generacion.generacion from  tu_grupo_semestre,
-       exp_asigna_tutor, gnral_personales, exp_asigna_generacion, exp_generacion where 
-       exp_asigna_tutor.id_asigna_generacion = exp_asigna_generacion.id_asigna_generacion 
-      and exp_asigna_tutor.id_personal = gnral_personales.id_personal and exp_asigna_generacion.id_generacion= exp_generacion.id_generacion 
+       exp_asigna_tutor, gnral_personales, exp_asigna_generacion, exp_generacion where
+       exp_asigna_tutor.id_asigna_generacion = exp_asigna_generacion.id_asigna_generacion
+      and exp_asigna_tutor.id_personal = gnral_personales.id_personal and exp_asigna_generacion.id_generacion= exp_generacion.id_generacion
       and tu_grupo_semestre.id_asigna_tutor = exp_asigna_tutor.id_asigna_tutor
-      and exp_asigna_tutor.id_asigna_tutor='.$id_asigna_tutor.' ');
+      and exp_asigna_tutor.id_asigna_tutor= ? ', [$id_asigna_tutor]);
        return view('tutorias.jefe.modal_mod_semestre',compact('semestres','id_asigna_tutor','datos_grupo'));
 
 
@@ -103,24 +103,24 @@ class TutoriasListasController extends Controller
    public function ver_estudiantes_grupo($id_asigna_tutor){
        $id_jefe_periodo=Session::get('id_jefe_periodo');
        $nombre_periodo=DB::selectOne('SELECT gnral_periodos.periodo, gnral_jefes_periodos.*, gnral_carreras.nombre carrera
-      from gnral_periodos, gnral_jefes_periodos, gnral_carreras WHERE gnral_periodos.id_periodo = gnral_jefes_periodos.id_periodo 
-      and gnral_jefes_periodos.id_jefe_periodo= '.$id_jefe_periodo.' and  gnral_carreras.id_carrera = gnral_jefes_periodos.id_carrera ');
+      from gnral_periodos, gnral_jefes_periodos, gnral_carreras WHERE gnral_periodos.id_periodo = gnral_jefes_periodos.id_periodo
+      and gnral_jefes_periodos.id_jefe_periodo= ? and  gnral_carreras.id_carrera = gnral_jefes_periodos.id_carrera ', [$id_jefe_periodo]);
 
 
        $estudiantes=DB::select('SELECT gnral_alumnos.id_alumno, gnral_alumnos.cuenta,
-       gnral_alumnos.nombre, gnral_alumnos.apaterno, gnral_alumnos.amaterno FROM gnral_alumnos, 
-       exp_asigna_generacion, exp_asigna_alumnos, exp_asigna_tutor where exp_asigna_tutor.id_asigna_tutor= '.$id_asigna_tutor.' and 
+       gnral_alumnos.nombre, gnral_alumnos.apaterno, gnral_alumnos.amaterno FROM gnral_alumnos,
+       exp_asigna_generacion, exp_asigna_alumnos, exp_asigna_tutor where exp_asigna_tutor.id_asigna_tutor= ? and
        exp_asigna_tutor.id_asigna_generacion = exp_asigna_generacion.id_asigna_generacion and
        exp_asigna_alumnos.id_asigna_generacion = exp_asigna_generacion.id_asigna_generacion and
-       exp_asigna_alumnos.id_alumno = gnral_alumnos.id_alumno  
-       ORDER BY `gnral_alumnos`.`apaterno` ASC, gnral_alumnos.amaterno ASC, gnral_alumnos.nombre');
+       exp_asigna_alumnos.id_alumno = gnral_alumnos.id_alumno
+       ORDER BY `gnral_alumnos`.`apaterno` ASC, gnral_alumnos.amaterno ASC, gnral_alumnos.nombre', [$id_asigna_tutor]);
        $datos_grupo=DB::selectOne('SELECT exp_asigna_tutor.*,gnral_personales.nombre,tu_grupo_semestre.id_grupo_semestre,tu_grupo_semestre.id_grupo_tutorias,
        exp_asigna_generacion.grupo, exp_generacion.generacion,tu_grupo_tutorias.descripcion grup from  tu_grupo_semestre,
-       exp_asigna_tutor, gnral_personales, exp_asigna_generacion, exp_generacion,tu_grupo_tutorias where 
-       exp_asigna_tutor.id_asigna_generacion = exp_asigna_generacion.id_asigna_generacion 
+       exp_asigna_tutor, gnral_personales, exp_asigna_generacion, exp_generacion,tu_grupo_tutorias where
+       exp_asigna_tutor.id_asigna_generacion = exp_asigna_generacion.id_asigna_generacion
       and exp_asigna_tutor.id_personal = gnral_personales.id_personal and exp_asigna_generacion.id_generacion= exp_generacion.id_generacion and tu_grupo_semestre.id_grupo_tutorias = tu_grupo_tutorias.id_grupo_tutorias
       and tu_grupo_semestre.id_asigna_tutor = exp_asigna_tutor.id_asigna_tutor
-      and exp_asigna_tutor.id_asigna_tutor='.$id_asigna_tutor.' ');
+      and exp_asigna_tutor.id_asigna_tutor= ? ', [$id_asigna_tutor]);
 
 
 

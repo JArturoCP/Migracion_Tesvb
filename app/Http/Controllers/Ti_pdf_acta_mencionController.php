@@ -27,8 +27,8 @@ class Ti_pdf_acta_mencionController extends Controller
     public function index($id_alumno)
 
     {
-        $mencion_honorifica=DB::selectOne('SELECT * FROM `ti_mencion_honorifica` WHERE id_alumno='.$id_alumno.'');
-        $fecha_titulacion=DB::selectOne('SELECT * FROM `ti_fecha_jurado_alumn` WHERE `id_alumno` ='.$id_alumno.'');
+        $mencion_honorifica=DB::selectOne('SELECT * FROM `ti_mencion_honorifica` WHERE id_alumno= ?', [$id_alumno]);
+        $fecha_titulacion=DB::selectOne('SELECT * FROM `ti_fecha_jurado_alumn` WHERE `id_alumno` = ?', [$id_alumno]);
         $fecha_titulacion=$fecha_titulacion->fecha_titulacion;
         $year=  substr($fecha_titulacion, 6, 4);
         $pdf = new PDF_Ti_pdf_acta_mencionController($orientation = 'P', $unit = 'mm', $format = 'Letter');

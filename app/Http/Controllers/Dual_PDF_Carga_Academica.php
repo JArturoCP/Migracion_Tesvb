@@ -100,11 +100,11 @@ class Dual_PDF_Carga_Academica extends Controller
         $pdf->SetFillColor(166,166,166);
 
 
-        $datosalumno=DB::selectOne('select * FROM `gnral_alumnos` WHERE id_usuario='.$id_usuario.'');
+        $datosalumno=DB::selectOne('select * FROM `gnral_alumnos` WHERE id_usuario= ?', [$id_usuario]);
         $id_usuario=$datosalumno->id_alumno;
-        $datosalumno=DB::selectOne('select * FROM `gnral_alumnos` WHERE id_alumno='.$id_usuario.'');
-        $carreralumno=DB::selectOne('select gnral_carreras.nombre from gnral_carreras where id_carrera='.$datosalumno->id_carrera.'');
-        $periodoc=DB::selectOne('select gnral_periodos.periodo from gnral_periodos where id_periodo='.$periodo.'');
+        $datosalumno=DB::selectOne('select * FROM `gnral_alumnos` WHERE id_alumno= ?', [$id_usuario]);
+        $carreralumno=DB::selectOne('select gnral_carreras.nombre from gnral_carreras where id_carrera= ?', [$datosalumno->id_carrera]);
+        $periodoc=DB::selectOne('select gnral_periodos.periodo from gnral_periodos where id_periodo= ?', [$periodo]);
         $pdf->Cell(31,5,"CICLO ESCOLAR",1,'R',1,true);
         $pdf->SetFont('Arial','',10);
         $pdf->Cell(60,5,$periodoc->periodo,1);
@@ -151,8 +151,8 @@ class Dual_PDF_Carga_Academica extends Controller
                                 and eva_carga_academica.id_periodo=gnral_periodos.id_periodo
                                 and eva_carga_academica.grupo=gnral_grupos.id_grupo
                                 and eva_carga_academica.id_alumno=gnral_alumnos.id_alumno
-                                and gnral_periodos.id_periodo='.$periodo.'
-                                and eva_carga_academica.id_alumno='.$id_usuario.'');
+                                and gnral_periodos.id_periodo= ?
+                                and eva_carga_academica.id_alumno= ?', [$periodo, $id_usuario]);
         //dd($consulta);
 
         $suma=0;

@@ -17,34 +17,34 @@ class Ti_liberacion_tituladoController extends Controller
     }
     public function registro_titulados_carrera($id_carrera){
         $alumnos=DB::select('SELECT ti_reg_datos_alum.no_cuenta, ti_reg_datos_alum.nombre_al,
-       ti_reg_datos_alum.apaterno, ti_reg_datos_alum.amaterno, ti_reg_datos_alum.id_alumno 
-from ti_reg_datos_alum, ti_datos_alumno_reg_dep WHERE ti_reg_datos_alum.id_alumno = ti_datos_alumno_reg_dep.id_alumno 
-and ti_datos_alumno_reg_dep.id_liberado_titulado=1 and ti_reg_datos_alum.id_carrera ='.$id_carrera.'');
+       ti_reg_datos_alum.apaterno, ti_reg_datos_alum.amaterno, ti_reg_datos_alum.id_alumno
+from ti_reg_datos_alum, ti_datos_alumno_reg_dep WHERE ti_reg_datos_alum.id_alumno = ti_datos_alumno_reg_dep.id_alumno
+and ti_datos_alumno_reg_dep.id_liberado_titulado=1 and ti_reg_datos_alum.id_carrera = ?', [$id_carrera]);
 
 
-        $carrera=DB::selectOne('SELECT * FROM `gnral_carreras` WHERE `id_carrera` ='.$id_carrera.'');
+        $carrera=DB::selectOne('SELECT * FROM `gnral_carreras` WHERE `id_carrera` = ?', [$id_carrera]);
 
         return view('titulacion.jefe_titulacion.liberacion_titulacion.titulados_carrera',compact('alumnos','carrera','id_carrera'));
     }
     public function ver_datos_titulado($id_alumno){
                 $registro1= DB::selectOne('SELECT ti_tipos_desc.tipo_desc,ti_descuentos_alum.*,
                ti_reg_datos_alum.no_cuenta,ti_reg_datos_alum.id_carrera,ti_reg_datos_alum.nombre_al,ti_reg_datos_alum.apaterno,ti_reg_datos_alum.amaterno
-               FROM ti_descuentos_alum, ti_tipos_desc,ti_reg_datos_alum WHERE ti_reg_datos_alum.id_alumno=ti_descuentos_alum.id_alumno 
-               and ti_tipos_desc.id_tipo_desc=ti_descuentos_alum.id_tipo_desc and ti_reg_datos_alum.id_alumno='.$id_alumno.'');
+               FROM ti_descuentos_alum, ti_tipos_desc,ti_reg_datos_alum WHERE ti_reg_datos_alum.id_alumno=ti_descuentos_alum.id_alumno
+               and ti_tipos_desc.id_tipo_desc=ti_descuentos_alum.id_tipo_desc and ti_reg_datos_alum.id_alumno= ?', [$id_alumno]);
 
                    $preparatoria=DB::selectOne('SELECT ti_preparatatoria.*,ti_tipo_estudio_antecedente.tipo_estudio_antecedente,
                    ti_tipo_estudio_antecedente.tipo_educativo_atecedente,ti_entidades_federativas.nom_entidad,
                    ti_entidades_federativas.clave_entidad from ti_preparatatoria,ti_tipo_estudio_antecedente,
-                   ti_entidades_federativas WHERE ti_preparatatoria.id_entidad_federativa= ti_entidades_federativas.id_entidad_federativa 
+                   ti_entidades_federativas WHERE ti_preparatatoria.id_entidad_federativa= ti_entidades_federativas.id_entidad_federativa
                    and ti_tipo_estudio_antecedente.id_tipo_estudio_antecedente=ti_preparatatoria.id_tipo_estudio_antecedente and
-                   ti_preparatatoria.id_preparatoria='.$registro1->id_preparatoria.'');
+                   ti_preparatatoria.id_preparatoria= ?', [$registro1->id_preparatoria]);
 
                    $documentacion_requisitos=DB::selectOne('SELECT ti_requisitos_titulacion.*,
-                   ti_opciones_titulacion.opcion_titulacion  FROM ti_requisitos_titulacion, ti_opciones_titulacion 
-                   WHERE ti_requisitos_titulacion.id_opcion_titulacion = ti_opciones_titulacion.id_opcion_titulacion 
-                   and ti_requisitos_titulacion.id_alumno= '.$id_alumno.'');
+                   ti_opciones_titulacion.opcion_titulacion  FROM ti_requisitos_titulacion, ti_opciones_titulacion
+                   WHERE ti_requisitos_titulacion.id_opcion_titulacion = ti_opciones_titulacion.id_opcion_titulacion
+                   and ti_requisitos_titulacion.id_alumno= ?', [$id_alumno]);
 
-        $alumno=DB::selectOne('SELECT * FROM `gnral_alumnos` where id_alumno='.$id_alumno.'');
+        $alumno=DB::selectOne('SELECT * FROM `gnral_alumnos` where id_alumno= ?', [$id_alumno]);
         $cuenta=$alumno->cuenta;
         $id_carrera=$alumno->id_carrera;
         if($id_carrera == 14){
@@ -77,48 +77,48 @@ and ti_datos_alumno_reg_dep.id_liberado_titulado=1 and ti_reg_datos_alum.id_carr
             $estado_al=1;
         }
        $estado_egel=$estado_al;
-        $certificado_ingles=DB::selectOne('SELECT * FROM `in_certificado_acreditacion` WHERE `id_alumno` = '.$id_alumno.'');
+        $certificado_ingles=DB::selectOne('SELECT * FROM `in_certificado_acreditacion` WHERE `id_alumno` = ?', [$id_alumno]);
 
         $datos_personales=DB::selectOne('SELECT ti_reg_datos_alum.*, gnral_semestres.descripcion semestre,
-       ti_tipo_estudiante.tipo_estudiante,gnral_carreras.nombre carrera, ti_planes_estudios.plan_estudio, 
+       ti_tipo_estudiante.tipo_estudiante,gnral_carreras.nombre carrera, ti_planes_estudios.plan_estudio,
        gnral_municipios.nombre_municipio, gnral_estados.nombre_estado, ti_redes_sociales.red_social,
-       ti_tipos_donacion.tipo_donacion, ti_nacionalidad.nacionalidad from ti_reg_datos_alum, gnral_semestres, 
+       ti_tipos_donacion.tipo_donacion, ti_nacionalidad.nacionalidad from ti_reg_datos_alum, gnral_semestres,
        ti_tipo_estudiante, gnral_carreras, ti_planes_estudios, gnral_municipios, gnral_estados, ti_redes_sociales,
-      ti_tipos_donacion, ti_nacionalidad where ti_reg_datos_alum.id_semestre = gnral_semestres.id_semestre 
-    and ti_reg_datos_alum.id_tipo_estudiante = ti_tipo_estudiante.id_tipo_estudiante and 
+      ti_tipos_donacion, ti_nacionalidad where ti_reg_datos_alum.id_semestre = gnral_semestres.id_semestre
+    and ti_reg_datos_alum.id_tipo_estudiante = ti_tipo_estudiante.id_tipo_estudiante and
     ti_reg_datos_alum.id_carrera = gnral_carreras.id_carrera and ti_planes_estudios.id_plan_estudio= ti_reg_datos_alum.id_plan_estudio
-    and gnral_municipios.id_municipio = ti_reg_datos_alum.municipio_domicilio and gnral_municipios.id_estado = gnral_estados.id_estado 
-    and ti_redes_sociales.id_red_social = ti_reg_datos_alum.id_red_social and ti_tipos_donacion.id_tipo_donacion = ti_reg_datos_alum.id_tipo_donacion 
-    and ti_nacionalidad.id_nacionalidad = ti_reg_datos_alum.id_nacionalidad and ti_reg_datos_alum.id_alumno ='.$id_alumno.'');
+    and gnral_municipios.id_municipio = ti_reg_datos_alum.municipio_domicilio and gnral_municipios.id_estado = gnral_estados.id_estado
+    and ti_redes_sociales.id_red_social = ti_reg_datos_alum.id_red_social and ti_tipos_donacion.id_tipo_donacion = ti_reg_datos_alum.id_tipo_donacion
+    and ti_nacionalidad.id_nacionalidad = ti_reg_datos_alum.id_nacionalidad and ti_reg_datos_alum.id_alumno = ?', [$id_alumno]);
 
-        $libros=DB::select('SELECT * FROM `ti_titulos_libros` WHERE `id_reg_dato_alumno` = '.$datos_personales->id_reg_dato_alum.'');
-        $equipos_computo=DB::select('SELECT *FROM ti_equipos_computo where id_reg_dato_alum = '.$datos_personales->id_reg_dato_alum.'');
+        $libros=DB::select('SELECT * FROM `ti_titulos_libros` WHERE `id_reg_dato_alumno` = ?', [$datos_personales->id_reg_dato_alum]);
+        $equipos_computo=DB::select('SELECT *FROM ti_equipos_computo where id_reg_dato_alum = ?', [$datos_personales->id_reg_dato_alum]);
 
         //JURDO DEL ESTUDIANTE
         $datos_jurado=DB::selectOne('SELECT ti_reg_datos_alum.mencion_honorifica honorifica,
-       ti_reg_datos_alum.correo_electronico, ti_reg_datos_alum.telefono, 
+       ti_reg_datos_alum.correo_electronico, ti_reg_datos_alum.telefono,
        ti_reg_datos_alum.no_cuenta,ti_reg_datos_alum.nombre_al,ti_reg_datos_alum.id_carrera, gnral_carreras.nombre carrera,
        ti_reg_datos_alum.apaterno, ti_reg_datos_alum.amaterno, ti_fecha_jurado_alumn.*,ti_sala.nombre_sala
-from ti_reg_datos_alum, ti_fecha_jurado_alumn, gnral_carreras,ti_sala where 
-ti_reg_datos_alum.id_alumno = ti_fecha_jurado_alumn.id_alumno 
-        and gnral_carreras.id_carrera = ti_reg_datos_alum.id_carrera 
-                    and ti_fecha_jurado_alumn.id_alumno='.$id_alumno.'
-                    and ti_sala.id_sala=ti_fecha_jurado_alumn.id_sala');
+from ti_reg_datos_alum, ti_fecha_jurado_alumn, gnral_carreras,ti_sala where
+ti_reg_datos_alum.id_alumno = ti_fecha_jurado_alumn.id_alumno
+        and gnral_carreras.id_carrera = ti_reg_datos_alum.id_carrera
+                    and ti_fecha_jurado_alumn.id_alumno= ?
+                    and ti_sala.id_sala=ti_fecha_jurado_alumn.id_sala', [$id_alumno]);
 
-        $dato_presidente=DB::selectOne('SELECT gnral_personales.nombre, ti_jurado_alumno.*  
-    FROM ti_jurado_alumno, gnral_personales WHERE ti_jurado_alumno.id_alumno = '.$id_alumno.' 
-        AND ti_jurado_alumno.id_tipo_jurado = 1 and gnral_personales.id_personal= ti_jurado_alumno.id_personal');
-        $dato_secretario=DB::selectOne('SELECT gnral_personales.nombre, ti_jurado_alumno.*  
-    FROM ti_jurado_alumno, gnral_personales WHERE ti_jurado_alumno.id_alumno = '.$id_alumno.' 
-        AND ti_jurado_alumno.id_tipo_jurado = 2 and gnral_personales.id_personal= ti_jurado_alumno.id_personal');
-        $dato_vocal=DB::selectOne('SELECT gnral_personales.nombre, ti_jurado_alumno.*  
-    FROM ti_jurado_alumno, gnral_personales WHERE ti_jurado_alumno.id_alumno = '.$id_alumno.' 
-        AND ti_jurado_alumno.id_tipo_jurado = 3 and gnral_personales.id_personal= ti_jurado_alumno.id_personal');
-        $dato_suplente=DB::selectOne('SELECT gnral_personales.nombre, ti_jurado_alumno.*  
-    FROM ti_jurado_alumno, gnral_personales WHERE ti_jurado_alumno.id_alumno = '.$id_alumno.' 
-        AND ti_jurado_alumno.id_tipo_jurado = 4 and gnral_personales.id_personal= ti_jurado_alumno.id_personal');
+        $dato_presidente=DB::selectOne('SELECT gnral_personales.nombre, ti_jurado_alumno.*
+    FROM ti_jurado_alumno, gnral_personales WHERE ti_jurado_alumno.id_alumno = ?
+        AND ti_jurado_alumno.id_tipo_jurado = 1 and gnral_personales.id_personal= ti_jurado_alumno.id_personal', [$id_alumno]);
+        $dato_secretario=DB::selectOne('SELECT gnral_personales.nombre, ti_jurado_alumno.*
+    FROM ti_jurado_alumno, gnral_personales WHERE ti_jurado_alumno.id_alumno = ?
+        AND ti_jurado_alumno.id_tipo_jurado = 2 and gnral_personales.id_personal= ti_jurado_alumno.id_personal', [$id_alumno]);
+        $dato_vocal=DB::selectOne('SELECT gnral_personales.nombre, ti_jurado_alumno.*
+    FROM ti_jurado_alumno, gnral_personales WHERE ti_jurado_alumno.id_alumno = ?
+        AND ti_jurado_alumno.id_tipo_jurado = 3 and gnral_personales.id_personal= ti_jurado_alumno.id_personal', [$id_alumno]);
+        $dato_suplente=DB::selectOne('SELECT gnral_personales.nombre, ti_jurado_alumno.*
+    FROM ti_jurado_alumno, gnral_personales WHERE ti_jurado_alumno.id_alumno = ?
+        AND ti_jurado_alumno.id_tipo_jurado = 4 and gnral_personales.id_personal= ti_jurado_alumno.id_personal', [$id_alumno]);
 
-        $hora=DB::selectOne('SELECT *from ti_horarios_dias where id_horarios_dias='.$datos_jurado->id_horarios_dias.'');
+        $hora=DB::selectOne('SELECT *from ti_horarios_dias where id_horarios_dias= ?', [$datos_jurado->id_horarios_dias]);
         $datos_reg_dep=DB::selectOne('SELECT ti_datos_alumno_reg_dep.*, ti_clave_carrera.clave,
        ti_nacionalidad.nacionalidad, ti_genero.genero, ti_sexo.sexo, ti_preparatatoria.preparatoria,   ti_entidades_federativas.nom_entidad,
        ti_numeros_titulos.abreviatura_folio_titulo, ti_tipo_titulo_obtenido.tipo_titulo, ti_decisiones_jurado.decision,
@@ -127,32 +127,32 @@ ti_reg_datos_alum.id_alumno = ti_fecha_jurado_alumn.id_alumno
         ti_reg_datos_alum.fecha_ingreso_tesvb,ti_reg_datos_alum.fecha_egreso_tesvb,ti_reg_datos_alum.id_nacionalidad,
 ti_descuentos_alum.id_preparatoria,ti_reg_datos_alum.mencion_honorifica
 
-FROM ti_datos_alumno_reg_dep,ti_clave_carrera, ti_nacionalidad, ti_genero, ti_sexo,ti_preparatatoria,ti_entidades_federativas, 
+FROM ti_datos_alumno_reg_dep,ti_clave_carrera, ti_nacionalidad, ti_genero, ti_sexo,ti_preparatatoria,ti_entidades_federativas,
      ti_tipo_titulo_obtenido, ti_numeros_titulos,ti_autorizacion_reconocimiento, ti_fundamento_legal_s_s, ti_reg_datos_alum,ti_decisiones_jurado,ti_descuentos_alum
      WHERE ti_reg_datos_alum.id_carrera= ti_clave_carrera.id_carrera and  ti_reg_datos_alum.id_nacionalidad = ti_nacionalidad.id_nacionalidad and
-ti_datos_alumno_reg_dep.id_genero = ti_genero.id_genero and ti_datos_alumno_reg_dep.id_sexo = ti_sexo.id_sexo 
+ti_datos_alumno_reg_dep.id_genero = ti_genero.id_genero and ti_datos_alumno_reg_dep.id_sexo = ti_sexo.id_sexo
 and ti_descuentos_alum.id_preparatoria = ti_preparatatoria.id_preparatoria and
-                ti_preparatatoria.id_entidad_federativa = ti_entidades_federativas.id_entidad_federativa and 
+                ti_preparatatoria.id_entidad_federativa = ti_entidades_federativas.id_entidad_federativa and
                 ti_datos_alumno_reg_dep.id_numero_titulo =ti_numeros_titulos.id_numero_titulo and
-ti_datos_alumno_reg_dep.id_tipo_titulo = ti_tipo_titulo_obtenido.id_tipo_titulo and 
-    ti_datos_alumno_reg_dep.id_decision = ti_decisiones_jurado.id_decision and 
+ti_datos_alumno_reg_dep.id_tipo_titulo = ti_tipo_titulo_obtenido.id_tipo_titulo and
+    ti_datos_alumno_reg_dep.id_decision = ti_decisiones_jurado.id_decision and
     ti_fundamento_legal_s_s.id_fundamento_legal = ti_datos_alumno_reg_dep.id_fundamento_legal AND
-    ti_reg_datos_alum.id_alumno=ti_datos_alumno_reg_dep.id_alumno and 
-     ti_reg_datos_alum.id_alumno=ti_descuentos_alum.id_alumno  and 
+    ti_reg_datos_alum.id_alumno=ti_datos_alumno_reg_dep.id_alumno and
+     ti_reg_datos_alum.id_alumno=ti_descuentos_alum.id_alumno  and
     ti_autorizacion_reconocimiento.id_autorizacion_reconocimiento =ti_datos_alumno_reg_dep.id_autorizacion_reconocimiento
-    and      ti_datos_alumno_reg_dep.id_alumno ='.$id_alumno.'');
+    and      ti_datos_alumno_reg_dep.id_alumno = ?', [$id_alumno]);
 
 
-        $estado_titulo= DB::selectOne('SELECT *FROM ti_datos_alumno_reg_dep where id_alumno ='.$id_alumno.'');
+        $estado_titulo= DB::selectOne('SELECT *FROM ti_datos_alumno_reg_dep where id_alumno = ?', [$id_alumno]);
 
 
-        $oficio_recursos=DB::selectOne('SELECT *FROM ti_oficio_recursos WHERE id_alumno = '.$id_alumno.'');
+        $oficio_recursos=DB::selectOne('SELECT *FROM ti_oficio_recursos WHERE id_alumno = ?', [$id_alumno]);
 
 
-        $acta_titulacion= DB::selectOne('SELECT *from ti_acta_titulaciones WHERE id_alumno ='.$id_alumno.'');
+        $acta_titulacion= DB::selectOne('SELECT *from ti_acta_titulaciones WHERE id_alumno = ?', [$id_alumno]);
 
 
-        $datos_mencion_honorifica=DB::selectOne('SELECT * FROM `ti_mencion_honorifica` WHERE id_alumno = '.$id_alumno.'');
+        $datos_mencion_honorifica=DB::selectOne('SELECT * FROM `ti_mencion_honorifica` WHERE id_alumno = ?', [$id_alumno]);
 
 
         return view('titulacion.jefe_titulacion.liberacion_titulacion.datos_titulado_liberado',
@@ -173,21 +173,21 @@ ti_datos_alumno_reg_dep.id_tipo_titulo = ti_tipo_titulo_obtenido.id_tipo_titulo 
             foreach ($alumnos as $alumno){
                 $registro1= DB::selectOne('SELECT ti_tipos_desc.tipo_desc,ti_descuentos_alum.*,
                ti_reg_datos_alum.no_cuenta,ti_reg_datos_alum.id_carrera,ti_reg_datos_alum.nombre_al,ti_reg_datos_alum.apaterno,ti_reg_datos_alum.amaterno
-               FROM ti_descuentos_alum, ti_tipos_desc,ti_reg_datos_alum WHERE ti_reg_datos_alum.id_alumno=ti_descuentos_alum.id_alumno 
+               FROM ti_descuentos_alum, ti_tipos_desc,ti_reg_datos_alum WHERE ti_reg_datos_alum.id_alumno=ti_descuentos_alum.id_alumno
                and ti_tipos_desc.id_tipo_desc=ti_descuentos_alum.id_tipo_desc and ti_reg_datos_alum.id_alumno='.$alumno->id_alumno.'');
                 $numero++;
                 $dat_alum['np']=$numero;
                 $dat_alum['numero_cuenta']=$registro1->no_cuenta;
                 $datos_personales=DB::selectOne('SELECT ti_reg_datos_alum.*, gnral_semestres.descripcion semestre,
-       ti_tipo_estudiante.tipo_estudiante,gnral_carreras.nombre carrera, ti_planes_estudios.plan_estudio, 
+       ti_tipo_estudiante.tipo_estudiante,gnral_carreras.nombre carrera, ti_planes_estudios.plan_estudio,
        gnral_municipios.nombre_municipio, gnral_estados.nombre_estado, ti_redes_sociales.red_social,
-       ti_tipos_donacion.tipo_donacion, ti_nacionalidad.nacionalidad from ti_reg_datos_alum, gnral_semestres, 
+       ti_tipos_donacion.tipo_donacion, ti_nacionalidad.nacionalidad from ti_reg_datos_alum, gnral_semestres,
        ti_tipo_estudiante, gnral_carreras, ti_planes_estudios, gnral_municipios, gnral_estados, ti_redes_sociales,
-      ti_tipos_donacion, ti_nacionalidad where ti_reg_datos_alum.id_semestre = gnral_semestres.id_semestre 
-    and ti_reg_datos_alum.id_tipo_estudiante = ti_tipo_estudiante.id_tipo_estudiante and 
+      ti_tipos_donacion, ti_nacionalidad where ti_reg_datos_alum.id_semestre = gnral_semestres.id_semestre
+    and ti_reg_datos_alum.id_tipo_estudiante = ti_tipo_estudiante.id_tipo_estudiante and
     ti_reg_datos_alum.id_carrera = gnral_carreras.id_carrera and ti_planes_estudios.id_plan_estudio= ti_reg_datos_alum.id_plan_estudio
-    and gnral_municipios.id_municipio = ti_reg_datos_alum.municipio_domicilio and gnral_municipios.id_estado = gnral_estados.id_estado 
-    and ti_redes_sociales.id_red_social = ti_reg_datos_alum.id_red_social and ti_tipos_donacion.id_tipo_donacion = ti_reg_datos_alum.id_tipo_donacion 
+    and gnral_municipios.id_municipio = ti_reg_datos_alum.municipio_domicilio and gnral_municipios.id_estado = gnral_estados.id_estado
+    and ti_redes_sociales.id_red_social = ti_reg_datos_alum.id_red_social and ti_tipos_donacion.id_tipo_donacion = ti_reg_datos_alum.id_tipo_donacion
     and ti_nacionalidad.id_nacionalidad = ti_reg_datos_alum.id_nacionalidad and ti_reg_datos_alum.id_alumno ='.$alumno->id_alumno.'');
                 $dat_alum['tipo_estudiante']=$datos_personales->tipo_estudiante;
                 $datos_reg_dep=DB::selectOne('SELECT ti_datos_alumno_reg_dep.*, ti_clave_carrera.clave,ti_clave_carrera.carrera_cedula,
@@ -198,29 +198,29 @@ ti_datos_alumno_reg_dep.id_tipo_titulo = ti_tipo_titulo_obtenido.id_tipo_titulo 
         ti_reg_datos_alum.fecha_ingreso_tesvb,ti_reg_datos_alum.fecha_egreso_tesvb,ti_reg_datos_alum.id_nacionalidad,
 ti_descuentos_alum.id_preparatoria,ti_reg_datos_alum.mencion_honorifica
 
-FROM ti_datos_alumno_reg_dep,ti_clave_carrera, ti_nacionalidad, ti_genero, ti_sexo,ti_preparatatoria,ti_entidades_federativas, 
+FROM ti_datos_alumno_reg_dep,ti_clave_carrera, ti_nacionalidad, ti_genero, ti_sexo,ti_preparatatoria,ti_entidades_federativas,
      ti_tipo_titulo_obtenido, ti_numeros_titulos,ti_autorizacion_reconocimiento, ti_fundamento_legal_s_s, ti_reg_datos_alum,ti_decisiones_jurado,ti_descuentos_alum
      WHERE ti_reg_datos_alum.id_carrera= ti_clave_carrera.id_carrera and  ti_reg_datos_alum.id_nacionalidad = ti_nacionalidad.id_nacionalidad and
-ti_datos_alumno_reg_dep.id_genero = ti_genero.id_genero and ti_datos_alumno_reg_dep.id_sexo = ti_sexo.id_sexo 
+ti_datos_alumno_reg_dep.id_genero = ti_genero.id_genero and ti_datos_alumno_reg_dep.id_sexo = ti_sexo.id_sexo
 and ti_descuentos_alum.id_preparatoria = ti_preparatatoria.id_preparatoria and
-                ti_preparatatoria.id_entidad_federativa = ti_entidades_federativas.id_entidad_federativa and 
+                ti_preparatatoria.id_entidad_federativa = ti_entidades_federativas.id_entidad_federativa and
                 ti_datos_alumno_reg_dep.id_numero_titulo =ti_numeros_titulos.id_numero_titulo and
-ti_datos_alumno_reg_dep.id_tipo_titulo = ti_tipo_titulo_obtenido.id_tipo_titulo and 
-    ti_datos_alumno_reg_dep.id_decision = ti_decisiones_jurado.id_decision and 
+ti_datos_alumno_reg_dep.id_tipo_titulo = ti_tipo_titulo_obtenido.id_tipo_titulo and
+    ti_datos_alumno_reg_dep.id_decision = ti_decisiones_jurado.id_decision and
     ti_fundamento_legal_s_s.id_fundamento_legal = ti_datos_alumno_reg_dep.id_fundamento_legal AND
-    ti_reg_datos_alum.id_alumno=ti_datos_alumno_reg_dep.id_alumno and 
-     ti_reg_datos_alum.id_alumno=ti_descuentos_alum.id_alumno  and 
+    ti_reg_datos_alum.id_alumno=ti_datos_alumno_reg_dep.id_alumno and
+     ti_reg_datos_alum.id_alumno=ti_descuentos_alum.id_alumno  and
     ti_autorizacion_reconocimiento.id_autorizacion_reconocimiento =ti_datos_alumno_reg_dep.id_autorizacion_reconocimiento
     and      ti_datos_alumno_reg_dep.id_alumno ='.$alumno->id_alumno.'');
                 //dd($datos_reg_dep);
 
                 $datos_jurado=DB::selectOne('SELECT ti_reg_datos_alum.mencion_honorifica honorifica,
-       ti_reg_datos_alum.correo_electronico, ti_reg_datos_alum.telefono, 
+       ti_reg_datos_alum.correo_electronico, ti_reg_datos_alum.telefono,
        ti_reg_datos_alum.no_cuenta,ti_reg_datos_alum.nombre_al,ti_reg_datos_alum.id_carrera, gnral_carreras.nombre carrera,
        ti_reg_datos_alum.apaterno, ti_reg_datos_alum.amaterno, ti_fecha_jurado_alumn.*,ti_sala.nombre_sala
-from ti_reg_datos_alum, ti_fecha_jurado_alumn, gnral_carreras,ti_sala where 
-ti_reg_datos_alum.id_alumno = ti_fecha_jurado_alumn.id_alumno 
-        and gnral_carreras.id_carrera = ti_reg_datos_alum.id_carrera 
+from ti_reg_datos_alum, ti_fecha_jurado_alumn, gnral_carreras,ti_sala where
+ti_reg_datos_alum.id_alumno = ti_fecha_jurado_alumn.id_alumno
+        and gnral_carreras.id_carrera = ti_reg_datos_alum.id_carrera
                     and ti_fecha_jurado_alumn.id_alumno='.$alumno->id_alumno.'
                     and ti_sala.id_sala=ti_fecha_jurado_alumn.id_sala');
 
@@ -229,24 +229,24 @@ ti_reg_datos_alum.id_alumno = ti_fecha_jurado_alumn.id_alumno
                 $preparatoria=DB::selectOne('SELECT ti_preparatatoria.*,ti_tipo_estudio_antecedente.tipo_estudio_antecedente,
                    ti_tipo_estudio_antecedente.tipo_educativo_atecedente,ti_entidades_federativas.nom_entidad,
                    ti_entidades_federativas.clave_entidad from ti_preparatatoria,ti_tipo_estudio_antecedente,
-                   ti_entidades_federativas WHERE ti_preparatatoria.id_entidad_federativa= ti_entidades_federativas.id_entidad_federativa 
+                   ti_entidades_federativas WHERE ti_preparatatoria.id_entidad_federativa= ti_entidades_federativas.id_entidad_federativa
                    and ti_tipo_estudio_antecedente.id_tipo_estudio_antecedente=ti_preparatatoria.id_tipo_estudio_antecedente and
                    ti_preparatatoria.id_preparatoria='.$registro1->id_preparatoria.'');
                 $documentacion_requisitos=DB::selectOne('SELECT ti_requisitos_titulacion.*,
-                   ti_opciones_titulacion.opcion_titulacion  FROM ti_requisitos_titulacion, ti_opciones_titulacion 
-                   WHERE ti_requisitos_titulacion.id_opcion_titulacion = ti_opciones_titulacion.id_opcion_titulacion 
+                   ti_opciones_titulacion.opcion_titulacion  FROM ti_requisitos_titulacion, ti_opciones_titulacion
+                   WHERE ti_requisitos_titulacion.id_opcion_titulacion = ti_opciones_titulacion.id_opcion_titulacion
                    and ti_requisitos_titulacion.id_alumno= '.$alumno->id_alumno.'');
-                $dato_presidente=DB::selectOne('SELECT gnral_personales.nombre,gnral_personales.cedula, ti_jurado_alumno.*  
-    FROM ti_jurado_alumno, gnral_personales WHERE ti_jurado_alumno.id_alumno = '.$alumno->id_alumno.' 
+                $dato_presidente=DB::selectOne('SELECT gnral_personales.nombre,gnral_personales.cedula, ti_jurado_alumno.*
+    FROM ti_jurado_alumno, gnral_personales WHERE ti_jurado_alumno.id_alumno = '.$alumno->id_alumno.'
         AND ti_jurado_alumno.id_tipo_jurado = 1 and gnral_personales.id_personal= ti_jurado_alumno.id_personal');
-                $dato_secretario=DB::selectOne('SELECT gnral_personales.nombre,gnral_personales.cedula, ti_jurado_alumno.*  
-    FROM ti_jurado_alumno, gnral_personales WHERE ti_jurado_alumno.id_alumno = '.$alumno->id_alumno.' 
+                $dato_secretario=DB::selectOne('SELECT gnral_personales.nombre,gnral_personales.cedula, ti_jurado_alumno.*
+    FROM ti_jurado_alumno, gnral_personales WHERE ti_jurado_alumno.id_alumno = '.$alumno->id_alumno.'
         AND ti_jurado_alumno.id_tipo_jurado = 2 and gnral_personales.id_personal= ti_jurado_alumno.id_personal');
-                $dato_vocal=DB::selectOne('SELECT gnral_personales.nombre,gnral_personales.cedula, ti_jurado_alumno.*  
-    FROM ti_jurado_alumno, gnral_personales WHERE ti_jurado_alumno.id_alumno = '.$alumno->id_alumno.' 
+                $dato_vocal=DB::selectOne('SELECT gnral_personales.nombre,gnral_personales.cedula, ti_jurado_alumno.*
+    FROM ti_jurado_alumno, gnral_personales WHERE ti_jurado_alumno.id_alumno = '.$alumno->id_alumno.'
         AND ti_jurado_alumno.id_tipo_jurado = 3 and gnral_personales.id_personal= ti_jurado_alumno.id_personal');
-                $dato_suplente=DB::selectOne('SELECT gnral_personales.nombre,gnral_personales.cedula, ti_jurado_alumno.*  
-    FROM ti_jurado_alumno, gnral_personales WHERE ti_jurado_alumno.id_alumno = '.$alumno->id_alumno.' 
+                $dato_suplente=DB::selectOne('SELECT gnral_personales.nombre,gnral_personales.cedula, ti_jurado_alumno.*
+    FROM ti_jurado_alumno, gnral_personales WHERE ti_jurado_alumno.id_alumno = '.$alumno->id_alumno.'
         AND ti_jurado_alumno.id_tipo_jurado = 4 and gnral_personales.id_personal= ti_jurado_alumno.id_personal');
                 $oficio_recursos=DB::selectOne('SELECT *FROM ti_oficio_recursos WHERE id_alumno = '.$alumno->id_alumno.'');
 
@@ -409,22 +409,22 @@ ti_reg_datos_alum.id_alumno = ti_fecha_jurado_alumn.id_alumno
     }
     public function ingles_alumnos_carrera_ver($id_carrera){
 
-        $carrera=DB::selectOne('SELECT * FROM `gnral_carreras` WHERE `id_carrera` ='.$id_carrera.'');
+        $carrera=DB::selectOne('SELECT * FROM `gnral_carreras` WHERE `id_carrera` = ?', [$id_carrera]);
 
         $alumnos=DB::select('SELECT gnral_alumnos.cuenta,gnral_alumnos.id_alumno,gnral_alumnos.nombre,gnral_alumnos.apaterno,
-         gnral_alumnos.amaterno from gnral_alumnos 
-         where  gnral_alumnos.id_semestre >= 7 and gnral_alumnos.id_carrera='.$id_carrera.' ');
+         gnral_alumnos.amaterno from gnral_alumnos
+         where  gnral_alumnos.id_semestre >= 7 and gnral_alumnos.id_carrera= ? ', [$id_carrera]);
 
         $array_alumnos=array();
         foreach ($alumnos as $alumno){
-            $estado_estudiante=DB::selectOne('SELECT count(id_alumno)contar FROM ti_datos_alumno_reg_dep WHERE id_alumno = '.$alumno->id_alumno.'');
+            $estado_estudiante=DB::selectOne('SELECT count(id_alumno)contar FROM ti_datos_alumno_reg_dep WHERE id_alumno = ?', [$alumno->id_alumno]);
 
             if($estado_estudiante->contar == 0){
                $dat['cuenta']=$alumno->cuenta;
                $dat['id_alumno']=$alumno->id_alumno;
                $dat['nombre']=$alumno->nombre." ".$alumno->apaterno." ".$alumno->amaterno;
 
-               $estado_certificado=DB::selectOne('SELECT count(id_alumno)contar FROM in_certificado_acreditacion WHERE id_alumno ='.$alumno->id_alumno.' AND enviado = 1');
+               $estado_certificado=DB::selectOne('SELECT count(id_alumno)contar FROM in_certificado_acreditacion WHERE id_alumno = ? AND enviado = 1', [$alumno->id_alumno]);
 
                if($estado_certificado->contar == 0)
                {
@@ -447,7 +447,7 @@ ti_reg_datos_alum.id_alumno = ti_fecha_jurado_alumn.id_alumno
 
     }
     public function exportar_excel_yeartitulados($id_year){
-      $year=DB::selectOne('SELECT * FROM `oc_anos` WHERE `id_ano` ='.$id_year);
+      $year=DB::selectOne('SELECT * FROM `oc_anos` WHERE `id_ano` = ?', [$id_year]);
 
         return Excel::download(new Ti_excel_estudianteslibExport($id_year),'Estudiantes_titulados_'.$year->descripcion.'.xlsx');
 

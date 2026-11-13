@@ -60,17 +60,17 @@ class pdf_carga_academica_control extends Controller
             $pdf->SetDrawColor(0,0,0);
             $pdf->SetLineWidth(0.5);
             $pdf->SetFillColor(166,166,166);
-        $validaciones=DB::select('SELECT eva_validacion_de_cargas.estado_validacion, eva_validacion_de_cargas.id_alumno 
-                                    FROM eva_validacion_de_cargas 
-                                    WHERE eva_validacion_de_cargas.id_alumno='.$id.' 
-                                    AND eva_validacion_de_cargas.id_periodo='.$periodo.'');
+        $validaciones=DB::select('SELECT eva_validacion_de_cargas.estado_validacion, eva_validacion_de_cargas.id_alumno
+                                    FROM eva_validacion_de_cargas
+                                    WHERE eva_validacion_de_cargas.id_alumno= ?
+                                    AND eva_validacion_de_cargas.id_periodo= ?', [$id, $periodo]);
         //dd($validaciones);
         $id_usuario=($validaciones[0]->id_alumno);
-            $datosalumno=DB::selectOne('SELECT * FROM `gnral_alumnos` WHERE id_alumno='.$id_usuario.'');
+            $datosalumno=DB::selectOne('SELECT * FROM `gnral_alumnos` WHERE id_alumno= ?', [$id_usuario]);
             $id_usuario=$datosalumno->id_alumno;
-            $datosalumno=DB::selectOne('SELECT * FROM `gnral_alumnos` WHERE id_alumno='.$id_usuario.'');
-            $carreralumno=DB::selectOne('SELECT gnral_carreras.nombre FROM gnral_carreras WHERE id_carrera='.$datosalumno->id_carrera.'');
-            $periodoc=DB::selectOne('SELECT gnral_periodos.periodo FROM gnral_periodos WHERE id_periodo='.$periodo.'');
+            $datosalumno=DB::selectOne('SELECT * FROM `gnral_alumnos` WHERE id_alumno= ?', [$id_usuario]);
+            $carreralumno=DB::selectOne('SELECT gnral_carreras.nombre FROM gnral_carreras WHERE id_carrera= ?', [$datosalumno->id_carrera]);
+            $periodoc=DB::selectOne('SELECT gnral_periodos.periodo FROM gnral_periodos WHERE id_periodo= ?', [$periodo]);
             $pdf->Cell(31,5,"CICLO ESCOLAR",1,'R',1,true);
             $pdf->SetFont('Arial','',9);
             $pdf->Cell(60,5,$periodoc->periodo,1);
@@ -118,8 +118,8 @@ class pdf_carga_academica_control extends Controller
                                 AND eva_carga_academica.id_periodo=gnral_periodos.id_periodo
                                 AND eva_carga_academica.grupo=gnral_grupos.id_grupo
                                 AND eva_carga_academica.id_alumno=gnral_alumnos.id_alumno
-                                AND gnral_periodos.id_periodo='.$periodo.'
-                                AND eva_carga_academica.id_alumno='.$id_usuario.'');
+                                AND gnral_periodos.id_periodo= ?
+                                AND eva_carga_academica.id_alumno= ?', [$periodo, $id_usuario]);
 
         $suma=0;
         $suma_materias=0;
@@ -132,15 +132,15 @@ class pdf_carga_academica_control extends Controller
             }
         }
         /*
-            $suma=DB::selectOne('select sum(gnral_materias.creditos)suma 
-                            from gnral_materias,eva_status_materia,eva_tipo_curso,gnral_grupos,eva_carga_academica,gnral_periodos,gnral_alumnos 
-                            where eva_carga_academica.id_materia=gnral_materias.id_materia 
-                            and eva_carga_academica.id_status_materia=eva_status_materia.id_status_materia 
-                            and eva_carga_academica.id_tipo_curso=eva_tipo_curso.id_tipo_curso 
-                            and eva_carga_academica.id_periodo=gnral_periodos.id_periodo 
-                            and eva_carga_academica.grupo=gnral_grupos.id_grupo 
-                            and eva_carga_academica.id_alumno=gnral_alumnos.id_alumno 
-                            and gnral_periodos.id_periodo='.$periodo.' 
+            $suma=DB::selectOne('select sum(gnral_materias.creditos)suma
+                            from gnral_materias,eva_status_materia,eva_tipo_curso,gnral_grupos,eva_carga_academica,gnral_periodos,gnral_alumnos
+                            where eva_carga_academica.id_materia=gnral_materias.id_materia
+                            and eva_carga_academica.id_status_materia=eva_status_materia.id_status_materia
+                            and eva_carga_academica.id_tipo_curso=eva_tipo_curso.id_tipo_curso
+                            and eva_carga_academica.id_periodo=gnral_periodos.id_periodo
+                            and eva_carga_academica.grupo=gnral_grupos.id_grupo
+                            and eva_carga_academica.id_alumno=gnral_alumnos.id_alumno
+                            and gnral_periodos.id_periodo='.$periodo.'
                             and eva_carga_academica.id_alumno='.$id_usuario.'');
 
             $suma=$suma->suma;

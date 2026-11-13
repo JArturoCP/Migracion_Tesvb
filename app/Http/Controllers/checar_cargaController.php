@@ -22,9 +22,9 @@ class checar_cargaController extends Controller
         $periodo = Session::get('periodo_actual');
         $usuario_session = Session::get('usuario');
 
-        $datos_alumn = DB::selectOne("SELECT * FROM gnral_alumnos WHERE cuenta = '$usuario_session' ");
+        $datos_alumn = DB::selectOne('SELECT * FROM gnral_alumnos WHERE cuenta = ? ', [(string) ($usuario_session)]);
         $id_alu = $datos_alumn->id_alumno;
-        $des = DB::selectOne("SELECT descripcion FROM eva_validacion_de_cargas WHERE id_alumno = $id_alu AND id_periodo = $periodo");
+        $des = DB::selectOne('SELECT descripcion FROM eva_validacion_de_cargas WHERE id_alumno = ? AND id_periodo = ?', [$id_alu, $periodo]);
 
         if ($des == null) {
             $color = 1;
@@ -34,9 +34,9 @@ class checar_cargaController extends Controller
 
         $re = $des->descripcion;
 
-        $validaciones = DB::select("SELECT estado_validacion, descripcion FROM eva_validacion_de_cargas WHERE id_alumno = $id_alu AND id_periodo = $periodo");
+        $validaciones = DB::select('SELECT estado_validacion, descripcion FROM eva_validacion_de_cargas WHERE id_alumno = ? AND id_periodo = ?', [$id_alu, $periodo]);
 
-        $consulta = DB::select("SELECT eva_carga_academica.id_carga_academica,gnral_materias.clave,gnral_materias.nombre,
+        $consulta = DB::select('SELECT eva_carga_academica.id_carga_academica,gnral_materias.clave,gnral_materias.nombre,
         gnral_materias.id_materia,gnral_materias.id_semestre,gnral_materias.creditos,eva_status_materia.nombre_status,eva_tipo_curso.nombre_curso,eva_carga_academica.grupo
         FROM gnral_materias
         JOIN eva_carga_academica ON eva_carga_academica.id_materia = gnral_materias.id_materia
@@ -45,8 +45,8 @@ class checar_cargaController extends Controller
         JOIN gnral_grupos ON eva_carga_academica.grupo = gnral_grupos.id_grupo
         JOIN gnral_periodos ON eva_carga_academica.id_periodo = gnral_periodos.id_periodo
         WHERE eva_status_materia.id_status_materia = 1
-        AND gnral_periodos.id_periodo = $periodo
-        AND eva_carga_academica.id_alumno = $id_alu");
+        AND gnral_periodos.id_periodo = ?
+        AND eva_carga_academica.id_alumno = ?', [$periodo, $id_alu]);
 
         $datos_carga = [];
 
@@ -64,7 +64,7 @@ class checar_cargaController extends Controller
                 'grupo' => $cons->grupo,
             ];
 
-            $profesores = DB::select("SELECT DISTINCT gnral_personales.nombre AS docente,abreviaciones.titulo
+            $profesores = DB::select('SELECT DISTINCT gnral_personales.nombre AS docente,abreviaciones.titulo
             FROM gnral_horarios
             JOIN gnral_horas_profesores ON gnral_horas_profesores.id_horario_profesor = gnral_horarios.id_horario_profesor
             JOIN gnral_materias_perfiles ON gnral_horas_profesores.id_materia_perfil = gnral_materias_perfiles.id_materia_perfil
@@ -73,9 +73,9 @@ class checar_cargaController extends Controller
             JOIN abreviaciones_prof ON gnral_personales.id_personal = abreviaciones_prof.id_personal
             JOIN abreviaciones ON abreviaciones_prof.id_abreviacion = abreviaciones.id_abreviacion
             JOIN gnral_periodo_carreras ON gnral_horarios.id_periodo_carrera = gnral_periodo_carreras.id_periodo_carrera
-            WHERE gnral_periodo_carreras.id_periodo = $periodo
-            AND gnral_horas_profesores.grupo = $cons->grupo
-            AND gnral_materias.id_materia = $cons->id_materia");
+            WHERE gnral_periodo_carreras.id_periodo = ?
+            AND gnral_horas_profesores.grupo = ?
+            AND gnral_materias.id_materia = ?', [$periodo, $cons->grupo, $cons->id_materia]);
 
             $dat['profesores'] = $profesores;
             $datos_carga[] = $dat;
@@ -96,7 +96,7 @@ class checar_cargaController extends Controller
             }
         }
 
-        $especial = DB::selectOne("SELECT COUNT(*) AS curso FROM eva_carga_academica WHERE id_tipo_curso = 3 AND id_status_materia = 1 AND id_periodo = $periodo AND id_alumno = $id_alu")->curso;
+        $especial = DB::selectOne('SELECT COUNT(*) AS curso FROM eva_carga_academica WHERE id_tipo_curso = 3 AND id_status_materia = 1 AND id_periodo = ? AND id_alumno = ?', [$periodo, $id_alu])->curso;
 
         /* =========================
            VALIDACIONES
@@ -161,7 +161,7 @@ class checar_cargaController extends Controller
         $usuario = 2;
 
         // Obtener la validación
-        $validaciones = DB::select('SELECT eva_validacion_de_cargas.estado_validacion, eva_validacion_de_cargas.id_alumno, eva_validacion_de_cargas.id_periodo 
+        $validaciones = DB::select('SELECT eva_validacion_de_cargas.estado_validacion, eva_validacion_de_cargas.id_alumno, eva_validacion_de_cargas.id_periodo
         FROM eva_validacion_de_cargas WHERE eva_validacion_de_cargas.id = ? AND eva_validacion_de_cargas.id_periodo = ? ', [$id, $periodo]);
 
         if (empty($validaciones)) {
@@ -338,10 +338,10 @@ class checar_cargaController extends Controller
         $checks = array();
         $radios = array();
         $ciclos=count($datos)/2;
-        $grupo=DB::selectOne("SELECT gnral_alumnos.grupo FROM gnral_alumnos WHERE gnral_alumnos.cuenta='$usuario'");
+        $grupo=DB::selectOne('SELECT gnral_alumnos.grupo FROM gnral_alumnos WHERE gnral_alumnos.cuenta=?', [(string) ($usuario)]);
         $grupo=$grupo->grupo;
         $status=1;///////el estado es 2 porque el proceso de validacion se hara en automatico
-        $id_alu=DB::selectOne("SELECT gnral_alumnos.id_alumno FROM gnral_alumnos WHERE gnral_alumnos.cuenta='$usuario'");
+        $id_alu=DB::selectOne('SELECT gnral_alumnos.id_alumno FROM gnral_alumnos WHERE gnral_alumnos.cuenta=?', [(string) ($usuario)]);
         $id_alu=($id_alu->id_alumno);
 
         for ($i=0; $i <count($datos)/2 ; $i++)
@@ -353,7 +353,7 @@ class checar_cargaController extends Controller
         //   dd($checks);
         for ($i=0; $i <$ciclos ; $i++)
         {
-            $verifica=DB::selectOne('SELECT * FROM eva_carga_academica WHERE id_materia='.$checks[$i].' AND id_periodo ='.$periodo.' AND eva_carga_academica.id_alumno='.$id_alu);
+            $verifica=DB::selectOne('SELECT * FROM eva_carga_academica WHERE id_materia= ? AND id_periodo = ? AND eva_carga_academica.id_alumno= ?', [$checks[$i], $periodo, $id_alu]);
             if($verifica==null)
             {
                 $incercion=array(
@@ -371,7 +371,7 @@ class checar_cargaController extends Controller
             }
         }
 
-        $checar=DB::selectOne('SELECT * FROM eva_validacion_de_cargas WHERE id_alumno='.$id_alu.' AND eva_validacion_de_cargas.id_periodo='.$periodo.'');
+        $checar=DB::selectOne('SELECT * FROM eva_validacion_de_cargas WHERE id_alumno= ? AND eva_validacion_de_cargas.id_periodo= ?', [$id_alu, $periodo]);
 
         if($checar==null){
             $pregunta=0;
@@ -406,11 +406,11 @@ class checar_cargaController extends Controller
         $usuario = Session::get('usuario');
         $periodo=Session::get('periodo_actual');
         ////////////recargar los datos de la vista
-        $id_alu=DB::selectOne("SELECT gnral_alumnos.id_alumno FROM gnral_alumnos WHERE gnral_alumnos.cuenta='$usuario'");
+        $id_alu=DB::selectOne('SELECT gnral_alumnos.id_alumno FROM gnral_alumnos WHERE gnral_alumnos.cuenta=?', [(string) ($usuario)]);
         $id_alu=($id_alu->id_alumno);
         //dd($id_alu);
         $usuarios=1;
-        $des=DB::selectOne("SELECT eva_validacion_de_cargas.descripcion FROM eva_validacion_de_cargas WHERE eva_validacion_de_cargas.id_alumno='$id_alu' AND eva_validacion_de_cargas.id_periodo=$periodo");
+        $des=DB::selectOne('SELECT eva_validacion_de_cargas.descripcion FROM eva_validacion_de_cargas WHERE eva_validacion_de_cargas.id_alumno=? AND eva_validacion_de_cargas.id_periodo= ?', [(string) ($id_alu), $periodo]);
         $datos_carga=array();
         if($des==null)
         {
@@ -421,8 +421,8 @@ class checar_cargaController extends Controller
         else
         {
             $re=($des->descripcion);
-            $validaciones=DB::select('SELECT eva_validacion_de_cargas.estado_validacion,eva_validacion_de_cargas.descripcion FROM eva_validacion_de_cargas 
-            WHERE eva_validacion_de_cargas.id_alumno='.$id_alu.'AND eva_validacion_de_cargas.id_periodo='.$periodo.'');
+            $validaciones=DB::select('SELECT eva_validacion_de_cargas.estado_validacion,eva_validacion_de_cargas.descripcion FROM eva_validacion_de_cargas
+            WHERE eva_validacion_de_cargas.id_alumno= ? AND eva_validacion_de_cargas.id_periodo= ?', [$id_alu, $periodo]);
             // $si=isset($validaciones->descripcion)?$si->descripcion:0;
             $consulta=DB::select('SELECT eva_carga_academica.id_carga_academica,gnral_materias.clave,gnral_materias.nombre,gnral_materias.id_materia,
             gnral_materias.id_semestre,gnral_materias.creditos,eva_status_materia.nombre_status, eva_tipo_curso.nombre_curso,eva_carga_academica.grupo
@@ -431,7 +431,7 @@ class checar_cargaController extends Controller
             AND eva_carga_academica.id_status_materia=eva_status_materia.id_status_materia AND eva_carga_academica.id_tipo_curso=eva_tipo_curso.id_tipo_curso
             AND eva_carga_academica.id_periodo=gnral_periodos.id_periodo AND eva_carga_academica.grupo=gnral_grupos.id_grupo
             AND eva_carga_academica.id_alumno=gnral_alumnos.id_alumno AND eva_status_materia.id_status_materia=1
-            AND gnral_periodos.id_periodo='.$periodo.' AND eva_carga_academica.id_alumno='.$id_alu.'');
+            AND gnral_periodos.id_periodo= ? AND eva_carga_academica.id_alumno= ?', [$periodo, $id_alu]);
 
             foreach ($consulta as $cons) {
                 $dat['id_carga_academica'] = $cons->id_carga_academica;
@@ -447,12 +447,12 @@ class checar_cargaController extends Controller
                 $profesor=array();
 
                 $profesores = DB::select('SELECT DISTINCT gnral_materias.id_materia, gnral_materias.nombre, gnral_horarios.id_horario_profesor, gnral_reticulas.clave,gnral_personales.nombre docente, abreviaciones.titulo
-                FROM gnral_horarios,gnral_horas_profesores,gnral_materias_perfiles,gnral_materias,gnral_personales, gnral_periodo_carreras,gnral_reticulas, abreviaciones_prof, abreviaciones 
-                WHERE gnral_periodo_carreras.id_periodo='.$periodo.' AND gnral_horarios.id_periodo_carrera=gnral_periodo_carreras.id_periodo_carrera 
-                AND gnral_horarios.id_personal=gnral_personales.id_personal AND gnral_horas_profesores.id_horario_profesor=gnral_horarios.id_horario_profesor 
-                AND gnral_horas_profesores.id_materia_perfil=gnral_materias_perfiles.id_materia_perfil AND gnral_materias_perfiles.id_materia=gnral_materias.id_materia 
-                AND gnral_materias.id_reticula = gnral_reticulas.id_reticula AND gnral_horas_profesores.grupo = '.$cons->grupo.' AND gnral_personales.id_personal = abreviaciones_prof.id_personal
-                AND abreviaciones_prof.id_abreviacion = abreviaciones.id_abreviacion AND gnral_materias.id_materia = '.$cons->id_materia.'');
+                FROM gnral_horarios,gnral_horas_profesores,gnral_materias_perfiles,gnral_materias,gnral_personales, gnral_periodo_carreras,gnral_reticulas, abreviaciones_prof, abreviaciones
+                WHERE gnral_periodo_carreras.id_periodo= ? AND gnral_horarios.id_periodo_carrera=gnral_periodo_carreras.id_periodo_carrera
+                AND gnral_horarios.id_personal=gnral_personales.id_personal AND gnral_horas_profesores.id_horario_profesor=gnral_horarios.id_horario_profesor
+                AND gnral_horas_profesores.id_materia_perfil=gnral_materias_perfiles.id_materia_perfil AND gnral_materias_perfiles.id_materia=gnral_materias.id_materia
+                AND gnral_materias.id_reticula = gnral_reticulas.id_reticula AND gnral_horas_profesores.grupo = ? AND gnral_personales.id_personal = abreviaciones_prof.id_personal
+                AND abreviaciones_prof.id_abreviacion = abreviaciones.id_abreviacion AND gnral_materias.id_materia = ?', [$periodo, $cons->grupo, $cons->id_materia]);
 
                 foreach ($profesores as $prof){
                     $pro['nombre_profesor'] = $prof->docente;
@@ -470,10 +470,10 @@ class checar_cargaController extends Controller
                 }
             }
 
-            $consultaedit=DB::selectOne('SELECT * FROM eva_carga_academica WHERE eva_carga_academica.id_carga_academica='.$id_carga_academica.'');
+            $consultaedit=DB::selectOne('SELECT * FROM eva_carga_academica WHERE eva_carga_academica.id_carga_academica= ?', [$id_carga_academica]);
             $sem=$consultaedit->id_materia;
             //dd($sem);
-            $semestre=DB::selectOne('SELECT gnral_materias.id_semestre FROM gnral_materias WHERE gnral_materias.id_materia='.$sem.'');
+            $semestre=DB::selectOne('SELECT gnral_materias.id_semestre FROM gnral_materias WHERE gnral_materias.id_materia= ?', [$sem]);
 
             $sss = CargaAcademica::find($id_carga_academica);
             $usuarios=1;
@@ -484,13 +484,13 @@ class checar_cargaController extends Controller
     public function enviarcarga($id){
         $periodo=Session::get('periodo_actual');
 
-        DB::update('UPDATE eva_validacion_de_cargas SET estado_validacion = 1 WHERE id_alumno = '.$id.' AND id_periodo = '.$periodo.'');
+        DB::update('UPDATE eva_validacion_de_cargas SET estado_validacion = 1 WHERE id_alumno = ? AND id_periodo = ?', [$id, $periodo]);
         return redirect()->route('checar_carga.index');
     }
     public function enviarcargajefe($id){
         $periodo=Session::get('periodo_actual');
 
-        DB::update('UPDATE eva_validacion_de_cargas SET estado_validacion = 100 WHERE id_alumno = '.$id.' AND id_periodo = '.$periodo.'');
+        DB::update('UPDATE eva_validacion_de_cargas SET estado_validacion = 100 WHERE id_alumno = ? AND id_periodo = ?', [$id, $periodo]);
         return redirect()->route('checar_carga.index');
     }
 
@@ -529,17 +529,17 @@ class checar_cargaController extends Controller
                 'a.apaterno',
                 'a.amaterno',
                 DB::raw('(
-                SELECT id 
-                FROM eva_validacion_de_cargas e 
-                WHERE e.id_alumno = a.id_alumno 
-                ORDER BY e.id DESC 
+                SELECT id
+                FROM eva_validacion_de_cargas e
+                WHERE e.id_alumno = a.id_alumno
+                ORDER BY e.id DESC
                 LIMIT 1
             ) as id'),
                 DB::raw('(
-                SELECT credito_max 
-                FROM actualizar_creditos ac 
-                WHERE ac.id_alumno = a.id_alumno 
-                ORDER BY ac.id_act_credito DESC 
+                SELECT credito_max
+                FROM actualizar_creditos ac
+                WHERE ac.id_alumno = a.id_alumno
+                ORDER BY ac.id_act_credito DESC
                 LIMIT 1
             ) as credito_max')
             )

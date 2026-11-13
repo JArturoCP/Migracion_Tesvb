@@ -118,15 +118,15 @@ class Ti_requisitos_pdfController extends Controller
         $etiqueta=DB::selectOne('SELECT * FROM etiqueta WHERE id_etiqueta = 1 ');
 
         $alumno=DB::selectOne('SELECT gnral_alumnos.id_alumno,gnral_alumnos.cuenta,gnral_alumnos.nombre,
-       gnral_alumnos.apaterno,gnral_alumnos.amaterno,gnral_carreras.id_carrera, gnral_carreras.nombre carrera 
-       from gnral_alumnos, gnral_carreras where gnral_alumnos.id_carrera=gnral_carreras.id_carrera and gnral_alumnos.id_alumno='.$id_alumno.'');
+       gnral_alumnos.apaterno,gnral_alumnos.amaterno,gnral_carreras.id_carrera, gnral_carreras.nombre carrera
+       from gnral_alumnos, gnral_carreras where gnral_alumnos.id_carrera=gnral_carreras.id_carrera and gnral_alumnos.id_alumno= ?', [$id_alumno]);
 
          $nombre_alumno=mb_strtoupper($alumno->apaterno,'utf-8')." ".mb_strtoupper($alumno->amaterno,'utf-8')." ".mb_strtoupper($alumno->nombre,'utf-8');
          $cuenta=$alumno->cuenta;
          $carrera=$alumno->carrera;
-         $registro_descuento=DB::selectOne('SELECT ti_descuentos_alum.*,ti_tipos_desc.tipo_desc 
-         from ti_descuentos_alum,ti_tipos_desc where ti_descuentos_alum.id_tipo_desc=ti_tipos_desc.id_tipo_desc 
-                                        and ti_descuentos_alum.id_alumno='.$id_alumno.'');
+         $registro_descuento=DB::selectOne('SELECT ti_descuentos_alum.*,ti_tipos_desc.tipo_desc
+         from ti_descuentos_alum,ti_tipos_desc where ti_descuentos_alum.id_tipo_desc=ti_tipos_desc.id_tipo_desc
+                                        and ti_descuentos_alum.id_alumno= ?', [$id_alumno]);
 
 
          $telefono=$registro_descuento->telefono;
@@ -140,13 +140,13 @@ class Ti_requisitos_pdfController extends Controller
              $tipo_desc=$registro_descuento->tipo_desc;
          }
          $registro_requisitos=DB::selectOne('SELECT ti_requisitos_titulacion.*, ti_opciones_titulacion.opcion_titulacion,ti_evi_opc_titulacion.*
-from ti_requisitos_titulacion,ti_opciones_titulacion,ti_evi_opc_titulacion 
-WHERE ti_requisitos_titulacion.id_opcion_titulacion = ti_opciones_titulacion.id_opcion_titulacion 
-  and ti_opciones_titulacion.id_tipo_evidencia=ti_evi_opc_titulacion.id_evi_opc_ti 
-  and ti_requisitos_titulacion.id_alumno='.$id_alumno.'');
+from ti_requisitos_titulacion,ti_opciones_titulacion,ti_evi_opc_titulacion
+WHERE ti_requisitos_titulacion.id_opcion_titulacion = ti_opciones_titulacion.id_opcion_titulacion
+  and ti_opciones_titulacion.id_tipo_evidencia=ti_evi_opc_titulacion.id_evi_opc_ti
+  and ti_requisitos_titulacion.id_alumno= ?', [$id_alumno]);
        // dd($registro_requisitos);
 
-        $alumno=DB::selectOne('SELECT * FROM `gnral_alumnos` where id_alumno='.$id_alumno.' ');
+        $alumno=DB::selectOne('SELECT * FROM `gnral_alumnos` where id_alumno= ? ', [$id_alumno]);
         $cuenta=$alumno->cuenta;
         $id_carrera=$alumno->id_carrera;
         if($id_carrera == 14){
@@ -201,7 +201,7 @@ WHERE ti_requisitos_titulacion.id_opcion_titulacion = ti_opciones_titulacion.id_
 
         if($estado_contancia == 1)
         {
-          $estado_ingles=DB::selectOne('SELECT COUNT(id_alumno) contar FROM in_certificado_acreditacion WHERE id_alumno = '.$id_alumno.' and enviado=1 ');
+          $estado_ingles=DB::selectOne('SELECT COUNT(id_alumno) contar FROM in_certificado_acreditacion WHERE id_alumno = ? and enviado=1 ', [$id_alumno]);
           $estado_ingles=$estado_ingles->contar;
           if($estado_ingles > 0){
               $estado_constacia_ingles=1;

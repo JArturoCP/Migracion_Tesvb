@@ -68,7 +68,7 @@ class Tutorias_PdfCitController extends Controller
             AND exp_asigna_alumnos.deleted_at is null
             AND exp_asigna_generacion.deleted_at is null
             AND exp_asigna_tutor.deleted_at is null
-            AND exp_asigna_alumnos.id_alumno='.$request->id_alumno);
+            AND exp_asigna_alumnos.id_alumno= ?', [$request->id_alumno]);
         $etiqueta=DB::table('etiqueta')
             ->where('id_etiqueta','=',1)
             ->select('etiqueta.descripcion')

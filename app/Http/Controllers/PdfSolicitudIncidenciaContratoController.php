@@ -36,30 +36,30 @@ class PdfSolicitudIncidenciaContratoController extends Controller
 {
     /////////CONTRATO COLECTIVO/////////
     public function index1($id_solicitud) {
-        
-    $solicitud=DB::selectOne('SELECT gnral_personales.nombre, inc_solicitudes.motivo_oficio,inc_solicitudes.fecha_req,inc_solicitudes.hora_e,inc_solicitudes.hora_st, 
-    inc_articulos.descripcion_art, inc_articulos.nombre_articulosolo 
-    FROM inc_solicitudes, inc_articulos, gnral_personales WHERE inc_solicitudes.id_personal=gnral_personales.id_personal AND id_solicitud='.$id_solicitud.'');
-    
-    $nombre_personal=DB::SelectOne('SELECT abreviaciones.titulo,gnral_personales.nombre, gnral_cargos.cargo FROM 
-    abreviaciones, abreviaciones_prof,gnral_personales,gnral_cargos, inc_solicitudes WHERE 
-    abreviaciones.id_abreviacion=abreviaciones_prof.id_abreviacion 
-    AND abreviaciones_prof.id_personal=gnral_personales.id_personal AND gnral_personales.id_personal=inc_solicitudes.id_personal 
-    AND gnral_personales.id_cargo=gnral_cargos.id_cargo AND inc_solicitudes.id_solicitud='.$id_solicitud.'');
 
-        $jefe_personal=DB::selectOne('SELECT abreviaciones.titulo, gnral_personales.nombre, gnral_unidad_administrativa.jefe_descripcion 
-   FROM abreviaciones, abreviaciones_prof, gnral_personales, gnral_unidad_personal, gnral_unidad_administrativa 
+    $solicitud=DB::selectOne('SELECT gnral_personales.nombre, inc_solicitudes.motivo_oficio,inc_solicitudes.fecha_req,inc_solicitudes.hora_e,inc_solicitudes.hora_st,
+    inc_articulos.descripcion_art, inc_articulos.nombre_articulosolo
+    FROM inc_solicitudes, inc_articulos, gnral_personales WHERE inc_solicitudes.id_personal=gnral_personales.id_personal AND id_solicitud= ?', [$id_solicitud]);
+
+    $nombre_personal=DB::SelectOne('SELECT abreviaciones.titulo,gnral_personales.nombre, gnral_cargos.cargo FROM
+    abreviaciones, abreviaciones_prof,gnral_personales,gnral_cargos, inc_solicitudes WHERE
+    abreviaciones.id_abreviacion=abreviaciones_prof.id_abreviacion
+    AND abreviaciones_prof.id_personal=gnral_personales.id_personal AND gnral_personales.id_personal=inc_solicitudes.id_personal
+    AND gnral_personales.id_cargo=gnral_cargos.id_cargo AND inc_solicitudes.id_solicitud= ?', [$id_solicitud]);
+
+        $jefe_personal=DB::selectOne('SELECT abreviaciones.titulo, gnral_personales.nombre, gnral_unidad_administrativa.jefe_descripcion
+   FROM abreviaciones, abreviaciones_prof, gnral_personales, gnral_unidad_personal, gnral_unidad_administrativa
    WHERE gnral_unidad_administrativa.id_unidad_admin=23 AND gnral_unidad_personal.id_personal = gnral_personales.id_personal
-   AND gnral_personales.id_personal = abreviaciones_prof.id_personal AND abreviaciones_prof.id_abreviacion = abreviaciones.id_abreviacion 
+   AND gnral_personales.id_personal = abreviaciones_prof.id_personal AND abreviaciones_prof.id_abreviacion = abreviaciones.id_abreviacion
    AND gnral_unidad_personal.id_unidad_admin = gnral_unidad_administrativa.id_unidad_admin');
         //dd($jefe_personal);
         //dd($nombre_personal);
-        $nombre_jefe=DB::SelectOne('SELECT inc_solicitudes.id_solicitud,abreviaciones.titulo,gnral_personales.nombre,gnral_unidad_administrativa.clave, gnral_unidad_administrativa.jefe_descripcion 
-        FROM abreviaciones, abreviaciones_prof,gnral_personales,gnral_unidad_administrativa,gnral_unidad_personal, inc_solicitudes 
+        $nombre_jefe=DB::SelectOne('SELECT inc_solicitudes.id_solicitud,abreviaciones.titulo,gnral_personales.nombre,gnral_unidad_administrativa.clave, gnral_unidad_administrativa.jefe_descripcion
+        FROM abreviaciones, abreviaciones_prof,gnral_personales,gnral_unidad_administrativa,gnral_unidad_personal, inc_solicitudes
         WHERE abreviaciones.id_abreviacion=abreviaciones_prof.id_abreviacion
-        AND abreviaciones_prof.id_personal=gnral_personales.id_personal AND gnral_personales.id_personal=inc_solicitudes.id_jefe 
-        and inc_solicitudes.id_solicitud='.$id_solicitud.' and gnral_personales.id_personal=gnral_unidad_personal.id_personal 
-        and gnral_unidad_personal.id_unidad_admin=gnral_unidad_administrativa.id_unidad_admin ');
+        AND abreviaciones_prof.id_personal=gnral_personales.id_personal AND gnral_personales.id_personal=inc_solicitudes.id_jefe
+        and inc_solicitudes.id_solicitud= ? and gnral_personales.id_personal=gnral_unidad_personal.id_personal
+        and gnral_unidad_personal.id_unidad_admin=gnral_unidad_administrativa.id_unidad_admin ', [$id_solicitud]);
        //dd($nombre_jefe);
         $etiqueta=DB::selectOne('SELECT * FROM etiqueta WHERE id_etiqueta = 1 ');
        // $articulos= DB::select('SELECT * from inc_articulos ORDER by nombre_articulo ASC');
@@ -96,10 +96,10 @@ class PdfSolicitudIncidenciaContratoController extends Controller
         $pdf->SetFont('Arial','','7');
         $pdf->Cell(135);
         $pdf->Cell(44,4,utf8_decode('Valle de Bravo, México.'),0,0,'R');
-        
+
         //fecha
         $fechas = date("d-m-Y");
-    
+
         $num=date("j",strtotime($fechas));
         $ano=date("Y", strtotime($fechas));
         $mes= array('enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre');
@@ -114,7 +114,7 @@ class PdfSolicitudIncidenciaContratoController extends Controller
            $mes1= array('enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre');
            $mes1=$mes1[(date('m', strtotime($fecha_req))*1)-1];
            $fecha_reg="el dia ".$num1. ' de '.$mes1.' del '.$ano1;
-        
+
         $pdf->Ln(4);
            $pdf->SetFont('Arial','','7');
            $pdf->Cell(135);
@@ -171,7 +171,7 @@ class PdfSolicitudIncidenciaContratoController extends Controller
            $pdf->Cell(10, 5, utf8_decode('Nombre, Fecha, Hora y Firma de autorización'), 0, 0, 'L');
 
 
-        } 
+        }
 //////////////////////////////NO BORRAR//////////
     $pdf->Output();
     exit();
@@ -180,30 +180,30 @@ class PdfSolicitudIncidenciaContratoController extends Controller
 public function index2($id_solicitud)
 
 {
-   /*$fechar=($fechass->fecha_req); 
+   /*$fechar=($fechass->fecha_req);
    $fechass=DB::SelectOne('SELECT fecha_req FROM `inc_solicitudes` WHERE inc_solicitudes.id_personal ');*/
-   $solicitud=DB::selectOne('select gnral_personales.nombre, inc_solicitudes.motivo_oficio, 
-       inc_solicitudes.fecha_req, inc_solicitudes.hora_e,inc_solicitudes.fecha_invac,inc_solicitudes.fecha_tervac,inc_solicitudes.hora_st, inc_articulos.descripcion_art, 
-       inc_articulos.nombre_articulosolo,inc_articulos.id_articulo from gnral_personales, inc_solicitudes, inc_articulos 
-       where gnral_personales.id_personal=inc_solicitudes.id_personal and 
-             inc_articulos.id_articulo=inc_solicitudes.id_articulo and 
-             inc_solicitudes.id_solicitud='.$id_solicitud.'');
+   $solicitud=DB::selectOne('select gnral_personales.nombre, inc_solicitudes.motivo_oficio,
+       inc_solicitudes.fecha_req, inc_solicitudes.hora_e,inc_solicitudes.fecha_invac,inc_solicitudes.fecha_tervac,inc_solicitudes.hora_st, inc_articulos.descripcion_art,
+       inc_articulos.nombre_articulosolo,inc_articulos.id_articulo from gnral_personales, inc_solicitudes, inc_articulos
+       where gnral_personales.id_personal=inc_solicitudes.id_personal and
+             inc_articulos.id_articulo=inc_solicitudes.id_articulo and
+             inc_solicitudes.id_solicitud= ?', [$id_solicitud]);
 
  //  dd($solicitud);
-    $jefe_personal=DB::selectOne('SELECT abreviaciones.titulo, gnral_personales.nombre, gnral_unidad_administrativa.jefe_descripcion 
-   from abreviaciones, abreviaciones_prof, gnral_personales, gnral_unidad_personal, gnral_unidad_administrativa 
+    $jefe_personal=DB::selectOne('SELECT abreviaciones.titulo, gnral_personales.nombre, gnral_unidad_administrativa.jefe_descripcion
+   from abreviaciones, abreviaciones_prof, gnral_personales, gnral_unidad_personal, gnral_unidad_administrativa
    WHERE gnral_unidad_administrativa.id_unidad_admin=23 and gnral_unidad_personal.id_personal = gnral_personales.id_personal
-   and gnral_personales.id_personal = abreviaciones_prof.id_personal and abreviaciones_prof.id_abreviacion = abreviaciones.id_abreviacion 
+   and gnral_personales.id_personal = abreviaciones_prof.id_personal and abreviaciones_prof.id_abreviacion = abreviaciones.id_abreviacion
    and gnral_unidad_personal.id_unidad_admin = gnral_unidad_administrativa.id_unidad_admin');
 
 
-$nombre_personal=DB::SelectOne('SELECT abreviaciones.titulo,gnral_personales.nombre, gnral_cargos.cargo FROM abreviaciones, abreviaciones_prof,gnral_personales,gnral_cargos, inc_solicitudes WHERE abreviaciones.id_abreviacion=abreviaciones_prof.id_abreviacion 
-AND abreviaciones_prof.id_personal=gnral_personales.id_personal AND gnral_personales.id_personal=inc_solicitudes.id_personal and gnral_personales.id_cargo=gnral_cargos.id_cargo and inc_solicitudes.id_solicitud='.$id_solicitud.'');
-$nombre_jefe=DB::SelectOne('SELECT gnral_unidad_administrativa.clave,inc_solicitudes.id_solicitud, abreviaciones.titulo,gnral_personales.nombre, gnral_unidad_administrativa.jefe_descripcion FROM abreviaciones, abreviaciones_prof,gnral_personales,gnral_unidad_administrativa,gnral_unidad_personal, inc_solicitudes WHERE abreviaciones.id_abreviacion=abreviaciones_prof.id_abreviacion 
-AND abreviaciones_prof.id_personal=gnral_personales.id_personal AND gnral_personales.id_personal=inc_solicitudes.id_jefe and inc_solicitudes.id_solicitud='.$id_solicitud.' and gnral_personales.id_personal=gnral_unidad_personal.id_personal 
-and gnral_unidad_personal.id_unidad_admin=gnral_unidad_administrativa.id_unidad_admin ');
+$nombre_personal=DB::SelectOne('SELECT abreviaciones.titulo,gnral_personales.nombre, gnral_cargos.cargo FROM abreviaciones, abreviaciones_prof,gnral_personales,gnral_cargos, inc_solicitudes WHERE abreviaciones.id_abreviacion=abreviaciones_prof.id_abreviacion
+AND abreviaciones_prof.id_personal=gnral_personales.id_personal AND gnral_personales.id_personal=inc_solicitudes.id_personal and gnral_personales.id_cargo=gnral_cargos.id_cargo and inc_solicitudes.id_solicitud= ?', [$id_solicitud]);
+$nombre_jefe=DB::SelectOne('SELECT gnral_unidad_administrativa.clave,inc_solicitudes.id_solicitud, abreviaciones.titulo,gnral_personales.nombre, gnral_unidad_administrativa.jefe_descripcion FROM abreviaciones, abreviaciones_prof,gnral_personales,gnral_unidad_administrativa,gnral_unidad_personal, inc_solicitudes WHERE abreviaciones.id_abreviacion=abreviaciones_prof.id_abreviacion
+AND abreviaciones_prof.id_personal=gnral_personales.id_personal AND gnral_personales.id_personal=inc_solicitudes.id_jefe and inc_solicitudes.id_solicitud= ? and gnral_personales.id_personal=gnral_unidad_personal.id_personal
+and gnral_unidad_personal.id_unidad_admin=gnral_unidad_administrativa.id_unidad_admin ', [$id_solicitud]);
 //dd($nombre_jefe);
-   
+
     $pdf=new PDF_PdfSolicitudIncidenciaContratoController($orientation='P',$unit='mm',$format='Letter');
     #Establecemos los márgenes izquierda, arriba y derecha:
 
@@ -234,10 +234,10 @@ and gnral_unidad_personal.id_unidad_admin=gnral_unidad_administrativa.id_unidad_
     $pdf->SetFont('Arial','','7');
     $pdf->Cell(130);
     $pdf->Cell(50,4,utf8_decode('Valle de Bravo,México.'),0,0,'R');
-    
+
     //fecha
     $fechas = date("d-m-Y");
-    
+
     $num=date("j",strtotime($fechas));
     $ano=date("Y", strtotime($fechas));
     $mes= array('enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre');
@@ -325,8 +325,8 @@ and gnral_unidad_personal.id_unidad_admin=gnral_unidad_administrativa.id_unidad_
         $numero=$id_solicitud;
         $pdf->Cell(50,4,utf8_decode('Oficio No. '.$nombre_jefe->clave.'/'.$nombre_jefe->id_solicitud.'/'.$ano),0,0,'R');
         $pdf->SetFont('Arial','B','10');
-    
-  
+
+
     $pdf->Ln(10);
     $pdf->Cell(180, 5, utf8_decode($jefe_personal->titulo.' '. $jefe_personal->nombre), 0, 1, '');
     $pdf->Cell(180, 5, utf8_decode($jefe_personal->jefe_descripcion), 0, 1, '');
@@ -348,7 +348,7 @@ and gnral_unidad_personal.id_unidad_admin=gnral_unidad_administrativa.id_unidad_
     $pdf->Ln(5);
     $pdf->SetFont('Arial', '', '11');
     $pdf->MultiCell(177, 5,utf8_decode('Con lo anterior mencionado solicito '.$fecha_reg.' para cumplir con el siguiente motivo: '.$solicitud->motivo_oficio.''),0,'J',0);
-   
+
 
         $pdf->Ln(6);
         $pdf->SetFont('Arial', '', '11');
@@ -381,37 +381,37 @@ public function index3($id_solicitud)
     // dd($id_solicitud);
     /*$fechar=($fechass->fecha_req);
     $fechass=DB::SelectOne('SELECT fecha_req FROM `inc_solicitudes` WHERE inc_solicitudes.id_personal ');*/
-    $solicitud=DB::selectOne('select gnral_personales.nombre, inc_solicitudes.motivo_oficio, 
-       inc_solicitudes.fecha_req, inc_solicitudes.hora_e,inc_solicitudes.fecha_invac,inc_Solicitudes.fecha_tervac,inc_solicitudes.hora_st, inc_articulos.descripcion_art, 
-       inc_articulos.nombre_articulosolo,inc_articulos.id_articulo, inc_solicitudes.direc_finanzas from gnral_personales, inc_solicitudes, inc_articulos 
-       where gnral_personales.id_personal=inc_solicitudes.id_personal and 
-             inc_articulos.id_articulo=inc_solicitudes.id_articulo and 
-             inc_solicitudes.id_solicitud='.$id_solicitud.'');
+    $solicitud=DB::selectOne('select gnral_personales.nombre, inc_solicitudes.motivo_oficio,
+       inc_solicitudes.fecha_req, inc_solicitudes.hora_e,inc_solicitudes.fecha_invac,inc_Solicitudes.fecha_tervac,inc_solicitudes.hora_st, inc_articulos.descripcion_art,
+       inc_articulos.nombre_articulosolo,inc_articulos.id_articulo, inc_solicitudes.direc_finanzas from gnral_personales, inc_solicitudes, inc_articulos
+       where gnral_personales.id_personal=inc_solicitudes.id_personal and
+             inc_articulos.id_articulo=inc_solicitudes.id_articulo and
+             inc_solicitudes.id_solicitud= ?', [$id_solicitud]);
 
-    $jefe_a_d=DB::selectOne('SELECT abreviaciones.titulo, gnral_personales.nombre, gnral_unidad_administrativa.jefe_descripcion 
+    $jefe_a_d=DB::selectOne('SELECT abreviaciones.titulo, gnral_personales.nombre, gnral_unidad_administrativa.jefe_descripcion
     from abreviaciones, abreviaciones_prof, gnral_personales, gnral_unidad_personal, gnral_unidad_administrativa
     where abreviaciones.id_abreviacion = abreviaciones_prof.id_abreviacion and abreviaciones_prof.id_personal=gnral_personales.id_personal
-      and gnral_personales.id_personal = gnral_unidad_personal.id_personal and gnral_unidad_personal.id_unidad_admin = gnral_unidad_administrativa.id_unidad_admin 
-      and gnral_personales.id_personal='.$solicitud->direc_finanzas.'');
+      and gnral_personales.id_personal = gnral_unidad_personal.id_personal and gnral_unidad_personal.id_unidad_admin = gnral_unidad_administrativa.id_unidad_admin
+      and gnral_personales.id_personal= ?', [$solicitud->direc_finanzas]);
 
     $titulo_finanzas= mb_strtoupper($jefe_a_d->titulo, 'utf-8');
   //  dd($jefe_a_d);
 
 
     //  dd($solicitud);
-    $jefe_personal=DB::selectOne('SELECT abreviaciones.titulo, gnral_personales.nombre, gnral_unidad_administrativa.jefe_descripcion 
-   from abreviaciones, abreviaciones_prof, gnral_personales, gnral_unidad_personal, gnral_unidad_administrativa 
+    $jefe_personal=DB::selectOne('SELECT abreviaciones.titulo, gnral_personales.nombre, gnral_unidad_administrativa.jefe_descripcion
+   from abreviaciones, abreviaciones_prof, gnral_personales, gnral_unidad_personal, gnral_unidad_administrativa
    WHERE gnral_unidad_administrativa.id_unidad_admin=23 and gnral_unidad_personal.id_personal = gnral_personales.id_personal
-   and gnral_personales.id_personal = abreviaciones_prof.id_personal and abreviaciones_prof.id_abreviacion = abreviaciones.id_abreviacion 
+   and gnral_personales.id_personal = abreviaciones_prof.id_personal and abreviaciones_prof.id_abreviacion = abreviaciones.id_abreviacion
    and gnral_unidad_personal.id_unidad_admin = gnral_unidad_administrativa.id_unidad_admin');
 
 
-    $nombre_personal=DB::SelectOne('SELECT abreviaciones.titulo,gnral_personales.nombre, gnral_cargos.cargo FROM abreviaciones, abreviaciones_prof,gnral_personales,gnral_cargos, inc_solicitudes WHERE abreviaciones.id_abreviacion=abreviaciones_prof.id_abreviacion 
-AND abreviaciones_prof.id_personal=gnral_personales.id_personal AND gnral_personales.id_personal=inc_solicitudes.id_personal and gnral_personales.id_cargo=gnral_cargos.id_cargo and inc_solicitudes.id_solicitud='.$id_solicitud.'');
+    $nombre_personal=DB::SelectOne('SELECT abreviaciones.titulo,gnral_personales.nombre, gnral_cargos.cargo FROM abreviaciones, abreviaciones_prof,gnral_personales,gnral_cargos, inc_solicitudes WHERE abreviaciones.id_abreviacion=abreviaciones_prof.id_abreviacion
+AND abreviaciones_prof.id_personal=gnral_personales.id_personal AND gnral_personales.id_personal=inc_solicitudes.id_personal and gnral_personales.id_cargo=gnral_cargos.id_cargo and inc_solicitudes.id_solicitud= ?', [$id_solicitud]);
 
-    $nombre_jefe=DB::SelectOne('SELECT gnral_unidad_administrativa.clave,inc_solicitudes.id_solicitud, abreviaciones.titulo,gnral_personales.nombre, gnral_unidad_administrativa.jefe_descripcion FROM abreviaciones, abreviaciones_prof,gnral_personales,gnral_unidad_administrativa,gnral_unidad_personal, inc_solicitudes WHERE abreviaciones.id_abreviacion=abreviaciones_prof.id_abreviacion 
-AND abreviaciones_prof.id_personal=gnral_personales.id_personal AND gnral_personales.id_personal=inc_solicitudes.id_jefe and inc_solicitudes.id_solicitud='.$id_solicitud.' and gnral_personales.id_personal=gnral_unidad_personal.id_personal 
-and gnral_unidad_personal.id_unidad_admin=gnral_unidad_administrativa.id_unidad_admin ');
+    $nombre_jefe=DB::SelectOne('SELECT gnral_unidad_administrativa.clave,inc_solicitudes.id_solicitud, abreviaciones.titulo,gnral_personales.nombre, gnral_unidad_administrativa.jefe_descripcion FROM abreviaciones, abreviaciones_prof,gnral_personales,gnral_unidad_administrativa,gnral_unidad_personal, inc_solicitudes WHERE abreviaciones.id_abreviacion=abreviaciones_prof.id_abreviacion
+AND abreviaciones_prof.id_personal=gnral_personales.id_personal AND gnral_personales.id_personal=inc_solicitudes.id_jefe and inc_solicitudes.id_solicitud= ? and gnral_personales.id_personal=gnral_unidad_personal.id_personal
+and gnral_unidad_personal.id_unidad_admin=gnral_unidad_administrativa.id_unidad_admin ', [$id_solicitud]);
 //dd($nombre_jefe);
 
     $pdf=new PDF_PdfSolicitudIncidenciaContratoController($orientation='P',$unit='mm',$format='Letter');
@@ -584,37 +584,37 @@ and gnral_unidad_personal.id_unidad_admin=gnral_unidad_administrativa.id_unidad_
 }
 public function index4($id_solicitud){
 
-    $solicitud=DB::selectOne('select gnral_personales.nombre, inc_solicitudes.motivo_oficio,inc_solicitudes.fecha_req,inc_solicitudes.hora_e,inc_solicitudes.hora_st, inc_articulos.descripcion_art, inc_articulos.nombre_articulosolo 
+    $solicitud=DB::selectOne('select gnral_personales.nombre, inc_solicitudes.motivo_oficio,inc_solicitudes.fecha_req,inc_solicitudes.hora_e,inc_solicitudes.hora_st, inc_articulos.descripcion_art, inc_articulos.nombre_articulosolo
     FROM inc_solicitudes, inc_articulos, gnral_personales
-    WHERE inc_solicitudes.id_personal=gnral_personales.id_personal and id_solicitud='.$id_solicitud.'');
+    WHERE inc_solicitudes.id_personal=gnral_personales.id_personal and id_solicitud= ?', [$id_solicitud]);
 
 
-    $nombre_personal=DB::SelectOne('SELECT abreviaciones.titulo,gnral_personales.nombre, gnral_cargos.cargo FROM 
-        abreviaciones, abreviaciones_prof,gnral_personales,gnral_cargos, inc_solicitudes WHERE 
-        abreviaciones.id_abreviacion=abreviaciones_prof.id_abreviacion 
-        AND abreviaciones_prof.id_personal=gnral_personales.id_personal AND gnral_personales.id_personal=inc_solicitudes.id_personal 
-        and gnral_personales.id_cargo=gnral_cargos.id_cargo and inc_solicitudes.id_solicitud='.$id_solicitud.'');
+    $nombre_personal=DB::SelectOne('SELECT abreviaciones.titulo,gnral_personales.nombre, gnral_cargos.cargo FROM
+        abreviaciones, abreviaciones_prof,gnral_personales,gnral_cargos, inc_solicitudes WHERE
+        abreviaciones.id_abreviacion=abreviaciones_prof.id_abreviacion
+        AND abreviaciones_prof.id_personal=gnral_personales.id_personal AND gnral_personales.id_personal=inc_solicitudes.id_personal
+        and gnral_personales.id_cargo=gnral_cargos.id_cargo and inc_solicitudes.id_solicitud= ?', [$id_solicitud]);
 
-    $jefe_personal=DB::selectOne('SELECT abreviaciones.titulo, gnral_personales.nombre, gnral_unidad_administrativa.jefe_descripcion 
-   from abreviaciones, abreviaciones_prof, gnral_personales, gnral_unidad_personal, gnral_unidad_administrativa 
+    $jefe_personal=DB::selectOne('SELECT abreviaciones.titulo, gnral_personales.nombre, gnral_unidad_administrativa.jefe_descripcion
+   from abreviaciones, abreviaciones_prof, gnral_personales, gnral_unidad_personal, gnral_unidad_administrativa
    WHERE gnral_unidad_administrativa.id_unidad_admin=23 and gnral_unidad_personal.id_personal = gnral_personales.id_personal
-   and gnral_personales.id_personal = abreviaciones_prof.id_personal and abreviaciones_prof.id_abreviacion = abreviaciones.id_abreviacion 
+   and gnral_personales.id_personal = abreviaciones_prof.id_personal and abreviaciones_prof.id_abreviacion = abreviaciones.id_abreviacion
    and gnral_unidad_personal.id_unidad_admin = gnral_unidad_administrativa.id_unidad_admin');
 
-    $director=DB::selectOne('SELECT abreviaciones.titulo, gnral_personales.nombre, gnral_unidad_administrativa.jefe_descripcion 
-   from abreviaciones, abreviaciones_prof, gnral_personales, gnral_unidad_personal, gnral_unidad_administrativa 
+    $director=DB::selectOne('SELECT abreviaciones.titulo, gnral_personales.nombre, gnral_unidad_administrativa.jefe_descripcion
+   from abreviaciones, abreviaciones_prof, gnral_personales, gnral_unidad_personal, gnral_unidad_administrativa
    WHERE gnral_unidad_administrativa.id_unidad_admin=3 and gnral_unidad_personal.id_personal = gnral_personales.id_personal
-   and gnral_personales.id_personal = abreviaciones_prof.id_personal and abreviaciones_prof.id_abreviacion = abreviaciones.id_abreviacion 
+   and gnral_personales.id_personal = abreviaciones_prof.id_personal and abreviaciones_prof.id_abreviacion = abreviaciones.id_abreviacion
    and gnral_unidad_personal.id_unidad_admin = gnral_unidad_administrativa.id_unidad_admin');
   //  dd($director);
     //dd($jefe_personal);
     //dd($nombre_personal);
-    $nombre_jefe=DB::SelectOne('SELECT inc_solicitudes.id_solicitud,abreviaciones.titulo,gnral_personales.nombre,gnral_unidad_administrativa.clave, gnral_unidad_administrativa.jefe_descripcion 
-        FROM abreviaciones, abreviaciones_prof,gnral_personales,gnral_unidad_administrativa,gnral_unidad_personal, inc_solicitudes 
+    $nombre_jefe=DB::SelectOne('SELECT inc_solicitudes.id_solicitud,abreviaciones.titulo,gnral_personales.nombre,gnral_unidad_administrativa.clave, gnral_unidad_administrativa.jefe_descripcion
+        FROM abreviaciones, abreviaciones_prof,gnral_personales,gnral_unidad_administrativa,gnral_unidad_personal, inc_solicitudes
         WHERE abreviaciones.id_abreviacion=abreviaciones_prof.id_abreviacion
-        AND abreviaciones_prof.id_personal=gnral_personales.id_personal AND gnral_personales.id_personal=inc_solicitudes.id_jefe 
-        and inc_solicitudes.id_solicitud='.$id_solicitud.' and gnral_personales.id_personal=gnral_unidad_personal.id_personal 
-        and gnral_unidad_personal.id_unidad_admin=gnral_unidad_administrativa.id_unidad_admin ');
+        AND abreviaciones_prof.id_personal=gnral_personales.id_personal AND gnral_personales.id_personal=inc_solicitudes.id_jefe
+        and inc_solicitudes.id_solicitud= ? and gnral_personales.id_personal=gnral_unidad_personal.id_personal
+        and gnral_unidad_personal.id_unidad_admin=gnral_unidad_administrativa.id_unidad_admin ', [$id_solicitud]);
     //dd($nombre_jefe);
     $etiqueta=DB::selectOne('SELECT * FROM etiqueta WHERE id_etiqueta = 1 ');
     // $articulos= DB::select('SELECT * from inc_articulos ORDER by nombre_articulo ASC');

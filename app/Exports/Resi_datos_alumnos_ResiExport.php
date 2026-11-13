@@ -41,19 +41,19 @@ class Resi_datos_alumnos_ResiExport implements FromArray, WithTitle
 gnral_alumnos.amaterno,resi_proyecto.nom_proyecto,resi_empresa.nombre empresa,resi_sector.descripcion sector,resi_giro.descripcion giro,resi_empresa.domicilio,resi_empresa.tel_empresa,
 resi_empresa.correo,resi_empresa.dir_gral,resi_proy_empresa.asesor asesor_externo,gnral_carreras.nombre carrera,resi_proy_empresa.puesto,gnral_personales.nombre asesor_interno,abreviaciones.titulo from gnral_alumnos,resi_anteproyecto,resi_proy_empresa,resi_empresa,resi_giro,resi_sector,resi_proyecto,
 resi_asesores,gnral_personales,abreviaciones_prof,abreviaciones,gnral_carreras
-WHERE gnral_alumnos.id_carrera=gnral_carreras.id_carrera and gnral_alumnos.id_alumno=resi_anteproyecto.id_alumno and resi_anteproyecto.id_anteproyecto=resi_proy_empresa.id_anteproyecto 
+WHERE gnral_alumnos.id_carrera=gnral_carreras.id_carrera and gnral_alumnos.id_alumno=resi_anteproyecto.id_alumno and resi_anteproyecto.id_anteproyecto=resi_proy_empresa.id_anteproyecto
 and resi_proy_empresa.id_empresa=resi_empresa.id_empresa
-and resi_proy_empresa.id_giro=resi_giro.id_giro and 
-resi_proy_empresa.id_sector=resi_sector.id_sector and 
+and resi_proy_empresa.id_giro=resi_giro.id_giro and
+resi_proy_empresa.id_sector=resi_sector.id_sector and
 resi_anteproyecto.id_proyecto=resi_proyecto.id_proyecto
-and resi_asesores.id_periodo='.$periodo.'
+and resi_asesores.id_periodo= ?
 and resi_anteproyecto.autorizacion_departamento=1
 and resi_anteproyecto.id_anteproyecto=resi_asesores.id_anteproyecto
-and resi_asesores.id_carrera='.$this->id_carrera.'
+and resi_asesores.id_carrera= ?
 and resi_asesores.id_profesor=gnral_personales.id_personal
 and gnral_personales.id_personal=abreviaciones_prof.id_personal
 and abreviaciones_prof.id_abreviacion=abreviaciones.id_abreviacion
-ORDER BY gnral_alumnos.apaterno,gnral_alumnos.amaterno,gnral_alumnos.nombre  ASC');
+ORDER BY gnral_alumnos.apaterno,gnral_alumnos.amaterno,gnral_alumnos.nombre  ASC', [$periodo, $this->id_carrera]);
 
 
         $array_generales=array();

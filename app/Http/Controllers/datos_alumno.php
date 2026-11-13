@@ -23,7 +23,7 @@ class datos_alumno extends Controller
     public function index()
     {
         $usuario = Session::get('usuario_alumno');
-        $correo=DB::selectOne('SELECT users.email FROM users WHERE users.id='.$usuario.'');
+        $correo=DB::selectOne('SELECT users.email FROM users WHERE users.id= ?', [$usuario]);
         $carreras=Carreras::all();
         $estados_alu=Estados::all();
         $estados_tutor=Estados::all();
@@ -37,8 +37,8 @@ class datos_alumno extends Controller
 
         ///////////////////////////verificar si el alumno es la primera vez que llenara sus datos
 
-        $sesion=DB::selectOne('SELECT count(gnral_alumnos.id_alumno) alumno from gnral_alumnos WHERE gnral_alumnos.id_usuario="'.$usuario.'"');
-        $datos_u=DB::selectOne('SELECT users.email from users WHERE users.id="'.$usuario.'"');
+        $sesion=DB::selectOne('SELECT count(gnral_alumnos.id_alumno) alumno from gnral_alumnos WHERE gnral_alumnos.id_usuario=?', [(string) ($usuario)]);
+        $datos_u=DB::selectOne('SELECT users.email from users WHERE users.id=?', [(string) ($usuario)]);
         //  dd($usuario);
         if($sesion->alumno ==0)
         {
@@ -51,7 +51,7 @@ class datos_alumno extends Controller
                 'fecha_nac'=>$año);
 
             Alumnos::create($array);
-            $dat_alumno=DB::selectOne('SELECT gnral_alumnos.id_alumno FROM gnral_alumnos WHERE gnral_alumnos.id_usuario="'.$usuario.'"');
+            $dat_alumno=DB::selectOne('SELECT gnral_alumnos.id_alumno FROM gnral_alumnos WHERE gnral_alumnos.id_usuario=?', [(string) ($usuario)]);
             $id_alumno=$dat_alumno->id_alumno;
             $array=array('id_alumno'=>$id_alumno,'fecha_nac_T'=>$año);
             Tutor::create($array);
@@ -63,10 +63,10 @@ class datos_alumno extends Controller
         }
 
 ///////////////////////////////traer datos del alumno//////////////////////////////////////////
-        $datos=DB::selectOne('SELECT * FROM gnral_alumnos WHERE gnral_alumnos.id_usuario='.$usuario.'');
+        $datos=DB::selectOne('SELECT * FROM gnral_alumnos WHERE gnral_alumnos.id_usuario= ?', [$usuario]);
 
         //*CCT*/
-        $estado_institucion= DB::selectOne('SELECT COUNT(id_institucion) contar FROM gnral_alumnos where id_usuario = '.$usuario.' AND id_institucion =0');
+        $estado_institucion= DB::selectOne('SELECT COUNT(id_institucion) contar FROM gnral_alumnos where id_usuario = ? AND id_institucion =0', [$usuario]);
 
         if($estado_institucion->contar == 1){
             $estado_institucion =1;
@@ -75,19 +75,19 @@ class datos_alumno extends Controller
         }else{
             $estado_institucion =2;
             $id_institucion=$datos->id_institucion;
-            $institucion=DB::selectOne('SELECT * FROM `gnral_instituciones_edu` where id_institucion ='.$id_institucion.'');
+            $institucion=DB::selectOne('SELECT * FROM `gnral_instituciones_edu` where id_institucion = ?', [$id_institucion]);
             //dd($institucion);
 
         }
 
 
-        $tut=DB::selectOne('SELECT count(id_tutor) tutor FROM eva_tutor where eva_tutor.id_alumno='.$datos->id_alumno.'');
+        $tut=DB::selectOne('SELECT count(id_tutor) tutor FROM eva_tutor where eva_tutor.id_alumno= ?', [$datos->id_alumno]);
 
-        $datos_t=DB::selectOne('SELECT * FROM eva_tutor WHERE eva_tutor.id_alumno='.$datos->id_alumno.'');
+        $datos_t=DB::selectOne('SELECT * FROM eva_tutor WHERE eva_tutor.id_alumno= ?', [$datos->id_alumno]);
 
         if($tut->tutor==0)
         {
-            $dat_alumno=DB::selectOne('SELECT gnral_alumnos.id_alumno FROM gnral_alumnos WHERE gnral_alumnos.id_usuario="'.$usuario.'"');
+            $dat_alumno=DB::selectOne('SELECT gnral_alumnos.id_alumno FROM gnral_alumnos WHERE gnral_alumnos.id_usuario=?', [(string) ($usuario)]);
             $id_alumno=$dat_alumno->id_alumno;
             //dd($id_alumno);
 
@@ -96,7 +96,7 @@ class datos_alumno extends Controller
             $array=array('id_alumno'=>$id_alumno,'fecha_nac_T'=>$año);
             Tutor::create($array);
         }
-        $datos_t=DB::selectOne('SELECT * FROM eva_tutor WHERE eva_tutor.id_alumno='.$datos->id_alumno.'');
+        $datos_t=DB::selectOne('SELECT * FROM eva_tutor WHERE eva_tutor.id_alumno= ?', [$datos->id_alumno]);
 
         $fecha=$datos->fecha_nac;
         $fecha= explode("-", $fecha);
@@ -116,7 +116,7 @@ class datos_alumno extends Controller
         $fechat=$diat."/".$mest."/".$añot;
         $datos_t->fecha_nac_T=$fechat;
 
-        $dat=DB::selectOne('SELECT count(id_carrera) carrera FROM gnral_alumnos WHERE gnral_alumnos.id_usuario='.$usuario.'');
+        $dat=DB::selectOne('SELECT count(id_carrera) carrera FROM gnral_alumnos WHERE gnral_alumnos.id_usuario= ?', [$usuario]);
         $dat=$dat->carrera;
         $escuelas = DB::table('gnral_escuela_procedencia')
             ->select('gnral_escuela_procedencia.*')
@@ -130,7 +130,7 @@ class datos_alumno extends Controller
         else{
            $f_nac=1;
         }
-        $curp=DB::selectOne('SELECT * FROM gnral_alumnos WHERE gnral_alumnos.id_usuario='.$usuario.'');
+        $curp=DB::selectOne('SELECT * FROM gnral_alumnos WHERE gnral_alumnos.id_usuario= ?', [$usuario]);
         $curp=$curp->curp_al;
         if($curp== null){
             $ed=0;
@@ -227,7 +227,7 @@ class datos_alumno extends Controller
         |--------------------------------------------------------------------------
         | PERIODO 32
         |--------------------------------------------------------------------------
-        
+
 
         if ($periodo_ins->id_periodo == 32) {
             $sem = 3;
@@ -238,7 +238,7 @@ class datos_alumno extends Controller
         |--------------------------------------------------------------------------
         | CÁLCULO NORMAL
         |--------------------------------------------------------------------------
-        
+
         $periodo_act = DB::selectOne('SELECT * FROM gnral_periodos WHERE estado = 1');
         $semestresins = $periodo_ins->id_semestre;
         $semestres_cursados = $periodo_act->id_periodo - $periodo_ins->id_periodo;
@@ -252,7 +252,7 @@ class datos_alumno extends Controller
         $sem = $semestres_cursados;
     }*/
 
-        $periodo_inscrito = DB::selectOne('SELECT COUNT(id_semestres_al) contar FROM eva_semestre_alumno WHERE id_alumno = '.$datos->id_alumno.'');
+        $periodo_inscrito = DB::selectOne('SELECT COUNT(id_semestres_al) contar FROM eva_semestre_alumno WHERE id_alumno = ?', [$datos->id_alumno]);
 
 $periodo_inscrito = $periodo_inscrito->contar;
 
@@ -266,7 +266,7 @@ if ($periodo_inscrito == 0) {
 
     $periodo_act = DB::selectOne('SELECT * FROM gnral_periodos WHERE estado = 1 ');
 
-    $period_ins = DB::selectOne('SELECT * FROM eva_semestre_alumno WHERE id_alumno = '.$datos->id_alumno.' ORDER BY id_semestres_al DESC LIMIT 1');
+    $period_ins = DB::selectOne('SELECT * FROM eva_semestre_alumno WHERE id_alumno = ? ORDER BY id_semestres_al DESC LIMIT 1', [$datos->id_alumno]);
 
     $periodo_ins = $period_ins->id_periodo;
     $semestresins = $period_ins->id_semestre;
@@ -278,10 +278,10 @@ if ($periodo_inscrito == 0) {
         $semestres_cursados = 1;
     }
 
-    $semestres = DB::select('SELECT * FROM gnral_semestres WHERE id_semestre = '.$semestres_cursados.'');
+    $semestres = DB::select('SELECT * FROM gnral_semestres WHERE id_semestre = ?', [$semestres_cursados]);
     $sem = $datos->id_semestre;
 
-    $semestre_actual = DB::selectOne('SELECT id_periodo FROM eva_semestre_alumno WHERE id_alumno = '.$datos->id_alumno.' ORDER BY id_semestres_al DESC');
+    $semestre_actual = DB::selectOne('SELECT id_periodo FROM eva_semestre_alumno WHERE id_alumno = ? ORDER BY id_semestres_al DESC', [$datos->id_alumno]);
     $periodo_actual = DB::selectOne('SELECT * FROM gnral_periodos WHERE estado = 1');
 
     if ($semestre_actual && $periodo_actual) {
@@ -291,7 +291,7 @@ if ($periodo_inscrito == 0) {
         }
     }
 
-    $semestres = DB::select(' SELECT * FROM gnral_semestres WHERE id_semestre = '.$sem.'');
+    $semestres = DB::select(' SELECT * FROM gnral_semestres WHERE id_semestre = ?', [$sem]);
     }
 
 //dd($datos);
@@ -309,8 +309,8 @@ if ($periodo_inscrito == 0) {
 
 
         $usuario = Session::get('usuario_alumno');
-        $correo=DB::selectOne('SELECT users.email FROM users WHERE users.id='.$usuario.'');
-        $cuent=DB::selectOne('SELECT * FROM `gnral_alumnos` WHERE `id_usuario` ='.$usuario.' ');
+        $correo=DB::selectOne('SELECT users.email FROM users WHERE users.id= ?', [$usuario]);
+        $cuent=DB::selectOne('SELECT * FROM `gnral_alumnos` WHERE `id_usuario` = ? ', [$usuario]);
         $cuentass=$cuent->cuenta;
          //dd($request);
         //dd($request->get('fecha_nac'));
@@ -549,8 +549,8 @@ if ($periodo_inscrito == 0) {
             $nombre_escuela =  mb_strtoupper($request->get('nombre_escuela'),'utf-8');
             $id_estado =$request->get('estado');
             $id_municipio =$request->get('municipios');
-            $domicilio=DB::selectOne('SELECT gnral_municipios.nombre_municipio,gnral_estados.nombre_estado FROM gnral_municipios,gnral_estados 
-            WHERE gnral_municipios.id_estado=gnral_estados.id_estado AND gnral_municipios.id_municipio='.$id_municipio.'');
+            $domicilio=DB::selectOne('SELECT gnral_municipios.nombre_municipio,gnral_estados.nombre_estado FROM gnral_municipios,gnral_estados
+            WHERE gnral_municipios.id_estado=gnral_estados.id_estado AND gnral_municipios.id_municipio= ?', [$id_municipio]);
             $nombre_municipio=$domicilio->nombre_municipio;
             $nombre_estado=$domicilio->nombre_estado;
              $insertar = DB:: table('gnral_escuela_procedencia')
@@ -613,7 +613,7 @@ return view('servicios_escolares.partials.edit_escuela_procedencia',compact('esc
         //
     }
     public function buscarcuenta($cuenta){
-        $numero=DB::selectOne("SELECT COUNT(id_alumno) num FROM gnral_alumnos WHERE cuenta LIKE '$cuenta'");
+        $numero=DB::selectOne('SELECT COUNT(id_alumno) num FROM gnral_alumnos WHERE cuenta LIKE ?', [(string) ($cuenta)]);
         $numero=$numero->num;
         return $numero;
     }
@@ -640,7 +640,7 @@ return view('servicios_escolares.partials.edit_escuela_procedencia',compact('esc
 
     }
     public function modificar_cct($id_alumno){
-        $alumno=DB::selectOne('SELECT * FROM `gnral_alumnos` WHERE `id_alumno` = '.$id_alumno.'');
+        $alumno=DB::selectOne('SELECT * FROM `gnral_alumnos` WHERE `id_alumno` = ?', [$id_alumno]);
         $escuelas=DB::select('SELECT * FROM `gnral_instituciones_edu` ORDER BY `cct` ASC');
 
         return view('evaluacion_docente.Alumnos.editar_cct',compact('alumno','escuelas','id_alumno'));
@@ -660,7 +660,7 @@ return view('servicios_escolares.partials.edit_escuela_procedencia',compact('esc
         return view('evaluacion_docente.escuelas.escuelas_cct',compact('escuelas'));
     }
     public function registros_modificar($id_institucion){
-       $institucion= DB::selectOne('SELECT * FROM `gnral_instituciones_edu` WHERE `id_institucion` ='.$id_institucion.'');
+       $institucion= DB::selectOne('SELECT * FROM `gnral_instituciones_edu` WHERE `id_institucion` = ?', [$id_institucion]);
        //dd($institucion);
         return view('evaluacion_docente.escuelas.editar_escuela',compact('institucion'));
 

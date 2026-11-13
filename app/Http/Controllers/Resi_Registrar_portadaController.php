@@ -14,11 +14,11 @@ class Resi_Registrar_portadaController extends Controller
         $periodo = Session::get('periodo_actual');
         $tipo_proyecto=DB::select('SELECT * FROM resi_tipo_proyecto where id_tipo_proyecto=2');
         $id_usuario = Session::get('usuario_alumno');
-        $datosalumno=DB::selectOne('select * FROM gnral_alumnos WHERE id_usuario='.$id_usuario.'');
+        $datosalumno=DB::selectOne('select * FROM gnral_alumnos WHERE id_usuario= ?', [$id_usuario]);
         $alumno=$datosalumno->id_alumno;
-        $nombres=DB::selectOne('SELECT gnral_alumnos.nombre,gnral_alumnos.apaterno,gnral_alumnos.amaterno FROM gnral_alumnos WHERE id_alumno ='.$alumno.'');
-        $sinant=DB::selectOne('SELECT count(resi_anteproyecto.id_anteproyecto) numero from resi_anteproyecto 
-        where resi_anteproyecto.id_alumno='.$alumno.' and resi_anteproyecto.id_periodo='.$periodo.'');
+        $nombres=DB::selectOne('SELECT gnral_alumnos.nombre,gnral_alumnos.apaterno,gnral_alumnos.amaterno FROM gnral_alumnos WHERE id_alumno = ?', [$alumno]);
+        $sinant=DB::selectOne('SELECT count(resi_anteproyecto.id_anteproyecto) numero from resi_anteproyecto
+        where resi_anteproyecto.id_alumno= ? and resi_anteproyecto.id_periodo= ?', [$alumno, $periodo]);
 
         if($sinant->numero==0){
             $sin_proyecto=0;
@@ -26,17 +26,17 @@ class Resi_Registrar_portadaController extends Controller
             $nombre="";
         }
         if ($sinant->numero == 1){
-            $anteproyecto=DB::selectOne('SELECT resi_anteproyecto.*,resi_proyecto.nom_proyecto,resi_proyecto.id_tipo_proyecto FROM resi_anteproyecto,resi_proyecto 
-WHERE resi_proyecto.id_proyecto=resi_anteproyecto.id_proyecto and resi_anteproyecto.id_alumno='.$alumno.' and resi_anteproyecto.id_periodo='.$periodo.'');
+            $anteproyecto=DB::selectOne('SELECT resi_anteproyecto.*,resi_proyecto.nom_proyecto,resi_proyecto.id_tipo_proyecto FROM resi_anteproyecto,resi_proyecto
+WHERE resi_proyecto.id_proyecto=resi_anteproyecto.id_proyecto and resi_anteproyecto.id_alumno= ? and resi_anteproyecto.id_periodo= ?', [$alumno, $periodo]);
             $sin_proyecto=1;
             $id_proyecto=$anteproyecto->id_proyecto;
             $nombre=$anteproyecto->nom_proyecto;
 
         }
 
-        $registro_proy=DB::selectOne('select count(resi_anteproyecto.id_anteproyecto) proy from resi_anteproyecto where resi_anteproyecto.id_alumno='.$alumno.' and resi_anteproyecto.id_periodo='.$periodo.'');
+        $registro_proy=DB::selectOne('select count(resi_anteproyecto.id_anteproyecto) proy from resi_anteproyecto where resi_anteproyecto.id_alumno= ? and resi_anteproyecto.id_periodo= ?', [$alumno, $periodo]);
         $registro_proy=$registro_proy->proy;
-        $enviado_anteproyecto=DB::selectOne('select resi_anteproyecto.estado_enviado proy from resi_anteproyecto where resi_anteproyecto.id_alumno='.$alumno.' and resi_anteproyecto.id_periodo='.$periodo.'');
+        $enviado_anteproyecto=DB::selectOne('select resi_anteproyecto.estado_enviado proy from resi_anteproyecto where resi_anteproyecto.id_alumno= ? and resi_anteproyecto.id_periodo= ?', [$alumno, $periodo]);
         //$enviado_anteproyecto=$enviado_anteproyecto->proy;
         if($enviado_anteproyecto == null)
         {
@@ -60,7 +60,7 @@ WHERE resi_proyecto.id_proyecto=resi_anteproyecto.id_proyecto and resi_anteproye
         $nombre_proyecto = $request->input("nombre_proyecto");
         $nombre_proyecto= mb_strtoupper($nombre_proyecto, 'utf-8') ;
         $id_usuario = Session::get('usuario_alumno');
-        $datosalumno = DB::selectOne('select * FROM `gnral_alumnos` WHERE id_usuario=' . $id_usuario . '');
+        $datosalumno = DB::selectOne('select * FROM `gnral_alumnos` WHERE id_usuario= ?', [$id_usuario]);
         $alumno = $datosalumno->id_alumno;
         if($sin_proyecto == 0) {
             $numero = DB::selectOne('SELECT MAX(resi_proyecto.id_proyecto) numero FROM resi_proyecto');
@@ -83,8 +83,8 @@ WHERE resi_proyecto.id_proyecto=resi_anteproyecto.id_proyecto and resi_anteproye
         }
         $periodo = Session::get('periodo_actual');
         if($sin_proyecto == 1){
-            $alumno=DB::selectOne('SELECT * FROM resi_anteproyecto WHERE id_alumno ='.$alumno.' and id_periodo='.$periodo.'' );
-            DB::update("UPDATE resi_proyecto SET nom_proyecto ='$nombre_proyecto'  WHERE resi_proyecto.id_proyecto =$alumno->id_proyecto");
+            $alumno=DB::selectOne('SELECT * FROM resi_anteproyecto WHERE id_alumno = ? and id_periodo= ?', [$alumno, $periodo] );
+            DB::update('UPDATE resi_proyecto SET nom_proyecto =?  WHERE resi_proyecto.id_proyecto = ?', [(string) ($nombre_proyecto), $alumno->id_proyecto]);
         }
         return back();
     }

@@ -28,7 +28,7 @@ class PaaUnidadMedidaController extends Controller
         return back();
     }
     public function editar($id){
-        $unidad= DB::selectOne('SELECT * FROM pa_unimed WHERE id_unimed =  '.$id.'');
+        $unidad= DB::selectOne('SELECT * FROM pa_unimed WHERE id_unimed =  ?', [$id]);
         return response()->json($unidad);
     }
     public function  modificar(Request $request,$id){

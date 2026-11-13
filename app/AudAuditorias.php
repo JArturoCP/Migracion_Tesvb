@@ -29,6 +29,6 @@ class AudAuditorias extends Model
             ->get();
     }
     public static function getAuditores($id,$tipo){
-        return DB::select("SELECT av.titulo, p.nombre FROM aud_auditor_auditoria aa INNER JOIN aud_auditoria a on a.id_auditoria = aa.id_auditoria INNER JOIN aud_programa pr on pr.id_programa = a.id_programa INNER JOIN gnral_personales p on p.id_personal = aa.id_personal INNER JOIN abreviaciones_prof ap on ap.id_personal = p.id_personal INNER JOIN abreviaciones av on av.id_abreviacion = ap.id_abreviacion WHERE a.id_auditoria= ".$id." AND aa.id_categoria = ".$tipo." ORDER BY p.sexo, p.nombre");
+        return DB::select('SELECT av.titulo, p.nombre FROM aud_auditor_auditoria aa INNER JOIN aud_auditoria a on a.id_auditoria = aa.id_auditoria INNER JOIN aud_programa pr on pr.id_programa = a.id_programa INNER JOIN gnral_personales p on p.id_personal = aa.id_personal INNER JOIN abreviaciones_prof ap on ap.id_personal = p.id_personal INNER JOIN abreviaciones av on av.id_abreviacion = ap.id_abreviacion WHERE a.id_auditoria= ? AND aa.id_categoria = ? ORDER BY p.sexo, p.nombre', [$id, $tipo]);
     }
 }

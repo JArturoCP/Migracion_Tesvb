@@ -24,7 +24,7 @@ class OficiosRegistrarcomisionadosController extends Controller
         if($num==false)
         {
             $numer=1;
-            $oficios=DB::selectOne('SELECT oc_oficio.id_oficio,oc_oficio.fecha_salida,oc_oficio.fecha_regreso from oc_oficio WHERE oc_oficio.id_oficio='.$numeross.'');
+            $oficios=DB::selectOne('SELECT oc_oficio.id_oficio,oc_oficio.fecha_salida,oc_oficio.fecha_regreso from oc_oficio WHERE oc_oficio.id_oficio= ?', [$numeross]);
             $fecha_salida=$oficios->fecha_salida;
             $fecha_regreso=$oficios->fecha_regreso;
             DB:: table('oc_oficio_personal')->insert(['id_oficio_personal'=>$numer,'id_oficio'=>$numeross,'anio'=>$anio,'id_personal'=>$personal,'viaticos' =>$selectViatico,'automovil'=>$selectAutomovil,'no_oficio'=>0,'fecha_salida' => $fecha_salida,'fecha_regreso'=>$fecha_regreso]);
@@ -37,7 +37,7 @@ class OficiosRegistrarcomisionadosController extends Controller
         if($num==true)
         {
             $numer=$numero+1;
-            $oficios=DB::selectOne('SELECT oc_oficio.id_oficio,oc_oficio.fecha_salida,oc_oficio.fecha_regreso from oc_oficio WHERE oc_oficio.id_oficio='.$numeross.'');
+            $oficios=DB::selectOne('SELECT oc_oficio.id_oficio,oc_oficio.fecha_salida,oc_oficio.fecha_regreso from oc_oficio WHERE oc_oficio.id_oficio= ?', [$numeross]);
             $fecha_salida=$oficios->fecha_salida;
             $fecha_regreso=$oficios->fecha_regreso;
             DB:: table('oc_oficio_personal')->insert(['id_oficio_personal'=>$numer,'id_oficio'=>$numeross,'anio'=>$anio,'id_personal'=>$personal,'viaticos' =>$selectViatico,'automovil'=>$selectAutomovil,'no_oficio'=>0,'fecha_salida' => $fecha_salida,'fecha_regreso'=>$fecha_regreso]);
@@ -52,7 +52,7 @@ return back();
     }
     public function rediccionamiento(){
         $id_usuario = Session::get('usuario_alumno');
-        DB::delete('DELETE FROM oc_notificacion WHERE id_usuario='.$id_usuario.'');
+        DB::delete('DELETE FROM oc_notificacion WHERE id_usuario= ?', [$id_usuario]);
          return redirect('/oficios/registrosoficio');
     }
 }

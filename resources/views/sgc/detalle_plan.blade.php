@@ -49,7 +49,7 @@
                                             <div class="col-md-6">
                                                 <li class="list-group-item">
                                                     <div class="row">
-                                                        <span class="col-md-11">{{str_limit($criterio->getCriterio[0]->descripcion, $limit = 120, $end = '...')}}</span>
+                                                        <span class="col-md-11">{{\Illuminate\Support\Str::limit($criterio->getCriterio[0]->descripcion, $limit = 120, $end = '...')}}</span>
                                                         <a href="#" class="col-md-1 btn_delete_criterio" data-id="{{$criterio->id_normatividad_auditoria}}"><span aria-hidden="true" class="glyphicon glyphicon-trash" data-toggle="tooltip" title="Eliminar criterio"></span></a>
                                                     </div>
                                                 </li>

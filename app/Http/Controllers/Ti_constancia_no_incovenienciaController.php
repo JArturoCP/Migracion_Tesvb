@@ -44,11 +44,11 @@ class Ti_constancia_no_incovenienciaController extends Controller
         $mes=$mes[(date('m', strtotime($fechas))*1)-1];
         $fech= $num. ' de '.$mes.' del '.$ano;
 
-        $alumno=DB::selectOne('SELECT ti_reg_datos_alum.*,gnral_carreras.nombre carrera FROM ti_reg_datos_alum,gnral_carreras WHERE ti_reg_datos_alum.id_carrera = gnral_carreras.id_carrera and  ti_reg_datos_alum.id_alumno ='.$id_alumno.'');
+        $alumno=DB::selectOne('SELECT ti_reg_datos_alum.*,gnral_carreras.nombre carrera FROM ti_reg_datos_alum,gnral_carreras WHERE ti_reg_datos_alum.id_carrera = gnral_carreras.id_carrera and  ti_reg_datos_alum.id_alumno = ?', [$id_alumno]);
         $nombre_alumno=$alumno->nombre_al." ".$alumno->apaterno." ".$alumno->amaterno;
         $carrera=$alumno->carrera;
         $cuenta=$alumno->no_cuenta;
-        $opcion_titulacion=DB::selectOne('SELECT * FROM `ti_opciones_titulacion` WHERE `id_opcion_titulacion` ='.$alumno->id_opcion_titulacion.'');
+        $opcion_titulacion=DB::selectOne('SELECT * FROM `ti_opciones_titulacion` WHERE `id_opcion_titulacion` = ?', [$alumno->id_opcion_titulacion]);
         $opcion_titulacion=$opcion_titulacion->opcion_titulacion;
 
         $nombre_proyecto=$alumno->nom_proyecto;

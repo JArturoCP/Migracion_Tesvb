@@ -12,9 +12,9 @@ class Resi_Periodo_eval_anteproyectoController extends Controller
 {
     public function index(){
 
-        $periodo_anteproyectos=DB::select('SELECT resi_periodo_eval_anteproyecto.*, gnral_periodos.periodo FROM resi_periodo_eval_anteproyecto,gnral_periodos 
+        $periodo_anteproyectos=DB::select('SELECT resi_periodo_eval_anteproyecto.*, gnral_periodos.periodo FROM resi_periodo_eval_anteproyecto,gnral_periodos
         WHERE resi_periodo_eval_anteproyecto.id_periodo = gnral_periodos.id_periodo ORDER BY resi_periodo_eval_anteproyecto.fecha_inicio DESC ');
-        $periodo_activo=DB::selectOne('SELECT resi_periodo_eval_anteproyecto.*, gnral_periodos.periodo FROM resi_periodo_eval_anteproyecto,gnral_periodos 
+        $periodo_activo=DB::selectOne('SELECT resi_periodo_eval_anteproyecto.*, gnral_periodos.periodo FROM resi_periodo_eval_anteproyecto,gnral_periodos
         WHERE resi_periodo_eval_anteproyecto.id_periodo = gnral_periodos.id_periodo AND  resi_periodo_eval_anteproyecto.estado_periodo=1');
 
         return view('residencia.periodo_evaluacion_anteproyecto',compact('periodo_anteproyectos','periodo_activo'));
@@ -41,7 +41,7 @@ class Resi_Periodo_eval_anteproyectoController extends Controller
 
     }
     public function eliminar($id_periodos_evaluacion){
-        DB::delete('DELETE FROM resi_periodo_eval_anteproyecto WHERE id_periodo_eval_anteproyecto ='.$id_periodos_evaluacion.'');
+        DB::delete('DELETE FROM resi_periodo_eval_anteproyecto WHERE id_periodo_eval_anteproyecto = ?', [$id_periodos_evaluacion]);
         return back();
     }
     public function activar_periodo_anteproyecto(Request $request){

@@ -86,19 +86,19 @@ class In_pdf_carga_inglesController extends Controller
 
         $nombre_alumno=mb_strtoupper($datosalumno[0]->apaterno,'utf-8')." ".mb_strtoupper($datosalumno[0]->amaterno,'utf-8')." ".mb_strtoupper($datosalumno[0]->nombre,'utf-8');
 
-        $per_ingles=DB::selectOne('SELECT * FROM in_periodos WHERE id_periodo_ingles = '.$periodo_ingles.'');
+        $per_ingles=DB::selectOne('SELECT * FROM in_periodos WHERE id_periodo_ingles = ?', [$periodo_ingles]);
 
-        $horario_profesores=DB::select('SELECT * FROM in_hrs_horas_profesor WHERE id_grupo = '.$id_grupo.'
-         AND id_nivel = '.$id_nivel.' AND id_periodo = '.$periodo_ingles.'');
-        $grupo=DB::selectOne('SELECT * FROM `in_grupo_ingles` WHERE `id_grupo_ingles` = '.$id_grupo.'');
+        $horario_profesores=DB::select('SELECT * FROM in_hrs_horas_profesor WHERE id_grupo = ?
+         AND id_nivel = ? AND id_periodo = ?', [$id_grupo, $id_nivel, $periodo_ingles]);
+        $grupo=DB::selectOne('SELECT * FROM `in_grupo_ingles` WHERE `id_grupo_ingles` = ?', [$id_grupo]);
         $grupo=$grupo->descripcion;
 
 
         //dd($horario_profesores);
-        $id_profesor=DB::selectOne('SELECT * FROM `in_hrs_ingles_profesor` WHERE `id_grupo` = '.$id_grupo.'
-        AND `id_nivel` = '.$id_nivel.' AND `id_periodo` = '.$periodo_ingles.' ORDER BY `id_grupo` ASC');
+        $id_profesor=DB::selectOne('SELECT * FROM `in_hrs_ingles_profesor` WHERE `id_grupo` = ?
+        AND `id_nivel` = ? AND `id_periodo` = ? ORDER BY `id_grupo` ASC', [$id_grupo, $id_nivel, $periodo_ingles]);
         $id_profesor=$id_profesor->id_profesor;
-        $nombre_profesor=DB::selectOne('SELECT * FROM in_profesores_ingles WHERE id_profesores ='.$id_profesor.' ');
+        $nombre_profesor=DB::selectOne('SELECT * FROM in_profesores_ingles WHERE id_profesores = ? ', [$id_profesor]);
         $nombre_profesor=$nombre_profesor->nombre.' '.$nombre_profesor->apellido_paterno.' '.$nombre_profesor->apellido_materno;
 
         $array_horario_ing=array();
@@ -137,19 +137,19 @@ class In_pdf_carga_inglesController extends Controller
 
             array_push($array_ingles,$array_ing);
         }
-        $profesores_horario=DB::select('SELECT in_hrs_horas_profesor.id_semana,in_grupo_ingles.descripcion grupo,in_niveles_ingles.descripcion nivel 
-FROM in_hrs_horas_profesor,in_grupo_ingles,in_niveles_ingles WHERE 
+        $profesores_horario=DB::select('SELECT in_hrs_horas_profesor.id_semana,in_grupo_ingles.descripcion grupo,in_niveles_ingles.descripcion nivel
+FROM in_hrs_horas_profesor,in_grupo_ingles,in_niveles_ingles WHERE
 in_hrs_horas_profesor.id_grupo =in_grupo_ingles.id_grupo_ingles and
- in_hrs_horas_profesor.id_nivel=in_niveles_ingles.id_niveles_ingles AND 
- in_hrs_horas_profesor.id_nivel ='.$id_nivel.'  
-AND in_hrs_horas_profesor.id_periodo = '.$periodo_ingles.' 
-and in_hrs_horas_profesor.id_grupo='.$id_grupo.'
-  ORDER BY in_hrs_horas_profesor.id_semana ASC');
+ in_hrs_horas_profesor.id_nivel=in_niveles_ingles.id_niveles_ingles AND
+ in_hrs_horas_profesor.id_nivel = ?
+AND in_hrs_horas_profesor.id_periodo = ?
+and in_hrs_horas_profesor.id_grupo= ?
+  ORDER BY in_hrs_horas_profesor.id_semana ASC', [$id_nivel, $periodo_ingles, $id_grupo]);
         $tipo_curso = DB::selectOne('SELECT eva_tipo_curso.nombre_curso from
  in_carga_academica_ingles,eva_tipo_curso
-where in_carga_academica_ingles.estado_nivel=eva_tipo_curso.id_tipo_curso 
-and in_carga_academica_ingles.id_alumno=' .$datosalumno[0]->id_alumno . ' 
-and in_carga_academica_ingles.id_periodo_ingles=' .$periodo_ingles. '') ;
+where in_carga_academica_ingles.estado_nivel=eva_tipo_curso.id_tipo_curso
+and in_carga_academica_ingles.id_alumno= ?
+and in_carga_academica_ingles.id_periodo_ingles= ?', [$datosalumno[0]->id_alumno, $periodo_ingles]) ;
 ///dd($tipo_curso);
         // dd($array_ingles);
 //dd($id_nivel);

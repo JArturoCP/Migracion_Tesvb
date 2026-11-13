@@ -88,28 +88,28 @@ class Tu_Eva_pdf_graficaController extends Controller
                                     ON per.id_periodo = periodo.id_periodo
                                     INNER JOIN gnral_carreras carrera
                                     ON carrera.id_carrera = periodo.id_carrera
-                                    WHERE tutor.id_asigna_tutor =  '.$id_asigna_tutor.' ');
+                                    WHERE tutor.id_asigna_tutor =  ? ', [$id_asigna_tutor]);
 
        $datos = DB::selectOne('SELECT tu_grupo_s.id_grupo_semestre,car.nombre carrera, tu_grupo_t.descripcion grupo, gnral_p.nombre nombre_tutor,exp_asigna_t.id_asigna_tutor,
-                                ( (sum(gestion)*4)/ (COUNT(form.id_eva_resultado)*16) ) gestion , 
-                                ( (sum(actitud)*4)/ (COUNT(form.id_eva_resultado)*28) ) actitud, 
+                                ( (sum(gestion)*4)/ (COUNT(form.id_eva_resultado)*16) ) gestion ,
+                                ( (sum(actitud)*4)/ (COUNT(form.id_eva_resultado)*28) ) actitud,
                                 ( (sum(disponibilidad_confianza)*4)/(COUNT(form.id_eva_resultado)*20) ) disponibilidad_confianza,
                                 ( (sum(servicios_del_programa_de_tutoria)*4 )/( COUNT(form.id_eva_resultado)*24 ) )servicios_del_programa_de_tutoria,
                                 ( (sum(tus_logros_y_avances)*4 )/( COUNT(form.id_eva_resultado)*36 ) ) tus_logros_y_avances
                                 FROM tu_grupo_tutorias tu_grupo_t
                                 INNER JOIN tu_grupo_semestre tu_grupo_s
                                 ON tu_grupo_s.id_grupo_tutorias = tu_grupo_t.id_grupo_tutorias
-                                INNER JOIN exp_asigna_tutor exp_asigna_t 
+                                INNER JOIN exp_asigna_tutor exp_asigna_t
                                 ON exp_asigna_t.id_asigna_tutor = tu_grupo_s.id_asigna_tutor
-                                INNER JOIN gnral_personales gnral_p 
-                                ON gnral_p.id_personal = exp_asigna_t.id_personal 
-                                INNER JOIN gnral_jefes_periodos gnral_j 
+                                INNER JOIN gnral_personales gnral_p
+                                ON gnral_p.id_personal = exp_asigna_t.id_personal
+                                INNER JOIN gnral_jefes_periodos gnral_j
                                 ON gnral_j.id_jefe_periodo = exp_asigna_t.id_jefe_periodo
                                 INNER JOIN gnral_carreras car
                                 ON car.id_carrera = gnral_j.id_carrera
                                 INNER JOIN tu_eva_resultados_formulario form
                                 ON form.id_asigna_tutor=exp_asigna_t.id_asigna_tutor
-                                WHERE exp_asigna_t.id_asigna_tutor =  '.$id_asigna_tutor.'  ');
+                                WHERE exp_asigna_t.id_asigna_tutor =  ?  ', [$id_asigna_tutor]);
        //dd($datos);
        $promeio = ($datos->gestion + $datos->actitud + $datos->disponibilidad_confianza + $datos->servicios_del_programa_de_tutoria + $datos->tus_logros_y_avances)/5;
        //dd($promeio);

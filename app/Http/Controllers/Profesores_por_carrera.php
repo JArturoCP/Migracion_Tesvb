@@ -17,16 +17,16 @@ class Profesores_por_carrera extends Controller
         $carrera=Session::get('carrera');
         $periodo=Session::get('periodo_actual');
 
-        $profesores=DB::select('select DISTINCT(gnral_personales.nombre),gnral_personales.id_personal 
+        $profesores=DB::select('select DISTINCT(gnral_personales.nombre),gnral_personales.id_personal
                                 from gnral_personales, gnral_horarios,gnral_horas_profesores,gnral_periodos,
-                                gnral_periodo_carreras,gnral_carreras 
-                                where gnral_periodos.id_periodo='.$periodo.' and
-                                gnral_carreras.id_carrera='.$carrera.'
-                                and gnral_periodo_carreras.id_carrera=gnral_carreras.id_carrera 
-                                and gnral_periodo_carreras.id_periodo=gnral_periodos.id_periodo 
-                                and gnral_horarios.id_personal=gnral_personales.id_personal 
+                                gnral_periodo_carreras,gnral_carreras
+                                where gnral_periodos.id_periodo= ? and
+                                gnral_carreras.id_carrera= ?
+                                and gnral_periodo_carreras.id_carrera=gnral_carreras.id_carrera
+                                and gnral_periodo_carreras.id_periodo=gnral_periodos.id_periodo
+                                and gnral_horarios.id_personal=gnral_personales.id_personal
                                 and gnral_horarios.id_periodo_carrera=gnral_periodo_carreras.id_periodo_carrera and
-                                gnral_horas_profesores.id_horario_profesor=gnral_horarios.id_horario_profesor');
+                                gnral_horas_profesores.id_horario_profesor=gnral_horarios.id_horario_profesor', [$periodo, $carrera]);
 
 
         //$carreras=DB::select('select DISTINCT(carreras.nombre) from carreras, periodo_carrera,periodo WHERE periodo.id_periodo=13 and periodo_carrera.id_carrera=carreras.id_carreras and periodo_carrera.id_periodo=periodo_carrera.id_periodo');
@@ -46,7 +46,7 @@ class Profesores_por_carrera extends Controller
         //
     }
 
-   
+
 
     /**
      * Store a newly created resource in storage.

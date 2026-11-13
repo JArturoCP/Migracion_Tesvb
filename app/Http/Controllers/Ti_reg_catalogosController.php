@@ -36,7 +36,7 @@ class Ti_reg_catalogosController extends Controller
     public function agregar_numeros_titulos_domo(Request $request){
 
         $id_reg_domo = $request->input("id_reg_domo");
-        $reg_domo=DB::selectOne('SELECT * FROM `ti_reg_domo_titulos` WHERE `id_reg_domo` ='.$id_reg_domo.'');
+        $reg_domo=DB::selectOne('SELECT * FROM `ti_reg_domo_titulos` WHERE `id_reg_domo` = ?', [$id_reg_domo]);
         $numero_inicial=$reg_domo->numero_inicial;
         $numero_final=$reg_domo->numero_final;
         $abreviacion=$reg_domo->abreviacion;
@@ -61,10 +61,10 @@ class Ti_reg_catalogosController extends Controller
          return back();
     }
     public function consultar_domos_numeros_titulos($id_reg_domo){
-        $catalogo=DB::selectOne('SELECT * FROM `ti_reg_domo_titulos` WHERE `id_reg_domo` ='.$id_reg_domo.'');
+        $catalogo=DB::selectOne('SELECT * FROM `ti_reg_domo_titulos` WHERE `id_reg_domo` = ?', [$id_reg_domo]);
         $tipo_titulacion=DB::select('SELECT * FROM `ti_tipo_titulacion` ');
 
-        $titulos=DB::select('SELECT * FROM `ti_numeros_titulos` WHERE `id_reg_domo` ='.$catalogo->id_reg_domo.'');
+        $titulos=DB::select('SELECT * FROM `ti_numeros_titulos` WHERE `id_reg_domo` = ?', [$catalogo->id_reg_domo]);
 
         $array_titulos=array();
         foreach ($titulos as $titulo) {
@@ -83,7 +83,7 @@ class Ti_reg_catalogosController extends Controller
                 }
                 elseif($titulo->id_estado_numero_titulo == 1){
                   if($titulo->id_tipo_titulacion == 1){
-                      $datos_alumno=DB::selectOne('SELECT * FROM `ti_reg_datos_alum` WHERE `id_alumno` ='.$titulo->id_alumno.'');
+                      $datos_alumno=DB::selectOne('SELECT * FROM `ti_reg_datos_alum` WHERE `id_alumno` = ?', [$titulo->id_alumno]);
 
                       $dat['nombre_alumno']=$datos_alumno->nombre_al." ".$datos_alumno->apaterno." ".$datos_alumno->amaterno;
                       $dat['id_alumno']=$datos_alumno->id_alumno;
@@ -92,7 +92,7 @@ class Ti_reg_catalogosController extends Controller
                       $dat['estado_numero_titulo']="AUTORIZADO";
                       $dat['id_tipo_titulacion']=1;
                   }else{
-                      $dat_alumno=DB::selectOne('SELECT * FROM `gnral_alumnos` WHERE `id_alumno` ='.$titulo->id_alumno.'');
+                      $dat_alumno=DB::selectOne('SELECT * FROM `gnral_alumnos` WHERE `id_alumno` = ?', [$titulo->id_alumno]);
 
                       $dat['nombre_alumno']=$dat_alumno->nombre." ".$dat_alumno->apaterno." ".$dat_alumno->amaterno;
                       $dat['id_alumno']=$dat_alumno->id_alumno;
@@ -106,8 +106,8 @@ class Ti_reg_catalogosController extends Controller
                 elseif($titulo->id_estado_numero_titulo == 2 || $titulo->id_estado_numero_titulo == 3 || $titulo->id_estado_numero_titulo == 4
                 || $titulo->id_estado_numero_titulo == 5 || $titulo->id_estado_numero_titulo == 6  ){
                     if($titulo->id_tipo_titulacion == 1) {
-                        $datos_alumno = DB::selectOne('SELECT * FROM `ti_reg_datos_alum` WHERE `id_alumno` =' . $titulo->id_alumno . '');
-                        $estado_numero_titulo = DB::selectOne('SELECT * FROM `ti_estado_numeros_titulos` WHERE `id_estado_numero_titulo` =' . $titulo->id_estado_numero_titulo . '');
+                        $datos_alumno = DB::selectOne('SELECT * FROM `ti_reg_datos_alum` WHERE `id_alumno` = ?', [$titulo->id_alumno]);
+                        $estado_numero_titulo = DB::selectOne('SELECT * FROM `ti_estado_numeros_titulos` WHERE `id_estado_numero_titulo` = ?', [$titulo->id_estado_numero_titulo]);
                         $dat['nombre_alumno'] = $datos_alumno->nombre_al . " " . $datos_alumno->apaterno . " " . $datos_alumno->amaterno;
                         $dat['id_alumno'] = $datos_alumno->id_alumno;
                         $dat['comentario'] = $titulo->comentario;
@@ -115,8 +115,8 @@ class Ti_reg_catalogosController extends Controller
                         $dat['estado_numero_titulo'] = $estado_numero_titulo->estado_numero_titulo;
                         $dat['id_tipo_titulacion']=1;
                     }else{
-                        $dat_alumno=DB::selectOne('SELECT * FROM `gnral_alumnos` WHERE `id_alumno` ='.$titulo->id_alumno.'');
-                        $estado_numero_titulo = DB::selectOne('SELECT * FROM `ti_estado_numeros_titulos` WHERE `id_estado_numero_titulo` =' . $titulo->id_estado_numero_titulo . '');
+                        $dat_alumno=DB::selectOne('SELECT * FROM `gnral_alumnos` WHERE `id_alumno` = ?', [$titulo->id_alumno]);
+                        $estado_numero_titulo = DB::selectOne('SELECT * FROM `ti_estado_numeros_titulos` WHERE `id_estado_numero_titulo` = ?', [$titulo->id_estado_numero_titulo]);
                         $dat['nombre_alumno']=$dat_alumno->nombre." ".$dat_alumno->apaterno." ".$dat_alumno->amaterno;
                         $dat['id_alumno']=$dat_alumno->id_alumno;
                         $dat['comentario']="";
@@ -134,7 +134,7 @@ class Ti_reg_catalogosController extends Controller
         return view('titulacion.jefe_titulacion.catalogos_titulacion.ver_domos_titulacion',compact('array_titulos','catalogo'));
     }
     public function agregar_escuelas_preparatorias(){
-      $preparatorias = DB::select('SELECT ti_preparatatoria.*, ti_entidades_federativas.nom_entidad,ti_entidades_federativas.clave_entidad,ti_tipo_estudio_antecedente.tipo_estudio_antecedente,ti_tipo_estudio_antecedente.tipo_educativo_atecedente 
+      $preparatorias = DB::select('SELECT ti_preparatatoria.*, ti_entidades_federativas.nom_entidad,ti_entidades_federativas.clave_entidad,ti_tipo_estudio_antecedente.tipo_estudio_antecedente,ti_tipo_estudio_antecedente.tipo_educativo_atecedente
 from ti_preparatatoria, ti_entidades_federativas,ti_tipo_estudio_antecedente where ti_preparatatoria.id_entidad_federativa = ti_entidades_federativas.id_entidad_federativa  and ti_preparatatoria.id_tipo_estudio_antecedente = ti_tipo_estudio_antecedente.id_tipo_estudio_antecedente
 ORDER BY `ti_preparatatoria`.`preparatoria` ASC ');
 
@@ -158,7 +158,7 @@ ORDER BY `ti_preparatatoria`.`preparatoria` ASC ');
 
     }
     public function modificar_preparatoria($id_preparatoria){
-        $preparatoria=DB::selectOne('SELECT * FROM `ti_preparatatoria` WHERE `id_preparatoria` = '.$id_preparatoria.' ORDER BY `preparatoria` ASC ');
+        $preparatoria=DB::selectOne('SELECT * FROM `ti_preparatatoria` WHERE `id_preparatoria` = ? ORDER BY `preparatoria` ASC ', [$id_preparatoria]);
          //dd($preparatoria);
         $estados=DB::select('SELECT * FROM `ti_entidades_federativas` ');
         $tipo_estudio_antecedente = DB::select('SELECT * FROM `ti_tipo_estudio_antecedente` ');
@@ -184,19 +184,19 @@ ORDER BY `ti_preparatatoria`.`preparatoria` ASC ');
         return back();
     }
     public function estado_folio_titulo_editar($id_numero_titulo){
-        $datos_numero_titulos=DB::selectOne('SELECT ti_numeros_titulos.*,ti_tipo_titulacion.tipo_titulacion 
+        $datos_numero_titulos=DB::selectOne('SELECT ti_numeros_titulos.*,ti_tipo_titulacion.tipo_titulacion
         from ti_numeros_titulos, ti_tipo_titulacion WHERE ti_numeros_titulos.id_tipo_titulacion = ti_tipo_titulacion.id_tipo_titulacion
-        and ti_numeros_titulos.id_numero_titulo ='.$id_numero_titulo.'');
+        and ti_numeros_titulos.id_numero_titulo = ?', [$id_numero_titulo]);
         if($datos_numero_titulos->id_tipo_titulacion == 1){
             $reg =DB::selectOne('SELECT ti_numeros_titulos.id_alumno, ti_reg_datos_alum.no_cuenta,
-       ti_reg_datos_alum.nombre_al, ti_reg_datos_alum.apaterno, ti_reg_datos_alum.amaterno 
+       ti_reg_datos_alum.nombre_al, ti_reg_datos_alum.apaterno, ti_reg_datos_alum.amaterno
 from ti_numeros_titulos,ti_reg_datos_alum WHERE ti_numeros_titulos.id_alumno = ti_reg_datos_alum.id_alumno
-                                            and ti_numeros_titulos.id_numero_titulo = '.$id_numero_titulo.'');
+                                            and ti_numeros_titulos.id_numero_titulo = ?', [$id_numero_titulo]);
         }
         if($datos_numero_titulos->id_tipo_titulacion == 2){
-            $reg= DB::selectOne('SELECT gnral_alumnos.id_alumno, gnral_alumnos.cuenta no_cuenta, 
+            $reg= DB::selectOne('SELECT gnral_alumnos.id_alumno, gnral_alumnos.cuenta no_cuenta,
             gnral_alumnos.nombre nombre_al, gnral_alumnos.apaterno, gnral_alumnos.amaterno from ti_numeros_titulos, gnral_alumnos
-            WHERE ti_numeros_titulos.id_alumno = gnral_alumnos.id_alumno and ti_numeros_titulos.id_numero_titulo ='.$id_numero_titulo.'');
+            WHERE ti_numeros_titulos.id_alumno = gnral_alumnos.id_alumno and ti_numeros_titulos.id_numero_titulo = ?', [$id_numero_titulo]);
         }
 
 
@@ -213,19 +213,19 @@ from ti_numeros_titulos,ti_reg_datos_alum WHERE ti_numeros_titulos.id_alumno = t
         $id_numero_titulo = $request->input("id_numero_titulo");
         $comentario_modificacion= $request->input("comentario_modificacion");
 
-        $datos_numero_titulo=DB::selectOne('SELECT ti_numeros_titulos.*,ti_tipo_titulacion.tipo_titulacion 
+        $datos_numero_titulo=DB::selectOne('SELECT ti_numeros_titulos.*,ti_tipo_titulacion.tipo_titulacion
         from ti_numeros_titulos, ti_tipo_titulacion WHERE ti_numeros_titulos.id_tipo_titulacion = ti_tipo_titulacion.id_tipo_titulacion
-        and ti_numeros_titulos.id_numero_titulo ='.$id_numero_titulo.'');
+        and ti_numeros_titulos.id_numero_titulo = ?', [$id_numero_titulo]);
         if($datos_numero_titulo->id_tipo_titulacion == 1){
             $reg =DB::selectOne('SELECT ti_numeros_titulos.id_alumno, ti_reg_datos_alum.no_cuenta,
-       ti_reg_datos_alum.nombre_al, ti_reg_datos_alum.apaterno, ti_reg_datos_alum.amaterno 
+       ti_reg_datos_alum.nombre_al, ti_reg_datos_alum.apaterno, ti_reg_datos_alum.amaterno
 from ti_numeros_titulos,ti_reg_datos_alum WHERE ti_numeros_titulos.id_alumno = ti_reg_datos_alum.id_alumno
-                                            and ti_numeros_titulos.id_numero_titulo = '.$id_numero_titulo.'');
+                                            and ti_numeros_titulos.id_numero_titulo = ?', [$id_numero_titulo]);
         }
         if($datos_numero_titulo->id_tipo_titulacion == 2){
-            $reg= DB::selectOne('SELECT gnral_alumnos.id_alumno, gnral_alumnos.cuenta no_cuenta, 
+            $reg= DB::selectOne('SELECT gnral_alumnos.id_alumno, gnral_alumnos.cuenta no_cuenta,
             gnral_alumnos.nombre nombre_al, gnral_alumnos.apaterno, gnral_alumnos.amaterno from ti_numeros_titulos, gnral_alumnos
-            WHERE ti_numeros_titulos.id_alumno = gnral_alumnos.id_alumno and ti_numeros_titulos.id_numero_titulo ='.$id_numero_titulo.'');
+            WHERE ti_numeros_titulos.id_alumno = gnral_alumnos.id_alumno and ti_numeros_titulos.id_numero_titulo = ?', [$id_numero_titulo]);
         }
         if($estados == 0){
             if($datos_numero_titulo->id_tipo_titulacion == 1) {
@@ -266,21 +266,21 @@ from ti_numeros_titulos,ti_reg_datos_alum WHERE ti_numeros_titulos.id_alumno = t
         return back();
     }
     public function agregar_estudiante_folio_titulacion($id_numero_titulo){
-        $datos_folio=DB::selectOne('SELECT * FROM `ti_numeros_titulos` WHERE `id_numero_titulo` = '.$id_numero_titulo.' ORDER BY `abreviatura_folio_titulo` ASC ');
+        $datos_folio=DB::selectOne('SELECT * FROM `ti_numeros_titulos` WHERE `id_numero_titulo` = ? ORDER BY `abreviatura_folio_titulo` ASC ', [$id_numero_titulo]);
         $tipos_titulacion=DB::select('SELECT * FROM `ti_tipo_titulacion` ');
 
         $estudiantes_integrales=DB::select('SELECT ti_datos_alumno_reg_dep.id_alumno,ti_reg_datos_alum.no_cuenta,
-       ti_reg_datos_alum.nombre_al, ti_reg_datos_alum.apaterno, ti_reg_datos_alum.amaterno 
-FROM `ti_datos_alumno_reg_dep`, ti_reg_datos_alum WHERE ti_datos_alumno_reg_dep.id_numero_titulo = 0 
+       ti_reg_datos_alum.nombre_al, ti_reg_datos_alum.apaterno, ti_reg_datos_alum.amaterno
+FROM `ti_datos_alumno_reg_dep`, ti_reg_datos_alum WHERE ti_datos_alumno_reg_dep.id_numero_titulo = 0
     AND ti_datos_alumno_reg_dep.id_autorizacion in (3,4) and ti_reg_datos_alum.id_alumno = ti_datos_alumno_reg_dep.id_alumno
-ORDER BY `ti_reg_datos_alum`.`apaterno` ASC, 
+ORDER BY `ti_reg_datos_alum`.`apaterno` ASC,
         `ti_reg_datos_alum`.`amaterno` ASC, `ti_reg_datos_alum`.`nombre_al` ASC ');
 
 
 
         $alumnos=DB::select('SELECT gnral_alumnos.id_alumno,gnral_alumnos.cuenta,gnral_alumnos.nombre,gnral_alumnos.id_carrera, gnral_alumnos.apaterno,
-        gnral_alumnos.amaterno from gnral_alumnos where id_semestre > 8 and id_alumno not in(SELECT id_alumno 
-        from ti_numeros_titulos where id_estado_numero_titulo= 1) ORDER BY `gnral_alumnos`.`apaterno` ASC, 
+        gnral_alumnos.amaterno from gnral_alumnos where id_semestre > 8 and id_alumno not in(SELECT id_alumno
+        from ti_numeros_titulos where id_estado_numero_titulo= 1) ORDER BY `gnral_alumnos`.`apaterno` ASC,
         `gnral_alumnos`.`amaterno` ASC, `gnral_alumnos`.`nombre` ASC  ');
 
 
@@ -300,11 +300,11 @@ ORDER BY `ti_reg_datos_alum`.`apaterno` ASC,
 
     }
     public function agregar_estudiante_folio_titulacion1($id_numero_titulo){
-        $datos_folio=DB::selectOne('SELECT * FROM `ti_numeros_titulos` WHERE `id_numero_titulo` = '.$id_numero_titulo.' ORDER BY `abreviatura_folio_titulo` ASC ');
+        $datos_folio=DB::selectOne('SELECT * FROM `ti_numeros_titulos` WHERE `id_numero_titulo` = ? ORDER BY `abreviatura_folio_titulo` ASC ', [$id_numero_titulo]);
 
         $estudiantes=DB::select('SELECT ti_datos_alumno_reg_dep.*,ti_reg_datos_alum.no_cuenta,
-       ti_reg_datos_alum.nombre_al, ti_reg_datos_alum.apaterno, ti_reg_datos_alum.amaterno 
-FROM `ti_datos_alumno_reg_dep`, ti_reg_datos_alum WHERE ti_datos_alumno_reg_dep.id_numero_titulo = 0 
+       ti_reg_datos_alum.nombre_al, ti_reg_datos_alum.apaterno, ti_reg_datos_alum.amaterno
+FROM `ti_datos_alumno_reg_dep`, ti_reg_datos_alum WHERE ti_datos_alumno_reg_dep.id_numero_titulo = 0
     AND ti_datos_alumno_reg_dep.id_autorizacion = 4 and ti_reg_datos_alum.id_alumno = ti_datos_alumno_reg_dep.id_alumno ');
 
         return view('titulacion.jefe_titulacion.catalogos_titulacion.agregar_estudiante_folio_titulo',compact('datos_folio','estudiantes'));
@@ -316,7 +316,7 @@ FROM `ti_datos_alumno_reg_dep`, ti_reg_datos_alum WHERE ti_datos_alumno_reg_dep.
         $id_tipo_titulacion = $request->input("id_tipo_titulacion");
         if($id_tipo_titulacion == 1){
             $id_alumno_integral = $request->input("id_alumno_integral");
-            $reg_alumno=DB::selectOne('SELECT * FROM `ti_datos_alumno_reg_dep` WHERE `id_alumno` ='.$id_alumno_integral.'');
+            $reg_alumno=DB::selectOne('SELECT * FROM `ti_datos_alumno_reg_dep` WHERE `id_alumno` = ?', [$id_alumno_integral]);
             $hoy = date("Y-m-d H:i:s");
             DB::table('ti_numeros_titulos')
                 ->where('id_numero_titulo', $id_numero_titulo)
@@ -348,8 +348,8 @@ FROM `ti_datos_alumno_reg_dep`, ti_reg_datos_alum WHERE ti_datos_alumno_reg_dep.
         return back();
     }
     public function editar_folio_titulo($id_numero_titulo){
-        $folio_titulo=DB::selectOne('SELECT * FROM `ti_numeros_titulos` 
-WHERE `id_numero_titulo` = '.$id_numero_titulo.' ORDER BY `abreviatura_folio_titulo` ASC ');
+        $folio_titulo=DB::selectOne('SELECT * FROM `ti_numeros_titulos`
+WHERE `id_numero_titulo` = ? ORDER BY `abreviatura_folio_titulo` ASC ', [$id_numero_titulo]);
         return view('titulacion.jefe_titulacion.catalogos_titulacion.editar_folio_titulacion',compact('folio_titulo'));
 
     }

@@ -9,15 +9,15 @@ use Session;
 
 class CreditosSemestresController extends Controller
 {
-  
+
     public function index()
 
     {
         $usuario = Session::get('usuario');
-        
-        $historial_creditos=DB::select("select actividades_complementarias.descripcion ac,actividades_complementarias.creditos cre,gnral_semestres.descripcion semestre,abreviaciones.titulo,gnral_personales.nombre docente,
+
+        $historial_creditos=DB::select('select actividades_complementarias.descripcion ac,actividades_complementarias.creditos cre,gnral_semestres.descripcion semestre,abreviaciones.titulo,gnral_personales.nombre docente,
                                         ROUND(AVG(actcomple_evaluaciones.calificacion)) promedio
-                                        from actividades_complementarias,gnral_alumnos,gnral_personales,gnral_semestres,actcomple_registro_alumnos,actcomple_evidencias_alumno,actcomple_evaluaciones,                                        
+                                        from actividades_complementarias,gnral_alumnos,gnral_personales,gnral_semestres,actcomple_registro_alumnos,actcomple_evidencias_alumno,actcomple_evaluaciones,
                                         actcomple_docente_actividad,abreviaciones,abreviaciones_prof
                                         where actividades_complementarias.id_actividad_comple=actcomple_docente_actividad.id_actividad_comple
                                         and actcomple_docente_actividad.id_docente_actividad=actcomple_registro_alumnos.id_docente_actividad
@@ -28,9 +28,9 @@ class CreditosSemestresController extends Controller
                                         and actcomple_registro_alumnos.id_semestre=gnral_semestres.id_semestre
                                         and actcomple_evidencias_alumno.id_registro_alumno=actcomple_registro_alumnos.id_registro_alumno
                                         and actcomple_evidencias_alumno.id_evidencia_alumno=actcomple_evaluaciones.id_evidencia_alumno
-                                        and gnral_alumnos.cuenta='$usuario'
+                                        and gnral_alumnos.cuenta=?
                                         and actcomple_evaluaciones.estado=1
-                                        group by ac,cre,semestre,docente,promedio,abreviaciones.titulo");
+                                        group by ac,cre,semestre,docente,promedio,abreviaciones.titulo', [(string) ($usuario)]);
         return view('actividades_complementarias.alumnos.creditos_semestres',compact('historial_creditos'));
     }
 

@@ -81,31 +81,31 @@ class PDF_Tutorias_PdfReporteSemetralCController extends FPDF
 class Tutorias_PdfReporteSemetralCController extends Controller
 {
     public function pdf_reportesemcarrera($id_asigna_coordinador)
-    {      
+    {
      $carrera= DB::selectOne('SELECT exp_asigna_coordinador.*, gnral_jefes_periodos.id_carrera,
      gnral_jefes_periodos.id_periodo,
-      gnral_carreras.nombre from exp_asigna_coordinador, gnral_jefes_periodos, gnral_carreras 
-     WHERE exp_asigna_coordinador.id_jefe_periodo = gnral_jefes_periodos.id_jefe_periodo 
-     and gnral_jefes_periodos.id_carrera = gnral_carreras.id_carrera and 
-     exp_asigna_coordinador.id_asigna_coordinador ='.$id_asigna_coordinador.'');
+      gnral_carreras.nombre from exp_asigna_coordinador, gnral_jefes_periodos, gnral_carreras
+     WHERE exp_asigna_coordinador.id_jefe_periodo = gnral_jefes_periodos.id_jefe_periodo
+     and gnral_jefes_periodos.id_carrera = gnral_carreras.id_carrera and
+     exp_asigna_coordinador.id_asigna_coordinador = ?', [$id_asigna_coordinador]);
 
      $personal = DB::selectOne('SELECT abreviaciones.titulo, gnral_personales.nombre
  FROM abreviaciones, abreviaciones_prof, gnral_personales, exp_asigna_coordinador
  WHERE abreviaciones.id_abreviacion = abreviaciones_prof.id_abreviacion
  AND abreviaciones_prof.id_personal = gnral_personales.id_personal
  And gnral_personales.id_personal = exp_asigna_coordinador.id_personal
- AND exp_asigna_coordinador.id_asigna_coordinador = '.$id_asigna_coordinador.'');
+ AND exp_asigna_coordinador.id_asigna_coordinador = ?', [$id_asigna_coordinador]);
 
         $fecha = DB::select('select Date_format(now(),"%d/%m/%Y") as fecha');
-     
+
         $id_periodo = Session::get('periodo_actual');
-        $periodo=DB::selectOne('SELECT periodo from gnral_periodos where id_periodo='.$id_periodo.'');
+        $periodo=DB::selectOne('SELECT periodo from gnral_periodos where id_periodo= ?', [$id_periodo]);
         $id_c = $carrera->id_carrera;
-        
-       $jefe_periodo=DB::selectOne('SELECT * FROM `gnral_jefes_periodos` 
-WHERE `id_carrera` = '.$carrera->id_carrera.' AND `id_periodo` = '.$id_periodo.' ');
-  
-        $jefedivision=DB::select('SELECT abreviaciones.titulo,gnral_personales.nombre FROM gnral_personales, exp_asigna_coordinador, 
+
+       $jefe_periodo=DB::selectOne('SELECT * FROM `gnral_jefes_periodos`
+WHERE `id_carrera` = ? AND `id_periodo` = ? ', [$carrera->id_carrera, $id_periodo]);
+
+        $jefedivision=DB::select('SELECT abreviaciones.titulo,gnral_personales.nombre FROM gnral_personales, exp_asigna_coordinador,
                                   gnral_jefes_periodos, gnral_carreras,abreviaciones,abreviaciones_prof
                                   WHERE gnral_jefes_periodos.id_personal=gnral_personales.id_personal
                                   AND gnral_jefes_periodos.id_jefe_periodo=exp_asigna_coordinador.id_jefe_periodo
@@ -113,9 +113,9 @@ WHERE `id_carrera` = '.$carrera->id_carrera.' AND `id_periodo` = '.$id_periodo.'
                                   AND exp_asigna_coordinador.deleted_at is null
                                   AND abreviaciones.id_abreviacion= abreviaciones_prof.id_abreviacion
                                   AND abreviaciones_prof.id_personal=gnral_personales.id_personal
-                                  AND gnral_jefes_periodos.id_carrera='.$carrera->id_carrera);
+                                  AND gnral_jefes_periodos.id_carrera= ?', [$carrera->id_carrera]);
 
-        $coorcarrera=DB::select('SELECT abreviaciones.titulo,gnral_personales.nombre 
+        $coorcarrera=DB::select('SELECT abreviaciones.titulo,gnral_personales.nombre
                                  FROM gnral_personales, exp_asigna_coordinador, gnral_jefes_periodos, gnral_carreras
                                  ,abreviaciones,abreviaciones_prof
                                  WHERE exp_asigna_coordinador.id_personal=gnral_personales.id_personal
@@ -124,11 +124,11 @@ WHERE `id_carrera` = '.$carrera->id_carrera.' AND `id_periodo` = '.$id_periodo.'
                                  AND exp_asigna_coordinador.deleted_at is null
                                  AND abreviaciones.id_abreviacion= abreviaciones_prof.id_abreviacion
                                  AND abreviaciones_prof.id_personal=gnral_personales.id_personal
-                                 AND gnral_jefes_periodos.id_carrera='.$carrera->id_carrera.'
-                                 AND gnral_jefes_periodos.id_periodo='.$id_periodo.'
-                                 ');
+                                 AND gnral_jefes_periodos.id_carrera= ?
+                                 AND gnral_jefes_periodos.id_periodo= ?
+                                 ', [$carrera->id_carrera, $id_periodo]);
 
-        $coorinst=DB::select('SELECT abreviaciones.titulo,gnral_personales.nombre 
+        $coorinst=DB::select('SELECT abreviaciones.titulo,gnral_personales.nombre
                               FROM gnral_personales,desarrollo_asigna_coordinador_general,abreviaciones,abreviaciones_prof
                               WHERE gnral_personales.id_personal=desarrollo_asigna_coordinador_general.id_personal
                               AND abreviaciones.id_abreviacion= abreviaciones_prof.id_abreviacion
@@ -183,27 +183,27 @@ WHERE `id_carrera` = '.$carrera->id_carrera.' AND `id_periodo` = '.$id_periodo.'
         $pdf->ln();
         $pdf->SetDrawColor(010, 010, 010);
         $pdf->SetFont('Arial', 'B', 5);
-        
+
         /*Totales*/
         $periodo=Session::get('periodo_actual');
         $id_usuario = Session::get('usuario_alumno');
         $ca = $id_c;
 
         $tutores = DB::SELECT('SELECT exp_asigna_t.id_asigna_generacion,tu_grupo_s.id_grupo_semestre,
-        car.nombre carrera, car.id_carrera, tu_grupo_t.descripcion grupo, gnral_p.nombre nombre_tutor, 
+        car.nombre carrera, car.id_carrera, tu_grupo_t.descripcion grupo, gnral_p.nombre nombre_tutor,
         gnral_p.tipo_usuario tipo FROM tu_grupo_tutorias tu_grupo_t
                               INNER JOIN tu_grupo_semestre tu_grupo_s
                               ON tu_grupo_s.id_grupo_tutorias = tu_grupo_t.id_grupo_tutorias
-                              INNER JOIN exp_asigna_tutor exp_asigna_t 
+                              INNER JOIN exp_asigna_tutor exp_asigna_t
                               ON exp_asigna_t.id_asigna_tutor = tu_grupo_s.id_asigna_tutor
-                              INNER JOIN gnral_personales gnral_p 
-                              ON gnral_p.id_personal = exp_asigna_t.id_personal 
-                              INNER JOIN gnral_jefes_periodos gnral_j 
+                              INNER JOIN gnral_personales gnral_p
+                              ON gnral_p.id_personal = exp_asigna_t.id_personal
+                              INNER JOIN gnral_jefes_periodos gnral_j
                               ON gnral_j.id_jefe_periodo = exp_asigna_t.id_jefe_periodo
                               INNER JOIN gnral_carreras car
                               ON car.id_carrera = gnral_j.id_carrera
-                              WHERE gnral_j.id_periodo = '.$periodo.' AND car.id_carrera = '.$ca.' ');
-        
+                              WHERE gnral_j.id_periodo = ? AND car.id_carrera = ? ', [$periodo, $ca]);
+
        $grupal = 0;
        $individual = 0;
        $beca = 0;
@@ -217,187 +217,187 @@ WHERE `id_carrera` = '.$carrera->id_carrera.' AND `id_periodo` = '.$id_periodo.'
        $j=1;
 
         foreach ($tutores as $tutor) {
-          
+
         $tut_grupal=DB::select('SELECT COUNT(reporte_tutor.tutoria_grupal) as tutoria_grupal
                               FROM exp_asigna_tutor,exp_asigna_generacion,exp_asigna_alumnos,gnral_alumnos,exp_generales,exp_generacion,
-                                   reporte_tutor 
-                              WHERE exp_asigna_tutor.id_asigna_generacion=exp_asigna_generacion.id_asigna_generacion 
-                              AND exp_asigna_alumnos.id_asigna_generacion=exp_asigna_generacion.id_asigna_generacion 
-                              AND exp_asigna_alumnos.id_asigna_generacion=exp_asigna_tutor.id_asigna_generacion 
-                              AND exp_asigna_alumnos.id_alumno=gnral_alumnos.id_alumno 
+                                   reporte_tutor
+                              WHERE exp_asigna_tutor.id_asigna_generacion=exp_asigna_generacion.id_asigna_generacion
+                              AND exp_asigna_alumnos.id_asigna_generacion=exp_asigna_generacion.id_asigna_generacion
+                              AND exp_asigna_alumnos.id_asigna_generacion=exp_asigna_tutor.id_asigna_generacion
+                              AND exp_asigna_alumnos.id_alumno=gnral_alumnos.id_alumno
                               AND gnral_alumnos.cuenta=exp_generales.no_cuenta
                               AND exp_generacion.id_generacion=exp_asigna_generacion.id_generacion
                               AND exp_asigna_alumnos.id_asigna_generacion=exp_asigna_generacion.id_asigna_generacion
                               AND exp_asigna_alumnos.id_asigna_generacion=exp_asigna_tutor.id_asigna_generacion
                               AND reporte_tutor.id_asigna_generacion=exp_asigna_tutor.id_asigna_generacion
                               AND reporte_tutor.n_cuenta=gnral_alumnos.cuenta
-                              AND exp_asigna_tutor.deleted_at is null 
-                              AND exp_asigna_generacion.deleted_at is null 
-                              AND exp_asigna_alumnos.deleted_at is null 
+                              AND exp_asigna_tutor.deleted_at is null
+                              AND exp_asigna_generacion.deleted_at is null
+                              AND exp_asigna_alumnos.deleted_at is null
                               AND reporte_tutor.tutoria_grupal="Si"
-                              AND reporte_tutor.id_asigna_generacion='.$tutor->id_asigna_generacion);
+                              AND reporte_tutor.id_asigna_generacion= ?', [$tutor->id_asigna_generacion]);
         $grupal = $grupal + $tut_grupal[0]->tutoria_grupal;
 
         $tut_ind=DB::select('SELECT COUNT(reporte_tutor.tutoria_individual) as tutoria_individual
                               FROM exp_asigna_tutor,exp_asigna_generacion,exp_asigna_alumnos,gnral_alumnos,exp_generales,exp_generacion,
-                                   reporte_tutor 
-                              WHERE exp_asigna_tutor.id_asigna_generacion=exp_asigna_generacion.id_asigna_generacion 
-                              AND exp_asigna_alumnos.id_asigna_generacion=exp_asigna_generacion.id_asigna_generacion 
-                              AND exp_asigna_alumnos.id_asigna_generacion=exp_asigna_tutor.id_asigna_generacion 
-                              AND exp_asigna_alumnos.id_alumno=gnral_alumnos.id_alumno 
+                                   reporte_tutor
+                              WHERE exp_asigna_tutor.id_asigna_generacion=exp_asigna_generacion.id_asigna_generacion
+                              AND exp_asigna_alumnos.id_asigna_generacion=exp_asigna_generacion.id_asigna_generacion
+                              AND exp_asigna_alumnos.id_asigna_generacion=exp_asigna_tutor.id_asigna_generacion
+                              AND exp_asigna_alumnos.id_alumno=gnral_alumnos.id_alumno
                               AND gnral_alumnos.cuenta=exp_generales.no_cuenta
                               AND exp_generacion.id_generacion=exp_asigna_generacion.id_generacion
                               AND exp_asigna_alumnos.id_asigna_generacion=exp_asigna_generacion.id_asigna_generacion
                               AND exp_asigna_alumnos.id_asigna_generacion=exp_asigna_tutor.id_asigna_generacion
                               AND reporte_tutor.id_asigna_generacion=exp_asigna_tutor.id_asigna_generacion
                               AND reporte_tutor.n_cuenta=gnral_alumnos.cuenta
-                              AND exp_asigna_tutor.deleted_at is null 
-                              AND exp_asigna_generacion.deleted_at is null 
-                              AND exp_asigna_alumnos.deleted_at is null 
+                              AND exp_asigna_tutor.deleted_at is null
+                              AND exp_asigna_generacion.deleted_at is null
+                              AND exp_asigna_alumnos.deleted_at is null
                               AND reporte_tutor.tutoria_individual="Si"
-                              AND reporte_tutor.id_asigna_generacion='.$tutor->id_asigna_generacion);
+                              AND reporte_tutor.id_asigna_generacion= ?', [$tutor->id_asigna_generacion]);
         $individual = $individual + $tut_ind[0]->tutoria_individual;
 
         $bec=DB::select('SELECT COUNT(reporte_tutor.beca) as beca
                               FROM exp_asigna_tutor,exp_asigna_generacion,exp_asigna_alumnos,gnral_alumnos,exp_generales,exp_generacion,
-                                   reporte_tutor 
-                              WHERE exp_asigna_tutor.id_asigna_generacion=exp_asigna_generacion.id_asigna_generacion 
-                              AND exp_asigna_alumnos.id_asigna_generacion=exp_asigna_generacion.id_asigna_generacion 
-                              AND exp_asigna_alumnos.id_asigna_generacion=exp_asigna_tutor.id_asigna_generacion 
-                              AND exp_asigna_alumnos.id_alumno=gnral_alumnos.id_alumno 
+                                   reporte_tutor
+                              WHERE exp_asigna_tutor.id_asigna_generacion=exp_asigna_generacion.id_asigna_generacion
+                              AND exp_asigna_alumnos.id_asigna_generacion=exp_asigna_generacion.id_asigna_generacion
+                              AND exp_asigna_alumnos.id_asigna_generacion=exp_asigna_tutor.id_asigna_generacion
+                              AND exp_asigna_alumnos.id_alumno=gnral_alumnos.id_alumno
                               AND gnral_alumnos.cuenta=exp_generales.no_cuenta
                               AND exp_generacion.id_generacion=exp_asigna_generacion.id_generacion
                               AND exp_asigna_alumnos.id_asigna_generacion=exp_asigna_generacion.id_asigna_generacion
                               AND exp_asigna_alumnos.id_asigna_generacion=exp_asigna_tutor.id_asigna_generacion
                               AND reporte_tutor.id_asigna_generacion=exp_asigna_tutor.id_asigna_generacion
                               AND reporte_tutor.n_cuenta=gnral_alumnos.cuenta
-                              AND exp_asigna_tutor.deleted_at is null 
-                              AND exp_asigna_generacion.deleted_at is null 
-                              AND exp_asigna_alumnos.deleted_at is null 
+                              AND exp_asigna_tutor.deleted_at is null
+                              AND exp_asigna_generacion.deleted_at is null
+                              AND exp_asigna_alumnos.deleted_at is null
                               AND reporte_tutor.beca=1
-                              AND reporte_tutor.id_asigna_generacion='.$tutor->id_asigna_generacion);
+                              AND reporte_tutor.id_asigna_generacion= ?', [$tutor->id_asigna_generacion]);
         $beca = $beca + $bec[0]->beca;
 
         $rep=DB::select('SELECT COUNT(reporte_tutor.repeticion) as repeticion
                               FROM exp_asigna_tutor,exp_asigna_generacion,exp_asigna_alumnos,gnral_alumnos,exp_generales,exp_generacion,
-                                   reporte_tutor 
-                              WHERE exp_asigna_tutor.id_asigna_generacion=exp_asigna_generacion.id_asigna_generacion 
-                              AND exp_asigna_alumnos.id_asigna_generacion=exp_asigna_generacion.id_asigna_generacion 
-                              AND exp_asigna_alumnos.id_asigna_generacion=exp_asigna_tutor.id_asigna_generacion 
-                              AND exp_asigna_alumnos.id_alumno=gnral_alumnos.id_alumno 
+                                   reporte_tutor
+                              WHERE exp_asigna_tutor.id_asigna_generacion=exp_asigna_generacion.id_asigna_generacion
+                              AND exp_asigna_alumnos.id_asigna_generacion=exp_asigna_generacion.id_asigna_generacion
+                              AND exp_asigna_alumnos.id_asigna_generacion=exp_asigna_tutor.id_asigna_generacion
+                              AND exp_asigna_alumnos.id_alumno=gnral_alumnos.id_alumno
                               AND gnral_alumnos.cuenta=exp_generales.no_cuenta
                               AND exp_generacion.id_generacion=exp_asigna_generacion.id_generacion
                               AND exp_asigna_alumnos.id_asigna_generacion=exp_asigna_generacion.id_asigna_generacion
                               AND exp_asigna_alumnos.id_asigna_generacion=exp_asigna_tutor.id_asigna_generacion
                               AND reporte_tutor.id_asigna_generacion=exp_asigna_tutor.id_asigna_generacion
                               AND reporte_tutor.n_cuenta=gnral_alumnos.cuenta
-                              AND exp_asigna_tutor.deleted_at is null 
-                              AND exp_asigna_generacion.deleted_at is null 
-                              AND exp_asigna_alumnos.deleted_at is null 
+                              AND exp_asigna_tutor.deleted_at is null
+                              AND exp_asigna_generacion.deleted_at is null
+                              AND exp_asigna_alumnos.deleted_at is null
                               AND reporte_tutor.repeticion = 1
-                              AND reporte_tutor.id_asigna_generacion='.$tutor->id_asigna_generacion);
+                              AND reporte_tutor.id_asigna_generacion= ?', [$tutor->id_asigna_generacion]);
         $repeticion = $repeticion + $rep[0]->repeticion;
-        
+
         $esp=DB::select('SELECT COUNT(reporte_tutor.especial) as especial
                               FROM exp_asigna_tutor,exp_asigna_generacion,exp_asigna_alumnos,gnral_alumnos,exp_generales,exp_generacion,
-                                   reporte_tutor 
-                              WHERE exp_asigna_tutor.id_asigna_generacion=exp_asigna_generacion.id_asigna_generacion 
-                              AND exp_asigna_alumnos.id_asigna_generacion=exp_asigna_generacion.id_asigna_generacion 
-                              AND exp_asigna_alumnos.id_asigna_generacion=exp_asigna_tutor.id_asigna_generacion 
-                              AND exp_asigna_alumnos.id_alumno=gnral_alumnos.id_alumno 
+                                   reporte_tutor
+                              WHERE exp_asigna_tutor.id_asigna_generacion=exp_asigna_generacion.id_asigna_generacion
+                              AND exp_asigna_alumnos.id_asigna_generacion=exp_asigna_generacion.id_asigna_generacion
+                              AND exp_asigna_alumnos.id_asigna_generacion=exp_asigna_tutor.id_asigna_generacion
+                              AND exp_asigna_alumnos.id_alumno=gnral_alumnos.id_alumno
                               AND gnral_alumnos.cuenta=exp_generales.no_cuenta
                               AND exp_generacion.id_generacion=exp_asigna_generacion.id_generacion
                               AND exp_asigna_alumnos.id_asigna_generacion=exp_asigna_generacion.id_asigna_generacion
                               AND exp_asigna_alumnos.id_asigna_generacion=exp_asigna_tutor.id_asigna_generacion
                               AND reporte_tutor.id_asigna_generacion=exp_asigna_tutor.id_asigna_generacion
                               AND reporte_tutor.n_cuenta=gnral_alumnos.cuenta
-                              AND exp_asigna_tutor.deleted_at is null 
-                              AND exp_asigna_generacion.deleted_at is null 
-                              AND exp_asigna_alumnos.deleted_at is null 
+                              AND exp_asigna_tutor.deleted_at is null
+                              AND exp_asigna_generacion.deleted_at is null
+                              AND exp_asigna_alumnos.deleted_at is null
                               AND reporte_tutor.especial = 1
-                              AND reporte_tutor.id_asigna_generacion='.$tutor->id_asigna_generacion);
+                              AND reporte_tutor.id_asigna_generacion= ?', [$tutor->id_asigna_generacion]);
         $especialidad = $especialidad + $esp[0]->especial;
-        
+
         $acad=DB::select('SELECT COUNT(reporte_tutor.academico) as academico
                               FROM exp_asigna_tutor,exp_asigna_generacion,exp_asigna_alumnos,gnral_alumnos,exp_generales,exp_generacion,
-                                   reporte_tutor 
-                              WHERE exp_asigna_tutor.id_asigna_generacion=exp_asigna_generacion.id_asigna_generacion 
-                              AND exp_asigna_alumnos.id_asigna_generacion=exp_asigna_generacion.id_asigna_generacion 
-                              AND exp_asigna_alumnos.id_asigna_generacion=exp_asigna_tutor.id_asigna_generacion 
-                              AND exp_asigna_alumnos.id_alumno=gnral_alumnos.id_alumno 
+                                   reporte_tutor
+                              WHERE exp_asigna_tutor.id_asigna_generacion=exp_asigna_generacion.id_asigna_generacion
+                              AND exp_asigna_alumnos.id_asigna_generacion=exp_asigna_generacion.id_asigna_generacion
+                              AND exp_asigna_alumnos.id_asigna_generacion=exp_asigna_tutor.id_asigna_generacion
+                              AND exp_asigna_alumnos.id_alumno=gnral_alumnos.id_alumno
                               AND gnral_alumnos.cuenta=exp_generales.no_cuenta
                               AND exp_generacion.id_generacion=exp_asigna_generacion.id_generacion
                               AND exp_asigna_alumnos.id_asigna_generacion=exp_asigna_generacion.id_asigna_generacion
                               AND exp_asigna_alumnos.id_asigna_generacion=exp_asigna_tutor.id_asigna_generacion
                               AND reporte_tutor.id_asigna_generacion=exp_asigna_tutor.id_asigna_generacion
                               AND reporte_tutor.n_cuenta=gnral_alumnos.cuenta
-                              AND exp_asigna_tutor.deleted_at is null 
-                              AND exp_asigna_generacion.deleted_at is null 
-                              AND exp_asigna_alumnos.deleted_at is null 
+                              AND exp_asigna_tutor.deleted_at is null
+                              AND exp_asigna_generacion.deleted_at is null
+                              AND exp_asigna_alumnos.deleted_at is null
                               AND reporte_tutor.academico = "Si"
-                              AND reporte_tutor.id_asigna_generacion='.$tutor->id_asigna_generacion);
+                              AND reporte_tutor.id_asigna_generacion= ?', [$tutor->id_asigna_generacion]);
         $academico = $academico + $acad[0]->academico;
 
         $med=DB::select('SELECT COUNT(reporte_tutor.medico) as medico
                               FROM exp_asigna_tutor,exp_asigna_generacion,exp_asigna_alumnos,gnral_alumnos,exp_generales,exp_generacion,
-                                   reporte_tutor 
-                              WHERE exp_asigna_tutor.id_asigna_generacion=exp_asigna_generacion.id_asigna_generacion 
-                              AND exp_asigna_alumnos.id_asigna_generacion=exp_asigna_generacion.id_asigna_generacion 
-                              AND exp_asigna_alumnos.id_asigna_generacion=exp_asigna_tutor.id_asigna_generacion 
-                              AND exp_asigna_alumnos.id_alumno=gnral_alumnos.id_alumno 
+                                   reporte_tutor
+                              WHERE exp_asigna_tutor.id_asigna_generacion=exp_asigna_generacion.id_asigna_generacion
+                              AND exp_asigna_alumnos.id_asigna_generacion=exp_asigna_generacion.id_asigna_generacion
+                              AND exp_asigna_alumnos.id_asigna_generacion=exp_asigna_tutor.id_asigna_generacion
+                              AND exp_asigna_alumnos.id_alumno=gnral_alumnos.id_alumno
                               AND gnral_alumnos.cuenta=exp_generales.no_cuenta
                               AND exp_generacion.id_generacion=exp_asigna_generacion.id_generacion
                               AND exp_asigna_alumnos.id_asigna_generacion=exp_asigna_generacion.id_asigna_generacion
                               AND exp_asigna_alumnos.id_asigna_generacion=exp_asigna_tutor.id_asigna_generacion
                               AND reporte_tutor.id_asigna_generacion=exp_asigna_tutor.id_asigna_generacion
                               AND reporte_tutor.n_cuenta=gnral_alumnos.cuenta
-                              AND exp_asigna_tutor.deleted_at is null 
-                              AND exp_asigna_generacion.deleted_at is null 
-                              AND exp_asigna_alumnos.deleted_at is null 
+                              AND exp_asigna_tutor.deleted_at is null
+                              AND exp_asigna_generacion.deleted_at is null
+                              AND exp_asigna_alumnos.deleted_at is null
                               AND reporte_tutor.medico = "Si"
-                              AND reporte_tutor.id_asigna_generacion='.$tutor->id_asigna_generacion);
+                              AND reporte_tutor.id_asigna_generacion= ?', [$tutor->id_asigna_generacion]);
         $medico = $medico + $med[0]->medico;
 
         $psi=DB::select('SELECT COUNT(reporte_tutor.psicologico) as psicologico
                               FROM exp_asigna_tutor,exp_asigna_generacion,exp_asigna_alumnos,gnral_alumnos,exp_generales,exp_generacion,
-                                   reporte_tutor 
-                              WHERE exp_asigna_tutor.id_asigna_generacion=exp_asigna_generacion.id_asigna_generacion 
-                              AND exp_asigna_alumnos.id_asigna_generacion=exp_asigna_generacion.id_asigna_generacion 
-                              AND exp_asigna_alumnos.id_asigna_generacion=exp_asigna_tutor.id_asigna_generacion 
-                              AND exp_asigna_alumnos.id_alumno=gnral_alumnos.id_alumno 
+                                   reporte_tutor
+                              WHERE exp_asigna_tutor.id_asigna_generacion=exp_asigna_generacion.id_asigna_generacion
+                              AND exp_asigna_alumnos.id_asigna_generacion=exp_asigna_generacion.id_asigna_generacion
+                              AND exp_asigna_alumnos.id_asigna_generacion=exp_asigna_tutor.id_asigna_generacion
+                              AND exp_asigna_alumnos.id_alumno=gnral_alumnos.id_alumno
                               AND gnral_alumnos.cuenta=exp_generales.no_cuenta
                               AND exp_generacion.id_generacion=exp_asigna_generacion.id_generacion
                               AND exp_asigna_alumnos.id_asigna_generacion=exp_asigna_generacion.id_asigna_generacion
                               AND exp_asigna_alumnos.id_asigna_generacion=exp_asigna_tutor.id_asigna_generacion
                               AND reporte_tutor.id_asigna_generacion=exp_asigna_tutor.id_asigna_generacion
                               AND reporte_tutor.n_cuenta=gnral_alumnos.cuenta
-                              AND exp_asigna_tutor.deleted_at is null 
-                              AND exp_asigna_generacion.deleted_at is null 
-                              AND exp_asigna_alumnos.deleted_at is null 
+                              AND exp_asigna_tutor.deleted_at is null
+                              AND exp_asigna_generacion.deleted_at is null
+                              AND exp_asigna_alumnos.deleted_at is null
                               AND reporte_tutor.psicologico = "Si"
-                              AND reporte_tutor.id_asigna_generacion='.$tutor->id_asigna_generacion);
+                              AND reporte_tutor.id_asigna_generacion= ?', [$tutor->id_asigna_generacion]);
         $psicologico = $psicologico + $psi[0]->psicologico;
 
         $baj=DB::select('SELECT COUNT(reporte_tutor.baja) as baja
                               FROM exp_asigna_tutor,exp_asigna_generacion,exp_asigna_alumnos,gnral_alumnos,exp_generales,exp_generacion,
-                                   reporte_tutor 
-                              WHERE exp_asigna_tutor.id_asigna_generacion=exp_asigna_generacion.id_asigna_generacion 
-                              AND exp_asigna_alumnos.id_asigna_generacion=exp_asigna_generacion.id_asigna_generacion 
-                              AND exp_asigna_alumnos.id_asigna_generacion=exp_asigna_tutor.id_asigna_generacion 
-                              AND exp_asigna_alumnos.id_alumno=gnral_alumnos.id_alumno 
+                                   reporte_tutor
+                              WHERE exp_asigna_tutor.id_asigna_generacion=exp_asigna_generacion.id_asigna_generacion
+                              AND exp_asigna_alumnos.id_asigna_generacion=exp_asigna_generacion.id_asigna_generacion
+                              AND exp_asigna_alumnos.id_asigna_generacion=exp_asigna_tutor.id_asigna_generacion
+                              AND exp_asigna_alumnos.id_alumno=gnral_alumnos.id_alumno
                               AND gnral_alumnos.cuenta=exp_generales.no_cuenta
                               AND exp_generacion.id_generacion=exp_asigna_generacion.id_generacion
                               AND exp_asigna_alumnos.id_asigna_generacion=exp_asigna_generacion.id_asigna_generacion
                               AND exp_asigna_alumnos.id_asigna_generacion=exp_asigna_tutor.id_asigna_generacion
                               AND reporte_tutor.id_asigna_generacion=exp_asigna_tutor.id_asigna_generacion
                               AND reporte_tutor.n_cuenta=gnral_alumnos.cuenta
-                              AND exp_asigna_tutor.deleted_at is null 
-                              AND exp_asigna_generacion.deleted_at is null 
-                              AND exp_asigna_alumnos.deleted_at is null 
+                              AND exp_asigna_tutor.deleted_at is null
+                              AND exp_asigna_generacion.deleted_at is null
+                              AND exp_asigna_alumnos.deleted_at is null
                               AND reporte_tutor.baja > 1
-                              AND reporte_tutor.id_asigna_generacion='.$tutor->id_asigna_generacion);
+                              AND reporte_tutor.id_asigna_generacion= ?', [$tutor->id_asigna_generacion]);
         $baja = $baja + $baj[0]->baja;
-   
+
         $pdf->Cell(7, 4, "" . utf8_decode($i++), 1, 0, "C");
         $pdf->Cell(45, 4, utf8_decode($tutor->nombre_tutor), 1, 0, "L");
         $pdf->Cell(15, 4, utf8_decode($tutor->grupo), 1, 0, "C");
@@ -412,15 +412,15 @@ WHERE `id_carrera` = '.$carrera->id_carrera.' AND `id_periodo` = '.$id_periodo.'
         $pdf->Cell(10, 4, utf8_decode($baj[0]->baja), 1, 0, "C");
         $pdf->Cell(12, 4, utf8_decode($tut_grupal[0]->tutoria_grupal), 1, 0, "C");
        // dd($tutor);
-        $contar=DB::selectOne("SELECT count(id_repcarrera) contar FROM rep_carrera WHERE observaciones!= '' AND id_asigna_generacion =$tutor->id_asigna_generacion");
+        $contar=DB::selectOne('SELECT count(id_repcarrera) contar FROM rep_carrera WHERE observaciones!= \'\' AND id_asigna_generacion = ?', [$tutor->id_asigna_generacion]);
         $contar=$contar->contar;
         if($contar==0){
           $pdf->Cell(18, 4,  utf8_decode("") , 1, 1, "C");
         }else{
           $pdf->Cell(18, 4,  utf8_decode("Nota ".$j++) , 1, 1, "C");
         }
-       
-        
+
+
     }
     $pdf->Cell(7, 4, "Total", 1, 0, "C");
     $pdf->Cell(45, 4, "", 1, 0, "L");
@@ -436,26 +436,26 @@ WHERE `id_carrera` = '.$carrera->id_carrera.' AND `id_periodo` = '.$id_periodo.'
     $pdf->Cell(10, 4, $baja, 1, 0, "C");
     $pdf->Cell(12, 4, $grupal, 1, 0, "C");
     $pdf->Cell(18, 4, "" , 1, 0, "C");
-        
-    
+
+
     /*Firmas*/
 
     $pdf->ln(10);
-    $pdf->Cell(20, 4, "OBSERVACIONES" , 0, 0, "C");    
-    $pdf->ln(4); 
-    $i=1; 
-    
+    $pdf->Cell(20, 4, "OBSERVACIONES" , 0, 0, "C");
+    $pdf->ln(4);
+    $i=1;
+
    foreach($tutores as $tutor){
-     $contar=DB::selectOne("SELECT count(id_repcarrera) contar FROM rep_carrera WHERE observaciones!= '' AND id_asigna_generacion =$tutor->id_asigna_generacion");
+     $contar=DB::selectOne('SELECT count(id_repcarrera) contar FROM rep_carrera WHERE observaciones!= \'\' AND id_asigna_generacion = ?', [$tutor->id_asigna_generacion]);
         $contar=$contar->contar;
      if($contar == 0){
-          //$pdf->Cell(190, 5,utf8_decode("Nota ".$i++),0, 1, "L");  
+          //$pdf->Cell(190, 5,utf8_decode("Nota ".$i++),0, 1, "L");
      }else{
-          $observacion=DB::selectOne('SELECT * FROM `rep_carrera` WHERE `id_asigna_generacion` ='.$tutor->id_asigna_generacion.'');
-          $pdf->Cell(190, 5,  utf8_decode("Nota ".$i++.": ".$observacion->observaciones ),1, 1, "L");  
+          $observacion=DB::selectOne('SELECT * FROM `rep_carrera` WHERE `id_asigna_generacion` = ?', [$tutor->id_asigna_generacion]);
+          $pdf->Cell(190, 5,  utf8_decode("Nota ".$i++.": ".$observacion->observaciones ),1, 1, "L");
      }
-    }   
-    
+    }
+
 
         $pdf->ln(10);
         $pdf->Cell(5, 4);
@@ -496,7 +496,7 @@ WHERE `id_carrera` = '.$carrera->id_carrera.' AND `id_periodo` = '.$id_periodo.'
         $pdf->Cell(45, 4, "", 0, 0, "C");
         $pdf->ln(10);
         $pdf->Output();
-        exit();  
+        exit();
     }
 }
 

@@ -27,17 +27,17 @@ class Dual_Mentor_Calificaciones extends Controller
         }else{
             $periodo_activo=0;
         }
-        $mentores_duales = DB::selectOne('SELECT gnral_personales.id_personal FROM gnral_personales WHERE gnral_personales.id_personal = gnral_personales.id_personal AND gnral_personales.tipo_usuario = '.$usuario.' ');
+        $mentores_duales = DB::selectOne('SELECT gnral_personales.id_personal FROM gnral_personales WHERE gnral_personales.id_personal = gnral_personales.id_personal AND gnral_personales.tipo_usuario = ? ', [$usuario]);
 
         /*$datos_registros = DB::select('SELECT eva_validacion_de_cargas.id, eva_validacion_de_cargas.id_alumno,gnral_alumnos.cuenta,gnral_alumnos.nombre, gnral_alumnos.apaterno,gnral_alumnos.amaterno,gnral_personales.nombre as profesor,abreviaciones.titulo, cal_duales_actuales.*
-        FROM cal_duales_actuales, gnral_personales, gnral_alumnos, abreviaciones_prof, abreviaciones,eva_validacion_de_cargas 
-        WHERE gnral_alumnos.id_alumno = cal_duales_actuales.id_alumno 
-          AND cal_duales_actuales.id_personal = gnral_personales.id_personal 
-          AND gnral_personales.id_personal = abreviaciones_prof.id_personal 
-          AND abreviaciones_prof.id_abreviacion 
-          AND abreviaciones_prof.id_abreviacion = abreviaciones.id_abreviacion 
-          AND cal_duales_actuales.id_periodo = '.$id_periodo.' 
-          AND gnral_personales.id_personal = '.$mentores_duales->id_personal.' 
+        FROM cal_duales_actuales, gnral_personales, gnral_alumnos, abreviaciones_prof, abreviaciones,eva_validacion_de_cargas
+        WHERE gnral_alumnos.id_alumno = cal_duales_actuales.id_alumno
+          AND cal_duales_actuales.id_personal = gnral_personales.id_personal
+          AND gnral_personales.id_personal = abreviaciones_prof.id_personal
+          AND abreviaciones_prof.id_abreviacion
+          AND abreviaciones_prof.id_abreviacion = abreviaciones.id_abreviacion
+          AND cal_duales_actuales.id_periodo = '.$id_periodo.'
+          AND gnral_personales.id_personal = '.$mentores_duales->id_personal.'
           AND  cal_duales_actuales.id_periodo = eva_validacion_de_cargas.id_periodo
           AND cal_duales_actuales.id_alumno = eva_validacion_de_cargas.id_alumno');*/
 
@@ -56,11 +56,11 @@ class Dual_Mentor_Calificaciones extends Controller
         JOIN abreviaciones_prof ON gnral_personales.id_personal = abreviaciones_prof.id_personal
         JOIN abreviaciones ON abreviaciones_prof.id_abreviacion = abreviaciones.id_abreviacion
         JOIN eva_validacion_de_cargas ON cal_duales_actuales.id_alumno = eva_validacion_de_cargas.id_alumno
-        WHERE cal_duales_actuales.id_periodo = '.$id_periodo.' 
-        AND gnral_personales.id_personal = '.$mentores_duales->id_personal.'
+        WHERE cal_duales_actuales.id_periodo = ?
+        AND gnral_personales.id_personal = ?
         AND cal_duales_actuales.id_periodo = eva_validacion_de_cargas.id_periodo
         AND cal_duales_actuales.id_alumno = eva_validacion_de_cargas.id_alumno
-        GROUP BY eva_validacion_de_cargas.id_alumno;');
+        GROUP BY eva_validacion_de_cargas.id_alumno;', [$id_periodo, $mentores_duales->id_personal]);
 
 
         return view("duales.Mentor_Dual_Calificar.calificar_duales",compact('datos_registros','mentores_duales'));

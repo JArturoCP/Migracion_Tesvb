@@ -95,13 +95,13 @@ class Tutorias_PlaneacionPDFController extends Controller
             ->select('nombre')
             ->where('id_carrera', '=', $request->id_carrera)
             ->get();
-        $profesor=DB::select('SELECT abreviaciones.titulo, gnral_personales.nombre 
+        $profesor=DB::select('SELECT abreviaciones.titulo, gnral_personales.nombre
                                 FROM gnral_personales,abreviaciones,abreviaciones_prof
                                 WHERE gnral_personales.id_personal=abreviaciones_prof.id_personal
                                 AND abreviaciones_prof.id_abreviacion=abreviaciones.id_abreviacion
-                                AND gnral_personales.tipo_usuario ='.Auth::user()->id);
+                                AND gnral_personales.tipo_usuario = ?', [Auth::user()->id]);
 
-        $coorcarrera=DB::select('SELECT abreviaciones.titulo,gnral_personales.nombre 
+        $coorcarrera=DB::select('SELECT abreviaciones.titulo,gnral_personales.nombre
                                         FROM gnral_personales, exp_asigna_coordinador, gnral_jefes_periodos, gnral_carreras,
                                              abreviaciones,abreviaciones_prof
                                         WHERE gnral_personales.id_personal=abreviaciones_prof.id_personal
@@ -110,11 +110,11 @@ class Tutorias_PlaneacionPDFController extends Controller
                                          AND exp_asigna_coordinador.id_jefe_periodo=gnral_jefes_periodos.id_jefe_periodo
                                          AND gnral_jefes_periodos.id_carrera=gnral_carreras.id_carrera
                                          AND exp_asigna_coordinador.deleted_at is null
-                                         AND gnral_jefes_periodos.id_carrera= '.$request->id_carrera.'
-                                        AND  gnral_jefes_periodos.id_periodo='.Session::get('periodo_actual'));
+                                         AND gnral_jefes_periodos.id_carrera= ?
+                                        AND  gnral_jefes_periodos.id_periodo= ?', [$request->id_carrera, Session::get('periodo_actual')]);
         // dd($coorcarrera);
 
-        $jefedivision=DB::select('SELECT gnral_personales.nombre,abreviaciones.titulo FROM gnral_personales, exp_asigna_coordinador, 
+        $jefedivision=DB::select('SELECT gnral_personales.nombre,abreviaciones.titulo FROM gnral_personales, exp_asigna_coordinador,
                                     gnral_jefes_periodos, gnral_carreras,abreviaciones_prof,abreviaciones
                                         WHERE gnral_jefes_periodos.id_personal=gnral_personales.id_personal
                                         and gnral_jefes_periodos.id_jefe_periodo=exp_asigna_coordinador.id_jefe_periodo
@@ -122,9 +122,9 @@ class Tutorias_PlaneacionPDFController extends Controller
                                         and abreviaciones.id_abreviacion=abreviaciones_prof.id_abreviacion
                                         and gnral_personales.id_personal=abreviaciones_prof.id_personal
                                         and exp_asigna_coordinador.deleted_at is null
-                                        AND gnral_jefes_periodos.id_carrera='.$request->id_carrera);
+                                        AND gnral_jefes_periodos.id_carrera= ?', [$request->id_carrera]);
 
-        $desarrollo=DB::select('SELECT abreviaciones.titulo,gnral_personales.nombre FROM 
+        $desarrollo=DB::select('SELECT abreviaciones.titulo,gnral_personales.nombre FROM
                                         gnral_personales, gnral_departamentos, abreviaciones, abreviaciones_prof
                                         WHERE gnral_departamentos.id_departamento=4
                                         AND gnral_personales.id_departamento=gnral_departamentos.id_departamento
@@ -135,9 +135,9 @@ class Tutorias_PlaneacionPDFController extends Controller
                     plan_actividades.ff_actividad, plan_asigna_planeacion_tutor.estrategia,plan_asigna_planeacion_tutor.id_asigna_planeacion_tutor, exp_asigna_tutor.id_asigna_tutor, exp_asigna_tutor.id_asigna_generacion
                     FROM plan_actividades, plan_asigna_planeacion_tutor,plan_asigna_planeacion_actividad,exp_asigna_generacion,exp_asigna_tutor
                     WHERE plan_asigna_planeacion_actividad.id_plan_actividad=plan_actividades.id_plan_actividad
-                   
+
                     AND plan_asigna_planeacion_tutor.id_asigna_planeacion_actividad=plan_asigna_planeacion_actividad.id_asigna_planeacion_actividad
-                   
+
                     AND exp_asigna_tutor.id_asigna_generacion=exp_asigna_generacion.id_asigna_generacion
                     AND exp_asigna_tutor.id_asigna_generacion=plan_asigna_planeacion_tutor.id_asigna_generacion
                     AND exp_asigna_tutor.deleted_at IS null
@@ -145,17 +145,17 @@ class Tutorias_PlaneacionPDFController extends Controller
                     AND plan_actividades.deleted_at IS null');
 
 */
-        $perio=DB::select('SELECT periodo from gnral_periodos where id_periodo='.Session::get('periodo_actual').'');
+        $perio=DB::select('SELECT periodo from gnral_periodos where id_periodo= ?', [Session::get('periodo_actual')]);
         $consulta=DB::select('SELECT plan_actividades.desc_actividad,plan_actividades.objetivo_actividad,
        plan_actividades.fi_actividad, plan_actividades.ff_actividad, plan_asigna_planeacion_tutor.estrategia,
-       plan_asigna_planeacion_tutor.id_asigna_planeacion_tutor, exp_asigna_tutor.id_asigna_tutor, 
+       plan_asigna_planeacion_tutor.id_asigna_planeacion_tutor, exp_asigna_tutor.id_asigna_tutor,
        exp_asigna_tutor.id_asigna_generacion FROM plan_actividades, plan_asigna_planeacion_tutor,
                                                   exp_asigna_generacion,exp_asigna_tutor WHERE
-        plan_asigna_planeacion_tutor.id_plan_actividad=plan_actividades.id_plan_actividad AND 
+        plan_asigna_planeacion_tutor.id_plan_actividad=plan_actividades.id_plan_actividad AND
         exp_asigna_tutor.id_asigna_generacion=exp_asigna_generacion.id_asigna_generacion AND
             exp_asigna_tutor.id_asigna_generacion=plan_asigna_planeacion_tutor.id_asigna_generacion
-            AND exp_asigna_tutor.deleted_at IS null AND exp_asigna_tutor.id_asigna_generacion='.$request->id_asigna_generacion.'
-            AND plan_actividades.deleted_at IS null and plan_asigna_planeacion_tutor.boton=1 ORDER by plan_actividades.fi_actividad asc,plan_actividades.ff_actividad asc');
+            AND exp_asigna_tutor.deleted_at IS null AND exp_asigna_tutor.id_asigna_generacion= ?
+            AND plan_actividades.deleted_at IS null and plan_asigna_planeacion_tutor.boton=1 ORDER by plan_actividades.fi_actividad asc,plan_actividades.ff_actividad asc', [$request->id_asigna_generacion]);
 
         //$pdf= new \Codedge\Fpdf\Fpdf\Fpdf();
         // $pdf->AddPage();

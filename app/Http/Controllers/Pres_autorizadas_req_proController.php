@@ -13,9 +13,9 @@ class Pres_autorizadas_req_proController extends Controller
         $year = $year+1;
 
 
-        $registro_proyectos=DB::select('SELECT pres_presupuesto_anteproyecto.*, pres_proyectos.nombre_proyecto 
+        $registro_proyectos=DB::select('SELECT pres_presupuesto_anteproyecto.*, pres_proyectos.nombre_proyecto
         from pres_presupuesto_anteproyecto, pres_proyectos WHERE pres_presupuesto_anteproyecto.id_proyecto = pres_proyectos.id_proyecto
-        and pres_presupuesto_anteproyecto.year='.$year.' ORDER BY pres_proyectos.nombre_proyecto ASC');
+        and pres_presupuesto_anteproyecto.year= ? ORDER BY pres_proyectos.nombre_proyecto ASC', [$year]);
         return view('departamento_finanzas.jefe_finanazas.requisiciones_autorizadas_pro.inicio_req_aut_proy',compact('year','registro_proyectos'));
 
     }
@@ -23,26 +23,26 @@ class Pres_autorizadas_req_proController extends Controller
         $year = date('Y');
         $year = $year+1;
        $proyecto= DB::selectOne('SELECT pres_presupuesto_anteproyecto.*,pres_proyectos.nombre_proyecto from pres_presupuesto_anteproyecto, pres_proyectos
-       WHERE pres_presupuesto_anteproyecto.id_proyecto = pres_proyectos.id_proyecto and pres_presupuesto_anteproyecto.id_presupuesto ='.$id_presupuesto.' ');
+       WHERE pres_presupuesto_anteproyecto.id_proyecto = pres_proyectos.id_proyecto and pres_presupuesto_anteproyecto.id_presupuesto = ? ', [$id_presupuesto]);
 
 
        ///presupuesto del proyecto del anteproyecto
-       $presupuesto_ante_proy=DB::select('SELECT pres_fuentes_financiamiento.*, pres_capitulos.capitulo from 
-       pres_fuentes_financiamiento, pres_capitulos where pres_fuentes_financiamiento.id_capitulo = pres_capitulos.id_capitulo 
-        and pres_fuentes_financiamiento.id_presupuesto_ante = '.$id_presupuesto.' ORDER BY `pres_fuentes_financiamiento`.`id_capitulo` ASC');
+       $presupuesto_ante_proy=DB::select('SELECT pres_fuentes_financiamiento.*, pres_capitulos.capitulo from
+       pres_fuentes_financiamiento, pres_capitulos where pres_fuentes_financiamiento.id_capitulo = pres_capitulos.id_capitulo
+        and pres_fuentes_financiamiento.id_presupuesto_ante = ? ORDER BY `pres_fuentes_financiamiento`.`id_capitulo` ASC', [$id_presupuesto]);
 
 
 
 /////////777///////7
-        $presupuesto_proyecto=DB::select('SELECT *  FROM `pres_fuentes_financiamiento` 
-        WHERE `id_presupuesto_ante` = '.$id_presupuesto.'  and total_presupuesto >0 
-        ORDER BY `pres_fuentes_financiamiento`.`id_capitulo` ASC');
+        $presupuesto_proyecto=DB::select('SELECT *  FROM `pres_fuentes_financiamiento`
+        WHERE `id_presupuesto_ante` = ?  and total_presupuesto >0
+        ORDER BY `pres_fuentes_financiamiento`.`id_capitulo` ASC', [$id_presupuesto]);
 
         $array_capitulos=array();
         $suma_total_capitulo=0;
        foreach($presupuesto_proyecto as $presupuesto){
 
-           $contar_partida=DB::selectOne('SELECT count(id_partida_pres)contar from pres_partida_pres WHERE id_capitulo ='.$presupuesto->id_capitulo.'');
+           $contar_partida=DB::selectOne('SELECT count(id_partida_pres)contar from pres_partida_pres WHERE id_capitulo = ?', [$presupuesto->id_capitulo]);
 
            if($contar_partida->contar == 0){
 
@@ -59,8 +59,8 @@ class Pres_autorizadas_req_proController extends Controller
                $dat_cap['financiamiento_propios']=$presupuesto->financiamiento_propios;
                $dat_cap['total_financiamiento']=$presupuesto->total_financiamiento;
 
-               $partidas=DB::select('SELECT pres_partida_pres.* from pres_partida_pres 
-               WHERE id_capitulo = '.$presupuesto->id_capitulo.' ORDER BY `clave_presupuestal` ASC');
+               $partidas=DB::select('SELECT pres_partida_pres.* from pres_partida_pres
+               WHERE id_capitulo = ? ORDER BY `clave_presupuestal` ASC', [$presupuesto->id_capitulo]);
 
 
                $array_partidas=array();
@@ -77,14 +77,14 @@ class Pres_autorizadas_req_proController extends Controller
                        $dat_meses['id_mes']=$mes->id_mes;
                        $dat_meses['mes']=$mes->mes;
                        $requisiciones=DB::select('SELECT pres_actividades_req_ante.* from pres_actividades_req_ante,
-                       pres_req_mat_ante where pres_actividades_req_ante.id_proyecto = '.$proyecto->id_proyecto.' and pres_actividades_req_ante.id_partida_pres = '.$partida->id_partida_pres.' 
-                       and pres_actividades_req_ante.id_mes  = '.$mes->id_mes.' and pres_actividades_req_ante.id_autorizacion= 4
-                        and pres_req_mat_ante.id_req_mat_ante = pres_actividades_req_ante.id_req_mat_ante and  pres_req_mat_ante.year_requisicion= '.$proyecto->year.' ');
+                       pres_req_mat_ante where pres_actividades_req_ante.id_proyecto = ? and pres_actividades_req_ante.id_partida_pres = ?
+                       and pres_actividades_req_ante.id_mes  = ? and pres_actividades_req_ante.id_autorizacion= 4
+                        and pres_req_mat_ante.id_req_mat_ante = pres_actividades_req_ante.id_req_mat_ante and  pres_req_mat_ante.year_requisicion= ? ', [$proyecto->id_proyecto, $partida->id_partida_pres, $mes->id_mes, $proyecto->year]);
 
                         $suma_req1=0;
                         $array_req=array();
                            foreach ($requisiciones as $requisicion){
-                                $suma_req=DB::selectOne('SELECT SUM(importe) suma_material from pres_reg_material_req_ante WHERE id_actividades_req_ante = '.$requisicion->id_actividades_req_ante.'');
+                                $suma_req=DB::selectOne('SELECT SUM(importe) suma_material from pres_reg_material_req_ante WHERE id_actividades_req_ante = ?', [$requisicion->id_actividades_req_ante]);
 
                                 if($suma_req== null ){
                                     $dat_req['id_actividades_req_ante']=$requisicion->id_actividades_req_ante;
@@ -133,26 +133,26 @@ class Pres_autorizadas_req_proController extends Controller
         $year = date('Y');
         $year = $year+1;
         $proyecto= DB::selectOne('SELECT pres_presupuesto_anteproyecto.*,pres_proyectos.nombre_proyecto from pres_presupuesto_anteproyecto, pres_proyectos
-       WHERE pres_presupuesto_anteproyecto.id_proyecto = pres_proyectos.id_proyecto and pres_presupuesto_anteproyecto.id_presupuesto ='.$id_presupuesto.' ');
+       WHERE pres_presupuesto_anteproyecto.id_proyecto = pres_proyectos.id_proyecto and pres_presupuesto_anteproyecto.id_presupuesto = ? ', [$id_presupuesto]);
 
 
         ///presupuesto del proyecto del anteproyecto
-        $presupuesto_ante_proy=DB::select('SELECT pres_fuentes_financiamiento.*, pres_capitulos.capitulo from 
-       pres_fuentes_financiamiento, pres_capitulos where pres_fuentes_financiamiento.id_capitulo = pres_capitulos.id_capitulo 
-        and pres_fuentes_financiamiento.id_presupuesto_ante = '.$id_presupuesto.' ORDER BY `pres_fuentes_financiamiento`.`id_capitulo` ASC');
+        $presupuesto_ante_proy=DB::select('SELECT pres_fuentes_financiamiento.*, pres_capitulos.capitulo from
+       pres_fuentes_financiamiento, pres_capitulos where pres_fuentes_financiamiento.id_capitulo = pres_capitulos.id_capitulo
+        and pres_fuentes_financiamiento.id_presupuesto_ante = ? ORDER BY `pres_fuentes_financiamiento`.`id_capitulo` ASC', [$id_presupuesto]);
 
 
 
 /////////777///////7
-        $presupuesto_proyecto=DB::select('SELECT *  FROM `pres_fuentes_financiamiento` 
-        WHERE `id_presupuesto_ante` = '.$id_presupuesto.'  and total_presupuesto >0 
-        ORDER BY `pres_fuentes_financiamiento`.`id_capitulo` ASC');
+        $presupuesto_proyecto=DB::select('SELECT *  FROM `pres_fuentes_financiamiento`
+        WHERE `id_presupuesto_ante` = ?  and total_presupuesto >0
+        ORDER BY `pres_fuentes_financiamiento`.`id_capitulo` ASC', [$id_presupuesto]);
 
         $array_capitulos=array();
         $suma_total_capitulo=0;
         foreach($presupuesto_proyecto as $presupuesto){
 
-            $contar_partida=DB::selectOne('SELECT count(id_partida_pres)contar from pres_partida_pres WHERE id_capitulo ='.$presupuesto->id_capitulo.'');
+            $contar_partida=DB::selectOne('SELECT count(id_partida_pres)contar from pres_partida_pres WHERE id_capitulo = ?', [$presupuesto->id_capitulo]);
 
             if($contar_partida->contar == 0){
 
@@ -169,8 +169,8 @@ class Pres_autorizadas_req_proController extends Controller
                 $dat_cap['financiamiento_propios']=$presupuesto->financiamiento_propios;
                 $dat_cap['total_financiamiento']=$presupuesto->total_financiamiento;
 
-                $partidas=DB::select('SELECT pres_partida_pres.* from pres_partida_pres 
-               WHERE id_capitulo = '.$presupuesto->id_capitulo.' ORDER BY `clave_presupuestal` ASC');
+                $partidas=DB::select('SELECT pres_partida_pres.* from pres_partida_pres
+               WHERE id_capitulo = ? ORDER BY `clave_presupuestal` ASC', [$presupuesto->id_capitulo]);
 
 
                 $array_partidas=array();
@@ -187,14 +187,14 @@ class Pres_autorizadas_req_proController extends Controller
                         $dat_meses['id_mes']=$mes->id_mes;
                         $dat_meses['mes']=$mes->mes;
                         $requisiciones=DB::select('SELECT pres_actividades_req_ante.* from pres_actividades_req_ante,
-                       pres_req_mat_ante where pres_actividades_req_ante.id_proyecto = '.$proyecto->id_proyecto.' and pres_actividades_req_ante.id_partida_pres = '.$partida->id_partida_pres.' 
-                       and pres_actividades_req_ante.id_mes  = '.$mes->id_mes.' and pres_actividades_req_ante.id_autorizacion= 4
-                        and pres_req_mat_ante.id_req_mat_ante = pres_actividades_req_ante.id_req_mat_ante and  pres_req_mat_ante.year_requisicion= '.$proyecto->year.' ');
+                       pres_req_mat_ante where pres_actividades_req_ante.id_proyecto = ? and pres_actividades_req_ante.id_partida_pres = ?
+                       and pres_actividades_req_ante.id_mes  = ? and pres_actividades_req_ante.id_autorizacion= 4
+                        and pres_req_mat_ante.id_req_mat_ante = pres_actividades_req_ante.id_req_mat_ante and  pres_req_mat_ante.year_requisicion= ? ', [$proyecto->id_proyecto, $partida->id_partida_pres, $mes->id_mes, $proyecto->year]);
 
                         $suma_req1=0;
                         $array_req=array();
                         foreach ($requisiciones as $requisicion){
-                            $suma_req=DB::selectOne('SELECT SUM(importe) suma_material from pres_reg_material_req_ante WHERE id_actividades_req_ante = '.$requisicion->id_actividades_req_ante.'');
+                            $suma_req=DB::selectOne('SELECT SUM(importe) suma_material from pres_reg_material_req_ante WHERE id_actividades_req_ante = ?', [$requisicion->id_actividades_req_ante]);
 
                             if($suma_req== null ){
                                 $dat_req['id_actividades_req_ante']=$requisicion->id_actividades_req_ante;
@@ -242,8 +242,8 @@ class Pres_autorizadas_req_proController extends Controller
     public function proyecto_inicio_anteproyecto($id_presupuesto){
 
          $proyecto= DB::selectOne('SELECT pres_presupuesto_anteproyecto.*,pres_proyectos.nombre_proyecto from pres_presupuesto_anteproyecto, pres_proyectos
-         WHERE pres_presupuesto_anteproyecto.id_proyecto = pres_proyectos.id_proyecto and pres_presupuesto_anteproyecto.id_presupuesto ='.$id_presupuesto.' ');
-        $presupueto=DB::selectOne('SELECT * FROM `pres_presupuesto_anteproyecto` WHERE `id_presupuesto` ='.$id_presupuesto.'');
+         WHERE pres_presupuesto_anteproyecto.id_proyecto = pres_proyectos.id_proyecto and pres_presupuesto_anteproyecto.id_presupuesto = ? ', [$id_presupuesto]);
+        $presupueto=DB::selectOne('SELECT * FROM `pres_presupuesto_anteproyecto` WHERE `id_presupuesto` = ?', [$id_presupuesto]);
         $year=$presupueto->year;
 
          return view('departamento_finanzas.jefe_finanazas.requisiciones_autorizadas_pro.inicio_proyecto_anteproyecto',compact('proyecto','id_presupuesto','year'));
@@ -254,18 +254,18 @@ class Pres_autorizadas_req_proController extends Controller
     {
 
         $proyecto = DB::selectOne('SELECT pres_presupuesto_anteproyecto.*,pres_proyectos.nombre_proyecto from pres_presupuesto_anteproyecto, pres_proyectos
-       WHERE pres_presupuesto_anteproyecto.id_proyecto = pres_proyectos.id_proyecto and pres_presupuesto_anteproyecto.id_presupuesto =' . $id_presupuesto . ' ');
+       WHERE pres_presupuesto_anteproyecto.id_proyecto = pres_proyectos.id_proyecto and pres_presupuesto_anteproyecto.id_presupuesto = ? ', [$id_presupuesto]);
 
         ///presupuesto del proyecto del anteproyecto
-        $presupuesto_ante_proy = DB::select('SELECT pres_fuentes_financiamiento.*, pres_capitulos.capitulo from 
-       pres_fuentes_financiamiento, pres_capitulos where pres_fuentes_financiamiento.id_capitulo = pres_capitulos.id_capitulo 
-        and pres_fuentes_financiamiento.id_presupuesto_ante = ' . $id_presupuesto . ' ORDER BY `pres_fuentes_financiamiento`.`id_capitulo` ASC');
+        $presupuesto_ante_proy = DB::select('SELECT pres_fuentes_financiamiento.*, pres_capitulos.capitulo from
+       pres_fuentes_financiamiento, pres_capitulos where pres_fuentes_financiamiento.id_capitulo = pres_capitulos.id_capitulo
+        and pres_fuentes_financiamiento.id_presupuesto_ante = ? ORDER BY `pres_fuentes_financiamiento`.`id_capitulo` ASC', [$id_presupuesto]);
 
         $mostrar = 0;
         $presupuesto_proyecto = DB::select('SELECT pres_fuentes_financiamiento.*,pres_capitulos.capitulo FROM
-        `pres_fuentes_financiamiento`,pres_capitulos WHERE pres_fuentes_financiamiento.id_presupuesto_ante = ' . $id_presupuesto . '
+        `pres_fuentes_financiamiento`,pres_capitulos WHERE pres_fuentes_financiamiento.id_presupuesto_ante = ?
         and pres_fuentes_financiamiento.total_presupuesto >0 and pres_fuentes_financiamiento.id_capitulo = pres_capitulos.id_capitulo
-        ORDER BY `pres_fuentes_financiamiento`.`id_capitulo` ASC');
+        ORDER BY `pres_fuentes_financiamiento`.`id_capitulo` ASC', [$id_presupuesto]);
 
 
         return view('departamento_finanzas.jefe_finanazas.requisiciones_autorizadas_pro.proyecto_capitulos_anteproyecto', compact('proyecto', 'id_presupuesto', 'presupuesto_ante_proy', 'mostrar', 'presupuesto_proyecto'));
@@ -274,29 +274,29 @@ class Pres_autorizadas_req_proController extends Controller
     {
 
         $proyecto = DB::selectOne('SELECT pres_presupuesto_anteproyecto.*,pres_proyectos.nombre_proyecto from pres_presupuesto_anteproyecto, pres_proyectos
-       WHERE pres_presupuesto_anteproyecto.id_proyecto = pres_proyectos.id_proyecto and pres_presupuesto_anteproyecto.id_presupuesto =' . $id_presupuesto . ' ');
+       WHERE pres_presupuesto_anteproyecto.id_proyecto = pres_proyectos.id_proyecto and pres_presupuesto_anteproyecto.id_presupuesto = ? ', [$id_presupuesto]);
 
         ///presupuesto del proyecto del anteproyecto
-        $presupuesto_ante_proy = DB::select('SELECT pres_fuentes_financiamiento.*, pres_capitulos.capitulo from 
-       pres_fuentes_financiamiento, pres_capitulos where pres_fuentes_financiamiento.id_capitulo = pres_capitulos.id_capitulo 
-        and pres_fuentes_financiamiento.id_presupuesto_ante = ' . $id_presupuesto . ' ORDER BY `pres_fuentes_financiamiento`.`id_capitulo` ASC');
+        $presupuesto_ante_proy = DB::select('SELECT pres_fuentes_financiamiento.*, pres_capitulos.capitulo from
+       pres_fuentes_financiamiento, pres_capitulos where pres_fuentes_financiamiento.id_capitulo = pres_capitulos.id_capitulo
+        and pres_fuentes_financiamiento.id_presupuesto_ante = ? ORDER BY `pres_fuentes_financiamiento`.`id_capitulo` ASC', [$id_presupuesto]);
 
         $mostrar = 0;
         $presupuesto_proyecto = DB::select('SELECT pres_fuentes_financiamiento.*,pres_capitulos.capitulo FROM
-        `pres_fuentes_financiamiento`,pres_capitulos WHERE pres_fuentes_financiamiento.id_presupuesto_ante = ' . $id_presupuesto . '
+        `pres_fuentes_financiamiento`,pres_capitulos WHERE pres_fuentes_financiamiento.id_presupuesto_ante = ?
         and pres_fuentes_financiamiento.total_presupuesto >0 and pres_fuentes_financiamiento.id_capitulo = pres_capitulos.id_capitulo
-        ORDER BY `pres_fuentes_financiamiento`.`id_capitulo` ASC');
+        ORDER BY `pres_fuentes_financiamiento`.`id_capitulo` ASC', [$id_presupuesto]);
 
 
         return view('departamento_finanzas.jefe_finanazas.requisiciones_autorizadas_pro.proyecto_cap_ante_inc', compact('proyecto', 'id_presupuesto', 'presupuesto_ante_proy', 'mostrar', 'presupuesto_proyecto'));
     }
      public function ver_proyecto_capitulo_anteproyecto($id_fuente_financiamiento){
 
-     $fuente_financiamiento=DB::select('SELECT  pres_fuentes_financiamiento.* from 
-     pres_fuentes_financiamiento where id_fuente_financiamiento ='.$id_fuente_financiamiento.'');
+     $fuente_financiamiento=DB::select('SELECT  pres_fuentes_financiamiento.* from
+     pres_fuentes_financiamiento where id_fuente_financiamiento = ?', [$id_fuente_financiamiento]);
 
          $proyecto = DB::selectOne('SELECT pres_presupuesto_anteproyecto.*,pres_proyectos.nombre_proyecto from pres_presupuesto_anteproyecto, pres_proyectos
-       WHERE pres_presupuesto_anteproyecto.id_proyecto = pres_proyectos.id_proyecto and pres_presupuesto_anteproyecto.id_presupuesto =' . $fuente_financiamiento[0]->id_presupuesto_ante . ' ');
+       WHERE pres_presupuesto_anteproyecto.id_proyecto = pres_proyectos.id_proyecto and pres_presupuesto_anteproyecto.id_presupuesto = ? ', [$fuente_financiamiento[0]->id_presupuesto_ante]);
 
         $id_presupuesto=$fuente_financiamiento[0]->id_presupuesto_ante;
 
@@ -305,7 +305,7 @@ class Pres_autorizadas_req_proController extends Controller
          $suma_total_capitulo=0;
          foreach($fuente_financiamiento as $presupuesto){
 
-             $contar_partida=DB::selectOne('SELECT count(id_partida_pres)contar from pres_partida_pres WHERE id_capitulo ='.$fuente_financiamiento[0]->id_capitulo.'');
+             $contar_partida=DB::selectOne('SELECT count(id_partida_pres)contar from pres_partida_pres WHERE id_capitulo = ?', [$fuente_financiamiento[0]->id_capitulo]);
 
              if($contar_partida->contar == 0){
 
@@ -322,8 +322,8 @@ class Pres_autorizadas_req_proController extends Controller
                  $dat_cap['financiamiento_propios']=$presupuesto->financiamiento_propios;
                  $dat_cap['total_financiamiento']=$presupuesto->total_financiamiento;
 
-                 $partidas=DB::select('SELECT pres_partida_pres.* from pres_partida_pres 
-               WHERE id_capitulo = '.$presupuesto->id_capitulo.' ORDER BY `clave_presupuestal` ASC');
+                 $partidas=DB::select('SELECT pres_partida_pres.* from pres_partida_pres
+               WHERE id_capitulo = ? ORDER BY `clave_presupuestal` ASC', [$presupuesto->id_capitulo]);
 
 
                  $array_partidas=array();
@@ -340,14 +340,14 @@ class Pres_autorizadas_req_proController extends Controller
                          $dat_meses['id_mes']=$mes->id_mes;
                          $dat_meses['mes']=$mes->mes;
                          $requisiciones=DB::select('SELECT pres_actividades_req_ante.* from pres_actividades_req_ante,
-                       pres_req_mat_ante where pres_actividades_req_ante.id_proyecto = '.$proyecto->id_proyecto.' and pres_actividades_req_ante.id_partida_pres = '.$partida->id_partida_pres.' 
-                       and pres_actividades_req_ante.id_mes  = '.$mes->id_mes.' and pres_actividades_req_ante.id_autorizacion= 4
-                        and pres_req_mat_ante.id_req_mat_ante = pres_actividades_req_ante.id_req_mat_ante and  pres_req_mat_ante.year_requisicion= '.$proyecto->year.' ');
+                       pres_req_mat_ante where pres_actividades_req_ante.id_proyecto = ? and pres_actividades_req_ante.id_partida_pres = ?
+                       and pres_actividades_req_ante.id_mes  = ? and pres_actividades_req_ante.id_autorizacion= 4
+                        and pres_req_mat_ante.id_req_mat_ante = pres_actividades_req_ante.id_req_mat_ante and  pres_req_mat_ante.year_requisicion= ? ', [$proyecto->id_proyecto, $partida->id_partida_pres, $mes->id_mes, $proyecto->year]);
 
                          $suma_req1=0;
                          $array_req=array();
                          foreach ($requisiciones as $requisicion){
-                             $suma_req=DB::selectOne('SELECT SUM(importe) suma_material from pres_reg_material_req_ante WHERE id_actividades_req_ante = '.$requisicion->id_actividades_req_ante.'');
+                             $suma_req=DB::selectOne('SELECT SUM(importe) suma_material from pres_reg_material_req_ante WHERE id_actividades_req_ante = ?', [$requisicion->id_actividades_req_ante]);
 
                              if($suma_req== null ){
                                  $dat_req['id_actividades_req_ante']=$requisicion->id_actividades_req_ante;
@@ -386,18 +386,18 @@ class Pres_autorizadas_req_proController extends Controller
              }
          }
          $proyecto = DB::selectOne('SELECT pres_presupuesto_anteproyecto.*,pres_proyectos.nombre_proyecto from pres_presupuesto_anteproyecto, pres_proyectos
-       WHERE pres_presupuesto_anteproyecto.id_proyecto = pres_proyectos.id_proyecto and pres_presupuesto_anteproyecto.id_presupuesto =' . $id_presupuesto . ' ');
+       WHERE pres_presupuesto_anteproyecto.id_proyecto = pres_proyectos.id_proyecto and pres_presupuesto_anteproyecto.id_presupuesto = ? ', [$id_presupuesto]);
 
          ///presupuesto del proyecto del anteproyecto
-         $presupuesto_ante_proy = DB::select('SELECT pres_fuentes_financiamiento.*, pres_capitulos.capitulo from 
-       pres_fuentes_financiamiento, pres_capitulos where pres_fuentes_financiamiento.id_capitulo = pres_capitulos.id_capitulo 
-        and pres_fuentes_financiamiento.id_presupuesto_ante = ' . $id_presupuesto . ' ORDER BY `pres_fuentes_financiamiento`.`id_capitulo` ASC');
+         $presupuesto_ante_proy = DB::select('SELECT pres_fuentes_financiamiento.*, pres_capitulos.capitulo from
+       pres_fuentes_financiamiento, pres_capitulos where pres_fuentes_financiamiento.id_capitulo = pres_capitulos.id_capitulo
+        and pres_fuentes_financiamiento.id_presupuesto_ante = ? ORDER BY `pres_fuentes_financiamiento`.`id_capitulo` ASC', [$id_presupuesto]);
 //dd($presupuesto_ante_proy);
          $mostrar = 1;
          $presupuesto_proyecto = DB::select('SELECT pres_fuentes_financiamiento.*,pres_capitulos.capitulo FROM
-        `pres_fuentes_financiamiento`,pres_capitulos WHERE pres_fuentes_financiamiento.id_presupuesto_ante = ' . $id_presupuesto . '
+        `pres_fuentes_financiamiento`,pres_capitulos WHERE pres_fuentes_financiamiento.id_presupuesto_ante = ?
         and pres_fuentes_financiamiento.total_presupuesto >0 and pres_fuentes_financiamiento.id_capitulo = pres_capitulos.id_capitulo
-        ORDER BY `pres_fuentes_financiamiento`.`id_capitulo` ASC');
+        ORDER BY `pres_fuentes_financiamiento`.`id_capitulo` ASC', [$id_presupuesto]);
         // dd($array_capitulos);
 
          return view('departamento_finanzas.jefe_finanazas.requisiciones_autorizadas_pro.proyecto_capitulos_anteproyecto', compact('proyecto', 'id_presupuesto', 'presupuesto_ante_proy', 'mostrar', 'presupuesto_proyecto','id_fuente_financiamiento','fuente_financiamiento','array_capitulos'));
@@ -405,11 +405,11 @@ class Pres_autorizadas_req_proController extends Controller
      }
     public function ver_proyecto_capitulo_anteproyecto_inc($id_fuente_financiamiento){
 
-        $fuente_financiamiento=DB::select('SELECT  pres_fuentes_financiamiento.* from 
-     pres_fuentes_financiamiento where id_fuente_financiamiento ='.$id_fuente_financiamiento.'');
+        $fuente_financiamiento=DB::select('SELECT  pres_fuentes_financiamiento.* from
+     pres_fuentes_financiamiento where id_fuente_financiamiento = ?', [$id_fuente_financiamiento]);
 
         $proyecto = DB::selectOne('SELECT pres_presupuesto_anteproyecto.*,pres_proyectos.nombre_proyecto from pres_presupuesto_anteproyecto, pres_proyectos
-       WHERE pres_presupuesto_anteproyecto.id_proyecto = pres_proyectos.id_proyecto and pres_presupuesto_anteproyecto.id_presupuesto =' . $fuente_financiamiento[0]->id_presupuesto_ante . ' ');
+       WHERE pres_presupuesto_anteproyecto.id_proyecto = pres_proyectos.id_proyecto and pres_presupuesto_anteproyecto.id_presupuesto = ? ', [$fuente_financiamiento[0]->id_presupuesto_ante]);
 
         $id_presupuesto=$fuente_financiamiento[0]->id_presupuesto_ante;
 
@@ -418,7 +418,7 @@ class Pres_autorizadas_req_proController extends Controller
         $suma_total_capitulo=0;
         foreach($fuente_financiamiento as $presupuesto){
 
-            $contar_partida=DB::selectOne('SELECT count(id_partida_pres)contar from pres_partida_pres WHERE id_capitulo ='.$fuente_financiamiento[0]->id_capitulo.'');
+            $contar_partida=DB::selectOne('SELECT count(id_partida_pres)contar from pres_partida_pres WHERE id_capitulo = ?', [$fuente_financiamiento[0]->id_capitulo]);
 
             if($contar_partida->contar == 0){
 
@@ -435,8 +435,8 @@ class Pres_autorizadas_req_proController extends Controller
                 $dat_cap['financiamiento_propios']=$presupuesto->financiamiento_propios;
                 $dat_cap['total_financiamiento']=$presupuesto->total_financiamiento;
 
-                $partidas=DB::select('SELECT pres_partida_pres.* from pres_partida_pres 
-               WHERE id_capitulo = '.$presupuesto->id_capitulo.' ORDER BY `clave_presupuestal` ASC');
+                $partidas=DB::select('SELECT pres_partida_pres.* from pres_partida_pres
+               WHERE id_capitulo = ? ORDER BY `clave_presupuestal` ASC', [$presupuesto->id_capitulo]);
 
 
                 $array_partidas=array();
@@ -453,14 +453,14 @@ class Pres_autorizadas_req_proController extends Controller
                         $dat_meses['id_mes']=$mes->id_mes;
                         $dat_meses['mes']=$mes->mes;
                         $requisiciones=DB::select('SELECT pres_actividades_req_ante.* from pres_actividades_req_ante,
-                       pres_req_mat_ante where pres_actividades_req_ante.id_proyecto = '.$proyecto->id_proyecto.' and pres_actividades_req_ante.id_partida_pres = '.$partida->id_partida_pres.' 
-                       and pres_actividades_req_ante.id_mes  = '.$mes->id_mes.' and pres_actividades_req_ante.id_autorizacion= 4
-                        and pres_req_mat_ante.id_req_mat_ante = pres_actividades_req_ante.id_req_mat_ante and  pres_req_mat_ante.year_requisicion= '.$proyecto->year.' ');
+                       pres_req_mat_ante where pres_actividades_req_ante.id_proyecto = ? and pres_actividades_req_ante.id_partida_pres = ?
+                       and pres_actividades_req_ante.id_mes  = ? and pres_actividades_req_ante.id_autorizacion= 4
+                        and pres_req_mat_ante.id_req_mat_ante = pres_actividades_req_ante.id_req_mat_ante and  pres_req_mat_ante.year_requisicion= ? ', [$proyecto->id_proyecto, $partida->id_partida_pres, $mes->id_mes, $proyecto->year]);
 
                         $suma_req1=0;
                         $array_req=array();
                         foreach ($requisiciones as $requisicion){
-                            $suma_req=DB::selectOne('SELECT SUM(importe) suma_material from pres_reg_material_req_ante WHERE id_actividades_req_ante = '.$requisicion->id_actividades_req_ante.'');
+                            $suma_req=DB::selectOne('SELECT SUM(importe) suma_material from pres_reg_material_req_ante WHERE id_actividades_req_ante = ?', [$requisicion->id_actividades_req_ante]);
 
                             if($suma_req== null ){
                                 $dat_req['id_actividades_req_ante']=$requisicion->id_actividades_req_ante;
@@ -499,36 +499,36 @@ class Pres_autorizadas_req_proController extends Controller
             }
         }
         $proyecto = DB::selectOne('SELECT pres_presupuesto_anteproyecto.*,pres_proyectos.nombre_proyecto from pres_presupuesto_anteproyecto, pres_proyectos
-       WHERE pres_presupuesto_anteproyecto.id_proyecto = pres_proyectos.id_proyecto and pres_presupuesto_anteproyecto.id_presupuesto =' . $id_presupuesto . ' ');
+       WHERE pres_presupuesto_anteproyecto.id_proyecto = pres_proyectos.id_proyecto and pres_presupuesto_anteproyecto.id_presupuesto = ? ', [$id_presupuesto]);
 
         ///presupuesto del proyecto del anteproyecto
-        $presupuesto_ante_proy = DB::select('SELECT pres_fuentes_financiamiento.*, pres_capitulos.capitulo from 
-       pres_fuentes_financiamiento, pres_capitulos where pres_fuentes_financiamiento.id_capitulo = pres_capitulos.id_capitulo 
-        and pres_fuentes_financiamiento.id_presupuesto_ante = ' . $id_presupuesto . ' ORDER BY `pres_fuentes_financiamiento`.`id_capitulo` ASC');
+        $presupuesto_ante_proy = DB::select('SELECT pres_fuentes_financiamiento.*, pres_capitulos.capitulo from
+       pres_fuentes_financiamiento, pres_capitulos where pres_fuentes_financiamiento.id_capitulo = pres_capitulos.id_capitulo
+        and pres_fuentes_financiamiento.id_presupuesto_ante = ? ORDER BY `pres_fuentes_financiamiento`.`id_capitulo` ASC', [$id_presupuesto]);
 
         $mostrar = 1;
         $presupuesto_proyecto = DB::select('SELECT pres_fuentes_financiamiento.*,pres_capitulos.capitulo FROM
-        `pres_fuentes_financiamiento`,pres_capitulos WHERE pres_fuentes_financiamiento.id_presupuesto_ante = ' . $id_presupuesto . '
+        `pres_fuentes_financiamiento`,pres_capitulos WHERE pres_fuentes_financiamiento.id_presupuesto_ante = ?
         and pres_fuentes_financiamiento.total_presupuesto >0 and pres_fuentes_financiamiento.id_capitulo = pres_capitulos.id_capitulo
-        ORDER BY `pres_fuentes_financiamiento`.`id_capitulo` ASC');
+        ORDER BY `pres_fuentes_financiamiento`.`id_capitulo` ASC', [$id_presupuesto]);
 
         return view('departamento_finanzas.jefe_finanazas.requisiciones_autorizadas_pro.proyecto_cap_ante_inc', compact('proyecto', 'id_presupuesto', 'presupuesto_ante_proy', 'mostrar', 'presupuesto_proyecto','id_fuente_financiamiento','fuente_financiamiento','array_capitulos'));
 
     }
      public function proyecto_meses_anteproyecto($id_presupuesto){
          $proyecto = DB::selectOne('SELECT pres_presupuesto_anteproyecto.*,pres_proyectos.nombre_proyecto from pres_presupuesto_anteproyecto, pres_proyectos
-       WHERE pres_presupuesto_anteproyecto.id_proyecto = pres_proyectos.id_proyecto and pres_presupuesto_anteproyecto.id_presupuesto =' . $id_presupuesto . ' ');
+       WHERE pres_presupuesto_anteproyecto.id_proyecto = pres_proyectos.id_proyecto and pres_presupuesto_anteproyecto.id_presupuesto = ? ', [$id_presupuesto]);
 
          ///presupuesto del proyecto del anteproyecto
-         $presupuesto_ante_proy = DB::select('SELECT pres_fuentes_financiamiento.*, pres_capitulos.capitulo from 
-       pres_fuentes_financiamiento, pres_capitulos where pres_fuentes_financiamiento.id_capitulo = pres_capitulos.id_capitulo 
-        and pres_fuentes_financiamiento.id_presupuesto_ante = ' . $id_presupuesto . ' ORDER BY `pres_fuentes_financiamiento`.`id_capitulo` ASC');
+         $presupuesto_ante_proy = DB::select('SELECT pres_fuentes_financiamiento.*, pres_capitulos.capitulo from
+       pres_fuentes_financiamiento, pres_capitulos where pres_fuentes_financiamiento.id_capitulo = pres_capitulos.id_capitulo
+        and pres_fuentes_financiamiento.id_presupuesto_ante = ? ORDER BY `pres_fuentes_financiamiento`.`id_capitulo` ASC', [$id_presupuesto]);
 
          $mostrar = 0;
          $presupuesto_proyecto = DB::select('SELECT pres_fuentes_financiamiento.*,pres_capitulos.capitulo FROM
-        `pres_fuentes_financiamiento`,pres_capitulos WHERE pres_fuentes_financiamiento.id_presupuesto_ante = ' . $id_presupuesto . '
+        `pres_fuentes_financiamiento`,pres_capitulos WHERE pres_fuentes_financiamiento.id_presupuesto_ante = ?
         and pres_fuentes_financiamiento.total_presupuesto >0 and pres_fuentes_financiamiento.id_capitulo = pres_capitulos.id_capitulo
-        ORDER BY `pres_fuentes_financiamiento`.`id_capitulo` ASC');
+        ORDER BY `pres_fuentes_financiamiento`.`id_capitulo` ASC', [$id_presupuesto]);
 
          $meses=DB::select('SELECT * FROM `pres_mes` ORDER BY `pres_mes`.`id_mes` ASC');
 
@@ -536,18 +536,18 @@ class Pres_autorizadas_req_proController extends Controller
      }
     public function proyecto_meses_anteproyecto_inc($id_presupuesto){
         $proyecto = DB::selectOne('SELECT pres_presupuesto_anteproyecto.*,pres_proyectos.nombre_proyecto from pres_presupuesto_anteproyecto, pres_proyectos
-       WHERE pres_presupuesto_anteproyecto.id_proyecto = pres_proyectos.id_proyecto and pres_presupuesto_anteproyecto.id_presupuesto =' . $id_presupuesto . ' ');
+       WHERE pres_presupuesto_anteproyecto.id_proyecto = pres_proyectos.id_proyecto and pres_presupuesto_anteproyecto.id_presupuesto = ? ', [$id_presupuesto]);
 
         ///presupuesto del proyecto del anteproyecto
-        $presupuesto_ante_proy = DB::select('SELECT pres_fuentes_financiamiento.*, pres_capitulos.capitulo from 
-       pres_fuentes_financiamiento, pres_capitulos where pres_fuentes_financiamiento.id_capitulo = pres_capitulos.id_capitulo 
-        and pres_fuentes_financiamiento.id_presupuesto_ante = ' . $id_presupuesto . ' ORDER BY `pres_fuentes_financiamiento`.`id_capitulo` ASC');
+        $presupuesto_ante_proy = DB::select('SELECT pres_fuentes_financiamiento.*, pres_capitulos.capitulo from
+       pres_fuentes_financiamiento, pres_capitulos where pres_fuentes_financiamiento.id_capitulo = pres_capitulos.id_capitulo
+        and pres_fuentes_financiamiento.id_presupuesto_ante = ? ORDER BY `pres_fuentes_financiamiento`.`id_capitulo` ASC', [$id_presupuesto]);
 
         $mostrar = 0;
         $presupuesto_proyecto = DB::select('SELECT pres_fuentes_financiamiento.*,pres_capitulos.capitulo FROM
-        `pres_fuentes_financiamiento`,pres_capitulos WHERE pres_fuentes_financiamiento.id_presupuesto_ante = ' . $id_presupuesto . '
+        `pres_fuentes_financiamiento`,pres_capitulos WHERE pres_fuentes_financiamiento.id_presupuesto_ante = ?
         and pres_fuentes_financiamiento.total_presupuesto >0 and pres_fuentes_financiamiento.id_capitulo = pres_capitulos.id_capitulo
-        ORDER BY `pres_fuentes_financiamiento`.`id_capitulo` ASC');
+        ORDER BY `pres_fuentes_financiamiento`.`id_capitulo` ASC', [$id_presupuesto]);
 
         $meses=DB::select('SELECT * FROM `pres_mes` ORDER BY `pres_mes`.`id_mes` ASC');
 
@@ -557,17 +557,17 @@ class Pres_autorizadas_req_proController extends Controller
      {
 
          $proyecto = DB::selectOne('SELECT pres_presupuesto_anteproyecto.*,pres_proyectos.nombre_proyecto from pres_presupuesto_anteproyecto, pres_proyectos
-       WHERE pres_presupuesto_anteproyecto.id_proyecto = pres_proyectos.id_proyecto and pres_presupuesto_anteproyecto.id_presupuesto =' . $id_presupuesto . ' ');
+       WHERE pres_presupuesto_anteproyecto.id_proyecto = pres_proyectos.id_proyecto and pres_presupuesto_anteproyecto.id_presupuesto = ? ', [$id_presupuesto]);
 
-         $fuente_financiamiento = DB::select('SELECT * FROM `pres_fuentes_financiamiento` WHERE `id_presupuesto_ante` = ' . $id_presupuesto . ' 
-        ORDER BY `pres_fuentes_financiamiento`.`id_capitulo` ASC');
+         $fuente_financiamiento = DB::select('SELECT * FROM `pres_fuentes_financiamiento` WHERE `id_presupuesto_ante` = ?
+        ORDER BY `pres_fuentes_financiamiento`.`id_capitulo` ASC', [$id_presupuesto]);
      //dd($fuente_financiamiento);
 
          $array_capitulos=array();
          $suma_total_capitulo=0;
          foreach($fuente_financiamiento as $presupuesto){
 
-             $contar_partida=DB::selectOne('SELECT count(id_partida_pres)contar from pres_partida_pres WHERE id_capitulo ='.$presupuesto->id_capitulo.'');
+             $contar_partida=DB::selectOne('SELECT count(id_partida_pres)contar from pres_partida_pres WHERE id_capitulo = ?', [$presupuesto->id_capitulo]);
 
              if($contar_partida->contar == 0){
 
@@ -584,8 +584,8 @@ class Pres_autorizadas_req_proController extends Controller
                  $dat_cap['financiamiento_propios']=$presupuesto->financiamiento_propios;
                  $dat_cap['total_financiamiento']=$presupuesto->total_financiamiento;
 
-                 $partidas=DB::select('SELECT pres_partida_pres.* from pres_partida_pres 
-               WHERE id_capitulo = '.$presupuesto->id_capitulo.' ORDER BY `clave_presupuestal` ASC');
+                 $partidas=DB::select('SELECT pres_partida_pres.* from pres_partida_pres
+               WHERE id_capitulo = ? ORDER BY `clave_presupuestal` ASC', [$presupuesto->id_capitulo]);
 
 
                  $array_partidas=array();
@@ -595,21 +595,21 @@ class Pres_autorizadas_req_proController extends Controller
                      $dat_p['nombre_partida']= $partida->nombre_partida;
                      $dat_p['clave_presupuestal']= $partida->clave_presupuestal;
 
-                     $meses=DB::select('SELECT * FROM `pres_mes` WHERE `id_mes` = '.$id_mes.' ');
+                     $meses=DB::select('SELECT * FROM `pres_mes` WHERE `id_mes` = ? ', [$id_mes]);
                      $array_meses=array();
                      $suma_total_mes=0;
                      foreach ($meses as $mes){
                          $dat_meses['id_mes']=$mes->id_mes;
                          $dat_meses['mes']=$mes->mes;
                          $requisiciones=DB::select('SELECT pres_actividades_req_ante.* from pres_actividades_req_ante,
-                       pres_req_mat_ante where pres_actividades_req_ante.id_proyecto = '.$proyecto->id_proyecto.' and pres_actividades_req_ante.id_partida_pres = '.$partida->id_partida_pres.' 
-                       and pres_actividades_req_ante.id_mes  = '.$mes->id_mes.' and pres_actividades_req_ante.id_autorizacion= 4
-                        and pres_req_mat_ante.id_req_mat_ante = pres_actividades_req_ante.id_req_mat_ante and  pres_req_mat_ante.year_requisicion= '.$proyecto->year.' ');
+                       pres_req_mat_ante where pres_actividades_req_ante.id_proyecto = ? and pres_actividades_req_ante.id_partida_pres = ?
+                       and pres_actividades_req_ante.id_mes  = ? and pres_actividades_req_ante.id_autorizacion= 4
+                        and pres_req_mat_ante.id_req_mat_ante = pres_actividades_req_ante.id_req_mat_ante and  pres_req_mat_ante.year_requisicion= ? ', [$proyecto->id_proyecto, $partida->id_partida_pres, $mes->id_mes, $proyecto->year]);
 
                          $suma_req1=0;
                          $array_req=array();
                          foreach ($requisiciones as $requisicion){
-                             $suma_req=DB::selectOne('SELECT SUM(importe) suma_material from pres_reg_material_req_ante WHERE id_actividades_req_ante = '.$requisicion->id_actividades_req_ante.'');
+                             $suma_req=DB::selectOne('SELECT SUM(importe) suma_material from pres_reg_material_req_ante WHERE id_actividades_req_ante = ?', [$requisicion->id_actividades_req_ante]);
 
                              if($suma_req== null ){
                                  $dat_req['id_actividades_req_ante']=$requisicion->id_actividades_req_ante;
@@ -649,18 +649,18 @@ class Pres_autorizadas_req_proController extends Controller
          }
 
          $proyecto = DB::selectOne('SELECT pres_presupuesto_anteproyecto.*,pres_proyectos.nombre_proyecto from pres_presupuesto_anteproyecto, pres_proyectos
-       WHERE pres_presupuesto_anteproyecto.id_proyecto = pres_proyectos.id_proyecto and pres_presupuesto_anteproyecto.id_presupuesto =' . $id_presupuesto . ' ');
+       WHERE pres_presupuesto_anteproyecto.id_proyecto = pres_proyectos.id_proyecto and pres_presupuesto_anteproyecto.id_presupuesto = ? ', [$id_presupuesto]);
 
          ///presupuesto del proyecto del anteproyecto
-         $presupuesto_ante_proy = DB::select('SELECT pres_fuentes_financiamiento.*, pres_capitulos.capitulo from 
-       pres_fuentes_financiamiento, pres_capitulos where pres_fuentes_financiamiento.id_capitulo = pres_capitulos.id_capitulo 
-        and pres_fuentes_financiamiento.id_presupuesto_ante = ' . $id_presupuesto . ' ORDER BY `pres_fuentes_financiamiento`.`id_capitulo` ASC');
+         $presupuesto_ante_proy = DB::select('SELECT pres_fuentes_financiamiento.*, pres_capitulos.capitulo from
+       pres_fuentes_financiamiento, pres_capitulos where pres_fuentes_financiamiento.id_capitulo = pres_capitulos.id_capitulo
+        and pres_fuentes_financiamiento.id_presupuesto_ante = ? ORDER BY `pres_fuentes_financiamiento`.`id_capitulo` ASC', [$id_presupuesto]);
 
          $mostrar = 1;
          $presupuesto_proyecto = DB::select('SELECT pres_fuentes_financiamiento.*,pres_capitulos.capitulo FROM
-        `pres_fuentes_financiamiento`,pres_capitulos WHERE pres_fuentes_financiamiento.id_presupuesto_ante = ' . $id_presupuesto . '
+        `pres_fuentes_financiamiento`,pres_capitulos WHERE pres_fuentes_financiamiento.id_presupuesto_ante = ?
         and pres_fuentes_financiamiento.total_presupuesto >0 and pres_fuentes_financiamiento.id_capitulo = pres_capitulos.id_capitulo
-        ORDER BY `pres_fuentes_financiamiento`.`id_capitulo` ASC');
+        ORDER BY `pres_fuentes_financiamiento`.`id_capitulo` ASC', [$id_presupuesto]);
 
          $meses=DB::select('SELECT * FROM `pres_mes` ORDER BY `pres_mes`.`id_mes` ASC');
 
@@ -670,16 +670,16 @@ class Pres_autorizadas_req_proController extends Controller
     public function ver_proyecto_mes_anteproyecto_inc($id_mes,$id_presupuesto){
 
         $proyecto = DB::selectOne('SELECT pres_presupuesto_anteproyecto.*,pres_proyectos.nombre_proyecto from pres_presupuesto_anteproyecto, pres_proyectos
-       WHERE pres_presupuesto_anteproyecto.id_proyecto = pres_proyectos.id_proyecto and pres_presupuesto_anteproyecto.id_presupuesto =' . $id_presupuesto. ' ');
+       WHERE pres_presupuesto_anteproyecto.id_proyecto = pres_proyectos.id_proyecto and pres_presupuesto_anteproyecto.id_presupuesto = ? ', [$id_presupuesto]);
 
-        $fuente_financiamiento=DB::select('SELECT * FROM `pres_fuentes_financiamiento` WHERE `id_presupuesto_ante` = '.$id_presupuesto.' 
-        ORDER BY `pres_fuentes_financiamiento`.`id_capitulo` ASC');
+        $fuente_financiamiento=DB::select('SELECT * FROM `pres_fuentes_financiamiento` WHERE `id_presupuesto_ante` = ?
+        ORDER BY `pres_fuentes_financiamiento`.`id_capitulo` ASC', [$id_presupuesto]);
 
         $array_capitulos=array();
         $suma_total_capitulo=0;
         foreach($fuente_financiamiento as $presupuesto){
 
-            $contar_partida=DB::selectOne('SELECT count(id_partida_pres)contar from pres_partida_pres WHERE id_capitulo ='.$presupuesto->id_capitulo.'');
+            $contar_partida=DB::selectOne('SELECT count(id_partida_pres)contar from pres_partida_pres WHERE id_capitulo = ?', [$presupuesto->id_capitulo]);
 
             if($contar_partida->contar == 0){
 
@@ -696,8 +696,8 @@ class Pres_autorizadas_req_proController extends Controller
                 $dat_cap['financiamiento_propios']=$presupuesto->financiamiento_propios;
                 $dat_cap['total_financiamiento']=$presupuesto->total_financiamiento;
 
-                $partidas=DB::select('SELECT pres_partida_pres.* from pres_partida_pres 
-               WHERE id_capitulo = '.$presupuesto->id_capitulo.' ORDER BY `clave_presupuestal` ASC');
+                $partidas=DB::select('SELECT pres_partida_pres.* from pres_partida_pres
+               WHERE id_capitulo = ? ORDER BY `clave_presupuestal` ASC', [$presupuesto->id_capitulo]);
 
 
                 $array_partidas=array();
@@ -707,21 +707,21 @@ class Pres_autorizadas_req_proController extends Controller
                     $dat_p['nombre_partida']= $partida->nombre_partida;
                     $dat_p['clave_presupuestal']= $partida->clave_presupuestal;
 
-                    $meses=DB::select('SELECT * FROM `pres_mes` WHERE `id_mes` = '.$id_mes.' ');
+                    $meses=DB::select('SELECT * FROM `pres_mes` WHERE `id_mes` = ? ', [$id_mes]);
                     $array_meses=array();
                     $suma_total_mes=0;
                     foreach ($meses as $mes){
                         $dat_meses['id_mes']=$mes->id_mes;
                         $dat_meses['mes']=$mes->mes;
                         $requisiciones=DB::select('SELECT pres_actividades_req_ante.* from pres_actividades_req_ante,
-                       pres_req_mat_ante where pres_actividades_req_ante.id_proyecto = '.$proyecto->id_proyecto.' and pres_actividades_req_ante.id_partida_pres = '.$partida->id_partida_pres.' 
-                       and pres_actividades_req_ante.id_mes  = '.$mes->id_mes.' and pres_actividades_req_ante.id_autorizacion= 4
-                        and pres_req_mat_ante.id_req_mat_ante = pres_actividades_req_ante.id_req_mat_ante and  pres_req_mat_ante.year_requisicion= '.$proyecto->year.' ');
+                       pres_req_mat_ante where pres_actividades_req_ante.id_proyecto = ? and pres_actividades_req_ante.id_partida_pres = ?
+                       and pres_actividades_req_ante.id_mes  = ? and pres_actividades_req_ante.id_autorizacion= 4
+                        and pres_req_mat_ante.id_req_mat_ante = pres_actividades_req_ante.id_req_mat_ante and  pres_req_mat_ante.year_requisicion= ? ', [$proyecto->id_proyecto, $partida->id_partida_pres, $mes->id_mes, $proyecto->year]);
 
                         $suma_req1=0;
                         $array_req=array();
                         foreach ($requisiciones as $requisicion){
-                            $suma_req=DB::selectOne('SELECT SUM(importe) suma_material from pres_reg_material_req_ante WHERE id_actividades_req_ante = '.$requisicion->id_actividades_req_ante.'');
+                            $suma_req=DB::selectOne('SELECT SUM(importe) suma_material from pres_reg_material_req_ante WHERE id_actividades_req_ante = ?', [$requisicion->id_actividades_req_ante]);
 
                             if($suma_req== null ){
                                 $dat_req['id_actividades_req_ante']=$requisicion->id_actividades_req_ante;
@@ -761,18 +761,18 @@ class Pres_autorizadas_req_proController extends Controller
         }
 
         $proyecto = DB::selectOne('SELECT pres_presupuesto_anteproyecto.*,pres_proyectos.nombre_proyecto from pres_presupuesto_anteproyecto, pres_proyectos
-       WHERE pres_presupuesto_anteproyecto.id_proyecto = pres_proyectos.id_proyecto and pres_presupuesto_anteproyecto.id_presupuesto =' . $id_presupuesto . ' ');
+       WHERE pres_presupuesto_anteproyecto.id_proyecto = pres_proyectos.id_proyecto and pres_presupuesto_anteproyecto.id_presupuesto = ? ', [$id_presupuesto]);
 
         ///presupuesto del proyecto del anteproyecto
-        $presupuesto_ante_proy = DB::select('SELECT pres_fuentes_financiamiento.*, pres_capitulos.capitulo from 
-       pres_fuentes_financiamiento, pres_capitulos where pres_fuentes_financiamiento.id_capitulo = pres_capitulos.id_capitulo 
-        and pres_fuentes_financiamiento.id_presupuesto_ante = ' . $id_presupuesto . ' ORDER BY `pres_fuentes_financiamiento`.`id_capitulo` ASC');
+        $presupuesto_ante_proy = DB::select('SELECT pres_fuentes_financiamiento.*, pres_capitulos.capitulo from
+       pres_fuentes_financiamiento, pres_capitulos where pres_fuentes_financiamiento.id_capitulo = pres_capitulos.id_capitulo
+        and pres_fuentes_financiamiento.id_presupuesto_ante = ? ORDER BY `pres_fuentes_financiamiento`.`id_capitulo` ASC', [$id_presupuesto]);
 
         $mostrar = 1;
         $presupuesto_proyecto = DB::select('SELECT pres_fuentes_financiamiento.*,pres_capitulos.capitulo FROM
-        `pres_fuentes_financiamiento`,pres_capitulos WHERE pres_fuentes_financiamiento.id_presupuesto_ante = ' . $id_presupuesto . '
+        `pres_fuentes_financiamiento`,pres_capitulos WHERE pres_fuentes_financiamiento.id_presupuesto_ante = ?
         and pres_fuentes_financiamiento.total_presupuesto >0 and pres_fuentes_financiamiento.id_capitulo = pres_capitulos.id_capitulo
-        ORDER BY `pres_fuentes_financiamiento`.`id_capitulo` ASC');
+        ORDER BY `pres_fuentes_financiamiento`.`id_capitulo` ASC', [$id_presupuesto]);
 
         $meses=DB::select('SELECT * FROM `pres_mes` ORDER BY `pres_mes`.`id_mes` ASC');
 
@@ -780,14 +780,14 @@ class Pres_autorizadas_req_proController extends Controller
 
     }
      public function ver_requisiciones_autorizadas($id_req_mat_ante){
-         $datos_req_envio = DB::selectOne('SELECT * FROM `pres_req_mat_ante` WHERE `id_req_mat_ante` = ' . $id_req_mat_ante . '');
+         $datos_req_envio = DB::selectOne('SELECT * FROM `pres_req_mat_ante` WHERE `id_req_mat_ante` = ?', [$id_req_mat_ante]);
          $meses = DB::select('SELECT * FROM `pres_mes` ORDER BY `pres_mes`.`id_mes` ASC ');
          $proyectos = DB::select('SELECT * FROM `pres_proyectos` ORDER BY `pres_proyectos`.`nombre_proyecto` ASC ');
          $requisiciones = DB::select('SELECT pres_actividades_req_ante.*,pres_mes.mes, pres_proyectos.nombre_proyecto,
-       pres_metas.meta, pres_partida_pres.nombre_partida, pres_partida_pres.clave_presupuestal from pres_actividades_req_ante, pres_mes,pres_proyectos,pres_metas,pres_partida_pres  
+       pres_metas.meta, pres_partida_pres.nombre_partida, pres_partida_pres.clave_presupuestal from pres_actividades_req_ante, pres_mes,pres_proyectos,pres_metas,pres_partida_pres
        WHERE pres_actividades_req_ante.id_mes = pres_mes.id_mes and pres_proyectos.id_proyecto = pres_actividades_req_ante.id_proyecto
-       and pres_actividades_req_ante.id_meta = pres_metas.id_meta and pres_actividades_req_ante.id_req_mat_ante  = '.$id_req_mat_ante.' and pres_actividades_req_ante.id_partida_pres = pres_partida_pres.id_partida_pres 
-       ORDER BY `pres_mes`.`id_mes` ASC');
+       and pres_actividades_req_ante.id_meta = pres_metas.id_meta and pres_actividades_req_ante.id_req_mat_ante  = ? and pres_actividades_req_ante.id_partida_pres = pres_partida_pres.id_partida_pres
+       ORDER BY `pres_mes`.`id_mes` ASC', [$id_req_mat_ante]);
          $partidas_presupuestales=DB::select('SELECT * FROM `pres_partida_pres` ORDER BY `pres_partida_pres`.`clave_presupuestal` ASC');
 //dd($partidas_presupuestales);
 
@@ -819,8 +819,8 @@ class Pres_autorizadas_req_proController extends Controller
              $req['meta']=$requisicion->meta;
              $bienes=array();
              $total_req=0;
-             $bienes_servicios=DB::select('SELECT * FROM `pres_reg_material_req_ante` 
-             WHERE `id_actividades_req_ante` = '.$requisicion->id_actividades_req_ante.'');
+             $bienes_servicios=DB::select('SELECT * FROM `pres_reg_material_req_ante`
+             WHERE `id_actividades_req_ante` = ?', [$requisicion->id_actividades_req_ante]);
              foreach ( $bienes_servicios as $servicio) {
                  $serv['id_reg_material_ant']=$servicio->id_reg_material_ant;
                  $serv['descripcion']=$servicio->descripcion;
@@ -841,17 +841,17 @@ class Pres_autorizadas_req_proController extends Controller
      }
      public function proyecto_meta_anteproyecto($id_presupuesto){
          $proyecto = DB::selectOne('SELECT pres_presupuesto_anteproyecto.*,pres_proyectos.nombre_proyecto from pres_presupuesto_anteproyecto, pres_proyectos
-       WHERE pres_presupuesto_anteproyecto.id_proyecto = pres_proyectos.id_proyecto and pres_presupuesto_anteproyecto.id_presupuesto =' . $id_presupuesto . ' ');
+       WHERE pres_presupuesto_anteproyecto.id_proyecto = pres_proyectos.id_proyecto and pres_presupuesto_anteproyecto.id_presupuesto = ? ', [$id_presupuesto]);
 
          ///presupuesto del proyecto del anteproyecto
-         $presupuesto_ante_proy = DB::select('SELECT pres_fuentes_financiamiento.*, pres_capitulos.capitulo from 
-       pres_fuentes_financiamiento, pres_capitulos where pres_fuentes_financiamiento.id_capitulo = pres_capitulos.id_capitulo 
-        and pres_fuentes_financiamiento.id_presupuesto_ante = ' . $id_presupuesto . ' ORDER BY `pres_fuentes_financiamiento`.`id_capitulo` ASC');
+         $presupuesto_ante_proy = DB::select('SELECT pres_fuentes_financiamiento.*, pres_capitulos.capitulo from
+       pres_fuentes_financiamiento, pres_capitulos where pres_fuentes_financiamiento.id_capitulo = pres_capitulos.id_capitulo
+        and pres_fuentes_financiamiento.id_presupuesto_ante = ? ORDER BY `pres_fuentes_financiamiento`.`id_capitulo` ASC', [$id_presupuesto]);
 
          $mostrar = 0;
          $metas =DB::select('SELECT pres_metas.meta, pres_actividades_req_ante.* from pres_metas, pres_actividades_req_ante, pres_req_mat_ante
          where pres_metas.id_meta = pres_actividades_req_ante.id_meta and pres_actividades_req_ante.id_req_mat_ante = pres_req_mat_ante.id_req_mat_ante
-         and pres_req_mat_ante.year_requisicion ='.$proyecto->year.'  and pres_actividades_req_ante.id_proyecto = '.$proyecto->id_proyecto.' group by pres_metas.id_meta');
+         and pres_req_mat_ante.year_requisicion = ?  and pres_actividades_req_ante.id_proyecto = ? group by pres_metas.id_meta', [$proyecto->year, $proyecto->id_proyecto]);
 
 
 
@@ -861,21 +861,21 @@ class Pres_autorizadas_req_proController extends Controller
      public function ver_proyecto_meta_anteproyecto($id_meta,$id_presupuesto){
 
          $proyecto = DB::selectOne('SELECT pres_presupuesto_anteproyecto.*,pres_proyectos.nombre_proyecto from pres_presupuesto_anteproyecto, pres_proyectos
-       WHERE pres_presupuesto_anteproyecto.id_proyecto = pres_proyectos.id_proyecto and pres_presupuesto_anteproyecto.id_presupuesto =' . $id_presupuesto . ' ');
+       WHERE pres_presupuesto_anteproyecto.id_proyecto = pres_proyectos.id_proyecto and pres_presupuesto_anteproyecto.id_presupuesto = ? ', [$id_presupuesto]);
 
-         $fuente_financiamiento = DB::select('SELECT * FROM `pres_fuentes_financiamiento` WHERE `id_presupuesto_ante` = ' . $id_presupuesto . ' 
-        ORDER BY `pres_fuentes_financiamiento`.`id_capitulo` ASC');
+         $fuente_financiamiento = DB::select('SELECT * FROM `pres_fuentes_financiamiento` WHERE `id_presupuesto_ante` = ?
+        ORDER BY `pres_fuentes_financiamiento`.`id_capitulo` ASC', [$id_presupuesto]);
 
          $metas =DB::select('SELECT pres_metas.meta, pres_actividades_req_ante.* from pres_metas, pres_actividades_req_ante, pres_req_mat_ante
          where pres_metas.id_meta = pres_actividades_req_ante.id_meta and pres_actividades_req_ante.id_req_mat_ante = pres_req_mat_ante.id_req_mat_ante
-         and pres_req_mat_ante.year_requisicion ='.$proyecto->year.'  and pres_actividades_req_ante.id_proyecto = '.$proyecto->id_proyecto.' group by pres_metas.id_meta');
+         and pres_req_mat_ante.year_requisicion = ?  and pres_actividades_req_ante.id_proyecto = ? group by pres_metas.id_meta', [$proyecto->year, $proyecto->id_proyecto]);
 
 
          $array_capitulos=array();
          $suma_total_capitulo=0;
          foreach($fuente_financiamiento as $presupuesto){
 
-             $contar_partida=DB::selectOne('SELECT count(id_partida_pres)contar from pres_partida_pres WHERE id_capitulo ='.$presupuesto->id_capitulo.'');
+             $contar_partida=DB::selectOne('SELECT count(id_partida_pres)contar from pres_partida_pres WHERE id_capitulo = ?', [$presupuesto->id_capitulo]);
 
              if($contar_partida->contar == 0){
 
@@ -892,8 +892,8 @@ class Pres_autorizadas_req_proController extends Controller
                  $dat_cap['financiamiento_propios']=$presupuesto->financiamiento_propios;
                  $dat_cap['total_financiamiento']=$presupuesto->total_financiamiento;
 
-                 $partidas=DB::select('SELECT pres_partida_pres.* from pres_partida_pres 
-               WHERE id_capitulo = '.$presupuesto->id_capitulo.' ORDER BY `clave_presupuestal` ASC');
+                 $partidas=DB::select('SELECT pres_partida_pres.* from pres_partida_pres
+               WHERE id_capitulo = ? ORDER BY `clave_presupuestal` ASC', [$presupuesto->id_capitulo]);
 
 
                  $array_partidas=array();
@@ -910,14 +910,14 @@ class Pres_autorizadas_req_proController extends Controller
                          $dat_meses['id_mes']=$mes->id_mes;
                          $dat_meses['mes']=$mes->mes;
                          $requisiciones=DB::select('SELECT pres_actividades_req_ante.* from pres_actividades_req_ante,
-                       pres_req_mat_ante where pres_actividades_req_ante.id_proyecto = '.$proyecto->id_proyecto.' and pres_actividades_req_ante.id_partida_pres = '.$partida->id_partida_pres.' 
-                       and pres_actividades_req_ante.id_mes  = '.$mes->id_mes.' and pres_actividades_req_ante.id_autorizacion= 4 and pres_actividades_req_ante.id_meta = '.$id_meta.'
-                        and pres_req_mat_ante.id_req_mat_ante = pres_actividades_req_ante.id_req_mat_ante and  pres_req_mat_ante.year_requisicion= '.$proyecto->year.' ');
+                       pres_req_mat_ante where pres_actividades_req_ante.id_proyecto = ? and pres_actividades_req_ante.id_partida_pres = ?
+                       and pres_actividades_req_ante.id_mes  = ? and pres_actividades_req_ante.id_autorizacion= 4 and pres_actividades_req_ante.id_meta = ?
+                        and pres_req_mat_ante.id_req_mat_ante = pres_actividades_req_ante.id_req_mat_ante and  pres_req_mat_ante.year_requisicion= ? ', [$proyecto->id_proyecto, $partida->id_partida_pres, $mes->id_mes, $id_meta, $proyecto->year]);
 
                          $suma_req1=0;
                          $array_req=array();
                          foreach ($requisiciones as $requisicion){
-                             $suma_req=DB::selectOne('SELECT SUM(importe) suma_material from pres_reg_material_req_ante WHERE id_actividades_req_ante = '.$requisicion->id_actividades_req_ante.'');
+                             $suma_req=DB::selectOne('SELECT SUM(importe) suma_material from pres_reg_material_req_ante WHERE id_actividades_req_ante = ?', [$requisicion->id_actividades_req_ante]);
 
                              if($suma_req== null ){
                                  $dat_req['id_actividades_req_ante']=$requisicion->id_actividades_req_ante;
@@ -958,18 +958,18 @@ class Pres_autorizadas_req_proController extends Controller
 
 
          $proyecto = DB::selectOne('SELECT pres_presupuesto_anteproyecto.*,pres_proyectos.nombre_proyecto from pres_presupuesto_anteproyecto, pres_proyectos
-       WHERE pres_presupuesto_anteproyecto.id_proyecto = pres_proyectos.id_proyecto and pres_presupuesto_anteproyecto.id_presupuesto =' . $id_presupuesto . ' ');
+       WHERE pres_presupuesto_anteproyecto.id_proyecto = pres_proyectos.id_proyecto and pres_presupuesto_anteproyecto.id_presupuesto = ? ', [$id_presupuesto]);
 
          ///presupuesto del proyecto del anteproyecto
-         $presupuesto_ante_proy = DB::select('SELECT pres_fuentes_financiamiento.*, pres_capitulos.capitulo from 
-       pres_fuentes_financiamiento, pres_capitulos where pres_fuentes_financiamiento.id_capitulo = pres_capitulos.id_capitulo 
-        and pres_fuentes_financiamiento.id_presupuesto_ante = ' . $id_presupuesto . ' ORDER BY `pres_fuentes_financiamiento`.`id_capitulo` ASC');
+         $presupuesto_ante_proy = DB::select('SELECT pres_fuentes_financiamiento.*, pres_capitulos.capitulo from
+       pres_fuentes_financiamiento, pres_capitulos where pres_fuentes_financiamiento.id_capitulo = pres_capitulos.id_capitulo
+        and pres_fuentes_financiamiento.id_presupuesto_ante = ? ORDER BY `pres_fuentes_financiamiento`.`id_capitulo` ASC', [$id_presupuesto]);
 
          $mostrar = 1;
          $presupuesto_proyecto = DB::select('SELECT pres_fuentes_financiamiento.*,pres_capitulos.capitulo FROM
-        `pres_fuentes_financiamiento`,pres_capitulos WHERE pres_fuentes_financiamiento.id_presupuesto_ante = ' . $id_presupuesto . '
+        `pres_fuentes_financiamiento`,pres_capitulos WHERE pres_fuentes_financiamiento.id_presupuesto_ante = ?
         and pres_fuentes_financiamiento.total_presupuesto >0 and pres_fuentes_financiamiento.id_capitulo = pres_capitulos.id_capitulo
-        ORDER BY `pres_fuentes_financiamiento`.`id_capitulo` ASC');
+        ORDER BY `pres_fuentes_financiamiento`.`id_capitulo` ASC', [$id_presupuesto]);
 
 
 
@@ -979,17 +979,17 @@ class Pres_autorizadas_req_proController extends Controller
      }
      public function proyecto_metas_anteproyecto_inc($id_presupuesto){
          $proyecto = DB::selectOne('SELECT pres_presupuesto_anteproyecto.*,pres_proyectos.nombre_proyecto from pres_presupuesto_anteproyecto, pres_proyectos
-       WHERE pres_presupuesto_anteproyecto.id_proyecto = pres_proyectos.id_proyecto and pres_presupuesto_anteproyecto.id_presupuesto =' . $id_presupuesto . ' ');
+       WHERE pres_presupuesto_anteproyecto.id_proyecto = pres_proyectos.id_proyecto and pres_presupuesto_anteproyecto.id_presupuesto = ? ', [$id_presupuesto]);
 
          ///presupuesto del proyecto del anteproyecto
-         $presupuesto_ante_proy = DB::select('SELECT pres_fuentes_financiamiento.*, pres_capitulos.capitulo from 
-       pres_fuentes_financiamiento, pres_capitulos where pres_fuentes_financiamiento.id_capitulo = pres_capitulos.id_capitulo 
-        and pres_fuentes_financiamiento.id_presupuesto_ante = ' . $id_presupuesto . ' ORDER BY `pres_fuentes_financiamiento`.`id_capitulo` ASC');
+         $presupuesto_ante_proy = DB::select('SELECT pres_fuentes_financiamiento.*, pres_capitulos.capitulo from
+       pres_fuentes_financiamiento, pres_capitulos where pres_fuentes_financiamiento.id_capitulo = pres_capitulos.id_capitulo
+        and pres_fuentes_financiamiento.id_presupuesto_ante = ? ORDER BY `pres_fuentes_financiamiento`.`id_capitulo` ASC', [$id_presupuesto]);
 
          $mostrar = 0;
          $metas =DB::select('SELECT pres_metas.meta, pres_actividades_req_ante.* from pres_metas, pres_actividades_req_ante, pres_req_mat_ante
          where pres_metas.id_meta = pres_actividades_req_ante.id_meta and pres_actividades_req_ante.id_req_mat_ante = pres_req_mat_ante.id_req_mat_ante
-         and pres_req_mat_ante.year_requisicion ='.$proyecto->year.'  and pres_actividades_req_ante.id_proyecto = '.$proyecto->id_proyecto.' group by pres_metas.id_meta');
+         and pres_req_mat_ante.year_requisicion = ?  and pres_actividades_req_ante.id_proyecto = ? group by pres_metas.id_meta', [$proyecto->year, $proyecto->id_proyecto]);
 
 
 
@@ -998,21 +998,21 @@ class Pres_autorizadas_req_proController extends Controller
      }
      public function ver_proyecto_meta_ante_inc($id_meta,$id_presupuesto){
          $proyecto = DB::selectOne('SELECT pres_presupuesto_anteproyecto.*,pres_proyectos.nombre_proyecto from pres_presupuesto_anteproyecto, pres_proyectos
-       WHERE pres_presupuesto_anteproyecto.id_proyecto = pres_proyectos.id_proyecto and pres_presupuesto_anteproyecto.id_presupuesto =' . $id_presupuesto . ' ');
+       WHERE pres_presupuesto_anteproyecto.id_proyecto = pres_proyectos.id_proyecto and pres_presupuesto_anteproyecto.id_presupuesto = ? ', [$id_presupuesto]);
 
-         $fuente_financiamiento = DB::select('SELECT * FROM `pres_fuentes_financiamiento` WHERE `id_presupuesto_ante` = ' . $id_presupuesto . ' 
-        ORDER BY `pres_fuentes_financiamiento`.`id_capitulo` ASC');
+         $fuente_financiamiento = DB::select('SELECT * FROM `pres_fuentes_financiamiento` WHERE `id_presupuesto_ante` = ?
+        ORDER BY `pres_fuentes_financiamiento`.`id_capitulo` ASC', [$id_presupuesto]);
 
          $metas =DB::select('SELECT pres_metas.meta, pres_actividades_req_ante.* from pres_metas, pres_actividades_req_ante, pres_req_mat_ante
          where pres_metas.id_meta = pres_actividades_req_ante.id_meta and pres_actividades_req_ante.id_req_mat_ante = pres_req_mat_ante.id_req_mat_ante
-         and pres_req_mat_ante.year_requisicion ='.$proyecto->year.'  and pres_actividades_req_ante.id_proyecto = '.$proyecto->id_proyecto.' group by pres_metas.id_meta');
+         and pres_req_mat_ante.year_requisicion = ?  and pres_actividades_req_ante.id_proyecto = ? group by pres_metas.id_meta', [$proyecto->year, $proyecto->id_proyecto]);
 
 
          $array_capitulos=array();
          $suma_total_capitulo=0;
          foreach($fuente_financiamiento as $presupuesto){
 
-             $contar_partida=DB::selectOne('SELECT count(id_partida_pres)contar from pres_partida_pres WHERE id_capitulo ='.$presupuesto->id_capitulo.'');
+             $contar_partida=DB::selectOne('SELECT count(id_partida_pres)contar from pres_partida_pres WHERE id_capitulo = ?', [$presupuesto->id_capitulo]);
 
              if($contar_partida->contar == 0){
 
@@ -1029,8 +1029,8 @@ class Pres_autorizadas_req_proController extends Controller
                  $dat_cap['financiamiento_propios']=$presupuesto->financiamiento_propios;
                  $dat_cap['total_financiamiento']=$presupuesto->total_financiamiento;
 
-                 $partidas=DB::select('SELECT pres_partida_pres.* from pres_partida_pres 
-               WHERE id_capitulo = '.$presupuesto->id_capitulo.' ORDER BY `clave_presupuestal` ASC');
+                 $partidas=DB::select('SELECT pres_partida_pres.* from pres_partida_pres
+               WHERE id_capitulo = ? ORDER BY `clave_presupuestal` ASC', [$presupuesto->id_capitulo]);
 
 
                  $array_partidas=array();
@@ -1047,14 +1047,14 @@ class Pres_autorizadas_req_proController extends Controller
                          $dat_meses['id_mes']=$mes->id_mes;
                          $dat_meses['mes']=$mes->mes;
                          $requisiciones=DB::select('SELECT pres_actividades_req_ante.* from pres_actividades_req_ante,
-                       pres_req_mat_ante where pres_actividades_req_ante.id_proyecto = '.$proyecto->id_proyecto.' and pres_actividades_req_ante.id_partida_pres = '.$partida->id_partida_pres.' 
-                       and pres_actividades_req_ante.id_mes  = '.$mes->id_mes.' and pres_actividades_req_ante.id_autorizacion= 4 and pres_actividades_req_ante.id_meta = '.$id_meta.'
-                        and pres_req_mat_ante.id_req_mat_ante = pres_actividades_req_ante.id_req_mat_ante and  pres_req_mat_ante.year_requisicion= '.$proyecto->year.' ');
+                       pres_req_mat_ante where pres_actividades_req_ante.id_proyecto = ? and pres_actividades_req_ante.id_partida_pres = ?
+                       and pres_actividades_req_ante.id_mes  = ? and pres_actividades_req_ante.id_autorizacion= 4 and pres_actividades_req_ante.id_meta = ?
+                        and pres_req_mat_ante.id_req_mat_ante = pres_actividades_req_ante.id_req_mat_ante and  pres_req_mat_ante.year_requisicion= ? ', [$proyecto->id_proyecto, $partida->id_partida_pres, $mes->id_mes, $id_meta, $proyecto->year]);
 
                          $suma_req1=0;
                          $array_req=array();
                          foreach ($requisiciones as $requisicion){
-                             $suma_req=DB::selectOne('SELECT SUM(importe) suma_material from pres_reg_material_req_ante WHERE id_actividades_req_ante = '.$requisicion->id_actividades_req_ante.'');
+                             $suma_req=DB::selectOne('SELECT SUM(importe) suma_material from pres_reg_material_req_ante WHERE id_actividades_req_ante = ?', [$requisicion->id_actividades_req_ante]);
 
                              if($suma_req== null ){
                                  $dat_req['id_actividades_req_ante']=$requisicion->id_actividades_req_ante;
@@ -1095,18 +1095,18 @@ class Pres_autorizadas_req_proController extends Controller
 
 
          $proyecto = DB::selectOne('SELECT pres_presupuesto_anteproyecto.*,pres_proyectos.nombre_proyecto from pres_presupuesto_anteproyecto, pres_proyectos
-       WHERE pres_presupuesto_anteproyecto.id_proyecto = pres_proyectos.id_proyecto and pres_presupuesto_anteproyecto.id_presupuesto =' . $id_presupuesto . ' ');
+       WHERE pres_presupuesto_anteproyecto.id_proyecto = pres_proyectos.id_proyecto and pres_presupuesto_anteproyecto.id_presupuesto = ? ', [$id_presupuesto]);
 
          ///presupuesto del proyecto del anteproyecto
-         $presupuesto_ante_proy = DB::select('SELECT pres_fuentes_financiamiento.*, pres_capitulos.capitulo from 
-       pres_fuentes_financiamiento, pres_capitulos where pres_fuentes_financiamiento.id_capitulo = pres_capitulos.id_capitulo 
-        and pres_fuentes_financiamiento.id_presupuesto_ante = ' . $id_presupuesto . ' ORDER BY `pres_fuentes_financiamiento`.`id_capitulo` ASC');
+         $presupuesto_ante_proy = DB::select('SELECT pres_fuentes_financiamiento.*, pres_capitulos.capitulo from
+       pres_fuentes_financiamiento, pres_capitulos where pres_fuentes_financiamiento.id_capitulo = pres_capitulos.id_capitulo
+        and pres_fuentes_financiamiento.id_presupuesto_ante = ? ORDER BY `pres_fuentes_financiamiento`.`id_capitulo` ASC', [$id_presupuesto]);
 
          $mostrar = 1;
          $presupuesto_proyecto = DB::select('SELECT pres_fuentes_financiamiento.*,pres_capitulos.capitulo FROM
-        `pres_fuentes_financiamiento`,pres_capitulos WHERE pres_fuentes_financiamiento.id_presupuesto_ante = ' . $id_presupuesto . '
+        `pres_fuentes_financiamiento`,pres_capitulos WHERE pres_fuentes_financiamiento.id_presupuesto_ante = ?
         and pres_fuentes_financiamiento.total_presupuesto >0 and pres_fuentes_financiamiento.id_capitulo = pres_capitulos.id_capitulo
-        ORDER BY `pres_fuentes_financiamiento`.`id_capitulo` ASC');
+        ORDER BY `pres_fuentes_financiamiento`.`id_capitulo` ASC', [$id_presupuesto]);
 
 
 

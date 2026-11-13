@@ -32,7 +32,7 @@ class Tutorias_ReporteSemestralController extends Controller
             $dat['cuenta']=$dato->cuenta;
             $dat['estado']=$dato->estado;
             $dat['id_asigna_generacion']=$dato->id_asigna_generacion;
-            $con=DB::selectOne("SELECT count(id_reporte_tutor) contar FROM reporte_tutor WHERE id_asigna_generacion = $dato->id_asigna_generacion AND n_cuenta = '$dato->cuenta'");
+            $con=DB::selectOne('SELECT count(id_reporte_tutor) contar FROM reporte_tutor WHERE id_asigna_generacion = ? AND n_cuenta = ?', [$dato->id_asigna_generacion, (string) ($dato->cuenta)]);
              if($con->contar == 0){
                  $dat['conteo']=false;
              }
@@ -52,20 +52,20 @@ class Tutorias_ReporteSemestralController extends Controller
             UPPER(gnral_alumnos.apaterno) as apaterno, UPPER(gnral_alumnos.amaterno) as amaterno,
             gnral_alumnos.cuenta,exp_generales.beca,exp_generales.materias_repeticion,exp_generales.materias_especial,
             exp_asigna_alumnos.estado
-            FROM exp_asigna_tutor,exp_asigna_generacion,exp_asigna_alumnos,gnral_alumnos,exp_generales,exp_generacion 
-            WHERE exp_asigna_tutor.id_asigna_generacion=exp_asigna_generacion.id_asigna_generacion 
-            AND exp_asigna_alumnos.id_asigna_generacion=exp_asigna_generacion.id_asigna_generacion 
-            AND exp_asigna_alumnos.id_asigna_generacion=exp_asigna_tutor.id_asigna_generacion 
-            AND exp_asigna_alumnos.id_alumno=gnral_alumnos.id_alumno 
+            FROM exp_asigna_tutor,exp_asigna_generacion,exp_asigna_alumnos,gnral_alumnos,exp_generales,exp_generacion
+            WHERE exp_asigna_tutor.id_asigna_generacion=exp_asigna_generacion.id_asigna_generacion
+            AND exp_asigna_alumnos.id_asigna_generacion=exp_asigna_generacion.id_asigna_generacion
+            AND exp_asigna_alumnos.id_asigna_generacion=exp_asigna_tutor.id_asigna_generacion
+            AND exp_asigna_alumnos.id_alumno=gnral_alumnos.id_alumno
             AND gnral_alumnos.cuenta=exp_generales.no_cuenta
             AND exp_generacion.id_generacion=exp_asigna_generacion.id_generacion
             AND exp_asigna_alumnos.id_asigna_generacion=exp_asigna_generacion.id_asigna_generacion
             AND exp_asigna_alumnos.id_asigna_generacion=exp_asigna_tutor.id_asigna_generacion
-            AND exp_asigna_tutor.deleted_at is null 
-            AND exp_asigna_generacion.deleted_at is null 
-            AND exp_asigna_alumnos.deleted_at is null 
-            AND exp_asigna_alumnos.id_alumno='.$request->id_alu.'
-            AND exp_asigna_generacion.id_asigna_generacion='.$request->id);
+            AND exp_asigna_tutor.deleted_at is null
+            AND exp_asigna_generacion.deleted_at is null
+            AND exp_asigna_alumnos.deleted_at is null
+            AND exp_asigna_alumnos.id_alumno= ?
+            AND exp_asigna_generacion.id_asigna_generacion= ?', [$request->id_alu, $request->id]);
 
         return $data;
     }
@@ -78,7 +78,7 @@ class Tutorias_ReporteSemestralController extends Controller
                 ->where('n_cuenta','=',$request->cuenta)
                 ->first();
 
-        $repo = array('id_asigna_generacion' =>$request->id_asigna_generacion, 
+        $repo = array('id_asigna_generacion' =>$request->id_asigna_generacion,
                     'alumno' =>$request->nombre,
                     'appaterno'=>$request->apaterno,
                     'apmaterno'=>$request->amaterno,
@@ -94,7 +94,7 @@ class Tutorias_ReporteSemestralController extends Controller
                     'baja'=>$request->estado,
                     'observaciones'=>$request->observaciones,);
 
-        if ($comp == 0) 
+        if ($comp == 0)
         {
             Tutorias_Reporte_tutor::create($repo);
         }
@@ -108,22 +108,22 @@ class Tutorias_ReporteSemestralController extends Controller
                                 exp_generales.beca,exp_generales.materias_repeticion,exp_generales.materias_especial,
                                 reporte_tutor.academico,reporte_tutor.medico,reporte_tutor.psicologico,exp_asigna_alumnos.estado,
                                 reporte_tutor.observaciones
-                                FROM exp_asigna_tutor,exp_asigna_generacion,exp_asigna_alumnos,gnral_alumnos,exp_generales,exp_generacion,reporte_tutor 
-                                WHERE exp_asigna_tutor.id_asigna_generacion=exp_asigna_generacion.id_asigna_generacion 
-                                AND exp_asigna_alumnos.id_asigna_generacion=exp_asigna_generacion.id_asigna_generacion 
-                                AND exp_asigna_alumnos.id_asigna_generacion=exp_asigna_tutor.id_asigna_generacion 
-                                AND exp_asigna_alumnos.id_alumno=gnral_alumnos.id_alumno 
+                                FROM exp_asigna_tutor,exp_asigna_generacion,exp_asigna_alumnos,gnral_alumnos,exp_generales,exp_generacion,reporte_tutor
+                                WHERE exp_asigna_tutor.id_asigna_generacion=exp_asigna_generacion.id_asigna_generacion
+                                AND exp_asigna_alumnos.id_asigna_generacion=exp_asigna_generacion.id_asigna_generacion
+                                AND exp_asigna_alumnos.id_asigna_generacion=exp_asigna_tutor.id_asigna_generacion
+                                AND exp_asigna_alumnos.id_alumno=gnral_alumnos.id_alumno
                                 AND gnral_alumnos.cuenta=exp_generales.no_cuenta
                                 AND exp_generacion.id_generacion=exp_asigna_generacion.id_generacion
                                 AND exp_asigna_alumnos.id_asigna_generacion=exp_asigna_generacion.id_asigna_generacion
                                 AND exp_asigna_alumnos.id_asigna_generacion=exp_asigna_tutor.id_asigna_generacion
                                 AND reporte_tutor.id_asigna_generacion=exp_asigna_tutor.id_asigna_generacion
                                 AND reporte_tutor.n_cuenta=gnral_alumnos.cuenta
-                                AND exp_asigna_tutor.deleted_at is null 
-                                AND exp_asigna_generacion.deleted_at is null 
-                                AND exp_asigna_alumnos.deleted_at is null 
-                                AND exp_asigna_alumnos.id_alumno='.$request->id_alu.'
-                                AND exp_asigna_generacion.id_asigna_generacion='.$request->id);
+                                AND exp_asigna_tutor.deleted_at is null
+                                AND exp_asigna_generacion.deleted_at is null
+                                AND exp_asigna_alumnos.deleted_at is null
+                                AND exp_asigna_alumnos.id_alumno= ?
+                                AND exp_asigna_generacion.id_asigna_generacion= ?', [$request->id_alu, $request->id]);
 
         return $data;
     }

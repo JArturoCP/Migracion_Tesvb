@@ -44,7 +44,7 @@ class Beca_SolicitudController extends Controller
               AND gp.id_periodo >= 20
               AND eca.id_materia NOT IN (773,817,845,853,1160,1263,1264,1265,
                                          1443,1496,1565,1566,1567,1568,1569,
-                                         1571,2516,2517,2614,2250)  
+                                         1571,2516,2517,2614,2250)
               AND ce.calificacion < 70
         ", [$id_alumno]);
 
@@ -52,7 +52,7 @@ class Beca_SolicitudController extends Controller
         return $reprobadas->total == 0;
     }
 
-    
+
     private function tieneSancion($id_alumno, $id_periodo)
     {
         $periodo_anterior = $id_periodo - 1;
@@ -198,12 +198,12 @@ class Beca_SolicitudController extends Controller
     {
         $id_periodo = Session::get('periodo_actual');
         $fecha_hoy  = date("Y-m-d ");
-        $periodo_beca = DB::selectOne("
+        $periodo_beca = DB::selectOne('
             SELECT count(id_beca_periodo) estado
             FROM beca_periodo
-            WHERE id_periodo = '$id_periodo'
-              AND '$fecha_hoy' BETWEEN fecha_inicial AND fecha_final
-        ");
+            WHERE id_periodo = ?
+              AND ? BETWEEN fecha_inicial AND fecha_final
+        ', [(string) ($id_periodo), (string) ($fecha_hoy)]);
         $periodo_beca = $periodo_beca->estado;
         $semestres    = DB::select("select * from gnral_semestres");
 
@@ -222,10 +222,10 @@ class Beca_SolicitudController extends Controller
         $alta_carga = DB::selectOne('
             SELECT count(id) validacion
             FROM eva_validacion_de_cargas
-            WHERE id_alumno = ' . $id_alumno . '
-              AND id_periodo = ' . $id_periodo . '
+            WHERE id_alumno = ?
+              AND id_periodo = ?
               AND estado_validacion in (2,8,9)
-        ');
+        ', [$id_alumno, $id_periodo]);
         $alta_carga = $alta_carga->validacion;
 
         if ($alta_carga == 0) {
@@ -249,9 +249,9 @@ class Beca_SolicitudController extends Controller
             $estado_beca = DB::selectOne('
                 SELECT COUNT(id_autorizar) autorizar
                 FROM beca_autorizar
-                WHERE id_alumno = ' . $id_alumno . '
-                  AND id_periodo = ' . $id_periodo . '
-            ');
+                WHERE id_alumno = ?
+                  AND id_periodo = ?
+            ', [$id_alumno, $id_periodo]);
             $estado_beca = $estado_beca->autorizar;
 
             if ($estado_beca == 0) {
@@ -260,9 +260,9 @@ class Beca_SolicitudController extends Controller
                 $estado_vulnerabilidad  = DB::selectOne('
                     SELECT COUNT(id_vulnerabilidad) contar
                     FROM beca_vulnerabilidad
-                    WHERE id_alumno = ' . $id_alumno . '
-                      AND id_periodo = ' . $id_periodo . '
-                ');
+                    WHERE id_alumno = ?
+                      AND id_periodo = ?
+                ', [$id_alumno, $id_periodo]);
                 $estado_vulnerabilidad1 = $estado_vulnerabilidad->contar;
 
                 if ($estado_vulnerabilidad1 == 0) {
@@ -272,9 +272,9 @@ class Beca_SolicitudController extends Controller
                 {
                     $vulnerabilidad = DB::selectOne('
                         SELECT * FROM beca_vulnerabilidad
-                        WHERE id_alumno = ' . $id_alumno . '
-                          AND id_periodo = ' . $id_periodo . '
-                    ');
+                        WHERE id_alumno = ?
+                          AND id_periodo = ?
+                    ', [$id_alumno, $id_periodo]);
 
                     $docentes = DB::select('
                         SELECT gnral_materias.id_materia, eva_carga_academica.id_tipo_curso,
@@ -291,13 +291,13 @@ class Beca_SolicitudController extends Controller
                           AND eva_carga_academica.id_periodo        = gnral_periodos.id_periodo
                           AND eva_carga_academica.grupo             = gnral_grupos.id_grupo
                           AND eva_carga_academica.id_alumno         = gnral_alumnos.id_alumno
-                          AND gnral_periodos.id_periodo             = ' . $id_periodo . '
+                          AND gnral_periodos.id_periodo             = ?
                           AND gnral_alumnos.id_alumno               = eva_validacion_de_cargas.id_alumno
                           AND gnral_periodos.id_periodo             = eva_validacion_de_cargas.id_periodo
                           AND eva_validacion_de_cargas.estado_validacion IN (2,8,9)
-                          AND eva_validacion_de_cargas.id_alumno    = ' . $id_alumno . '
+                          AND eva_validacion_de_cargas.id_alumno    = ?
                           AND eva_status_materia.id_status_materia  = 1
-                    ');
+                    ', [$id_periodo, $id_alumno]);
 
                     $mayor_unidades        = 0;
                     $array_materias        = [];
@@ -317,7 +317,7 @@ class Beca_SolicitudController extends Controller
                         $promedio_general = 0;
 
                         if ($dat_alumno->id_materia == 2258) {
-                            $estado_servicio = DB::selectOne('SELECT count(id_servicio_social) contar FROM cal_servicio_social WHERE id_alumno = ' . $id_alumno . '');
+                            $estado_servicio = DB::selectOne('SELECT count(id_servicio_social) contar FROM cal_servicio_social WHERE id_alumno = ?', [$id_alumno]);
                             if ($estado_servicio->contar == 0) {
                                 // sin servicio social registrado, omitir
                             } else {
@@ -328,8 +328,8 @@ class Beca_SolicitudController extends Controller
                                 $dat_materia["unidades"]    = $dat_alumno->unidades;
                                 $mayor_unidades = $mayor_unidades > $dat_alumno->unidades ? $mayor_unidades : $dat_alumno->unidades;
                                 $array_calificaciones = [];
-                                $calificaciones = DB::select('SELECT * FROM cal_evaluaciones WHERE id_carga_academica = ' . $dat_alumno->id_carga_academica . ' ORDER BY cal_evaluaciones.id_unidad');
-                                $contar_evaluaciones = DB::selectOne('SELECT count(id_evaluacion) contar FROM cal_evaluaciones WHERE id_carga_academica = ' . $dat_alumno->id_carga_academica . ' ORDER BY cal_evaluaciones.id_unidad');
+                                $calificaciones = DB::select('SELECT * FROM cal_evaluaciones WHERE id_carga_academica = ? ORDER BY cal_evaluaciones.id_unidad', [$dat_alumno->id_carga_academica]);
+                                $contar_evaluaciones = DB::selectOne('SELECT count(id_evaluacion) contar FROM cal_evaluaciones WHERE id_carga_academica = ? ORDER BY cal_evaluaciones.id_unidad', [$dat_alumno->id_carga_academica]);
                                 $contar_evaluaciones = $contar_evaluaciones->contar;
                                 $calificaciones != null ? $unidades_evaluadas = 0 : $unidades_evaluadas = 1;
                                 foreach ($calificaciones as $calificacion) {
@@ -344,9 +344,9 @@ class Beca_SolicitudController extends Controller
                                 }
                                 if ($promedio_general == 0 && $contar_evaluaciones == $dat_alumno->unidades || $dat_alumno->id_materia == 2258) {
                                     if ($dat_alumno->id_materia == 2258) {
-                                        $estado_servicio = DB::selectOne('SELECT count(id_servicio_social) contar FROM cal_servicio_social WHERE id_alumno = ' . $id_alumno . '');
+                                        $estado_servicio = DB::selectOne('SELECT count(id_servicio_social) contar FROM cal_servicio_social WHERE id_alumno = ?', [$id_alumno]);
                                         if ($estado_servicio->contar == 0) { $pro = 0; $servicio_s = 1; }
-                                        else { $servicio_s = 2; $servicio = DB::selectOne('SELECT * FROM cal_servicio_social WHERE id_alumno = ' . $id_alumno . ''); $pro = $servicio->calificacion; }
+                                        else { $servicio_s = 2; $servicio = DB::selectOne('SELECT * FROM cal_servicio_social WHERE id_alumno = ?', [$id_alumno]); $pro = $servicio->calificacion; }
                                     } else {
                                         $pro = intval(round($suma_unidades / $dat_alumno->unidades) + 0);
                                     }
@@ -370,8 +370,8 @@ class Beca_SolicitudController extends Controller
                             $dat_materia["unidades"]    = $dat_alumno->unidades;
                             $mayor_unidades = $mayor_unidades > $dat_alumno->unidades ? $mayor_unidades : $dat_alumno->unidades;
                             $array_calificaciones = [];
-                            $calificaciones = DB::select('SELECT * FROM cal_evaluaciones WHERE id_carga_academica = ' . $dat_alumno->id_carga_academica . ' ORDER BY cal_evaluaciones.id_unidad');
-                            $contar_evaluaciones = DB::selectOne('SELECT count(id_evaluacion) contar FROM cal_evaluaciones WHERE id_carga_academica = ' . $dat_alumno->id_carga_academica . ' ORDER BY cal_evaluaciones.id_unidad');
+                            $calificaciones = DB::select('SELECT * FROM cal_evaluaciones WHERE id_carga_academica = ? ORDER BY cal_evaluaciones.id_unidad', [$dat_alumno->id_carga_academica]);
+                            $contar_evaluaciones = DB::selectOne('SELECT count(id_evaluacion) contar FROM cal_evaluaciones WHERE id_carga_academica = ? ORDER BY cal_evaluaciones.id_unidad', [$dat_alumno->id_carga_academica]);
                             $contar_evaluaciones = $contar_evaluaciones->contar;
                             $calificaciones != null ? $unidades_evaluadas = 0 : $unidades_evaluadas = 1;
                             foreach ($calificaciones as $calificacion) {
@@ -386,9 +386,9 @@ class Beca_SolicitudController extends Controller
                             }
                             if ($promedio_general == 0 && $contar_evaluaciones == $dat_alumno->unidades || $dat_alumno->id_materia == 2258) {
                                 if ($dat_alumno->id_materia == 2258) {
-                                    $estado_servicio = DB::selectOne('SELECT count(id_servicio_social) contar FROM cal_servicio_social WHERE id_alumno = ' . $id_alumno . '');
+                                    $estado_servicio = DB::selectOne('SELECT count(id_servicio_social) contar FROM cal_servicio_social WHERE id_alumno = ?', [$id_alumno]);
                                     if ($estado_servicio->contar == 0) { $pro = 0; $servicio_s = 1; }
-                                    else { $servicio_s = 2; $servicio = DB::selectOne('SELECT * FROM cal_servicio_social WHERE id_alumno = ' . $id_alumno . ''); $pro = $servicio->calificacion; }
+                                    else { $servicio_s = 2; $servicio = DB::selectOne('SELECT * FROM cal_servicio_social WHERE id_alumno = ?', [$id_alumno]); $pro = $servicio->calificacion; }
                                 } else {
                                     $pro = intval(round($suma_unidades / $dat_alumno->unidades) + 0);
                                 }
@@ -451,10 +451,10 @@ class Beca_SolicitudController extends Controller
                 $registro_estado    = DB::selectOne('
                     SELECT beca_autorizar.*, gnral_semestres.descripcion AS semestre
                     FROM beca_autorizar, gnral_semestres
-                    WHERE beca_autorizar.id_alumno  = ' . $id_alumno . '
-                      AND beca_autorizar.id_periodo = ' . $id_periodo . '
+                    WHERE beca_autorizar.id_alumno  = ?
+                      AND beca_autorizar.id_periodo = ?
                       AND beca_autorizar.id_semestre = gnral_semestres.id_semestre
-                ');
+                ', [$id_alumno, $id_periodo]);
                 return view('beca_estimulo.solicitud_beca',
                     compact('periodo_beca', 'alta_carga', 'estado_beca', 'datosalumno',
                             'registro_estado', 'estado_estimulo', 'descuento_estimulo', 'promedio_final'));
@@ -504,10 +504,10 @@ class Beca_SolicitudController extends Controller
     public function verificar_beca($id_autorizar, $autorizacion)
     {
         if ($autorizacion == 1) {
-            DB::update('UPDATE beca_autorizar SET id_estado = 3 WHERE id_autorizar = ' . $id_autorizar . '');
+            DB::update('UPDATE beca_autorizar SET id_estado = 3 WHERE id_autorizar = ?', [$id_autorizar]);
         }
         if ($autorizacion == 2) {
-            DB::update('UPDATE beca_autorizar SET id_estado = 2 WHERE id_autorizar = ' . $id_autorizar . '');
+            DB::update('UPDATE beca_autorizar SET id_estado = 2 WHERE id_autorizar = ?', [$id_autorizar]);
         }
         return back();
     }
@@ -519,7 +519,7 @@ class Beca_SolicitudController extends Controller
     {
         $id_periodo = Session::get('periodo_actual');
 
-        $autorizar_escolares = DB::select("
+        $autorizar_escolares = DB::select('
             SELECT ga.correo_al, ga.id_alumno, ga.cuenta, ga.nombre, ga.apaterno, ga.amaterno,
                    ga.curp_al, bd.descripcion descuento, bd.id_descuento, ba.promedio,
                    gs.id_semestre, gs.descripcion semestre, ba.id_autorizar,
@@ -531,11 +531,11 @@ class Beca_SolicitudController extends Controller
             JOIN gnral_carreras gc      ON gc.id_carrera   = ga.id_carrera
             JOIN beca_vulnerabilidad bv ON bv.id_alumno   = ga.id_alumno
                                        AND bv.id_periodo  = ba.id_periodo
-            WHERE ba.id_periodo = $id_periodo
+            WHERE ba.id_periodo = ?
               AND ba.id_estado  = 1
-        ");
+        ', [$id_periodo]);
 
-        $rechazados_escolares = DB::select("
+        $rechazados_escolares = DB::select('
             SELECT ga.correo_al, ga.id_alumno, ga.cuenta, ga.nombre, ga.apaterno, ga.amaterno,
                    ga.curp_al, bd.descripcion descuento, bd.id_descuento, ba.promedio,
                    gs.id_semestre, gs.descripcion semestre, ba.id_autorizar,
@@ -547,11 +547,11 @@ class Beca_SolicitudController extends Controller
             JOIN gnral_carreras gc      ON gc.id_carrera   = ga.id_carrera
             JOIN beca_vulnerabilidad bv ON bv.id_alumno   = ga.id_alumno
                                        AND bv.id_periodo  = ba.id_periodo
-            WHERE ba.id_periodo = $id_periodo
+            WHERE ba.id_periodo = ?
               AND ba.id_estado  = 2
-        ");
+        ', [$id_periodo]);
 
-        $autorizar_profesionales = DB::select("
+        $autorizar_profesionales = DB::select('
             SELECT ga.correo_al, ga.id_alumno, ga.cuenta, ga.nombre, ga.apaterno, ga.amaterno,
                    ga.curp_al, bd.descripcion descuento, bd.id_descuento, ba.promedio,
                    gs.id_semestre, gs.descripcion semestre, ba.id_autorizar,
@@ -563,11 +563,11 @@ class Beca_SolicitudController extends Controller
             JOIN gnral_carreras gc      ON gc.id_carrera   = ga.id_carrera
             JOIN beca_vulnerabilidad bv ON bv.id_alumno   = ga.id_alumno
                                        AND bv.id_periodo  = ba.id_periodo
-            WHERE ba.id_periodo = $id_periodo
+            WHERE ba.id_periodo = ?
               AND ba.id_estado  = 3
-        ");
+        ', [$id_periodo]);
 
-        $rechazados_profesionales = DB::select("
+        $rechazados_profesionales = DB::select('
             SELECT ga.correo_al, ga.id_alumno, ga.cuenta, ga.nombre, ga.apaterno, ga.amaterno,
                    ga.curp_al, bd.descripcion descuento, bd.id_descuento, ba.promedio,
                    gs.id_semestre, gs.descripcion semestre, ba.id_autorizar,
@@ -579,11 +579,11 @@ class Beca_SolicitudController extends Controller
             JOIN gnral_carreras gc      ON gc.id_carrera   = ga.id_carrera
             JOIN beca_vulnerabilidad bv ON bv.id_alumno   = ga.id_alumno
                                        AND bv.id_periodo  = ba.id_periodo
-            WHERE ba.id_periodo = $id_periodo
+            WHERE ba.id_periodo = ?
               AND ba.id_estado  = 4
-        ");
+        ', [$id_periodo]);
 
-        $autorizados_profesionales = DB::select("
+        $autorizados_profesionales = DB::select('
             SELECT ga.correo_al, ga.id_alumno, ga.cuenta, ga.nombre, ga.apaterno, ga.amaterno,
                    ga.curp_al, bd.descripcion descuento, bd.id_descuento, ba.promedio,
                    gs.id_semestre, gs.descripcion semestre, ba.id_autorizar,
@@ -595,9 +595,9 @@ class Beca_SolicitudController extends Controller
             JOIN gnral_carreras gc      ON gc.id_carrera   = ga.id_carrera
             JOIN beca_vulnerabilidad bv ON bv.id_alumno   = ga.id_alumno
                                        AND bv.id_periodo  = ba.id_periodo
-            WHERE ba.id_periodo = $id_periodo
+            WHERE ba.id_periodo = ?
               AND ba.id_estado  = 5
-        ");
+        ', [$id_periodo]);
 
         return view('beca_estimulo.autorizar_escolares',
             compact('autorizar_escolares', 'rechazados_escolares',
@@ -611,7 +611,7 @@ class Beca_SolicitudController extends Controller
     {
         $id_periodo = Session::get('periodo_actual');
 
-        $autorizar_escolares = DB::select("
+        $autorizar_escolares = DB::select('
             SELECT ga.correo_al, ga.id_alumno, ga.cuenta, ga.nombre, ga.apaterno, ga.amaterno,
                    ga.curp_al, bd.descripcion descuento, bd.id_descuento, ba.promedio,
                    gs.id_semestre, gs.descripcion semestre, ba.id_autorizar,
@@ -623,10 +623,10 @@ class Beca_SolicitudController extends Controller
             JOIN gnral_carreras gc      ON gc.id_carrera   = ga.id_carrera
             JOIN beca_vulnerabilidad bv ON bv.id_alumno   = ga.id_alumno
                                        AND bv.id_periodo  = ba.id_periodo
-            WHERE ba.id_periodo = $id_periodo AND ba.id_estado = 1
-        ");
+            WHERE ba.id_periodo = ? AND ba.id_estado = 1
+        ', [$id_periodo]);
 
-        $rechazados_escolares = DB::select("
+        $rechazados_escolares = DB::select('
             SELECT ga.correo_al, ga.id_alumno, ga.cuenta, ga.nombre, ga.apaterno, ga.amaterno,
                    ga.curp_al, bd.descripcion descuento, bd.id_descuento, ba.promedio,
                    gs.id_semestre, gs.descripcion semestre, ba.id_autorizar,
@@ -638,10 +638,10 @@ class Beca_SolicitudController extends Controller
             JOIN gnral_carreras gc      ON gc.id_carrera   = ga.id_carrera
             JOIN beca_vulnerabilidad bv ON bv.id_alumno   = ga.id_alumno
                                        AND bv.id_periodo  = ba.id_periodo
-            WHERE ba.id_periodo = $id_periodo AND ba.id_estado = 2
-        ");
+            WHERE ba.id_periodo = ? AND ba.id_estado = 2
+        ', [$id_periodo]);
 
-        $autorizar_profesionales = DB::select("
+        $autorizar_profesionales = DB::select('
             SELECT ga.correo_al, ga.id_alumno, ga.cuenta, ga.nombre, ga.apaterno, ga.amaterno,
                    ga.curp_al, bd.descripcion descuento, bd.id_descuento, ba.promedio,
                    gs.id_semestre, gs.descripcion semestre, ba.id_autorizar,
@@ -653,10 +653,10 @@ class Beca_SolicitudController extends Controller
             JOIN gnral_carreras gc      ON gc.id_carrera   = ga.id_carrera
             JOIN beca_vulnerabilidad bv ON bv.id_alumno   = ga.id_alumno
                                        AND bv.id_periodo  = ba.id_periodo
-            WHERE ba.id_periodo = $id_periodo AND ba.id_estado = 3
-        ");
+            WHERE ba.id_periodo = ? AND ba.id_estado = 3
+        ', [$id_periodo]);
 
-        $rechazados_profesionales = DB::select("
+        $rechazados_profesionales = DB::select('
             SELECT ga.correo_al, ga.id_alumno, ga.cuenta, ga.nombre, ga.apaterno, ga.amaterno,
                    ga.curp_al, bd.descripcion descuento, bd.id_descuento, ba.promedio,
                    gs.id_semestre, gs.descripcion semestre, ba.id_autorizar,
@@ -668,10 +668,10 @@ class Beca_SolicitudController extends Controller
             JOIN gnral_carreras gc      ON gc.id_carrera   = ga.id_carrera
             JOIN beca_vulnerabilidad bv ON bv.id_alumno   = ga.id_alumno
                                        AND bv.id_periodo  = ba.id_periodo
-            WHERE ba.id_periodo = $id_periodo AND ba.id_estado = 4
-        ");
+            WHERE ba.id_periodo = ? AND ba.id_estado = 4
+        ', [$id_periodo]);
 
-        $autorizados_profesionales = DB::select("
+        $autorizados_profesionales = DB::select('
             SELECT ga.correo_al, ga.id_alumno, ga.cuenta, ga.nombre, ga.apaterno, ga.amaterno,
                    ga.curp_al, bd.descripcion descuento, bd.id_descuento, ba.promedio,
                    gs.id_semestre, gs.descripcion semestre, ba.id_autorizar,
@@ -683,8 +683,8 @@ class Beca_SolicitudController extends Controller
             JOIN gnral_carreras gc      ON gc.id_carrera   = ga.id_carrera
             JOIN beca_vulnerabilidad bv ON bv.id_alumno   = ga.id_alumno
                                        AND bv.id_periodo  = ba.id_periodo
-            WHERE ba.id_periodo = $id_periodo AND ba.id_estado = 5
-        ");
+            WHERE ba.id_periodo = ? AND ba.id_estado = 5
+        ', [$id_periodo]);
 
         $total_madres      = 0;
         $total_discapacidad = 0;
@@ -707,10 +707,10 @@ class Beca_SolicitudController extends Controller
     public function verificar_beca_profesionales($id_autorizar, $autorizacion)
     {
         if ($autorizacion == 1) {
-            DB::update('UPDATE beca_autorizar SET id_estado = 5 WHERE id_autorizar = ' . $id_autorizar . '');
+            DB::update('UPDATE beca_autorizar SET id_estado = 5 WHERE id_autorizar = ?', [$id_autorizar]);
         }
         if ($autorizacion == 2) {
-            DB::update('UPDATE beca_autorizar SET id_estado = 4 WHERE id_autorizar = ' . $id_autorizar . '');
+            DB::update('UPDATE beca_autorizar SET id_estado = 4 WHERE id_autorizar = ?', [$id_autorizar]);
         }
         return back();
     }

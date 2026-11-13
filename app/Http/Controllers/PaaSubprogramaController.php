@@ -29,7 +29,7 @@ class PaaSubprogramaController extends Controller
         return back();
     }
 public function editar($id){
-    $subprograma= DB::selectOne('SELECT * FROM pa_subprograma WHERE id_subprograma =  '.$id.'');
+    $subprograma= DB::selectOne('SELECT * FROM pa_subprograma WHERE id_subprograma =  ?', [$id]);
     return response()->json($subprograma);
 }
 public function  modificar(Request $request,$id){

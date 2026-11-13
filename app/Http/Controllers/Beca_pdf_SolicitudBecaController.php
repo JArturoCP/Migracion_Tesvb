@@ -68,9 +68,9 @@ class Beca_pdf_SolicitudBecaController extends Controller
         $autorizados_profesionales=DB::selectOne('SELECT gnral_alumnos.id_alumno,gnral_alumnos.cuenta,gnral_alumnos.nombre,gnral_alumnos.apaterno,gnral_alumnos.correo_al,
 gnral_alumnos.amaterno,gnral_alumnos.curp_al,beca_descuento.descripcion descuento,beca_descuento.id_descuento,beca_autorizar.promedio,
 gnral_semestres.id_semestre,gnral_semestres.descripcion semestre,beca_autorizar.fecha,beca_autorizar.id_autorizar,gnral_carreras.id_carrera,gnral_carreras.nombre carrera
- FROM gnral_alumnos,beca_descuento,beca_autorizar,gnral_semestres,gnral_carreras WHERE gnral_alumnos.id_alumno=beca_autorizar.id_alumno 
- and gnral_alumnos.id_carrera=gnral_carreras.id_carrera and beca_autorizar.id_descuento=beca_descuento.id_descuento 
- and beca_autorizar.id_semestre=gnral_semestres.id_semestre and beca_autorizar.id_autorizar='.$id_autorizar.' ');
+ FROM gnral_alumnos,beca_descuento,beca_autorizar,gnral_semestres,gnral_carreras WHERE gnral_alumnos.id_alumno=beca_autorizar.id_alumno
+ and gnral_alumnos.id_carrera=gnral_carreras.id_carrera and beca_autorizar.id_descuento=beca_descuento.id_descuento
+ and beca_autorizar.id_semestre=gnral_semestres.id_semestre and beca_autorizar.id_autorizar= ? ', [$id_autorizar]);
 
         $nombre_alumno = mb_strtoupper($autorizados_profesionales->apaterno, 'utf-8') . " " . mb_strtoupper($autorizados_profesionales->amaterno, 'utf-8') . " " . mb_strtoupper($autorizados_profesionales->nombre, 'utf-8');
         $correo=$autorizados_profesionales->correo_al;

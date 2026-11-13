@@ -15,7 +15,7 @@ class Exp_asigna_expediente extends Model
 
     public static function getExpediente($id)
     {
-        $sql="SELECT DISTINCT gnral_carreras.nombre as a,gnral_periodos.periodo,gnral_grupos.grupo,exp_generales.nombre,edad,sexo,fecha_nacimientos,
+        $sql='SELECT DISTINCT gnral_carreras.nombre as a,gnral_periodos.periodo,gnral_grupos.grupo,exp_generales.nombre,edad,sexo,fecha_nacimientos,
 lugar_nacimientos,gnral_semestres.descripcion,exp_civil_estados.desc_ec,no_hijos,direccion,correo,tel_casa,cel,exp_opc_nivel_socio.desc_opc,
 trabaja,ocupacion,horario,no_cuenta,beca,tipo_beca,estado,turno,poblacion,ant_inst,satisfaccion_c,materias_repeticion,tot_repe,materias_especial,
 tot_espe,gen_espe, 
@@ -45,7 +45,7 @@ condiciones_ambientales,busqueda_bibliografica,trabajo_equipo
 from exp_generales, gnral_carreras, gnral_periodos, gnral_grupos, gnral_semestres, exp_civil_estados, exp_opc_nivel_socio,exp_antecedentes_academicos, 
 exp_bachillerato, exp_datos_familiares, exp_opc_vives, exp_familia_union, exp_parentescos, exp_habitos_estudio,exp_formacion_integral, exp_escalas, exp_area_psicopedagogica, exp_asigna_expediente
 
-where id_alumno=".$id."
+where id_alumno= ?
 and exp_generales.id_carrera=gnral_carreras.id_carrera 
 and exp_generales.id_periodo=gnral_periodos.id_periodo 
 and exp_generales.id_grupo=gnral_grupos.id_grupo and exp_generales.id_semestre=gnral_semestres.id_semestre 
@@ -56,8 +56,8 @@ and exp_antecedentes_academicos.id_bachillerato=exp_bachillerato.id_bachillerato
 and exp_datos_familiares.id_opc_vives=exp_opc_vives.id_opc_vives 
 and exp_datos_familiares.id_familia_union=exp_familia_union.id_familia_union 
 and exp_datos_familiares.id_parentesco=exp_parentescos.id_parentesco 
-and exp_formacion_integral.id_escala=exp_escalas.id_escala";
-        return DB::select($sql);
+and exp_formacion_integral.id_escala=exp_escalas.id_escala';
+        return DB::select($sql, [$id]);
     }
 
     public function exp_generales (){

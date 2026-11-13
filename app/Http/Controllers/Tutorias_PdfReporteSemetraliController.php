@@ -55,7 +55,7 @@ class Tutorias_PdfReporteSemetraliController extends Controller
 
         $fecha = DB::select('select Date_format(now(),"%d/%m/%Y") as fecha');
         $id_periodo = Session::get('periodo_actual');
-        $periodo = DB::selectOne('SELECT periodo from gnral_periodos where id_periodo=' . $id_periodo . '');
+        $periodo = DB::selectOne('SELECT periodo from gnral_periodos where id_periodo= ?', [$id_periodo]);
         $carreras = DB::select('SELECT car.id_carrera, car.nombre FROM gnral_carreras car
 
 WHERE car.id_carrera NOT IN (9)
@@ -79,10 +79,10 @@ AND car.id_carrera NOT IN (15)');
         $pdf->SetFillColor(97, 182, 35);
         $pdf->Cell(($pdf->GetPageWidth() - 15), 5, "" . utf8_decode("REPORTE SEMESTRAL DEL COORDINADOR INSTITUCIONAL DE TUTORÍAS"), 0, 1, "C", "true");
         $pdf->SetFillColor(255, 255, 255);
-        $nombre_cordinador=DB::SelectOne('SELECT gnral_personales.id_personal,gnral_personales.nombre, 
-        abreviaciones.titulo from abreviaciones, abreviaciones_prof, gnral_personales, 
-        desarrollo_asigna_coordinador_general WHERE 
-        abreviaciones.id_abreviacion = abreviaciones_prof.id_abreviacion and 
+        $nombre_cordinador=DB::SelectOne('SELECT gnral_personales.id_personal,gnral_personales.nombre,
+        abreviaciones.titulo from abreviaciones, abreviaciones_prof, gnral_personales,
+        desarrollo_asigna_coordinador_general WHERE
+        abreviaciones.id_abreviacion = abreviaciones_prof.id_abreviacion and
         abreviaciones_prof.id_personal = gnral_personales.id_personal and
          gnral_personales.id_personal = desarrollo_asigna_coordinador_general.id_personal');
         $pdf->Cell(140, 4, utf8_decode("Coordinador(a) de Institucional de Tutorías:  ") . utf8_decode($nombre_cordinador->titulo) . " "
@@ -164,7 +164,7 @@ INNER JOIN gnral_jefes_periodos gnral_j
 ON gnral_j.id_jefe_periodo = exp_asigna_t.id_jefe_periodo
 INNER JOIN gnral_carreras car
 ON car.id_carrera = gnral_j.id_carrera
-WHERE gnral_j.id_periodo = ' . $periodo . ' AND car.id_carrera = ' . $ca . ' ');
+WHERE gnral_j.id_periodo = ? AND car.id_carrera = ? ', [$periodo, $ca]);
 
             $grupal = 0;
             $individual = 0;
@@ -195,7 +195,7 @@ AND exp_asigna_tutor.deleted_at is null
 AND exp_asigna_generacion.deleted_at is null
 AND exp_asigna_alumnos.deleted_at is null
 AND reporte_tutor.tutoria_grupal="Si"
-AND reporte_tutor.id_asigna_generacion=' . $tutor->id_asigna_generacion);
+AND reporte_tutor.id_asigna_generacion= ?', [$tutor->id_asigna_generacion]);
                 $grupal = $grupal + $tut_grupal[0]->tutoria_grupal;
                 $grupalT += $tut_grupal[0]->tutoria_grupal;
 
@@ -216,7 +216,7 @@ AND exp_asigna_tutor.deleted_at is null
 AND exp_asigna_generacion.deleted_at is null
 AND exp_asigna_alumnos.deleted_at is null
 AND reporte_tutor.tutoria_individual="Si"
-AND reporte_tutor.id_asigna_generacion=' . $tutor->id_asigna_generacion);
+AND reporte_tutor.id_asigna_generacion= ?', [$tutor->id_asigna_generacion]);
                 $individual = $individual + $tut_ind[0]->tutoria_individual;
                 $individualT += $tut_ind[0]->tutoria_individual;
 
@@ -237,7 +237,7 @@ AND exp_asigna_tutor.deleted_at is null
 AND exp_asigna_generacion.deleted_at is null
 AND exp_asigna_alumnos.deleted_at is null
 AND reporte_tutor.beca=1
-AND reporte_tutor.id_asigna_generacion=' . $tutor->id_asigna_generacion);
+AND reporte_tutor.id_asigna_generacion= ?', [$tutor->id_asigna_generacion]);
                 $beca = $beca + $bec[0]->beca;
                 $becaT += $bec[0]->beca;
 
@@ -258,7 +258,7 @@ AND exp_asigna_tutor.deleted_at is null
 AND exp_asigna_generacion.deleted_at is null
 AND exp_asigna_alumnos.deleted_at is null
 AND reporte_tutor.repeticion = 1
-AND reporte_tutor.id_asigna_generacion=' . $tutor->id_asigna_generacion);
+AND reporte_tutor.id_asigna_generacion= ?', [$tutor->id_asigna_generacion]);
                 $repeticion = $repeticion + $rep[0]->repeticion;
                 $repeticionT += $rep[0]->repeticion;
 
@@ -279,7 +279,7 @@ AND exp_asigna_tutor.deleted_at is null
 AND exp_asigna_generacion.deleted_at is null
 AND exp_asigna_alumnos.deleted_at is null
 AND reporte_tutor.especial = 1
-AND reporte_tutor.id_asigna_generacion=' . $tutor->id_asigna_generacion);
+AND reporte_tutor.id_asigna_generacion= ?', [$tutor->id_asigna_generacion]);
                 $especialidad = $especialidad + $esp[0]->especial;
                 $especialidadT += $esp[0]->especial;
 
@@ -300,7 +300,7 @@ AND exp_asigna_tutor.deleted_at is null
 AND exp_asigna_generacion.deleted_at is null
 AND exp_asigna_alumnos.deleted_at is null
 AND reporte_tutor.academico = "Si"
-AND reporte_tutor.id_asigna_generacion=' . $tutor->id_asigna_generacion);
+AND reporte_tutor.id_asigna_generacion= ?', [$tutor->id_asigna_generacion]);
                 $academico = $academico + $acad[0]->academico;
                 $academicoT += $acad[0]->academico;
 
@@ -321,7 +321,7 @@ AND exp_asigna_tutor.deleted_at is null
 AND exp_asigna_generacion.deleted_at is null
 AND exp_asigna_alumnos.deleted_at is null
 AND reporte_tutor.medico = "Si"
-AND reporte_tutor.id_asigna_generacion=' . $tutor->id_asigna_generacion);
+AND reporte_tutor.id_asigna_generacion= ?', [$tutor->id_asigna_generacion]);
                 $medico = $medico + $med[0]->medico;
                 $medicoT += $med[0]->medico;
 
@@ -342,7 +342,7 @@ AND exp_asigna_tutor.deleted_at is null
 AND exp_asigna_generacion.deleted_at is null
 AND exp_asigna_alumnos.deleted_at is null
 AND reporte_tutor.psicologico = "Si"
-AND reporte_tutor.id_asigna_generacion=' . $tutor->id_asigna_generacion);
+AND reporte_tutor.id_asigna_generacion= ?', [$tutor->id_asigna_generacion]);
                 $psicologico = $psicologico + $psi[0]->psicologico;
                 $psicologicoT += $psi[0]->psicologico;
 
@@ -363,7 +363,7 @@ AND exp_asigna_tutor.deleted_at is null
 AND exp_asigna_generacion.deleted_at is null
 AND exp_asigna_alumnos.deleted_at is null
 AND reporte_tutor.baja > 1
-AND reporte_tutor.id_asigna_generacion=' . $tutor->id_asigna_generacion);
+AND reporte_tutor.id_asigna_generacion= ?', [$tutor->id_asigna_generacion]);
                 $baja = $baja + $baj[0]->baja;
                 $bajaT += $baj[0]->baja;
             }
@@ -380,17 +380,17 @@ AND reporte_tutor.id_asigna_generacion=' . $tutor->id_asigna_generacion);
             $pdf->Cell(13, 4, $psicologico, 1, 0, "C");
             $pdf->Cell(10, 4, $baja, 1, 0, "C");
             $pdf->Cell(12, 4, $grupal, 1, 0, "C");
-        
-            $observaci = DB::selectOne("SELECT COUNT(id_carrera) contar from rep_institucional where observaciones != '' AND id_periodo = $periodo_actual AND id_carrera = $id_c");
-          
+
+            $observaci = DB::selectOne('SELECT COUNT(id_carrera) contar from rep_institucional where observaciones != \'\' AND id_periodo = ? AND id_carrera = ?', [$periodo_actual, $id_c]);
+
         $observaci = $observaci->contar;
         if($observaci == 0){
             $pdf->Cell(20, 4, "", 1, 1, "C");
         }else{
             $j++;
-            $observacion = DB::selectOne("SELECT *from rep_institucional where observaciones != '' AND id_periodo = $periodo_actual AND id_carrera = $id_c");
+            $observacion = DB::selectOne('SELECT *from rep_institucional where observaciones != \'\' AND id_periodo = ? AND id_carrera = ?', [$periodo_actual, $id_c]);
             $pdf->Cell(20, 4,  utf8_decode("Nota ".$j) , 1, 1, "C");
-        }   
+        }
         }
         $pdf->Cell(7, 4, "", 1, 0, "C", "true");
         $pdf->Cell(45, 4, utf8_decode("Total"), 1, 0, "L", "true");
@@ -407,34 +407,34 @@ AND reporte_tutor.id_asigna_generacion=' . $tutor->id_asigna_generacion);
         $pdf->Cell(12, 4, $grupalT, 1, 0, "C");
         $pdf->Cell(20, 4, "" , 1, 0, "C");
         $dat_carreras = array();
-        
- 
+
+
          $i=0;
          $pdf->ln(10);
          $pdf->Cell(20, 4, "OBSERVACIONES", 0, 0, "C");
          $pdf->ln(4);
-         
+
        foreach($carreras as $carrera){
-       
-         
-         $observacioness = DB::selectOne("SELECT COUNT(id_carrera) contar from rep_institucional where observaciones != '' and id_periodo = $periodo_actual AND id_carrera = $carrera->id_carrera");
-       
+
+
+         $observacioness = DB::selectOne('SELECT COUNT(id_carrera) contar from rep_institucional where observaciones != \'\' and id_periodo = ? AND id_carrera = ?', [$periodo_actual, $carrera->id_carrera]);
+
          if($observacioness->contar == 0){
-           
+
          }else{
             $i++;
-             $observaciones = DB::selectOne('SELECT *from rep_institucional where id_periodo = '.$periodo_actual.' AND id_carrera = '.$carrera->id_carrera.'');
+             $observaciones = DB::selectOne('SELECT *from rep_institucional where id_periodo = ? AND id_carrera = ?', [$periodo_actual, $carrera->id_carrera]);
              $pdf->MultiCell(190, 4, utf8_decode("Nota ".$i.": ".$observaciones->observaciones), 1, 1, "L");
          }
-        
-       }
-        
-        
-        /*Firmas*/
-       
 
-    
-        
+       }
+
+
+        /*Firmas*/
+
+
+
+
              /*foreach($dat_carreras as $carr){
           $pdf->Cell(190, 4, utf8_decode("Nota ".$carr['i'].": ".$carr['observacion']), 1, 1, "L");
         }*/
@@ -457,10 +457,10 @@ AND reporte_tutor.id_asigna_generacion=' . $tutor->id_asigna_generacion);
         $pdf->Cell(85, 4, utf8_decode($nombre_cordinador->titulo." ".$nombre_cordinador->nombre), 0, 0, "C");
         $pdf->Cell(5, 4);
         /*$jefe_desarrollo=DB::SelectOne('SELECT gnral_personales.id_personal,gnral_personales.nombre, abreviaciones.titulo
-       from abreviaciones, abreviaciones_prof, gnral_personales, gnral_unidad_personal 
+       from abreviaciones, abreviaciones_prof, gnral_personales, gnral_unidad_personal
        WHERE abreviaciones.id_abreviacion = abreviaciones_prof.id_abreviacion
-        and abreviaciones_prof.id_personal = gnral_personales.id_personal 
-        and gnral_personales.id_personal = gnral_unidad_personal.id_personal 
+        and abreviaciones_prof.id_personal = gnral_personales.id_personal
+        and gnral_personales.id_personal = gnral_unidad_personal.id_personal
         and gnral_unidad_personal.id_unidad_admin =27');
        $pdf->Cell(45, 4, utf8_decode($jefe_desarrollo->titulo." ".$jefe_desarrollo->nombre), 0, 0, "C");*/
         $pdf->Cell(50, 4, utf8_decode("L. en Ed. DIANA MUNGUIA RAMIREZ"),0, 0, "C");

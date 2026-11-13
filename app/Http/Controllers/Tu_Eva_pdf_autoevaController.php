@@ -89,15 +89,15 @@ class Tu_Eva_pdf_autoevaController extends Controller
                                     ON per.id_periodo = periodo.id_periodo
                                     INNER JOIN gnral_carreras carrera
                                     ON carrera.id_carrera = periodo.id_carrera
-                                    WHERE tutor.id_asigna_tutor =  '.$id_asigna_tutor.' ');
+                                    WHERE tutor.id_asigna_tutor =  ? ', [$id_asigna_tutor]);
 
         $periodo=Session::get('periodo_actual');
 
-        $datos = DB::SELECTONE('SELECT * FROM tu_eva_autoevaluacion where  id_asigna_tutor = '.$id_asigna_tutor.' ');
+        $datos = DB::SELECTONE('SELECT * FROM tu_eva_autoevaluacion where  id_asigna_tutor = ? ', [$id_asigna_tutor]);
 
 
         //$preguntas = DB::Select('SELECT * FROM tu_eva_formulario_tutor fo, tu_eva_cuestionario eva WHERE fo.id_eva_cuestionario=eva.id_eva_cuestionario and fo.id_asigna_tutor = '.$datos1->id_asigna_tutor.' ');
-        $preguntas = DB::Select('SELECT * FROM tu_eva_formulario_tutor fo, tu_eva_cuestionario eva, tu_eva_calificacion_autoeva au WHERE fo.id_eva_cuestionario=eva.id_eva_cuestionario and au.id_calificacion = fo.calificacion  and fo.id_asigna_tutor = '.$id_asigna_tutor.' ORDER BY fo.id_eva_cuestionario  ASC');
+        $preguntas = DB::Select('SELECT * FROM tu_eva_formulario_tutor fo, tu_eva_cuestionario eva, tu_eva_calificacion_autoeva au WHERE fo.id_eva_cuestionario=eva.id_eva_cuestionario and au.id_calificacion = fo.calificacion  and fo.id_asigna_tutor = ? ORDER BY fo.id_eva_cuestionario  ASC', [$id_asigna_tutor]);
 
 
         $direccion_img=$request->get('dir_imagen');

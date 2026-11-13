@@ -196,7 +196,7 @@
                                 </table>
                             </div>
                         </div>
-                        <input name="random" type="text" value="{{str_random(20)}}" hidden>
+                        <input name="random" type="text" value="{{\Illuminate\Support\Str::random(20)}}" hidden>
                         <input name="procesos" id="procesos" type="text" value="" hidden>
                         <input type="text" name="id_programa" value="{{$programa->id_programa}}" hidden>
                     </div>

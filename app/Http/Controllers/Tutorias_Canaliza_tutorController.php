@@ -86,10 +86,10 @@ class Tutorias_Canaliza_tutorController extends Controller
     public function show($id)
     {
         $areas=Tutorias_areas_canalizacion::all();
-        $carreras=DB::select('SELECT c.nombre FROM gnral_carreras as c,gnral_alumnos as a WHERE a.id_carrera= c.id_carrera and a.id_alumno ='.$id);
-        $semestre=DB::select('SELECT s.descripcion FROM gnral_semestres as s,gnral_alumnos as a WHERE a.id_semestre= s.id_semestre and a.id_alumno ='.$id);
-        $prof=DB::select('SELECT t.id_personal,t.nombre,t.correo FROM gnral_personales as t,asigna_tutor as ast,gnral_alumnos as a ,gnral_semestres as s,gnral_grupos as g, gnral_carreras as c WHERE a.grupo=g.id_grupo and a.id_semestre=s.id_semestre and a.id_carrera=c.id_carrera and ast.id_personal=t.id_personal and ast.id_semestre=a.id_semestre and ast.id_carrera=a.id_carrera and a.id_alumno='.$id);
-        $grupo=DB::select('SELECT g.grupo FROM gnral_grupos as g,gnral_alumnos as a WHERE a.grupo= g.id_grupo and a.id_alumno ='.$id);
+        $carreras=DB::select('SELECT c.nombre FROM gnral_carreras as c,gnral_alumnos as a WHERE a.id_carrera= c.id_carrera and a.id_alumno = ?', [$id]);
+        $semestre=DB::select('SELECT s.descripcion FROM gnral_semestres as s,gnral_alumnos as a WHERE a.id_semestre= s.id_semestre and a.id_alumno = ?', [$id]);
+        $prof=DB::select('SELECT t.id_personal,t.nombre,t.correo FROM gnral_personales as t,asigna_tutor as ast,gnral_alumnos as a ,gnral_semestres as s,gnral_grupos as g, gnral_carreras as c WHERE a.grupo=g.id_grupo and a.id_semestre=s.id_semestre and a.id_carrera=c.id_carrera and ast.id_personal=t.id_personal and ast.id_semestre=a.id_semestre and ast.id_carrera=a.id_carrera and a.id_alumno= ?', [$id]);
+        $grupo=DB::select('SELECT g.grupo FROM gnral_grupos as g,gnral_alumnos as a WHERE a.grupo= g.id_grupo and a.id_alumno = ?', [$id]);
         //$datos=asigna_tutor::getDatosall();
         $alumno=Alumnos::find($id);
         //echo $carreras;

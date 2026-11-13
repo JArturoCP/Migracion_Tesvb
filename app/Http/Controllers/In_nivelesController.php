@@ -54,7 +54,7 @@ class In_nivelesController extends Controller
         return view('ingles.departamento.profesores_calificaciones', compact('profesores', 'cuenta_niveles'));
     }
     public function calificacion_profesor($id_profesor){
-        $nombre_profesor=DB::selectOne('SELECT * FROM `in_profesores_ingles` WHERE `id_profesores` = '.$id_profesor.'');
+        $nombre_profesor=DB::selectOne('SELECT * FROM `in_profesores_ingles` WHERE `id_profesores` = ?', [$id_profesor]);
 
         $periodo_ingles = Session::get('periodo_ingles');
         $cuenta_niveles = DB::table('in_hrs_ingles_profesor')

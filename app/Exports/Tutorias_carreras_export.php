@@ -38,7 +38,7 @@ class Tutorias_carreras_export implements FromArray, WithTitle
         $datos_alumnos = DB::select('SELECT CONCAT(alumno.nombre," ",alumno.apaterno," ",alumno.amaterno) nombre, alumno.cuenta FROM gnral_alumnos alumno
                                                 INNER JOIN exp_asigna_alumnos asigna
                                                 ON asigna.id_alumno = alumno.id_alumno
-                                                WHERE asigna.id_asigna_generacion = '.$this->id_asigna_generacion.' AND asigna.id_asigna_alumno NOT IN (SELECT id_asigna_alumno FROM tu_eva_resultados_formulario)');
+                                                WHERE asigna.id_asigna_generacion = ? AND asigna.id_asigna_alumno NOT IN (SELECT id_asigna_alumno FROM tu_eva_resultados_formulario)', [$this->id_asigna_generacion]);
         $result[]=[ 'Cuenta', 'Nombre'];
 
         foreach ($datos_alumnos as $alumno){

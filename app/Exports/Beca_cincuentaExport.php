@@ -43,12 +43,12 @@ class Beca_cincuentaExport implements FromArray, WithTitle
         $dat_carreras['siglas'] = $this->siglas;
         $autorizados_profesionales=DB::select('SELECT gnral_alumnos.id_alumno,gnral_alumnos.cuenta,gnral_alumnos.nombre,gnral_alumnos.apaterno,
 gnral_alumnos.amaterno,gnral_alumnos.curp_al,gnral_alumnos.correo_al,beca_descuento.descripcion descuento,beca_descuento.id_descuento,beca_autorizar.promedio,
-gnral_semestres.id_semestre,gnral_semestres.descripcion semestre,beca_autorizar.id_autorizar,gnral_carreras.id_carrera,gnral_carreras.nombre carrera,beca_vulnerabilidad.id_estado 
- FROM gnral_alumnos,beca_descuento,beca_autorizar,gnral_semestres,gnral_carreras,beca_vulnerabilidad WHERE gnral_alumnos.id_alumno=beca_autorizar.id_alumno 
- and gnral_alumnos.id_carrera=gnral_carreras.id_carrera and beca_autorizar.id_descuento=beca_descuento.id_descuento 
- and beca_autorizar.id_semestre=gnral_semestres.id_semestre and beca_autorizar.id_periodo='.$periodo.' and beca_autorizar.id_estado=5  
- and beca_descuento.id_descuento in (2,3)  and  gnral_carreras.id_carrera='.$this->id_carrera.' and beca_vulnerabilidad.id_alumno = gnral_alumnos.id_alumno and beca_vulnerabilidad.id_periodo =beca_autorizar.id_periodo
- ORDER BY gnral_alumnos.apaterno ASC,gnral_alumnos.amaterno ASC,gnral_alumnos.nombre ASC');
+gnral_semestres.id_semestre,gnral_semestres.descripcion semestre,beca_autorizar.id_autorizar,gnral_carreras.id_carrera,gnral_carreras.nombre carrera,beca_vulnerabilidad.id_estado
+ FROM gnral_alumnos,beca_descuento,beca_autorizar,gnral_semestres,gnral_carreras,beca_vulnerabilidad WHERE gnral_alumnos.id_alumno=beca_autorizar.id_alumno
+ and gnral_alumnos.id_carrera=gnral_carreras.id_carrera and beca_autorizar.id_descuento=beca_descuento.id_descuento
+ and beca_autorizar.id_semestre=gnral_semestres.id_semestre and beca_autorizar.id_periodo= ? and beca_autorizar.id_estado=5
+ and beca_descuento.id_descuento in (2,3)  and  gnral_carreras.id_carrera= ? and beca_vulnerabilidad.id_alumno = gnral_alumnos.id_alumno and beca_vulnerabilidad.id_periodo =beca_autorizar.id_periodo
+ ORDER BY gnral_alumnos.apaterno ASC,gnral_alumnos.amaterno ASC,gnral_alumnos.nombre ASC', [$periodo, $this->id_carrera]);
 
 
         $array_generales=array();

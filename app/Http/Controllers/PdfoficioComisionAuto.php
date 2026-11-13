@@ -129,15 +129,15 @@ class PdfoficioComisionAuto extends Controller
         $pdf->Cell(136);
         $pdf->Cell(25,4,utf8_decode('Valle de Bravo, Estado de México;'),0,0,'L');
         $oficios=DB::selectOne('SELECT oc_oficio.id_oficio,oc_oficio_personal.no_oficio numero,oc_oficio.desc_comision,
-oc_oficio.fecha_salida,oc_oficio.fecha_regreso,oc_oficio.hora_s,oc_oficio.hora_r,oc_oficio_personal.viaticos 
-from oc_oficio,oc_oficio_personal WHERE oc_oficio.id_oficio=oc_oficio_personal.id_oficio and oc_oficio_personal.id_oficio_personal='.$id_oficio.'');
+oc_oficio.fecha_salida,oc_oficio.fecha_regreso,oc_oficio.hora_s,oc_oficio.hora_r,oc_oficio_personal.viaticos
+from oc_oficio,oc_oficio_personal WHERE oc_oficio.id_oficio=oc_oficio_personal.id_oficio and oc_oficio_personal.id_oficio_personal= ?', [$id_oficio]);
         $numero=($oficios->numero);
-        $contar_estado=DB::selectOne('SELECT COUNT(id_depend_domicilio) dep FROM oc_depend_domicilio WHERE id_oficio ='.$oficios->id_oficio.'');
+        $contar_estado=DB::selectOne('SELECT COUNT(id_depend_domicilio) dep FROM oc_depend_domicilio WHERE id_oficio = ?', [$oficios->id_oficio]);
         $contar_estado=$contar_estado->dep;
-        $dependencias=DB::select('SELECT oc_depend_domicilio.*,gnral_municipios.nombre_municipio,gnral_estados.nombre_estado,gnral_estados.id_estado 
-       FROM oc_depend_domicilio,gnral_municipios,gnral_estados 
-WHERE oc_depend_domicilio.id_municipio=gnral_municipios.id_municipio 
-and gnral_municipios.id_estado=gnral_estados.id_estado and oc_depend_domicilio.id_oficio = '.$oficios->id_oficio.' ORDER BY id_depend_domicilio ASC');
+        $dependencias=DB::select('SELECT oc_depend_domicilio.*,gnral_municipios.nombre_municipio,gnral_estados.nombre_estado,gnral_estados.id_estado
+       FROM oc_depend_domicilio,gnral_municipios,gnral_estados
+WHERE oc_depend_domicilio.id_municipio=gnral_municipios.id_municipio
+and gnral_municipios.id_estado=gnral_estados.id_estado and oc_depend_domicilio.id_oficio = ? ORDER BY id_depend_domicilio ASC', [$oficios->id_oficio]);
         /////////////////////****un estado
         if($contar_estado ==1)
         {
@@ -546,15 +546,15 @@ and gnral_municipios.id_estado=gnral_estados.id_estado and oc_depend_domicilio.i
         $pdf->SetFont('Arial','','7');
         $pdf->Cell(145);
         $pdf->Cell(30,4,utf8_decode($fech),0,0,'R');
-        $consulta=DB::selectOne('SELECT COUNT( gnral_jefes_periodos.id_personal)num FROM gnral_personales,gnral_jefes_periodos,gnral_carreras,gnral_periodos,oc_oficio_personal WHERE gnral_personales.id_personal=gnral_jefes_periodos.id_personal AND gnral_carreras.id_carrera=gnral_jefes_periodos.id_carrera and gnral_periodos.id_periodo=gnral_jefes_periodos.id_periodo AND gnral_jefes_periodos.id_periodo='.$id_periodo.' and oc_oficio_personal.id_personal=gnral_personales.id_personal and oc_oficio_personal.id_oficio_personal='.$id_oficio.'');
+        $consulta=DB::selectOne('SELECT COUNT( gnral_jefes_periodos.id_personal)num FROM gnral_personales,gnral_jefes_periodos,gnral_carreras,gnral_periodos,oc_oficio_personal WHERE gnral_personales.id_personal=gnral_jefes_periodos.id_personal AND gnral_carreras.id_carrera=gnral_jefes_periodos.id_carrera and gnral_periodos.id_periodo=gnral_jefes_periodos.id_periodo AND gnral_jefes_periodos.id_periodo= ? and oc_oficio_personal.id_personal=gnral_personales.id_personal and oc_oficio_personal.id_oficio_personal= ?', [$id_periodo, $id_oficio]);
         $cons=($consulta->num);
 
         if ($cons == 0 || $cons == 2) {
-            $jefe_p=DB::selectOne('SELECT COUNT(oc_oficio_personal.id_personal)num FROM gnral_unidad_personal,oc_oficio_personal WHERE oc_oficio_personal.id_personal=gnral_unidad_personal.id_personal and oc_oficio_personal.id_oficio_personal='.$id_oficio.'');
+            $jefe_p=DB::selectOne('SELECT COUNT(oc_oficio_personal.id_personal)num FROM gnral_unidad_personal,oc_oficio_personal WHERE oc_oficio_personal.id_personal=gnral_unidad_personal.id_personal and oc_oficio_personal.id_oficio_personal= ?', [$id_oficio]);
             $jefe_p=$jefe_p->num;
             if ($jefe_p == 1)
             {
-                $personal = DB::selectOne('select gnral_personales.nombre nombre,gnral_unidad_administrativa.jefe_descripcion departamento,abreviaciones.titulo profesion FROM gnral_personales,gnral_unidad_personal,gnral_unidad_administrativa,abreviaciones_prof,abreviaciones,oc_oficio_personal where abreviaciones_prof.id_abreviacion=abreviaciones.id_abreviacion AND abreviaciones_prof.id_personal=gnral_personales.id_personal and gnral_personales.id_personal=oc_oficio_personal.id_personal and oc_oficio_personal.id_personal=gnral_unidad_personal.id_personal and gnral_unidad_personal.id_unidad_admin=gnral_unidad_administrativa.id_unidad_admin and oc_oficio_personal.id_oficio_personal='.$id_oficio.'');
+                $personal = DB::selectOne('select gnral_personales.nombre nombre,gnral_unidad_administrativa.jefe_descripcion departamento,abreviaciones.titulo profesion FROM gnral_personales,gnral_unidad_personal,gnral_unidad_administrativa,abreviaciones_prof,abreviaciones,oc_oficio_personal where abreviaciones_prof.id_abreviacion=abreviaciones.id_abreviacion AND abreviaciones_prof.id_personal=gnral_personales.id_personal and gnral_personales.id_personal=oc_oficio_personal.id_personal and oc_oficio_personal.id_personal=gnral_unidad_personal.id_personal and gnral_unidad_personal.id_unidad_admin=gnral_unidad_administrativa.id_unidad_admin and oc_oficio_personal.id_oficio_personal= ?', [$id_oficio]);
                 $nombre = ($personal->nombre);
                 $perfil = ($personal->profesion);
                 $cargo = ($personal->departamento);
@@ -567,7 +567,7 @@ and gnral_municipios.id_estado=gnral_estados.id_estado and oc_depend_domicilio.i
                 $pdf->Cell(80, 5, utf8_decode($cargo), 0, 0, '');
             }
             if($jefe_p == 0) {
-                $personal = DB::selectOne('select gnral_personales.nombre nombre,gnral_cargos.cargo,abreviaciones.titulo profesion FROM gnral_personales,gnral_cargos,gnral_perfiles,oc_oficio,abreviaciones_prof,abreviaciones,oc_oficio_personal where abreviaciones_prof.id_abreviacion=abreviaciones.id_abreviacion AND abreviaciones_prof.id_personal=gnral_personales.id_personal and gnral_personales.id_personal=oc_oficio_personal.id_personal and gnral_personales.id_perfil=gnral_perfiles.id_perfil and gnral_personales.id_cargo=gnral_cargos.id_cargo and oc_oficio.id_oficio = oc_oficio_personal.id_oficio and oc_oficio_personal.id_oficio_personal=' . $id_oficio . '');
+                $personal = DB::selectOne('select gnral_personales.nombre nombre,gnral_cargos.cargo,abreviaciones.titulo profesion FROM gnral_personales,gnral_cargos,gnral_perfiles,oc_oficio,abreviaciones_prof,abreviaciones,oc_oficio_personal where abreviaciones_prof.id_abreviacion=abreviaciones.id_abreviacion AND abreviaciones_prof.id_personal=gnral_personales.id_personal and gnral_personales.id_personal=oc_oficio_personal.id_personal and gnral_personales.id_perfil=gnral_perfiles.id_perfil and gnral_personales.id_cargo=gnral_cargos.id_cargo and oc_oficio.id_oficio = oc_oficio_personal.id_oficio and oc_oficio_personal.id_oficio_personal= ?', [$id_oficio]);
                 $nombre = ($personal->nombre);
                 $perfil = ($personal->profesion);
                 $cargo = ($personal->cargo);
@@ -581,7 +581,7 @@ and gnral_municipios.id_estado=gnral_estados.id_estado and oc_depend_domicilio.i
             }
         }
         if ($cons == 1) {
-            $personal = DB::selectOne('SELECT gnral_personales.nombre,gnral_carreras.nombre carrera,abreviaciones.titulo profesion,gnral_personales.id_personal FROM gnral_personales,gnral_jefes_periodos,gnral_carreras,gnral_periodos,oc_oficio_personal,abreviaciones_prof,abreviaciones WHERE gnral_personales.id_personal=gnral_jefes_periodos.id_personal AND gnral_carreras.id_carrera=gnral_jefes_periodos.id_carrera and gnral_periodos.id_periodo=gnral_jefes_periodos.id_periodo AND gnral_jefes_periodos.id_periodo='.$id_periodo.' and abreviaciones_prof.id_abreviacion=abreviaciones.id_abreviacion AND abreviaciones_prof.id_personal=gnral_personales.id_personal and gnral_personales.id_personal=oc_oficio_personal.id_personal and oc_oficio_personal.id_oficio_personal=' . $id_oficio . '');
+            $personal = DB::selectOne('SELECT gnral_personales.nombre,gnral_carreras.nombre carrera,abreviaciones.titulo profesion,gnral_personales.id_personal FROM gnral_personales,gnral_jefes_periodos,gnral_carreras,gnral_periodos,oc_oficio_personal,abreviaciones_prof,abreviaciones WHERE gnral_personales.id_personal=gnral_jefes_periodos.id_personal AND gnral_carreras.id_carrera=gnral_jefes_periodos.id_carrera and gnral_periodos.id_periodo=gnral_jefes_periodos.id_periodo AND gnral_jefes_periodos.id_periodo= ? and abreviaciones_prof.id_abreviacion=abreviaciones.id_abreviacion AND abreviaciones_prof.id_personal=gnral_personales.id_personal and gnral_personales.id_personal=oc_oficio_personal.id_personal and oc_oficio_personal.id_oficio_personal= ?', [$id_periodo, $id_oficio]);
             $nombre = ($personal->nombre);
             $perfil = ($personal->profesion);
             if($personal->id_personal == 341){
@@ -610,11 +610,11 @@ and gnral_municipios.id_estado=gnral_estados.id_estado and oc_depend_domicilio.i
         $pdf->SetFont('Arial','','7');
         $pdf->MultiCell(175,5,utf8_decode($descripcion));
         ///lugar de salida y de regreso
-        $lugarsalida=DB::selectOne('SELECT oc_lugar.descripcion from oc_oficio,oc_lugar,oc_oficio_personal WHERE oc_lugar.id_lugar= oc_oficio.id_lugar_salida and oc_oficio.id_oficio=oc_oficio_personal.id_oficio and oc_oficio_personal.id_oficio_personal='.$id_oficio.'');
+        $lugarsalida=DB::selectOne('SELECT oc_lugar.descripcion from oc_oficio,oc_lugar,oc_oficio_personal WHERE oc_lugar.id_lugar= oc_oficio.id_lugar_salida and oc_oficio.id_oficio=oc_oficio_personal.id_oficio and oc_oficio_personal.id_oficio_personal= ?', [$id_oficio]);
         $salida=($lugarsalida->descripcion);
-        $lugaregreso=DB::selectOne('SELECT oc_lugar.descripcion from oc_oficio,oc_lugar,oc_oficio_personal WHERE oc_lugar.id_lugar= oc_oficio.id_lugar_entrada and oc_oficio.id_oficio=oc_oficio_personal.id_oficio and oc_oficio_personal.id_oficio_personal='.$id_oficio.'');
+        $lugaregreso=DB::selectOne('SELECT oc_lugar.descripcion from oc_oficio,oc_lugar,oc_oficio_personal WHERE oc_lugar.id_lugar= oc_oficio.id_lugar_entrada and oc_oficio.id_oficio=oc_oficio_personal.id_oficio and oc_oficio_personal.id_oficio_personal= ?', [$id_oficio]);
         $regreso=($lugaregreso->descripcion);
-        $auto=DB::selectOne('select oc_vehiculo.modelo,oc_vehiculo.placas,oc_oficio_vehiculo.licencia from oc_vehiculo,oc_oficio_vehiculo,oc_oficio_personal WHERE oc_vehiculo.id_vehiculo=oc_oficio_vehiculo.id_vehiculo and oc_oficio_vehiculo.id_oficio_personal=oc_oficio_personal.id_oficio_personal and oc_oficio_personal.id_oficio_personal='.$id_oficio.'');
+        $auto=DB::selectOne('select oc_vehiculo.modelo,oc_vehiculo.placas,oc_oficio_vehiculo.licencia from oc_vehiculo,oc_oficio_vehiculo,oc_oficio_personal WHERE oc_vehiculo.id_vehiculo=oc_oficio_vehiculo.id_vehiculo and oc_oficio_vehiculo.id_oficio_personal=oc_oficio_personal.id_oficio_personal and oc_oficio_personal.id_oficio_personal= ?', [$id_oficio]);
         $modelo=$auto->modelo;
         $placas=$auto->placas;
         $licencia=$auto->licencia;
@@ -667,7 +667,7 @@ and gnral_municipios.id_estado=gnral_estados.id_estado and oc_depend_domicilio.i
 
 
         if($salida == 'TESVB' && $regreso == 'TESVB'){
-            $jef=DB::selectOne('SELECT count(oc_oficio_personal.id_personal) contar from oc_oficio_personal,gnral_unidad_personal where oc_oficio_personal.id_personal=gnral_unidad_personal.id_personal and oc_oficio_personal.id_oficio_personal='.$id_oficio.'');
+            $jef=DB::selectOne('SELECT count(oc_oficio_personal.id_personal) contar from oc_oficio_personal,gnral_unidad_personal where oc_oficio_personal.id_personal=gnral_unidad_personal.id_personal and oc_oficio_personal.id_oficio_personal= ?', [$id_oficio]);
             if($jef->contar ==0) {
                 $pdf->Ln(5);
                 $pdf->SetFont('Arial', '', '9');
@@ -678,7 +678,7 @@ and gnral_municipios.id_estado=gnral_estados.id_estado and oc_depend_domicilio.i
         $pdf->Ln(5);
         $pdf->SetFont('Arial', '', '9');
         $pdf->MultiCell(175, 5,utf8_decode('Sin otro particular por el momento, quedo de usted.'));
-        $jefes= DB::selectOne('select count(oc_oficio_personal.id_oficio_personal) personas,gnral_personales.id_personal from oc_oficio_personal,gnral_personales,gnral_unidad_personal where oc_oficio_personal.id_personal=gnral_personales.id_personal and gnral_personales.id_personal = gnral_unidad_personal.id_personal and gnral_personales.tipo_usuario='.$id_usuario.' and oc_oficio_personal.id_oficio_personal='.$id_oficio.'');
+        $jefes= DB::selectOne('select count(oc_oficio_personal.id_oficio_personal) personas,gnral_personales.id_personal from oc_oficio_personal,gnral_personales,gnral_unidad_personal where oc_oficio_personal.id_personal=gnral_personales.id_personal and gnral_personales.id_personal = gnral_unidad_personal.id_personal and gnral_personales.tipo_usuario= ? and oc_oficio_personal.id_oficio_personal= ?', [$id_usuario, $id_oficio]);
         $jefess=$jefes->personas;
         $financiero= DB::selectOne('SELECT abreviaciones.titulo,gnral_personales.nombre,gnral_unidad_administrativa.jefe_descripcion from abreviaciones_prof,abreviaciones,gnral_personales,gnral_unidad_personal,gnral_unidad_administrativa WHERE abreviaciones.id_abreviacion=abreviaciones_prof.id_abreviacion and abreviaciones_prof.id_personal=gnral_personales.id_personal and gnral_personales.id_personal=gnral_unidad_personal.id_personal and gnral_unidad_administrativa.id_unidad_admin=gnral_unidad_personal.id_unidad_admin and gnral_unidad_administrativa.id_unidad_admin=22');
         $titulo_fin=$financiero->titulo;
@@ -686,16 +686,16 @@ and gnral_municipios.id_estado=gnral_estados.id_estado and oc_depend_domicilio.i
         $jefe_fin=$financiero->jefe_descripcion;
         if($jefess == 1){
             $id_personas=$jefes->id_personal;
-            $adcripcion= DB::selectOne('select gnral_unidad_personal.id_unidad_admin FROM gnral_unidad_personal, adscripcion_personal WHERE gnral_unidad_personal.id_unidad_persona=adscripcion_personal.id_unidad_persona and adscripcion_personal.id_personal='.$id_personas.'');
+            $adcripcion= DB::selectOne('select gnral_unidad_personal.id_unidad_admin FROM gnral_unidad_personal, adscripcion_personal WHERE gnral_unidad_personal.id_unidad_persona=adscripcion_personal.id_unidad_persona and adscripcion_personal.id_personal= ?', [$id_personas]);
             $adcripcion=$adcripcion->id_unidad_admin;
 
-            $usuario1 = DB::selectOne('select gnral_personales.nombre, abreviaciones.titulo from gnral_personales,abreviaciones_prof,abreviaciones,gnral_unidad_personal where abreviaciones_prof.id_abreviacion=abreviaciones.id_abreviacion and abreviaciones_prof.id_personal=gnral_personales.id_personal and gnral_unidad_personal.id_personal=gnral_personales.id_personal and gnral_unidad_personal.id_unidad_admin=' . $adcripcion . '');
+            $usuario1 = DB::selectOne('select gnral_personales.nombre, abreviaciones.titulo from gnral_personales,abreviaciones_prof,abreviaciones,gnral_unidad_personal where abreviaciones_prof.id_abreviacion=abreviaciones.id_abreviacion and abreviaciones_prof.id_personal=gnral_personales.id_personal and gnral_unidad_personal.id_personal=gnral_personales.id_personal and gnral_unidad_personal.id_unidad_admin= ?', [$adcripcion]);
 
             $nombres = $usuario1->nombre;
             $titulo = $usuario1->titulo;
             if ($adcripcion == 22 ) {
 
-                $adcripcion = DB::selectOne('SELECT gnral_unidad_administrativa.jefe_descripcion nombre from gnral_unidad_administrativa  WHERE gnral_unidad_administrativa.id_unidad_admin= ' . $adcripcion . '');
+                $adcripcion = DB::selectOne('SELECT gnral_unidad_administrativa.jefe_descripcion nombre from gnral_unidad_administrativa  WHERE gnral_unidad_administrativa.id_unidad_admin= ?', [$adcripcion]);
                 $adcripcion = $adcripcion->nombre;
                 $pdf->Ln(10);
                 $pdf->SetFont('Arial', 'B', '9');
@@ -715,9 +715,9 @@ and gnral_municipios.id_estado=gnral_estados.id_estado and oc_depend_domicilio.i
 
 
             } else {
-                $finanzas= DB::selectOne('SELECT gnral_unidad_personal.id_unidad_admin from gnral_unidad_personal,gnral_personales where gnral_unidad_personal.id_personal=gnral_personales.id_personal and gnral_personales.tipo_usuario='.$id_usuario.'');
+                $finanzas= DB::selectOne('SELECT gnral_unidad_personal.id_unidad_admin from gnral_unidad_personal,gnral_personales where gnral_unidad_personal.id_personal=gnral_personales.id_personal and gnral_personales.tipo_usuario= ?', [$id_usuario]);
                 $finanzas=$finanzas->id_unidad_admin;
-                $adcripcion = DB::selectOne('SELECT gnral_unidad_administrativa.jefe_descripcion nombre from gnral_unidad_administrativa  WHERE gnral_unidad_administrativa.id_unidad_admin= ' . $adcripcion . '');
+                $adcripcion = DB::selectOne('SELECT gnral_unidad_administrativa.jefe_descripcion nombre from gnral_unidad_administrativa  WHERE gnral_unidad_administrativa.id_unidad_admin= ?', [$adcripcion]);
                 $adcripcion = $adcripcion->nombre;
                 if($finanzas == 22)
                 {
@@ -792,9 +792,9 @@ and gnral_municipios.id_estado=gnral_estados.id_estado and oc_depend_domicilio.i
 
         }
         if($jefess == 0) {
-            $chofer=DB::selectOne('SELECT COUNT(oc_oficio_personal.id_personal) chofer FROM oc_oficio_personal WHERE   oc_oficio_personal.id_oficio_personal='.$id_oficio.' and   oc_oficio_personal.id_personal=270');
+            $chofer=DB::selectOne('SELECT COUNT(oc_oficio_personal.id_personal) chofer FROM oc_oficio_personal WHERE   oc_oficio_personal.id_oficio_personal= ? and   oc_oficio_personal.id_personal=270', [$id_oficio]);
             $chofer=$chofer->chofer;
-            $chofer1=DB::selectOne('SELECT COUNT(oc_oficio_personal.id_personal) chofer FROM oc_oficio_personal WHERE   oc_oficio_personal.id_oficio_personal='.$id_oficio.' and   oc_oficio_personal.id_personal=277');
+            $chofer1=DB::selectOne('SELECT COUNT(oc_oficio_personal.id_personal) chofer FROM oc_oficio_personal WHERE   oc_oficio_personal.id_oficio_personal= ? and   oc_oficio_personal.id_personal=277', [$id_oficio]);
             $chofer1=$chofer1->chofer;
             if ($chofer == 1 || $chofer1 == 1){
                 $departamento = DB::selectOne('SELECT gnral_unidad_administrativa.jefe_descripcion nombre from gnral_unidad_administrativa  WHERE gnral_unidad_administrativa.id_unidad_admin=25');
@@ -828,16 +828,16 @@ and gnral_municipios.id_estado=gnral_estados.id_estado and oc_depend_domicilio.i
                 $pdf->Cell(15, 10, utf8_decode('Comisionado'), 0, 0, 'C');
             }
             else {
-                $departamento = DB::selectOne('SELECT gnral_unidad_personal.id_unidad_admin from gnral_personales,gnral_unidad_personal WHERE gnral_personales.id_personal =gnral_unidad_personal.id_personal and gnral_personales.tipo_usuario=' . $id_usuario . '');
+                $departamento = DB::selectOne('SELECT gnral_unidad_personal.id_unidad_admin from gnral_personales,gnral_unidad_personal WHERE gnral_personales.id_personal =gnral_unidad_personal.id_personal and gnral_personales.tipo_usuario= ?', [$id_usuario]);
                 $departamento = $departamento->id_unidad_admin;
 
-                $usuario = DB::selectOne('select gnral_personales.nombre, abreviaciones.titulo from gnral_personales,abreviaciones_prof,abreviaciones,gnral_unidad_personal where abreviaciones_prof.id_abreviacion=abreviaciones.id_abreviacion and abreviaciones_prof.id_personal=gnral_personales.id_personal and gnral_unidad_personal.id_personal=gnral_personales.id_personal and gnral_unidad_personal.id_unidad_admin=' . $departamento . '');
+                $usuario = DB::selectOne('select gnral_personales.nombre, abreviaciones.titulo from gnral_personales,abreviaciones_prof,abreviaciones,gnral_unidad_personal where abreviaciones_prof.id_abreviacion=abreviaciones.id_abreviacion and abreviaciones_prof.id_personal=gnral_personales.id_personal and gnral_unidad_personal.id_personal=gnral_personales.id_personal and gnral_unidad_personal.id_unidad_admin= ?', [$departamento]);
 
                 $nombres = $usuario->nombre;
                 $titulo = $usuario->titulo;
                 if ($departamento == 22) {
 
-                    $departamento = DB::selectOne('SELECT gnral_unidad_administrativa.jefe_descripcion nombre from gnral_unidad_administrativa  WHERE gnral_unidad_administrativa.id_unidad_admin= ' . $departamento . '');
+                    $departamento = DB::selectOne('SELECT gnral_unidad_administrativa.jefe_descripcion nombre from gnral_unidad_administrativa  WHERE gnral_unidad_administrativa.id_unidad_admin= ?', [$departamento]);
                     $departamento = $departamento->nombre;
                     $pdf->Ln(10);
                     $pdf->SetFont('Arial', '', '7');
@@ -857,9 +857,9 @@ and gnral_municipios.id_estado=gnral_estados.id_estado and oc_depend_domicilio.i
 
 
                 } else {
-                    $personal = DB::selectOne('select gnral_personales.id_personal FROM gnral_personales,oc_oficio_personal where oc_oficio_personal.id_personal=gnral_personales.id_personal and oc_oficio_personal.id_oficio_personal=' . $id_oficio . '');
+                    $personal = DB::selectOne('select gnral_personales.id_personal FROM gnral_personales,oc_oficio_personal where oc_oficio_personal.id_personal=gnral_personales.id_personal and oc_oficio_personal.id_oficio_personal= ?', [$id_oficio]);
                     if ($personal->id_personal == 212) {
-                        $departamento = DB::selectOne('SELECT gnral_unidad_administrativa.jefe_descripcion nombre from gnral_unidad_administrativa  WHERE gnral_unidad_administrativa.id_unidad_admin= ' . $departamento . '');
+                        $departamento = DB::selectOne('SELECT gnral_unidad_administrativa.jefe_descripcion nombre from gnral_unidad_administrativa  WHERE gnral_unidad_administrativa.id_unidad_admin= ?', [$departamento]);
                         $departamento = $departamento->nombre;
                         $pdf->Ln(10);
                         $pdf->SetFont('Arial', '', '7');
@@ -878,7 +878,7 @@ and gnral_municipios.id_estado=gnral_estados.id_estado and oc_depend_domicilio.i
                         $pdf->MultiCell(60, 4, utf8_decode($departamento), 0, 'C', 0);
 
                     } else {
-                        $departamento = DB::selectOne('SELECT gnral_unidad_administrativa.jefe_descripcion nombre from gnral_unidad_administrativa  WHERE gnral_unidad_administrativa.id_unidad_admin= ' . $departamento . '');
+                        $departamento = DB::selectOne('SELECT gnral_unidad_administrativa.jefe_descripcion nombre from gnral_unidad_administrativa  WHERE gnral_unidad_administrativa.id_unidad_admin= ?', [$departamento]);
                         $departamento = $departamento->nombre;
                         if($personal->id_personal == 139 ||  $personal->id_personal == 276 || $personal->id_personal == 203 || $personal->id_personal == 212 || $personal->id_personal == 215 ){
                             $pdf->Ln(10);

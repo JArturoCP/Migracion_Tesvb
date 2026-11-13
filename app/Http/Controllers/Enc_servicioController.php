@@ -10,22 +10,22 @@ class Enc_servicioController extends Controller
     public function agregar_periodo_year(){
         Session::put('historial_enc_s',0);
          $year =  date("Y");
-         $total_periodos=DB::selectOne('SELECT COUNT(id_periodo_serv)contar from enc_periodo_servicio where year='.$year.'');
+         $total_periodos=DB::selectOne('SELECT COUNT(id_periodo_serv)contar from enc_periodo_servicio where year= ?', [$year]);
          $total_periodos=$total_periodos->contar;
        //  dd($total_periodos);
 
-       $periodos= DB::select('SELECT *from enc_periodo_servicio where year='.$year.'');
+       $periodos= DB::select('SELECT *from enc_periodo_servicio where year= ?', [$year]);
 
      return view("encuestas_satisfacion_cliente.servicio_social.periodos_servicio_social",compact('year','total_periodos','periodos'));
     }
     public function termino_encuesta_servicio($id_periodo_serv){
-       $registro=DB::selectOne('SELECT * FROM `enc_periodo_servicio` WHERE `id_periodo_serv` ='.$id_periodo_serv.'');
+       $registro=DB::selectOne('SELECT * FROM `enc_periodo_servicio` WHERE `id_periodo_serv` = ?', [$id_periodo_serv]);
         return view("encuestas_satisfacion_cliente.servicio_social.terminar_periodo",compact('registro'));
     }
     public function guardar_termino_encuesta_servicio(Request $request){
       //  dd($request);
         $id_periodo_serv= $request->input("id_periodo_serv");
-        $periodo=DB::selectOne('SELECT * FROM `enc_periodo_servicio` WHERE `id_periodo_serv` = '.$id_periodo_serv.'');
+        $periodo=DB::selectOne('SELECT * FROM `enc_periodo_servicio` WHERE `id_periodo_serv` = ?', [$id_periodo_serv]);
      //  dd($periodo);
         $fecha_actual =  date("Y-m-d H:i:s");
 
@@ -64,22 +64,22 @@ public function registrar_periodo_year(Request $request){
 
     public function index($mes,$year){
 
-        $encuestas_enviadas=DB::selectOne('SELECT COUNT(id_servicio) contar   FROM enc_servicio_social 
-        WHERE id_estado = 0 AND mes = '.$mes.' AND year = '.$year.' ');
+        $encuestas_enviadas=DB::selectOne('SELECT COUNT(id_servicio) contar   FROM enc_servicio_social
+        WHERE id_estado = 0 AND mes = ? AND year = ? ', [$mes, $year]);
         $encuestas_enviadas=$encuestas_enviadas->contar;
 
-        $encuestas_contestadas=DB::selectOne('SELECT COUNT(id_servicio) contar   FROM enc_servicio_social 
-        WHERE id_estado = 1 AND mes = '.$mes.' AND year = '.$year.' ');
+        $encuestas_contestadas=DB::selectOne('SELECT COUNT(id_servicio) contar   FROM enc_servicio_social
+        WHERE id_estado = 1 AND mes = ? AND year = ? ', [$mes, $year]);
 
         $encuestas_contestadas=$encuestas_contestadas->contar;
 
-        $encuestas_rechazadas =DB::selectOne('SELECT COUNT(id_servicio) contar   FROM enc_servicio_social 
-        WHERE id_estado = 3 AND mes = '.$mes.' AND year = '.$year.' ');
+        $encuestas_rechazadas =DB::selectOne('SELECT COUNT(id_servicio) contar   FROM enc_servicio_social
+        WHERE id_estado = 3 AND mes = ? AND year = ? ', [$mes, $year]);
 
         $encuestas_rechazadas=$encuestas_rechazadas->contar;
 
-        $periodo=DB::selectOne('SELECT * FROM `enc_periodo_servicio` 
-        WHERE `year` = '.$year.' AND `mes` = '.$mes.'');
+        $periodo=DB::selectOne('SELECT * FROM `enc_periodo_servicio`
+        WHERE `year` = ? AND `mes` = ?', [$year, $mes]);
 
         //dd($mes);
      //   $nombre_periodo = Session::get('nombre_periodo');
@@ -99,28 +99,28 @@ public function registrar_periodo_year(Request $request){
 
 
 
-        $encuestas_contestadas=DB::selectOne('SELECT COUNT(enc_servicio_social.id_servicio) contar   
-        FROM enc_servicio_social, gnral_alumnos 
-        WHERE  enc_servicio_social.id_estado = 1 AND enc_servicio_social.mes = '.$mes.' AND year = '.$year.' 
-        and enc_servicio_social.id_alumno = gnral_alumnos.id_alumno and gnral_alumnos.id_carrera = '.$id_carrera.' ');
+        $encuestas_contestadas=DB::selectOne('SELECT COUNT(enc_servicio_social.id_servicio) contar
+        FROM enc_servicio_social, gnral_alumnos
+        WHERE  enc_servicio_social.id_estado = 1 AND enc_servicio_social.mes = ? AND year = ?
+        and enc_servicio_social.id_alumno = gnral_alumnos.id_alumno and gnral_alumnos.id_carrera = ? ', [$mes, $year, $id_carrera]);
         $encuestas_contestadas=$encuestas_contestadas->contar;
 
-        $encuestas_rechazadas =DB::selectOne('SELECT COUNT(enc_servicio_social.id_servicio) contar   
-        FROM enc_servicio_social, gnral_alumnos 
-        WHERE  enc_servicio_social.id_estado = 3 AND enc_servicio_social.mes = '.$mes.' AND year = '.$year.' 
-        and enc_servicio_social.id_alumno = gnral_alumnos.id_alumno and gnral_alumnos.id_carrera = '.$id_carrera.' ');
+        $encuestas_rechazadas =DB::selectOne('SELECT COUNT(enc_servicio_social.id_servicio) contar
+        FROM enc_servicio_social, gnral_alumnos
+        WHERE  enc_servicio_social.id_estado = 3 AND enc_servicio_social.mes = ? AND year = ?
+        and enc_servicio_social.id_alumno = gnral_alumnos.id_alumno and gnral_alumnos.id_carrera = ? ', [$mes, $year, $id_carrera]);
         $encuestas_rechazadas=$encuestas_rechazadas->contar;
 
-        $carrera=DB::selectOne('SELECT gnral_carreras.* from gnral_carreras where gnral_carreras.id_carrera ='.$id_carrera.'');
+        $carrera=DB::selectOne('SELECT gnral_carreras.* from gnral_carreras where gnral_carreras.id_carrera = ?', [$id_carrera]);
 
 
         $encuestas=DB::select('SELECT gnral_alumnos.id_alumno, gnral_alumnos.cuenta,
-        gnral_alumnos.nombre, gnral_alumnos.apaterno, gnral_alumnos.amaterno,enc_servicio_social.id_servicio    
-        FROM enc_servicio_social, gnral_alumnos 
-        WHERE  enc_servicio_social.id_estado = 1 AND enc_servicio_social.mes = '.$mes.' AND year = '.$year.' 
-        and enc_servicio_social.id_alumno = gnral_alumnos.id_alumno and gnral_alumnos.id_carrera = '.$id_carrera.' 
+        gnral_alumnos.nombre, gnral_alumnos.apaterno, gnral_alumnos.amaterno,enc_servicio_social.id_servicio
+        FROM enc_servicio_social, gnral_alumnos
+        WHERE  enc_servicio_social.id_estado = 1 AND enc_servicio_social.mes = ? AND year = ?
+        and enc_servicio_social.id_alumno = gnral_alumnos.id_alumno and gnral_alumnos.id_carrera = ?
          ORDER BY `gnral_alumnos`.`apaterno` ASC,`gnral_alumnos`.`amaterno` ASC,`gnral_alumnos`.`nombre` ASC
-        ');
+        ', [$mes, $year, $id_carrera]);
 
       //  dd($encuestas);
 
@@ -132,20 +132,20 @@ public function registrar_periodo_year(Request $request){
     public function ver_encuesta_servicio_alumno($id_carrera,$mes,$year){
         $periodo=Session::get('periodo_actual');
 
-        $alumnos= DB::select('SELECT gnral_alumnos.id_alumno, gnral_alumnos.cuenta, gnral_alumnos.nombre, gnral_alumnos.apaterno, gnral_alumnos.amaterno 
-      from gnral_alumnos, eva_validacion_de_cargas where gnral_alumnos.id_alumno = eva_validacion_de_cargas.id_alumno and gnral_alumnos.id_carrera = '.$id_carrera.'
-      and eva_validacion_de_cargas.id_periodo = '.$periodo.' and gnral_alumnos.id_alumno NOT in(SELECT id_alumno FROM enc_servicio_social)  
-ORDER BY `gnral_alumnos`.`apaterno` ASC,`gnral_alumnos`.`amaterno` ASC,`gnral_alumnos`.`nombre` ASC');
+        $alumnos= DB::select('SELECT gnral_alumnos.id_alumno, gnral_alumnos.cuenta, gnral_alumnos.nombre, gnral_alumnos.apaterno, gnral_alumnos.amaterno
+      from gnral_alumnos, eva_validacion_de_cargas where gnral_alumnos.id_alumno = eva_validacion_de_cargas.id_alumno and gnral_alumnos.id_carrera = ?
+      and eva_validacion_de_cargas.id_periodo = ? and gnral_alumnos.id_alumno NOT in(SELECT id_alumno FROM enc_servicio_social)
+ORDER BY `gnral_alumnos`.`apaterno` ASC,`gnral_alumnos`.`amaterno` ASC,`gnral_alumnos`.`nombre` ASC', [$id_carrera, $periodo]);
         //dd($alumnos);
 
         $registros_encuestas= DB::select('SELECT enc_servicio_social.*, gnral_alumnos.cuenta,
-        gnral_alumnos.nombre, gnral_alumnos.apaterno, gnral_alumnos.amaterno 
-        from gnral_alumnos,enc_servicio_social WHERE gnral_alumnos.id_alumno = enc_servicio_social.id_alumno and gnral_alumnos.id_carrera = '.$id_carrera.'
-        and  enc_servicio_social.mes = '.$mes.' AND enc_servicio_social.year = '.$year.'');
+        gnral_alumnos.nombre, gnral_alumnos.apaterno, gnral_alumnos.amaterno
+        from gnral_alumnos,enc_servicio_social WHERE gnral_alumnos.id_alumno = enc_servicio_social.id_alumno and gnral_alumnos.id_carrera = ?
+        and  enc_servicio_social.mes = ? AND enc_servicio_social.year = ?', [$id_carrera, $mes, $year]);
 
 
 //dd($registros_encuestas);
-      $carrera=DB::selectOne('SELECT gnral_carreras.* from gnral_carreras where gnral_carreras.id_carrera ='.$id_carrera.'');
+      $carrera=DB::selectOne('SELECT gnral_carreras.* from gnral_carreras where gnral_carreras.id_carrera = ?', [$id_carrera]);
 
 
 //dd($alumnos_array);
@@ -153,8 +153,8 @@ ORDER BY `gnral_alumnos`.`apaterno` ASC,`gnral_alumnos`.`amaterno` ASC,`gnral_al
         return view('encuestas_satisfacion_cliente.servicio_social.encuesta_alumnos_servicio',compact('carrera','alumnos','registros_encuestas','mes','year'));
     }
     public function enc_servicio_datos_alumn($id_alumno){
-        $alumno=DB::selectOne('SELECT gnral_alumnos.id_alumno, gnral_alumnos.cuenta, gnral_alumnos.nombre, gnral_alumnos.apaterno, gnral_alumnos.amaterno 
-        from gnral_alumnos where gnral_alumnos.id_alumno ='.$id_alumno.'');
+        $alumno=DB::selectOne('SELECT gnral_alumnos.id_alumno, gnral_alumnos.cuenta, gnral_alumnos.nombre, gnral_alumnos.apaterno, gnral_alumnos.amaterno
+        from gnral_alumnos where gnral_alumnos.id_alumno = ?', [$id_alumno]);
         //dd($alumno);
         return view('encuestas_satisfacion_cliente.servicio_social.datos_alumno',compact('alumno'));
     }
@@ -188,31 +188,31 @@ ORDER BY `gnral_alumnos`.`apaterno` ASC,`gnral_alumnos`.`amaterno` ASC,`gnral_al
 
         $periodo = Session::get('periodo_actual');
 
-        $anteproyectos = DB::select("
-        SELECT resi_asesores.id_anteproyecto 
-        FROM resi_asesores, resi_promedio_general_residencia 
-        WHERE resi_asesores.id_anteproyecto = resi_promedio_general_residencia.id_anteproyecto 
-        AND resi_asesores.id_periodo = $periodo 
-        AND resi_asesores.id_carrera = $id_carrera
-    ");
+        $anteproyectos = DB::select('
+        SELECT resi_asesores.id_anteproyecto
+        FROM resi_asesores, resi_promedio_general_residencia
+        WHERE resi_asesores.id_anteproyecto = resi_promedio_general_residencia.id_anteproyecto
+        AND resi_asesores.id_periodo = ?
+        AND resi_asesores.id_carrera = ?
+    ', [$periodo, $id_carrera]);
 
         $array_dat = [];
 
         foreach ($anteproyectos as $anteproyecto){
 
-            $datos_alumno = DB::selectOne("
-            SELECT gnral_alumnos.id_alumno, gnral_alumnos.cuenta, 
-            gnral_alumnos.nombre, gnral_alumnos.apaterno, gnral_alumnos.amaterno 
-            FROM gnral_alumnos, resi_anteproyecto 
-            WHERE gnral_alumnos.id_alumno = resi_anteproyecto.id_alumno 
-            AND resi_anteproyecto.id_anteproyecto = $anteproyecto->id_anteproyecto
-        ");
+            $datos_alumno = DB::selectOne('
+            SELECT gnral_alumnos.id_alumno, gnral_alumnos.cuenta,
+            gnral_alumnos.nombre, gnral_alumnos.apaterno, gnral_alumnos.amaterno
+            FROM gnral_alumnos, resi_anteproyecto
+            WHERE gnral_alumnos.id_alumno = resi_anteproyecto.id_alumno
+            AND resi_anteproyecto.id_anteproyecto = ?
+        ', [$anteproyecto->id_anteproyecto]);
 
-            $contar_encuesta = DB::selectOne("
-            SELECT COUNT(id_residencia_profesional) contar 
-            FROM enc_residencia_profesional 
-            WHERE id_alumno = $datos_alumno->id_alumno
-        ");
+            $contar_encuesta = DB::selectOne('
+            SELECT COUNT(id_residencia_profesional) contar
+            FROM enc_residencia_profesional
+            WHERE id_alumno = ?
+        ', [$datos_alumno->id_alumno]);
 
             // 🔥 Evita duplicados
             if ($contar_encuesta->contar == 0 &&
@@ -227,16 +227,16 @@ ORDER BY `gnral_alumnos`.`apaterno` ASC,`gnral_alumnos`.`amaterno` ASC,`gnral_al
         }
 
         // Registros que ya contestaron
-        $registros_encuestas = DB::select("
-        SELECT gnral_alumnos.cuenta, gnral_alumnos.nombre, 
+        $registros_encuestas = DB::select('
+        SELECT gnral_alumnos.cuenta, gnral_alumnos.nombre,
                gnral_alumnos.apaterno, gnral_alumnos.amaterno,
                enc_residencia_profesional.*
-        FROM gnral_alumnos, enc_residencia_profesional 
-        WHERE gnral_alumnos.id_alumno = enc_residencia_profesional.id_alumno 
-        AND enc_residencia_profesional.id_periodo = $periodo
-    ");
+        FROM gnral_alumnos, enc_residencia_profesional
+        WHERE gnral_alumnos.id_alumno = enc_residencia_profesional.id_alumno
+        AND enc_residencia_profesional.id_periodo = ?
+    ', [$periodo]);
 
-        $carrera = DB::selectOne("SELECT * FROM gnral_carreras WHERE id_carrera = $id_carrera");
+        $carrera = DB::selectOne('SELECT * FROM gnral_carreras WHERE id_carrera = ?', [$id_carrera]);
 
         return view(
             'encuestas_satisfacion_cliente.residencia.encuesta_alumnos_residencia',
@@ -245,7 +245,7 @@ ORDER BY `gnral_alumnos`.`apaterno` ASC,`gnral_alumnos`.`amaterno` ASC,`gnral_al
     }
     public function enc_residencia_datos_alumn($id_alumno){
           $alumno=DB::selectOne('select gnral_alumnos.id_alumno, gnral_alumnos.cuenta, gnral_alumnos.nombre, gnral_alumnos.apaterno, gnral_alumnos.amaterno
-          from gnral_alumnos where gnral_alumnos.id_alumno ='.$id_alumno.' ');
+          from gnral_alumnos where gnral_alumnos.id_alumno = ? ', [$id_alumno]);
 
           return view('encuestas_satisfacion_cliente.residencia.dato_alumno_residencia',compact('alumno'));
     }
@@ -264,16 +264,16 @@ ORDER BY `gnral_alumnos`.`apaterno` ASC,`gnral_alumnos`.`amaterno` ASC,`gnral_al
     }
     public function encuesta_servicio_social(){
         $id_usuario = Session::get('usuario_alumno');
-        $alumno = DB::selectOne('SELECT  *from gnral_alumnos where id_usuario ='.$id_usuario.'');
+        $alumno = DB::selectOne('SELECT  *from gnral_alumnos where id_usuario = ?', [$id_usuario]);
         $id_alumno=$alumno->id_alumno;
-        $encuesta=DB::selectOne('SELECT * FROM `enc_servicio_social` WHERE `id_alumno` ='.$id_alumno.'');
+        $encuesta=DB::selectOne('SELECT * FROM `enc_servicio_social` WHERE `id_alumno` = ?', [$id_alumno]);
 
         $estado_encuesta= $encuesta->id_estado;
 
         return view('encuestas_satisfacion_cliente.servicio_social.encuesta_alumno_servicio',compact('encuesta','estado_encuesta','id_alumno'));
     }
     public function guardar_encuesta_servicio(Request  $request,$id_alumno){
-        $alumno = DB::selectOne('SELECT  *from gnral_alumnos where id_alumno ='.$id_alumno.'');
+        $alumno = DB::selectOne('SELECT  *from gnral_alumnos where id_alumno = ?', [$id_alumno]);
         $id_alumno=$alumno->id_alumno;
 
         $pregunta1 = $request->input("pregunta1");
@@ -322,9 +322,9 @@ ORDER BY `gnral_alumnos`.`apaterno` ASC,`gnral_alumnos`.`amaterno` ASC,`gnral_al
     }
     public function encuesta_residencia(){
         $id_usuario = Session::get('usuario_alumno');
-        $alumno = DB::selectOne('SELECT  *from gnral_alumnos where id_usuario ='.$id_usuario.'');
+        $alumno = DB::selectOne('SELECT  *from gnral_alumnos where id_usuario = ?', [$id_usuario]);
         $id_alumno=$alumno->id_alumno;
-        $encuesta=DB::selectOne('SELECT * FROM `enc_residencia_profesional` WHERE `id_alumno` ='.$id_alumno.'');
+        $encuesta=DB::selectOne('SELECT * FROM `enc_residencia_profesional` WHERE `id_alumno` = ?', [$id_alumno]);
 
         $estado_encuesta= $encuesta->id_estado;
 
@@ -332,7 +332,7 @@ ORDER BY `gnral_alumnos`.`apaterno` ASC,`gnral_alumnos`.`amaterno` ASC,`gnral_al
 
     }
     public function guardar_encuesta_residencia(Request  $request,$id_alumno){
-        $alumno = DB::selectOne('SELECT  *from gnral_alumnos where id_alumno ='.$id_alumno.'');
+        $alumno = DB::selectOne('SELECT  *from gnral_alumnos where id_alumno = ?', [$id_alumno]);
         $id_alumno=$alumno->id_alumno;
 
         $pregunta1 = $request->input("pregunta1");
@@ -383,7 +383,7 @@ ORDER BY `gnral_alumnos`.`apaterno` ASC,`gnral_alumnos`.`amaterno` ASC,`gnral_al
 
         $personales=DB::select('SELECT * FROM `gnral_personales` ORDER BY `gnral_personales`.`nombre` ASC');
 
-        $servicios= DB::select('SELECT gnral_personales.nombre, enc_servicio_mantenimiento.* from gnral_personales, enc_servicio_mantenimiento 
+        $servicios= DB::select('SELECT gnral_personales.nombre, enc_servicio_mantenimiento.* from gnral_personales, enc_servicio_mantenimiento
         where gnral_personales.id_personal = enc_servicio_mantenimiento.id_personal and enc_servicio_mantenimiento.id_estado in (1,0)');
 
 //dd($servicios);
@@ -404,8 +404,8 @@ ORDER BY `gnral_alumnos`.`apaterno` ASC,`gnral_alumnos`.`amaterno` ASC,`gnral_al
         return back();
     }
     public function notificacion_enviar_enc_mantenimiento($id_servicio_mantenimiento){
-      $personal=DB::selectOne('SELECT gnral_personales.nombre, enc_servicio_mantenimiento.* from gnral_personales, enc_servicio_mantenimiento 
-        where gnral_personales.id_personal = enc_servicio_mantenimiento.id_personal and enc_servicio_mantenimiento.id_servicio_mantenimiento = '.$id_servicio_mantenimiento.'');
+      $personal=DB::selectOne('SELECT gnral_personales.nombre, enc_servicio_mantenimiento.* from gnral_personales, enc_servicio_mantenimiento
+        where gnral_personales.id_personal = enc_servicio_mantenimiento.id_personal and enc_servicio_mantenimiento.id_servicio_mantenimiento = ?', [$id_servicio_mantenimiento]);
 
         return view('encuestas_satisfacion_cliente.computo.datos_personal',compact('personal'));
     }
@@ -422,9 +422,9 @@ ORDER BY `gnral_alumnos`.`apaterno` ASC,`gnral_alumnos`.`amaterno` ASC,`gnral_al
     }
     public function ver_enc_terminada($id_servicio){
 
-        $servicio=DB::selectOne('SELECT * FROM `enc_servicio_social` WHERE `id_servicio` ='.$id_servicio.'');
+        $servicio=DB::selectOne('SELECT * FROM `enc_servicio_social` WHERE `id_servicio` = ?', [$id_servicio]);
        // dd($servicio);
-        $nombre_estudiante=DB::selectOne('SELECT * FROM `gnral_alumnos` WHERE `id_alumno` ='.$servicio->id_alumno.'');
+        $nombre_estudiante=DB::selectOne('SELECT * FROM `gnral_alumnos` WHERE `id_alumno` = ?', [$servicio->id_alumno]);
 
        // dd($servicio);
         //dd($nombre_estudiante);
@@ -434,8 +434,8 @@ ORDER BY `gnral_alumnos`.`apaterno` ASC,`gnral_alumnos`.`amaterno` ASC,`gnral_al
 
     }
     public function ver_enc_resultados($mes,$year){
-        $encuestas_contestadas=DB::select('SELECT  *FROM enc_servicio_social 
-        WHERE id_estado = 1 AND mes = '.$mes.' AND year = '.$year.' ');
+        $encuestas_contestadas=DB::select('SELECT  *FROM enc_servicio_social
+        WHERE id_estado = 1 AND mes = ? AND year = ? ', [$mes, $year]);
 
         $preg1_excelente=0;
         $preg1_bueno=0;
@@ -1066,22 +1066,22 @@ ORDER BY `gnral_alumnos`.`apaterno` ASC,`gnral_alumnos`.`amaterno` ASC,`gnral_al
     {
         $periodo = Session::get('periodo_actual');
 
-        $periodo_resi = DB::selectOne('SELECT count(id_periodo_residencia) contar 
-         FROM enc_periodo_residencia where id_periodo =' . $periodo . '');
+        $periodo_resi = DB::selectOne('SELECT count(id_periodo_residencia) contar
+         FROM enc_periodo_residencia where id_periodo = ?', [$periodo]);
 
         $estado_periodo = $periodo_resi->contar;
-        $nombre_periodo = DB::selectOne('SELECT * FROM `gnral_periodos` WHERE `id_periodo` = ' . $periodo . '');
+        $nombre_periodo = DB::selectOne('SELECT * FROM `gnral_periodos` WHERE `id_periodo` = ?', [$periodo]);
 
-        $nom_periodo_resi = DB::selectOne('SELECT *FROM enc_periodo_residencia where id_periodo =' . $periodo . '');
+        $nom_periodo_resi = DB::selectOne('SELECT *FROM enc_periodo_residencia where id_periodo = ?', [$periodo]);
 
         $contar_enc_enviadas = DB::selectOne('SELECT COUNT(id_residencia_profesional) contar FROM enc_residencia_profesional
-         WHERE id_periodo = ' . $periodo . ' and id_estado = 0');
+         WHERE id_periodo = ? and id_estado = 0', [$periodo]);
 
         $contar_enc_contestadas = DB::selectOne('SELECT COUNT(id_residencia_profesional) contar FROM enc_residencia_profesional
-         WHERE id_periodo = ' . $periodo . ' and id_estado = 1');
+         WHERE id_periodo = ? and id_estado = 1', [$periodo]);
 
       $contar_enc_rechazadas=DB::selectOne('SELECT COUNT(id_residencia_profesional) contar FROM enc_residencia_profesional
-         WHERE id_periodo = '.$periodo.' and id_estado = 3');
+         WHERE id_periodo = ? and id_estado = 3', [$periodo]);
 
 
 
@@ -1107,15 +1107,15 @@ ORDER BY `gnral_alumnos`.`apaterno` ASC,`gnral_alumnos`.`amaterno` ASC,`gnral_al
     public function termino_encuesta_residencia($id_periodo_residencia){
 
      $periodo=DB::selectOne('SELECT gnral_periodos.periodo,enc_periodo_residencia.* from gnral_periodos, enc_periodo_residencia
-     where gnral_periodos.id_periodo = enc_periodo_residencia.id_periodo 
-     and enc_periodo_residencia.id_periodo_residencia ='.$id_periodo_residencia.' ');
+     where gnral_periodos.id_periodo = enc_periodo_residencia.id_periodo
+     and enc_periodo_residencia.id_periodo_residencia = ? ', [$id_periodo_residencia]);
 
         return view('encuestas_satisfacion_cliente.residencia.terminar_periodo_resi',compact('periodo'));
     }
     public function guardar_termino_encuesta_residencia(Request $request){
 
         $id_periodo_residencia = $request->input("id_periodo_residencia");
-        $periodo=DB::selectOne('SELECT * FROM `enc_periodo_residencia` WHERE `id_periodo_residencia` ='.$id_periodo_residencia.'');
+        $periodo=DB::selectOne('SELECT * FROM `enc_periodo_residencia` WHERE `id_periodo_residencia` = ?', [$id_periodo_residencia]);
         $fecha_actual =  date("Y-m-d H:i:s");
         DB:: table('enc_residencia_profesional')
             ->where('id_periodo', $periodo->id_periodo)
@@ -1133,8 +1133,8 @@ ORDER BY `gnral_alumnos`.`apaterno` ASC,`gnral_alumnos`.`amaterno` ASC,`gnral_al
     }
     public function ver_enc_contestadas_residencia($id_periodo_residencia){
         $periodo=DB::selectOne('SELECT gnral_periodos.periodo,enc_periodo_residencia.* from gnral_periodos, enc_periodo_residencia
-     where gnral_periodos.id_periodo = enc_periodo_residencia.id_periodo 
-     and enc_periodo_residencia.id_periodo_residencia ='.$id_periodo_residencia.' ');
+     where gnral_periodos.id_periodo = enc_periodo_residencia.id_periodo
+     and enc_periodo_residencia.id_periodo_residencia = ? ', [$id_periodo_residencia]);
 
         $carreras=DB::table('gnral_carreras')
             ->where('gnral_carreras.id_carrera','!=',9)
@@ -1149,17 +1149,17 @@ ORDER BY `gnral_alumnos`.`apaterno` ASC,`gnral_alumnos`.`amaterno` ASC,`gnral_al
     }
     public function ver_enc_contestadas_resi_alum($id_carrera,$id_periodo_residencia){
 
-        $periodo=DB::selectOne('SELECT gnral_periodos.periodo, enc_periodo_residencia.* 
+        $periodo=DB::selectOne('SELECT gnral_periodos.periodo, enc_periodo_residencia.*
         from gnral_periodos, enc_periodo_residencia where gnral_periodos.id_periodo = enc_periodo_residencia.id_periodo
-        and enc_periodo_residencia.id_periodo_residencia = '.$id_periodo_residencia.'');
+        and enc_periodo_residencia.id_periodo_residencia = ?', [$id_periodo_residencia]);
 
 
         $alumnos=DB::select('SELECT gnral_alumnos.cuenta, gnral_alumnos.nombre, gnral_alumnos.apaterno,
-        gnral_alumnos.amaterno,enc_residencia_profesional.* 
+        gnral_alumnos.amaterno,enc_residencia_profesional.*
         from gnral_alumnos,enc_residencia_profesional where gnral_alumnos.id_alumno = enc_residencia_profesional.id_alumno and
-        enc_residencia_profesional.id_periodo = '.$periodo->id_periodo.' and enc_residencia_profesional.id_estado = 1');
+        enc_residencia_profesional.id_periodo = ? and enc_residencia_profesional.id_estado = 1', [$periodo->id_periodo]);
 
-         $carrera=DB::selectOne('SELECT * FROM `gnral_carreras` WHERE `id_carrera` ='.$id_carrera.'');
+         $carrera=DB::selectOne('SELECT * FROM `gnral_carreras` WHERE `id_carrera` = ?', [$id_carrera]);
 
         return view('encuestas_satisfacion_cliente.residencia.alumnos_enc_autorizada', compact('periodo','alumnos','carrera','id_carrera','id_periodo_residencia'));
 
@@ -1169,21 +1169,21 @@ ORDER BY `gnral_alumnos`.`apaterno` ASC,`gnral_alumnos`.`amaterno` ASC,`gnral_al
         $encuesta_alumno=DB::selectOne('SELECT gnral_alumnos.id_carrera,gnral_alumnos.cuenta, gnral_alumnos.cuenta, gnral_alumnos.nombre, gnral_alumnos.apaterno,
         gnral_alumnos.amaterno, enc_residencia_profesional.*,gnral_carreras.nombre carrera  FROM enc_residencia_profesional, gnral_alumnos,
         gnral_carreras WHERE gnral_carreras.id_carrera = gnral_alumnos.id_carrera and  gnral_alumnos.id_alumno = enc_residencia_profesional.id_alumno
-        and  enc_residencia_profesional.id_residencia_profesional = '.$id_residencia_profesional.'');
+        and  enc_residencia_profesional.id_residencia_profesional = ?', [$id_residencia_profesional]);
 
-        $periodo=DB::selectOne('SELECT * FROM `enc_periodo_residencia` WHERE `id_periodo` ='.$encuesta_alumno->id_periodo.'');
+        $periodo=DB::selectOne('SELECT * FROM `enc_periodo_residencia` WHERE `id_periodo` = ?', [$encuesta_alumno->id_periodo]);
 
         return view('encuestas_satisfacion_cliente.residencia.enc_alumno_contestada', compact('encuesta_alumno','periodo'));
 
 
     }
     public function ver_enc_carreras_res_residencia($id_periodo_residencia){
-        $periodo=DB::selectOne('SELECT gnral_periodos.periodo, enc_periodo_residencia.* 
+        $periodo=DB::selectOne('SELECT gnral_periodos.periodo, enc_periodo_residencia.*
         from gnral_periodos, enc_periodo_residencia where gnral_periodos.id_periodo = enc_periodo_residencia.id_periodo
-        and enc_periodo_residencia.id_periodo_residencia = '.$id_periodo_residencia.'');
+        and enc_periodo_residencia.id_periodo_residencia = ?', [$id_periodo_residencia]);
 
 
-        $encuestas_contestadas=DB::select('SELECT * FROM `enc_residencia_profesional` WHERE `id_periodo` = '.$periodo->id_periodo.' AND `id_estado` = 1');
+        $encuestas_contestadas=DB::select('SELECT * FROM `enc_residencia_profesional` WHERE `id_periodo` = ? AND `id_estado` = 1', [$periodo->id_periodo]);
        // dd($encuestas_contestadas);
         $preg1_excelente=0;
         $preg1_bueno=0;
@@ -1819,17 +1819,17 @@ ORDER BY `gnral_alumnos`.`apaterno` ASC,`gnral_alumnos`.`amaterno` ASC,`gnral_al
     }
     public function menu_historial_servicio_s_year($year){
         Session::put('historial_enc_s',1);
-        $total_periodos=DB::selectOne('SELECT COUNT(id_periodo_serv)contar from enc_periodo_servicio where year='.$year.'');
+        $total_periodos=DB::selectOne('SELECT COUNT(id_periodo_serv)contar from enc_periodo_servicio where year= ?', [$year]);
         $total_periodos=$total_periodos->contar;
         //  dd($total_periodos);
 
-        $periodos= DB::select('SELECT *from enc_periodo_servicio where year='.$year.'');
+        $periodos= DB::select('SELECT *from enc_periodo_servicio where year= ?', [$year]);
 
         return view("encuestas_satisfacion_cliente.servicio_social.periodos_servicio_social",compact('year','total_periodos','periodos'));
 
     }
     public function historial_periodo_year_residencia(){
-        dd("hola");
+        abort(501, 'Funcionalidad no disponible.');
     }
 
 }

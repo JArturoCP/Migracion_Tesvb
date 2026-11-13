@@ -51,11 +51,11 @@ class Tutorias_PdfController extends Controller
 {
     public function pdf_all() {
    $datos_alumno = DB::selectOne(
-    'SELECT 
-        gnral_alumnos.*, 
+    'SELECT
+        gnral_alumnos.*,
         gnral_semestres.descripcion AS semestre
      FROM gnral_alumnos
-     INNER JOIN gnral_semestres 
+     INNER JOIN gnral_semestres
         ON gnral_alumnos.id_semestre = gnral_semestres.id_semestre
      WHERE gnral_alumnos.id_alumno = ?',
     [Session::get('id_alumno')]
@@ -854,7 +854,7 @@ $datosHabitos->load('intelectual');
             ->where('gnral_personales.tipo_usuario', '=', Auth::user()->id)
             ->get();
 
-       
+
 
         //$pdf= new \Codedge\Fpdf\Fpdf\Fpdf();
         // $pdf->AddPage();
@@ -982,8 +982,8 @@ $datosHabitos->load('intelectual');
 
     public function pdf_alumno(Request $request)
     {
-        $datos_alumno=DB::selectOne('SELECT gnral_alumnos.*,gnral_semestres.descripcion semestre from gnral_alumnos, gnral_semestres 
-where gnral_alumnos.id_semestre = gnral_semestres.id_semestre and gnral_alumnos.id_alumno='.$request->id_alumno.'');
+        $datos_alumno=DB::selectOne('SELECT gnral_alumnos.*,gnral_semestres.descripcion semestre from gnral_alumnos, gnral_semestres
+where gnral_alumnos.id_semestre = gnral_semestres.id_semestre and gnral_alumnos.id_alumno= ?', [$request->id_alumno]);
         $datosGenerales= Tutorias_Exp_generale::where('id_alumno',$request->id_alumno)->get();
         $datosAntecedentes= Tutorias_Exp_antecedentes_academico::where('id_alumno',$request->id_alumno)->get();
         $datosFamiliares= Tutorias_Exp_datos_familiare::where('id_alumno',$request->id_alumno)->get();

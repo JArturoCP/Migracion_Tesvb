@@ -12,7 +12,7 @@ class Ti_calendario_estudianteController extends Controller
 {
     public function index()
     {
-        dd("hola");
+        abort(501, 'Funcionalidad no disponible.');
     }
 
     public function editar_titulo_cedula()

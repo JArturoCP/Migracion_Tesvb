@@ -69,9 +69,9 @@ class HomeController extends Controller
         ////periodos de ingles
         $fecha_hoy=date("Y-m-d");
         Session::put('periodos_ingles',$periodos_ingles=DB::select('SELECT * FROM in_periodos'));
-        $periodo_ingles=DB::selectOne("SELECT * FROM in_periodos WHERE '$fecha_hoy' BETWEEN 	fecha_inicial_periodo AND fecha_final_periodo");
-        Session::put('periodo_ingles',$periodo_ingles->id_periodo_ingles);
-        Session::put('nombre_periodo_ingles',$periodo_ingles->periodo_ingles);
+        $periodo_ingles=DB::selectOne('SELECT * FROM in_periodos WHERE ? BETWEEN 	fecha_inicial_periodo AND fecha_final_periodo', [(string) ($fecha_hoy)]);
+        Session::put('periodo_ingles',$periodo_ingles->id_periodo_ingles ?? null);
+        Session::put('nombre_periodo_ingles',$periodo_ingles->periodo_ingles ?? null);
 
         /// fin de periodos de ingles
         Session::put('arre_periodos',$arre_periodos=DB::select('select * from gnral_periodos'));
@@ -82,7 +82,7 @@ class HomeController extends Controller
         $mes = date('m');  // Mes actual
 
         // Buscar el primer periodo en el que el mes actual encaje en el rango de 5 meses
-       /* $periodo = DB::selectOne('SELECT id_periodo, fecha_inicio FROM gnral_periodos WHERE DATE_ADD(fecha_inicio, INTERVAL 2 MONTH) >= CURDATE() 
+       /* $periodo = DB::selectOne('SELECT id_periodo, fecha_inicio FROM gnral_periodos WHERE DATE_ADD(fecha_inicio, INTERVAL 2 MONTH) >= CURDATE()
         AND fecha_inicio <= CURDATE() LIMIT 1');*/
 
         $periodo = DB::selectOne(' SELECT id_periodo, fecha_inicio FROM gnral_periodos WHERE fecha_inicio <= CURDATE() AND CURDATE() <= LAST_DAY(DATE_ADD(fecha_inicio, INTERVAL 5 MONTH)) ORDER BY fecha_inicio DESC');
@@ -90,16 +90,18 @@ class HomeController extends Controller
         // Imprimir para ver el resultado
         //dd($periodo);
 
-        // Verificar si se encontró un periodo
-        if ($periodo) {
-            // Si se encontró un periodo, guardarlo en la sesión
-            Session::put('periodos', $periodo->id_periodo);
-            //dd($periodo);
-        } else {
-            // Si no se encontró un periodo, manejarlo
-            Session::put('periodos', null);
-            // Opcionalmente, puedes lanzar un error o mostrar un mensaje de alerta
+        // Si hoy no cae en ningún periodo (p. ej. entre periodos), usar el último que ya inició
+        if (! $periodo) {
+            $periodo = DB::selectOne('SELECT id_periodo, fecha_inicio FROM gnral_periodos WHERE fecha_inicio <= CURDATE() ORDER BY fecha_inicio DESC LIMIT 1');
         }
+
+        // Sin ningún periodo registrado no se puede armar la sesión
+        if (! $periodo) {
+            Auth::logout();
+            return redirect('/login')->withErrors(['email' => 'No hay un periodo escolar registrado. Contacte al administrador del sistema.']);
+        }
+
+        Session::put('periodos', $periodo->id_periodo);
 
 
         Session::put('periodo_anterior',$periodo_anterior=($periodo->id_periodo-1));
@@ -107,18 +109,18 @@ class HomeController extends Controller
         Session::put('periodo_actual',$periodo_actual=$periodo->id_periodo);
         //dd($periodo_actual);
         Session::put('periodo_siguiente',$periodo_siguiente=($periodo->id_periodo+1));
-        Session::put('p1',$p1=DB::selectOne('select * from gnral_periodos where id_periodo='.$periodo_anterior.''));
+        Session::put('p1',$p1=DB::selectOne('select * from gnral_periodos where id_periodo= ?', [$periodo_anterior]));
         //dd($periodo_siguiente);
-        Session::put('p2',$p2=DB::selectOne('select * from gnral_periodos where id_periodo='.$periodo_actual.''));
-        Session::put('p3',$p3=DB::selectOne('select * from gnral_periodos where id_periodo='.$periodo_siguiente.''));
+        Session::put('p2',$p2=DB::selectOne('select * from gnral_periodos where id_periodo= ?', [$periodo_actual]));
+        Session::put('p3',$p3=DB::selectOne('select * from gnral_periodos where id_periodo= ?', [$periodo_siguiente]));
         Session::put('periodotrabaja',$periodo_actual);
-        $periodon=DB::selectOne('select periodo from gnral_periodos where id_periodo='.$periodo_actual.' ');
+        $periodon=DB::selectOne('select periodo from gnral_periodos where id_periodo= ? ', [$periodo_actual]);
         Session::put('nombre_periodo',$periodon->periodo);
 
         Session::put('tipo_persona',Auth::user()->tipo_usuario);
         if($tipo==1)
         {
-            $alumno_existe=DB::selectOne('select gnral_alumnos.id_alumno from gnral_alumnos where gnral_alumnos.id_usuario='.$id_usuario.'');
+            $alumno_existe=DB::selectOne('select gnral_alumnos.id_alumno from gnral_alumnos where gnral_alumnos.id_usuario= ?', [$id_usuario]);
            // dd($id_usuario);
             if($alumno_existe==null)
             {
@@ -140,10 +142,10 @@ class HomeController extends Controller
 
                 }
             //////////////////////PERIODO///////////////////
-            $dat=DB::selectOne('select gnral_alumnos.id_carrera,gnral_alumnos.cuenta,gnral_alumnos.id_alumno,gnral_alumnos.id_semestre 
-            from gnral_alumnos where gnral_alumnos.id_usuario='.$id_usuario.'');
-            $nombre=DB::selectOne('select gnral_alumnos.nombre,gnral_alumnos.apaterno,gnral_alumnos.amaterno,gnral_alumnos.id_alumno 
-            from gnral_alumnos where gnral_alumnos.id_usuario='.$id_usuario.'');
+            $dat=DB::selectOne('select gnral_alumnos.id_carrera,gnral_alumnos.cuenta,gnral_alumnos.id_alumno,gnral_alumnos.id_semestre
+            from gnral_alumnos where gnral_alumnos.id_usuario= ?', [$id_usuario]);
+            $nombre=DB::selectOne('select gnral_alumnos.nombre,gnral_alumnos.apaterno,gnral_alumnos.amaterno,gnral_alumnos.id_alumno
+            from gnral_alumnos where gnral_alumnos.id_usuario= ?', [$id_usuario]);
             $nombre=$nombre->nombre." ".$nombre->apaterno." ".$nombre->amaterno;
             //dd($nombre);
                 $carrera=($dat->id_carrera);
@@ -154,8 +156,8 @@ class HomeController extends Controller
 
                     $fecha = date("Y-m-d ");
 
-                    $registrar=DB::selectOne("SELECT count(id_periodo_eval_anteproyecto) numero FROM resi_periodo_eval_anteproyecto WHERE fecha_inicio <= '$fecha' 
-                                                                                        AND fecha_final >= '$fecha' and estado_periodo = 1 and id_periodo = $periodo_actual ");
+                    $registrar=DB::selectOne('SELECT count(id_periodo_eval_anteproyecto) numero FROM resi_periodo_eval_anteproyecto WHERE fecha_inicio <= ?
+                                                                                        AND fecha_final >= ? and estado_periodo = 1 and id_periodo = ? ', [(string) ($fecha), (string) ($fecha), $periodo_actual]);
                     $registrar=$registrar->numero;
                     // dd($registrar);
                     if($registrar == 0)
@@ -165,7 +167,7 @@ class HomeController extends Controller
                         Session::put('registrar_residencia',true);
                     }
                     $alumno=$dat->id_alumno;
-                    $estado_reg_anteproyecto=DB::selectOne('SELECT * from resi_anteproyecto WHERE id_alumno='.$alumno.' and id_periodo = '.$periodo_actual.'');
+                    $estado_reg_anteproyecto=DB::selectOne('SELECT * from resi_anteproyecto WHERE id_alumno= ? and id_periodo = ?', [$alumno, $periodo_actual]);
                     if($estado_reg_anteproyecto == null)
                     {
 
@@ -174,16 +176,16 @@ class HomeController extends Controller
                     }
 
 
-                    $anteproyecto=DB::selectOne('SELECT id_anteproyecto FROM resi_anteproyecto WHERE id_alumno ='.$alumno.' AND id_periodo = '.$periodo_actual.' AND estado_enviado = 3 ');
+                    $anteproyecto=DB::selectOne('SELECT id_anteproyecto FROM resi_anteproyecto WHERE id_alumno = ? AND id_periodo = ? AND estado_enviado = 3 ', [$alumno, $periodo_actual]);
 
-                    $anteproyecto_aceptado=DB::selectOne('SELECT count(id_anteproyecto) aceptado FROM resi_anteproyecto WHERE id_alumno ='.$alumno.' AND id_periodo = '.$periodo_actual.' AND estado_enviado = 3 ');
+                    $anteproyecto_aceptado=DB::selectOne('SELECT count(id_anteproyecto) aceptado FROM resi_anteproyecto WHERE id_alumno = ? AND id_periodo = ? AND estado_enviado = 3 ', [$alumno, $periodo_actual]);
                     $anteproyecto_aceptado=$anteproyecto_aceptado->aceptado;
                     if($anteproyecto == null)
                     {
 
                     }
                     else {
-                        $registro_empresa = DB::selectOne('SELECT count(id_proy_empresa) registro FROM resi_proy_empresa WHERE id_anteproyecto =' . $anteproyecto->id_anteproyecto . '');
+                        $registro_empresa = DB::selectOne('SELECT count(id_proy_empresa) registro FROM resi_proy_empresa WHERE id_anteproyecto = ?', [$anteproyecto->id_anteproyecto]);
                         $registro_empresa = $registro_empresa->registro;
 
                         if ($registro_empresa == 1) {
@@ -200,8 +202,8 @@ class HomeController extends Controller
 
                 }
             $id_alumno=$dat->id_alumno;
-                $seguimiento= DB::selectOne('SELECT COUNT(resi_anteproyecto.id_alumno) id_alumno from resi_anteproyecto,resi_asesores where resi_anteproyecto.id_anteproyecto=resi_asesores.id_anteproyecto 
-                                                                                           and resi_asesores.id_periodo='.$periodo_actual.' and resi_anteproyecto.id_alumno='.$id_alumno.' ');
+                $seguimiento= DB::selectOne('SELECT COUNT(resi_anteproyecto.id_alumno) id_alumno from resi_anteproyecto,resi_asesores where resi_anteproyecto.id_anteproyecto=resi_asesores.id_anteproyecto
+                                                                                           and resi_asesores.id_periodo= ? and resi_anteproyecto.id_alumno= ? ', [$periodo_actual, $id_alumno]);
              $seguimiento=$seguimiento->id_alumno;
 //dd($seguimiento);
             if($seguimiento ==0)
@@ -241,9 +243,9 @@ class HomeController extends Controller
                     }
             ////////////Titulacion///////////
                 $alumno_reg_ti=DB::selectOne('SELECT count(id_descuento_alum)registrado
-               FROM `ti_descuentos_alum` WHERE `id_alumno` = '.$id_alumno.' ');
+               FROM `ti_descuentos_alum` WHERE `id_alumno` = ? ', [$id_alumno]);
 
-              $estado_encuesta=DB::selectOne('SELECT count(id_titulacion) contar from enc_titulacion where id_alumno ='.$id_alumno.'');
+              $estado_encuesta=DB::selectOne('SELECT count(id_titulacion) contar from enc_titulacion where id_alumno = ?', [$id_alumno]);
              // dd($estado_encuesta);
               if($estado_encuesta->contar == 0){
                   Session::put('estado_cuenta',false);
@@ -259,14 +261,14 @@ class HomeController extends Controller
             }
             ///////registro 2 etapa///////////////
                 $reg_segunda=DB::selectOne('SELECT count(id_requisitos) validacion_primer_titulacion
-FROM `ti_requisitos_titulacion` WHERE `id_alumno` = '.$id_alumno.' AND `id_estado_enviado` = 4 '); // autorización de la primera etapa el alumno
+FROM `ti_requisitos_titulacion` WHERE `id_alumno` = ? AND `id_estado_enviado` = 4 ', [$id_alumno]); // autorización de la primera etapa el alumno
                 //entrego su documentación
                 if($reg_segunda->validacion_primer_titulacion != 0){
 
                     Session::put('ti_segunda_etapa',true);
 
                     ///////registro 3 etapa///////////////
-                    $reg_tercera=DB::selectOne('SELECT  COUNT(id_fecha_jurado_alumn) contar FROM `ti_fecha_jurado_alumn` WHERE `id_alumno` = '.$id_alumno.' AND `id_autorizar_agendar_jurado` = 1 ');
+                    $reg_tercera=DB::selectOne('SELECT  COUNT(id_fecha_jurado_alumn) contar FROM `ti_fecha_jurado_alumn` WHERE `id_alumno` = ? AND `id_autorizar_agendar_jurado` = 1 ', [$id_alumno]);
 
                     if($reg_tercera->contar != 0){
                         Session::put('ti_tercera_parte',true);
@@ -305,7 +307,7 @@ FROM `ti_requisitos_titulacion` WHERE `id_alumno` = '.$id_alumno.' AND `id_estad
             $persona=DB::selectOne('select gnral_personales.id_personal
                                     from gnral_personales,users
                                     where gnral_personales.tipo_usuario=users.id
-                                    and gnral_personales.tipo_usuario='.$id_usuario.'');
+                                    and gnral_personales.tipo_usuario= ?', [$id_usuario]);
             //dd($persona);
 
             if ($persona==null)
@@ -328,7 +330,7 @@ FROM `ti_requisitos_titulacion` WHERE `id_alumno` = '.$id_alumno.' AND `id_estad
                 /** Riegos **/
 
                 $unidad_personal=DB::selectOne('select gnral_unidad_personal.id_unidad_persona,id_unidad_admin from gnral_unidad_personal
-                                    where gnral_unidad_personal.id_personal='.$persona->id_personal.'');
+                                    where gnral_unidad_personal.id_personal= ?', [$persona->id_personal]);
 
 //                $revisores=DB::selectOne('SELECT count(resi_revisores.id_revisores) revisores FROM resi_revisores WHERE id_profesor ='.$persona->id_personal.' and id_periodo='.$periodo_actual.'');
 //
@@ -345,13 +347,13 @@ FROM `ti_requisitos_titulacion` WHERE `id_alumno` = '.$id_alumno.' AND `id_estad
 //                }
 
                 ///residencia
-                $revisores=DB::selectOne('SELECT count(resi_revisores.id_revisores) revisores FROM resi_revisores WHERE id_profesor ='.$persona->id_personal.' and id_periodo='.$periodo_actual.'');
+                $revisores=DB::selectOne('SELECT count(resi_revisores.id_revisores) revisores FROM resi_revisores WHERE id_profesor = ? and id_periodo= ?', [$persona->id_personal, $periodo_actual]);
 
                    if($revisores->revisores >0)
                    {
                        Session::put('revisor',true);
                    }
-                  $seguimiento_asesor=DB::selectOne('SELECT count(id_asesores)asesor FROM resi_asesores WHERE id_profesor = '.$persona->id_personal.' AND id_periodo = '.$periodo_actual.'');
+                  $seguimiento_asesor=DB::selectOne('SELECT count(id_asesores)asesor FROM resi_asesores WHERE id_profesor = ? AND id_periodo = ?', [$persona->id_personal, $periodo_actual]);
                    $seguimiento_asesor=$seguimiento_asesor->asesor;
 
                    if($seguimiento_asesor == 0 )
@@ -363,7 +365,7 @@ FROM `ti_requisitos_titulacion` WHERE `id_alumno` = '.$id_alumno.' AND `id_estad
                    }
 
 
-                $academia= DB::selectOne('SELECT count(id_academia) academia FROM resi_academia WHERE id_profesor ='.$persona->id_personal.' and id_cargo_academia=1');
+                $academia= DB::selectOne('SELECT count(id_academia) academia FROM resi_academia WHERE id_profesor = ? and id_cargo_academia=1', [$persona->id_personal]);
                 if($academia->academia==1)
                 {
                     Session::put('personal_academia',true);
@@ -378,8 +380,8 @@ FROM `ti_requisitos_titulacion` WHERE `id_alumno` = '.$id_alumno.' AND `id_estad
                 }
                 Session::put('id_perso',$persona->id_personal);
                 ///////////// verificacion de encargado de un procedimiento de ambiental /////
-                $encargado_ambiental=DB::selectOne('SELECT COUNT(id_encargado) encargado 
-               FROM `amb_encargados` WHERE `id_personal` = '.$persona->id_personal.' ');
+                $encargado_ambiental=DB::selectOne('SELECT COUNT(id_encargado) encargado
+               FROM `amb_encargados` WHERE `id_personal` = ? ', [$persona->id_personal]);
                 $encargado_ambiental=$encargado_ambiental->encargado;
                 if($encargado_ambiental >=1){
 
@@ -388,13 +390,14 @@ FROM `ti_requisitos_titulacion` WHERE `id_alumno` = '.$id_alumno.' AND `id_estad
 
                 $nombre=DB::selectOne('select gnral_personales.nombre
                                         from gnral_personales
-                                        where gnral_personales.id_personal='.$persona->id_personal.'');
+                                        where gnral_personales.id_personal= ?', [$persona->id_personal]);
                 $nombre=$nombre->nombre;
                 Session::put('nombre',$nombre);
 
-                $departamento=DB::selectOne('select gnral_personales.id_departamento
+                $departamento=DB::selectOne('select gnral_personales.id_departamento, gnral_departamentos.nombre_departamento
                     from gnral_personales,users,gnral_departamentos where
-                    gnral_personales.tipo_usuario=users.id and gnral_personales.tipo_usuario='.$id_usuario.' ');
+                    gnral_personales.tipo_usuario=users.id and gnral_personales.tipo_usuario= ?
+                    and gnral_departamentos.id_departamento=gnral_personales.id_departamento', [$id_usuario]);
 
 
                 /*{{-- CONDICION PARA EL PERFIL DE DESARROLLO CON PERMISO DE JEFE--}}*/
@@ -415,7 +418,7 @@ FROM `ti_requisitos_titulacion` WHERE `id_alumno` = '.$id_alumno.' AND `id_estad
                                         and gnral_periodos.id_periodo='.$periodo_actual.'
                                         and gnral_personales.tipo_usuario='.$id_usuario.'');
 */
-                    $personal = DB::selectOne('SELECT id_personal FROM gnral_personales 
+                    $personal = DB::selectOne('SELECT id_personal FROM gnral_personales
                     WHERE id_personal = ?  AND tipo_usuario = ?', [$persona->id_personal,$id_usuario]);
 
                      if($personal!=null) /////CONDICION PARA SABER SI ES PROFESOR
@@ -430,8 +433,8 @@ FROM `ti_requisitos_titulacion` WHERE `id_alumno` = '.$id_alumno.' AND `id_estad
                                 and hrs_extra_clase.id_act_extra_clase=hrs_act_extra_clases.id_act_extra_clase
                                 and  hrs_extra_clase.id_horario_profesor=gnral_horarios.id_horario_profesor
                                 and hrs_horario_extra_clase.id_extra_clase=hrs_extra_clase.id_extra_clase
-                                and gnral_personales.id_personal='.$persona->id_personal.'
-                                and gnral_periodos.id_periodo='.$periodo_actual.'');
+                                and gnral_personales.id_personal= ?
+                                and gnral_periodos.id_periodo= ?', [$persona->id_personal, $periodo_actual]);
 
                             if($actividad_extra!=null)
                             {
@@ -445,9 +448,9 @@ FROM `ti_requisitos_titulacion` WHERE `id_alumno` = '.$id_alumno.' AND `id_estad
                                                     and gnral_horarios.id_periodo_carrera=gnral_periodo_carreras.id_periodo_carrera
                                                     and gnral_periodo_carreras.id_periodo=gnral_periodos.id_periodo
                                                     and gnral_periodo_carreras.id_carrera=gnral_carreras.id_carrera
-                                                    and gnral_personales.tipo_usuario='.$id_usuario.'
-                                                    and hrs_act_extra_clases.id_act_extra_clase='.$actividad_extra->id_act_extra_clase.'
-                                                    and gnral_periodos.id_periodo='.$periodo_actual.'');
+                                                    and gnral_personales.tipo_usuario= ?
+                                                    and hrs_act_extra_clases.id_act_extra_clase= ?
+                                                    and gnral_periodos.id_periodo= ?', [$id_usuario, $actividad_extra->id_act_extra_clase, $periodo_actual]);
                                 //dd($periodo_actual);
 
                                 //dd($actividad_comple);
@@ -475,7 +478,7 @@ FROM `ti_requisitos_titulacion` WHERE `id_alumno` = '.$id_alumno.' AND `id_estad
 ////////////MENSAJE DE FECHA PARA LIBERAR ACTIVIDADES COMPLEMENTARIAS////////////////////////////////
                                 $periodo=Session::get('periodo_actual');
 
-                                $fecha_prueba=DB::selectOne('select gnral_periodos.fecha_termino from gnral_periodos WHERE gnral_periodos.id_periodo='.$periodo.'');
+                                $fecha_prueba=DB::selectOne('select gnral_periodos.fecha_termino from gnral_periodos WHERE gnral_periodos.id_periodo= ?', [$periodo]);
                                 $fecha=$fecha_prueba->fecha_termino;
                                 $fecha= explode("-", $fecha);
                                 $año=$fecha[0];
@@ -545,23 +548,23 @@ FROM `ti_requisitos_titulacion` WHERE `id_alumno` = '.$id_alumno.' AND `id_estad
                                                     where gnral_personales.id_personal=gnral_jefes_periodos.id_personal
                                                     and gnral_jefes_periodos.id_periodo=gnral_periodos.id_periodo
                                                     and gnral_jefes_periodos.id_carrera=gnral_carreras.id_carrera
-                                                    and gnral_personales.tipo_usuario='.$id_usuario.'
-                                                    and gnral_periodos.id_periodo='.$periodo_actual.'');
+                                                    and gnral_personales.tipo_usuario= ?
+                                                    and gnral_periodos.id_periodo= ?', [$id_usuario, $periodo_actual]);
 
                          $num_carreras=DB::selectOne('select COUNT(gnral_jefes_periodos.id_personal)num
                                                     from gnral_jefes_periodos,gnral_personales
-                                                    where gnral_personales.tipo_usuario='.$id_usuario.'
-                                                    and gnral_jefes_periodos.id_periodo='.$periodo_actual.' AND
-                                                    gnral_jefes_periodos.id_personal=gnral_personales.id_personal');
+                                                    where gnral_personales.tipo_usuario= ?
+                                                    and gnral_jefes_periodos.id_periodo= ? AND
+                                                    gnral_jefes_periodos.id_personal=gnral_personales.id_personal', [$id_usuario, $periodo_actual]);
                          if($num_carreras->num==2)
                          {
                             Session::put('cambio_carreras',1);
                             $carreras=DB::select('select gnral_carreras.id_carrera,gnral_carreras.nombre from
                                 gnral_carreras,gnral_jefes_periodos,gnral_personales WHERE
-                                gnral_personales.tipo_usuario='.$id_usuario.' AND
-                                gnral_jefes_periodos.id_periodo='.$periodo_actual.' AND
+                                gnral_personales.tipo_usuario= ? AND
+                                gnral_jefes_periodos.id_periodo= ? AND
                                 gnral_jefes_periodos.id_personal=gnral_personales.id_personal AND
-                                gnral_jefes_periodos.id_carrera=gnral_carreras.id_carrera ');
+                                gnral_jefes_periodos.id_carrera=gnral_carreras.id_carrera ', [$id_usuario, $periodo_actual]);
                          }
                          else
                          {
@@ -666,8 +669,8 @@ FROM `ti_requisitos_titulacion` WHERE `id_alumno` = '.$id_alumno.' AND `id_estad
 
         }
         else if($tipo==3){
-            $profesores_ingles=DB::selectOne('select in_profesores_ingles.id_profesores from in_profesores_ingles,users 
-where in_profesores_ingles.id_tipo_usuario=users.id and in_profesores_ingles.id_tipo_usuario='.$id_usuario.'');
+            $profesores_ingles=DB::selectOne('select in_profesores_ingles.id_profesores from in_profesores_ingles,users
+where in_profesores_ingles.id_tipo_usuario=users.id and in_profesores_ingles.id_tipo_usuario= ?', [$id_usuario]);
 
             if ($profesores_ingles==null)
             {
@@ -686,7 +689,7 @@ where in_profesores_ingles.id_tipo_usuario=users.id and in_profesores_ingles.id_
 
                 Session::put('profesor_ingles',true);
                 Session::put('id_usuario',$id_usuario);
-                $nombre_profesor=DB::selectOne('SELECT * FROM in_profesores_ingles WHERE id_tipo_usuario = '.$id_usuario.'');
+                $nombre_profesor=DB::selectOne('SELECT * FROM in_profesores_ingles WHERE id_tipo_usuario = ?', [$id_usuario]);
                 $nombre=$nombre_profesor->nombre.' '.$nombre_profesor->apellido_paterno.' '.$nombre_profesor->apellido_materno;
                 Session::put('nombre_ingles',$nombre);
                 Session::put('id_profesor_ingles',$nombre_profesor->id_profesores);
@@ -711,31 +714,31 @@ where in_profesores_ingles.id_tipo_usuario=users.id and in_profesores_ingles.id_
         Session::put('periodo_anterior',$periodo_anterior=($id_periodo-1));
         Session::put('periodo_actual',$periodo_actual=intval($id_periodo));
         Session::put('periodo_siguiente',$periodo_siguiente=($id_periodo+1));
-        Session::put('p1',$p1=DB::selectOne('select * from gnral_periodos where id_periodo='.$periodo_anterior.''));
-        Session::put('p2',$p2=DB::selectOne('select * from gnral_periodos where id_periodo='.$periodo_actual.''));
-        Session::put('p3',$p3=DB::selectOne('select * from gnral_periodos where id_periodo='.$periodo_siguiente.''));
+        Session::put('p1',$p1=DB::selectOne('select * from gnral_periodos where id_periodo= ?', [$periodo_anterior]));
+        Session::put('p2',$p2=DB::selectOne('select * from gnral_periodos where id_periodo= ?', [$periodo_actual]));
+        Session::put('p3',$p3=DB::selectOne('select * from gnral_periodos where id_periodo= ?', [$periodo_siguiente]));
         Session::put('periodotrabaja',$periodo_actual);
-        $periodon=DB::selectOne('select periodo from gnral_periodos where id_periodo='.$periodo_actual.' ');
+        $periodon=DB::selectOne('select periodo from gnral_periodos where id_periodo= ? ', [$periodo_actual]);
         Session::put('nombre_periodo',$periodon->periodo);
         $id_usuario = Session::get('usuario_alumno');
-        $dat=DB::selectOne('select gnral_alumnos.id_carrera,gnral_alumnos.cuenta,gnral_alumnos.id_alumno,gnral_alumnos.id_semestre 
-from gnral_alumnos where gnral_alumnos.id_usuario='.$id_usuario.'');  //////////////////////PERIODO///////////////////
+        $dat=DB::selectOne('select gnral_alumnos.id_carrera,gnral_alumnos.cuenta,gnral_alumnos.id_alumno,gnral_alumnos.id_semestre
+from gnral_alumnos where gnral_alumnos.id_usuario= ?', [$id_usuario]);  //////////////////////PERIODO///////////////////
          if($dat == null){
-             $per=DB::selectOne('SELECT count(id_personal)per FROM `gnral_personales` WHERE `tipo_usuario` = '.$id_usuario.'');
+             $per=DB::selectOne('SELECT count(id_personal)per FROM `gnral_personales` WHERE `tipo_usuario` = ?', [$id_usuario]);
              //dd($per);
              if($per->per == 0){
 
              }
                  else
                  {
-                     $persona=DB::selectOne('SELECT * FROM `gnral_personales` WHERE `tipo_usuario` = '.$id_usuario.'');
-                     $revisores=DB::selectOne('SELECT count(resi_revisores.id_revisores) revisores FROM resi_revisores WHERE id_profesor ='.$persona->id_personal.' and id_periodo='.$periodo_actual.'');
+                     $persona=DB::selectOne('SELECT * FROM `gnral_personales` WHERE `tipo_usuario` = ?', [$id_usuario]);
+                     $revisores=DB::selectOne('SELECT count(resi_revisores.id_revisores) revisores FROM resi_revisores WHERE id_profesor = ? and id_periodo= ?', [$persona->id_personal, $periodo_actual]);
 
                      if($revisores->revisores >0)
                      {
                          Session::put('revisor',true);
                      }
-                     $seguimiento_asesor=DB::selectOne('SELECT count(id_asesores)asesor FROM resi_asesores WHERE id_profesor = '.$persona->id_personal.' AND id_periodo = '.$periodo_actual.'');
+                     $seguimiento_asesor=DB::selectOne('SELECT count(id_asesores)asesor FROM resi_asesores WHERE id_profesor = ? AND id_periodo = ?', [$persona->id_personal, $periodo_actual]);
                      $seguimiento_asesor=$seguimiento_asesor->asesor;
 
                      if($seguimiento_asesor == 0 )
@@ -751,9 +754,9 @@ from gnral_alumnos where gnral_alumnos.id_usuario='.$id_usuario.'');  //////////
          }
          else{
              $alumno=$dat->id_alumno;
-             $anteproyecto=DB::selectOne('SELECT id_anteproyecto FROM resi_anteproyecto WHERE id_alumno ='.$alumno.' AND id_periodo = '.$periodo_actual.' AND estado_enviado = 3 ');
+             $anteproyecto=DB::selectOne('SELECT id_anteproyecto FROM resi_anteproyecto WHERE id_alumno = ? AND id_periodo = ? AND estado_enviado = 3 ', [$alumno, $periodo_actual]);
 
-             $anteproyecto_aceptado=DB::selectOne('SELECT count(id_anteproyecto) aceptado FROM resi_anteproyecto WHERE id_alumno ='.$alumno.' AND id_periodo = '.$periodo_actual.' AND estado_enviado = 3 ');
+             $anteproyecto_aceptado=DB::selectOne('SELECT count(id_anteproyecto) aceptado FROM resi_anteproyecto WHERE id_alumno = ? AND id_periodo = ? AND estado_enviado = 3 ', [$alumno, $periodo_actual]);
              $anteproyecto_aceptado=$anteproyecto_aceptado->aceptado;
              if($anteproyecto == null)
              {
@@ -761,7 +764,7 @@ from gnral_alumnos where gnral_alumnos.id_usuario='.$id_usuario.'');  //////////
                  Session::put('anteproyecto_aceptado',false);
              }
              else {
-                 $registro_empresa = DB::selectOne('SELECT count(id_proy_empresa) registro FROM resi_proy_empresa WHERE id_anteproyecto =' . $anteproyecto->id_anteproyecto . '');
+                 $registro_empresa = DB::selectOne('SELECT count(id_proy_empresa) registro FROM resi_proy_empresa WHERE id_anteproyecto = ?', [$anteproyecto->id_anteproyecto]);
                  $registro_empresa = $registro_empresa->registro;
 
                  if ($registro_empresa == 1) {
@@ -773,7 +776,7 @@ from gnral_alumnos where gnral_alumnos.id_usuario='.$id_usuario.'');  //////////
                  Session::put('anteproyecto_aceptado',true);
 
              }
-             $seguimiento_al=DB::selectOne('SELECT count(id_alumno) contar from resi_asesores,resi_anteproyecto where resi_asesores.id_anteproyecto=resi_anteproyecto.id_anteproyecto and resi_asesores.id_periodo='.$periodo_actual.' and resi_anteproyecto.id_alumno='.$alumno.'');
+             $seguimiento_al=DB::selectOne('SELECT count(id_alumno) contar from resi_asesores,resi_anteproyecto where resi_asesores.id_anteproyecto=resi_anteproyecto.id_anteproyecto and resi_asesores.id_periodo= ? and resi_anteproyecto.id_alumno= ?', [$periodo_actual, $alumno]);
               $seguimiento_al=$seguimiento_al->contar;
               if($seguimiento_al == 0){
 
@@ -781,10 +784,10 @@ from gnral_alumnos where gnral_alumnos.id_usuario='.$id_usuario.'');  //////////
                   Session::put('seguimiento_alumno',true);
               }
              $fecha = date("Y-m-d ");
-             $registrar=DB::selectOne("SELECT count(id_periodo_eval_anteproyecto) numero 
-               FROM resi_periodo_eval_anteproyecto WHERE fecha_inicio <= '$fecha'
-    AND fecha_final >= '$fecha' and estado_periodo = 1 and id_periodo = $periodo_actual
-       ");
+             $registrar=DB::selectOne('SELECT count(id_periodo_eval_anteproyecto) numero
+               FROM resi_periodo_eval_anteproyecto WHERE fecha_inicio <= ?
+    AND fecha_final >= ? and estado_periodo = 1 and id_periodo = ?
+       ', [(string) ($fecha), (string) ($fecha), $periodo_actual]);
              $registrar=$registrar->numero;
              // dd($registrar);
              if($registrar == 0)
@@ -798,7 +801,7 @@ from gnral_alumnos where gnral_alumnos.id_usuario='.$id_usuario.'');  //////////
                  Session::put('registrar_residencia',true);
 
              }
-             $estado_reg_anteproyecto=DB::selectOne('SELECT *from resi_anteproyecto WHERE id_alumno='.$alumno.' and id_periodo = '.$periodo_actual.'');
+             $estado_reg_anteproyecto=DB::selectOne('SELECT *from resi_anteproyecto WHERE id_alumno= ? and id_periodo = ?', [$alumno, $periodo_actual]);
              if($estado_reg_anteproyecto == null)
              {
                  Session::put('estado_reg_anteproyecto',false);
@@ -811,8 +814,8 @@ from gnral_alumnos where gnral_alumnos.id_usuario='.$id_usuario.'');  //////////
         $sistema_tut = Session::get('sistemas_tutorias');
 
          if($sistema_tut == true){
-             $persona=DB::selectOne('SELECT * FROM `gnral_personales` WHERE `tipo_usuario` = '.$id_usuario.'');
-             $jef=DB::selectOne('SELECT *  FROM `gnral_jefes_periodos` WHERE `id_personal` = '.$persona->id_personal.' AND `id_periodo` = '.$periodo_actual.'');
+             $persona=DB::selectOne('SELECT * FROM `gnral_personales` WHERE `tipo_usuario` = ?', [$id_usuario]);
+             $jef=DB::selectOne('SELECT *  FROM `gnral_jefes_periodos` WHERE `id_personal` = ? AND `id_periodo` = ?', [$persona->id_personal, $periodo_actual]);
              if($jef != null){
 
 
@@ -837,7 +840,7 @@ from gnral_alumnos where gnral_alumnos.id_usuario='.$id_usuario.'');  //////////
     public function recargapersonal($idcarr)
     {
         Session::put('carrera',$idcarr);
-        $nombre_carrera=DB::selectOne('select gnral_carreras.nombre from gnral_carreras where id_carrera='.$idcarr.'');
+        $nombre_carrera=DB::selectOne('select gnral_carreras.nombre from gnral_carreras where id_carrera= ?', [$idcarr]);
         //dd($nombre_carrera->nombre);
         Session::put('nombre_carrera',$nombre_carrera->nombre);
         return back();

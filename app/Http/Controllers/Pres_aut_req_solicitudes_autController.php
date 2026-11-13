@@ -13,12 +13,12 @@ class Pres_aut_req_solicitudes_autController extends Controller
         $id_unidad = Session::get('id_unidad_admin');
 
         $solicitudes = DB::select('SELECT pres_aut_solicitudes.*, gnral_unidad_administrativa.nom_departamento,
-        pres_proyectos.nombre_proyecto, pres_metas.meta, pres_mes.mes from pres_aut_solicitudes, gnral_unidad_administrativa, pres_proyectos, 
-        pres_metas, pres_mes where pres_aut_solicitudes.id_unidad_admin = gnral_unidad_administrativa.id_unidad_admin 
-        and pres_proyectos.id_proyecto = pres_aut_solicitudes.id_proyecto and pres_aut_solicitudes.id_meta = pres_metas.id_meta and 
-        pres_aut_solicitudes.id_mes = pres_mes.id_mes and pres_aut_solicitudes.id_unidad_admin = '.$id_unidad.' and pres_aut_solicitudes.year_presupuesto = '.$year.' 
-        and pres_aut_solicitudes.id_estado_enviado in(1,2,3) 
-        order by pres_aut_solicitudes.id_mes asc');
+        pres_proyectos.nombre_proyecto, pres_metas.meta, pres_mes.mes from pres_aut_solicitudes, gnral_unidad_administrativa, pres_proyectos,
+        pres_metas, pres_mes where pres_aut_solicitudes.id_unidad_admin = gnral_unidad_administrativa.id_unidad_admin
+        and pres_proyectos.id_proyecto = pres_aut_solicitudes.id_proyecto and pres_aut_solicitudes.id_meta = pres_metas.id_meta and
+        pres_aut_solicitudes.id_mes = pres_mes.id_mes and pres_aut_solicitudes.id_unidad_admin = ? and pres_aut_solicitudes.year_presupuesto = ?
+        and pres_aut_solicitudes.id_estado_enviado in(1,2,3)
+        order by pres_aut_solicitudes.id_mes asc', [$id_unidad, $year]);
 
 
 
@@ -29,17 +29,17 @@ class Pres_aut_req_solicitudes_autController extends Controller
     public function registrar_documentacion_solicitud($id_solicitud)
     {
         $solicitud=DB::selectOne('SELECT pres_aut_solicitudes.*, gnral_unidad_administrativa.nom_departamento,
-        pres_proyectos.nombre_proyecto, pres_metas.meta, pres_mes.mes from pres_aut_solicitudes, gnral_unidad_administrativa, pres_proyectos, 
-        pres_metas, pres_mes where pres_aut_solicitudes.id_unidad_admin = gnral_unidad_administrativa.id_unidad_admin 
-        and pres_proyectos.id_proyecto = pres_aut_solicitudes.id_proyecto and pres_aut_solicitudes.id_meta = pres_metas.id_meta and 
-        pres_aut_solicitudes.id_mes = pres_mes.id_mes and pres_aut_solicitudes.id_solicitud = '.$id_solicitud.'');
+        pres_proyectos.nombre_proyecto, pres_metas.meta, pres_mes.mes from pres_aut_solicitudes, gnral_unidad_administrativa, pres_proyectos,
+        pres_metas, pres_mes where pres_aut_solicitudes.id_unidad_admin = gnral_unidad_administrativa.id_unidad_admin
+        and pres_proyectos.id_proyecto = pres_aut_solicitudes.id_proyecto and pres_aut_solicitudes.id_meta = pres_metas.id_meta and
+        pres_aut_solicitudes.id_mes = pres_mes.id_mes and pres_aut_solicitudes.id_solicitud = ?', [$id_solicitud]);
 
-        $partidas=DB::select('SELECT pres_aut_solicitudes_partidas.*, pres_partida_pres.nombre_partida, pres_partida_pres.clave_presupuestal 
-           from pres_aut_solicitudes_partidas, pres_partida_pres WHERE pres_aut_solicitudes_partidas.id_partida_pres = pres_partida_pres.id_partida_pres 
-           and pres_aut_solicitudes_partidas.id_solicitud ='.$id_solicitud.'');
+        $partidas=DB::select('SELECT pres_aut_solicitudes_partidas.*, pres_partida_pres.nombre_partida, pres_partida_pres.clave_presupuestal
+           from pres_aut_solicitudes_partidas, pres_partida_pres WHERE pres_aut_solicitudes_partidas.id_partida_pres = pres_partida_pres.id_partida_pres
+           and pres_aut_solicitudes_partidas.id_solicitud = ?', [$id_solicitud]);
 
 
-       $estado_solicitud=DB::selectOne('SELECT COUNT(id_solicitud) contar from pres_aut_solicitudes_documentos WHERE id_solicitud ='.$id_solicitud.'');
+       $estado_solicitud=DB::selectOne('SELECT COUNT(id_solicitud) contar from pres_aut_solicitudes_documentos WHERE id_solicitud = ?', [$id_solicitud]);
        $estado_solicitud=$estado_solicitud->contar;
 
        if($estado_solicitud == 0){
@@ -47,7 +47,7 @@ class Pres_aut_req_solicitudes_autController extends Controller
            $documentos=0;
        }else{
            $estado_solicitud=1;
-           $documentos= DB::selectOne('SELECT * FROM `pres_aut_solicitudes_documentos` WHERE `id_solicitud` ='.$id_solicitud.'');
+           $documentos= DB::selectOne('SELECT * FROM `pres_aut_solicitudes_documentos` WHERE `id_solicitud` = ?', [$id_solicitud]);
 
 
 
@@ -97,7 +97,7 @@ class Pres_aut_req_solicitudes_autController extends Controller
 
     }
     public function registrar_requisicion($id_solicitud){
-        $estado_solicitud=DB::selectOne('SELECT COUNT(id_solicitud) contar from pres_aut_solicitudes_documentos WHERE id_solicitud ='.$id_solicitud.'');
+        $estado_solicitud=DB::selectOne('SELECT COUNT(id_solicitud) contar from pres_aut_solicitudes_documentos WHERE id_solicitud = ?', [$id_solicitud]);
         $estado_solicitud=$estado_solicitud->contar;
         if($estado_solicitud == 0){
             $estado_solicitud =0;
@@ -147,7 +147,7 @@ class Pres_aut_req_solicitudes_autController extends Controller
         return back();
     }
     public function registrar_agregar_anexo1($id_solicitud){
-        $estado_solicitud=DB::selectOne('SELECT COUNT(id_solicitud) contar from pres_aut_solicitudes_documentos WHERE id_solicitud ='.$id_solicitud.'');
+        $estado_solicitud=DB::selectOne('SELECT COUNT(id_solicitud) contar from pres_aut_solicitudes_documentos WHERE id_solicitud = ?', [$id_solicitud]);
         $estado_solicitud=$estado_solicitud->contar;
         if($estado_solicitud == 0){
             $estado_solicitud =0;
@@ -196,7 +196,7 @@ class Pres_aut_req_solicitudes_autController extends Controller
         return back();
     }
     public function registrar_oficio_suficiencia($id_solicitud){
-        $estado_solicitud=DB::selectOne('SELECT COUNT(id_solicitud) contar from pres_aut_solicitudes_documentos WHERE id_solicitud ='.$id_solicitud.'');
+        $estado_solicitud=DB::selectOne('SELECT COUNT(id_solicitud) contar from pres_aut_solicitudes_documentos WHERE id_solicitud = ?', [$id_solicitud]);
         $estado_solicitud=$estado_solicitud->contar;
         if($estado_solicitud == 0){
             $estado_solicitud =0;
@@ -245,7 +245,7 @@ class Pres_aut_req_solicitudes_autController extends Controller
         return back();
     }
     public function registrar_justificacion($id_solicitud){
-        $estado_solicitud=DB::selectOne('SELECT COUNT(id_solicitud) contar from pres_aut_solicitudes_documentos WHERE id_solicitud ='.$id_solicitud.'');
+        $estado_solicitud=DB::selectOne('SELECT COUNT(id_solicitud) contar from pres_aut_solicitudes_documentos WHERE id_solicitud = ?', [$id_solicitud]);
         $estado_solicitud=$estado_solicitud->contar;
         if($estado_solicitud == 0){
             $estado_solicitud =0;
@@ -335,7 +335,7 @@ class Pres_aut_req_solicitudes_autController extends Controller
 
     }
     public function registrar_cotizacion($id_solicitud){
-        $estado_solicitud=DB::selectOne('SELECT COUNT(id_solicitud) contar from pres_aut_solicitudes_documentos WHERE id_solicitud ='.$id_solicitud.'');
+        $estado_solicitud=DB::selectOne('SELECT COUNT(id_solicitud) contar from pres_aut_solicitudes_documentos WHERE id_solicitud = ?', [$id_solicitud]);
         $estado_solicitud=$estado_solicitud->contar;
         if($estado_solicitud == 0){
             $estado_solicitud =0;
@@ -389,7 +389,7 @@ class Pres_aut_req_solicitudes_autController extends Controller
     }
     public  function modificar_requisicion($id_solicitud_documento){
             $estado_solicitud=1;
-            $documento=DB::selectOne('SELECT * FROM `pres_aut_solicitudes_documentos` WHERE `id_solicitud_documento` ='.$id_solicitud_documento.'');
+            $documento=DB::selectOne('SELECT * FROM `pres_aut_solicitudes_documentos` WHERE `id_solicitud_documento` = ?', [$id_solicitud_documento]);
             $id_solicitud=$documento->id_solicitud;
 
         return view('departamento_finanzas.jefe_departamento.solicitudes_presupuesto.partials_modificar_requisicion', compact('estado_solicitud','id_solicitud_documento','id_solicitud'));
@@ -397,14 +397,14 @@ class Pres_aut_req_solicitudes_autController extends Controller
     }
     public function modificar_anexo1($id_solicitud_documento){
         $estado_solicitud=1;
-        $documento=DB::selectOne('SELECT * FROM `pres_aut_solicitudes_documentos` WHERE `id_solicitud_documento` ='.$id_solicitud_documento.'');
+        $documento=DB::selectOne('SELECT * FROM `pres_aut_solicitudes_documentos` WHERE `id_solicitud_documento` = ?', [$id_solicitud_documento]);
         $id_solicitud=$documento->id_solicitud;
 
         return view('departamento_finanzas.jefe_departamento.solicitudes_presupuesto.partials_modificar_anexo1', compact('estado_solicitud','id_solicitud_documento','id_solicitud'));
     }
     public function modificar_oficio_suficiencia($id_solicitud_documento){
         $estado_solicitud=1;
-        $documento=DB::selectOne('SELECT * FROM `pres_aut_solicitudes_documentos` WHERE `id_solicitud_documento` ='.$id_solicitud_documento.'');
+        $documento=DB::selectOne('SELECT * FROM `pres_aut_solicitudes_documentos` WHERE `id_solicitud_documento` = ?', [$id_solicitud_documento]);
         $id_solicitud=$documento->id_solicitud;
 
         return view('departamento_finanzas.jefe_departamento.solicitudes_presupuesto.partials_modificar_suficiencia', compact('estado_solicitud','id_solicitud_documento','id_solicitud'));
@@ -414,7 +414,7 @@ class Pres_aut_req_solicitudes_autController extends Controller
     public function modificar_justificacion($id_solicitud_documento){
 
         $estado_solicitud=1;
-        $documento=DB::selectOne('SELECT * FROM `pres_aut_solicitudes_documentos` WHERE `id_solicitud_documento` ='.$id_solicitud_documento.'');
+        $documento=DB::selectOne('SELECT * FROM `pres_aut_solicitudes_documentos` WHERE `id_solicitud_documento` = ?', [$id_solicitud_documento]);
 
         $id_solicitud=$documento->id_solicitud;
         $respuestas = DB::select('SELECT * FROM `ti_respuesta` ');
@@ -424,7 +424,7 @@ class Pres_aut_req_solicitudes_autController extends Controller
     }
     public function modificar_cotizacion_pdf($id_solicitud_documento){
         $estado_solicitud=1;
-        $documento=DB::selectOne('SELECT * FROM `pres_aut_solicitudes_documentos` WHERE `id_solicitud_documento` ='.$id_solicitud_documento.'');
+        $documento=DB::selectOne('SELECT * FROM `pres_aut_solicitudes_documentos` WHERE `id_solicitud_documento` = ?', [$id_solicitud_documento]);
         $id_solicitud=$documento->id_solicitud;
 
         return view('departamento_finanzas.jefe_departamento.solicitudes_presupuesto.partials_modificar_cotizacion', compact('estado_solicitud','id_solicitud_documento','id_solicitud'));
@@ -432,12 +432,12 @@ class Pres_aut_req_solicitudes_autController extends Controller
     public function agregar_material_partida_solicitud($id_solicitud_partida){
 
         $partida_solicitud=DB::selectOne('SELECT pres_aut_solicitudes_partidas.*, pres_partida_pres.nombre_partida, pres_partida_pres.clave_presupuestal
-        from pres_aut_solicitudes_partidas, pres_partida_pres where pres_aut_solicitudes_partidas.id_partida_pres = pres_partida_pres.id_partida_pres 
-        and pres_aut_solicitudes_partidas.id_solicitud_partida ='.$id_solicitud_partida.'');
+        from pres_aut_solicitudes_partidas, pres_partida_pres where pres_aut_solicitudes_partidas.id_partida_pres = pres_partida_pres.id_partida_pres
+        and pres_aut_solicitudes_partidas.id_solicitud_partida = ?', [$id_solicitud_partida]);
 
 
-        $total_partida=DB::selectOne('SELECT SUM(pres_aut_materiales_partidas.importe) total_partida 
-        from pres_aut_materiales_partidas where id_solicitud_partida='.$id_solicitud_partida.'');
+        $total_partida=DB::selectOne('SELECT SUM(pres_aut_materiales_partidas.importe) total_partida
+        from pres_aut_materiales_partidas where id_solicitud_partida= ?', [$id_solicitud_partida]);
 
         if($total_partida->total_partida == null){
 

@@ -47,12 +47,12 @@ class Amb_jefe_ambientalController extends Controller
             ->where('amb_periodo_amb.estado_periodo','=',1)
             ->get();
         $id_periodo=$periodo[0]->id_periodo_amb;
-        $encargados=DB::select('SELECT amb_documentacion_encargados.*,gnral_personales.nombre,amb_procedimientos.nom_procedimiento 
-from amb_documentacion_encargados, amb_procedimientos, amb_encargados, gnral_personales 
+        $encargados=DB::select('SELECT amb_documentacion_encargados.*,gnral_personales.nombre,amb_procedimientos.nom_procedimiento
+from amb_documentacion_encargados, amb_procedimientos, amb_encargados, gnral_personales
 where amb_documentacion_encargados.id_encargado=amb_encargados.id_encargado and
-      amb_encargados.id_procedimiento=amb_procedimientos.id_procedimiento and 
+      amb_encargados.id_procedimiento=amb_procedimientos.id_procedimiento and
       amb_encargados.id_personal=gnral_personales.id_personal and  amb_documentacion_encargados.estado_envio_doc in (1,3) and
-      amb_documentacion_encargados.id_periodo_amb='.$id_periodo.'');
+      amb_documentacion_encargados.id_periodo_amb= ?', [$id_periodo]);
         return $encargados;
 
     }
@@ -75,12 +75,12 @@ where amb_documentacion_encargados.id_encargado=amb_encargados.id_encargado and
     }
     public function ver_doc_encargado_proc($id_documentacion_encar){
 
-        $encargado=DB::select('SELECT amb_documentacion_encargados.*,gnral_personales.nombre,amb_procedimientos.nom_procedimiento 
-from amb_documentacion_encargados, amb_procedimientos, amb_encargados, gnral_personales 
+        $encargado=DB::select('SELECT amb_documentacion_encargados.*,gnral_personales.nombre,amb_procedimientos.nom_procedimiento
+from amb_documentacion_encargados, amb_procedimientos, amb_encargados, gnral_personales
 where amb_documentacion_encargados.id_encargado=amb_encargados.id_encargado and
-      amb_encargados.id_procedimiento=amb_procedimientos.id_procedimiento and 
+      amb_encargados.id_procedimiento=amb_procedimientos.id_procedimiento and
       amb_encargados.id_personal=gnral_personales.id_personal and
-      amb_documentacion_encargados.id_documentacion_encar='.$id_documentacion_encar.'');
+      amb_documentacion_encargados.id_documentacion_encar= ?', [$id_documentacion_encar]);
         return $encargado;
     }
     public function guardar_validacion_doc1(Request $request,$id_documentacion_encar){
@@ -286,12 +286,12 @@ where amb_documentacion_encargados.id_encargado=amb_encargados.id_encargado and
             ->update(['estado_envio_doc' => 2,
                 'fecha_registro'=>$hoy]);
         $usuario="c.computo@vbravo.tecnm.mx";
-        $encargado=DB::select('SELECT amb_documentacion_encargados.*,gnral_personales.nombre,gnral_personales.correo,amb_procedimientos.nom_procedimiento 
-from amb_documentacion_encargados, amb_procedimientos, amb_encargados, gnral_personales 
+        $encargado=DB::select('SELECT amb_documentacion_encargados.*,gnral_personales.nombre,gnral_personales.correo,amb_procedimientos.nom_procedimiento
+from amb_documentacion_encargados, amb_procedimientos, amb_encargados, gnral_personales
 where amb_documentacion_encargados.id_encargado=amb_encargados.id_encargado and
-      amb_encargados.id_procedimiento=amb_procedimientos.id_procedimiento and 
+      amb_encargados.id_procedimiento=amb_procedimientos.id_procedimiento and
       amb_encargados.id_personal=gnral_personales.id_personal and
-      amb_documentacion_encargados.id_documentacion_encar='.$id_documentacion_encar.'');
+      amb_documentacion_encargados.id_documentacion_encar= ?', [$id_documentacion_encar]);
         $correo=$encargado[0]->correo;
         Mail::send('ambiental.jefe_ambiental.notificacion_correciones', [
             "procedimiento" => $encargado[0]->nom_procedimiento
@@ -310,12 +310,12 @@ where amb_documentacion_encargados.id_encargado=amb_encargados.id_encargado and
             ->update(['estado_envio_doc' => 4,
                 'fecha_registro'=>$hoy]);
         $usuario="c.computo@vbravo.tecnm.mx";
-        $encargado=DB::select('SELECT amb_documentacion_encargados.*,gnral_personales.nombre,gnral_personales.correo,amb_procedimientos.nom_procedimiento 
-from amb_documentacion_encargados, amb_procedimientos, amb_encargados, gnral_personales 
+        $encargado=DB::select('SELECT amb_documentacion_encargados.*,gnral_personales.nombre,gnral_personales.correo,amb_procedimientos.nom_procedimiento
+from amb_documentacion_encargados, amb_procedimientos, amb_encargados, gnral_personales
 where amb_documentacion_encargados.id_encargado=amb_encargados.id_encargado and
-      amb_encargados.id_procedimiento=amb_procedimientos.id_procedimiento and 
+      amb_encargados.id_procedimiento=amb_procedimientos.id_procedimiento and
       amb_encargados.id_personal=gnral_personales.id_personal and
-      amb_documentacion_encargados.id_documentacion_encar='.$id_documentacion_encar.'');
+      amb_documentacion_encargados.id_documentacion_encar= ?', [$id_documentacion_encar]);
         $correo=$encargado[0]->correo;
         Mail::send('ambiental.jefe_ambiental.notificacion_aceptacion', [
             "procedimiento" => $encargado[0]->nom_procedimiento
@@ -335,12 +335,12 @@ where amb_documentacion_encargados.id_encargado=amb_encargados.id_encargado and
             ->get();
         $id_periodo=$periodo[0]->id_periodo_amb;
 
-        $encargados=DB::select('SELECT amb_documentacion_encargados.*,gnral_personales.nombre,amb_procedimientos.nom_procedimiento 
-from amb_documentacion_encargados, amb_procedimientos, amb_encargados, gnral_personales 
+        $encargados=DB::select('SELECT amb_documentacion_encargados.*,gnral_personales.nombre,amb_procedimientos.nom_procedimiento
+from amb_documentacion_encargados, amb_procedimientos, amb_encargados, gnral_personales
 where amb_documentacion_encargados.id_encargado=amb_encargados.id_encargado and
-      amb_encargados.id_procedimiento=amb_procedimientos.id_procedimiento and 
+      amb_encargados.id_procedimiento=amb_procedimientos.id_procedimiento and
       amb_encargados.id_personal=gnral_personales.id_personal and  amb_documentacion_encargados.estado_envio_doc=2 and
-      amb_documentacion_encargados.id_periodo_amb='.$id_periodo.'');
+      amb_documentacion_encargados.id_periodo_amb= ?', [$id_periodo]);
         return view('ambiental.jefe_ambiental.documentacion_modificacion',compact('encargados','periodo'));
     }
     public function documentacion_autorizada(){
@@ -355,12 +355,12 @@ where amb_documentacion_encargados.id_encargado=amb_encargados.id_encargado and
             ->get();
         $id_periodo=$periodo[0]->id_periodo_amb;
 
-        $encargados=DB::select('SELECT amb_documentacion_encargados.*,gnral_personales.nombre,amb_procedimientos.nom_procedimiento 
-from amb_documentacion_encargados, amb_procedimientos, amb_encargados, gnral_personales 
+        $encargados=DB::select('SELECT amb_documentacion_encargados.*,gnral_personales.nombre,amb_procedimientos.nom_procedimiento
+from amb_documentacion_encargados, amb_procedimientos, amb_encargados, gnral_personales
 where amb_documentacion_encargados.id_encargado=amb_encargados.id_encargado and
-      amb_encargados.id_procedimiento=amb_procedimientos.id_procedimiento and 
+      amb_encargados.id_procedimiento=amb_procedimientos.id_procedimiento and
       amb_encargados.id_personal=gnral_personales.id_personal and  amb_documentacion_encargados.estado_envio_doc=4 and
-      amb_documentacion_encargados.id_periodo_amb='.$id_periodo.'');
+      amb_documentacion_encargados.id_periodo_amb= ?', [$id_periodo]);
         return $encargados;
     }
     public function ver_doc_autorizada_departamento($id_documentacion_encar){
@@ -414,8 +414,8 @@ where amb_documentacion_encargados.id_encargado=amb_encargados.id_encargado and
     public function buscar_encargados_procedimientos($id_periodo){
         $procedimientos=DB::select('SELECT gnral_personales.nombre,amb_encargados.*,amb_procedimientos.nom_procedimiento
 from gnral_personales,amb_encargados,amb_procedimientos
-where amb_encargados.id_personal=gnral_personales.id_personal 
-    and amb_encargados.id_procedimiento=amb_procedimientos.id_procedimiento  
+where amb_encargados.id_personal=gnral_personales.id_personal
+    and amb_encargados.id_procedimiento=amb_procedimientos.id_procedimiento
 ORDER BY amb_procedimientos.nom_procedimiento ASC');
 
         $i=0;
@@ -427,8 +427,8 @@ ORDER BY amb_procedimientos.nom_procedimiento ASC');
             $proces['id_procedimiento']=$procedimiento->id_procedimiento;
             $proces['nombre_encargado']=$procedimiento->nombre;
             $proces['nombre_procedimiento']=$procedimiento->nom_procedimiento;
-            $reg_doc=DB::selectOne('SELECT count(id_documentacion_encar)contar 
-       from amb_documentacion_encargados where id_periodo_amb='.$id_periodo.' and id_encargado='.$procedimiento->id_encargado.'');
+            $reg_doc=DB::selectOne('SELECT count(id_documentacion_encar)contar
+       from amb_documentacion_encargados where id_periodo_amb= ? and id_encargado= ?', [$id_periodo, $procedimiento->id_encargado]);
             $reg_doc=$reg_doc->contar;
             if($reg_doc == 0){
                 $proces['estado_doc']=0;
@@ -441,10 +441,10 @@ ORDER BY amb_procedimientos.nom_procedimiento ASC');
         return $proce;
     }
     public function ver_proc_encargado_doc($id_periodo,$id_encargado){
-        $proc=DB::selectOne('SELECT gnral_personales.nombre, amb_procedimientos.nom_procedimiento 
+        $proc=DB::selectOne('SELECT gnral_personales.nombre, amb_procedimientos.nom_procedimiento
         from gnral_personales,amb_encargados,amb_procedimientos where
         amb_encargados.id_personal=gnral_personales.id_personal and
-        amb_encargados.id_procedimiento=amb_procedimientos.id_procedimiento and amb_encargados.id_encargado='.$id_encargado.'');
+        amb_encargados.id_procedimiento=amb_procedimientos.id_procedimiento and amb_encargados.id_encargado= ?', [$id_encargado]);
 
 
         return view('ambiental.jefe_ambiental.agregar_doc_entregar',compact('id_periodo','id_encargado','proc'));

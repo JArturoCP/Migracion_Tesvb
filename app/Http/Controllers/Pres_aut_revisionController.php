@@ -12,16 +12,16 @@ class Pres_aut_revisionController extends Controller
         $year= date('Y');
 
         $solicitudes = DB::select('SELECT pres_aut_solicitudes.*, gnral_unidad_administrativa.nom_departamento,abreviaciones.titulo, gnral_personales.nombre nombre_personal,
-        pres_proyectos.nombre_proyecto, pres_metas.meta, pres_mes.mes from pres_aut_solicitudes, gnral_unidad_administrativa, pres_proyectos, 
-        pres_metas, pres_mes, gnral_unidad_personal, gnral_personales, abreviaciones_prof, abreviaciones where pres_aut_solicitudes.id_unidad_admin = gnral_unidad_administrativa.id_unidad_admin 
-        and pres_proyectos.id_proyecto = pres_aut_solicitudes.id_proyecto and pres_aut_solicitudes.id_meta = pres_metas.id_meta and 
-        pres_aut_solicitudes.id_mes = pres_mes.id_mes and pres_aut_solicitudes.year_presupuesto = '.$year.' 
-        and pres_aut_solicitudes.id_estado_enviado = 2 
+        pres_proyectos.nombre_proyecto, pres_metas.meta, pres_mes.mes from pres_aut_solicitudes, gnral_unidad_administrativa, pres_proyectos,
+        pres_metas, pres_mes, gnral_unidad_personal, gnral_personales, abreviaciones_prof, abreviaciones where pres_aut_solicitudes.id_unidad_admin = gnral_unidad_administrativa.id_unidad_admin
+        and pres_proyectos.id_proyecto = pres_aut_solicitudes.id_proyecto and pres_aut_solicitudes.id_meta = pres_metas.id_meta and
+        pres_aut_solicitudes.id_mes = pres_mes.id_mes and pres_aut_solicitudes.year_presupuesto = ?
+        and pres_aut_solicitudes.id_estado_enviado = 2
         and gnral_unidad_personal.id_unidad_admin = gnral_unidad_administrativa.id_unidad_admin AND
-        gnral_unidad_personal.id_personal = gnral_personales.id_personal and 
-        gnral_personales.id_personal = abreviaciones_prof.id_personal and 
+        gnral_unidad_personal.id_personal = gnral_personales.id_personal and
+        gnral_personales.id_personal = abreviaciones_prof.id_personal and
         abreviaciones_prof.id_abreviacion = abreviaciones.id_abreviacion
-        order by pres_aut_solicitudes.fecha_enviado desc');
+        order by pres_aut_solicitudes.fecha_enviado desc', [$year]);
 
 
 
@@ -30,22 +30,22 @@ class Pres_aut_revisionController extends Controller
     }
     public function revisar_documentacion_solicitud($id_solicitud){
         $solicitud=DB::selectOne('SELECT pres_aut_solicitudes.*, gnral_unidad_administrativa.nom_departamento,
-        pres_proyectos.nombre_proyecto, pres_metas.meta, pres_mes.mes from pres_aut_solicitudes, gnral_unidad_administrativa, pres_proyectos, 
-        pres_metas, pres_mes where pres_aut_solicitudes.id_unidad_admin = gnral_unidad_administrativa.id_unidad_admin 
-        and pres_proyectos.id_proyecto = pres_aut_solicitudes.id_proyecto and pres_aut_solicitudes.id_meta = pres_metas.id_meta and 
-        pres_aut_solicitudes.id_mes = pres_mes.id_mes and pres_aut_solicitudes.id_solicitud = '.$id_solicitud.'');
+        pres_proyectos.nombre_proyecto, pres_metas.meta, pres_mes.mes from pres_aut_solicitudes, gnral_unidad_administrativa, pres_proyectos,
+        pres_metas, pres_mes where pres_aut_solicitudes.id_unidad_admin = gnral_unidad_administrativa.id_unidad_admin
+        and pres_proyectos.id_proyecto = pres_aut_solicitudes.id_proyecto and pres_aut_solicitudes.id_meta = pres_metas.id_meta and
+        pres_aut_solicitudes.id_mes = pres_mes.id_mes and pres_aut_solicitudes.id_solicitud = ?', [$id_solicitud]);
 
-        $partidas=DB::select('SELECT pres_aut_solicitudes_partidas.*, pres_partida_pres.nombre_partida, pres_partida_pres.clave_presupuestal 
-           from pres_aut_solicitudes_partidas, pres_partida_pres WHERE pres_aut_solicitudes_partidas.id_partida_pres = pres_partida_pres.id_partida_pres 
-           and pres_aut_solicitudes_partidas.id_solicitud ='.$id_solicitud.'');
-        $estado_solicitud=DB::selectOne('SELECT COUNT(id_solicitud) contar from pres_aut_solicitudes_documentos WHERE id_solicitud ='.$id_solicitud.'');
+        $partidas=DB::select('SELECT pres_aut_solicitudes_partidas.*, pres_partida_pres.nombre_partida, pres_partida_pres.clave_presupuestal
+           from pres_aut_solicitudes_partidas, pres_partida_pres WHERE pres_aut_solicitudes_partidas.id_partida_pres = pres_partida_pres.id_partida_pres
+           and pres_aut_solicitudes_partidas.id_solicitud = ?', [$id_solicitud]);
+        $estado_solicitud=DB::selectOne('SELECT COUNT(id_solicitud) contar from pres_aut_solicitudes_documentos WHERE id_solicitud = ?', [$id_solicitud]);
         $estado_solicitud=$estado_solicitud->contar;
         if($estado_solicitud == 0){
             $estado_solicitud =0;
             $documentos=0;
         }else{
             $estado_solicitud=1;
-            $documentos= DB::selectOne('SELECT * FROM `pres_aut_solicitudes_documentos` WHERE `id_solicitud` ='.$id_solicitud.'');
+            $documentos= DB::selectOne('SELECT * FROM `pres_aut_solicitudes_documentos` WHERE `id_solicitud` = ?', [$id_solicitud]);
         }
         //dd($partidas);
         return view('departamento_finanzas.jefe_finanazas.requisiciones_autorizadas_pro.revision_solicitudes.revision_documentacion_solicitud',compact('estado_solicitud','solicitud','documentos','partidas','id_solicitud'));
@@ -67,16 +67,16 @@ class Pres_aut_revisionController extends Controller
         $year= date('Y');
 
         $solicitudes = DB::select('SELECT pres_aut_solicitudes.*, gnral_unidad_administrativa.nom_departamento,abreviaciones.titulo, gnral_personales.nombre nombre_personal,
-        pres_proyectos.nombre_proyecto, pres_metas.meta, pres_mes.mes from pres_aut_solicitudes, gnral_unidad_administrativa, pres_proyectos, 
-        pres_metas, pres_mes, gnral_unidad_personal, gnral_personales, abreviaciones_prof, abreviaciones where pres_aut_solicitudes.id_unidad_admin = gnral_unidad_administrativa.id_unidad_admin 
-        and pres_proyectos.id_proyecto = pres_aut_solicitudes.id_proyecto and pres_aut_solicitudes.id_meta = pres_metas.id_meta and 
-        pres_aut_solicitudes.id_mes = pres_mes.id_mes and pres_aut_solicitudes.year_presupuesto = '.$year.' 
-        and pres_aut_solicitudes.id_estado_enviado = 3 
+        pres_proyectos.nombre_proyecto, pres_metas.meta, pres_mes.mes from pres_aut_solicitudes, gnral_unidad_administrativa, pres_proyectos,
+        pres_metas, pres_mes, gnral_unidad_personal, gnral_personales, abreviaciones_prof, abreviaciones where pres_aut_solicitudes.id_unidad_admin = gnral_unidad_administrativa.id_unidad_admin
+        and pres_proyectos.id_proyecto = pres_aut_solicitudes.id_proyecto and pres_aut_solicitudes.id_meta = pres_metas.id_meta and
+        pres_aut_solicitudes.id_mes = pres_mes.id_mes and pres_aut_solicitudes.year_presupuesto = ?
+        and pres_aut_solicitudes.id_estado_enviado = 3
         and gnral_unidad_personal.id_unidad_admin = gnral_unidad_administrativa.id_unidad_admin AND
-        gnral_unidad_personal.id_personal = gnral_personales.id_personal and 
-        gnral_personales.id_personal = abreviaciones_prof.id_personal and 
+        gnral_unidad_personal.id_personal = gnral_personales.id_personal and
+        gnral_personales.id_personal = abreviaciones_prof.id_personal and
         abreviaciones_prof.id_abreviacion = abreviaciones.id_abreviacion
-        order by pres_aut_solicitudes.fecha_enviado desc');
+        order by pres_aut_solicitudes.fecha_enviado desc', [$year]);
 
 
 
@@ -85,16 +85,16 @@ class Pres_aut_revisionController extends Controller
     }
     public function solicitudes_autorizadas_departamentos(){
         $year= date('Y');
-       $departamentos=DB::select('SELECT gnral_unidad_administrativa.id_unidad_admin,gnral_unidad_administrativa.nom_departamento,abreviaciones.titulo, gnral_personales.nombre nombre_personal from pres_aut_solicitudes, gnral_unidad_administrativa, pres_proyectos, 
-        pres_metas, pres_mes, gnral_unidad_personal, gnral_personales, abreviaciones_prof, abreviaciones where pres_aut_solicitudes.id_unidad_admin = gnral_unidad_administrativa.id_unidad_admin 
-        and pres_proyectos.id_proyecto = pres_aut_solicitudes.id_proyecto and pres_aut_solicitudes.id_meta = pres_metas.id_meta and 
-        pres_aut_solicitudes.id_mes = pres_mes.id_mes and pres_aut_solicitudes.year_presupuesto = '.$year.'
-        and pres_aut_solicitudes.id_estado_enviado = 4 
+       $departamentos=DB::select('SELECT gnral_unidad_administrativa.id_unidad_admin,gnral_unidad_administrativa.nom_departamento,abreviaciones.titulo, gnral_personales.nombre nombre_personal from pres_aut_solicitudes, gnral_unidad_administrativa, pres_proyectos,
+        pres_metas, pres_mes, gnral_unidad_personal, gnral_personales, abreviaciones_prof, abreviaciones where pres_aut_solicitudes.id_unidad_admin = gnral_unidad_administrativa.id_unidad_admin
+        and pres_proyectos.id_proyecto = pres_aut_solicitudes.id_proyecto and pres_aut_solicitudes.id_meta = pres_metas.id_meta and
+        pres_aut_solicitudes.id_mes = pres_mes.id_mes and pres_aut_solicitudes.year_presupuesto = ?
+        and pres_aut_solicitudes.id_estado_enviado = 4
         and gnral_unidad_personal.id_unidad_admin = gnral_unidad_administrativa.id_unidad_admin AND
-        gnral_unidad_personal.id_personal = gnral_personales.id_personal and 
-        gnral_personales.id_personal = abreviaciones_prof.id_personal and 
+        gnral_unidad_personal.id_personal = gnral_personales.id_personal and
+        gnral_personales.id_personal = abreviaciones_prof.id_personal and
         abreviaciones_prof.id_abreviacion = abreviaciones.id_abreviacion GROUP by gnral_unidad_administrativa.id_unidad_admin
-        order by gnral_unidad_administrativa.id_unidad_admin asc');
+        order by gnral_unidad_administrativa.id_unidad_admin asc', [$year]);
 
 
         return view('departamento_finanzas.jefe_finanazas.requisiciones_autorizadas_pro.revision_solicitudes.inicio_departamento_solicitudes_aut',compact('departamentos'));
@@ -104,23 +104,23 @@ class Pres_aut_revisionController extends Controller
         $year= date('Y');
 
         $solicitudes = DB::select('SELECT pres_aut_solicitudes.*, gnral_unidad_administrativa.nom_departamento,abreviaciones.titulo, gnral_personales.nombre nombre_personal,
-        pres_proyectos.nombre_proyecto, pres_metas.meta, pres_mes.mes from pres_aut_solicitudes, gnral_unidad_administrativa, pres_proyectos, 
-        pres_metas, pres_mes, gnral_unidad_personal, gnral_personales, abreviaciones_prof, abreviaciones where pres_aut_solicitudes.id_unidad_admin = gnral_unidad_administrativa.id_unidad_admin 
-        and pres_proyectos.id_proyecto = pres_aut_solicitudes.id_proyecto and pres_aut_solicitudes.id_meta = pres_metas.id_meta and 
-        pres_aut_solicitudes.id_mes = pres_mes.id_mes and pres_aut_solicitudes.year_presupuesto = '.$year.' 
-        and pres_aut_solicitudes.id_estado_enviado = 4 
-        and gnral_unidad_administrativa.id_unidad_admin ='.$id_unidad_admin.'
+        pres_proyectos.nombre_proyecto, pres_metas.meta, pres_mes.mes from pres_aut_solicitudes, gnral_unidad_administrativa, pres_proyectos,
+        pres_metas, pres_mes, gnral_unidad_personal, gnral_personales, abreviaciones_prof, abreviaciones where pres_aut_solicitudes.id_unidad_admin = gnral_unidad_administrativa.id_unidad_admin
+        and pres_proyectos.id_proyecto = pres_aut_solicitudes.id_proyecto and pres_aut_solicitudes.id_meta = pres_metas.id_meta and
+        pres_aut_solicitudes.id_mes = pres_mes.id_mes and pres_aut_solicitudes.year_presupuesto = ?
+        and pres_aut_solicitudes.id_estado_enviado = 4
+        and gnral_unidad_administrativa.id_unidad_admin = ?
         and gnral_unidad_personal.id_unidad_admin = gnral_unidad_administrativa.id_unidad_admin AND
-        gnral_unidad_personal.id_personal = gnral_personales.id_personal and 
-        gnral_personales.id_personal = abreviaciones_prof.id_personal and 
+        gnral_unidad_personal.id_personal = gnral_personales.id_personal and
+        gnral_personales.id_personal = abreviaciones_prof.id_personal and
         abreviaciones_prof.id_abreviacion = abreviaciones.id_abreviacion
-        order by pres_aut_solicitudes.id_mes asc');
+        order by pres_aut_solicitudes.id_mes asc', [$year, $id_unidad_admin]);
 
         $departamento=DB::selectOne('SELECT gnral_unidad_administrativa.*, gnral_personales.nombre, abreviaciones.titulo
-        from gnral_unidad_administrativa, gnral_unidad_personal, gnral_personales, abreviaciones_prof, abreviaciones 
-        WHERE gnral_unidad_administrativa.id_unidad_admin = gnral_unidad_personal.id_unidad_admin and 
-              gnral_unidad_personal.id_personal = gnral_personales.id_personal and gnral_personales.id_personal = abreviaciones_prof.id_personal 
-          and abreviaciones_prof.id_abreviacion = abreviaciones.id_abreviacion and gnral_unidad_administrativa.id_unidad_admin ='.$id_unidad_admin.'');
+        from gnral_unidad_administrativa, gnral_unidad_personal, gnral_personales, abreviaciones_prof, abreviaciones
+        WHERE gnral_unidad_administrativa.id_unidad_admin = gnral_unidad_personal.id_unidad_admin and
+              gnral_unidad_personal.id_personal = gnral_personales.id_personal and gnral_personales.id_personal = abreviaciones_prof.id_personal
+          and abreviaciones_prof.id_abreviacion = abreviaciones.id_abreviacion and gnral_unidad_administrativa.id_unidad_admin = ?', [$id_unidad_admin]);
 
         return view('departamento_finanzas.jefe_finanazas.requisiciones_autorizadas_pro.revision_solicitudes.ver_solicitudes_departamento',compact('solicitudes','departamento'));
 
@@ -129,29 +129,29 @@ class Pres_aut_revisionController extends Controller
         $year= date('Y');
 
         $solicitudes = DB::select('SELECT pres_aut_solicitudes.*, gnral_unidad_administrativa.nom_departamento,abreviaciones.titulo, gnral_personales.nombre nombre_personal,
-        pres_proyectos.nombre_proyecto, pres_metas.meta, pres_mes.mes from pres_aut_solicitudes, gnral_unidad_administrativa, pres_proyectos, 
-        pres_metas, pres_mes, gnral_unidad_personal, gnral_personales, abreviaciones_prof, abreviaciones where pres_aut_solicitudes.id_unidad_admin = gnral_unidad_administrativa.id_unidad_admin 
-        and pres_proyectos.id_proyecto = pres_aut_solicitudes.id_proyecto and pres_aut_solicitudes.id_meta = pres_metas.id_meta and 
-        pres_aut_solicitudes.id_mes = pres_mes.id_mes and pres_aut_solicitudes.year_presupuesto = '.$year.' 
-        and pres_aut_solicitudes.id_estado_enviado = 4 
+        pres_proyectos.nombre_proyecto, pres_metas.meta, pres_mes.mes from pres_aut_solicitudes, gnral_unidad_administrativa, pres_proyectos,
+        pres_metas, pres_mes, gnral_unidad_personal, gnral_personales, abreviaciones_prof, abreviaciones where pres_aut_solicitudes.id_unidad_admin = gnral_unidad_administrativa.id_unidad_admin
+        and pres_proyectos.id_proyecto = pres_aut_solicitudes.id_proyecto and pres_aut_solicitudes.id_meta = pres_metas.id_meta and
+        pres_aut_solicitudes.id_mes = pres_mes.id_mes and pres_aut_solicitudes.year_presupuesto = ?
+        and pres_aut_solicitudes.id_estado_enviado = 4
         and gnral_unidad_personal.id_unidad_admin = gnral_unidad_administrativa.id_unidad_admin AND
-        gnral_unidad_personal.id_personal = gnral_personales.id_personal and 
-        gnral_personales.id_personal = abreviaciones_prof.id_personal and 
+        gnral_unidad_personal.id_personal = gnral_personales.id_personal and
+        gnral_personales.id_personal = abreviaciones_prof.id_personal and
         abreviaciones_prof.id_abreviacion = abreviaciones.id_abreviacion
-        order by pres_aut_solicitudes.id_mes asc');
+        order by pres_aut_solicitudes.id_mes asc', [$year]);
         return view('departamento_finanzas.jefe_finanazas.requisiciones_autorizadas_pro.revision_solicitudes.solicitudes_autorizadas',compact('solicitudes'));
 
     }
     public function modificar_servicio_solicitud($id_material_partida){
 
-        $servicio=DB::selectOne('SELECT * FROM `pres_aut_materiales_partidas` WHERE `id_material_partida` ='.$id_material_partida.'');
+        $servicio=DB::selectOne('SELECT * FROM `pres_aut_materiales_partidas` WHERE `id_material_partida` = ?', [$id_material_partida]);
 
         $partida_solicitud=DB::selectOne('SELECT pres_aut_solicitudes_partidas.*, pres_partida_pres.nombre_partida, pres_partida_pres.clave_presupuestal
-        from pres_aut_solicitudes_partidas, pres_partida_pres where pres_aut_solicitudes_partidas.id_partida_pres = pres_partida_pres.id_partida_pres 
-        and pres_aut_solicitudes_partidas.id_solicitud_partida ='.$servicio->id_solicitud_partida.'');
+        from pres_aut_solicitudes_partidas, pres_partida_pres where pres_aut_solicitudes_partidas.id_partida_pres = pres_partida_pres.id_partida_pres
+        and pres_aut_solicitudes_partidas.id_solicitud_partida = ?', [$servicio->id_solicitud_partida]);
 
-        $total_partida=DB::selectOne('SELECT SUM(pres_aut_materiales_partidas.importe) total_partida 
-        from pres_aut_materiales_partidas where id_solicitud_partida='.$servicio->id_solicitud_partida.'');
+        $total_partida=DB::selectOne('SELECT SUM(pres_aut_materiales_partidas.importe) total_partida
+        from pres_aut_materiales_partidas where id_solicitud_partida= ?', [$servicio->id_solicitud_partida]);
 
 
         if($total_partida->total_partida == null){
@@ -190,7 +190,7 @@ class Pres_aut_revisionController extends Controller
     public function eliminar_material_solicitud(Request $request){
         $id_material_part = $request->input('id_material_part');
 
-        DB::delete('DELETE FROM pres_aut_materiales_partidas WHERE id_material_partida='.$id_material_part.'');
+        DB::delete('DELETE FROM pres_aut_materiales_partidas WHERE id_material_partida= ?', [$id_material_part]);
 
         return back();
     }
@@ -207,29 +207,29 @@ class Pres_aut_revisionController extends Controller
     }
     public function mostrar_documentacion_solicitud($id_solicitud){
         $solicitud=DB::selectOne('SELECT pres_aut_solicitudes.*, gnral_unidad_administrativa.nom_departamento,
-        pres_proyectos.nombre_proyecto, pres_metas.meta, pres_mes.mes from pres_aut_solicitudes, gnral_unidad_administrativa, pres_proyectos, 
-        pres_metas, pres_mes where pres_aut_solicitudes.id_unidad_admin = gnral_unidad_administrativa.id_unidad_admin 
-        and pres_proyectos.id_proyecto = pres_aut_solicitudes.id_proyecto and pres_aut_solicitudes.id_meta = pres_metas.id_meta and 
-        pres_aut_solicitudes.id_mes = pres_mes.id_mes and pres_aut_solicitudes.id_solicitud = '.$id_solicitud.'');
+        pres_proyectos.nombre_proyecto, pres_metas.meta, pres_mes.mes from pres_aut_solicitudes, gnral_unidad_administrativa, pres_proyectos,
+        pres_metas, pres_mes where pres_aut_solicitudes.id_unidad_admin = gnral_unidad_administrativa.id_unidad_admin
+        and pres_proyectos.id_proyecto = pres_aut_solicitudes.id_proyecto and pres_aut_solicitudes.id_meta = pres_metas.id_meta and
+        pres_aut_solicitudes.id_mes = pres_mes.id_mes and pres_aut_solicitudes.id_solicitud = ?', [$id_solicitud]);
 
-       $departamento=DB::selectOne('SELECT gnral_unidad_administrativa.*, gnral_personales.nombre, abreviaciones.titulo 
+       $departamento=DB::selectOne('SELECT gnral_unidad_administrativa.*, gnral_personales.nombre, abreviaciones.titulo
        from gnral_unidad_administrativa, gnral_unidad_personal, gnral_personales, abreviaciones_prof, abreviaciones WHERE
-        gnral_unidad_administrativa.id_unidad_admin = gnral_unidad_personal.id_unidad_admin and gnral_unidad_personal.id_personal = gnral_personales.id_personal 
-       and gnral_personales.id_personal = abreviaciones_prof.id_personal and abreviaciones_prof.id_abreviacion = abreviaciones.id_abreviacion 
-       and gnral_unidad_administrativa.id_unidad_admin ='.$solicitud->id_unidad_admin.'');
+        gnral_unidad_administrativa.id_unidad_admin = gnral_unidad_personal.id_unidad_admin and gnral_unidad_personal.id_personal = gnral_personales.id_personal
+       and gnral_personales.id_personal = abreviaciones_prof.id_personal and abreviaciones_prof.id_abreviacion = abreviaciones.id_abreviacion
+       and gnral_unidad_administrativa.id_unidad_admin = ?', [$solicitud->id_unidad_admin]);
 
-        $partidas=DB::select('SELECT pres_aut_solicitudes_partidas.*, pres_partida_pres.nombre_partida, pres_partida_pres.clave_presupuestal 
-           from pres_aut_solicitudes_partidas, pres_partida_pres WHERE pres_aut_solicitudes_partidas.id_partida_pres = pres_partida_pres.id_partida_pres 
-           and pres_aut_solicitudes_partidas.id_solicitud ='.$id_solicitud.'');
+        $partidas=DB::select('SELECT pres_aut_solicitudes_partidas.*, pres_partida_pres.nombre_partida, pres_partida_pres.clave_presupuestal
+           from pres_aut_solicitudes_partidas, pres_partida_pres WHERE pres_aut_solicitudes_partidas.id_partida_pres = pres_partida_pres.id_partida_pres
+           and pres_aut_solicitudes_partidas.id_solicitud = ?', [$id_solicitud]);
 
-        $estado_solicitud=DB::selectOne('SELECT COUNT(id_solicitud) contar from pres_aut_solicitudes_documentos WHERE id_solicitud ='.$id_solicitud.'');
+        $estado_solicitud=DB::selectOne('SELECT COUNT(id_solicitud) contar from pres_aut_solicitudes_documentos WHERE id_solicitud = ?', [$id_solicitud]);
         $estado_solicitud=$estado_solicitud->contar;
         if($estado_solicitud == 0){
             $estado_solicitud =0;
             $documentos=0;
         }else{
             $estado_solicitud=1;
-            $documentos= DB::selectOne('SELECT * FROM `pres_aut_solicitudes_documentos` WHERE `id_solicitud` ='.$id_solicitud.'');
+            $documentos= DB::selectOne('SELECT * FROM `pres_aut_solicitudes_documentos` WHERE `id_solicitud` = ?', [$id_solicitud]);
 
 
 
@@ -240,7 +240,7 @@ class Pres_aut_revisionController extends Controller
 
     }
     public function agregar_contrato_solicitud($id_solicitud_documento){
-        $documentos= DB::selectOne('SELECT * FROM `pres_aut_solicitudes_documentos` WHERE `id_solicitud_documento` ='.$id_solicitud_documento.'');
+        $documentos= DB::selectOne('SELECT * FROM `pres_aut_solicitudes_documentos` WHERE `id_solicitud_documento` = ?', [$id_solicitud_documento]);
 
         $tipos_contratos= DB::select('SELECT * FROM `pres_aut_tipo_contrato`');
         //dd($tipos_contratos);
@@ -265,7 +265,7 @@ class Pres_aut_revisionController extends Controller
         return back();
     }
     public function modificar_contrato_solicitud($id_solicitud_documento){
-        $documentos= DB::selectOne('SELECT * FROM `pres_aut_solicitudes_documentos` WHERE `id_solicitud_documento` ='.$id_solicitud_documento.'');
+        $documentos= DB::selectOne('SELECT * FROM `pres_aut_solicitudes_documentos` WHERE `id_solicitud_documento` = ?', [$id_solicitud_documento]);
 
         $tipos_contratos= DB::select('SELECT * FROM `pres_aut_tipo_contrato`');
         //dd($tipos_contratos);
@@ -274,13 +274,13 @@ class Pres_aut_revisionController extends Controller
 
     }
     public function agregar_factura_solicitud($id_solicitud_documento){
-        $documentos= DB::selectOne('SELECT * FROM `pres_aut_solicitudes_documentos` WHERE `id_solicitud_documento` ='.$id_solicitud_documento.'');
+        $documentos= DB::selectOne('SELECT * FROM `pres_aut_solicitudes_documentos` WHERE `id_solicitud_documento` = ?', [$id_solicitud_documento]);
 
         return view('departamento_finanzas.jefe_finanazas.requisiciones_autorizadas_pro.revision_solicitudes.partial_agregar_factura',compact('documentos'));
 
     }
     public function agregar_solicitud_pago($id_solicitud_documento){
-        $documentos= DB::selectOne('SELECT * FROM `pres_aut_solicitudes_documentos` WHERE `id_solicitud_documento` ='.$id_solicitud_documento.'');
+        $documentos= DB::selectOne('SELECT * FROM `pres_aut_solicitudes_documentos` WHERE `id_solicitud_documento` = ?', [$id_solicitud_documento]);
 
         return view('departamento_finanzas.jefe_finanazas.requisiciones_autorizadas_pro.revision_solicitudes.partials_agregar_solicitud_pago',compact('documentos'));
 
@@ -300,7 +300,7 @@ class Pres_aut_revisionController extends Controller
 
     }
     public function modificar_solicitud_pago($id_solicitud_documento){
-        $documentos= DB::selectOne('SELECT * FROM `pres_aut_solicitudes_documentos` WHERE `id_solicitud_documento` ='.$id_solicitud_documento.'');
+        $documentos= DB::selectOne('SELECT * FROM `pres_aut_solicitudes_documentos` WHERE `id_solicitud_documento` = ?', [$id_solicitud_documento]);
 
         return view('departamento_finanzas.jefe_finanazas.requisiciones_autorizadas_pro.revision_solicitudes.partials_modificar_solicitud_pago',compact('documentos'));
 
@@ -319,13 +319,13 @@ class Pres_aut_revisionController extends Controller
         return back();
     }
     public function modificar_factura_solicitud($id_solicitud_documento){
-        $documentos= DB::selectOne('SELECT * FROM `pres_aut_solicitudes_documentos` WHERE `id_solicitud_documento` ='.$id_solicitud_documento.'');
+        $documentos= DB::selectOne('SELECT * FROM `pres_aut_solicitudes_documentos` WHERE `id_solicitud_documento` = ?', [$id_solicitud_documento]);
 
         return view('departamento_finanzas.jefe_finanazas.requisiciones_autorizadas_pro.revision_solicitudes.partial_mod_factura',compact('documentos'));
 
     }
     public function agregar_pago_solicitud($id_solicitud_documento){
-        $documentos= DB::selectOne('SELECT * FROM `pres_aut_solicitudes_documentos` WHERE `id_solicitud_documento` ='.$id_solicitud_documento.'');
+        $documentos= DB::selectOne('SELECT * FROM `pres_aut_solicitudes_documentos` WHERE `id_solicitud_documento` = ?', [$id_solicitud_documento]);
 
         return view('departamento_finanzas.jefe_finanazas.requisiciones_autorizadas_pro.revision_solicitudes.partial_agregar_pago',compact('documentos'));
 
@@ -345,13 +345,13 @@ class Pres_aut_revisionController extends Controller
 
     }
     public function modificar_pago_solicitud($id_solicitud_documento){
-        $documentos= DB::selectOne('SELECT * FROM `pres_aut_solicitudes_documentos` WHERE `id_solicitud_documento` ='.$id_solicitud_documento.'');
+        $documentos= DB::selectOne('SELECT * FROM `pres_aut_solicitudes_documentos` WHERE `id_solicitud_documento` = ?', [$id_solicitud_documento]);
 
         return view('departamento_finanzas.jefe_finanazas.requisiciones_autorizadas_pro.revision_solicitudes.partial_mod_pago',compact('documentos'));
 
     }
     public function agregar_oficio_solicitud($id_solicitud_documento){
-        $documentos= DB::selectOne('SELECT * FROM `pres_aut_solicitudes_documentos` WHERE `id_solicitud_documento` ='.$id_solicitud_documento.'');
+        $documentos= DB::selectOne('SELECT * FROM `pres_aut_solicitudes_documentos` WHERE `id_solicitud_documento` = ?', [$id_solicitud_documento]);
 
         return view('departamento_finanzas.jefe_finanazas.requisiciones_autorizadas_pro.revision_solicitudes.partial_agregar_oficio',compact('documentos'));
 
@@ -370,7 +370,7 @@ class Pres_aut_revisionController extends Controller
         return back();
     }
     public function modificar_oficio_solicitud($id_solicitud_documento){
-        $documentos= DB::selectOne('SELECT * FROM `pres_aut_solicitudes_documentos` WHERE `id_solicitud_documento` ='.$id_solicitud_documento.'');
+        $documentos= DB::selectOne('SELECT * FROM `pres_aut_solicitudes_documentos` WHERE `id_solicitud_documento` = ?', [$id_solicitud_documento]);
 
         return view('departamento_finanzas.jefe_finanazas.requisiciones_autorizadas_pro.revision_solicitudes.partial_mod_oficio',compact('documentos'));
 
@@ -381,12 +381,12 @@ class Pres_aut_revisionController extends Controller
         $id_unidad = Session::get('id_unidad_admin');
 
         $solicitudes = DB::select('SELECT pres_aut_solicitudes.*, gnral_unidad_administrativa.nom_departamento,
-        pres_proyectos.nombre_proyecto, pres_metas.meta, pres_mes.mes from pres_aut_solicitudes, gnral_unidad_administrativa, pres_proyectos, 
-        pres_metas, pres_mes where pres_aut_solicitudes.id_unidad_admin = gnral_unidad_administrativa.id_unidad_admin 
-        and pres_proyectos.id_proyecto = pres_aut_solicitudes.id_proyecto and pres_aut_solicitudes.id_meta = pres_metas.id_meta and 
-        pres_aut_solicitudes.id_mes = pres_mes.id_mes and pres_aut_solicitudes.id_unidad_admin = '.$id_unidad.' and pres_aut_solicitudes.year_presupuesto = '.$year.' 
-        and pres_aut_solicitudes.id_estado_enviado=4 
-        order by pres_aut_solicitudes.id_mes asc');
+        pres_proyectos.nombre_proyecto, pres_metas.meta, pres_mes.mes from pres_aut_solicitudes, gnral_unidad_administrativa, pres_proyectos,
+        pres_metas, pres_mes where pres_aut_solicitudes.id_unidad_admin = gnral_unidad_administrativa.id_unidad_admin
+        and pres_proyectos.id_proyecto = pres_aut_solicitudes.id_proyecto and pres_aut_solicitudes.id_meta = pres_metas.id_meta and
+        pres_aut_solicitudes.id_mes = pres_mes.id_mes and pres_aut_solicitudes.id_unidad_admin = ? and pres_aut_solicitudes.year_presupuesto = ?
+        and pres_aut_solicitudes.id_estado_enviado=4
+        order by pres_aut_solicitudes.id_mes asc', [$id_unidad, $year]);
 
 
 
@@ -395,17 +395,17 @@ class Pres_aut_revisionController extends Controller
     }
     public function ver_docu_solicitud_aut_departamento($id_solicitud){
         $solicitud=DB::selectOne('SELECT pres_aut_solicitudes.*, gnral_unidad_administrativa.nom_departamento,
-        pres_proyectos.nombre_proyecto, pres_metas.meta, pres_mes.mes from pres_aut_solicitudes, gnral_unidad_administrativa, pres_proyectos, 
-        pres_metas, pres_mes where pres_aut_solicitudes.id_unidad_admin = gnral_unidad_administrativa.id_unidad_admin 
-        and pres_proyectos.id_proyecto = pres_aut_solicitudes.id_proyecto and pres_aut_solicitudes.id_meta = pres_metas.id_meta and 
-        pres_aut_solicitudes.id_mes = pres_mes.id_mes and pres_aut_solicitudes.id_solicitud = '.$id_solicitud.'');
+        pres_proyectos.nombre_proyecto, pres_metas.meta, pres_mes.mes from pres_aut_solicitudes, gnral_unidad_administrativa, pres_proyectos,
+        pres_metas, pres_mes where pres_aut_solicitudes.id_unidad_admin = gnral_unidad_administrativa.id_unidad_admin
+        and pres_proyectos.id_proyecto = pres_aut_solicitudes.id_proyecto and pres_aut_solicitudes.id_meta = pres_metas.id_meta and
+        pres_aut_solicitudes.id_mes = pres_mes.id_mes and pres_aut_solicitudes.id_solicitud = ?', [$id_solicitud]);
 
-        $partidas=DB::select('SELECT pres_aut_solicitudes_partidas.*, pres_partida_pres.nombre_partida, pres_partida_pres.clave_presupuestal 
-           from pres_aut_solicitudes_partidas, pres_partida_pres WHERE pres_aut_solicitudes_partidas.id_partida_pres = pres_partida_pres.id_partida_pres 
-           and pres_aut_solicitudes_partidas.id_solicitud ='.$id_solicitud.'');
+        $partidas=DB::select('SELECT pres_aut_solicitudes_partidas.*, pres_partida_pres.nombre_partida, pres_partida_pres.clave_presupuestal
+           from pres_aut_solicitudes_partidas, pres_partida_pres WHERE pres_aut_solicitudes_partidas.id_partida_pres = pres_partida_pres.id_partida_pres
+           and pres_aut_solicitudes_partidas.id_solicitud = ?', [$id_solicitud]);
 
 
-        $estado_solicitud=DB::selectOne('SELECT COUNT(id_solicitud) contar from pres_aut_solicitudes_documentos WHERE id_solicitud ='.$id_solicitud.'');
+        $estado_solicitud=DB::selectOne('SELECT COUNT(id_solicitud) contar from pres_aut_solicitudes_documentos WHERE id_solicitud = ?', [$id_solicitud]);
         $estado_solicitud=$estado_solicitud->contar;
 
         if($estado_solicitud == 0){
@@ -413,7 +413,7 @@ class Pres_aut_revisionController extends Controller
             $documentos=0;
         }else{
             $estado_solicitud=1;
-            $documentos= DB::selectOne('SELECT * FROM `pres_aut_solicitudes_documentos` WHERE `id_solicitud` ='.$id_solicitud.'');
+            $documentos= DB::selectOne('SELECT * FROM `pres_aut_solicitudes_documentos` WHERE `id_solicitud` = ?', [$id_solicitud]);
         }
         //dd($array_partidas);
         //dd($documentos);
@@ -423,9 +423,9 @@ class Pres_aut_revisionController extends Controller
     }
     public function modificar_mes_requisicion($id_presupuesto_aut_copia,$id_mes){
 
-        $requisicion=DB::selectOne('SELECT pres_aut_presupuesto_aut_copia.*,pres_partida_pres.nombre_partida,pres_partida_pres.clave_presupuestal 
+        $requisicion=DB::selectOne('SELECT pres_aut_presupuesto_aut_copia.*,pres_partida_pres.nombre_partida,pres_partida_pres.clave_presupuestal
         from pres_aut_presupuesto_aut_copia, pres_partida_pres where pres_aut_presupuesto_aut_copia.id_partida = pres_partida_pres.id_partida_pres
-        and pres_aut_presupuesto_aut_copia.id_presupuesto_aut_copia ='.$id_presupuesto_aut_copia.'');
+        and pres_aut_presupuesto_aut_copia.id_presupuesto_aut_copia = ?', [$id_presupuesto_aut_copia]);
        //dd($requisicion);
         $id_partida=$requisicion->id_partida;
         $year_presupuesto=$requisicion->year_presupuesto;
@@ -436,8 +436,8 @@ class Pres_aut_revisionController extends Controller
 
             $soli_mes=DB::select('SELECT pres_aut_solicitudes.*, pres_aut_solicitudes_partidas.id_partida_pres, pres_aut_solicitudes_partidas.presupuesto_dado
             from pres_aut_solicitudes, pres_aut_solicitudes_partidas where pres_aut_solicitudes.id_solicitud = pres_aut_solicitudes_partidas.id_solicitud
-            and pres_aut_solicitudes_partidas.id_partida_pres = '.$id_partida.' and
-            pres_aut_solicitudes.year_presupuesto = '.$year_presupuesto.' and pres_aut_solicitudes.id_mes =1');
+            and pres_aut_solicitudes_partidas.id_partida_pres = ? and
+            pres_aut_solicitudes.year_presupuesto = ? and pres_aut_solicitudes.id_mes =1', [$id_partida, $year_presupuesto]);
 
             if($soli_mes == null){
                 $suma_soli=0;
@@ -454,8 +454,8 @@ class Pres_aut_revisionController extends Controller
             $presupuesto_mes= $requisicion->febrero_pres;
             $soli_mes=DB::select('SELECT pres_aut_solicitudes.*, pres_aut_solicitudes_partidas.id_partida_pres, pres_aut_solicitudes_partidas.presupuesto_dado
             from pres_aut_solicitudes, pres_aut_solicitudes_partidas where pres_aut_solicitudes.id_solicitud = pres_aut_solicitudes_partidas.id_solicitud
-            and pres_aut_solicitudes_partidas.id_partida_pres = '.$id_partida.' and
-            pres_aut_solicitudes.year_presupuesto = '.$year_presupuesto.' and pres_aut_solicitudes.id_mes =2');
+            and pres_aut_solicitudes_partidas.id_partida_pres = ? and
+            pres_aut_solicitudes.year_presupuesto = ? and pres_aut_solicitudes.id_mes =2', [$id_partida, $year_presupuesto]);
 
             if($soli_mes == null){
                 $suma_soli=0;
@@ -473,8 +473,8 @@ class Pres_aut_revisionController extends Controller
             $presupuesto_mes= $requisicion->marzo_pres;
             $soli_mes=DB::select('SELECT pres_aut_solicitudes.*, pres_aut_solicitudes_partidas.id_partida_pres, pres_aut_solicitudes_partidas.presupuesto_dado
             from pres_aut_solicitudes, pres_aut_solicitudes_partidas where pres_aut_solicitudes.id_solicitud = pres_aut_solicitudes_partidas.id_solicitud
-            and pres_aut_solicitudes_partidas.id_partida_pres = '.$id_partida.' and
-            pres_aut_solicitudes.year_presupuesto = '.$year_presupuesto.' and pres_aut_solicitudes.id_mes =3');
+            and pres_aut_solicitudes_partidas.id_partida_pres = ? and
+            pres_aut_solicitudes.year_presupuesto = ? and pres_aut_solicitudes.id_mes =3', [$id_partida, $year_presupuesto]);
 
             if($soli_mes == null){
                 $suma_soli=0;
@@ -492,8 +492,8 @@ class Pres_aut_revisionController extends Controller
 
             $soli_mes=DB::select('SELECT pres_aut_solicitudes.*, pres_aut_solicitudes_partidas.id_partida_pres, pres_aut_solicitudes_partidas.presupuesto_dado
             from pres_aut_solicitudes, pres_aut_solicitudes_partidas where pres_aut_solicitudes.id_solicitud = pres_aut_solicitudes_partidas.id_solicitud
-            and pres_aut_solicitudes_partidas.id_partida_pres = '.$id_partida.' and
-            pres_aut_solicitudes.year_presupuesto = '.$year_presupuesto.' and pres_aut_solicitudes.id_mes =4');
+            and pres_aut_solicitudes_partidas.id_partida_pres = ? and
+            pres_aut_solicitudes.year_presupuesto = ? and pres_aut_solicitudes.id_mes =4', [$id_partida, $year_presupuesto]);
 
             if($soli_mes == null){
                 $suma_soli=0;
@@ -511,8 +511,8 @@ class Pres_aut_revisionController extends Controller
 
             $soli_mes=DB::select('SELECT pres_aut_solicitudes.*, pres_aut_solicitudes_partidas.id_partida_pres, pres_aut_solicitudes_partidas.presupuesto_dado
             from pres_aut_solicitudes, pres_aut_solicitudes_partidas where pres_aut_solicitudes.id_solicitud = pres_aut_solicitudes_partidas.id_solicitud
-            and pres_aut_solicitudes_partidas.id_partida_pres = '.$id_partida.' and
-            pres_aut_solicitudes.year_presupuesto = '.$year_presupuesto.' and pres_aut_solicitudes.id_mes =5');
+            and pres_aut_solicitudes_partidas.id_partida_pres = ? and
+            pres_aut_solicitudes.year_presupuesto = ? and pres_aut_solicitudes.id_mes =5', [$id_partida, $year_presupuesto]);
 
             if($soli_mes == null){
                 $suma_soli=0;
@@ -530,8 +530,8 @@ class Pres_aut_revisionController extends Controller
 
             $soli_mes=DB::select('SELECT pres_aut_solicitudes.*, pres_aut_solicitudes_partidas.id_partida_pres, pres_aut_solicitudes_partidas.presupuesto_dado
             from pres_aut_solicitudes, pres_aut_solicitudes_partidas where pres_aut_solicitudes.id_solicitud = pres_aut_solicitudes_partidas.id_solicitud
-            and pres_aut_solicitudes_partidas.id_partida_pres = '.$id_partida.' and
-            pres_aut_solicitudes.year_presupuesto = '.$year_presupuesto.' and pres_aut_solicitudes.id_mes =6');
+            and pres_aut_solicitudes_partidas.id_partida_pres = ? and
+            pres_aut_solicitudes.year_presupuesto = ? and pres_aut_solicitudes.id_mes =6', [$id_partida, $year_presupuesto]);
 
             if($soli_mes == null){
                 $suma_soli=0;
@@ -549,8 +549,8 @@ class Pres_aut_revisionController extends Controller
 
             $soli_mes=DB::select('SELECT pres_aut_solicitudes.*, pres_aut_solicitudes_partidas.id_partida_pres, pres_aut_solicitudes_partidas.presupuesto_dado
             from pres_aut_solicitudes, pres_aut_solicitudes_partidas where pres_aut_solicitudes.id_solicitud = pres_aut_solicitudes_partidas.id_solicitud
-            and pres_aut_solicitudes_partidas.id_partida_pres = '.$id_partida.' and
-            pres_aut_solicitudes.year_presupuesto = '.$year_presupuesto.' and pres_aut_solicitudes.id_mes =7');
+            and pres_aut_solicitudes_partidas.id_partida_pres = ? and
+            pres_aut_solicitudes.year_presupuesto = ? and pres_aut_solicitudes.id_mes =7', [$id_partida, $year_presupuesto]);
 
             if($soli_mes == null){
                 $suma_soli=0;
@@ -568,8 +568,8 @@ class Pres_aut_revisionController extends Controller
 
             $soli_mes=DB::select('SELECT pres_aut_solicitudes.*, pres_aut_solicitudes_partidas.id_partida_pres, pres_aut_solicitudes_partidas.presupuesto_dado
             from pres_aut_solicitudes, pres_aut_solicitudes_partidas where pres_aut_solicitudes.id_solicitud = pres_aut_solicitudes_partidas.id_solicitud
-            and pres_aut_solicitudes_partidas.id_partida_pres = '.$id_partida.' and
-            pres_aut_solicitudes.year_presupuesto = '.$year_presupuesto.' and pres_aut_solicitudes.id_mes =8');
+            and pres_aut_solicitudes_partidas.id_partida_pres = ? and
+            pres_aut_solicitudes.year_presupuesto = ? and pres_aut_solicitudes.id_mes =8', [$id_partida, $year_presupuesto]);
 
             if($soli_mes == null){
                 $suma_soli=0;
@@ -587,8 +587,8 @@ class Pres_aut_revisionController extends Controller
 
             $soli_mes=DB::select('SELECT pres_aut_solicitudes.*, pres_aut_solicitudes_partidas.id_partida_pres, pres_aut_solicitudes_partidas.presupuesto_dado
             from pres_aut_solicitudes, pres_aut_solicitudes_partidas where pres_aut_solicitudes.id_solicitud = pres_aut_solicitudes_partidas.id_solicitud
-            and pres_aut_solicitudes_partidas.id_partida_pres = '.$id_partida.' and
-            pres_aut_solicitudes.year_presupuesto = '.$year_presupuesto.' and pres_aut_solicitudes.id_mes =9');
+            and pres_aut_solicitudes_partidas.id_partida_pres = ? and
+            pres_aut_solicitudes.year_presupuesto = ? and pres_aut_solicitudes.id_mes =9', [$id_partida, $year_presupuesto]);
 
             if($soli_mes == null){
                 $suma_soli=0;
@@ -606,8 +606,8 @@ class Pres_aut_revisionController extends Controller
 
             $soli_mes=DB::select('SELECT pres_aut_solicitudes.*, pres_aut_solicitudes_partidas.id_partida_pres, pres_aut_solicitudes_partidas.presupuesto_dado
             from pres_aut_solicitudes, pres_aut_solicitudes_partidas where pres_aut_solicitudes.id_solicitud = pres_aut_solicitudes_partidas.id_solicitud
-            and pres_aut_solicitudes_partidas.id_partida_pres = '.$id_partida.' and
-            pres_aut_solicitudes.year_presupuesto = '.$year_presupuesto.' and pres_aut_solicitudes.id_mes =10');
+            and pres_aut_solicitudes_partidas.id_partida_pres = ? and
+            pres_aut_solicitudes.year_presupuesto = ? and pres_aut_solicitudes.id_mes =10', [$id_partida, $year_presupuesto]);
 
             if($soli_mes == null){
                 $suma_soli=0;
@@ -625,8 +625,8 @@ class Pres_aut_revisionController extends Controller
 
             $soli_mes=DB::select('SELECT pres_aut_solicitudes.*, pres_aut_solicitudes_partidas.id_partida_pres, pres_aut_solicitudes_partidas.presupuesto_dado
             from pres_aut_solicitudes, pres_aut_solicitudes_partidas where pres_aut_solicitudes.id_solicitud = pres_aut_solicitudes_partidas.id_solicitud
-            and pres_aut_solicitudes_partidas.id_partida_pres = '.$id_partida.' and
-            pres_aut_solicitudes.year_presupuesto = '.$year_presupuesto.' and pres_aut_solicitudes.id_mes =11');
+            and pres_aut_solicitudes_partidas.id_partida_pres = ? and
+            pres_aut_solicitudes.year_presupuesto = ? and pres_aut_solicitudes.id_mes =11', [$id_partida, $year_presupuesto]);
 
             if($soli_mes == null){
                 $suma_soli=0;
@@ -644,8 +644,8 @@ class Pres_aut_revisionController extends Controller
 
             $soli_mes=DB::select('SELECT pres_aut_solicitudes.*, pres_aut_solicitudes_partidas.id_partida_pres, pres_aut_solicitudes_partidas.presupuesto_dado
             from pres_aut_solicitudes, pres_aut_solicitudes_partidas where pres_aut_solicitudes.id_solicitud = pres_aut_solicitudes_partidas.id_solicitud
-            and pres_aut_solicitudes_partidas.id_partida_pres = '.$id_partida.' and
-            pres_aut_solicitudes.year_presupuesto = '.$year_presupuesto.' and pres_aut_solicitudes.id_mes =12');
+            and pres_aut_solicitudes_partidas.id_partida_pres = ? and
+            pres_aut_solicitudes.year_presupuesto = ? and pres_aut_solicitudes.id_mes =12', [$id_partida, $year_presupuesto]);
 
             if($soli_mes == null){
                 $suma_soli=0;
@@ -666,7 +666,7 @@ class Pres_aut_revisionController extends Controller
     public function guardar_mod_partida_mes_presupuesto(Request $request,$id_presupuesto_aut_copia,$id_mes){
        // dd($request);
 
-        $dato_presupuesto=DB::selectOne('SELECT * FROM `pres_aut_presupuesto_aut_copia` WHERE `id_presupuesto_aut_copia` ='.$id_presupuesto_aut_copia.' ');
+        $dato_presupuesto=DB::selectOne('SELECT * FROM `pres_aut_presupuesto_aut_copia` WHERE `id_presupuesto_aut_copia` = ? ', [$id_presupuesto_aut_copia]);
 
         $id_partida=$dato_presupuesto->id_partida;
 

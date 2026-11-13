@@ -29,7 +29,7 @@ class PDFTodasConstancias extends FPDF
             //$this->Ln(10);
         }
 
-        //PIE DE PAGINA 
+        //PIE DE PAGINA
         function Footer()
         {
             /*
@@ -98,15 +98,15 @@ class TodasConstancias extends Controller
     }
    public function create()
     {
-        
+
     }
     public function store(Request $request)
     {
-        
+
     }
     public function show($id)
     {
-        
+
     }
     public function edit()
     {
@@ -115,7 +115,7 @@ class TodasConstancias extends Controller
     public function constancias()
     {
         $usuario = Session::get('usuario_alumno');
-        $carrera = Session::get('carrera');   
+        $carrera = Session::get('carrera');
         $periodo=Session::get('periodo_actual');
 
         $personaless=DB::select('select promedios.descripcion,promedios.creditos,promedios.docente,promedios.titulo,
@@ -131,23 +131,23 @@ class TodasConstancias extends Controller
                                         and actcomple_docente_actividad.id_personal=gnral_personales.id_personal
                                         and actividades_complementarias.id_jefatura=actcomple_jefaturas.id_jefatura
                                         and actcomple_jefaturas.id_carrera=gnral_carreras.id_carrera
-                                        and gnral_carreras.id_carrera='.$carrera.'
+                                        and gnral_carreras.id_carrera= ?
                                         and abreviaciones.id_abreviacion=abreviaciones_prof.id_abreviacion
                                         and abreviaciones_prof.id_personal=gnral_personales.id_personal
                                         and actcomple_registro_alumnos.cuenta=gnral_alumnos.cuenta
                                         and gnral_periodos.id_periodo=actcomple_registro_alumnos.id_periodo
-                                        and gnral_periodos.id_periodo='.$periodo.'
+                                        and gnral_periodos.id_periodo= ?
                                         and actcomple_evaluaciones.estado=1
-                                        group by descripcion,periodo,nombre,apaterno,amaterno,cuenta,creditos,docente,titulo,promedio) as promedios where promedio>=70');
+                                        group by descripcion,periodo,nombre,apaterno,amaterno,cuenta,creditos,docente,titulo,promedio) as promedios where promedio>=70', [$carrera, $periodo]);
 
   //dd($personaless);
 
             $personall=DB::selectOne('select gnral_personales.id_personal from gnral_personales,users
                                         where gnral_personales.tipo_usuario=users.id
-                                        and gnral_personales.tipo_usuario='.$usuario.'');
+                                        and gnral_personales.tipo_usuario= ?', [$usuario]);
             $persona=$personall->id_personal;
 //dd($persona);
-                
+
             //echo ($personaless[$i]->cuenta);
 
         $etiqueta=DB::selectOne('SELECT etiqueta.descripcion from etiqueta WHERE id_etiqueta=1');
@@ -156,7 +156,7 @@ class TodasConstancias extends Controller
         $pdf=new PDFTodasConstancias($orientation='P',$unit='mm',$format='Letter');
             for ($i=0; $i<count($personaless);$i++)
             {
-            
+
 
            // $pdf->SetAutoPageBreak(true,25);
             $pdf->AddPage();
@@ -176,26 +176,26 @@ class TodasConstancias extends Controller
             $pdf->Ln(5);
             $pdf->Cell(80,20,utf8_decode('P R E S E N T E'),0,0,'');
             $pdf->Ln(30);
-            
+
             $jefes=DB::selectOne('select gnral_personales.nombre
-                                        from abreviaciones,abreviaciones_prof,gnral_personales 
-                                        where abreviaciones.id_abreviacion=abreviaciones_prof.id_abreviacion 
-                                        and abreviaciones_prof.id_personal=gnral_personales.id_personal 
-                                        and gnral_personales.id_personal='.$persona.'');
+                                        from abreviaciones,abreviaciones_prof,gnral_personales
+                                        where abreviaciones.id_abreviacion=abreviaciones_prof.id_abreviacion
+                                        and abreviaciones_prof.id_personal=gnral_personales.id_personal
+                                        and gnral_personales.id_personal= ?', [$persona]);
             $nombre_jefe=($jefes->nombre);
 
             $abreviacion_profesor=DB::selectOne('select abreviaciones.titulo,gnral_personales.nombre
-                                        from abreviaciones,abreviaciones_prof,gnral_personales 
-                                        where abreviaciones.id_abreviacion=abreviaciones_prof.id_abreviacion 
-                                        and abreviaciones_prof.id_personal=gnral_personales.id_personal 
-                                        and gnral_personales.id_personal='.$persona.'');
+                                        from abreviaciones,abreviaciones_prof,gnral_personales
+                                        where abreviaciones.id_abreviacion=abreviaciones_prof.id_abreviacion
+                                        and abreviaciones_prof.id_personal=gnral_personales.id_personal
+                                        and gnral_personales.id_personal= ?', [$persona]);
             $abreviacion=($abreviacion_profesor->titulo);
 
 
-            $carreras=DB::selectOne('select gnral_carreras.nombre 
+            $carreras=DB::selectOne('select gnral_carreras.nombre
                                     FROM gnral_carreras,gnral_jefes_periodos
                                     where gnral_carreras.id_carrera=gnral_jefes_periodos.id_carrera
-                                    and gnral_carreras.id_carrera='.$carrera.'');
+                                    and gnral_carreras.id_carrera= ?', [$carrera]);
             $carrera_nombre=($carreras->nombre);
 
 
@@ -244,30 +244,30 @@ class TodasConstancias extends Controller
             $pdf->Cell(60);
             $pdf->Cell(60,10,utf8_decode('A T E N T A M E N T E'),0,0,'C');
             $pdf->Ln(25);
-            $pdf->SetXY(10,-70); 
+            $pdf->SetXY(10,-70);
             $pdf->MultiCell(100,10,utf8_decode($jefe),0,'C',false);
-            $pdf->SetXY(10,-60); 
+            $pdf->SetXY(10,-60);
             $pdf->MultiCell(90,5,(utf8_decode('JEFE DE DIVISIÓN DE ').$jefe_carrera.''),0,'C',false);
-            $pdf->SetXY(110,-70);           
+            $pdf->SetXY(110,-70);
             $pdf->MultiCell(100,10,utf8_decode($docente_encargado),0,'C',false);
-            $pdf->SetXY(110,-60); 
+            $pdf->SetXY(110,-60);
             $pdf->MultiCell(100,5,$encargadop,0,'C',false);
             //$pdf->AddPage();
 
-                               
 
-        } 
+
+        }
         $pdf->Output();
-        exit();  
+        exit();
 
     }
     public function update(Request $request, $id)
     {
-        
+
     }
     public function destroy($id)
     {
-        
+
     }
 
 

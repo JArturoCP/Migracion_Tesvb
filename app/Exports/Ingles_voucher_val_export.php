@@ -22,9 +22,9 @@ class Ingles_voucher_val_export implements FromView
                             WHERE users.id = gnral_alumnos.id_usuario
                             AND in_voucher_pago.id_usuario = users.id
                             AND in_voucher_pago.id_periodo_ingles = in_periodos.id_periodo_ingles
-                            AND in_voucher_pago.id_periodo_ingles = '.$periodo_ingles.' 
+                            AND in_voucher_pago.id_periodo_ingles = ?
                             and in_voucher_pago.estado_agregacion_excel = 1
-                            AND in_voucher_pago.id_estado_valida_voucher = 2');
+                            AND in_voucher_pago.id_estado_valida_voucher = 2', [$periodo_ingles]);
         return view('ingles.departamento.exportar_voucher_aceptados',compact('alumnos'));
 
     }

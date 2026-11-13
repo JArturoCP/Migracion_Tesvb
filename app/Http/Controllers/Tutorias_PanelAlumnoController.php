@@ -41,7 +41,7 @@ class Tutorias_PanelAlumnoController extends Controller
         $id_alumno= Session::get('id_alumno');
 
        // $gen=Tutorias_Exp_generale::where('id_alumno','=',Session::get('id_alumno'))->get();
-        $alumno=DB::selectOne('SELECT * FROM `exp_generales` WHERE `id_alumno` ='.$id_alumno.'');
+        $alumno=DB::selectOne('SELECT * FROM `exp_generales` WHERE `id_alumno` = ?', [$id_alumno]);
 
         /*$aca=Exp_antecedentes_academico::where('id_alumno','=',Session::get('id_alumno'))->get();
         $familiares=Exp_datos_familiare::where('id_alumno','=',Session::get('id_alumno'))->get();
@@ -61,14 +61,14 @@ class Tutorias_PanelAlumnoController extends Controller
     public function principal()
     {
         $id_usuario = Session::get('usuario_alumno');
-        $alumno=DB::selectOne('SELECT * FROM `gnral_alumnos` WHERE `id_usuario` = '.$id_usuario.' ');
-        $estado_contar=DB::selectOne('SELECT count(id_alumno)contar from exp_generales where id_alumno = '.$alumno->id_alumno.'');
+        $alumno=DB::selectOne('SELECT * FROM `gnral_alumnos` WHERE `id_usuario` = ? ', [$id_usuario]);
+        $estado_contar=DB::selectOne('SELECT count(id_alumno)contar from exp_generales where id_alumno = ?', [$alumno->id_alumno]);
         $estado_contar=$estado_contar->contar;
         if($estado_contar == 0){
 
             return  view('tutorias.alumnos.incio_registro');
         }else{
-            $alumno=DB::selectOne('SELECT gnral_alumnos.id_alumno,gnral_alumnos.cuenta, exp_generales.nombre,exp_generales.foto from gnral_alumnos,exp_generales where exp_generales.id_alumno = gnral_alumnos.id_alumno and  gnral_alumnos.id_alumno='.Session::get('id_alumno').'');
+            $alumno=DB::selectOne('SELECT gnral_alumnos.id_alumno,gnral_alumnos.cuenta, exp_generales.nombre,exp_generales.foto from gnral_alumnos,exp_generales where exp_generales.id_alumno = gnral_alumnos.id_alumno and  gnral_alumnos.id_alumno= ?', [Session::get('id_alumno')]);
 
             return view('tutorias.alumnos.index',compact('alumno'));
         }
@@ -253,7 +253,7 @@ return $data;
     }
     public function registrar_inicio_expediente(){
         $id_usuario = Session::get('usuario_alumno');
-        $alumn=DB::selectOne('SELECT * FROM `gnral_alumnos` WHERE id_usuario ='.$id_usuario.'');
+        $alumn=DB::selectOne('SELECT * FROM `gnral_alumnos` WHERE id_usuario = ?', [$id_usuario]);
 
             DB:: table('exp_generales')
                  ->insert([

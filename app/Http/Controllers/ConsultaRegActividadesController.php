@@ -38,45 +38,45 @@ class ConsultaRegActividadesController extends Controller
         $condicion=1;
     }
 
-        $consulta_alumno=DB::select("select DISTINCT actcomple_registro_alumnos.liberacion,actcomple_registro_alumnos.liberacion lib, actcomple_registro_alumnos.id_registro_alumno,actcomple_registro_alumnos.cuenta,actividades_complementarias.descripcion,actividades_complementarias.horas,actividades_complementarias.creditos,actcomple_categorias.descripcion_cat,actcomple_registro_alumnos.fecha_registro,abreviaciones.titulo,gnral_personales.nombre,gnral_personales.id_personal
+        $consulta_alumno=DB::select('select DISTINCT actcomple_registro_alumnos.liberacion,actcomple_registro_alumnos.liberacion lib, actcomple_registro_alumnos.id_registro_alumno,actcomple_registro_alumnos.cuenta,actividades_complementarias.descripcion,actividades_complementarias.horas,actividades_complementarias.creditos,actcomple_categorias.descripcion_cat,actcomple_registro_alumnos.fecha_registro,abreviaciones.titulo,gnral_personales.nombre,gnral_personales.id_personal
                                 from actividades_complementarias,actcomple_categorias,actcomple_registro_alumnos,abreviaciones,
                                 gnral_personales,actcomple_docente_actividad,actcomple_registros_coordinadores,abreviaciones_prof,gnral_periodos,gnral_alumnos
                                 where actividades_complementarias.id_categoria=actcomple_categorias.id_categoria
                                 and gnral_personales.id_personal=actcomple_docente_actividad.id_personal
-                                and abreviaciones.id_abreviacion=abreviaciones_prof.id_abreviacion 
-                                and gnral_personales.id_personal=abreviaciones_prof.id_personal 
+                                and abreviaciones.id_abreviacion=abreviaciones_prof.id_abreviacion
+                                and gnral_personales.id_personal=abreviaciones_prof.id_personal
                                 and actcomple_registro_alumnos.id_docente_actividad=actcomple_docente_actividad.id_docente_actividad
                                 and actcomple_registro_alumnos.id_periodo=gnral_periodos.id_periodo
                                 and actcomple_registro_alumnos.cuenta=gnral_alumnos.cuenta
-                                and actcomple_registro_alumnos.cuenta='$usuario'
-                                and gnral_periodos.id_periodo=$periodo
+                                and actcomple_registro_alumnos.cuenta=?
+                                and gnral_periodos.id_periodo= ?
                                 and actividades_complementarias.id_actividad_comple=actcomple_docente_actividad.id_actividad_comple
-                                and actividades_complementarias.estado=1");
+                                and actividades_complementarias.estado=1', [(string) ($usuario), $periodo]);
 
-        
 
-        $suma=DB::selectOne("select SUM(actividades_complementarias.horas) horas 
+
+        $suma=DB::selectOne('select SUM(actividades_complementarias.horas) horas
                             from actividades_complementarias,actcomple_registro_alumnos,gnral_alumnos,actcomple_docente_actividad,gnral_periodos
                             WHERE actividades_complementarias.id_actividad_comple=actcomple_docente_actividad.id_actividad_comple
                             and actcomple_registro_alumnos.id_docente_actividad=actcomple_docente_actividad.id_docente_actividad
                             and actcomple_registro_alumnos.cuenta=gnral_alumnos.cuenta
                             and actcomple_registro_alumnos.id_periodo=gnral_periodos.id_periodo
-                            and gnral_alumnos.cuenta='$usuario'
-                            and gnral_periodos.id_periodo=$periodo");
-                                
+                            and gnral_alumnos.cuenta=?
+                            and gnral_periodos.id_periodo= ?', [(string) ($usuario), $periodo]);
+
         $suma=isset($suma->horas)?$suma->horas:0;
         /*$docente_actividad=DB::select("select  actcomple_docente_actividad.id_docente_actividad,abreviaciones.titulo,gnral_personales.nombre,
 gnral_personales.id_personal,actividades_complementarias.descripcion,
 actividades_complementarias.horas,actividades_complementarias.id_actividad_comple, actcomple_docente_actividad.id_periodo
 
-from 
+from
 actcomple_registros_coordinadores, gnral_horarios,gnral_periodo_carreras,gnral_carreras,abreviaciones,abreviaciones_prof,gnral_personales,actividades_complementarias,actcomple_docente_actividad,actcomple_jefaturas
 
-where 
-abreviaciones.id_abreviacion=abreviaciones_prof.id_abreviacion 
-and gnral_personales.id_personal=abreviaciones_prof.id_personal 
-and actcomple_docente_actividad.id_actividad_comple=actividades_complementarias.id_actividad_comple 
-and actcomple_docente_actividad.id_personal=gnral_personales.id_personal 
+where
+abreviaciones.id_abreviacion=abreviaciones_prof.id_abreviacion
+and gnral_personales.id_personal=abreviaciones_prof.id_personal
+and actcomple_docente_actividad.id_actividad_comple=actividades_complementarias.id_actividad_comple
+and actcomple_docente_actividad.id_personal=gnral_personales.id_personal
 and actcomple_registros_coordinadores.id_docente_actividad=actcomple_docente_actividad.id_docente_actividad             and actividades_complementarias.id_jefatura=actcomple_jefaturas.id_jefatura
 and actcomple_jefaturas.id_carrera=gnral_carreras.id_carrera
 and gnral_personales.id_personal=abreviaciones_prof.id_personal
@@ -89,7 +89,7 @@ and actcomple_registros_coordinadores.estado_evidencias=2
 and actcomple_docente_actividad.id_periodo=".$periodo);*/
 
         $docente_actividad = DB::select("
-SELECT DISTINCT 
+SELECT DISTINCT
     ada.id_docente_actividad,
     ab.titulo,
     gp.nombre,
@@ -125,15 +125,15 @@ ORDER BY gc.id_carrera ASC
 ", [$carrera, $periodo]);
 
     	return view('actividades_complementarias.alumnos.consulta_reg_actividades',compact('condicion','liberaa','libera','actividad','consulta_alumno','docente_actividad','suma','nuevo'));
-    
-    }
-    
-    public function create()
-    {
-       
+
     }
 
-  
+    public function create()
+    {
+
+    }
+
+
     public function store(Request $request)
     {
        // dd($request);
@@ -148,43 +148,43 @@ ORDER BY gc.id_carrera ASC
         $id_actividad_comple=$request->get('actividad_alu');
         $docentes=$request->get('profesor_alu');
         $fecha=$request->get('fecha_alu');
-        
-        $semestre_alu=DB::selectOne("select gnral_alumnos.id_semestre 
-                                    from gnral_alumnos,gnral_semestres 
-                                    where gnral_alumnos.id_semestre=gnral_semestres.id_semestre 
-                                    and gnral_alumnos.cuenta='$usuario'");
+
+        $semestre_alu=DB::selectOne('select gnral_alumnos.id_semestre
+                                    from gnral_alumnos,gnral_semestres
+                                    where gnral_alumnos.id_semestre=gnral_semestres.id_semestre
+                                    and gnral_alumnos.cuenta=?', [(string) ($usuario)]);
         $semestre=($semestre_alu->id_semestre);
 
-        $docente_nombre=DB::selectOne('select gnral_personales.id_personal 
+        $docente_nombre=DB::selectOne('select gnral_personales.id_personal
                                             from gnral_personales,actcomple_docente_actividad,actividades_complementarias
                                             WHERE actcomple_docente_actividad.id_personal=gnral_personales.id_personal
                                             and actividades_complementarias.id_actividad_comple=actcomple_docente_actividad.id_actividad_comple
-                                            and gnral_personales.nombre="'.$docentes.'"
-                                            and actividades_complementarias.id_actividad_comple='.$id_actividad_comple.'');
+                                            and gnral_personales.nombre=?
+                                            and actividades_complementarias.id_actividad_comple= ?', [(string) ($docentes), $id_actividad_comple]);
 
         $docente=($docente_nombre->id_personal);
 
         $docente_actividad=DB::selectOne('select actcomple_docente_actividad.id_docente_actividad
-                                        from actcomple_docente_actividad,gnral_personales,actividades_complementarias 
-                                        where gnral_personales.id_personal=actcomple_docente_actividad.id_personal 
-                                        and actividades_complementarias.id_actividad_comple=actcomple_docente_actividad.id_actividad_comple 
-                                        and actcomple_docente_actividad.id_actividad_comple='.$id_actividad_comple.'
-                                        and gnral_personales.id_personal='.$docente.'
-                                        and actcomple_docente_actividad.id_periodo='.$periodo.'');
+                                        from actcomple_docente_actividad,gnral_personales,actividades_complementarias
+                                        where gnral_personales.id_personal=actcomple_docente_actividad.id_personal
+                                        and actividades_complementarias.id_actividad_comple=actcomple_docente_actividad.id_actividad_comple
+                                        and actcomple_docente_actividad.id_actividad_comple= ?
+                                        and gnral_personales.id_personal= ?
+                                        and actcomple_docente_actividad.id_periodo= ?', [$id_actividad_comple, $docente, $periodo]);
         $docente_act=($docente_actividad->id_docente_actividad);
 
-        $registro_alumno=DB::select("select actcomple_registro_alumnos.id_docente_actividad
+        $registro_alumno=DB::select('select actcomple_registro_alumnos.id_docente_actividad
                                         from actcomple_registro_alumnos,actcomple_docente_actividad
                                         where actcomple_registro_alumnos.id_docente_actividad=actcomple_docente_actividad.id_docente_actividad
-                                        and actcomple_docente_actividad.id_docente_actividad=$docente_act
-                                        and actcomple_registro_alumnos.cuenta='$usuario'");
+                                        and actcomple_docente_actividad.id_docente_actividad= ?
+                                        and actcomple_registro_alumnos.cuenta=?', [$docente_act, (string) ($usuario)]);
        // dd($registro_alumno);
-        
+
     if($registro_alumno==null)
     {
 
         $alumno=array(
-            
+
             'id_docente_actividad'=>$docente_act,
             'cuenta' => $usuario,
             'id_periodo' => $periodo,
@@ -193,15 +193,15 @@ ORDER BY gc.id_carrera ASC
             'id_semestre' => $semestre
 
             );
-         $suma=DB::selectOne("select SUM(actividades_complementarias.horas) horas 
+         $suma=DB::selectOne('select SUM(actividades_complementarias.horas) horas
                             from actividades_complementarias,actcomple_registro_alumnos,gnral_alumnos,actcomple_docente_actividad
                             WHERE actividades_complementarias.id_actividad_comple=actcomple_docente_actividad.id_actividad_comple
                             and actcomple_registro_alumnos.id_docente_actividad=actcomple_docente_actividad.id_docente_actividad
                             and actcomple_registro_alumnos.cuenta=gnral_alumnos.cuenta
-                            and gnral_alumnos.cuenta='$usuario' and actcomple_docente_actividad.id_periodo=$periodo");
+                            and gnral_alumnos.cuenta=? and actcomple_docente_actividad.id_periodo= ?', [(string) ($usuario), $periodo]);
         $suma=isset($suma->horas)?$suma->horas:0;
 
-        $horas=DB::selectOne('select horas from actividades_complementarias where id_actividad_comple='.$id_actividad_comple.'');
+        $horas=DB::selectOne('select horas from actividades_complementarias where id_actividad_comple= ?', [$id_actividad_comple]);
         $horas=($horas->horas);
 
         $suma_final=$suma+$horas;
@@ -213,14 +213,14 @@ ORDER BY gc.id_carrera ASC
         else
         {
             $actividad_alumnos=RegistroAlumnos::create($alumno);
-            Session::put('entra',0);      
+            Session::put('entra',0);
             return redirect('/consulta_actividades');
         }
     }
     else
     {
             Session::put('entra',1);
-            return redirect('/consulta_actividades'); 
+            return redirect('/consulta_actividades');
     }
 
 
@@ -228,7 +228,7 @@ ORDER BY gc.id_carrera ASC
 
 
 
-        
+
     }
 
     public function show()
@@ -246,50 +246,50 @@ ORDER BY gc.id_carrera ASC
         $carrera = Session::get('carrera');
         $periodo=Session::get('periodo_actual');
 
-        $consulta_alumno=DB::select("select DISTINCT actcomple_registro_alumnos.liberacion,actcomple_registro_alumnos.liberacion lib, actcomple_registro_alumnos.id_registro_alumno,actcomple_registro_alumnos.cuenta,actividades_complementarias.descripcion,actividades_complementarias.horas,actividades_complementarias.creditos,actcomple_categorias.descripcion_cat,actcomple_registro_alumnos.fecha_registro,abreviaciones.titulo,gnral_personales.nombre,gnral_personales.id_personal
+        $consulta_alumno=DB::select('select DISTINCT actcomple_registro_alumnos.liberacion,actcomple_registro_alumnos.liberacion lib, actcomple_registro_alumnos.id_registro_alumno,actcomple_registro_alumnos.cuenta,actividades_complementarias.descripcion,actividades_complementarias.horas,actividades_complementarias.creditos,actcomple_categorias.descripcion_cat,actcomple_registro_alumnos.fecha_registro,abreviaciones.titulo,gnral_personales.nombre,gnral_personales.id_personal
                                 from actividades_complementarias,actcomple_categorias,actcomple_registro_alumnos,abreviaciones,
                                 gnral_personales,actcomple_docente_actividad,actcomple_registros_coordinadores,abreviaciones_prof,gnral_periodos,gnral_alumnos
                                 where actividades_complementarias.id_categoria=actcomple_categorias.id_categoria
                                 and gnral_personales.id_personal=actcomple_docente_actividad.id_personal
-                                and abreviaciones.id_abreviacion=abreviaciones_prof.id_abreviacion 
-                                and gnral_personales.id_personal=abreviaciones_prof.id_personal 
+                                and abreviaciones.id_abreviacion=abreviaciones_prof.id_abreviacion
+                                and gnral_personales.id_personal=abreviaciones_prof.id_personal
                                 and actcomple_registro_alumnos.id_docente_actividad=actcomple_docente_actividad.id_docente_actividad
                                 and actcomple_registro_alumnos.id_periodo=gnral_periodos.id_periodo
                                 and actcomple_registro_alumnos.cuenta=gnral_alumnos.cuenta
-                                and actcomple_registro_alumnos.cuenta='$usuario'
-                                and gnral_periodos.id_periodo=$periodo
-                                 and actcomple_docente_actividad.id_periodo=$periodo
+                                and actcomple_registro_alumnos.cuenta=?
+                                and gnral_periodos.id_periodo= ?
+                                 and actcomple_docente_actividad.id_periodo= ?
                                 and actividades_complementarias.id_actividad_comple=actcomple_docente_actividad.id_actividad_comple
-                                and actividades_complementarias.estado=1");
+                                and actividades_complementarias.estado=1', [(string) ($usuario), $periodo, $periodo]);
 
-        
 
-        $suma=DB::selectOne("select SUM(actividades_complementarias.horas) horas 
+
+        $suma=DB::selectOne('select SUM(actividades_complementarias.horas) horas
                             from actividades_complementarias,actcomple_registro_alumnos,gnral_alumnos,actcomple_docente_actividad,gnral_periodos
                             WHERE actividades_complementarias.id_actividad_comple=actcomple_docente_actividad.id_actividad_comple
                             and actcomple_registro_alumnos.id_docente_actividad=actcomple_docente_actividad.id_docente_actividad
-                             and actcomple_docente_actividad.id_periodo=$periodo
+                             and actcomple_docente_actividad.id_periodo= ?
                             and actcomple_registro_alumnos.cuenta=gnral_alumnos.cuenta
                             and actcomple_registro_alumnos.id_periodo=gnral_periodos.id_periodo
-                            and gnral_alumnos.cuenta='$usuario'
-                            and gnral_periodos.id_periodo=$periodo");
+                            and gnral_alumnos.cuenta=?
+                            and gnral_periodos.id_periodo= ?', [$periodo, (string) ($usuario), $periodo]);
         //dd($suma);
-                                
+
         $suma=isset($suma->horas)?$suma->horas:0;
         $docente_actividad=DB::select('select distinct actcomple_docente_actividad.id_docente_actividad,abreviaciones.titulo,gnral_personales.nombre,gnral_personales.id_personal,actividades_complementarias.descripcion,
-                                    actividades_complementarias.horas,actividades_complementarias.id_actividad_comple 
+                                    actividades_complementarias.horas,actividades_complementarias.id_actividad_comple
                                     from gnral_horarios,gnral_periodo_carreras,gnral_carreras,abreviaciones,abreviaciones_prof,gnral_personales,actividades_complementarias,actcomple_docente_actividad,actcomple_jefaturas
                                     where abreviaciones.id_abreviacion=abreviaciones_prof.id_abreviacion and gnral_personales.id_personal=abreviaciones_prof.id_personal
-                                    and actcomple_docente_actividad.id_actividad_comple=actividades_complementarias.id_actividad_comple 
-                                     and actcomple_docente_actividad.id_periodo='.$periodo.'
+                                    and actcomple_docente_actividad.id_actividad_comple=actividades_complementarias.id_actividad_comple
+                                     and actcomple_docente_actividad.id_periodo= ?
                                     and actcomple_docente_actividad.id_personal=gnral_personales.id_personal
                                     and actividades_complementarias.id_jefatura=actcomple_jefaturas.id_jefatura
                                     and actcomple_jefaturas.id_carrera=gnral_carreras.id_carrera
-                                    and (gnral_carreras.id_carrera='.$carrera.'
+                                    and (gnral_carreras.id_carrera= ?
                                     or gnral_carreras.id_carrera=9)
-                                    and actividades_complementarias.estado=1');
+                                    and actividades_complementarias.estado=1', [$periodo, $carrera]);
       //  $editar_actalu= RegistroAlumnos::find($id_registro_alumno);
-        $editar_actalu =DB::selectOne('SELECT * FROM `actcomple_registro_alumnos` WHERE `id_registro_alumno` ='.$id_registro_alumno.'');
+        $editar_actalu =DB::selectOne('SELECT * FROM `actcomple_registro_alumnos` WHERE `id_registro_alumno` = ?', [$id_registro_alumno]);
         $condicion=0;
 //dd($docente_actividad);
 
@@ -298,7 +298,7 @@ ORDER BY gc.id_carrera ASC
 
 
     }
-   
+
     public function update(Request $request, $id_registro_alumno)
     {
        // dd($request);
@@ -315,40 +315,40 @@ ORDER BY gc.id_carrera ASC
         $docentes=$request->get('profesoredit');
         $horasresta=$request->get('horas_alumnoo');
        //dd($docentes);
-        
+
 //dd($horasresta);
-        $docente_nombre=DB::selectOne('select gnral_personales.id_personal 
+        $docente_nombre=DB::selectOne('select gnral_personales.id_personal
                                             from gnral_personales,actcomple_docente_actividad,actividades_complementarias
                                             WHERE actcomple_docente_actividad.id_personal=gnral_personales.id_personal
-                                             and actcomple_docente_actividad.id_periodo='.$periodo.'
+                                             and actcomple_docente_actividad.id_periodo= ?
                                             and actividades_complementarias.id_actividad_comple=actcomple_docente_actividad.id_actividad_comple
-                                            and gnral_personales.nombre="'.$docentes.'"
-                                            and actividades_complementarias.id_actividad_comple='.$id_actividad_comple.'');
+                                            and gnral_personales.nombre=?
+                                            and actividades_complementarias.id_actividad_comple= ?', [$periodo, (string) ($docentes), $id_actividad_comple]);
 
         $docente=($docente_nombre->id_personal);
         //dd($docente);
         $docente_actividad=DB::selectOne('select actcomple_docente_actividad.id_docente_actividad
-                                        from actcomple_docente_actividad,gnral_personales,actividades_complementarias 
-                                        where gnral_personales.id_personal=actcomple_docente_actividad.id_personal 
-                                         and actcomple_docente_actividad.id_periodo='.$periodo.'
-                                        and actividades_complementarias.id_actividad_comple=actcomple_docente_actividad.id_actividad_comple 
-                                        and actcomple_docente_actividad.id_actividad_comple='.$id_actividad_comple.'
-                                        and gnral_personales.id_personal='.$docente.'');
+                                        from actcomple_docente_actividad,gnral_personales,actividades_complementarias
+                                        where gnral_personales.id_personal=actcomple_docente_actividad.id_personal
+                                         and actcomple_docente_actividad.id_periodo= ?
+                                        and actividades_complementarias.id_actividad_comple=actcomple_docente_actividad.id_actividad_comple
+                                        and actcomple_docente_actividad.id_actividad_comple= ?
+                                        and gnral_personales.id_personal= ?', [$periodo, $id_actividad_comple, $docente]);
         $docente_act=($docente_actividad->id_docente_actividad);
         //dd($docente_act);
 
         $alumno=array(
-            
+
             'id_docente_actividad'=>$docente_act,
             );
- 
-         $suma=DB::selectOne('select SUM(actividades_complementarias.horas) horas 
+
+         $suma=DB::selectOne('select SUM(actividades_complementarias.horas) horas
                                 from actividades_complementarias,actcomple_registro_alumnos,gnral_alumnos,actcomple_docente_actividad
                                 WHERE actividades_complementarias.id_actividad_comple=actcomple_docente_actividad.id_actividad_comple
-                                 and actcomple_docente_actividad.id_periodo='.$periodo.'
+                                 and actcomple_docente_actividad.id_periodo= ?
                                 and actcomple_registro_alumnos.id_docente_actividad=actcomple_docente_actividad.id_docente_actividad
                                 and actcomple_registro_alumnos.cuenta=gnral_alumnos.cuenta
-                                and gnral_alumnos.cuenta='.$usuario.'');
+                                and gnral_alumnos.cuenta= ?', [$periodo, $usuario]);
         $suma=isset($suma->horas)?$suma->horas:0;
         $suma=$suma-$horasresta;
      //   dd($suma);
@@ -366,26 +366,26 @@ ORDER BY gc.id_carrera ASC
         }
         else
         {
-            RegistroAlumnos::find($id_registro_alumno)->update($alumno);      
+            RegistroAlumnos::find($id_registro_alumno)->update($alumno);
             return redirect('/consulta_actividades');
         }
-        
 
-        
+
+
 
     }
 
     public function destroy($id)
     {
         //dd("hola");
-        RegistroAlumnos::destroy($id);           
+        RegistroAlumnos::destroy($id);
         return redirect('/consulta_actividades');
-        
+
     }
 
     public function evidencias()
     {
-        
+
     }
 
 
