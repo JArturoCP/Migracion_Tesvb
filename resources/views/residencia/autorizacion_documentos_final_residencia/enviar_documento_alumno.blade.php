@@ -763,7 +763,7 @@
             });
             $("#guardar_oficio_aceptacion_informe_revisor").click(function (event) {
                 var oficio_aceptacion_informe_revisor = $("#oficio_aceptacion_informe_revisor").val();
-                //alert(oficio_aceptacion_informe_revisor);
+                //TNotify.alert(oficio_aceptacion_informe_revisor);
                 if(oficio_aceptacion_informe_revisor != ""){
                     $("#form_oficio_aceptacion_informe_revisor").submit();
                     $("#guardar_oficio_aceptacion_informe_revisor").attr("disabled", true);
@@ -779,7 +779,7 @@
             });
             $("#guardar_oficio_aceptacion_informe_externo").click(function (event) {
                 var oficio_aceptacion_informe_externo = $("#oficio_aceptacion_informe_externo").val();
-                //alert(oficio_aceptacion_informe_revisor);
+                //TNotify.alert(oficio_aceptacion_informe_revisor);
                 if(oficio_aceptacion_informe_externo != ""){
                     $("#form_oficio_aceptacion_informe_externo").submit();
                     $("#guardar_oficio_aceptacion_informe_externo").attr("disabled", true);
@@ -795,7 +795,7 @@
             });
             $("#guardar_formato_hora").click(function (event) {
                 var formato_hora = $("#formato_hora").val();
-                //alert(oficio_aceptacion_informe_revisor);
+                //TNotify.alert(oficio_aceptacion_informe_revisor);
                 if(formato_hora != ""){
                     $("#form_formato_hora").submit();
                     $("#guardar_formato_hora").attr("disabled", true);
@@ -811,7 +811,7 @@
             });
             $("#guardar_seguimiento_interno").click(function (event) {
                 var seguimiento_interno = $("#seguimiento_interno").val();
-                //alert(oficio_aceptacion_informe_revisor);
+                //TNotify.alert(oficio_aceptacion_informe_revisor);
                 if(seguimiento_interno != ""){
                     $("#form_seguimiento_interno").submit();
                     $("#guardar_seguimiento_interno").attr("disabled", true);
@@ -827,7 +827,7 @@
             });
             $("#guardar_seguimiento_externo").click(function (event) {
                 var seguimiento_externo = $("#seguimiento_externo").val();
-                //alert(oficio_aceptacion_informe_revisor);
+                //TNotify.alert(oficio_aceptacion_informe_revisor);
                 if(seguimiento_externo != ""){
                     $("#form_seguimiento_externo").submit();
                     $("#guardar_seguimiento_externo").attr("disabled", true);
@@ -845,43 +845,43 @@
 
 
             $("#id_acta_calificacion").click(function (event) {
-                //alert('hola');
+                //TNotify.alert('hola');
                 $("#modal_modificar_acta_calificacion").modal('show');
             });
             $("#id_portada").click(function (event) {
-                //alert('hola');
+                //TNotify.alert('hola');
                 $("#modal_modificar_portada").modal('show');
             });
             $("#id_evaluacion_final_residencia").click(function (event) {
-                //alert('hola');
+                //TNotify.alert('hola');
                 $("#modal_modificar_evaluacion_final_residencia").modal('show');
             });
             $("#id_oficio_aceptacion_informe_interno").click(function (event) {
-                //alert('hola');
+                //TNotify.alert('hola');
                 $("#modal_modificar_oficio_aceptacion_informe_interno").modal('show');
             });
             $("#id_formato_evaluacion").click(function (event) {
-                //alert('hola');
+                //TNotify.alert('hola');
                 $("#modal_modificar_formato_evaluacion").modal('show');
             });
             $("#id_oficio_aceptacion_informe_revisor").click(function (event) {
-                //alert('hola');
+                //TNotify.alert('hola');
                 $("#modal_modificar_oficio_aceptacion_informe_revisor").modal('show');
             });
             $("#id_oficio_aceptacion_informe_externo").click(function (event) {
-                //alert('hola');
+                //TNotify.alert('hola');
                 $("#modal_modificar_oficio_aceptacion_informe_externo").modal('show');
             });
             $("#id_formato_hora").click(function (event) {
-                //alert('hola');
+                //TNotify.alert('hola');
                 $("#modal_modificar_formato_hora").modal('show');
             });
             $("#id_seguimiento_interno").click(function (event) {
-                //alert('hola');
+                //TNotify.alert('hola');
                 $("#modal_modificar_seguimiento_interno").modal('show');
             });
             $("#id_seguimiento_externo").click(function (event) {
-                //alert('hola');
+                //TNotify.alert('hola');
                 $("#modal_modificar_seguimiento_externo").modal('show');
             });
 
@@ -965,7 +965,7 @@
             });
             $("#modificar_oficio_aceptacion_informe_revisor").click(function (event) {
                 var oficio_aceptacion_informe_revisor = $("#oficio_aceptacion_informe_revisor").val();
-                //alert(oficio_aceptacion_informe_revisor);
+                //TNotify.alert(oficio_aceptacion_informe_revisor);
                 if(oficio_aceptacion_informe_revisor != ""){
                     $("#form_modificar_oficio_aceptacion_informe_revisor").submit();
                     $("#modificar_oficio_aceptacion_informe_revisor").attr("disabled", true);
@@ -981,7 +981,7 @@
             });
             $("#modificar_oficio_aceptacion_informe_externo").click(function (event) {
                 var oficio_aceptacion_informe_externo = $("#oficio_aceptacion_informe_externo").val();
-                //alert(oficio_aceptacion_informe_revisor);
+                //TNotify.alert(oficio_aceptacion_informe_revisor);
                 if(oficio_aceptacion_informe_externo != ""){
                     $("#form_modificar_oficio_aceptacion_informe_externo").submit();
                     $("#modificar_oficio_aceptacion_informe_externo").attr("disabled", true);
@@ -997,7 +997,7 @@
             });
             $("#modificar_formato_hora").click(function (event) {
                 var formato_hora = $("#formato_hora").val();
-                //alert(oficio_aceptacion_informe_revisor);
+                //TNotify.alert(oficio_aceptacion_informe_revisor);
                 if(formato_hora != ""){
                     $("#form_modificar_formato_hora").submit();
                     $("#modificar_formato_hora").attr("disabled", true);
@@ -1013,7 +1013,7 @@
             });
             $("#modificar_seguimiento_interno").click(function (event) {
                 var seguimiento_interno = $("#seguimiento_interno").val();
-                //alert(oficio_aceptacion_informe_revisor);
+                //TNotify.alert(oficio_aceptacion_informe_revisor);
                 if(seguimiento_interno != ""){
                     $("#form_modificar_seguimiento_interno").submit();
                     $("#modificar_seguimiento_interno").attr("disabled", true);
@@ -1029,7 +1029,7 @@
             });
             $("#modificar_seguimiento_externo").click(function (event) {
                 var seguimiento_externo = $("#seguimiento_externo").val();
-                //alert(oficio_aceptacion_informe_revisor);
+                //TNotify.alert(oficio_aceptacion_informe_revisor);
                 if(seguimiento_externo != ""){
                     $("#form_modificar_seguimiento_externo").submit();
                     $("#modificar_seguimiento_externo").attr("disabled", true);

@@ -1275,7 +1275,7 @@
                 console.log(e);
                 var cuenta = e.target.value;
                 $.get("/cuenta_alumno/"+cuenta,function(response,state){
-                       // alert(response[0].numero);
+                       // TNotify.alert(response[0].numero);
                          if(response == 1)
                          {
                              $("#cuenta").val('');
@@ -1360,7 +1360,7 @@
 
                         $('.nav-tabs a[href="#'+ $("#"+key).parents(".tab-pane").attr('id')+'"]').tab("show");
 
-                        //alert( $("'#"+key+"'").parents(".tab-pane"));
+                        //TNotify.alert( $("'#"+key+"'").parents(".tab-pane"));
 
 
                         //console.log(html)
@@ -1382,12 +1382,12 @@
 
                 saber=$("#igual").val();
 
-                // alert(saber);
+                // TNotify.alert(saber);
 
                 $("#formgeneral").submit();
             });
 
-//alert("{{$datos->id_carrera}}");
+//TNotify.alert("{{$datos->id_carrera}}");
                     @if($existe==1)
 
 
@@ -1548,7 +1548,7 @@
                 console.log(e);
 
                 var id_estado= e.target.value;
-                //alert(id_estado);
+                //TNotify.alert(id_estado);
 
                 $.get('/ajax-subcat?id_estado=' + id_estado,function(data){
 
@@ -1556,7 +1556,7 @@
                     $.each(data,function(datos_alumno,subcatObj){
 
 
-                        //  alert(subcatObj);
+                        //  TNotify.alert(subcatObj);
                         $('#municipios_alu').append('<option value="'+subcatObj.id_municipio+'" data-muni="'+subcatObj.nombre_municipio+'" >'+subcatObj.nombre_municipio+'</option>');
                     });
                 });
@@ -1566,11 +1566,11 @@
             $("#estados_tutor").on('change',function(e){
                 console.log(e);
                 var id_estado= e.target.value;
-                //alert(id_estado);
+                //TNotify.alert(id_estado);
                 $.get('/ajax-subcat?id_estado=' + id_estado,function(data){
                     $('#municipios_tutor').empty();
                     $.each(data,function(datos_alumno,subcatObj){
-                        //  alert(subcatObj);
+                        //  TNotify.alert(subcatObj);
                         $('#municipios_tutor').append('<option value="'+subcatObj.id_municipio+'" data-muni="'+subcatObj.nombre_municipio+'" >'+subcatObj.nombre_municipio+'</option>');
                     });
                 });

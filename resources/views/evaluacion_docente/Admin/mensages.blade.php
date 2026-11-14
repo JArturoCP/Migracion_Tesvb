@@ -14,7 +14,7 @@
 </main>
 
 <script>
-	alert('hola');
+	TNotify.alert('hola');
 		@if(isset($mensage_carga))
 		
 		setTimeout(myFunction, 2000); 

@@ -746,39 +746,39 @@
                 }
             });
             $("#id_solicitud_residencia").click(function (event) {
-                //alert('hola');
+                //TNotify.alert('hola');
                 $("#modal_modificar_solicitud_residencia").modal('show');
             });
             $("#id_constancia_avance_academico").click(function (event) {
-                //alert('hola');
+                //TNotify.alert('hola');
                 $("#modal_modificar_constancia_avance_academico").modal('show');
             });
             $("#id_comprobante_seguro").click(function (event) {
-                //alert('hola');
+                //TNotify.alert('hola');
                 $("#modal_modificar_comprobante_seguro").modal('show');
             });
             $("#id_oficio_asignacion_jefatura").click(function (event) {
-                //alert('hola');
+                //TNotify.alert('hola');
                 $("#modal_modificar_oficio_asignacion_jefatura").modal('show');
             });
             $("#id_oficio_aceptacion_empresa").click(function (event) {
-                //alert('hola');
+                //TNotify.alert('hola');
                 $("#modal_modificar_oficio_aceptacion_empresa").modal('show');
             });
             $("#id_oficio_presentacion_tecnologico").click(function (event) {
-                //alert('hola');
+                //TNotify.alert('hola');
                 $("#modal_modificar_oficio_presentacion_tecnologico").modal('show');
             });
             $("#id_anteproyecto").click(function (event) {
-                //alert('hola');
+                //TNotify.alert('hola');
                 $("#modal_modificar_anteproyecto").modal('show');
             });
             $("#id_carta_compromiso").click(function (event) {
-                //alert('hola');
+                //TNotify.alert('hola');
                 $("#modal_modificar_carta_compromiso").modal('show');
             });
             $("#id_convenio_empresa").click(function (event) {
-                //alert('hola');
+                //TNotify.alert('hola');
                 $("#modal_modificar_convenio_empresa").modal('show');
             });
 

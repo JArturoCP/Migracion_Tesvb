@@ -181,7 +181,7 @@
                 var id_nivel = $("#id_nivel").val();
                 var id_grupo = $("#id_grupo").val();
                 var id_tipo_curso = $("#id_tipo_curso").val();
-//alert(id_nivel+" "+id_grupo+" "+id_tipo_curso);
+//TNotify.alert(id_nivel+" "+id_grupo+" "+id_tipo_curso);
                 if (id_nivel!= null && id_grupo != null && id_tipo_curso != null) {
                     window.location.href='/ingles_horarios/enviar_carga_academica_ingles/'+id_nivel+'/'+id_grupo+'/'+id_tipo_curso;
                     $("#enviar_carga").attr("disabled", true);

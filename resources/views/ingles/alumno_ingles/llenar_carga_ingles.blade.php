@@ -247,7 +247,7 @@
                         });
                     });
                     $("#grupos").on('change',function(e) {
-                        // alert($("#grupos").val());
+                        // TNotify.alert($("#grupos").val());
                         var id_hrs_ingles_profesor = $("#grupos").val();
                         window.location.href='/ingles_horarios/carga_academica_grupo/'+id_hrs_ingles_profesor ;
                     });

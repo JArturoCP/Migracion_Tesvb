@@ -104,7 +104,7 @@
                     let id_materia = this.getAttribute("data-id-materia"); // Tomamos directamente desde el enlace
 
                     if (!id_materia) {
-                        alert("No se pudo encontrar el ID de la materia correspondiente.");
+                        TNotify.alert("No se pudo encontrar el ID de la materia correspondiente.");
                         return;
                     }
 

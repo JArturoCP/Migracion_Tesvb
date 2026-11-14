@@ -28,7 +28,7 @@
     <script type="text/javascript">
         $(document).ready( function() {
             $(".iniciar_registro").click(function (){
-               // alert('hola');
+               // TNotify.alert('hola');
                 $("#iniciar_registro").attr("disabled", true);
                 $("#form_carga").submit();
 

@@ -37,7 +37,7 @@
                    $('input[name="orderBox[]"]:checked').each(function() {
 
                        checkboxValues[checkboxValues.length] = $(this).val();
-                   // alert(checkboxValues);
+                   // TNotify.alert(checkboxValues);
 
                        tu_array[tu_array.length]=$(this).parent().closest("p").children("select").val();
 
@@ -45,7 +45,7 @@
                      var $marcados =$("input:checked");
                      var numero= $marcados.length;
                      var suma=numero+numero;
-                      // alert(numero);
+                      // TNotify.alert(numero);
                      var arreglo=[];
                      var j=0;
 
@@ -63,10 +63,10 @@
                     {
                          var direccion="{{$direccion}}";
                               window.location.href = "/ajax/"+arreglo;
-                          // alert("SELECCIONADOS " +$marcados.length);
+                          // TNotify.alert("SELECCIONADOS " +$marcados.length);
                          }
                         else {
-                         alert("NINGUNA SELECCION");
+                         TNotify.alert("NINGUNA SELECCION");
                         }
                    });
                    /////////////////////////////////////reticula

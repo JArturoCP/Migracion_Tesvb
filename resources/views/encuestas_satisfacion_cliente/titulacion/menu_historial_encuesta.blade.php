@@ -40,7 +40,7 @@
         $(document).ready(function() {
 
             $("#year").on('change',function(e) {
-                // alert($("#grupos").val());
+                // TNotify.alert($("#grupos").val());
                 var year = $("#year").val();
                 window.location.href='/encuestas_satisfaccion/menu_historial_titulacion_year/'+year;
             });

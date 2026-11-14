@@ -9,7 +9,6 @@
 @extends('layouts.app')
 @section('title', 'Programa de Auditorias')
 @section('content')
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
     <main class="col-md-12">
         <div class="row">
@@ -155,7 +154,6 @@
             </div>
         </div>
     </form>
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <script>
         $(document).ready(function () {
             $('#modal_crea_aud').submit(function(event) {
@@ -267,7 +265,7 @@
                     });
             });
             @if($errors->any())
-            alert('ok');
+            TNotify.alert('ok');
             $('#modal_crea_aud').modal('show');
             setTimeout(function () {
                 $('#errors').fadeOut(500);

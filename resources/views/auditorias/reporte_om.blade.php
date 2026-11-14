@@ -207,7 +207,7 @@
 
                         <button type="submit"
                                 class="btn btn-success"
-                                onclick="return confirm('¿Confirmas que todas las acciones y evidencias de esta OM están completas y deseas cerrarla?')">
+                                onclick="return TNotify.confirmAction(event, this, '¿Confirmas que todas las acciones y evidencias de esta OM están completas y deseas cerrarla?')">
                             Cerrar OM
                         </button>
                     </form>

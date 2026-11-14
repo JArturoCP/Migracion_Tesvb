@@ -184,7 +184,7 @@
         });
         $(".calificar_dual").click(function (event) {
             var id_carga_academica = $(this).data("id_carga");
-           // alert(id_carga_academica);
+           // TNotify.alert(id_carga_academica);
             $.get("/calificar_estudiante_duales_actuales/" + id_carga_academica, function (request) {
                 $("#contenedor_cal_dual_actual").html(request);
                 $("#modal_calificar_dual_actual").modal('show');

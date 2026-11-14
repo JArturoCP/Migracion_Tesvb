@@ -68,7 +68,7 @@
                     <script>
                         $(document).ready(function(){
                             $(".editar_evid").click(function(){
-                                //alert("HOLA");
+                                //TNotify.alert("HOLA");
                                 var id_evid=$(this).attr('id');
 
                                 $.get("/incidencias/ver_datos_oficio_evidencia/"+id_evid,function (request) {
@@ -79,7 +79,7 @@
                             $("#guardar_mod").click(function(){
 
                                 var id_tipo_evid= $('#id_tipo_evid').val();
-//alert(id_tipo_evid);
+//TNotify.alert(id_tipo_evid);
                                 if(id_tipo_evid == null)
                                 {
                                     swal({

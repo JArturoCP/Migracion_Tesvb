@@ -184,7 +184,7 @@ $(document).ready( function() {
     else{
       var desd_fech = $('#id_desd_fech').val();
       var fecha_inicial = desd_fech.split("/").join("-");
-      //alert(fecha_inicial);
+      //TNotify.alert(fecha_inicial);
       if(desd_fech == ''){
         swal({
           position:"top",
@@ -198,7 +198,7 @@ $(document).ready( function() {
         var hast_fech = $('#id_hast_fech').val();
 
         var fecha_final = hast_fech.split("/").join("-");
-       // alert(hast_fech);
+       // TNotify.alert(hast_fech);
         if(hast_fech == ''){
           swal({
             position:"top",

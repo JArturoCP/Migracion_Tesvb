@@ -111,9 +111,9 @@
 $(document).ready(function() { 
     //id de la tabla                 //class de boton
     $("#table_enviado1").on('click','.edita1',function(){
-        //alert("HOLA");
+        //TNotify.alert("HOLA");
         var solicitud=$(this).attr('id');
-        //alert(solicitud);
+        //TNotify.alert(solicitud);
         //url de web
         $.get("/oficios/ver/"+solicitud,function (request) {
             //contenido del modal

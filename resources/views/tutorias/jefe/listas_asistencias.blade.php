@@ -102,7 +102,7 @@
            $("#guardar_registro").click(function (){
                var id_grupo_tutorias = $("#id_grupo_tutorias").val();
                if( id_grupo_tutorias == null){
-                   alert('Selecciona semestre');
+                   TNotify.alert('Selecciona semestre');
                }else{
                    $("#formulario_guardar_semestre").submit();
                    $("#guardar_registro").attr("disabled", true);

@@ -131,7 +131,7 @@
 
     $("#text_actualiza").keypress(function(e){   
                if(e.which == 13){      
-                 alert("Hola");  
+                 TNotify.alert("Hola");  
                }   
               }); 
 

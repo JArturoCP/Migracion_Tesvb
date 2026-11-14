@@ -144,7 +144,7 @@
                     $("#form_encuesta").submit(); // se utiliza para el submit del formulario
                 }
                 else{
-                    alert("Pregunta vacia");
+                    TNotify.alert("Pregunta vacia");
                 }
             });
         });

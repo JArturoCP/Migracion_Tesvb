@@ -92,7 +92,7 @@
                 },
                 deleteT:function () {
                     var url = '/tutorias/asignatutores/' + this.id_tu;
-                    //alert(id);
+                    //TNotify.alert(id);
                     axios.delete(url).then(response => {
                         this.getDatos();
                     });

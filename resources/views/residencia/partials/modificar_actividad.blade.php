@@ -57,7 +57,7 @@
                 (TuFecha.getMonth() + 1) + '/' + TuFecha.getDate();
             $('#actividad').empty();
             $('#actividad').append('<input class="form-control" id="fecha_s" readonly="readonly" name="fecha_s" value="'+resultado+'"/>');
-            // alert(resultado);
+            // TNotify.alert(resultado);
 
         });
 

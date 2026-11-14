@@ -108,7 +108,7 @@
 
                 } );
                 $("#id_personal").on('change',function(e) {
-                    // alert($("#grupos").val());
+                    // TNotify.alert($("#grupos").val());
                     var id_personal = $("#id_personal").val();
                     window.location.href='/incidencias/historial_evidencias_conocimient/'+id_personal;
                 });

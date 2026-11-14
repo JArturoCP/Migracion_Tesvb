@@ -351,7 +351,7 @@
                 $("#enero_pres").change(function (event) {
                     var p_enero = event.target.value;
                     if (isNaN(p_enero)) {
-                        alert("el presupuesto debe ser un numero");
+                        TNotify.alert("el presupuesto debe ser un numero");
                         $('#pesos_enero').empty();
 
                     } else {
@@ -367,7 +367,7 @@
                 $("#febrero_pres").change(function (event) {
                     var p_febrero = event.target.value;
                     if (isNaN(p_febrero)) {
-                        alert("el presupuesto debe ser un numero");
+                        TNotify.alert("el presupuesto debe ser un numero");
                         $('#pesos_febrero').empty();
 
                     } else {
@@ -383,7 +383,7 @@
                 $("#marzo_pres").change(function (event) {
                     var p_marzo = event.target.value;
                     if (isNaN(p_marzo)) {
-                        alert("el presupuesto debe ser un numero");
+                        TNotify.alert("el presupuesto debe ser un numero");
                         $('#pesos_marzo').empty();
 
                     } else {
@@ -399,7 +399,7 @@
                 $("#abril_pres").change(function (event) {
                     var p_abril = event.target.value;
                     if (isNaN(p_abril)) {
-                        alert("el presupuesto debe ser un numero");
+                        TNotify.alert("el presupuesto debe ser un numero");
                         $('#pesos_abril').empty();
 
                     } else {
@@ -415,7 +415,7 @@
                 $("#mayo_pres").change(function (event) {
                     var p_mayo = event.target.value;
                     if (isNaN(p_mayo)) {
-                        alert("el presupuesto debe ser un numero");
+                        TNotify.alert("el presupuesto debe ser un numero");
                         $('#pesos_mayo').empty();
 
                     } else {
@@ -431,7 +431,7 @@
                 $("#junio_pres").change(function (event) {
                     var p_junio = event.target.value;
                     if (isNaN(p_junio)) {
-                        alert("el presupuesto debe ser un numero");
+                        TNotify.alert("el presupuesto debe ser un numero");
                         $('#pesos_junio').empty();
 
                     } else {
@@ -447,7 +447,7 @@
                 $("#julio_pres").change(function (event) {
                     var p_julio = event.target.value;
                     if (isNaN(p_julio)) {
-                        alert("el presupuesto debe ser un numero");
+                        TNotify.alert("el presupuesto debe ser un numero");
                         $('#pesos_julio').empty();
 
                     } else {
@@ -463,7 +463,7 @@
                 $("#agosto_pres").change(function (event) {
                     var p_agosto = event.target.value;
                     if (isNaN(p_agosto)) {
-                        alert("el presupuesto debe ser un numero");
+                        TNotify.alert("el presupuesto debe ser un numero");
                         $('#pesos_agosto').empty();
 
                     } else {
@@ -479,7 +479,7 @@
                 $("#septiembre_pres").change(function (event) {
                     var p_septiembre = event.target.value;
                     if (isNaN(p_septiembre)) {
-                        alert("el presupuesto debe ser un numero");
+                        TNotify.alert("el presupuesto debe ser un numero");
                         $('#pesos_septiembre').empty();
 
                     } else {
@@ -495,7 +495,7 @@
                 $("#octubre_pres").change(function (event) {
                     var p_octubre = event.target.value;
                     if (isNaN(p_octubre)) {
-                        alert("el presupuesto debe ser un numero");
+                        TNotify.alert("el presupuesto debe ser un numero");
                         $('#pesos_octubre').empty();
 
                     } else {
@@ -511,7 +511,7 @@
                 $("#noviembre_pres").change(function (event) {
                     var p_noviembre = event.target.value;
                     if (isNaN(p_noviembre)) {
-                        alert("el presupuesto debe ser un numero");
+                        TNotify.alert("el presupuesto debe ser un numero");
                         $('#pesos_noviembre').empty();
 
                     } else {
@@ -527,7 +527,7 @@
                 $("#diciembre_pres").change(function (event) {
                     var p_diciembre = event.target.value;
                     if (isNaN(p_diciembre)) {
-                        alert("el presupuesto debe ser un numero");
+                        TNotify.alert("el presupuesto debe ser un numero");
                         $('#pesos_diciembre').empty();
 
                     } else {

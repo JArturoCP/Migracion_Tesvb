@@ -70,7 +70,7 @@
 
       //}
       //else{
-        //alert("contraseña incorrecta");
+        //TNotify.alert("contraseña incorrecta");
       //}
       
   });

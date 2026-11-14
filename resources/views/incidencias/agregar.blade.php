@@ -318,7 +318,7 @@
 <script>
    $(document).ready( function() {
        function contar_dias(id_articulo) {
-          /// alert(id_articulo);
+          /// TNotify.alert(id_articulo);
            let sabados = 0;
            let domingos = 0;
 
@@ -381,7 +381,7 @@
        }
 
 
-    //alert(id_articulo);
+    //TNotify.alert(id_articulo);
 
     $.get("/incidencias/solicitud/validar/"+id_articulo,function (data) {
           
@@ -403,7 +403,7 @@
           }
           
         }); 
-    //alert('hola');
+    //TNotify.alert('hola');
      if(id_articulo == 5){
          $("#articulo_56").css("display", "none");
       $("#articulo_64").css("display", "block");
@@ -427,7 +427,7 @@
 
       }
      
-      //alert('hola');
+      //TNotify.alert('hola');
       
      }
       if(id_articulo == 8 ){

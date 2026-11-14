@@ -290,7 +290,7 @@
                                 <form method="POST" action="{{ route('desarrollo_academico.areas_atencion.area.desactivar', $area->id_area_atencion) }}" class="text-right" style="margin-bottom:10px;">
                                     {{ csrf_field() }}
                                     <input type="hidden" name="id_periodo" value="{{ $periodoSeleccionado }}">
-                                    <button type="submit" class="btn btn-xs btn-danger" onclick="return confirm('¿Deseas desactivar esta área? Se desactivarán sus responsables y horarios activos, pero se conserva el historial.')">
+                                    <button type="submit" class="btn btn-xs btn-danger" onclick="return TNotify.confirmAction(event, this, '¿Deseas desactivar esta área? Se desactivarán sus responsables y horarios activos, pero se conserva el historial.')">
                                         Desactivar área
                                     </button>
                                 </form>
@@ -342,7 +342,7 @@
                                             <form method="POST" action="{{ route('desarrollo_academico.areas_atencion.responsable.desactivar', $responsable->id_area_responsable_periodo) }}" style="margin-top:8px;">
                                                 {{ csrf_field() }}
                                                 <input type="hidden" name="id_periodo" value="{{ $periodoSeleccionado }}">
-                                                <button type="submit" class="btn btn-xs btn-danger" onclick="return confirm('¿Deseas desactivar este responsable? También se desactivarán sus horarios activos.')">
+                                                <button type="submit" class="btn btn-xs btn-danger" onclick="return TNotify.confirmAction(event, this, '¿Deseas desactivar este responsable? También se desactivarán sus horarios activos.')">
                                                     Desactivar responsable
                                                 </button>
                                             </form>
@@ -447,7 +447,7 @@
                                                                 <form method="POST" action="{{ route('desarrollo_academico.areas_atencion.horario.desactivar', $horario->id_area_responsable_horario) }}">
                                                                     {{ csrf_field() }}
                                                                     <input type="hidden" name="id_periodo" value="{{ $periodoSeleccionado }}">
-                                                                    <button type="submit" class="btn btn-xs btn-danger" onclick="return confirm('¿Deseas desactivar este horario?')">
+                                                                    <button type="submit" class="btn btn-xs btn-danger" onclick="return TNotify.confirmAction(event, this, '¿Deseas desactivar este horario?')">
                                                                         Desactivar
                                                                     </button>
                                                                 </form>

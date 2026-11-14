@@ -106,7 +106,7 @@
                     success: function (data)
                     {
                         console.log(exportUrl+data);
-                        // alert(direccionimg);
+                        // TNotify.alert(direccionimg);
                         //var imgContainer = $("#formgeneral");
                         //$('<img>').attr('src', exportUrl + data).attr('width', '250px').appendTo(imgContainer);
                         // $('<a>or Download Here</a>').attr('href', exportUrl + data).appendTo(imgContainer);

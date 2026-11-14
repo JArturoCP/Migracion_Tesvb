@@ -229,7 +229,7 @@
                                             @csrf
                                             @method('DELETE')
                                             <button class="btn btn-danger btn-lg" title="Eliminar"
-                                                    onclick="return confirm('¿Deseas eliminar este periodo?')">
+                                                    onclick="return TNotify.confirmAction(event, this, '¿Deseas eliminar este periodo?')">
                                                  <span class="glyphicon glyphicon-trash"></span>
                                             </button>
                                         </form>
@@ -271,7 +271,7 @@
                                             @csrf
                                             @method('DELETE')
                                             <button class="btn btn-danger btn-lg" title="Eliminar"
-                                                    onclick="return confirm('¿Deseas eliminar este periodo?')">
+                                                    onclick="return TNotify.confirmAction(event, this, '¿Deseas eliminar este periodo?')">
                                                  <span class="glyphicon glyphicon-trash"></span>
                                             </button>
                                         </form>

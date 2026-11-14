@@ -297,7 +297,7 @@
                     (TuFecha.getMonth() + 1) + '/' + TuFecha.getDate();
                 $('#soli').empty();
                 $('#soli').append('<input class="form-control" id="fecha_final" disabled value="'+resultado+'"/>');
-                // alert(resultado);
+                // TNotify.alert(resultado);
 
             });
 
@@ -395,7 +395,7 @@
                     $("#contenedor_profesor_periodo").html(request);
                     $("#modal_profesor_periodo").modal('show');
                 });
-               // alert(id_semana_profesor);
+               // TNotify.alert(id_semana_profesor);
 
             });
             $("#guardar").click(function (event) {

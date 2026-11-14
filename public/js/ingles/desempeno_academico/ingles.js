@@ -248,7 +248,7 @@ $(document).ready(function() {
 
     $(document).on('click', '#btn-exportar', function () {
         if (!datosModal || !datosModal.grupo || !datosModal.carrera || !datosModal.nivel) {
-            return alert("No se puede exportar: faltan datos.");
+            return void TNotify.alert("No se puede exportar: faltan datos.");
         }
 
         const url = '/ingles/desempeno_academico/concentrado_ingles_desempeno/${datosModal.nivel}/${datosModal.grupo}/${datosModal.carrera}';
@@ -264,7 +264,7 @@ $(document).ready(function() {
          const nivelId = $(this).data('nivel');
 
          if (!grupoId || !carreraId || !nivelId) {
-             return alert("Faltan datos del grupo, carrera o nivel.");
+             return void TNotify.alert("Faltan datos del grupo, carrera o nivel.");
          }
 
          $('#contenedor-grafico-genero').show();
@@ -334,7 +334,7 @@ $(document).ready(function() {
         console.log("Datos capturados: ", { grupoId, carreraId, nivelId });
 
         if (!grupoId || !carreraId || !nivelId) {
-            return alert("Faltan datos del grupo, carrera o nivel.");
+            return void TNotify.alert("Faltan datos del grupo, carrera o nivel.");
         }
 
         console.log("Antes de enviar la solicitud AJAX");

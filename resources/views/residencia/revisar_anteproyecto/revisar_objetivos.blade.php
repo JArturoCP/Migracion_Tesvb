@@ -321,7 +321,7 @@
             $(".comentarios").click(function(){
                 var id_anteproyecto="<?php  echo $id_anteproyecto;?>";
                 var id_evaluacion=$(this).attr("id");
-                // alert(id_anteproyecto);
+                // TNotify.alert(id_anteproyecto);
                 $.get("/residencia/mostrar_comentario_objetivos/"+id_evaluacion+"/"+id_anteproyecto,function(request){
                     $("#mostrar_comentarios_objetivos").html(request);
                     $("#modal_mostrar_objetivos").modal('show');

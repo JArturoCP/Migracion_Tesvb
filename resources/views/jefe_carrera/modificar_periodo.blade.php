@@ -104,7 +104,7 @@
         var posterior = "<?php  echo $numero;?>";
         if (numero == 1) {
             var dias_p = "<?php  echo $dias_p;?>";
-            //   alert(dias_p);
+            //   TNotify.alert(dias_p);
             if (dias_p == 1) {
                 if (dia == 1) {
                     var fec = "<?php  echo $dias;?>";
@@ -212,7 +212,7 @@
                     timer: 3500
                 });
             }
-            // alert(resultado);
+            // TNotify.alert(resultado);
         });
     });
 </script>

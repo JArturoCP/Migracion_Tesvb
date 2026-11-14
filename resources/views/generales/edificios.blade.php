@@ -131,7 +131,7 @@ $(document).ready(function() {
        $(".elimina").click(function(){
             var id=$(this).attr('id');
             $('#confirma_elimina').data('id',id);
-            //alert(id);
+            //TNotify.alert(id);
             $('#modal_elimina').modal('show');
         });
 

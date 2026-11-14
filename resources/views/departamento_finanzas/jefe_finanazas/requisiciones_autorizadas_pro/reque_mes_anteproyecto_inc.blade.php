@@ -1461,7 +1461,7 @@
 
 
             $("#id_mes").on('change',function(e) {
-                // alert($("#grupos").val());
+                // TNotify.alert($("#grupos").val());
                 var id_mes = $("#id_mes").val();
 
 

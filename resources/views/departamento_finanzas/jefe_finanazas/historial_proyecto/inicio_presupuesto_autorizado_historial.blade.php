@@ -32,7 +32,7 @@
         $(document).ready(function() {
 
             $("#id_year").on('change',function(e) {
-                // alert($("#grupos").val());
+                // TNotify.alert($("#grupos").val());
                 var id_year=$("#id_year").val();
 
                 window.location.href='/presupuesto_autorizado/menu_presupuesto_autorizado_historial/'+id_year;

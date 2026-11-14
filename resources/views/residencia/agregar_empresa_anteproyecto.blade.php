@@ -226,12 +226,12 @@
         $("#empresa").change(function(e){
 
             var id_empresa= e.target.value;
-//alert(id_empresa);
+//TNotify.alert(id_empresa);
             $.get("/residencia/datos_empresa/"+id_empresa,function(response,state){
-               // alert(response);
+               // TNotify.alert(response);
                 $("#empre").empty();
 
-                  //  alert(subcatObj);
+                  //  TNotify.alert(subcatObj);
                     $('#empre').append("<h3>Datos de la empresa</h3><table class='table table-bordered table-resposive'> <thead> <tr><th>Nombre de la empresa</th><th>Domicilio</th>" +
                         "<th>Tel_empresa</th> <th>Correo</th><th>Director General</th> </tr> </thead><tbody><tr>"+"<td>" +response.nombre+ "</td><td> "+response.domicilio+ "</td><td>"+response.tel_empresa+ "</td><td>"+response.correo+ "</td><td>"+response.dir_gral + "</td>"+"</tr> </tbody> </table>");
 

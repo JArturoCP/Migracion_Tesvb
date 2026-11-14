@@ -58,18 +58,18 @@
         $(document).ready(function() {
 
             $(".presupuesto_autorizado").click(function (){
-                // alert($("#grupos").val());
+                // TNotify.alert($("#grupos").val());
                 var id_year = $(this).attr('id');
 
                 window.location.href='/presupuesto_autorizado/presupesto_partida_historial/'+id_year;
             });
             $(".presupuesto_autorizado_mod").click(function (){
-                // alert($("#grupos").val());
+                // TNotify.alert($("#grupos").val());
                 var id_year = $(this).attr('id');
                 window.location.href='/presupuesto_autorizado/presupesto_partida_copia_historial/'+id_year;
             });
             $(".solicitudes_autorizadas").click(function (){
-                // alert($("#grupos").val());
+                // TNotify.alert($("#grupos").val());
                 var id_year = $(this).attr('id');
                 window.location.href='/presupuesto_autorizado/solicitudes_autorizadas_departamentos_historial/'+id_year;
             });

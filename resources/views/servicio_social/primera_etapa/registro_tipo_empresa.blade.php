@@ -723,7 +723,7 @@
             });
             $("#guardar_curp").click(function (event) {
                 var curp = $("#curp").val();
-                //alert(curp);
+                //TNotify.alert(curp);
                 if(curp != ""){
                     $("#form_curp").submit();
                     $("#guardar_curp").attr("disabled", true);
@@ -790,27 +790,27 @@
 
 
             $("#id_modificar_carta_aceptacion").click(function (event) {
-                //alert('hola');
+                //TNotify.alert('hola');
                 $("#modal_modificar_carta_aceptacion").modal('show');
             });
             $("#id_modificar_anexo_tecnico").click(function (event) {
-                //alert('hola');
+                //TNotify.alert('hola');
                 $("#modal_modificar_anexo_tecnico").modal('show');
             });
             $("#id_modificar_curp").click(function (event) {
-                //alert('hola');
+                //TNotify.alert('hola');
                 $("#modal_modificar_curp").modal('show');
             });
             $("#id_modificar_carnet").click(function (event) {
-                //alert('hola');
+                //TNotify.alert('hola');
                 $("#modal_modificar_carnet").modal('show');
             });
             $("#id_modificar_costancia_creditos").click(function (event) {
-                //alert('hola');
+                //TNotify.alert('hola');
                 $("#modal_modificar_costancia_creditos").modal('show');
             });
             $("#id_modificar_solicitud_registro").click(function (event) {
-                //alert('hola');
+                //TNotify.alert('hola');
                 $("#modal_modificar_solicitud_registro").modal('show');
             });
 

@@ -944,7 +944,7 @@ $(document).ready(function() {
 
         if (arreglo_materias.length === 0) {
 
-            alert('Debes seleccionar al menos una materia.');
+            TNotify.alert('Debes seleccionar al menos una materia.');
 
             return false;
 
@@ -992,7 +992,7 @@ $(document).ready(function() {
                     '<span class="glyphicon glyphicon-save"></span> Agregar'
                 );
 
-            alert(
+            TNotify.alert(
                 'Ocurrió un error al guardar las materias.'
             );
 

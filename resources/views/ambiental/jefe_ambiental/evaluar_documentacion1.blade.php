@@ -1374,7 +1374,7 @@
 
                     const est_doc = await axios.get('/ambiental/estado_doc_validar/{{$id_documentacion_encar}}');
                     this.status_doc = est_doc.data;
-                    //alert(this.status_doc);
+                    //TNotify.alert(this.status_doc);
                     //aqui se guarda el arreglo que traemos
                 },
                 async abrirModalsinmodificacion(data={}) {

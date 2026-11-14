@@ -48,12 +48,12 @@
         $(document).ready(function() {
 
             $(".techo_presupuestal").click(function (){
-                // alert($("#grupos").val());
+                // TNotify.alert($("#grupos").val());
                 var id_year = $(this).attr('id');;
                 window.location.href='/presupuesto_anteproyecto/historial_anteproyecto_techo/'+id_year;
             });
             $(".req_autorizadas").click(function (){
-                // alert($("#grupos").val());
+                // TNotify.alert($("#grupos").val());
                 var id_year = $(this).attr('id');
                 window.location.href='/presupuesto_anteproyecto/historial_anteproyecto_proyectos/'+id_year;
             });

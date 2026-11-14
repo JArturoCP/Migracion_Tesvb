@@ -297,7 +297,7 @@ var cargo=$("#selectCargo").val();
  $("#paginar_table").on('click','.elimina',function(){
             var id=$(this).attr('id');
             $('#confirma_elimina').data('id',id);
-            //alert(id);
+            //TNotify.alert(id);
             $('#modal_elimina').modal('show');
         });
 

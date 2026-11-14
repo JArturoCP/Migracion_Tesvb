@@ -812,7 +812,7 @@
                                                                                                 data-alumno="{{ e($citaCanalizada->alumno) }}"
                                                                                                 data-return-tab="tab-canalizados"
                                                                                                 onclick="abrirModalActividad(this)">Agregar actividad</button>
-                                                                                        <form method="POST" action="{{ route('piase.sesion.cancelar') }}" style="display:inline;" onsubmit="return confirm('¿Deseas cancelar esta cita? La cita quedará en historial como cancelada.');">
+                                                                                        <form method="POST" action="{{ route('piase.sesion.cancelar') }}" style="display:inline;" onsubmit="return TNotify.confirmAction(event, this, '¿Deseas cancelar esta cita? La cita quedará en historial como cancelada.');">
                                                                                             {{ csrf_field() }}
                                                                                             <input type="hidden" name="id_periodo" value="{{ $citaCanalizada->id_periodo }}">
                                                                                             <input type="hidden" name="id_ar_cita" value="{{ $citaCanalizada->id_ar_cita }}">
@@ -978,7 +978,7 @@
                                                                     Agregar actividad
                                                                 </button>
                                                                 @if(!$esResponsablePedagogia)
-                                                                    <form method="POST" action="{{ route('piase.sesion.cancelar') }}" style="display:inline;" onsubmit="return confirm('¿Deseas cancelar esta cita? La cita quedará en historial como cancelada.');">
+                                                                    <form method="POST" action="{{ route('piase.sesion.cancelar') }}" style="display:inline;" onsubmit="return TNotify.confirmAction(event, this, '¿Deseas cancelar esta cita? La cita quedará en historial como cancelada.');">
                                                                         {{ csrf_field() }}
                                                                         <input type="hidden" name="id_periodo" value="{{ $cita->id_periodo }}">
                                                                         <input type="hidden" name="id_ar_cita" value="{{ $cita->id_ar_cita }}">
@@ -2420,7 +2420,7 @@
                     pintarFechasAsignadasPIASE('#fechas_asignadas_estudiante_piase', citasAsignadas);
 
                     if (bloqueado) {
-                        alert('El estudiante tiene el caso cerrado. Revisa Casos cerrados antes de abrir una nueva atención.');
+                        TNotify.alert('El estudiante tiene el caso cerrado. Revisa Casos cerrados antes de abrir una nueva atención.');
                         return;
                     }
 
@@ -2819,7 +2819,7 @@
                     var valor = parseInt($('#revision_rating_buttons input[name="calificacion_estrellas"]:checked').val(), 10) || 0;
                     if (valor < 1 || valor > 5) {
                         e.preventDefault();
-                        alert('Selecciona el nuevo puntaje de estrellas antes de guardar.');
+                        TNotify.alert('Selecciona el nuevo puntaje de estrellas antes de guardar.');
                         return false;
                     }
                     var idEntregaRevision = $('#revision_id_entrega').val();

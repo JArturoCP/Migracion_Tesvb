@@ -167,7 +167,7 @@
    $(".elimina").click(function(){
             var id=$(this).attr('id');
             $('#confirma_elimina').data('id',id);
-            //alert(id);
+            //TNotify.alert(id);
             $('#modal_elimina').modal('show');
         });
 
@@ -199,7 +199,7 @@
                  //numero=numero+1;  
         if(subCatObj.estado==1 && subCatObj.id_jefatura==carrera)
         {
-            //alert(numero);
+            //TNotify.alert(numero);
              $('#actividad_docente').append(
              '<option value="'+subCatObj.id_actividad_comple+'" data-horas="'+subCatObj.horas+'">'+subCatObj.descripcion+ ' </option>');
         }         

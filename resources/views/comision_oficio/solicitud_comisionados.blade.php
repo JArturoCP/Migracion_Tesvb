@@ -520,7 +520,7 @@
                     $('#automoviles').append('<option disabled selected>Selecciona...</option>');
                     for(i=0; i<response.length; i++)
                   {
-                        //  alert(subcatObj);
+                        //  TNotify.alert(subcatObj);
                         $('#automoviles').append("<option value='"+response[i].id_vehiculo+"'>"+response[i].modelo+""+response[i].placas+"</option>");
                     }
                 });
@@ -543,7 +543,7 @@
 
                     $('#municipio').empty();
                     $.each(data,function(datos_alumno,subcatObj){
-                        //  alert(subcatObj);
+                        //  TNotify.alert(subcatObj);
                         $('#municipio').append('<option value="'+subcatObj.id_municipio+'" data-muni="'+subcatObj.nombre_municipio+'" >'+subcatObj.nombre_municipio+'</option>');
                     });
                 });

@@ -104,9 +104,9 @@
 
             } );
             $("#table_enviado1").on('click','.edita2',function(){
-                //alert("HOLA");
+                //TNotify.alert("HOLA");
                 var soli=$(this).attr('id');
-                // alert(soli);
+                // TNotify.alert(soli);
                 //url de web
                 $.get("/oficios/ver/"+soli,function (request) {
                     //contenido del modal

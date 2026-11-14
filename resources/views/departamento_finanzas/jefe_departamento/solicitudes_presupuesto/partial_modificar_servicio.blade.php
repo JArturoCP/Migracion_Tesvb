@@ -93,7 +93,7 @@
             var precio = event.target.value;
 
             if (isNaN(precio)) {
-                alert("el precio debe ser un numero");
+                TNotify.alert("el precio debe ser un numero");
                 $('#pesos_precio').empty();
 
             } else {

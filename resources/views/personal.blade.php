@@ -15,7 +15,7 @@
       $('#ejemplo').DataTable();
 
 $(".elimina").click(function(){
-            //alert('hola');
+            //TNotify.alert('hola');
             var id=$(this).attr('id');
             $('#confirma_elimina').data('id',id);
             

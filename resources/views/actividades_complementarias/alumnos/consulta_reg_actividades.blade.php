@@ -269,7 +269,7 @@
       horas_total=(parseInt(horas)+parseInt(horas_act));
       if(horas_total>40)
       {
-        alert("Excede el número de horas");
+        TNotify.alert("Excede el número de horas");
       }
       else
       {

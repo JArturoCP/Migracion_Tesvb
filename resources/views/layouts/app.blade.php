@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap.min.css">
 
     <!-- Otros estilos -->
-    <link rel="stylesheet" href="{{asset('css/sweetalert2.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('css/sweetalert2.min.css') }}?v=11.26.25">
     <link href="{{ asset('open-iconic-master/font/css/open-iconic-bootstrap.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="/css/bootstrap-toggle.css" rel="stylesheet">
@@ -45,7 +45,6 @@
 
     <script src="/js/bootstrap-colorpicker.js"></script>
     <script src="/js/bootstrap-toggle.js"></script>
-    <script src="{{asset('js/sweetalert.js')}}"></script>
 
     <!-- VALIDACIONES -->
     <script src="/js/validate.min.js"></script>
@@ -66,11 +65,14 @@
     <script src="/js/jquery.blockUI.js"></script>
     <script src="/js/highcharts.js"></script>
     <script src="/js/modules/exporting.js"></script>
-    <script src="{{asset('js/sweetalert2.min.js')}}"></script>
+    <script src="{{ asset('js/sweetalert2.min.js') }}?v=11.26.25"></script>
 
     <script src="/js/picker.js"></script>
     <script src="/js/picker.time.js"></script>
     <script src="/js/legacy.js"></script>
+
+    <!-- Notificaciones TESVB (reemplazo de alert/confirm/prompt) -->
+    <script src="{{ asset('js/tesvb-notify.js') }}?v={{ filemtime(public_path('js/tesvb-notify.js')) }}"></script>
 
 </head>
 

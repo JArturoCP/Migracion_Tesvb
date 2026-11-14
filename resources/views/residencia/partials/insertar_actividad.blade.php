@@ -51,7 +51,7 @@
 
 
             var fech= "<?php  echo $fecha_semana->fecha ?>";
-           // alert(fech);
+           // TNotify.alert(fech);
             var TuFecha = new Date(fech);
             var dias = 5;
             //nueva fecha sumada
@@ -61,7 +61,7 @@
                 (TuFecha.getMonth() + 1) + '/' + TuFecha.getDate();
             $('#soli').empty();
             $('#soli').append('<input class="form-control" id="fecha_final" readonly="readonly" name="fecha_final" value="'+resultado+'"/>');
-            // alert(resultado);
+            // TNotify.alert(resultado);
 
 
 

@@ -81,8 +81,8 @@
     $(document).ready(function() {
         $("#selectCargo").on('change',function(e){
             var id_cargo= $("#selectCargo").val();
-//alert(id_cargo);
-            //var mensaje = confirm('/p_educativa/datos/'+id_carrera +'/'+id_cargo);
+//TNotify.alert(id_cargo);
+            //var mensaje = TNotify.confirm('/p_educativa/datos/'+id_carrera +'/'+id_cargo);
             //Detectamos si el usuario acepto el mensaje
             //if (mensaje)
             //{

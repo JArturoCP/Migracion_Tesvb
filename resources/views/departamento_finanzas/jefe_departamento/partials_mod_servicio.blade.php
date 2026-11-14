@@ -51,7 +51,7 @@
         $("#precio_mod").change(function (event) {
             var precio = event.target.value;
             if (isNaN(precio)) {
-                alert("el precio debe ser un numero");
+                TNotify.alert("el precio debe ser un numero");
                 $('#pesos_precio_mod').empty();
 
             } else {

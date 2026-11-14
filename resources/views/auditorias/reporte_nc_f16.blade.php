@@ -347,7 +347,7 @@
 
                         <button type="submit"
                                 class="btn btn-success"
-                                onclick="return confirm('¿Confirmas que las evidencias son correctas y deseas cerrar esta No Conformidad?')">
+                                onclick="return TNotify.confirmAction(event, this, '¿Confirmas que las evidencias son correctas y deseas cerrar esta No Conformidad?')">
                             Cerrar NC
                         </button>
                     </form>
@@ -869,25 +869,25 @@
             var tokenInput = document.getElementById('csrf_token_folio');
 
             if (!folioActualInput || !folioSpan || !urlInput || !tokenInput) {
-                alert('Faltan datos para guardar el folio. Revisa la vista del reporte F28.');
+                TNotify.alert('Faltan datos para guardar el folio. Revisa la vista del reporte F28.');
                 return;
             }
 
             var folioActual = folioActualInput.value || '';
-            var folio = prompt('Ingrese el Folio de Requisición:', folioActual);
+            TNotify.prompt('Ingrese el Folio de Requisición:', folioActual, { title: 'Folio de Requisición' }).then(function (folio) {
+                if (folio === null) {
+                    return;
+                }
 
-            if (folio === null) {
-                return;
-            }
+                folio = folio.trim();
 
-            folio = folio.trim();
+                if (folio === '') {
+                    TNotify.alert('Debe ingresar el Folio de Requisición para imprimir el formato.');
+                    return;
+                }
 
-            if (folio === '') {
-                alert('Debe ingresar el Folio de Requisición para imprimir el formato.');
-                return;
-            }
-
-            guardarFolioEImprimir(folio, folioActualInput, folioSpan, urlInput.value, tokenInput.value);
+                guardarFolioEImprimir(folio, folioActualInput, folioSpan, urlInput.value, tokenInput.value);
+            });
         }
 
         function guardarFolioEImprimir(folio, folioActualInput, folioSpan, url, token) {
@@ -916,14 +916,14 @@
                     folioActualInput.value = data.folio_requisicion;
                     folioSpan.innerText = data.folio_requisicion;
 
-                    alert('Folio guardado correctamente.');
+                    TNotify.alert('Folio guardado correctamente.');
 
                     setTimeout(function () {
                         window.print();
                     }, 300);
                 })
                 .catch(function (error) {
-                    alert(error.message || 'Ocurrió un error al guardar el Folio de Requisición.');
+                    TNotify.alert(error.message || 'Ocurrió un error al guardar el Folio de Requisición.');
                 });
         }
     </script>

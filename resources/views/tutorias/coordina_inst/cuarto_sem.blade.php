@@ -122,7 +122,7 @@
                 },
                 error:function(request,status,data)
                 {
-                    alert("Hubo un error al insertar el dato, intentelo de nuevo")
+                    TNotify.alert("Hubo un error al insertar el dato, intentelo de nuevo")
                     console.log(request)
                     console.log(status)
                     console.log(data)

@@ -109,7 +109,7 @@
             });
 
             $("#enviar_encuesta").click(function (){
-               // alert("hola");
+               // TNotify.alert("hola");
                 var pregunta1 = $("input[type='radio'][name='pregunta1']:checked").val();
                 if(pregunta1 != undefined){
                     var pregunta2 = $("input[type='radio'][name='pregunta2']:checked").val();

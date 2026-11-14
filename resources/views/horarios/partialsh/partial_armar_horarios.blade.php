@@ -324,7 +324,7 @@ $(".guarda").click(function()
   {
     var id=$(this).attr('id');
     $("#idsemana").val(id);  
-    //alert(id);
+    //TNotify.alert(id);
 
     if($("#selectMateria").valid()&&$("#selectAula").valid())
       {
@@ -343,7 +343,7 @@ $(".guarda").click(function()
             }
             else
             {
-              alert("El grupo debe ser de 3 cifras");
+              TNotify.alert("El grupo debe ser de 3 cifras");
             }
           }
         }
@@ -368,7 +368,7 @@ $(".guarda").click(function()
             }
             else
             {
-              alert("El grupo debe ser de 3 cifras");
+              TNotify.alert("El grupo debe ser de 3 cifras");
             }
           }
         }
@@ -455,7 +455,7 @@ function agrega()
   var error=$('#notifi').val();
   if(error>0)
   {
-    //alert(error); Solo el mensaje
+    //TNotify.alert(error); Solo el mensaje
     mostrarNotificacion(error);  
   }
 

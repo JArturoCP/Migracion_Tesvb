@@ -169,7 +169,7 @@
             } );
 
             $("#ano_oficio").on('change',function(e) {
-                // alert($("#grupos").val());
+                // TNotify.alert($("#grupos").val());
                 var id_anos = $("#ano_oficio").val();
                 window.location.href='/oficios/evaluacion/historial_mostrar_profesores/'+id_anos;
 

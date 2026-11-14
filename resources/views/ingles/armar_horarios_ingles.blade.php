@@ -247,7 +247,7 @@
                     $('#grupos').empty();
 
                     $.each(data, function (datos_alumno, subcatObj) {
-                        //  alert(subcatObj);
+                        //  TNotify.alert(subcatObj);
                         $('#grupos').append('<option disabled selected hidden>Selecciona una opción</option><option value="' + subcatObj.id_grupo_ingles + '">' + subcatObj.descripcion + '</option>');
                     });
                 });
@@ -266,7 +266,7 @@
                     $('#niveles').empty();
 
                     $.each(data,function(datos_alumno,subcatObj){
-                        //  alert(subcatObj);
+                        //  TNotify.alert(subcatObj);
                         $('#niveles').append('<option disabled selected hidden>Selecciona una opción</option><option value="'+subcatObj.id_niveles_ingles+'" >'+subcatObj.descripcion+'</option>');
                     });
                 });
@@ -276,12 +276,12 @@
                 // window.location.href='/ver/profesores/'+id_profesor;
             });
             $("#grupos").on('change',function(e) {
-                // alert($("#grupos").val());
+                // TNotify.alert($("#grupos").val());
                 var id_grupos = $("#grupos").val();
                 var id_niveles = $("#niveles").val();
                 var id_profesor = $("#id_profesor").val();
                 window.location.href='/ingles_horarios/profesor_horarios/'+id_profesor+'/'+id_niveles+'/'+id_grupos ;
-                //  alert(id_grupos);
+                //  TNotify.alert(id_grupos);
 
             });
 
@@ -308,7 +308,7 @@
             });
             $(".eliminar_profesor").click(function(){
                 var id_registro_horario=$(this).attr('id');
-                //alert(id_registro_horario);
+                //TNotify.alert(id_registro_horario);
                 var id_grupo = "<?php  echo $id_grupo;?>";
                 var id_profesor = "<?php  echo $id_profesor;?>";
                 var id_niveles = "<?php  echo $id_niveles;?>";

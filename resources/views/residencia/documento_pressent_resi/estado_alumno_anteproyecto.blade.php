@@ -2384,7 +2384,7 @@ $(document).ready(function () {
 
             if (!id) {
 
-                alert(
+                TNotify.alert(
                     "No se encontró el anteproyecto."
                 );
 
@@ -2439,7 +2439,7 @@ $(document).ready(function () {
                     );
 
 
-                    alert(
+                    TNotify.alert(
                         "Ocurrió un error al otorgar el permiso."
                     );
 
@@ -2514,7 +2514,7 @@ $(document).ready(function () {
 
             if (!id) {
 
-                alert(
+                TNotify.alert(
                     "No se encontró el anteproyecto."
                 );
 
@@ -2569,7 +2569,7 @@ $(document).ready(function () {
                     );
 
 
-                    alert(
+                    TNotify.alert(
                         "Ocurrió un error al quitar el permiso."
                     );
 

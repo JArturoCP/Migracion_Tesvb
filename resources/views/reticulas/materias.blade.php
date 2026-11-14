@@ -322,7 +322,7 @@ $("#guarda_materia").click(function(event){
 
       if(hp==0 && ht==0)
       {
-        //alert("deshabilitar");
+        //TNotify.alert("deshabilitar");
         $('#warninn').show(1000);
       }
       else

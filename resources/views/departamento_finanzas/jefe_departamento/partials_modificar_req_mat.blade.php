@@ -102,7 +102,7 @@
 
                 $('#partida_presupuestal_mod').empty();
                 $.each(data,function(datos_alumn,subcatObj){
-                    //  alert(subcatObj);
+                    //  TNotify.alert(subcatObj);
                     $('#partida_presupuestal_mod').append('<option value="'+subcatObj.id_partida_pres+'" data-muni="'+subcatObj.nombre_partida+'" >'+subcatObj.clave_presupuestal+' '+subcatObj.nombre_partida+'</option>');
                 });
             });
@@ -110,7 +110,7 @@
 
                 $('#meta_m').empty();
                 $.each(data, function (datos_alumno, subcatObj) {
-                    //   alert(subcatObj);
+                    //   TNotify.alert(subcatObj);
                     $('#meta_m').append('<div class="radio"><label><input class="form-check-input"  type="radio" name="meta_mod" value="'+subcatObj.id_meta+'" required>'+subcatObj.meta+'</label></div>');
 
                 });

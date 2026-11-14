@@ -45,7 +45,7 @@ valores[9]=10;
  arreglorrubross=arreglorubros;
   
    // cadena='{!!$cadena!!}';
-  //alert(cadena);
+  //TNotify.alert(cadena);
 
        $(function () {
 
@@ -249,7 +249,7 @@ opcion= {
        var seriesData=[];
       var materia="";
        materia+="{{$grafica_condicion}}"
-//alert(materia);
+//TNotify.alert(materia);
       @foreach($rubros as $rubro)
        
         rubros+="'{{$rubro->rubros}}',";
@@ -262,7 +262,7 @@ opcion= {
 
 
       @endforeach
-//alert(seriesData.length);
+//TNotify.alert(seriesData.length);
 
       $(function () {
 
@@ -343,7 +343,7 @@ opcion= {
         }]
     });
 });
-//alert(arreglorubros);
+//TNotify.alert(arreglorubros);
 
     @endif
 
@@ -432,7 +432,7 @@ $('#exportar').click(function(){
         data: obj,
         success: function (data) {
           console.log(exportUrl+data);
-         // alert('ok');
+         // TNotify.alert('ok');
             var imgContainer = $("#imgContainer");
             $('<img>').attr('src', exportUrl + data).attr('width', '250px').appendTo(imgContainer);
             $('<a>or Download Here</a>').attr('href', exportUrl + data).appendTo(imgContainer);

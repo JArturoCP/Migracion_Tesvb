@@ -282,6 +282,6 @@
 <script>
     function operacion()
     {
-        //alert( "Datos guardados" );
+        //TNotify.alert( "Datos guardados" );
     }
 </script>

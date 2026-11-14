@@ -369,7 +369,7 @@
         $(document).ready(function(){
             $(".elimina").click(function(){
                 var id_carga_academica=$(this).data('id_carga_academica');
-                //alert(id_carga_academica);
+                //TNotify.alert(id_carga_academica);
                 $('#id_carga_academica').val(id_carga_academica);
                 $('#modal_elimina').modal('show');
             });
@@ -405,7 +405,7 @@
 
             $("#confirma_elimina").click(function(event){
                 var id_carga_academica = $("#id_carga_academica").val()
-                //alert(id_carga_academica);
+                //TNotify.alert(id_carga_academica);
                 $("#form_delete").attr("action","/duales/eliminar_carga_academica/"+id_carga_academica)
                 $("#form_delete").submit();
             });

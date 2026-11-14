@@ -1019,7 +1019,7 @@
 
                             $('#meta').empty();
                             $.each(data, function (datos_alumno, subcatObj) {
-                                //   alert(subcatObj);
+                                //   TNotify.alert(subcatObj);
                                 $('#meta').append('<div class="radio"><label><input class="form-check-input"  type="radio" name="meta1" value="'+subcatObj.id_meta+'" required>'+subcatObj.meta+'</label></div>');
 
                             });

@@ -413,7 +413,7 @@ var act = $(this).data("act");
                 /* 'visibility': 'visible', */
                 'color': '#409e45',
             })
-           // alert("hola");
+           // TNotify.alert("hola");
           $('.v{{ $docente["id_horario"] }}').removeClass('rojo');
           $('.v{{ $docente["id_horario"] }}').addClass('verde');
         }
@@ -445,7 +445,7 @@ var act = $(this).data("act");
       var id_carrera= $("#SelectCarrera").val();
       var id_cargo= $("#selectCargo").val();
 
-      //var mensaje = confirm('/p_educativa/datos/'+id_carrera +'/'+id_cargo);
+      //var mensaje = TNotify.confirm('/p_educativa/datos/'+id_carrera +'/'+id_cargo);
       //Detectamos si el usuario acepto el mensaje
       //if (mensaje) 
       //{

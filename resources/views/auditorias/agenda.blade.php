@@ -391,11 +391,11 @@
 
             fecha="";
             $('.hora_agenda').click(function () {
-                alert($(this).data('inicio')+" - "+$(this).data('fin'))
+                TNotify.alert($(this).data('inicio')+" - "+$(this).data('fin'))
             });
 
             $('.btn-add-agenda').click(function () {
-                alert("ok");
+                TNotify.alert("ok");
                 $("#form-add-evento input[type=checkbox]").prop( "checked", false );
                 $('.agenda-general').fadeOut();
                 $('.form_programar'+$(this).data('fecha')).fadeIn();

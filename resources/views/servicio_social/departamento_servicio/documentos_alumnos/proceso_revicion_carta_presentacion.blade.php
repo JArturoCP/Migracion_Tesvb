@@ -139,7 +139,7 @@
             $('#tabla_revicion_costancia').DataTable();
             $('#tabla_revicion_costancia').on('click','.rechazar_carta',function(){
                 var id_datos_alumnos=$(this).attr('id');
-                // alert(id_datos_alumnos);
+                // TNotify.alert(id_datos_alumnos);
                 $.get('/servicio_social/rechazar_cartapresentacionalumno/'+id_datos_alumnos,function(request){
                     $('#contenedor_rechazar_carta').html(request);
                     $('#modal_rechazar_carta').modal('show');

@@ -56,7 +56,7 @@
                 $("#siguiente").click(function(){
 
                     var id_tipo_evid= $('#id_tipo_evid').val();
-//alert(id_tipo_evid);
+//TNotify.alert(id_tipo_evid);
                     if(id_tipo_evid == null)
                     {
                         swal({

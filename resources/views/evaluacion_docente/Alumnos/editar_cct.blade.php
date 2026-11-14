@@ -77,7 +77,7 @@
             $('#registro_cct').DataTable();
             $("#enviar").click(function (){
                 var estado_radio = $("input[type='radio'][name='id_escuela']:checked").val();;
-//alert(estado_radio);
+//TNotify.alert(estado_radio);
                 if( estado_radio != undefined){
                     $("#form_cct").submit();
                     swal({

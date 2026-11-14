@@ -97,7 +97,7 @@
 
                                     <a href="{{ route('admin.pregunta.delete', $p->id_pregunta) }}"
                                        class="btn btn-danger btn-xs"
-                                       onclick="return confirm('¿Eliminar pregunta?')">
+                                       onclick="return TNotify.confirmAction(event, this, '¿Eliminar pregunta?')">
                                         <span class="glyphicon glyphicon-trash"></span>
                                     </a>
                                 </div>
@@ -134,7 +134,7 @@
 
                                             <a href="{{ route('admin.respuesta.delete', ['id_respuesta'=>$r->id_respuesta,'id_examen_egel'=>$p->id_examen_egel]) }}"
                                                class="btn btn-danger btn-xs"
-                                               onclick="return confirm('¿Eliminar respuesta?')">
+                                               onclick="return TNotify.confirmAction(event, this, '¿Eliminar respuesta?')">
                                                 <span class="glyphicon glyphicon-trash"></span>
                                             </a>
 

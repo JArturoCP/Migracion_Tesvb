@@ -30,7 +30,7 @@
                                 </p>  
                                 <a href="{{ url('/beca_estimulo/escolares/auto_verificar') }}"
                                    class="btn btn-warning"
-                                   onclick="return confirm('¿Validar automáticamente las {{ count($autorizar_escolares) }} solicitudes pendientes según la convocatoria? Esta acción no se puede deshacer.')">
+                                   onclick="return TNotify.confirmAction(event, this, '¿Validar automáticamente las {{ count($autorizar_escolares) }} solicitudes pendientes según la convocatoria? Esta acción no se puede deshacer.')">
                                     <span class="glyphicon glyphicon-flash"></span>
                                     Validar automáticamente ({{ count($autorizar_escolares) }} pendientes)
                                 </a>

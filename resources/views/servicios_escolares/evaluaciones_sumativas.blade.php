@@ -242,7 +242,7 @@
                 @foreach($alumnos as $alumno)
                 $("#modifica_calificacion{{$alumno['cuenta']}}").on("click",function()
                 {
-                   // alert('hola');
+                   // TNotify.alert('hola');
                     //aqui modifica
                     var docente="{{$nom_docente}}";
                     var id_materia="{{$id_materia}}";

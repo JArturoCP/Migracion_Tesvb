@@ -114,7 +114,7 @@
 
             });
             $('#imprime').click(function () {
-//alert("hola");
+//TNotify.alert("hola");
 
                 var opcion={
                     chart: {

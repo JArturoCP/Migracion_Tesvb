@@ -107,7 +107,7 @@
                                 window.location.href='/incidencias/enviar_evidencia_fecha/{{$evidencia->id_evid}}';
                             });
                             $(".editar_evid").click(function(){
-                                //alert("HOLA");
+                                //TNotify.alert("HOLA");
                                 var id_evid = $(this).attr('id');
                                 $.get("/incidencias/modificar_evidencia2/"+id_evid,function(request){
                                     $("#contenedor_editar").html(request);

@@ -100,7 +100,7 @@
         $(document).ready( function() {
             $("#carrera").on('change',function(e){
                 var id_carrera= $("#carrera").val();
-//alert(id_carrera);
+//TNotify.alert(id_carrera);
                 window.location.href='/servicios_escolares/alumnos/generales/'+id_carrera ;
                 //  }
 

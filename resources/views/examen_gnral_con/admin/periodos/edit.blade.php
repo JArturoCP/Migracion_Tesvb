@@ -200,7 +200,7 @@
                     <!-- ELIMINAR -->
                     <form action="{{ route('admin.examen_general.periodos.destroy', $examen_gnral_periodo->id_periodo_examen) }}"
                           method="POST"
-                          onsubmit="return confirm('¿Deseas eliminar este periodo?')">
+                          onsubmit="return TNotify.confirmAction(event, this, '¿Deseas eliminar este periodo?')">
 
                         @csrf
                         @method('DELETE')

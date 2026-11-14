@@ -104,7 +104,7 @@
                     (TuFecha.getMonth() + 1) + '/' + TuFecha.getDate();
                 $('#soli').empty();
                 $('#soli').append('<input class="form-control" id="fecha_final" disabled value="'+resultado+'"/>');
-                // alert(resultado);
+                // TNotify.alert(resultado);
 
             });
 

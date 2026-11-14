@@ -51,7 +51,7 @@
                         <td>{{ $index + 1 }}</td>
                         <td>{{ $lider->personal->nombre ?? 'No encontrado' }}</td>
                         <td>
-                            <form action="{{ route('auditorias.asignar_lider.destroy', $lider->id_lider) }}" method="POST" onsubmit="return confirm('¿Estás seguro de eliminar este líder?')">
+                            <form action="{{ route('auditorias.asignar_lider.destroy', $lider->id_lider) }}" method="POST" onsubmit="return TNotify.confirmAction(event, this, '¿Estás seguro de eliminar este líder?')">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
@@ -75,7 +75,7 @@
 
                 if (lideresAsignados.includes(seleccionado)) {
                     e.preventDefault();
-                    alert('Este líder ya ha sido asignado.');
+                    TNotify.alert('Este líder ya ha sido asignado.');
                 }
             });
         });

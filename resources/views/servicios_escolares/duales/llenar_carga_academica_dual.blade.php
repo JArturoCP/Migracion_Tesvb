@@ -108,7 +108,7 @@
 
             $("#paginar_tabla").on('click', '.elimina', function () {
                 var id_duales_actuales=$(this).data('id_alumno');
-                //alert(id_duales_actuales);
+                //TNotify.alert(id_duales_actuales);
                 $('#eliminar_alumno').val(id_duales_actuales);
                 $('#modal_elimina').modal('show');
 
@@ -121,7 +121,7 @@
 
             $("#confirma_elimina").click(function(event){
                 var eliminar_alumno = $("#eliminar_alumno").val()
-                // alert(eliminar_alumno);
+                // TNotify.alert(eliminar_alumno);
                 $("#form_delete").attr("action","/duales/Eliminar_dual/"+eliminar_alumno)
                 $("#form_delete").submit();
             });

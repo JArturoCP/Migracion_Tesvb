@@ -22,7 +22,7 @@
 	
 		@if(isset($mensage_carga))
 		var direccion="{{$direccion}}";
-		//alert(direccion);
+		//TNotify.alert(direccion);
 		setTimeout(myFunction, 1000); 
 
 		function myFunction(){

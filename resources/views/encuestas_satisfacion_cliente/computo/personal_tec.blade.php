@@ -323,8 +323,8 @@
                     $("#contenedor_ver").html(request);
                     $("#modal_ver").modal('show');
                 });
-              //  alert(id);
-                //  alert("hola");
+              //  TNotify.alert(id);
+                //  TNotify.alert("hola");
 
             });
 

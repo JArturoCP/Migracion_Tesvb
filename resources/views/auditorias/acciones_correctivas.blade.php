@@ -1221,7 +1221,7 @@
             });
 
             $("#active_viable").click(function(){
-                // alert("ok");
+                // TNotify.alert("ok");
                 let isViable=$(this).is(':checked');
                 if(isViable) {
                     $("#contenedor_oportunidades").show()

@@ -192,7 +192,7 @@
 
             $('#tabla_enviar_costancia').on('click','.registrar_presentacion',function(){
                 var id_datos_alumnos=$(this).attr('id');
-                       // alert(id_datos_alumnos);
+                       // TNotify.alert(id_datos_alumnos);
                 $.get('/servicio_social/registrar_constancia/departamento/'+id_datos_alumnos,function(request){
                     $('#contenedor_registrar').html(request);
                     $('#modal_registrar').modal('show');
@@ -205,7 +205,7 @@
                 var ls=pdf_documento_carta.length;
                 var l=id_periodo.length;
 
-                //alert(ls);
+                //TNotify.alert(ls);
                if(ls > 0 && l > 0 ){
                    $("#formulario_carta_presentacion").submit();
                    $("#reg_pre").attr("disabled", true);
@@ -222,7 +222,7 @@
             $('#tabla_enviar_costancia').DataTable();
             $('#tabla_enviar_costancia').on('click','.modificar_presentacion',function(){
                 var id_datos_alumnos=$(this).attr('id');
-                // alert(id_datos_alumnos);
+                // TNotify.alert(id_datos_alumnos);
                 $.get('/servicio_social/modificar_carta_presentacion/'+id_datos_alumnos,function(request){
                     $('#contenedor_modificar').html(request);
                     $('#modal_modificar').modal('show');
@@ -235,7 +235,7 @@
                 var ls=pdf_documento_carta.length;
                 var l=id_periodo.length;
 
-                //alert(ls);
+                //TNotify.alert(ls);
                 if(ls > 0 && l > 0 ){
                     $("#formulario_modificar_carta_presentacion").submit();
                     $("#modificar_carta").attr("disabled", true);
@@ -251,7 +251,7 @@
             });
             $('#tabla_enviar_costancia').on('click','.ver_presentacion',function(){
                 var id_datos_alumnos=$(this).attr('id');
-                 //alert(id_datos_alumnos);
+                 //TNotify.alert(id_datos_alumnos);
                 $.get('/servicio_social/ver_carta_presentacion/'+id_datos_alumnos,function(request){
                     $('#contenedor_ver').html(request);
                     $('#modal_ver').modal('show');
@@ -259,7 +259,7 @@
             });
             $('#tabla_enviar_costancia').on('click','.enviar_presentacion',function(){
                 var id_datos_alumnos=$(this).attr('id');
-                //alert(id_datos_alumnos);
+                //TNotify.alert(id_datos_alumnos);
                 $('#id_datos_alumnos_m').val(id_datos_alumnos);
                     $('#enviar_peresentacion').modal('show');
 

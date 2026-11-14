@@ -37,6 +37,10 @@
     <script src="{{ asset('js/js_tutorias/locale/es.js') }}" defer></script>
     <link href="{{ asset('open-iconic-master/font/css/open-iconic-bootstrap.css') }}" rel="stylesheet" >
 
+    <!-- Notificaciones TESVB (reemplazo de alert/confirm/prompt) -->
+    <link rel="stylesheet" href="{{ asset('css/sweetalert2.min.css') }}?v=11.26.25">
+    <script src="{{ asset('js/sweetalert2.min.js') }}?v=11.26.25"></script>
+    <script src="{{ asset('js/tesvb-notify.js') }}?v={{ filemtime(public_path('js/tesvb-notify.js')) }}"></script>
 </head>
 <body>
 <header id="header" >

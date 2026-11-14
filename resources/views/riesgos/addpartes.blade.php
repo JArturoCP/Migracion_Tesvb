@@ -422,7 +422,7 @@
                     /* Read more about isConfirmed, isDenied below */
                     if (result.value) {
                         $("#form_delete").attr("action", "{{url('riesgos/requisitos')}}/" + id)
-                        // alert($("#form_delete_requisito_riesgo").attr("action"))
+                        // TNotify.alert($("#form_delete_requisito_riesgo").attr("action"))
                         $("#form_delete").submit();
                     }
                 });
@@ -441,7 +441,7 @@
                     /* Read more about isConfirmed, isDenied below */
                     if (result.value) {
                         $("#form_delete").attr("action", "{{url('riesgos/regoportunidad')}}/" + id)
-                        // alert($("#form_delete_requisito_riesgo").attr("action"))
+                        // TNotify.alert($("#form_delete_requisito_riesgo").attr("action"))
                         $("#form_delete").submit();
                     }
                 });
@@ -460,7 +460,7 @@
                     /* Read more about isConfirmed, isDenied below */
                     if (result.value) {
                         $("#form_delete").attr("action", "{{url('riesgos/riesgo')}}/" + id)
-                        // alert($("#form_delete_requisito_riesgo").attr("action"))
+                        // TNotify.alert($("#form_delete_requisito_riesgo").attr("action"))
                         $("#form_delete").submit();
                     }
                 });
@@ -498,16 +498,16 @@
                 },
             });
             $(".btn_crear_requisito").click(function () {
-                //alert("ok")
+                //TNotify.alert("ok")
                 $("#id_uni_p").val($(this).data('id'));
             })
             $(".btn_crear_requisito_riesgo").click(function () {
-                //alert("ok")
+                //TNotify.alert("ok")
                 $("#id_requisito_riesgo").val($(this).data('id'));
             })
 
             $(".btn_crear_requisito_oportunidad").click(function () {
-                //alert("ok")
+                //TNotify.alert("ok")
                 $("#id_requisito_oportunidad").val($(this).data('id'));
             })
             $(".btn_open_panel").click(function () {

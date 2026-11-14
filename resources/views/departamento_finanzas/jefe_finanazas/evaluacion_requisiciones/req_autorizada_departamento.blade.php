@@ -719,7 +719,7 @@
                     $("#precio").change(function (event){
                         var precio= event.target.value;
                         if(isNaN(precio)){
-                            alert( "el precio debe ser un numero");
+                            TNotify.alert( "el precio debe ser un numero");
                             $('#pesos_precio').empty();
 
                         }else {
@@ -884,7 +884,7 @@
 
                             $('#meta').empty();
                             $.each(data, function (datos_alumno, subcatObj) {
-                                //   alert(subcatObj);
+                                //   TNotify.alert(subcatObj);
                                 $('#meta').append('<div class="radio"><label><input class="form-check-input"  type="radio" name="meta1" value="'+subcatObj.id_meta+'" required>'+subcatObj.meta+'</label></div>');
 
                             });
@@ -959,7 +959,7 @@
 
                     $(".eliminar_requisiciones").click(function (){
                         var id_actividades_req_ante =$(this).attr('id');
-                        alert(id_actividades_req_ante);
+                        TNotify.alert(id_actividades_req_ante);
                         $.get("/presupuesto_anteproyecto/eliminar_requisicion_material/"+id_actividades_req_ante,function (request) {
                             $("#contenedor_eliminar_requisicion").html(request);
                             $("#modal_eliminar_requisicion").modal('show');

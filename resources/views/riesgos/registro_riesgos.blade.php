@@ -194,7 +194,7 @@
                 }
             },
             beforeMount(){
-                // alert("ok")
+                // TNotify.alert("ok")
                 axios.get('/api/riesgos/registroriesgos')
                     .then(response => {
                        // console.log(response);

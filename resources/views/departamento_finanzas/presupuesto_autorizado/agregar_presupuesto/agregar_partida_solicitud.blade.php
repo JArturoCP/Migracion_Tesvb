@@ -86,7 +86,7 @@
         $("#presupuesto_dar").change(function (event) {
             var p_dar = event.target.value;
             if (isNaN(p_dar)) {
-                alert("el presupuesto debe ser un numero");
+                TNotify.alert("el presupuesto debe ser un numero");
                 $('#pesos_presupuesto_dar').empty();
             } else {
                 var p_dar1 = new Intl.NumberFormat("es-MX", {

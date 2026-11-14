@@ -227,7 +227,7 @@
         $(".guardar_nota").click(function(){
 
             var id_nota=$(this).data("id");
-            //alert($("#clasificacionNueva").val());
+            //TNotify.alert($("#clasificacionNueva").val());
             if(id_nota=="Nueva")
                 if($("#notaNueva").val()!=""&&$("#clasificacionNueva").val()!=""&&$("#clasificacionNueva").val()!=null)
                     if($("#resultadoNueva").val()==""&&($("#clasificacionNueva").val()!=3||$("#clasificacionNueva").val()==null))

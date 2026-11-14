@@ -90,7 +90,7 @@ function bloqueo()
                 $('#archivo{{$i}}').bind('change', function() {
                   if(this.files[0].size > 2097152)
                   {
-                  alert("No superar los 2MB"); 
+                  TNotify.alert("No superar los 2MB"); 
                   this.value="";
                   
                   };
@@ -101,7 +101,7 @@ function bloqueo()
 
       $('.registra').click(function(){
         var uno=$(this).attr('id');
-         //alert(uno);
+         //TNotify.alert(uno);
         bloqueo();
       });
     

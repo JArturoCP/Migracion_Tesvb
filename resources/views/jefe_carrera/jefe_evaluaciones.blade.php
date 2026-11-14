@@ -385,7 +385,7 @@
             });
             $(".calificar_dual").click(function(event) {
                 var id_carga_academica=$(this).data("id_carga");
-                //alert(id_carga_academica);
+                //TNotify.alert(id_carga_academica);
                 $.get("/calificar_duales/"+id_carga_academica,function (request) {
                     $("#contenedor_cal_duales").html(request);
                     $("#modal_calificar_duales").modal('show');

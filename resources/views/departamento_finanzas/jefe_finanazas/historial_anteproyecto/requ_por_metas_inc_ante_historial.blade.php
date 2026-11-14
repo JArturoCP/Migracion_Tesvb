@@ -1458,7 +1458,7 @@
 
 
             $("#id_meta").on('change',function(e) {
-                // alert($("#grupos").val());
+                // TNotify.alert($("#grupos").val());
                 var id_meta = $("#id_meta").val();
 
 

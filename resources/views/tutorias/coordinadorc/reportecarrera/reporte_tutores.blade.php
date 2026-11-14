@@ -111,7 +111,7 @@ $(document).ready(function(){
   $(".agregar_observacion").click(function (){
 
   var id_asigna_generacion = $(this).attr('id');
-  //alert(id_asigna_generacion);
+  //TNotify.alert(id_asigna_generacion);
        $('#id_asigna_gen').val(id_asigna_generacion);
        $('#modal_agregar_observacion').modal('show');
   });
@@ -119,7 +119,7 @@ $(document).ready(function(){
   
     var observacion = $('#observacion').val();
   if(observacion == ''){
-      alert ("Agrega observacion");
+      TNotify.alert("Agrega observacion");
   }else{
     $("#form_agregar_observacion").submit();
     $("#guardar_observacion").attr("disabled",true);
@@ -136,7 +136,7 @@ $(document).ready(function(){
   $("#guardar_mod_observacion").click(function(){
     var observacion = $('#observacion_mod').val();
   if(observacion == ''){
-      alert ("Agrega observacion");
+      TNotify.alert("Agrega observacion");
   }else{
     $("#form_mod_observacion").submit();
     $("#guardar_mod_observacion").attr("disabled",true);

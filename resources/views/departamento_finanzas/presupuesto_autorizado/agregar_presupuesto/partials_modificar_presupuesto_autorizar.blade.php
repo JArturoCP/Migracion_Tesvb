@@ -58,7 +58,7 @@
                 // dd(presupuesto_dado);
 
                     if(isNaN(presupuesto_dado)){
-                    alert( "el precio debe ser un numero");
+                    TNotify.alert( "el precio debe ser un numero");
                     $('#pesos_precio').empty();
 
                     }else {

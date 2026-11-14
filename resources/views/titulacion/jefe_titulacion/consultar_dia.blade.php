@@ -1092,7 +1092,7 @@ RESPONSIVE
         $('#ver_consulta_fecha').click(function() {
             var fecha_dia = $('#fecha_dia1').val();
             if (!fecha_dia) {
-                alert('Selecciona una fecha.');
+                TNotify.alert('Selecciona una fecha.');
                 return;
             }
             fecha_dia = fecha_dia.split('/').reverse().join('-');
@@ -1105,7 +1105,7 @@ RESPONSIVE
         $('#ver_consulta_fecha2').click(function() {
             var fecha_dia = $('#fecha_dia2').val();
             if (!fecha_dia) {
-                alert('Selecciona una fecha.');
+                TNotify.alert('Selecciona una fecha.');
                 return;
             }
             fecha_dia = fecha_dia.split('/').reverse().join('-');

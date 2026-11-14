@@ -617,7 +617,7 @@
                     $('#municipio3').empty();
 
                     $.each(data,function(datos_alumno,subcatObj){
-                        //  alert(subcatObj);
+                        //  TNotify.alert(subcatObj);
                         $('#municipio3').append('<option value="'+subcatObj.id_municipio+'" data-muni="'+subcatObj.nombre_municipio+'" >'+subcatObj.nombre_municipio+'</option>');
 
                     });

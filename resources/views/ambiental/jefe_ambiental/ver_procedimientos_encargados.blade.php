@@ -104,7 +104,7 @@
                     this.nom_periodo = this.period[0].nombre_periodo_amb;
 
 
-//alert(this.periodos[0].id_periodo_amb);
+//TNotify.alert(this.periodos[0].id_periodo_amb);
                     //aqui se guarda el arreglo que traemos
                 },
 

@@ -150,7 +150,7 @@ $(".link").tooltip({html:true});
   $( ".text_actualiza" ).dblclick(function() {
     var iddistribucion=$(this).attr('id');
     $("#no_alumnos").val(iddistribucion);
-    //alert(iddistribucion);
+    //TNotify.alert(iddistribucion);
     $('#no_alu'+iddistribucion).show(1000);
     $('#almacena'+iddistribucion).hide(1000);
     });
@@ -160,11 +160,11 @@ $(".link").tooltip({html:true});
       if(e.which == 13)
       {     
         bloqueo();
-        //alert(cantidad);
+        //TNotify.alert(cantidad);
             var cantidad=$("#no_alu"+iddistribucion).val();
             if(cantidad<1)
             {
-              alert("Ingresa una cantidad");
+              TNotify.alert("Ingresa una cantidad");
               $.unblockUI();
             }
             else

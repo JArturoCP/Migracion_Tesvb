@@ -1206,11 +1206,11 @@
                             });
                         }
                     }
-                    alert(this.contar_formulario);
+                    TNotify.alert(this.contar_formulario);
                     if(this.contar_formulario == 21) {
                         if (this.docu.presenta_discapacidad > 0) {
                             if (this.docu.presenta_discapacidad == 1) {
-                                alert(this.docu.presenta_discapacidad);
+                                TNotify.alert(this.docu.presenta_discapacidad);
                                 if (this.docu.discapacidad_que_presenta != "") {
                                     this.contar_formulario++;
                                 } else {

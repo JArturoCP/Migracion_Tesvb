@@ -229,7 +229,7 @@
                                                                 var pregunta11 = $("input[type='radio'][name='pregunta11']:checked").val();
                                                                 if(pregunta11 != undefined){
                                                                     var pregunta12 = $("input[type='radio'][name='pregunta12']:checked").val();
-                                                                    //alert(pregunta12);
+                                                                    //TNotify.alert(pregunta12);
                                                                     if(pregunta12 != undefined){
 
                                                                         var pregunta13 = $("input[type='radio'][name='pregunta13']:checked").val();

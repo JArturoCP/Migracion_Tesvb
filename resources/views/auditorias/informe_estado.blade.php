@@ -9,7 +9,6 @@
 @extends('layouts.app')
 @section('title', 'Informe del Estado')
 @section('content')
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
     <main class="col-md-12">
         <div class="row">

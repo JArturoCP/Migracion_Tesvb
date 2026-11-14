@@ -103,7 +103,7 @@
                     this.activo = this.activaciones[0].contar;
 
 
-//alert(this.periodos[0].id_periodo_amb);
+//TNotify.alert(this.periodos[0].id_periodo_amb);
                     //aqui se guarda el arreglo que traemos
                 },
 

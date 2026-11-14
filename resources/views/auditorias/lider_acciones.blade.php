@@ -560,7 +560,7 @@
                             @if($moduloAccionesCerrado)
                                 <form method="POST"
                                       action="{{ route('auditorias.lider_acciones.reactivar_acciones_correctivas') }}"
-                                      onsubmit="return confirm('¿Deseas reactivar el sistema de acciones correctivas?');">
+                                      onsubmit="return TNotify.confirmAction(event, this, '¿Deseas reactivar el sistema de acciones correctivas?');">
                                     @csrf
                                     <button type="submit" class="btn btn-success">
                                         <i class="fa fa-unlock"></i>
@@ -570,7 +570,7 @@
                             @else
                                 <form method="POST"
                                       action="{{ route('auditorias.lider_acciones.cerrar_acciones_correctivas') }}"
-                                      onsubmit="return confirm('¿Deseas cerrar el sistema de acciones correctivas para los responsables?');">
+                                      onsubmit="return TNotify.confirmAction(event, this, '¿Deseas cerrar el sistema de acciones correctivas para los responsables?');">
                                     @csrf
                                     <button type="submit" class="btn btn-danger">
                                         <i class="fa fa-lock"></i>
@@ -1196,7 +1196,7 @@
                                                                     @if((int) $accion->estado === 6 && (!isset($accion->estado_cierre) || (int) $accion->estado_cierre !== 3))
                                                                         <form method="POST"
                                                                               action="{{ route('auditorias.lider_acciones.quitar_validacion', $accion->id_responsable) }}"
-                                                                              onsubmit="return confirm('¿Deseas quitar la validación y regresar este registro a estado Sin revisar?');">
+                                                                              onsubmit="return TNotify.confirmAction(event, this, '¿Deseas quitar la validación y regresar este registro a estado Sin revisar?');">
                                                                             @csrf
                                                                             <button type="submit" class="btn btn-warning btn-xs btn-quitar-validacion">
                                                                                 Quitar validación
@@ -1334,7 +1334,7 @@
                 // Enviar el formulario directamente
                 document.getElementById('form-' + id).submit();
             } else {
-                alert('Por favor selecciona una opción de evaluación.');
+                TNotify.alert('Por favor selecciona una opción de evaluación.');
             }
         }
 
@@ -1342,7 +1342,7 @@
             const observacion = document.getElementById('textareaObs' + id).value.trim();
 
             if (observacion === "") {
-                alert('Escribe una observación antes de continuar.');
+                TNotify.alert('Escribe una observación antes de continuar.');
                 return;
             }
 

@@ -193,7 +193,7 @@ $(document).ready(function () {
 
                     permitir = false;
 
-                    alert("Debe calificar la unidad " + index + " antes de la unidad " + (index + 1));
+                    TNotify.alert("Debe calificar la unidad " + index + " antes de la unidad " + (index + 1));
 
                     return false;
 

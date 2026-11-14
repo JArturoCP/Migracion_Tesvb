@@ -554,14 +554,14 @@
          VALIDAR NIVEL
       --------------------------------------------- */
       if (id_nivel === '') {
-        alert('Seleccione un nivel.');
+        TNotify.alert('Seleccione un nivel.');
         return;
       }
       /* ---------------------------------------------
          VALIDAR GRUPO
       --------------------------------------------- */
       if (id_grupo === '') {
-        alert('Seleccione un grupo.');
+        TNotify.alert('Seleccione un grupo.');
         return;
       }
       var boton = $(this);
@@ -597,7 +597,7 @@
             'tr[data-id="' + id_alumno + '"]'
           );
           if (fila.length === 0) {
-            alert('No se encontró la fila del alumno.');
+            TNotify.alert('No se encontró la fila del alumno.');
             return;
           }
           var datos = fila.data();
@@ -638,7 +638,7 @@
           /* -----------------------------------------
              MENSAJE
           ----------------------------------------- */
-          alert(
+          TNotify.alert(
             response.message ||
             'Registro guardado correctamente.'
           );
@@ -649,7 +649,7 @@
           boton.html(
             '<i class="fa fa-floppy-o"></i> Guardar Registro'
           );
-          alert(
+          TNotify.alert(
             'Ocurrió un error al guardar el registro.'
           );
         }
@@ -735,7 +735,7 @@
          VALIDAR ID
       --------------------------------------------- */
       if (!id_alumno) {
-        alert(
+        TNotify.alert(
           'No se pudo identificar al alumno.'
         );
         return;
@@ -775,13 +775,13 @@
             ------------------------------------- */
             // Recargamos para que Laravel
             // vuelva a generar ambas listas.
-            alert(
+            TNotify.alert(
               response.message ||
               'Registro eliminado correctamente.'
             );
             location.reload();
           } else {
-            alert(
+            TNotify.alert(
               response.message ||
               'No se pudo eliminar el registro.'
             );
@@ -796,7 +796,7 @@
     console.log('STATUS:', xhr.status);
     console.log('RESPONSE:', xhr.responseText);
 
-    alert(
+    TNotify.alert(
         'Error ' + xhr.status +
         '\n\n' +
         xhr.responseText

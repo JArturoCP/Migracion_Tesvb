@@ -100,7 +100,7 @@
 
                                     <a href="{{ route('admin.examen_general.delete',$e->id_examen_egel) }}" 
                                        class="btn btn-danger"
-                                       onclick="return confirm('¿Seguro que deseas eliminar este examen?')"
+                                       onclick="return TNotify.confirmAction(event, this, '¿Seguro que deseas eliminar este examen?')"
                                        title="Eliminar">
                                         <span class="glyphicon glyphicon-trash"></span>
                                     </a>

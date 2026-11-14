@@ -1118,7 +1118,7 @@
 
 
             $("#id_fuente_financiamiento").on('change',function(e) {
-                // alert($("#grupos").val());
+                // TNotify.alert($("#grupos").val());
                 var id_fuente_financiamiento = $("#id_fuente_financiamiento").val();
 
                  window.location.href='/presupuesto_anteproyecto/ver_proyecto_capitulo_anteproyecto_inc/'+id_fuente_financiamiento;

@@ -352,14 +352,14 @@
                     for (var i = 0; i < ciclos; i++) {
                         valor[i] = $('input:radio[name=radio' + (i + 1) + ']:checked').val();
                     }
-//      alert(valor);
+//      TNotify.alert(valor);
                     checkboxValues = [];
 
                     var id_pregunta = parseInt($('#pregunta').val());
                     var id_tabla = $('#tabla').val();
                     var arreglo = [];
                     id_pregunta++;
-                    //  alert(id_pregunta);
+                    //  TNotify.alert(id_pregunta);
                     arreglo[0] = id_pregunta;
                     arreglo[1] = id_tabla;
                     //los primeros 2 valores de checkbox values seran la pregunta y el id que se modificaran
@@ -377,7 +377,7 @@
                     window.location.href = "/insertar/" + checkboxValues;
                     $("#sig").attr("disabled", true);
                 } else {
-                    //alert("no has seleccionado algun docente");
+                    //TNotify.alert("no has seleccionado algun docente");
                     $('#mensaje').modal('show');
                     setTimeout(myFunction, 2000);
 
@@ -385,7 +385,7 @@
                         $('#mensaje').modal('hide');
                     }
                 }
-                //alert(checkboxValues);
+                //TNotify.alert(checkboxValues);
                 //
             });
 
@@ -504,7 +504,7 @@
 
                 // Validar que hay igual cantidad de elementos
                 if (comentarios.length !== id_alumno_materia.length) {
-                    alert("Error: los datos no coinciden en número.");
+                    TNotify.alert("Error: los datos no coinciden en número.");
                     return;
                 }
 
@@ -518,12 +518,12 @@
                         comments: comentarios
                     },
                     success: function(response) {
-                        alert('Comentarios guardados correctamente.');
+                        TNotify.alert('Comentarios guardados correctamente.');
                         console.log(response);
                     },
                     error: function(xhr) {
                         console.error("Error:", xhr.status, xhr.responseText);
-                        alert('Ocurrió un error al guardar los comentarios.');
+                        TNotify.alert('Ocurrió un error al guardar los comentarios.');
                     }
 
                 });

@@ -191,7 +191,7 @@
                 statSend = true;
                 return true;
             } else {
-                alert("El formulario ya se esta enviando...");
+                TNotify.alert("El formulario ya se esta enviando...");
                 return false;
             }
         }

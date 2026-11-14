@@ -108,7 +108,7 @@
             <script>
                 $(document).ready(function() {
                     $(".editar_oficio").click(function () {
-                        //alert("HOLA")
+                        //TNotify.alert("HOLA")
                             $("#modal_editar_oficio").modal('show');
                     });
                 });

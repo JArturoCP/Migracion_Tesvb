@@ -258,7 +258,7 @@
             $('.finalizar_activacion_titulos').click(function (){
 
                 var id_reg_domo =$(this).attr('id');
-              //  alert(id_reg_domo);
+              //  TNotify.alert(id_reg_domo);
                 $('#id_reg_domo2').val(id_reg_domo);
                 $('#modal_finalizar_titulo').modal('show');
             });

@@ -508,7 +508,7 @@
            $("#registrar_datos").click(function (){
 
                var id_opcion_proyecto = $("input[type='radio'][name='id_opcion_proyecto']:checked").val();
-             //  alert(id_opcion_proyecto);
+             //  TNotify.alert(id_opcion_proyecto);
                if(id_opcion_proyecto != undefined){
                    var rfc_empresa = $("#rfc_empresa").val();
                    if(rfc_empresa != "") {
@@ -689,7 +689,7 @@
             $("#modificar_datos").click(function (){
 
                 var id_opcion_proyecto = $("input[type='radio'][name='id_opcion_proyecto']:checked").val();
-                //  alert(id_opcion_proyecto);
+                //  TNotify.alert(id_opcion_proyecto);
                 if(id_opcion_proyecto != undefined){
                     var rfc_empresa = $("#rfc_empresa").val();
                     if(rfc_empresa != "") {

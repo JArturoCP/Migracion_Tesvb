@@ -63,7 +63,7 @@
                             const archivo = this.files[0];
                             if (archivo.size > MAXIMO_TAMANIO_BYTES) {
                                 const tamanioEnMb = MAXIMO_TAMANIO_BYTES / 1000000;
-                                alert(`Tu archivo excede el tamaño permitido, el tamaño máximo de tu archivo debe ser de ${tamanioEnMb} MB`);
+                                TNotify.alert(`Tu archivo excede el tamaño permitido, el tamaño máximo de tu archivo debe ser de ${tamanioEnMb} MB`);
                                 // Limpiar
                                 $voucher.value = "";
                             } else {
@@ -155,7 +155,7 @@
                             const archivo = this.files[0];
                             if (archivo.size > MAXIMO_TAMANIO_BYTES) {
                                 const tamanioEnMb = MAXIMO_TAMANIO_BYTES / 1000000;
-                                alert(`Tu archivo excede el tamaño permitido, el tamaño máximo de tu archivo debe ser de ${tamanioEnMb} MB`);
+                                TNotify.alert(`Tu archivo excede el tamaño permitido, el tamaño máximo de tu archivo debe ser de ${tamanioEnMb} MB`);
                                 // Limpiar
                                 $voucher.value = "";
                             } else {
@@ -212,7 +212,7 @@
                     var val_linea_voucher = val_linea_voucher.replace(/ /g, "");
 
                     var contar_linea = val_linea_voucher.length;
-                   // alert(contar_linea);
+                   // TNotify.alert(contar_linea);
                     if (contar_linea == 27) {
                         $ ("#linea_captura").val(val_linea_voucher);
                         $ ("#id_tipo_voucher").val(2);

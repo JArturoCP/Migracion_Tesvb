@@ -174,13 +174,13 @@
                     $('#grupos').empty();
 
                     $.each(data, function (datos_alumno, subcatObj) {
-                        //  alert(subcatObj);
+                        //  TNotify.alert(subcatObj);
                         $('#grupos').append('<option disabled selected hidden>Selecciona una opción</option><option value="' + subcatObj.id_grupo_ingles + '">' + subcatObj.descripcion + '</option>');
                     });
                 });
             });
             $("#grupos").on('change',function(e) {
-                // alert($("#grupos").val());
+                // TNotify.alert($("#grupos").val());
                 $("#facilitador").css( { "display": "inline"});
                 $("#consultar").css( { "display": "inline"});
                 var id_grupos = $("#grupos").val();

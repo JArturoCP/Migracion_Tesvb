@@ -150,7 +150,7 @@
                 var ls=pdf_documento_carta_alumno.length;
 
 
-                //alert(ls);
+                //TNotify.alert(ls);
                 if(ls > 0){
                     $("#guardar_carta_presentacion").submit();
                     $("#guardar_carta_presentacion_estado").attr("disabled", true);
@@ -179,7 +179,7 @@
                 var ls=mod_pdf_documento_carta_alumno.length;
 
 
-                //alert(ls);
+                //TNotify.alert(ls);
                 if(ls > 0 ){
                     $("#formulario_modificar_carta_presentacion_alumno").submit();
                     $("#modificar_carta_alumno").attr("disabled", true);

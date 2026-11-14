@@ -2194,7 +2194,7 @@
                 },
                 seleccionact:function(alumno){
 
-                    //alert(alumno.id_plan_actividad);
+                    //TNotify.alert(alumno.id_plan_actividad);
 /*
                     axios.post(this.verestra, {id_gen: alumno.id_plan_actividad,
                         id_plan:alumno.id_asigna_planeacion_actividad }).then(response => {
@@ -2221,7 +2221,7 @@
                 guardar_semestre_grupo:function (){
 
                  if(  this.datos_generacion.id_grupo_tutoria == 0){
-                     alert('Selecciona semestre del grupo')
+                     TNotify.alert('Selecciona semestre del grupo')
                  }else{
                      axios.post(this.reg_semestre_grupo,  {
                          id_asigna_tutor: this.datos_generacion.id_asigna_tutor,
@@ -2267,7 +2267,7 @@
                 },
 
                 verestrategia: function (alumno) {
-                 // alert(alumno.id_asigna_planeacion_tutor);
+                 // TNotify.alert(alumno.id_asigna_planeacion_tutor);
                     /*
                    axios.post(this.verestra, {id_gen: alumno.id_asigna_generacion,
                         id_plan:alumno.id_asigna_planeacion_tutor }).then(response => {

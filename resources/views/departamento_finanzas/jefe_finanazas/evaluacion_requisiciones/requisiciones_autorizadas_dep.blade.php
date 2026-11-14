@@ -537,7 +537,7 @@
 
                             $('#partida_presupuestal').empty();
                             $.each(data,function(datos_alumn,subcatObj){
-                                //  alert(subcatObj);
+                                //  TNotify.alert(subcatObj);
                                 $('#partida_presupuestal').append('<option value="'+subcatObj.id_partida_pres+'" data-muni="'+subcatObj.nombre_partida+'" >'+subcatObj.clave_presupuestal+' '+subcatObj.nombre_partida+'</option>');
                             });
                         });
@@ -546,7 +546,7 @@
 
 
                             $.each(data, function (datos_alumno, subcatObj) {
-                                //   alert(subcatObj);
+                                //   TNotify.alert(subcatObj);
                                 $('#meta').append('<div class="radio"><label><input class="form-check-input"  type="radio" name="meta1" value="'+subcatObj.id_meta+'" required>'+subcatObj.meta+'</label></div>');
 
                             });
@@ -555,7 +555,7 @@
 
                             $('#meta').empty();
                             $.each(data, function (datos_alumno, subcatObj) {
-                                //   alert(subcatObj);
+                                //   TNotify.alert(subcatObj);
                                 $('#meta').append('<div class="radio"><label><input class="form-check-input"  type="radio" name="meta1" value="'+subcatObj.id_meta+'" required>'+subcatObj.meta+'</label></div>');
 
                             });

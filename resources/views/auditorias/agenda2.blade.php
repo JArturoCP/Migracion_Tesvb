@@ -463,7 +463,7 @@
                     }
                 })
 
-               // alert(unidades)
+               // TNotify.alert(unidades)
 
                 updateNum("area","areaG","area")
 

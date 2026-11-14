@@ -64,7 +64,7 @@
                 var p_dar = event.target.value;
 
                 if (isNaN(p_dar)) {
-                    alert("el presupuesto debe ser un numero");
+                    TNotify.alert("el presupuesto debe ser un numero");
                     $('#pesos_mod').empty();
 
                 } else {

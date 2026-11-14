@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="{{asset('datepicker/css/bootstrap-datepicker.css')}}">
     <link rel="stylesheet" href="{{asset('datepicker/css/bootstrap-datepicker.standalone.css')}}">
     <link rel="stylesheet" href="{{asset('css/dataTables.bootstrap.min.css')}}">
-    <link rel="stylesheet" href="{{asset('css/sweetalert2.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('css/sweetalert2.min.css') }}?v=11.26.25">
     <link href="{{ asset('open-iconic-master/font/css/open-iconic-bootstrap.css') }}" rel="stylesheet" >
 
     <script type="application/javascript" src="/js/jquery-ui.js"></script>
@@ -46,7 +46,6 @@
     <link rel="stylesheet" href="/css/themes/default.time.css">
 
     {{--sweet alert--}}
-    <script src="{{asset('js/sweetalert.js')}}"></script>
 
 
     <!-- CSRF Token -->
@@ -80,7 +79,7 @@
     <script src="/js/dataTables.bootstrap.min.js"></script>
     <script src="/js/highcharts.js"></script>
     <script src="/js/modules/exporting.js"></script>
-    <script src="{{asset('js/sweetalert2.min.js')}}"></script>
+    <script src="{{ asset('js/sweetalert2.min.js') }}?v=11.26.25"></script>
     <script type="text/javascript">
         $('#nav').affix({
             offset: {
@@ -106,6 +105,9 @@
     <script src="/js/picker.js"></script>
     <script src="/js/picker.time.js"></script>
     <script src="/js/legacy.js"></script>
+
+    <!-- Notificaciones TESVB (reemplazo de alert/confirm/prompt) -->
+    <script src="{{ asset('js/tesvb-notify.js') }}?v={{ filemtime(public_path('js/tesvb-notify.js')) }}"></script>
 </head>
 
 <body >
