@@ -11,12 +11,26 @@ class Dual_Mentor extends Controller
     {
         $id_periodo = Session::get('periodotrabaja');
         $id_carrera = Session::get('carrera');
+        $aviso = null;
+
+        // La carrera la fija el jefe de carrera al elegirla en el menú (HomeController@recargapersonal).
+        if (!$id_carrera || !$id_periodo) {
+            $aviso = 'Selecciona una carrera en el menú para ver y asignar profesores duales.';
+            $estudiantes = $docentes = $datos = [];
+            $estado_periodo = 0;
+            return view('duales.Agregar_docentes_duales', compact('estudiantes','docentes','datos','estado_periodo','aviso'));
+        }
+
         $id_periodo_carrera = DB::selectOne('SELECT id_periodo_carrera FROM gnral_periodo_carreras WHERE id_periodo= ? AND id_carrera= ?', [$id_periodo, $id_carrera]);
-        $id_periodo_carrera=$id_periodo_carrera->id_periodo_carrera;
-        $docentes = DB::select('SELECT gnral_personales.id_personal,gnral_personales.nombre FROM
+        $docentes = [];
+        if ($id_periodo_carrera) {
+            $docentes = DB::select('SELECT gnral_personales.id_personal,gnral_personales.nombre FROM
                                 gnral_personales, gnral_horarios WHERE
                                 gnral_horarios.id_periodo_carrera = ? AND
-                                gnral_horarios.id_personal = gnral_personales.id_personal', [$id_periodo_carrera]);
+                                gnral_horarios.id_personal = gnral_personales.id_personal', [$id_periodo_carrera->id_periodo_carrera]);
+        } else {
+            $aviso = 'La carrera seleccionada no está registrada en el periodo de trabajo, por eso no hay docentes para asignar.';
+        }
        // dd($docentes);
         $estudiantes=DB::select('SELECT eva_validacion_de_cargas.id, eva_validacion_de_cargas.id_alumno,
         gnral_alumnos.cuenta, gnral_alumnos.nombre,gnral_alumnos.apaterno, gnral_alumnos.amaterno,
@@ -49,7 +63,7 @@ class Dual_Mentor extends Controller
         $estado_periodo=$estado_periodo->contar;
 
         //dd($datos);
-        return view('duales.Agregar_docentes_duales', compact('estudiantes','docentes','datos','estado_periodo'));
+        return view('duales.Agregar_docentes_duales', compact('estudiantes','docentes','datos','estado_periodo','aviso'));
     }
 
     public function guardar_mentor_dual(Request $request){

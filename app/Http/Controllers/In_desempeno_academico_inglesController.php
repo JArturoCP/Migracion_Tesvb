@@ -270,8 +270,8 @@ class In_desempeno_academico_inglesController extends Controller
         }
 
         // Calcular las métricas
-        $indice_reprobacion = ($reprobados / $totalumnos) * 100;
-        $indice_desercion = ($desertores / $totalumnos) * 100;
+        $indice_reprobacion = ($totalumnos > 0 ? ($reprobados / $totalumnos) * 100 : 0);
+        $indice_desercion = ($totalumnos > 0 ? ($desertores / $totalumnos) * 100 : 0);
         //$atencion_demanda = ($totalumnos / $totalAlumnos_TESVB) * 100;
         $atencion_demanda = $totalAlumnos_TESVB > 0
             ? round(($totalumnos / $totalAlumnos_TESVB) * 100, 2)
@@ -423,8 +423,8 @@ class In_desempeno_academico_inglesController extends Controller
         }
 
         // Calcular las métricas
-        $indice_reprobacion = ($reprobados / $totalumnos) * 100;
-        $indice_desercion = ($desertores / $totalumnos) * 100;
+        $indice_reprobacion = ($totalumnos > 0 ? ($reprobados / $totalumnos) * 100 : 0);
+        $indice_desercion = ($totalumnos > 0 ? ($desertores / $totalumnos) * 100 : 0);
         $atencion_demanda = ($totalumnos / $totalAlumnos_TESVB) * 100;
         //$eficiencia_terminal = ($aprobados / ($totalumnos - $totalAlumnosCLE)) * 100;
         $eficiencia_terminal = $totalAlumnosCLE > 0
@@ -868,8 +868,8 @@ class In_desempeno_academico_inglesController extends Controller
         }
 
         // Calcular las métricas
-        $indice_reprobacion = ($reprobados / $totalumnos) * 100;
-        $indice_desercion = ($desertores / $totalumnos) * 100;
+        $indice_reprobacion = ($totalumnos > 0 ? ($reprobados / $totalumnos) * 100 : 0);
+        $indice_desercion = ($totalumnos > 0 ? ($desertores / $totalumnos) * 100 : 0);
         $atencion_demanda = ($totalumnos / $totalAlumnos_TESVB) * 100;
         //$eficiencia_terminal = ($aprobados / ($totalumnos - $totalAlumnosCLE)) * 100;
         $eficiencia_terminal = $totalAlumnosCLE > 0
@@ -947,8 +947,8 @@ class In_desempeno_academico_inglesController extends Controller
         }
 
         // Calcular las métricas
-        $indice_reprobacion = ($reprobados / $totalumnos) * 100;
-        $indice_desercion = ($desertores / $totalumnos) * 100;
+        $indice_reprobacion = ($totalumnos > 0 ? ($reprobados / $totalumnos) * 100 : 0);
+        $indice_desercion = ($totalumnos > 0 ? ($desertores / $totalumnos) * 100 : 0);
         $atencion_demanda = ($totalumnos / $totalAlumnos_TESVB) * 100;
         //$eficiencia_terminal = ($aprobados / ($totalumnos - $totalAlumnosCLE)) * 100;
         $eficiencia_terminal = $totalAlumnosCLE > 0

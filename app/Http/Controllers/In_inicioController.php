@@ -23,6 +23,7 @@ class In_inicioController extends Controller
 
         $id_profesor_ingles = Session::get('id_profesor_ingles');
         $nombre_profesor=DB::selectOne('SELECT * FROM `in_profesores_ingles` WHERE `id_profesores` = ?', [$id_profesor_ingles]);
+        if (!$nombre_profesor) { abort(403, 'Esta sección está disponible solo para profesores de inglés.'); }
 
         $periodo_ingles = Session::get('periodo_ingles');
         $cuenta_niveles = DB::table('in_hrs_ingles_profesor')
@@ -35,6 +36,7 @@ class In_inicioController extends Controller
         $cuenta_niveles = $cuenta_niveles[0]->total;
         if ($cuenta_niveles == 0) {
             $cuenta_niveles = 0;
+            $niveles = [];
 
         } else {
             $cuenta_niveles = 1;

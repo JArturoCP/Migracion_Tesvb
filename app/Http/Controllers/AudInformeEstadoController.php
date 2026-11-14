@@ -35,7 +35,8 @@ class AudInformeEstadoController extends Controller
      */
     public function create()
     {
-        return view('auditorias.reporte_evidencias');
+        // La vista auditorias.reporte_evidencias no existe en el proyecto; se regresa al listado.
+        return redirect('/auditorias/informe_estado');
     }
 
     /**

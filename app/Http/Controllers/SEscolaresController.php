@@ -988,7 +988,7 @@ WHERE `id_materia` = ? AND `id_grupo` = ? AND `id_estado` = 1 AND `id_periodo` =
     }
     public function modificaCalificacion()
     {
-        $datCalificacion=calEvaluaciones::find(request()->query('id_evaluacion'));
+        $datCalificacion=calEvaluaciones::findOrFail(request()->query('id_evaluacion'));
         $bitacora= array(
             'id_evaluacion' => $datCalificacion->id_evaluacion,
             'id_unidad' => $datCalificacion->id_unidad,
@@ -1014,7 +1014,7 @@ WHERE `id_materia` = ? AND `id_grupo` = ? AND `id_estado` = 1 AND `id_periodo` =
     }
     public function modificaCalificacionSumativa()
     {
-        $datCalificacion=calEvaluaciones::find(request()->query('id_evaluacion'));
+        $datCalificacion=calEvaluaciones::findOrFail(request()->query('id_evaluacion'));
         $bitacora= array(
             'id_evaluacion' => $datCalificacion->id_evaluacion,
             'id_unidad' => $datCalificacion->id_unidad,

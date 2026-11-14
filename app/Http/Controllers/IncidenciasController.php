@@ -1344,7 +1344,8 @@ AND abreviaciones_prof.id_abreviacion=abreviaciones.id_abreviacion and gnral_uni
 
         $id_periodo_carrera = DB::selectOne('select id_periodo_carrera from gnral_periodo_carreras where id_periodo= ? AND
             id_carrera= ?', [$id_periodo, $id_carrera]);
-        $id_periodo_carrera=$id_periodo_carrera->id_periodo_carrera;
+        // Sin carrera seleccionada o sin registro en el periodo: listas vacías en lugar de error.
+        $id_periodo_carrera = $id_periodo_carrera->id_periodo_carrera ?? 0;
 
         $personal=DB::select('select gnral_personales.id_personal,gnral_personales.nombre FROM gnral_personales, gnral_horarios
 WHERE gnral_horarios.id_periodo_carrera= ? AND gnral_horarios.id_personal=gnral_personales.id_personal
@@ -1484,7 +1485,8 @@ AND abreviaciones_prof.id_abreviacion=abreviaciones.id_abreviacion and gnral_uni
 
         $id_periodo_carrera = DB::selectOne('select id_periodo_carrera from gnral_periodo_carreras where id_periodo= ? AND
             id_carrera= ?', [$id_periodo, $id_carrera]);
-        $id_periodo_carrera=$id_periodo_carrera->id_periodo_carrera;
+        // Sin carrera seleccionada o sin registro en el periodo: listas vacías en lugar de error.
+        $id_periodo_carrera = $id_periodo_carrera->id_periodo_carrera ?? 0;
 
         $personal=DB::select('select gnral_personales.id_personal,gnral_personales.nombre FROM gnral_personales, gnral_horarios
 WHERE gnral_horarios.id_periodo_carrera= ? AND gnral_horarios.id_personal=gnral_personales.id_personal

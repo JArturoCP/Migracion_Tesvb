@@ -162,9 +162,8 @@
                         }
                     });
             });
-            $('#paginar_table').DataTable( {
-
-            } );
+            // Esta tabla agrupa a los comisionados de cada oficio con rowspan; DataTables no admite rowspan
+            // en el cuerpo de la tabla (fallaba con "_DT_CellIndex" y dejaba la tabla incompleta), así que no se usa aquí.
 
 
 

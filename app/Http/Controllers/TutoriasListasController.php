@@ -13,6 +13,7 @@ class TutoriasListasController extends Controller
       $nombre_periodo=DB::selectOne('SELECT gnral_periodos.periodo, gnral_jefes_periodos.*
       from gnral_periodos, gnral_jefes_periodos WHERE gnral_periodos.id_periodo = gnral_jefes_periodos.id_periodo
       and gnral_jefes_periodos.id_jefe_periodo= ?', [$id_jefe_periodo]);
+      if (!$nombre_periodo) { abort(403, 'Esta sección está disponible solo para la coordinación de tutorías del periodo.'); }
      $nombre_periodo=$nombre_periodo->periodo;
 
        $grupos_tutorias=DB::select('SELECT exp_asigna_tutor.*,gnral_personales.nombre,
@@ -105,6 +106,7 @@ class TutoriasListasController extends Controller
        $nombre_periodo=DB::selectOne('SELECT gnral_periodos.periodo, gnral_jefes_periodos.*, gnral_carreras.nombre carrera
       from gnral_periodos, gnral_jefes_periodos, gnral_carreras WHERE gnral_periodos.id_periodo = gnral_jefes_periodos.id_periodo
       and gnral_jefes_periodos.id_jefe_periodo= ? and  gnral_carreras.id_carrera = gnral_jefes_periodos.id_carrera ', [$id_jefe_periodo]);
+       if (!$nombre_periodo) { abort(403, 'Esta sección está disponible solo para la coordinación de tutorías del periodo.'); }
 
 
        $estudiantes=DB::select('SELECT gnral_alumnos.id_alumno, gnral_alumnos.cuenta,

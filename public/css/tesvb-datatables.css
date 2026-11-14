@@ -1,0 +1,112 @@
+/* TESVB DataTables: formato común de las tablas (Bootstrap 3, DataTables 1.10 / 1.13). */
+
+.tesvb-dt {
+    margin: 10px 0;
+    font-size: 13px;
+}
+
+/* Controles superiores: "Mostrar N registros" y búsqueda */
+.tesvb-dt .dataTables_length,
+.tesvb-dt .dataTables_filter {
+    margin-bottom: 10px;
+}
+.tesvb-dt .dataTables_length label,
+.tesvb-dt .dataTables_filter label {
+    font-weight: normal;
+    color: #555;
+    white-space: nowrap;
+}
+.tesvb-dt .dataTables_length select,
+.tesvb-dt .dataTables_filter input {
+    display: inline-block;
+    height: 30px;
+    padding: 4px 8px;
+    font-size: 13px;
+    color: #333;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+.tesvb-dt .dataTables_length select {
+    width: auto;
+    margin: 0 4px;
+}
+.tesvb-dt .dataTables_filter input {
+    width: 220px;
+    max-width: 100%;
+    margin-left: 6px;
+}
+.tesvb-dt .dataTables_length select:focus,
+.tesvb-dt .dataTables_filter input:focus {
+    border-color: #66afe9;
+    outline: 0;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px rgba(102, 175, 233, .6);
+}
+
+/* Tablas anchas: desplazamiento horizontal dentro de su contenedor */
+.tesvb-dt-scroll {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+.tesvb-dt-scroll > table.dataTable {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+/* Encabezado */
+table.tesvb-dt-tabla > thead > tr > th {
+    background-color: #f2f7fb;
+    color: #31708f;
+    font-weight: 600;
+    vertical-align: middle;
+    border-bottom: 2px solid #bce8f1;
+}
+
+/* Filas: alternadas y resaltado al pasar el cursor */
+table.tesvb-dt-tabla > tbody > tr > td {
+    vertical-align: middle;
+}
+table.tesvb-dt-tabla > tbody > tr:nth-of-type(odd) > td {
+    background-color: #fafcfe;
+}
+table.tesvb-dt-tabla > tbody > tr:hover > td {
+    background-color: #eef6fb;
+}
+
+/* Tabla vacía o sin coincidencias */
+table.tesvb-dt-tabla td.dataTables_empty {
+    padding: 18px 8px;
+    text-align: center;
+    color: #888;
+    font-style: italic;
+}
+
+/* Pie: información y paginación */
+.tesvb-dt .dataTables_info {
+    padding-top: 12px;
+    color: #666;
+}
+.tesvb-dt .dataTables_paginate {
+    padding-top: 6px;
+}
+.tesvb-dt .dataTables_paginate .pagination {
+    margin: 2px 0;
+}
+
+/* Pantallas angostas: controles uno debajo del otro */
+@media (max-width: 767px) {
+    .tesvb-dt .dataTables_length,
+    .tesvb-dt .dataTables_filter,
+    .tesvb-dt .dataTables_info,
+    .tesvb-dt .dataTables_paginate {
+        float: none !important;
+        text-align: left !important;
+    }
+    .tesvb-dt .dataTables_filter input {
+        width: 100%;
+        margin: 4px 0 0;
+    }
+}

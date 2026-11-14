@@ -15,7 +15,8 @@ class Dual_AlumnoController extends Controller
         $id_carrera = Session::get('carrera');
         $id_periodo_carrera = DB::selectOne('SELECT id_periodo_carrera FROM gnral_periodo_carreras WHERE id_periodo= ? AND
             id_carrera= ?', [$id_periodo, $id_carrera]);
-        $id_periodo_carrera = $id_periodo_carrera->id_periodo_carrera;
+        // Sin carrera seleccionada o sin registro en el periodo: listas vacías en lugar de error.
+        $id_periodo_carrera = $id_periodo_carrera->id_periodo_carrera ?? 0;
         $estudiantes = DB::select('SELECT eva_validacion_de_cargas.id, eva_validacion_de_cargas.id_alumno, gnral_alumnos.cuenta, gnral_alumnos.nombre,gnral_alumnos.apaterno,
         gnral_alumnos.amaterno, gnral_carreras.nombre carreras,gnral_alumnos.id_semestre
         FROM eva_validacion_de_cargas, gnral_alumnos, gnral_carreras
@@ -57,7 +58,9 @@ class Dual_AlumnoController extends Controller
         $estado_periodo=$estado_periodo->contar;
 
 
-        return view('duales.agregar_alumnos_dual',compact('array_estudiantes','plantillas','estado_periodo'));
+        // La carrera la fija el jefe de carrera al elegirla en el menú (HomeController@recargapersonal).
+        $aviso = !$id_carrera ? 'Selecciona una carrera en el menú para ver y agregar alumnos duales.' : null;
+        return view('duales.agregar_alumnos_dual',compact('array_estudiantes','plantillas','estado_periodo','aviso'));
     }
 
     public function guardar_alumno_dual(Request $request)

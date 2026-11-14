@@ -9,11 +9,10 @@
     <!-- Scripts -->
     <script src="{{ asset('js/js_tutorias/app.js') }}"></script>
     <script src="{{asset('js/js_tutorias/highcharts.js')}}"></script>
-    <script src="{{asset('js/js_tutorias/highcharts-export.js')}}"></script>
-    <script src="https://code.highcharts.com/modules/exporting.js"></script>
-    <!-- optional -->
-    <script src="https://code.highcharts.com/modules/offline-exporting.js"></script>
-    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    {{-- Módulos de la misma versión que highcharts.js local (7.1.2); los de la última versión no son compatibles. --}}
+    <script src="https://code.highcharts.com/7.1.2/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/7.1.2/modules/offline-exporting.js"></script>
+    <script src="https://code.highcharts.com/7.1.2/modules/export-data.js"></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -22,6 +21,8 @@
     <link href="{{ asset('css/css_tutorias/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/css_tutorias/estilo.css') }}" rel="stylesheet">
     <link href="{{ asset('css/css_tutorias/bootstrap-DataTable.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/tesvb-datatables.css') }}?v={{ filemtime(public_path('css/tesvb-datatables.css')) }}">
+    <link rel="stylesheet" href="{{ asset('css/tesvb-responsivo.css') }}?v={{ filemtime(public_path('css/tesvb-responsivo.css')) }}">
 
 
     <link type="text/css" rel="stylesheet" href="{{asset('css/css_tutorias/all.css')}}">
@@ -41,22 +42,26 @@
     <link rel="stylesheet" href="{{ asset('css/sweetalert2.min.css') }}?v=11.26.25">
     <script src="{{ asset('js/sweetalert2.min.js') }}?v=11.26.25"></script>
     <script src="{{ asset('js/tesvb-notify.js') }}?v={{ filemtime(public_path('js/tesvb-notify.js')) }}"></script>
+    <script src="{{ asset('js/tesvb-datatables.js') }}?v={{ filemtime(public_path('js/tesvb-datatables.js')) }}"></script>
 </head>
 <body>
 <header id="header" >
     <div  class="colorheader col-12 card "  >
+        {{-- Bootstrap 4 no tiene clases col-xs-*: en celular cada bloque ocupaba todo el ancho y el logo quedaba
+             debajo del título, más alto que el encabezado. Ahora título y logo van lado a lado en celular;
+             desde 576px las proporciones son las mismas de antes. --}}
         <div class="row">
-            <div class="col-xs-1 col-sm-1 col-md-1"></div>
-            <div class="col-xs-1 col-sm-1 col-md-1">
+            <div class="d-none d-sm-block col-sm-1 col-md-1"></div>
+            <div class="d-none d-sm-block col-sm-1 col-md-1">
                 {{-- <img id="logo1" src="{{ asset('img/logos/gem.png') }}" /> --}}
             </div>
-            <div class="col-xs1 col-sm-1 col-md-1">
+            <div class="d-none d-sm-block col-sm-1 col-md-1">
                 {{--<img id="logo2" src="{{ asset('img/logos/EdoMEXvertical.png') }}" /> --}}
             </div>
-            <div class="col-xs-6 col-sm-6 col-md-6 lineas text-center pt-3">
+            <div class="col-8 col-sm-6 col-md-6 lineas text-center pt-3">
                 <h5 class="font-weight-bold">Sistema de Seguimiento al Programa Institucional de Tutorias para Educación Superior</h5>
             </div>
-            <div class="col-xs-2 col-sm-2 col-md-2">
+            <div class="col-4 col-sm-2 col-md-2">
                 <img id="logo3" src="{{ asset ('assets/img/tes.png') }}" />
             </div>
         </div>

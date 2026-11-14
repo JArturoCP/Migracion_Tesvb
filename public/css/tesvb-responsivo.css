@@ -1,0 +1,40 @@
+/* TESVB: ajustes responsivos comunes a todas las pantallas (Bootstrap 3). */
+
+/* Contenido de las plantillas. Muchas vistas usan .row (margen de -15px) sin un .container alrededor,
+   lo que hacía la página 15px más ancha que la pantalla. `clip` recorta solo ese sobrante horizontal
+   sin crear una zona de desplazamiento (los menús y calendarios desplegables se siguen viendo). */
+.tesvb-contenido {
+    overflow-x: clip;
+}
+
+/* Encabezado (plantillas de tutorías): assets/css/estilos.css fija `header { height: 100px }`; si el contenido
+   es más alto (pantallas angostas) se encimaba con lo que sigue. */
+#header {
+    height: auto;
+    min-height: 100px;
+}
+
+/* Insignias con texto largo: que hagan salto de línea en lugar de salirse de la pantalla.
+   (`body` sube la especificidad: algunas plantillas cargan su app.css después de esta hoja.) */
+body .badge {
+    white-space: normal;
+    max-width: 100%;
+}
+
+/* Tablas comunes (no DataTables): tesvb-datatables.js las coloca dentro de .table-responsive. */
+.table-responsive {
+    margin-bottom: 15px;
+    /* Los controles con position: absolute dentro de la tabla (p. ej. .form-check-input de Bootstrap 4)
+       se desplazan con ella en lugar de quedar fuera de la pantalla. */
+    position: relative;
+}
+.table-responsive > table.table {
+    margin-bottom: 0;
+}
+
+/* Bootstrap 4 (filas flex): una columna o fila anidada no se encoge por debajo del ancho de su contenido
+   (por ejemplo una tabla), y empujaba la página. Con min-width: 0 la tabla se desplaza dentro de su
+   contenedor. En Bootstrap 3 (columnas con float) no tiene efecto. */
+.row > * {
+    min-width: 0;
+}

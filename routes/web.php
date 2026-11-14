@@ -2935,3 +2935,30 @@ Route::middleware('auth')->group(function () {
     Route::delete('/admin/examen_general/periodos/eliminar/{id_periodo_examen}', 'Examen_GnralC_PeriodoController@destroy')->name('admin.examen_general.periodos.destroy');
 
 });
+
+// Pantallas que trabajan con "el alumno de la sesión": con otro perfil respondían error 500.
+// Se restringen (solo GET) a usuarios alumno; los demás reciben 403 con mensaje.
+$pantallasSoloAlumnos = [
+    'alumno/academico/cal', 'beca_estimulo', 'calificaciones', 'carga_academica',
+    'checar', 'checar_carga', 'checar_cargau', 'evaluacion_alumno', 'verificacion_adeudo_alumno',
+    'encuestas_satisfaccion/contestar_encuesta_alumno', 'encuestas_satisfaccion/encuesta_residencia',
+    'encuestas_satisfaccion/encuesta_servicio_social',
+    'ingles/ver_cal_alumno_ingles', 'ingles_horarios/llenar_carga_academica', 'ingles_horarios/revision_carga_academica',
+    'prestamo/Alumnos_Prestamos_material',
+    'residencia/anteproyecto/alcances', 'residencia/anteproyecto/cronograma', 'residencia/anteproyecto/justificacion',
+    'residencia/anteproyecto/marco_teorico', 'residencia/anteproyecto/objetivos', 'residencia/anteproyecto/portada',
+    'residencia/anteproyecto/corregir_alcances', 'residencia/anteproyecto/corregir_cronograma',
+    'residencia/anteproyecto/corregir_justificacion', 'residencia/anteproyecto/corregir_marco_teorico',
+    'residencia/anteproyecto/corregir_objetivos', 'residencia/correcciones_anteproyecto',
+    'residencia/dictamen_anteproyecto', 'residencia/documentos_alta_residencia', 'residencia/seguimiento_residencia',
+    'servicio_social/docuemtacion_priemra_etapa', 'servicio_social/enviocartapresentacionalumno/alumno',
+    'servicios_escolares/duales/checar_carga_academica', 'solicitud/prorroga',
+    'titulacion/documentacion_requisitos_titulacion', 'titulacion/reg_datos_personales/segunda_etapa', 'titulacion/registro_jurado',
+    'tutoras_evaluacion/evaluacion_al_tutor', 'tutoras_evaluacion/evaluacion_al_tutor/dos', 'tutoras_evaluacion/evaluacion_al_tutor/tres',
+    'tutorias/actividad', 'tutorias/getDatos', 'tutorias/inicioalu', 'tutorias/panel',
+];
+foreach (Route::getRoutes()->getRoutes() as $ruta) {
+    if (in_array('GET', $ruta->methods(), true) && in_array(trim($ruta->uri(), '/'), $pantallasSoloAlumnos, true)) {
+        $ruta->middleware(\App\Http\Middleware\SoloAlumnos::class);
+    }
+}

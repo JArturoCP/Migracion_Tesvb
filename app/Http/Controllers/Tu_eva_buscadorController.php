@@ -29,6 +29,7 @@ class Tu_eva_buscadorController extends Controller
                               INNER JOIN gnral_carreras car
                               ON car.id_carrera = gnral_j.id_carrera
                               WHERE gnral_j.id_periodo = ? AND gnral_p.tipo_usuario =  ? AND tu_grupo_s.id_grupo_semestre = ? ', [$periodo, $id_usuario, $id_grupo_semestre]);
+        if (!$tutores) { abort(404, 'No se encontró el grupo de tutorías.'); }
 
         $tutor = DB::SELECTONE('SELECT exp_asigna_t.id_asigna_generacion,tu_grupo_s.id_grupo_semestre,car.nombre carrera, car.id_carrera, tu_grupo_t.descripcion grupo, gnral_p.nombre nombre_tutor, gnral_p.tipo_usuario tipo FROM tu_grupo_tutorias tu_grupo_t
                             INNER JOIN tu_grupo_semestre tu_grupo_s
@@ -100,6 +101,7 @@ class Tu_eva_buscadorController extends Controller
                               INNER JOIN gnral_carreras car
                               ON car.id_carrera = gnral_j.id_carrera
                               WHERE gnral_j.id_periodo = ? AND gnral_p.tipo_usuario =  ?  ', [$periodo, $id_usuario]);
+            if (!$tutores) { abort(404, 'No se encontró el grupo de tutorías.'); }
 
             $carreras = DB::selectOne('SELECT car.nombre FROM gnral_carreras car WHERE car.id_carrera = ? ', [$tutores->id_carrera]);
             //dd($carreras);
@@ -289,6 +291,7 @@ class Tu_eva_buscadorController extends Controller
                               INNER JOIN gnral_carreras car
                               ON car.id_carrera = gnral_j.id_carrera
                               WHERE gnral_j.id_periodo = ? AND tu_grupo_s.id_grupo_semestre = ? ', [$periodo, $id_grupo_semestre]);
+        if (!$tutores) { abort(404, 'No se encontró el grupo de tutorías.'); }
 
         //dd($tutores);
 

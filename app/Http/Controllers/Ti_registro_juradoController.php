@@ -210,7 +210,8 @@ WHERE ti_fecha_jurado_alumn.id_horarios_dias=ti_horarios_dias.id_horarios_dias
         $id_periodo = Session::get('periodotrabaja');
         $id_carrera = Session::get('carrera');
         $id_periodo_carrera = DB::selectOne('select id_periodo_carrera from gnral_periodo_carreras where id_periodo= ? AND id_carrera= ?', [$id_periodo, $id_carrera]);
-        $id_periodo_carrera = $id_periodo_carrera->id_periodo_carrera;
+        // Sin carrera seleccionada o sin registro en el periodo: listas vacías en lugar de error.
+        $id_periodo_carrera = $id_periodo_carrera->id_periodo_carrera ?? 0;
 
         $personales = DB::select('select gnral_personales.id_personal,gnral_personales.nombre
                    FROM gnral_personales, gnral_horarios, abreviaciones_prof,abreviaciones,gnral_cargos
@@ -256,7 +257,8 @@ WHERE ti_fecha_jurado_alumn.id_horarios_dias=ti_horarios_dias.id_horarios_dias
         $id_carrera = DB::selectOne('SELECT * FROM `ti_reg_datos_alum` WHERE `id_alumno` = ?', [$id_alumno]);
         $id_carrera=$id_carrera->id_carrera;
         $id_periodo_carrera = DB::selectOne('select id_periodo_carrera from gnral_periodo_carreras where id_periodo= ? AND id_carrera= ?', [$id_periodo, $id_carrera]);
-        $id_periodo_carrera = $id_periodo_carrera->id_periodo_carrera;
+        // Sin carrera seleccionada o sin registro en el periodo: listas vacías en lugar de error.
+        $id_periodo_carrera = $id_periodo_carrera->id_periodo_carrera ?? 0;
 
 
         $personales = DB::select('select gnral_personales.id_personal,gnral_personales.nombre
@@ -297,7 +299,8 @@ WHERE `id_alumno` = ? AND `id_tipo_jurado` = 1 ', [$id_alumno]);
         $id_periodo = Session::get('periodotrabaja');
         $id_carrera = Session::get('carrera');
         $id_periodo_carrera = DB::selectOne('select id_periodo_carrera from gnral_periodo_carreras where id_periodo= ? AND id_carrera= ?', [$id_periodo, $id_carrera]);
-        $id_periodo_carrera = $id_periodo_carrera->id_periodo_carrera;
+        // Sin carrera seleccionada o sin registro en el periodo: listas vacías en lugar de error.
+        $id_periodo_carrera = $id_periodo_carrera->id_periodo_carrera ?? 0;
 
         $personales = DB::select('select gnral_personales.id_personal,gnral_personales.nombre
                    FROM gnral_personales, gnral_horarios, abreviaciones_prof,abreviaciones,gnral_cargos
@@ -340,7 +343,8 @@ WHERE ti_fecha_jurado_alumn.id_horarios_dias=ti_horarios_dias.id_horarios_dias
         $id_carrera = DB::selectOne('SELECT * FROM `ti_reg_datos_alum` WHERE `id_alumno` = ?', [$id_alumno]);
         $id_carrera=$id_carrera->id_carrera;
         $id_periodo_carrera = DB::selectOne('select id_periodo_carrera from gnral_periodo_carreras where id_periodo= ? AND id_carrera= ?', [$id_periodo, $id_carrera]);
-        $id_periodo_carrera = $id_periodo_carrera->id_periodo_carrera;
+        // Sin carrera seleccionada o sin registro en el periodo: listas vacías en lugar de error.
+        $id_periodo_carrera = $id_periodo_carrera->id_periodo_carrera ?? 0;
 
         $personales = DB::select('select gnral_personales.id_personal,gnral_personales.nombre
                    FROM gnral_personales, gnral_horarios, abreviaciones_prof,abreviaciones,gnral_cargos
@@ -374,7 +378,8 @@ WHERE `id_alumno` = ? AND `id_tipo_jurado` = 2 ', [$id_alumno]);
         $id_periodo = Session::get('periodotrabaja');
         $id_carrera = Session::get('carrera');
         $id_periodo_carrera = DB::selectOne('select id_periodo_carrera from gnral_periodo_carreras where id_periodo= ? AND id_carrera= ?', [$id_periodo, $id_carrera]);
-        $id_periodo_carrera = $id_periodo_carrera->id_periodo_carrera;
+        // Sin carrera seleccionada o sin registro en el periodo: listas vacías en lugar de error.
+        $id_periodo_carrera = $id_periodo_carrera->id_periodo_carrera ?? 0;
 
         $personales = DB::select('select gnral_personales.id_personal,gnral_personales.nombre
                    FROM gnral_personales, gnral_horarios, abreviaciones_prof,abreviaciones,gnral_cargos
@@ -417,7 +422,8 @@ WHERE ti_fecha_jurado_alumn.id_horarios_dias=ti_horarios_dias.id_horarios_dias
         $id_carrera = DB::selectOne('SELECT * FROM `ti_reg_datos_alum` WHERE `id_alumno` = ?', [$id_alumno]);
         $id_carrera=$id_carrera->id_carrera;
         $id_periodo_carrera = DB::selectOne('select id_periodo_carrera from gnral_periodo_carreras where id_periodo= ? AND id_carrera= ?', [$id_periodo, $id_carrera]);
-        $id_periodo_carrera = $id_periodo_carrera->id_periodo_carrera;
+        // Sin carrera seleccionada o sin registro en el periodo: listas vacías en lugar de error.
+        $id_periodo_carrera = $id_periodo_carrera->id_periodo_carrera ?? 0;
 
         $personales = DB::select('select gnral_personales.id_personal,gnral_personales.nombre
                    FROM gnral_personales, gnral_horarios, abreviaciones_prof,abreviaciones,gnral_cargos
@@ -453,7 +459,8 @@ WHERE `id_alumno` = ? AND `id_tipo_jurado` = 3 ', [$id_alumno]);
         $id_periodo = Session::get('periodotrabaja');
         $id_carrera = Session::get('carrera');
         $id_periodo_carrera = DB::selectOne('select id_periodo_carrera from gnral_periodo_carreras where id_periodo= ? AND id_carrera= ?', [$id_periodo, $id_carrera]);
-        $id_periodo_carrera = $id_periodo_carrera->id_periodo_carrera;
+        // Sin carrera seleccionada o sin registro en el periodo: listas vacías en lugar de error.
+        $id_periodo_carrera = $id_periodo_carrera->id_periodo_carrera ?? 0;
 
         $personales = DB::select('select gnral_personales.id_personal,gnral_personales.nombre
                    FROM gnral_personales, gnral_horarios, abreviaciones_prof,abreviaciones,gnral_cargos
@@ -496,7 +503,8 @@ WHERE ti_fecha_jurado_alumn.id_horarios_dias=ti_horarios_dias.id_horarios_dias
         $id_carrera = DB::selectOne('SELECT * FROM `ti_reg_datos_alum` WHERE `id_alumno` = ?', [$id_alumno]);
         $id_carrera=$id_carrera->id_carrera;
         $id_periodo_carrera = DB::selectOne('select id_periodo_carrera from gnral_periodo_carreras where id_periodo= ? AND id_carrera= ?', [$id_periodo, $id_carrera]);
-        $id_periodo_carrera = $id_periodo_carrera->id_periodo_carrera;
+        // Sin carrera seleccionada o sin registro en el periodo: listas vacías en lugar de error.
+        $id_periodo_carrera = $id_periodo_carrera->id_periodo_carrera ?? 0;
 
         $personales = DB::select('select gnral_personales.id_personal,gnral_personales.nombre
                    FROM gnral_personales, gnral_horarios, abreviaciones_prof,abreviaciones,gnral_cargos

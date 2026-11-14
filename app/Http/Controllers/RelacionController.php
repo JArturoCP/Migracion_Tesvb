@@ -304,7 +304,7 @@ else if($directivo==true)
    return view('formatos.relacion_admin',compact('carreras','id_carrera',
             'periodo','docentes','ncarrera','t_nombra','t_hrs','total_lic'))->with(['ver' => true, 'docentes' => $datos_docente]);
 }
-
+        abort(403, 'Esta sección está disponible solo para jefes de división y directivos.');
     }
     public function excel(){
         return Excel::download(new RelacionPersonalDocenteExport(),'RelacionPersonalDocente.xlsx');

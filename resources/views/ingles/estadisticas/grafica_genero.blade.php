@@ -32,7 +32,8 @@
 
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        // Funciona abierta sola o cargada por AJAX: dibuja cuando el documento está listo y carga Highcharts si falta.
+        (function (dibujar) { function correr() { if (window.Highcharts) { dibujar(); return; } var s = document.createElement('script'); s.src = 'https://code.highcharts.com/highcharts.js'; s.onload = dibujar; document.head.appendChild(s); } if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', correr); } else { correr(); } })(function () {
             const datos = @json($datosAgrupados);
 
             const categorias = [];

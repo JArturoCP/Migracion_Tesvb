@@ -19,7 +19,8 @@ class DocentesPlantillaController extends Controller
         $id_periodo_carrera = DB::selectOne('SELECT id_periodo_carrera FROM gnral_periodo_carreras WHERE id_periodo = ?
         AND id_carrera = ?', [$id_periodo, $id_carrera]);
 
-        $id_periodo_carrera=$id_periodo_carrera->id_periodo_carrera;
+        // Sin carrera seleccionada o sin registro en el periodo: listas vacías en lugar de error.
+        $id_periodo_carrera = $id_periodo_carrera->id_periodo_carrera ?? 0;
 
         $docentes = DB::select('select gnral_personales.id_personal,gnral_personales.clave, gnral_personales.nombre,
                                 gnral_perfiles.descripcion,gnral_personales.fch_recontratacion FROM

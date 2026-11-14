@@ -110,10 +110,15 @@
                                             <td style="color: #942a25">Rechazado</td>
                                             <td style="color: #942a25">Rechazado</td>
                                         @endif 
+                                        @if(!in_array($hist->id_estado_solicitud, [1, 2, 3, 4]))
+                                            {{-- Estado no contemplado: mantener las 9 columnas para que DataTables no falle --}}
+                                            <td>Sin estado</td>
+                                            <td></td>
+                                        @endif
                                     </tr>
 
                                 @endforeach
-                  <tbody>
+                  </tbody>
                 </table>
         </div>
     </div>

@@ -403,7 +403,8 @@ return back();
                 //$id_periodo_carrera = DB::selectOne('select id_periodo_carrera from gnral_periodo_carreras where id_periodo=' . $id_periodo . ' AND id_carrera=' . $id_carrera . '');
                 $id_periodo_carrera = DB::selectOne('SELECT id_periodo_carrera FROM gnral_periodo_carreras WHERE id_periodo = ? AND (id_carrera = ? OR id_carrera = 17)',[$id_periodo, $id_carrera]);
 
-                $id_periodo_carrera = $id_periodo_carrera->id_periodo_carrera;
+                // Sin carrera seleccionada o sin registro en el periodo: listas vacías en lugar de error.
+                $id_periodo_carrera = $id_periodo_carrera->id_periodo_carrera ?? 0;
                 $personales = DB::select('select gnral_personales.id_personal,gnral_personales.nombre
                    FROM gnral_personales, gnral_horarios, abreviaciones_prof,abreviaciones,gnral_cargos
                   WHERE gnral_horarios.id_periodo_carrera= ? AND gnral_horarios.id_personal=gnral_personales.id_personal and
@@ -460,7 +461,8 @@ return back();
                     $fecha_regreso = $oficios->fecha_regreso;
                     //$id_periodo_carrera = DB::selectOne('select id_periodo_carrera from gnral_periodo_carreras where id_periodo=' . $id_periodo . ' AND id_carrera=' . $id_carrera . '');
                     $id_periodo_carrera = DB::selectOne('SELECT id_periodo_carrera FROM gnral_periodo_carreras WHERE id_periodo = ? AND (id_carrera = ? OR id_carrera = 17)',[$id_periodo, $id_carrera]);
-                    $id_periodo_carrera = $id_periodo_carrera->id_periodo_carrera;
+                    // Sin carrera seleccionada o sin registro en el periodo: listas vacías en lugar de error.
+                    $id_periodo_carrera = $id_periodo_carrera->id_periodo_carrera ?? 0;
                     $personales = DB::select('select gnral_personales.id_personal,gnral_personales.nombre
                    FROM gnral_personales, gnral_horarios, abreviaciones_prof,abreviaciones,gnral_cargos
                   WHERE gnral_horarios.id_periodo_carrera= ? AND gnral_horarios.id_personal=gnral_personales.id_personal and
@@ -492,7 +494,8 @@ return back();
                     $fecha_regreso = $oficios->fecha_regreso;
                     //$id_periodo_carrera = DB::selectOne('select id_periodo_carrera from gnral_periodo_carreras where id_periodo=' . $id_periodo . ' AND id_carrera=' . $id_carrera . '');
                     $id_periodo_carrera = DB::selectOne('SELECT id_periodo_carrera FROM gnral_periodo_carreras WHERE id_periodo = ? AND (id_carrera = ? OR id_carrera = 17)',[$id_periodo, $id_carrera]);
-                    $id_periodo_carrera = $id_periodo_carrera->id_periodo_carrera;
+                    // Sin carrera seleccionada o sin registro en el periodo: listas vacías en lugar de error.
+                    $id_periodo_carrera = $id_periodo_carrera->id_periodo_carrera ?? 0;
                     $personales = DB::select('select gnral_personales.id_personal,gnral_personales.nombre
                    FROM gnral_personales, gnral_horarios, abreviaciones_prof,abreviaciones,gnral_cargos
                   WHERE gnral_horarios.id_periodo_carrera= ? AND gnral_horarios.id_personal=gnral_personales.id_personal and

@@ -15,6 +15,8 @@
     <link rel="stylesheet" href="{{asset('datepicker/css/bootstrap-datepicker.css')}}">
     <link rel="stylesheet" href="{{asset('datepicker/css/bootstrap-datepicker.standalone.css')}}">
     <link rel="stylesheet" href="{{asset('css/dataTables.bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('css/tesvb-datatables.css') }}?v={{ filemtime(public_path('css/tesvb-datatables.css')) }}">
+    <link rel="stylesheet" href="{{ asset('css/tesvb-responsivo.css') }}?v={{ filemtime(public_path('css/tesvb-responsivo.css')) }}">
     <link rel="stylesheet" href="{{ asset('css/sweetalert2.min.css') }}?v=11.26.25">
     <link href="{{ asset('open-iconic-master/font/css/open-iconic-bootstrap.css') }}" rel="stylesheet" >
 
@@ -77,6 +79,7 @@
     <script src="/js/dataTables.fixedHeader.min.js"></script>
     <script src="/js/jquery.blockUI.js"></script>
     <script src="/js/dataTables.bootstrap.min.js"></script>
+    <script src="{{ asset('js/tesvb-datatables.js') }}?v={{ filemtime(public_path('js/tesvb-datatables.js')) }}"></script>
     <script src="/js/highcharts.js"></script>
     <script src="/js/modules/exporting.js"></script>
     <script src="{{ asset('js/sweetalert2.min.js') }}?v=11.26.25"></script>
@@ -135,7 +138,9 @@
     @endif
 @show
 
+<div class="tesvb-contenido">
 @yield('content')
+</div>
 
 @section('footer')
     @include('partials.footer')

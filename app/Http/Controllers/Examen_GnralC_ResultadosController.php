@@ -93,6 +93,7 @@ public function generarResultado($id_docente)
             'c.nombre as carrera'
         )
         ->first();
+        if (!$docente) { abort(403, 'Esta sección está disponible solo para docentes con grupos asignados en el periodo.'); }
 
     if (!$docente) {
         return false;
@@ -166,6 +167,7 @@ public function generarResultado($id_docente)
             'c.nombre as carrera'
         )
         ->first();
+        if (!$docente) { abort(403, 'Esta sección está disponible solo para docentes con grupos asignados en el periodo.'); }
 //dd($docente);
         $id_examen_egel = DB::table('egel_examenes')
             ->where('estado', 1)
@@ -240,6 +242,7 @@ public function generarResultado($id_docente)
         ->where('p.estado_docente_inv', 1)
         ->select('p.*','c.id_carrera','c.nombre as carrera')
         ->first();
+        if (!$docente) { abort(403, 'Esta sección está disponible solo para docentes con grupos asignados en el periodo.'); }
 
          $id_examen_egel = DB::table('egel_examenes')
             ->where('estado', 1)

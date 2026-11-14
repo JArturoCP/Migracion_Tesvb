@@ -292,7 +292,7 @@ class Tutorias_GraficasInstitucionController extends Controller
             [
                 [
                     [
-                        ["name"=>"Soltero","y"=>round(($estadogen[0]->soltero)*100/Session::get('total_alumnos'))],["name"=>"Casado","y"=>round(($estadogen[0]->casado)*100/Session::get('total_alumnos'))],["name"=>"Unión libre","y"=>round(($estadogen[0]->unionlibre)*100/Session::get('total_alumnos'))],["name"=>"Divorsiado","y"=>round(($estadogen[0]->divorsiado)*100/Session::get('total_alumnos'))],["name"=>"Viudo","y"=>round(($estadogen[0]->viudo)*100/Session::get('total_alumnos'))]
+                        ["name"=>"Soltero","y"=>round(($estadogen[0]->soltero)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"Casado","y"=>round(($estadogen[0]->casado)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"Unión libre","y"=>round(($estadogen[0]->unionlibre)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"Divorsiado","y"=>round(($estadogen[0]->divorsiado)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"Viudo","y"=>round(($estadogen[0]->viudo)*100/max(1, (int) Session::get('total_alumnos')))]
                     ],
                     [
                         ["name"=>"Soltero","y"=>round(($estadoF[0]->soltero)*100/Session::get('total_mujeres'))],["name"=>"Casado","y"=>round(($estadoF[0]->casado)*100/Session::get('total_mujeres'))],["name"=>"Unión libre","y"=>round(($estadoF[0]->unionlibre)*100/Session::get('total_mujeres'))],["name"=>"Divorsiado","y"=>round(($estadoF[0]->divorsiado)*100/Session::get('total_mujeres'))],["name"=>"Viudo","y"=>round(($estadoF[0]->viudo)*100/Session::get('total_mujeres'))]
@@ -303,7 +303,7 @@ class Tutorias_GraficasInstitucionController extends Controller
                 ],
                 [
                     [
-                        ["name"=>"E","y"=>round(($nivelgen[0]->E)*100/Session::get('total_alumnos'))],["name"=>"D","y"=>round(($nivelgen[0]->D)*100/Session::get('total_alumnos'))],["name"=>"D+","y"=>round(($nivelgen[0]->DD)*100/Session::get('total_alumnos'))],["name"=>"C-","y"=>round(($nivelgen[0]->CCC)*100/Session::get('total_alumnos'))],["name"=>"C","y"=>round(($nivelgen[0]->C)*100/Session::get('total_alumnos'))],["name"=>"C+","y"=>round(($nivelgen[0]->CC)*100/Session::get('total_alumnos'))],["name"=>"A/B","y"=>round(($nivelgen[0]->AB)*100/Session::get('total_alumnos'))]
+                        ["name"=>"E","y"=>round(($nivelgen[0]->E)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"D","y"=>round(($nivelgen[0]->D)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"D+","y"=>round(($nivelgen[0]->DD)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"C-","y"=>round(($nivelgen[0]->CCC)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"C","y"=>round(($nivelgen[0]->C)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"C+","y"=>round(($nivelgen[0]->CC)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"A/B","y"=>round(($nivelgen[0]->AB)*100/max(1, (int) Session::get('total_alumnos')))]
                     ],
                     [
                         ["name"=>"E","y"=>round(($nivelF[0]->E)*100/Session::get('total_mujeres'))],["name"=>"D","y"=>round(($nivelF[0]->D)*100/Session::get('total_mujeres'))],["name"=>"D+","y"=>round(($nivelF[0]->DD)*100/Session::get('total_mujeres'))],["name"=>"C-","y"=>round(($nivelF[0]->CCC)*100/Session::get('total_mujeres'))],["name"=>"C","y"=>round(($nivelF[0]->C)*100/Session::get('total_mujeres'))],["name"=>"C+","y"=>round(($nivelF[0]->CC)*100/Session::get('total_mujeres'))],["name"=>"A/B","y"=>round(($nivelF[0]->AB)*100/Session::get('total_mujeres'))]
@@ -314,7 +314,7 @@ class Tutorias_GraficasInstitucionController extends Controller
                 ],
                 [
                     [
-                        ["name"=>"Si","y"=>round(($trabajagen[0]->SI)*100/Session::get('total_alumnos'))],["name"=>"No","y"=>round(($trabajagen[0]->NOO)*100/Session::get('total_alumnos'))]
+                        ["name"=>"Si","y"=>round(($trabajagen[0]->SI)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"No","y"=>round(($trabajagen[0]->NOO)*100/max(1, (int) Session::get('total_alumnos')))]
                     ],
                     [
                         ["name"=>"Si","y"=>round(($trabajaF[0]->SI)*100/Session::get('total_mujeres'))],["name"=>"No","y"=>round(($trabajaF[0]->NOO)*100/Session::get('total_mujeres'))]
@@ -325,7 +325,7 @@ class Tutorias_GraficasInstitucionController extends Controller
                 ],
                 [
                     [
-                        ["name"=>"Regular","y"=>round(($academicogen[0]->R)*100/Session::get('total_alumnos'))],["name"=>"Irregular","y"=>round(($academicogen[0]->I)*100/Session::get('total_alumnos'))],["name"=>"Suspensión","y"=>round(($academicogen[0]->S)*100/Session::get('total_alumnos'))],["name"=>"Baja temporal  ","y"=>round(($academicogen[0]->BJ)*100/Session::get('total_alumnos'))],["name"=>"Baja definitiva","y"=>round(($academicogen[0]->BD)*100/Session::get('total_alumnos'))]
+                        ["name"=>"Regular","y"=>round(($academicogen[0]->R)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"Irregular","y"=>round(($academicogen[0]->I)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"Suspensión","y"=>round(($academicogen[0]->S)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"Baja temporal  ","y"=>round(($academicogen[0]->BJ)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"Baja definitiva","y"=>round(($academicogen[0]->BD)*100/max(1, (int) Session::get('total_alumnos')))]
                     ],
                     [
                         ["name"=>"Regular","y"=>round(($academicoF[0]->R)*100/Session::get('total_mujeres'))],["name"=>"Irregular","y"=>round(($academicoF[0]->I)*100/Session::get('total_mujeres'))],["name"=>"Suspensión","y"=>round(($academicoF[0]->S)*100/Session::get('total_mujeres'))],["name"=>"Baja temporal  ","y"=>round(($academicoF[0]->BJ)*100/Session::get('total_mujeres'))],["name"=>"Baja definitiva","y"=>round(($academicoF[0]->BD)*100/Session::get('total_mujeres'))]
@@ -336,7 +336,7 @@ class Tutorias_GraficasInstitucionController extends Controller
                 ],
                 [
                     [
-                        ["name"=>"Si","y"=>round(($becagen[0]->SI)*100/Session::get('total_alumnos'))],["name"=>"No","y"=>round(($becagen[0]->NOO)*100/Session::get('total_alumnos'))]
+                        ["name"=>"Si","y"=>round(($becagen[0]->SI)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"No","y"=>round(($becagen[0]->NOO)*100/max(1, (int) Session::get('total_alumnos')))]
                     ],
                     [
                         ["name"=>"Si","y"=>round(($becaF[0]->SI)*100/Session::get('total_mujeres'))],["name"=>"No","y"=>round(($becaF[0]->NOO)*100/Session::get('total_mujeres'))]
@@ -358,7 +358,7 @@ class Tutorias_GraficasInstitucionController extends Controller
                 ],
                 [
                     [
-                        ["name"=>"0","y"=>round(($hijosgen[0]->C)*100/Session::get('total_alumnos'))],["name"=>"1","y"=>round(($hijosgen[0]->U)*100/Session::get('total_alumnos'))],["name"=>"2","y"=>round(($hijosgen[0]->D)*100/Session::get('total_alumnos'))],["name"=>"3","y"=>round(($hijosgen[0]->T)*100/Session::get('total_alumnos'))],["name"=>"4 o más","y"=>round(($hijosgen[0]->M)*100/Session::get('total_alumnos'))]
+                        ["name"=>"0","y"=>round(($hijosgen[0]->C)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"1","y"=>round(($hijosgen[0]->U)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"2","y"=>round(($hijosgen[0]->D)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"3","y"=>round(($hijosgen[0]->T)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"4 o más","y"=>round(($hijosgen[0]->M)*100/max(1, (int) Session::get('total_alumnos')))]
                     ],
                     [
                         ["name"=>"0","y"=>round(($hijosF[0]->C)*100/Session::get('total_mujeres'))],["name"=>"1","y"=>round(($hijosF[0]->U)*100/Session::get('total_mujeres'))],["name"=>"2","y"=>round(($hijosF[0]->D)*100/Session::get('total_mujeres'))],["name"=>"3","y"=>round(($hijosF[0]->T)*100/Session::get('total_mujeres'))],["name"=>"4 o más","y"=>round(($hijosF[0]->M)*100/Session::get('total_mujeres'))]
@@ -468,7 +468,7 @@ class Tutorias_GraficasInstitucionController extends Controller
             [
                 [
                     [
-                        ["name"=>"Si","y"=>round(($gustagen[0]->SI)*100/Session::get('total_alumnos'))],["name"=>"No","y"=>round(($gustagen[0]->NOO)*100/Session::get('total_alumnos'))]
+                        ["name"=>"Si","y"=>round(($gustagen[0]->SI)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"No","y"=>round(($gustagen[0]->NOO)*100/max(1, (int) Session::get('total_alumnos')))]
                     ],
                     [
                         ["name"=>"Si","y"=>round(($gustaF[0]->SI)*100/Session::get('total_mujeres'))],["name"=>"No","y"=>round(($gustaF[0]->NOO)*100/Session::get('total_mujeres'))]
@@ -479,7 +479,7 @@ class Tutorias_GraficasInstitucionController extends Controller
                 ],
                 [
                     [
-                        ["name"=>"Si","y"=>round(($estimulagen[0]->SI)*100/Session::get('total_alumnos'))],["name"=>"No","y"=>round(($estimulagen[0]->NOO)*100/Session::get('total_alumnos'))]
+                        ["name"=>"Si","y"=>round(($estimulagen[0]->SI)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"No","y"=>round(($estimulagen[0]->NOO)*100/max(1, (int) Session::get('total_alumnos')))]
                     ],
                     [
                         ["name"=>"Si","y"=>round(($estimulaF[0]->SI)*100/Session::get('total_mujeres'))],["name"=>"No","y"=>round(($estimulaF[0]->NOO)*100/Session::get('total_mujeres'))]
@@ -490,7 +490,7 @@ class Tutorias_GraficasInstitucionController extends Controller
                 ],
                 [
                     [
-                        ["name"=>"Si","y"=>round(($otragen[0]->SI)*100/Session::get('total_alumnos'))],["name"=>"No","y"=>round(($otragen[0]->NOO)*100/Session::get('total_alumnos'))]
+                        ["name"=>"Si","y"=>round(($otragen[0]->SI)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"No","y"=>round(($otragen[0]->NOO)*100/max(1, (int) Session::get('total_alumnos')))]
                     ],
                     [
                         ["name"=>"Si","y"=>round(($otraF[0]->SI)*100/Session::get('total_mujeres'))],["name"=>"No","y"=>round(($otraF[0]->NOO)*100/Session::get('total_mujeres'))]
@@ -501,7 +501,7 @@ class Tutorias_GraficasInstitucionController extends Controller
                 ],
                 [
                     [
-                        ["name"=>"Técnico","y"=>round(($bachgen[0]->T)*100/Session::get('total_alumnos'))],["name"=>"General","y"=>round(($bachgen[0]->G)*100/Session::get('total_alumnos'))]
+                        ["name"=>"Técnico","y"=>round(($bachgen[0]->T)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"General","y"=>round(($bachgen[0]->G)*100/max(1, (int) Session::get('total_alumnos')))]
                     ],
                     [
                         ["name"=>"Técnico","y"=>round(($bachF[0]->T)*100/Session::get('total_mujeres'))],["name"=>"General","y"=>round(($bachF[0]->G)*100/Session::get('total_mujeres'))]
@@ -663,7 +663,7 @@ class Tutorias_GraficasInstitucionController extends Controller
             [
                 [
                     [
-                        ["name"=>"Con los padres","y"=>round(($vivesgen[0]->CP)*100/Session::get('total_alumnos'))],["name"=>"Con otros estudiantes","y"=>round(($vivesgen[0]->CE)*100/Session::get('total_alumnos'))],["name"=>"Con tios u otros familiares","y"=>round(($vivesgen[0]->CT)*100/Session::get('total_alumnos'))],["name"=>"Solo","y"=>round(($vivesgen[0]->S)*100/Session::get('total_alumnos'))]
+                        ["name"=>"Con los padres","y"=>round(($vivesgen[0]->CP)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"Con otros estudiantes","y"=>round(($vivesgen[0]->CE)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"Con tios u otros familiares","y"=>round(($vivesgen[0]->CT)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"Solo","y"=>round(($vivesgen[0]->S)*100/max(1, (int) Session::get('total_alumnos')))]
                     ],
                     [
                         ["name"=>"Con los padres","y"=>round(($vivesF[0]->CP)*100/Session::get('total_mujeres'))],["name"=>"Con otros estudiantes","y"=>round(($vivesF[0]->CE)*100/Session::get('total_mujeres'))],["name"=>"Con tios u otros familiares","y"=>round(($vivesF[0]->CT)*100/Session::get('total_mujeres'))],["name"=>"Solo","y"=>round(($vivesF[0]->S)*100/Session::get('total_mujeres'))]
@@ -674,7 +674,7 @@ class Tutorias_GraficasInstitucionController extends Controller
                 ],
                 [
                     [
-                        ["name"=>"Si","y"=>round(($etgen[0]->SI)*100/Session::get('total_alumnos'))],["name"=>"No","y"=>round(($etgen[0]->NOO)*100/Session::get('total_alumnos'))]
+                        ["name"=>"Si","y"=>round(($etgen[0]->SI)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"No","y"=>round(($etgen[0]->NOO)*100/max(1, (int) Session::get('total_alumnos')))]
                     ],
                     [
                         ["name"=>"Si","y"=>round(($etF[0]->SI)*100/Session::get('total_mujeres'))],["name"=>"No","y"=>round(($etF[0]->NOO)*100/Session::get('total_mujeres'))]
@@ -685,7 +685,7 @@ class Tutorias_GraficasInstitucionController extends Controller
                 ],
                 [
                     [
-                        ["name"=>"Si","y"=>round(($hagen[0]->SI)*100/Session::get('total_alumnos'))],["name"=>"No","y"=>round(($hagen[0]->NOO)*100/Session::get('total_alumnos'))]
+                        ["name"=>"Si","y"=>round(($hagen[0]->SI)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"No","y"=>round(($hagen[0]->NOO)*100/max(1, (int) Session::get('total_alumnos')))]
                     ],
                     [
                         ["name"=>"Si","y"=>round(($haF[0]->SI)*100/Session::get('total_mujeres'))],["name"=>"No","y"=>round(($haF[0]->NOO)*100/Session::get('total_mujeres'))]
@@ -696,13 +696,13 @@ class Tutorias_GraficasInstitucionController extends Controller
                 ],
                 [
                     [
-                        ["name"=>"Disfuncional","y"=>round(($ufgen[0]->D)*100/Session::get('total_alumnos'))],["name"=>"Unida","y"=>round(($ufgen[0]->U)*100/Session::get('total_alumnos'))],["name"=>"Muy unida","y"=>round(($ufgen[0]->MU)*100/Session::get('total_alumnos'))]
+                        ["name"=>"Disfuncional","y"=>round(($ufgen[0]->D)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"Unida","y"=>round(($ufgen[0]->U)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"Muy unida","y"=>round(($ufgen[0]->MU)*100/max(1, (int) Session::get('total_alumnos')))]
                     ],
                     [
-                        ["name"=>"Disfuncional","y"=>round(($ufF[0]->D)*100/Session::get('total_mujeres'))],["name"=>"Unida","y"=>round(($ufF[0]->U)*100/Session::get('total_mujeres'))],["name"=>"Muy unida","y"=>round(($ufgen[0]->MU)*100/Session::get('total_alumnos'))]
+                        ["name"=>"Disfuncional","y"=>round(($ufF[0]->D)*100/Session::get('total_mujeres'))],["name"=>"Unida","y"=>round(($ufF[0]->U)*100/Session::get('total_mujeres'))],["name"=>"Muy unida","y"=>round(($ufgen[0]->MU)*100/max(1, (int) Session::get('total_alumnos')))]
                     ],
                     [
-                        ["name"=>"Disfuncional","y"=>round(($ufM[0]->D)*100/Session::get('total_hombres'))],["name"=>"Unida","y"=>round(($ufM[0]->U)*100/Session::get('total_hombres'))],["name"=>"Muy unida","y"=>round(($ufgen[0]->MU)*100/Session::get('total_alumnos'))]
+                        ["name"=>"Disfuncional","y"=>round(($ufM[0]->D)*100/Session::get('total_hombres'))],["name"=>"Unida","y"=>round(($ufM[0]->U)*100/Session::get('total_hombres'))],["name"=>"Muy unida","y"=>round(($ufgen[0]->MU)*100/max(1, (int) Session::get('total_alumnos')))]
                     ]
                 ],
             ],200
@@ -781,13 +781,13 @@ class Tutorias_GraficasInstitucionController extends Controller
             [
                 [
                     [
-                        ["name"=>"Menos de 1 hora","y"=>round(($tigen[0]->M)*100/Session::get('total_alumnos'))],["name"=>"1 hora","y"=>round(($tigen[0]->U)*100/Session::get('total_alumnos'))],["name"=>"2 horas","y"=>round(($tigen[0]->D)*100/Session::get('total_alumnos'))],["name"=>"3 horas","y"=>round(($tigen[0]->T)*100/Session::get('total_alumnos'))],["name"=>"Más de 4 horas","y"=>round(($tigen[0]->C)*100/Session::get('total_alumnos'))]
+                        ["name"=>"Menos de 1 hora","y"=>round(($tigen[0]->M)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"1 hora","y"=>round(($tigen[0]->U)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"2 horas","y"=>round(($tigen[0]->D)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"3 horas","y"=>round(($tigen[0]->T)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"Más de 4 horas","y"=>round(($tigen[0]->C)*100/max(1, (int) Session::get('total_alumnos')))]
                     ],
                     [
-                        ["name"=>"Menos de 1 hora","y"=>round(($tiF[0]->M)*100/Session::get('total_mujeres'))],["name"=>"1 hora","y"=>round(($tiF[0]->U)*100/Session::get('total_mujeres'))],["name"=>"2 horas","y"=>round(($tiF[0]->D)*100/Session::get('total_mujeres'))],["name"=>"3 horas","y"=>round(($tiF[0]->T)*100/Session::get('total_mujeres'))],["name"=>"Más de 4 horas","y"=>round(($tiF[0]->C)*100/Session::get('total_alumnos'))]
+                        ["name"=>"Menos de 1 hora","y"=>round(($tiF[0]->M)*100/Session::get('total_mujeres'))],["name"=>"1 hora","y"=>round(($tiF[0]->U)*100/Session::get('total_mujeres'))],["name"=>"2 horas","y"=>round(($tiF[0]->D)*100/Session::get('total_mujeres'))],["name"=>"3 horas","y"=>round(($tiF[0]->T)*100/Session::get('total_mujeres'))],["name"=>"Más de 4 horas","y"=>round(($tiF[0]->C)*100/max(1, (int) Session::get('total_alumnos')))]
                     ],
                     [
-                        ["name"=>"Menos de 1 hora","y"=>round(($tiM[0]->M)*100/Session::get('total_hombres'))],["name"=>"1 hora","y"=>round(($tiM[0]->U)*100/Session::get('total_hombres'))],["name"=>"2 horas","y"=>round(($tiM[0]->D)*100/Session::get('total_hombres'))],["name"=>"3 horas","y"=>round(($tiM[0]->T)*100/Session::get('total_hombres'))],["name"=>"Más de 4 horas","y"=>round(($tiM[0]->C)*100/Session::get('total_alumnos'))]
+                        ["name"=>"Menos de 1 hora","y"=>round(($tiM[0]->M)*100/Session::get('total_hombres'))],["name"=>"1 hora","y"=>round(($tiM[0]->U)*100/Session::get('total_hombres'))],["name"=>"2 horas","y"=>round(($tiM[0]->D)*100/Session::get('total_hombres'))],["name"=>"3 horas","y"=>round(($tiM[0]->T)*100/Session::get('total_hombres'))],["name"=>"Más de 4 horas","y"=>round(($tiM[0]->C)*100/max(1, (int) Session::get('total_alumnos')))]
                     ]
                 ],
 
@@ -996,7 +996,7 @@ class Tutorias_GraficasInstitucionController extends Controller
             [
                 [
                     [
-                        ["name"=>"Si","y"=>round(($degen[0]->SI)*100/Session::get('total_alumnos'))],["name"=>"No","y"=>round(($degen[0]->NOO)*100/Session::get('total_alumnos'))]
+                        ["name"=>"Si","y"=>round(($degen[0]->SI)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"No","y"=>round(($degen[0]->NOO)*100/max(1, (int) Session::get('total_alumnos')))]
                     ],
                     [
                         ["name"=>"Si","y"=>round(($deF[0]->SI)*100/Session::get('total_mujeres'))],["name"=>"No","y"=>round(($deF[0]->NOO)*100/Session::get('total_mujeres'))]
@@ -1007,7 +1007,7 @@ class Tutorias_GraficasInstitucionController extends Controller
                 ],
                 [
                     [
-                        ["name"=>"Si","y"=>round(($argen[0]->SI)*100/Session::get('total_alumnos'))],["name"=>"No","y"=>round(($argen[0]->NOO)*100/Session::get('total_alumnos'))]
+                        ["name"=>"Si","y"=>round(($argen[0]->SI)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"No","y"=>round(($argen[0]->NOO)*100/max(1, (int) Session::get('total_alumnos')))]
                     ],
                     [
                         ["name"=>"Si","y"=>round(($arF[0]->SI)*100/Session::get('total_mujeres'))],["name"=>"No","y"=>round(($arF[0]->NOO)*100/Session::get('total_mujeres'))]
@@ -1018,7 +1018,7 @@ class Tutorias_GraficasInstitucionController extends Controller
                 ],
                 [
                     [
-                        ["name"=>"Si","y"=>round(($culturasgen[0]->SI)*100/Session::get('total_alumnos'))],["name"=>"No","y"=>round(($culturasgen[0]->NOO)*100/Session::get('total_alumnos'))]
+                        ["name"=>"Si","y"=>round(($culturasgen[0]->SI)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"No","y"=>round(($culturasgen[0]->NOO)*100/max(1, (int) Session::get('total_alumnos')))]
                     ],
                     [
                         ["name"=>"Si","y"=>round(($culturasF[0]->SI)*100/Session::get('total_mujeres'))],["name"=>"No","y"=>round(($culturasF[0]->NOO)*100/Session::get('total_mujeres'))]
@@ -1029,7 +1029,7 @@ class Tutorias_GraficasInstitucionController extends Controller
                 ],
                 [
                     [
-                        ["name"=>"Si","y"=>round(($enfcgen[0]->SI)*100/Session::get('total_alumnos'))],["name"=>"No","y"=>round(($enfcgen[0]->NOO)*100/Session::get('total_alumnos'))]
+                        ["name"=>"Si","y"=>round(($enfcgen[0]->SI)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"No","y"=>round(($enfcgen[0]->NOO)*100/max(1, (int) Session::get('total_alumnos')))]
                     ],
                     [
                         ["name"=>"Si","y"=>round(($enfcF[0]->SI)*100/Session::get('total_mujeres'))],["name"=>"No","y"=>round(($enfcF[0]->NOO)*100/Session::get('total_mujeres'))]
@@ -1040,7 +1040,7 @@ class Tutorias_GraficasInstitucionController extends Controller
                 ],
                 [
                     [
-                        ["name"=>"Si","y"=>round(($penfcgen[0]->SI)*100/Session::get('total_alumnos'))],["name"=>"No","y"=>round(($penfcgen[0]->NOO)*100/Session::get('total_alumnos'))]
+                        ["name"=>"Si","y"=>round(($penfcgen[0]->SI)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"No","y"=>round(($penfcgen[0]->NOO)*100/max(1, (int) Session::get('total_alumnos')))]
                     ],
                     [
                         ["name"=>"Si","y"=>round(($penfcF[0]->SI)*100/Session::get('total_mujeres'))],["name"=>"No","y"=>round(($penfcF[0]->NOO)*100/Session::get('total_mujeres'))]
@@ -1051,7 +1051,7 @@ class Tutorias_GraficasInstitucionController extends Controller
                 ],
                 [
                     [
-                        ["name"=>"Si","y"=>round(($operaciongen[0]->SI)*100/Session::get('total_alumnos'))],["name"=>"No","y"=>round(($operaciongen[0]->NOO)*100/Session::get('total_alumnos'))]
+                        ["name"=>"Si","y"=>round(($operaciongen[0]->SI)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"No","y"=>round(($operaciongen[0]->NOO)*100/max(1, (int) Session::get('total_alumnos')))]
                     ],
                     [
                         ["name"=>"Si","y"=>round(($operacionF[0]->SI)*100/Session::get('total_mujeres'))],["name"=>"No","y"=>round(($operacionF[0]->NOO)*100/Session::get('total_mujeres'))]
@@ -1062,7 +1062,7 @@ class Tutorias_GraficasInstitucionController extends Controller
                 ],
                 [
                     [
-                        ["name"=>"Si","y"=>round(($visualgen[0]->SI)*100/Session::get('total_alumnos'))],["name"=>"No","y"=>round(($visualgen[0]->NOO)*100/Session::get('total_alumnos'))]
+                        ["name"=>"Si","y"=>round(($visualgen[0]->SI)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"No","y"=>round(($visualgen[0]->NOO)*100/max(1, (int) Session::get('total_alumnos')))]
                     ],
                     [
                         ["name"=>"Si","y"=>round(($visualF[0]->SI)*100/Session::get('total_mujeres'))],["name"=>"No","y"=>round(($visualF[0]->NOO)*100/Session::get('total_mujeres'))]
@@ -1073,7 +1073,7 @@ class Tutorias_GraficasInstitucionController extends Controller
                 ],
                 [
                     [
-                        ["name"=>"Si","y"=>round(($lentesgen[0]->SI)*100/Session::get('total_alumnos'))],["name"=>"No","y"=>round(($lentesgen[0]->NOO)*100/Session::get('total_alumnos'))]
+                        ["name"=>"Si","y"=>round(($lentesgen[0]->SI)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"No","y"=>round(($lentesgen[0]->NOO)*100/max(1, (int) Session::get('total_alumnos')))]
                     ],
                     [
                         ["name"=>"Si","y"=>round(($lentesF[0]->SI)*100/Session::get('total_mujeres'))],["name"=>"No","y"=>round(($lentesF[0]->NOO)*100/Session::get('total_mujeres'))]
@@ -1084,7 +1084,7 @@ class Tutorias_GraficasInstitucionController extends Controller
                 ],
                 [
                     [
-                        ["name"=>"Si","y"=>round(($medgen[0]->SI)*100/Session::get('total_alumnos'))],["name"=>"No","y"=>round(($medgen[0]->NOO)*100/Session::get('total_alumnos'))]
+                        ["name"=>"Si","y"=>round(($medgen[0]->SI)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"No","y"=>round(($medgen[0]->NOO)*100/max(1, (int) Session::get('total_alumnos')))]
                     ],
                     [
                         ["name"=>"Si","y"=>round(($medF[0]->SI)*100/Session::get('total_mujeres'))],["name"=>"No","y"=>round(($medF[0]->NOO)*100/Session::get('total_mujeres'))]
@@ -1549,7 +1549,7 @@ class Tutorias_GraficasInstitucionController extends Controller
             [
                 [
                     [
-                        ["name"=>"Mala","y"=>round(($traegen[0]->M)*100/Session::get('total_alumnos'))],["name"=>"Regular","y"=>round(($traegen[0]->R)*100/Session::get('total_alumnos'))],["name"=>"Bien","y"=>round(($traegen[0]->B)*100/Session::get('total_alumnos'))],["name"=>"Muy bien","y"=>round(($traegen[0]->MB)*100/Session::get('total_alumnos'))],["name"=>"Excelente","y"=>round(($traegen[0]->E)*100/Session::get('total_alumnos'))]
+                        ["name"=>"Mala","y"=>round(($traegen[0]->M)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"Regular","y"=>round(($traegen[0]->R)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"Bien","y"=>round(($traegen[0]->B)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"Muy bien","y"=>round(($traegen[0]->MB)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"Excelente","y"=>round(($traegen[0]->E)*100/max(1, (int) Session::get('total_alumnos')))]
                     ],
                     [
                         ["name"=>"Mala","y"=>round(($traeF[0]->M)*100/Session::get('total_mujeres'))],["name"=>"Regular","y"=>round(($traeF[0]->R)*100/Session::get('total_mujeres'))],["name"=>"Bien","y"=>round(($traeF[0]->B)*100/Session::get('total_mujeres'))],["name"=>"Muy bien","y"=>round(($traeF[0]->MB)*100/Session::get('total_mujeres'))],["name"=>"Excelente","y"=>round(($traeF[0]->E)*100/Session::get('total_mujeres'))]
@@ -1560,7 +1560,7 @@ class Tutorias_GraficasInstitucionController extends Controller
                 ],
                 [
                     [
-                        ["name"=>"Mala","y"=>round(($rengen[0]->M)*100/Session::get('total_alumnos'))],["name"=>"Regular","y"=>round(($rengen[0]->R)*100/Session::get('total_alumnos'))],["name"=>"Bien","y"=>round(($rengen[0]->B)*100/Session::get('total_alumnos'))],["name"=>"Muy bien","y"=>round(($rengen[0]->MB)*100/Session::get('total_alumnos'))],["name"=>"Excelente","y"=>round(($rengen[0]->E)*100/Session::get('total_alumnos'))]
+                        ["name"=>"Mala","y"=>round(($rengen[0]->M)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"Regular","y"=>round(($rengen[0]->R)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"Bien","y"=>round(($rengen[0]->B)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"Muy bien","y"=>round(($rengen[0]->MB)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"Excelente","y"=>round(($rengen[0]->E)*100/max(1, (int) Session::get('total_alumnos')))]
                     ],
                     [
                         ["name"=>"Mala","y"=>round(($renF[0]->M)*100/Session::get('total_mujeres'))],["name"=>"Regular","y"=>round(($renF[0]->R)*100/Session::get('total_mujeres'))],["name"=>"Bien","y"=>round(($renF[0]->B)*100/Session::get('total_mujeres'))],["name"=>"Muy bien","y"=>round(($renF[0]->MB)*100/Session::get('total_mujeres'))],["name"=>"Excelente","y"=>round(($renF[0]->E)*100/Session::get('total_mujeres'))]
@@ -1571,7 +1571,7 @@ class Tutorias_GraficasInstitucionController extends Controller
                 ],
                 [
                     [
-                        ["name"=>"Mala","y"=>round(($comgen[0]->M)*100/Session::get('total_alumnos'))],["name"=>"Regular","y"=>round(($comgen[0]->R)*100/Session::get('total_alumnos'))],["name"=>"Bien","y"=>round(($comgen[0]->B)*100/Session::get('total_alumnos'))],["name"=>"Muy bien","y"=>round(($comgen[0]->MB)*100/Session::get('total_alumnos'))],["name"=>"Excelente","y"=>round(($comgen[0]->E)*100/Session::get('total_alumnos'))]
+                        ["name"=>"Mala","y"=>round(($comgen[0]->M)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"Regular","y"=>round(($comgen[0]->R)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"Bien","y"=>round(($comgen[0]->B)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"Muy bien","y"=>round(($comgen[0]->MB)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"Excelente","y"=>round(($comgen[0]->E)*100/max(1, (int) Session::get('total_alumnos')))]
                     ],
                     [
                         ["name"=>"Mala","y"=>round(($comF[0]->M)*100/Session::get('total_mujeres'))],["name"=>"Regular","y"=>round(($comF[0]->R)*100/Session::get('total_mujeres'))],["name"=>"Bien","y"=>round(($comF[0]->B)*100/Session::get('total_mujeres'))],["name"=>"Muy bien","y"=>round(($comF[0]->MB)*100/Session::get('total_mujeres'))],["name"=>"Excelente","y"=>round(($comF[0]->E)*100/Session::get('total_mujeres'))]
@@ -1582,7 +1582,7 @@ class Tutorias_GraficasInstitucionController extends Controller
                 ],
                 [
                     [
-                        ["name"=>"Mala","y"=>round(($retgen[0]->M)*100/Session::get('total_alumnos'))],["name"=>"Regular","y"=>round(($retgen[0]->R)*100/Session::get('total_alumnos'))],["name"=>"Bien","y"=>round(($retgen[0]->B)*100/Session::get('total_alumnos'))],["name"=>"Muy bien","y"=>round(($retgen[0]->MB)*100/Session::get('total_alumnos'))],["name"=>"Excelente","y"=>round(($retgen[0]->E)*100/Session::get('total_alumnos'))]
+                        ["name"=>"Mala","y"=>round(($retgen[0]->M)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"Regular","y"=>round(($retgen[0]->R)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"Bien","y"=>round(($retgen[0]->B)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"Muy bien","y"=>round(($retgen[0]->MB)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"Excelente","y"=>round(($retgen[0]->E)*100/max(1, (int) Session::get('total_alumnos')))]
                     ],
                     [
                         ["name"=>"Mala","y"=>round(($retF[0]->M)*100/Session::get('total_mujeres'))],["name"=>"Regular","y"=>round(($retF[0]->R)*100/Session::get('total_mujeres'))],["name"=>"Bien","y"=>round(($retF[0]->B)*100/Session::get('total_mujeres'))],["name"=>"Muy bien","y"=>round(($retF[0]->MB)*100/Session::get('total_mujeres'))],["name"=>"Excelente","y"=>round(($retF[0]->E)*100/Session::get('total_mujeres'))]
@@ -1593,7 +1593,7 @@ class Tutorias_GraficasInstitucionController extends Controller
                 ],
                 [
                     [
-                        ["name"=>"Mala","y"=>round(($exagen[0]->M)*100/Session::get('total_alumnos'))],["name"=>"Regular","y"=>round(($exagen[0]->R)*100/Session::get('total_alumnos'))],["name"=>"Bien","y"=>round(($exagen[0]->B)*100/Session::get('total_alumnos'))],["name"=>"Muy bien","y"=>round(($exagen[0]->MB)*100/Session::get('total_alumnos'))],["name"=>"Excelente","y"=>round(($exagen[0]->E)*100/Session::get('total_alumnos'))]
+                        ["name"=>"Mala","y"=>round(($exagen[0]->M)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"Regular","y"=>round(($exagen[0]->R)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"Bien","y"=>round(($exagen[0]->B)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"Muy bien","y"=>round(($exagen[0]->MB)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"Excelente","y"=>round(($exagen[0]->E)*100/max(1, (int) Session::get('total_alumnos')))]
                     ],
                     [
                         ["name"=>"Mala","y"=>round(($exaF[0]->M)*100/Session::get('total_mujeres'))],["name"=>"Regular","y"=>round(($exaF[0]->R)*100/Session::get('total_mujeres'))],["name"=>"Bien","y"=>round(($exaF[0]->B)*100/Session::get('total_mujeres'))],["name"=>"Muy bien","y"=>round(($exaF[0]->MB)*100/Session::get('total_mujeres'))],["name"=>"Excelente","y"=>round(($exaF[0]->E)*100/Session::get('total_mujeres'))]
@@ -1604,7 +1604,7 @@ class Tutorias_GraficasInstitucionController extends Controller
                 ],
                 [
                     [
-                        ["name"=>"Mala","y"=>round(($congen[0]->M)*100/Session::get('total_alumnos'))],["name"=>"Regular","y"=>round(($congen[0]->R)*100/Session::get('total_alumnos'))],["name"=>"Bien","y"=>round(($congen[0]->B)*100/Session::get('total_alumnos'))],["name"=>"Muy bien","y"=>round(($congen[0]->MB)*100/Session::get('total_alumnos'))],["name"=>"Excelente","y"=>round(($congen[0]->E)*100/Session::get('total_alumnos'))]
+                        ["name"=>"Mala","y"=>round(($congen[0]->M)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"Regular","y"=>round(($congen[0]->R)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"Bien","y"=>round(($congen[0]->B)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"Muy bien","y"=>round(($congen[0]->MB)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"Excelente","y"=>round(($congen[0]->E)*100/max(1, (int) Session::get('total_alumnos')))]
                     ],
                     [
                         ["name"=>"Mala","y"=>round(($conF[0]->M)*100/Session::get('total_mujeres'))],["name"=>"Regular","y"=>round(($conF[0]->R)*100/Session::get('total_mujeres'))],["name"=>"Bien","y"=>round(($conF[0]->B)*100/Session::get('total_mujeres'))],["name"=>"Muy bien","y"=>round(($conF[0]->MB)*100/Session::get('total_mujeres'))],["name"=>"Excelente","y"=>round(($conF[0]->E)*100/Session::get('total_mujeres'))]
@@ -1615,7 +1615,7 @@ class Tutorias_GraficasInstitucionController extends Controller
                 ],
                 [
                     [
-                        ["name"=>"Mala","y"=>round(($bbgen[0]->M)*100/Session::get('total_alumnos'))],["name"=>"Regular","y"=>round(($bbgen[0]->R)*100/Session::get('total_alumnos'))],["name"=>"Bien","y"=>round(($bbgen[0]->B)*100/Session::get('total_alumnos'))],["name"=>"Muy bien","y"=>round(($bbgen[0]->MB)*100/Session::get('total_alumnos'))],["name"=>"Excelente","y"=>round(($bbgen[0]->E)*100/Session::get('total_alumnos'))]
+                        ["name"=>"Mala","y"=>round(($bbgen[0]->M)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"Regular","y"=>round(($bbgen[0]->R)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"Bien","y"=>round(($bbgen[0]->B)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"Muy bien","y"=>round(($bbgen[0]->MB)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"Excelente","y"=>round(($bbgen[0]->E)*100/max(1, (int) Session::get('total_alumnos')))]
                     ],
                     [
                         ["name"=>"Mala","y"=>round(($bbF[0]->M)*100/Session::get('total_mujeres'))],["name"=>"Regular","y"=>round(($bbF[0]->R)*100/Session::get('total_mujeres'))],["name"=>"Bien","y"=>round(($bbF[0]->B)*100/Session::get('total_mujeres'))],["name"=>"Muy bien","y"=>round(($bbF[0]->MB)*100/Session::get('total_mujeres'))],["name"=>"Excelente","y"=>round(($bbF[0]->E)*100/Session::get('total_mujeres'))]
@@ -1626,7 +1626,7 @@ class Tutorias_GraficasInstitucionController extends Controller
                 ],
                 [
                     [
-                        ["name"=>"Mala","y"=>round(($oigen[0]->M)*100/Session::get('total_alumnos'))],["name"=>"Regular","y"=>round(($oigen[0]->R)*100/Session::get('total_alumnos'))],["name"=>"Bien","y"=>round(($oigen[0]->B)*100/Session::get('total_alumnos'))],["name"=>"Muy bien","y"=>round(($oigen[0]->MB)*100/Session::get('total_alumnos'))],["name"=>"Excelente","y"=>round(($oigen[0]->E)*100/Session::get('total_alumnos'))]
+                        ["name"=>"Mala","y"=>round(($oigen[0]->M)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"Regular","y"=>round(($oigen[0]->R)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"Bien","y"=>round(($oigen[0]->B)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"Muy bien","y"=>round(($oigen[0]->MB)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"Excelente","y"=>round(($oigen[0]->E)*100/max(1, (int) Session::get('total_alumnos')))]
                     ],
                     [
                         ["name"=>"Mala","y"=>round(($oiF[0]->M)*100/Session::get('total_mujeres'))],["name"=>"Regular","y"=>round(($oiF[0]->R)*100/Session::get('total_mujeres'))],["name"=>"Bien","y"=>round(($oiF[0]->B)*100/Session::get('total_mujeres'))],["name"=>"Muy bien","y"=>round(($oiF[0]->MB)*100/Session::get('total_mujeres'))],["name"=>"Excelente","y"=>round(($oiF[0]->E)*100/Session::get('total_mujeres'))]
@@ -1637,7 +1637,7 @@ class Tutorias_GraficasInstitucionController extends Controller
                 ],
                 [
                     [
-                        ["name"=>"Mala","y"=>round(($spgen[0]->M)*100/Session::get('total_alumnos'))],["name"=>"Regular","y"=>round(($spgen[0]->R)*100/Session::get('total_alumnos'))],["name"=>"Bien","y"=>round(($spgen[0]->B)*100/Session::get('total_alumnos'))],["name"=>"Muy bien","y"=>round(($spgen[0]->MB)*100/Session::get('total_alumnos'))],["name"=>"Excelente","y"=>round(($spgen[0]->E)*100/Session::get('total_alumnos'))]
+                        ["name"=>"Mala","y"=>round(($spgen[0]->M)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"Regular","y"=>round(($spgen[0]->R)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"Bien","y"=>round(($spgen[0]->B)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"Muy bien","y"=>round(($spgen[0]->MB)*100/max(1, (int) Session::get('total_alumnos')))],["name"=>"Excelente","y"=>round(($spgen[0]->E)*100/max(1, (int) Session::get('total_alumnos')))]
                     ],
                     [
                         ["name"=>"Mala","y"=>round(($spF[0]->M)*100/Session::get('total_mujeres'))],["name"=>"Regular","y"=>round(($spF[0]->R)*100/Session::get('total_mujeres'))],["name"=>"Bien","y"=>round(($spF[0]->B)*100/Session::get('total_mujeres'))],["name"=>"Muy bien","y"=>round(($spF[0]->MB)*100/Session::get('total_mujeres'))],["name"=>"Excelente","y"=>round(($spF[0]->E)*100/Session::get('total_mujeres'))]

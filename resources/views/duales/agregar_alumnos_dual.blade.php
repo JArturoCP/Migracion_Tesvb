@@ -167,6 +167,12 @@
         </div>
     </div>
 
+    @if(!empty($aviso))
+        <div class="alert alert-warning text-center">
+            <span class="glyphicon glyphicon-info-sign"></span> {{ $aviso }}
+        </div>
+    @endif
+
     {{-- ===================================================== --}}
     {{-- TABLAS --}}
     {{-- ===================================================== --}}

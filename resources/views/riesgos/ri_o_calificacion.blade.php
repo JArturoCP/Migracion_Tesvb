@@ -131,7 +131,7 @@ Swal.fire({
                     confirmButtonText: `Aceptar`,
                     cancelButtonText: `Cancelar`,
                 }).then((result) => {
-  /* Read more about isConfirmed, isDenied below */
+  // Read more about isConfirmed, isDenied below
                     if (result.value) {
                             $("#form_delete").attr("action","/riesgos/calificacion/"+id)
                             $("#form_delete").submit();

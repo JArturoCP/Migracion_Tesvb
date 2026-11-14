@@ -36,8 +36,8 @@
                                 <td class="text-center">
                                     <a v-on:click=" abrirModal_facilitador(facilitador);" ><i class="glyphicon glyphicon-cog em2"></i></a>
                                 </td>
-                                <td v-if="facilitador.horas_maximas == 0">NO SE HAN ASIGNADO HORAS</td>
                                 <td v-if="facilitador.horas_maximas > 0">@{{ facilitador.horas_maximas }}</td>
+                                <td v-else>NO SE HAN ASIGNADO HORAS</td>
                                 <td>@{{ facilitador.nombre }}  @{{ facilitador.apellido_paterno }} @{{ facilitador.apellido_materno }}</td>
                                 <td>@{{ facilitador.nivel_ingles }}</td>
                                 <td>@{{ facilitador.titulo }}</td>
@@ -119,11 +119,10 @@
             methods:{
 
                 async Ver_Facilitadores() {
-                    //llamar datos al controlador
+                    //llamar datos al controlador (devuelve la lista directamente)
                     const res= await axios.get('/ingles/mostrar_profesore_ingles/');
-                    this.facilitadores=res.data;
-
-
+                    const lista = Array.isArray(res.data) ? res.data : (res.data && Array.isArray(res.data.data) ? res.data.data : []);
+                    this.facilitadores = lista;
                 },
                 async  abrirModal_facilitador(data={}){
                     this.id_facilitador=data.id_profesores;
@@ -169,14 +168,8 @@
 
             },
             //funciones para cuando se cargue la vista
-            async created(){
-                axios.get('/ingles/mostrar_profesore_ingles/').then(res=>{
-                    this.facilitadores = res.data.data;
-                    this.Tabla_Facilitador();
-                });
+            created(){
                 this.Ver_Facilitadores();
-
-
             },
         })
     </script>

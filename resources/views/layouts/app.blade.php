@@ -17,6 +17,8 @@
 
     <!-- 🟩 DataTables (VERSIÓN CORRECTA) -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" href="{{ asset('css/tesvb-datatables.css') }}?v={{ filemtime(public_path('css/tesvb-datatables.css')) }}">
+    <link rel="stylesheet" href="{{ asset('css/tesvb-responsivo.css') }}?v={{ filemtime(public_path('css/tesvb-responsivo.css')) }}">
 
     <!-- Otros estilos -->
     <link rel="stylesheet" href="{{ asset('css/sweetalert2.min.css') }}?v=11.26.25">
@@ -62,6 +64,7 @@
     <!-- Otros scripts -->
     <script src="/js/accent-neutralise.js"></script>
     <script src="/js/dataTables.fixedHeader.min.js"></script>
+    <script src="{{ asset('js/tesvb-datatables.js') }}?v={{ filemtime(public_path('js/tesvb-datatables.js')) }}"></script>
     <script src="/js/jquery.blockUI.js"></script>
     <script src="/js/highcharts.js"></script>
     <script src="/js/modules/exporting.js"></script>
@@ -96,7 +99,9 @@
     @endif
 @show
 
+<div class="tesvb-contenido">
 @yield('content')
+</div>
 
 @section('footer')
     @include('partials.footer')

@@ -35,6 +35,7 @@ class DistribucionController extends Controller
             $id_carrera=Session::get('carrera');
             return $this->show($id_carrera);
         }
+        abort(403, 'Esta sección está disponible solo para jefes de división y directivos.');
     }
 
     public function create()
@@ -259,7 +260,7 @@ else if($directivo==true)
     return view('formatos.distribucion_admin',compact('carreras','id_carrera',
                 'fecha_nuevo','resi_hrs','total_matr','t_tr','t_alum','periodo','t_di'))->with(['ver' => true, 'materiass' => $nombre_materias,'residencia' =>$datos_resi]);
 }
-
+        abort(403, 'Esta sección está disponible solo para jefes de división y directivos.');
     }
     public function agregar_cantidad($id_distribucion,$cantidad)
     {
