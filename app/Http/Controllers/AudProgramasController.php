@@ -43,8 +43,9 @@ class AudProgramasController extends Controller
     {
         //
         $programas = AudProgramas::orderBy('fecha_i','ASC')->get();
-        $idLider = AudAuditores::where('id_categoria',1)->get()[0];
-        return view("auditorias.programas",compact('programas','idLider'));
+        $idLider = AudAuditores::where('id_categoria',1)->first();
+        $esLider = $idLider && $idLider->id_personal == Session::get('id_perso');
+        return view("auditorias.programas",compact('programas','idLider','esLider'));
     }
 
     /**

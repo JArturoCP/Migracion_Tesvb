@@ -13,6 +13,9 @@ class TipoPersonalController extends Controller
 
     public function index()
     {
+        if (!\Illuminate\Support\Facades\Schema::hasTable('gnral_tipos_personales')) {
+            abort(501, 'El catálogo de tipos de personal no está disponible: falta la tabla gnral_tipos_personales.');
+        }
         $personales = DB::table('gnral_tipos_personales')
                 ->orderBy('id_tipo_personal', 'desc')
                 ->get();
@@ -46,6 +49,9 @@ class TipoPersonalController extends Controller
 
     public function edit($id_personal)
     {
+        if (!\Illuminate\Support\Facades\Schema::hasTable('gnral_tipos_personales')) {
+            abort(501, 'El catálogo de tipos de personal no está disponible: falta la tabla gnral_tipos_personales.');
+        }
         $personales = DB::table('gnral_tipos_personales')
                 ->orderBy('id_tipo_personal', 'desc')
                 ->get();

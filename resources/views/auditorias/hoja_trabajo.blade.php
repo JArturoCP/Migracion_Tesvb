@@ -49,7 +49,7 @@
                         </div>
                         <div class="col-md-4">
                             <strong>Auditoria:</strong>
-                            {{\Jenssegers\Date\Date::parse($agenda->fecha)->format('Y').'-'.$noAud}}
+                            {{\Carbon\Carbon::parse($agenda->fecha)->locale('es')->translatedFormat('Y').'-'.$noAud}}
                         </div>
                         <div class="col-md-8">
                             <strong>Auditado:</strong>
@@ -57,7 +57,7 @@
                         </div>
                         <div class="col-md-4">
                             <strong>Fecha:</strong>
-                            {{\Jenssegers\Date\Date::parse($agenda->fecha)->format('d-m-Y')}}
+                            {{\Carbon\Carbon::parse($agenda->fecha)->locale('es')->translatedFormat('d-m-Y')}}
                         </div>
                     </div>
                     <div class="row">

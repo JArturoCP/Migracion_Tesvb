@@ -7,7 +7,7 @@
             <a href="#" class="btn_add_aud"><span class="pull-right glyphicon glyphicon-plus" data-toggle="tooltip" title="Agregar auditoria"></span></a>
             <h3 class="panel-title text-center">Auditorias del programa
                 <strong>
-                    {{\Jenssegers\Date\Date::parse($programa->fecha_i)->format('F')}} - {{\Jenssegers\Date\Date::parse($programa->fecha_f)->format('F Y')}}
+                    {{\Carbon\Carbon::parse($programa->fecha_i)->locale('es')->translatedFormat('F')}} - {{\Carbon\Carbon::parse($programa->fecha_f)->locale('es')->translatedFormat('F Y')}}
                 </strong>
             </h3>
         </div>

@@ -5,7 +5,6 @@
  * Date: 06/07/2019
  * Time: 03:05 PM
  */
-use Jenssegers\Date\Date;
 ?>
 @extends('layouts.app')
 @section('title', 'Programa de Auditorias')
@@ -47,7 +46,7 @@ use Jenssegers\Date\Date;
                         @foreach($programas as $programa)
                             <tr class="bg-{{$programa->active==1?'warning':($programa->active==2?'danger':($programa->active==3?'success':''))}}">
                                 <td>
-                                    <a href="{{url('auditorias/programas/')}}/{{$programa->id_programa}}">{{Date::parse($programa->fecha_i)->format('F')}} - {{Date::parse($programa->fecha_f)->format('F Y')}}</a>
+                                    <a href="{{url('auditorias/programas/')}}/{{$programa->id_programa}}">{{\Carbon\Carbon::parse($programa->fecha_i)->locale('es')->translatedFormat('F')}} - {{\Carbon\Carbon::parse($programa->fecha_f)->locale('es')->translatedFormat('F Y')}}</a>
                                 </td>
                                 <td>
                                     {{$programa->lugar}}

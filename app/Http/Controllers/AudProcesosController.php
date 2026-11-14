@@ -88,6 +88,9 @@ class AudProcesosController extends Controller
     {
         //
         $data=json_decode($id);
+        if (!is_array($data)) {
+            abort(422, 'Datos inválidos.');
+        }
         foreach ($data as $datos){
             $sistema = array(
                 'id_sistema' => $datos->id_sistema,

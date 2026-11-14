@@ -26,7 +26,7 @@
                 </thead>
                 <tbody>
 
-                @foreach($alumnos as$consulta3)
+                @foreach($alumnos as $consulta3)
                     <tr>
                         <th>{{$consulta3->cuenta}}</th>
                         <td>{{$consulta3->nombre}} {{$consulta3->apaterno}} {{$consulta3->amaterno}}</td>

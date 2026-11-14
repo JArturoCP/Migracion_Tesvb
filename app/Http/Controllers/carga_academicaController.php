@@ -477,6 +477,21 @@ class carga_academicaController extends Controller
             $des = $des->estado_validacion;
         }
         $activar_periodo_carga=DB::selectOne('SELECT * FROM eva_validacion_carga WHERE id_validacion_carga=1');
-         return view('evaluacion_docente.Alumnos.carga_academica',compact('des','activar_periodo_carga','nom_reticula','carre','materias','materias2','materias3','materias4','materias5','materias6','materias7','materias8','materias9','reticulas'));
+        $status_per=1;
+        // Datos que la vista también necesita (los mismos que calcula index())
+        $datos_alumn = DB::selectOne('select * from gnral_alumnos where id_alumno = ?', [$id_alu]);
+        $carreras = "";
+        $materias10 = [];
+        $adeudo = 0;
+        $departamento_carrera = "";
+        $adeudo_dep = DB::select('SELECT IF(adeudo_departamento.id_departamento = 50, "CENTRO DE INFORMACIÓN", gnral_unidad_administrativa.nom_departamento) nombre,
+                                adeudo_departamento.comentario FROM adeudo_departamento
+                                LEFT JOIN gnral_unidad_administrativa ON gnral_unidad_administrativa.id_unidad_admin = adeudo_departamento.id_departamento
+                                WHERE adeudo_departamento.id_alumno = ?', [$id_alu]);
+        if (count($adeudo_dep) > 0) {
+            $adeudo = 1;
+            $departamento_carrera = array_map(fn($a) => ['nombre' => $a->nombre, 'comentario' => $a->comentario], $adeudo_dep);
+        }
+         return view('evaluacion_docente.Alumnos.carga_academica',compact('datos_alumn','carreras','materias10','adeudo','departamento_carrera','status_per','des','activar_periodo_carga','nom_reticula','carre','materias','materias2','materias3','materias4','materias5','materias6','materias7','materias8','materias9','reticulas'));
     }
 }

@@ -22,6 +22,8 @@ class Dual_Concentrados_Export implements FromView
 
     public function view():View
     {
+        $bajas = null;
+        $array_calificaciones = [];
         $id_periodo = Session::get('periodo_actual');
         $carreras = DB::table('gnral_carreras')
             ->where('id_carrera', '!=', 9)
@@ -315,7 +317,7 @@ class Dual_Concentrados_Export implements FromView
 
         }
         else{
-            $promedio_general=$promedio_general/$numero_alumno;
+            $promedio_general=$numero_alumno ? $promedio_general/$numero_alumno : 0;
 
         }
 

@@ -243,7 +243,7 @@
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
-                            <form id="editForm" action="{{ route('codigos.update', ['codigo' => '']) }}" method="POST">
+                            <form id="editForm" action="{{ route('codigos.update', ':codigo') }}" method="POST">
                                 @csrf
                                 @method('PUT')
                                 <input type="hidden" name="codigo" id="edit-codigo">

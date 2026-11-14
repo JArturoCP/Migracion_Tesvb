@@ -109,7 +109,7 @@
         <td style="border: 1px solid black; padding: 8px;text-align: center;font-family: 'Times New Roman', serif;font-size:12pt" colspan="5">
             @if($numero_alumno != 0)
                 <?php
-                $indice_final_aprobacion = ($numero_promedio_aprobado * 100) / $numero_alumno;
+                $indice_final_aprobacion = $numero_alumno ? ($numero_promedio_aprobado * 100) / $numero_alumno : 0;
                 $indice_final_aprobacion = number_format($indice_final_aprobacion, 2, '.', ' ');
                 ?>
                 {{ $indice_final_aprobacion }}%
@@ -161,7 +161,7 @@
         <td style="border: 1px solid black; padding: 8px;text-align: center;font-family: 'Times New Roman', serif;font-size:12pt" colspan="5">
             @if($numero_alumno != 0)
                 <?php
-                $indice_final_reprobacion = ($numero_promedio_reprobado * 100) / $numero_alumno;
+                $indice_final_reprobacion = $numero_alumno ? ($numero_promedio_reprobado * 100) / $numero_alumno : 0;
                 $indice_final_reprobacion = number_format($indice_final_reprobacion, 2, '.', ' ');
                 ?>
                 {{ $indice_final_reprobacion }}%

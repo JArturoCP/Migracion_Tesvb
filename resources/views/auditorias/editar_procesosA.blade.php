@@ -43,10 +43,10 @@
                     <div class="panel-heading">
                         <h3 class="panel-title text-center">Editar procesos del plan de auditoría
                             <strong>
-                                @if(\Jenssegers\Date\Date::parse($auditoria->fecha_i)->format('F')!=\Jenssegers\Date\Date::parse($auditoria->fecha_f)->format('F'))
-                                    {{\Jenssegers\Date\Date::parse($auditoria->fecha_i)->format('F')}} - {{\Jenssegers\Date\Date::parse($auditoria->fecha_f)->format('F Y')}}
+                                @if(\Carbon\Carbon::parse($auditoria->fecha_i)->locale('es')->translatedFormat('F')!=\Carbon\Carbon::parse($auditoria->fecha_f)->locale('es')->translatedFormat('F'))
+                                    {{\Carbon\Carbon::parse($auditoria->fecha_i)->locale('es')->translatedFormat('F')}} - {{\Carbon\Carbon::parse($auditoria->fecha_f)->locale('es')->translatedFormat('F Y')}}
                                 @else
-                                    {{\Jenssegers\Date\Date::parse($auditoria->fecha_f)->format('F Y')}}
+                                    {{\Carbon\Carbon::parse($auditoria->fecha_f)->locale('es')->translatedFormat('F Y')}}
                                 @endif
                             </strong>
                         </h3>

@@ -386,8 +386,7 @@ ORDER BY `gnral_alumnos`.`apaterno` ASC,`gnral_alumnos`.`amaterno` ASC,`gnral_al
         $servicios= DB::select('SELECT gnral_personales.nombre, enc_servicio_mantenimiento.* from gnral_personales, enc_servicio_mantenimiento
         where gnral_personales.id_personal = enc_servicio_mantenimiento.id_personal and enc_servicio_mantenimiento.id_estado in (1,0)');
 
-//dd($servicios);
-        return view('encuestas_satisfacion_cliente.computo.personal_tec',compact('personales','servicios'));
+        return redirect('/encuestas_satisfaccion/periodo_mantenimiento');
     }
     public function guardar_registro_mantemiento_computo(Request $request,$mes,$year){
         $id_personal = $request->input("selectPersonal");

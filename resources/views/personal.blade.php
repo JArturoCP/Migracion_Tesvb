@@ -66,7 +66,7 @@ $("#confirma_elimina").click(function(event){
                                     </thead>
                                     <tbody>
 
-                                            @foreach($personal as$per)
+                                            @foreach($personal as $per)
                                           <tr>
                                                   <th>{{$per->nombre}}</th>
                                                   <th>{{$per->clave}}</th>

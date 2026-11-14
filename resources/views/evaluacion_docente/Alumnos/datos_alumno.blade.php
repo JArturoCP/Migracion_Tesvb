@@ -308,13 +308,13 @@
                                 <select class="form-control  "placeholder="selecciona una Opcion" id="entidadalu" name="entidadalu" >
                                     @if($existe==0)
                                         <option disabled selected hidden>Selecciona una opción</option>
-                                        @foreach($entidadnac as$entidadnac)
+                                        @foreach($entidadnac as $entidadnac)
                                             <option value="{{$entidadnac->id_estado}}" data-esta="{{$entidadnac->nombre_estado}}">{{$entidadnac->nombre_estado}}</option>
                                         @endforeach
 
                                     @else
                                         <option disabled selected hidden>Selecciona una opción</option>
-                                        @foreach($entidadnac as$entidadnac)
+                                        @foreach($entidadnac as $entidadnac)
                                             @if($entidadnac->id_estado == $datos->entidad_nac_al)
                                                 <option value="{{$entidadnac->id_estado}}" data-esta="{{$entidadnac->nombre_estado}}" selected="selected">{{$entidadnac->nombre_estado}}</option>
                                             @else
@@ -354,7 +354,7 @@
                                     @if($existe==0)
 
                                         <option  disabled selected hidden>Selecciona una carrera</option>
-                                        @foreach($carreras as$carreras)
+                                        @foreach($carreras as $carreras)
                                             <option value="{{$carreras->id_carrera}}">{{$carreras->nombre}}</option>
                                         @endforeach
                                     @else
@@ -596,14 +596,14 @@
                                     @if($existe==0)
 
                                         <option disabled selected hidden>Selecciona una opción</option>
-                                        @foreach($estados_alu as$estados_alu)
+                                        @foreach($estados_alu as $estados_alu)
                                             <option value="{{$estados_alu->id_estado}}" data-esta="{{$estados_alu->nombre_estado}}">{{$estados_alu->nombre_estado}}</option>
                                         @endforeach
 
                                     @else
 
                                         <option disabled selected hidden>Selecciona una opción</option>
-                                        @foreach($estados_alu as$estados_alu)
+                                        @foreach($estados_alu as $estados_alu)
                                             @if($estados_alu->id_estado == $datos->estado)
                                                 <option value="{{$estados_alu->id_estado}}" data-esta="{{$estados_alu->nombre_estado}}" selected="selected">{{$estados_alu->nombre_estado}}</option>
                                             @else
@@ -882,14 +882,14 @@
 
 
                                     <option  disabled selected hidden>Selecciona una opción</option>
-                                    @foreach($estados_tutor as$estados_tutor)
+                                    @foreach($estados_tutor as $estados_tutor)
                                         <option value="{{$estados_tutor->id_estado}}" data-esta="{{$estados_tutor->nombre_estado}}">{{$estados_tutor->nombre_estado}}</option>
                                     @endforeach
 
                                 @else
 
                                     <option  disabled selected hidden>Selecciona una carrera</option>
-                                    @foreach($estados_tutor as$estados_tutor)
+                                    @foreach($estados_tutor as $estados_tutor)
                                         @if($estados_tutor->id_estado == $datos_t->estado_T)
                                             <option value="{{$estados_tutor->id_estado}}" data-esta="{{$estados_tutor->nombre_estado}}" selected="selected">{{$estados_tutor->nombre_estado}}</option>
                                         @else

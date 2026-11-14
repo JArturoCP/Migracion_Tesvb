@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
 use Auth;
-use App\Http\Controllers\PeriodoEGELController;
+use App\Http\Controllers\Egel_PeriodosController;
 
 class EgelSeccionUnoController extends Controller
 {
@@ -13,8 +13,8 @@ class EgelSeccionUnoController extends Controller
     public function index($id_seccion)
     {
         // 🔒 VALIDAR PERIODO
-        if (!PeriodoEGELController::enAplicacion()) {
-            return redirect()->route('dashboard')
+        if (!Egel_PeriodosController::enAplicacion()) {
+            return redirect()->route('egel.dashboard')
                 ->with('error', 'El examen no está disponible fuera del periodo de aplicación.');
         }
 
@@ -25,8 +25,8 @@ class EgelSeccionUnoController extends Controller
     public function pregunta(Request $request, $id_seccion)
     {
         // 🔒 VALIDAR PERIODO
-        if (!PeriodoEGELController::enAplicacion()) {
-            return redirect()->route('dashboard')
+        if (!Egel_PeriodosController::enAplicacion()) {
+            return redirect()->route('egel.dashboard')
                 ->with('error', 'El examen no está disponible.');
         }
 
@@ -93,8 +93,8 @@ $preguntas = DB::table('egel_preguntas')
     public function responder(Request $request)
 {
     // 🔒 VALIDAR PERIODO
-    if (!PeriodoEGELController::enAplicacion()) {
-        return redirect()->route('dashboard')
+    if (!Egel_PeriodosController::enAplicacion()) {
+        return redirect()->route('egel.dashboard')
             ->with('error', 'No puedes responder fuera del periodo.');
     }
 

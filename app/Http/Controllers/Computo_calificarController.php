@@ -265,7 +265,7 @@ gnral_materias.creditos,eva_status_materia.nombre_status from
                 $dat_materia['esc_alumno'] = $esc_alumno;
                 array_push($array_materias, $dat_materia);
             }
-            $promedio_finals = round(($promedio_final / $mat), 2);
+            $promedio_finals = $mat ? round(($promedio_final / $mat), 2) : 0;
             $datos_alumnos['promedio_final'] = $promedio_finals;
             $datos_alumnos['materias'] = $array_materias;
             $datos_alumnos['mat_reprobadas'] = $contar_mat_reprobadas;

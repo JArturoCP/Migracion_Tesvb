@@ -249,7 +249,7 @@
                     <div >
 
                         <div class="panel-group" id="accordion">
-                            @foreach($carreras as$carrera)
+                            @foreach($carreras as $carrera)
                                 <div class="panel panel-default ">
                                     <div class="panel-heading">
                                         @if($id_unidad_admin == true)
@@ -346,7 +346,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($mat_evaluacion as$por)
+                            @foreach($mat_evaluacion as $por)
                                 <tr>
                                     <td >{{$por['materia']}}</td>
                                     <td style="text-align:center;">{{$por['total']}}</td>

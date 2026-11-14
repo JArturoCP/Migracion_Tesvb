@@ -71,44 +71,8 @@ class SgcAgendaController extends Controller
      */
     public function show($id)
     {
-        //
-        Session::forget('id_reporte');
-        Session::forget('errors');
-        $auditorias=SgcAuditorias::get()->where('id_auditoria',$id);
-        $fechas=SgcAgenda::get()->where('id_auditoria',$id);
-        foreach ($auditorias as $auditoria) {
-            $fechas = $this->generateDateRange(Carbon::parse($auditoria->fecha_i),Carbon::parse($auditoria->fecha_f));
-        }
-        $auditores=SgcAsignaAudi::all()->where('id_auditoria',$id);
-        $eventos=collect();
-        foreach ($auditores as $auditor) {
-            foreach ($auditor->getAgenda as $agenda){
-                foreach ($agenda->area as $area){
-                    $eventos->push(['id_auditor'=>$auditor->id_auditor,'fecha'=>$agenda->fecha,'area'=>$area->nom_departamento,'procesos'=>$agenda->procesos,'hora_i'=>$agenda->hora_i,'hora_f'=>$agenda->hora_f,'auditor'=>$agenda->getAsign->getAbrPer[0]->getAbreviatura[0]->titulo.' '.$agenda->getAsign->getNombre[0]->nombre,'id_agenda'=>$agenda->id_agenda]);
-                }
-            }
-        }
-        $areas=gnral_unidad_administrativa::all();
-
-        if(Session::get('auditorUsed')){
-            $auditorSelected=SgcAsignaAudi::get()->where('id_auditoria',$id)->where('id_auditor',Session::get('auditorUsed'));
-            if (Session::get('dateUsed')){
-                foreach ($auditorSelected as $aud){
-                    foreach ($aud->getAgenda as $agenda) {
-                        if($agenda->fecha==Session::get('dateUsed')){
-                            $this->generateTimeRange(Carbon::parse($agenda->hora_i),Carbon::parse($agenda->hora_f));
-                        }
-                    }
-                }
-            }
-
-            return view('sgc.agenda',compact('auditorias','auditorias','fechas','auditores','eventos','areas','auditorSelected'));
-        }
-        else{
-            return view('sgc.agenda',compact('auditorias','auditorias','fechas','auditores','eventos','areas'));
-        }
-
-
+        // El módulo SGC heredado se sustituyó por el de auditorías (aud_agenda ya no tiene id_asigna_audi).
+        return redirect('/auditorias/agenda/'.$id);
     }
 
     /**

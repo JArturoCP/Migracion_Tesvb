@@ -30,6 +30,8 @@ class DocentesPlantillaVerController extends Controller
 
     public function graficas($id_docente,$ciclo)
     {
+        $act_extras = [];
+        $periodos = [];
         $jefe_division=session()->has('jefe_division')?session()->has('jefe_division'):false;
         $directivo=session()->has('directivo')?session()->has('directivo'):false;
 

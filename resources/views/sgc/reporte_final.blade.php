@@ -18,7 +18,7 @@
                 <div class="panel-heading">
                     <h3 class="panel-title text-center">Reporte final del programa de auditorias
                     <strong>
-                        {{\Jenssegers\Date\Date::parse($programa->fecha_i)->format('F')}} - {{\Jenssegers\Date\Date::parse($programa->fecha_f)->format('F Y')}}
+                        {{\Carbon\Carbon::parse($programa->fecha_i)->locale('es')->translatedFormat('F')}} - {{\Carbon\Carbon::parse($programa->fecha_f)->locale('es')->translatedFormat('F Y')}}
                     </strong></h3>
                 </div>
                 <div class="panel-body">
@@ -41,7 +41,7 @@
             $('.guarda_informe').click(function () {
                 var notas_finales=[];
                 @foreach($programas as $programa)
-                    notas_finales[notas_finales.length]="{{\Jenssegers\Date\Date::parse($programa->fecha_i)->format('F')}} - {{\Jenssegers\Date\Date::parse($programa->fecha_f)->format('F Y')}}";
+                    notas_finales[notas_finales.length]="{{\Carbon\Carbon::parse($programa->fecha_i)->locale('es')->translatedFormat('F')}} - {{\Carbon\Carbon::parse($programa->fecha_f)->locale('es')->translatedFormat('F Y')}}";
 
                     $('.nota_final').each(function () {
                         var datos={"proceso":$(this).find('strong').text(),"descripcion":$(this).find('p').text()}

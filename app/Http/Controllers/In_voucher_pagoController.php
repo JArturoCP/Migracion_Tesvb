@@ -89,7 +89,7 @@ class In_voucher_pagoController extends Controller
 
     public function create()
     {
-        return view("ingles.cargas_ingles.cargar_voucher_pago");
+        return redirect('/ingles_horarios/cargar_voucher_pago');
     }
 
     public function store(Request $request)

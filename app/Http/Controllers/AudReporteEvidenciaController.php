@@ -14,7 +14,7 @@ class AudReporteEvidenciaController extends Controller
      */
     public function index()
     {
-        return view ('auditorias.reporte_evidencia');
+        return redirect('/auditorias/programas');
     }
 
     /**

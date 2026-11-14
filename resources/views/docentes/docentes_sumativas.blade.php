@@ -171,7 +171,7 @@
                         @endforeach
                         <tr>
                             @if($calificar_sumativa->sumativa == 0)
-                                <td colspan="{{4+$cont}}"></td>
+                                <td colspan="{{4+($cont ?? 0)}}"></td>
                                 <td class="text-center" ><input style="width: 7em" type="button" class="btn btn-primary tooltip-options link" id="guardar_cal" name="guardar_cal" data-token="{{ csrf_token() }}" data-id_unidad="unidades" data-toggle="tooltip" data-placement="top" title="Guardar evaluación sumativa" value="guardar" ></td>
 
                             @else

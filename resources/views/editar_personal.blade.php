@@ -35,7 +35,7 @@
                         @if($consultaedit->id_departamento==0)
                         <option  value="0">sin permisos</option>
 
-                          @foreach($combo as$co)
+                          @foreach($combo as $co)
                        
                             <option  value="{{$co->id_departamento}}">{{$co->nombre_departamento}}</option>
                            @endforeach
@@ -43,7 +43,7 @@
                         @else
                        <option  value="0">sin permisos</option>
 
-                       @foreach($combo as$co)
+                       @foreach($combo as $co)
                              @if($consultaedit->id_departamento == $co->id_departamento)
                              <option  selected value="{{$co->id_departamento}}">{{$co->nombre_departamento}}</option>
                              @else

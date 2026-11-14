@@ -108,8 +108,8 @@ class in_desempeno_academico_ingles implements FromView
         }
 
         // Calcular las métricas
-        $indice_reprobacion = ($reprobados / $totalAlumnos) * 100;
-        $indice_desercion = ($desertores / $totalAlumnos) * 100;
+        $indice_reprobacion = $totalAlumnos ? ($reprobados / $totalAlumnos) * 100 : 0;
+        $indice_desercion = $totalAlumnos ? ($desertores / $totalAlumnos) * 100 : 0;
         $atencion_demanda = ($totalAlumnos / 2307) * 100;  // Suponiendo 2307 alumnos susceptibles
         $eficiencia_terminal = ($aprobados / 2000) * 100;  // Suponiendo 2000 alumnos de nuevo ingreso (N-10)
 

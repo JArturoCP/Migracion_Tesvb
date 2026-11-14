@@ -50,6 +50,9 @@ $promedios=[];
 
 
 $numero_de_materias_por_carrera=count($id_materias);
+if ($numero_de_materias_por_carrera == 0) {
+    return back()->withErrors(['docente' => 'El docente no tiene materias asignadas en el periodo actual.']);
+}
 //dd($numero_de_materias_por_carrera);
  //dd($id_materias);
 
@@ -847,6 +850,9 @@ $arrpreguntas=array(
         and gnral_horarios.id_personal=gnral_personales.id_personal and gnral_materias.id_semestre=gnral_semestres.id_semestre', [$periodo, $con_carrera, $solo_id_profesor]);
 
 $numero_de_materias_por_carrera=count($id_materias);
+if ($numero_de_materias_por_carrera == 0) {
+    return back()->withErrors(['docente' => 'El docente no tiene materias asignadas en el periodo actual.']);
+}
 //dd($numero_de_materias_por_carrera);
  //dd($id_materias);
 

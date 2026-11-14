@@ -35,7 +35,7 @@
                     <a href="{{url('sgc/programa')}}/{{$programa->id_programa}}/edit" ><span class="pull-right glyphicon glyphicon-calendar" data-toggle="tooltip" title="Agendar auditorias"></span></a>
                     <h3 class="panel-title text-center">Programa de auditorías
                         <strong>
-                            {{\Jenssegers\Date\Date::parse($programa->fecha_i)->format('F')}} - {{\Jenssegers\Date\Date::parse($programa->fecha_f)->format('F Y')}}
+                            {{\Carbon\Carbon::parse($programa->fecha_i)->locale('es')->translatedFormat('F')}} - {{\Carbon\Carbon::parse($programa->fecha_f)->locale('es')->translatedFormat('F Y')}}
                         </strong>
                     </h3>
                 </div>

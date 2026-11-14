@@ -324,7 +324,7 @@ class Dual_Concentrado_Calificaciones_Materias implements FromView
 
         }
         else{
-            $promedio_general=$promedio_general/$numero_alumno;
+            $promedio_general=$numero_alumno ? $promedio_general/$numero_alumno : 0;
 
         }
 

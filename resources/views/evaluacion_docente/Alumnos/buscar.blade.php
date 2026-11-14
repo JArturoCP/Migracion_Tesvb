@@ -121,7 +121,7 @@
 
 
  <div class="panel-group" id="accordion">
-    @foreach($carreras as$carrera)
+    @foreach($carreras as $carrera)
     <div class="panel panel-default">
       <div class="panel-heading">
         <h4 class="panel-title">

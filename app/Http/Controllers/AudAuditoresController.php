@@ -97,6 +97,9 @@ class AudAuditoresController extends Controller
         //
 
         $data=json_decode($id);
+        if (!is_array($data)) {
+            abort(422, 'Datos inválidos.');
+        }
         foreach ($data as $datos){
             $rol = array(
                 'id_categoria' => $datos->id_categoria,

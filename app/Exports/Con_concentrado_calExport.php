@@ -284,7 +284,7 @@ ORDER BY gnral_alumnos.apaterno,gnral_alumnos.amaterno,gnral_alumnos.nombre  ASC
                 $dat_l['estado_alumno'] = $estado_al;
                 array_push($materias_calificaciones, $dat_l);
             }
-            $promedio_general = $promedio_general / $numero_alumno;
+            $promedio_general = $numero_alumno ? $promedio_general / $numero_alumno : 0;
             // dd($array_mat);
 
 //dd($materias_calificaciones);

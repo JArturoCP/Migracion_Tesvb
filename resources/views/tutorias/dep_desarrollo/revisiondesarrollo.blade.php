@@ -115,7 +115,7 @@
                     </div>
                 </div>
             </div>
-            @include('dep_desarrollo.modalcorrecion')
+            @include('tutorias.dep_desarrollo.modalcorrecion')
         </div>
 
     </div>

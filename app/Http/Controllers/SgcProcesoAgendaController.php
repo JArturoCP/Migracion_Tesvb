@@ -25,7 +25,7 @@ class SgcProcesoAgendaController extends Controller
     public function create()
     {
         //
-        $datos=request()->query('arreglo');
+        $datos=(array) request()->query('arreglo', []);
         for ($i=0;$i<sizeof($datos);$i++){
             $get=SgcProcesoAgenda::get()->where('id_proceso',$datos[$i]['proceso'])->where('id_agenda',$datos[$i]['agenda']);
             if($get->isNotEmpty()){

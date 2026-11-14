@@ -141,7 +141,7 @@ class Personales extends Controller
          User::destroy($id_us);  
 
 
-        return redirect()->route('personales.index');
+        return redirect()->route('personales_lista.index');
 
     }
 }

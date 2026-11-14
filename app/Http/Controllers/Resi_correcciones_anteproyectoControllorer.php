@@ -9,6 +9,7 @@ use Session;
 class Resi_correcciones_anteproyectoControllorer extends Controller
 {
     public function  index(){
+        $modificar = $tipo_proyecto = null;
         $id_usuario = Session::get('usuario_alumno');
         $periodo = Session::get('periodo_actual');
         $datosalumno=DB::selectOne('select * FROM gnral_alumnos WHERE id_usuario= ?', [$id_usuario]);

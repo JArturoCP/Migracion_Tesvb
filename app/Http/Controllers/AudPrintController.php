@@ -1488,13 +1488,20 @@ class AudPrintController extends Controller
         $sheet->getStyle('A1:X'.$cell)->getAlignment()->setWrapText(true);
 
         $writer = new Xlsx($spreadsheet);
-        $writer->save('Programa de Auditoría '.$programa_codigo.'xlsx');
-        Excel::load('Programa de Auditoría '.$programa_codigo.'xlsx')->export('xlsx');
+        return response()->streamDownload(function () use ($writer) {
+            $writer->save('php://output');
+        }, 'Programa de Auditoría '.$programa_codigo.'.xlsx');
     }
 
     public static function constancia($id){
         $pdf=new PDF2AudPrint('L','mm','Letter');
-        $pdf->AddFont('MonotypeCorsiva','','MTCORSVA.php');
+        // Si no existe la definición FPDF de Monotype Corsiva se usa Times cursiva
+        try {
+            $pdf->AddFont('MonotypeCorsiva','I','MTCORSVA.php');
+            $fuenteCursiva = 'MonotypeCorsiva';
+        } catch (\Throwable $e) {
+            $fuenteCursiva = 'Times';
+        }
         $pdf->SetTitle(utf8_decode('Constancia de participación'));
         $pdf->SetMargins(20, 44 , 20, 25);
         $pdf->SetAutoPageBreak(true,5);
@@ -1513,7 +1520,7 @@ class AudPrintController extends Controller
         $pdf->SetTextColor(0,0,0);
         $pdf->Cell(243,10,utf8_decode('A:'),0,0,'C');
         $pdf->Ln(11);
-        $pdf->SetFont('MonotypeCorsiva','I','36');
+        $pdf->SetFont($fuenteCursiva,'I','36');
         $pdf->Cell(243,10,utf8_decode('Nombre del participante'),0,0,'C');
         $pdf->Ln(20);
         $pdf->SetFont('Arial','B','21');

@@ -744,6 +744,7 @@ where id_materia= ? and id_grupo= ? and id_periodos= ?', [$id_materia, $id_grupo
     }
     public function evaluacionSumativa($id_docente,$id_materia,$id_semestre,$id_grupo,$nom_carrera)
     {
+        $imp_porcentaje = $calificada_sumativa = $nom_materia = $clave_m = null;
         $habilitaPDF=0;
 
 

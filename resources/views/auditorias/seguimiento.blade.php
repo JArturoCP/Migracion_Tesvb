@@ -5,7 +5,6 @@
  * Date: 06/07/2019
  * Time: 03:05 PM
  */
-use Jenssegers\Date\Date;
 ?>
 @extends('layouts.app')
 @section('title', 'Seguimiento de Auditorias')
@@ -56,7 +55,7 @@ use Jenssegers\Date\Date;
                                     {{$auditoria->criterio}}
                                 </td>
                                 <td>
-                                    <a href="{{url('auditorias/responsables/')}}/{{$auditoria->id_auditoria}}">{{Date::parse($auditoria->fecha_i)->format('F')}} - {{Date::parse($auditoria->fecha_f)->format('F Y')}}</a></td>
+                                    <a href="{{url('auditorias/responsables/')}}/{{$auditoria->id_auditoria}}">{{\Carbon\Carbon::parse($auditoria->fecha_i)->locale('es')->translatedFormat('F')}} - {{\Carbon\Carbon::parse($auditoria->fecha_f)->locale('es')->translatedFormat('F Y')}}</a></td>
                                 <td>{{ $auditoria->no_auditoria }}</td>
                             </tr>
                         @endforeach

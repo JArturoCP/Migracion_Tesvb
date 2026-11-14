@@ -27,6 +27,8 @@ class DocentesPlantillaEduController extends Controller
 
      public function graficas($id_docente,$ciclo)
     {
+        $act_extras = [];
+        $periodos = [];
         $id_carrera=Session::get('carrera_g');
 
         if($ciclo==1)

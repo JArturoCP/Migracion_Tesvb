@@ -120,7 +120,7 @@
             </td>
             <td></td>
         @endforeach
-        <td><?php $indice_final_aprobacion=($numero_promedio_aprobado*100)/$numero_alumno;
+        <td><?php $indice_final_aprobacion=$numero_alumno ? ($numero_promedio_aprobado*100)/$numero_alumno : 0;
             $indice_final_aprobacion=number_format($indice_final_aprobacion, 2, '.', ' ');?>
             {{ $indice_final_aprobacion }}%
         </td>
@@ -178,7 +178,7 @@
             <td></td>
         @endforeach
         <td>
-            <?php $indice_final_reprobacion=($numero_promedio_reprobado*100)/$numero_alumno;
+            <?php $indice_final_reprobacion=$numero_alumno ? ($numero_promedio_reprobado*100)/$numero_alumno : 0;
             $indice_final_reprobacion=number_format($indice_final_reprobacion, 2, '.', ' ');?>
 
             {{ $indice_final_reprobacion }}%

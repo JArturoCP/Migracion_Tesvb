@@ -370,6 +370,7 @@ class DocentesAgController extends Controller
 
     public function calificarunidad($id_docente, $id_materia, $id_grupo)
     {
+        $mostrar_mensaje = $imp_porcentaje = $habilitaPDF = $nom_materia = $clave_m = null;
         $canalizaciones = CalCanalizacion::all();
         $periodo = Session::get('periodotrabaja');
         $per = DB::selectOne('SELECT * FROM `gnral_periodos` WHERE `id_periodo` = ?', [$periodo]);
@@ -838,6 +839,7 @@ class DocentesAgController extends Controller
 
     public function evaluacionSumativa($id_docente, $id_materia, $id_semestre, $id_grupo, $nom_carrera)
     {
+        $imp_porcentaje = $habilitaPDF = $nom_materia = $clave_m = null;
         $periodo = Session::get('periodo_actual');
         $grupo = $id_semestre . "0" . $id_grupo;
         $cont_unievaluadas = 0;

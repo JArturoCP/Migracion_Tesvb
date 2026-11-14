@@ -307,7 +307,7 @@ ORDER BY gnral_alumnos.apaterno,gnral_alumnos.amaterno,gnral_alumnos.nombre  ASC
 
           }
           else{
-              $promedio_general=$promedio_general/$numero_alumno;
+              $promedio_general=$numero_alumno ? $promedio_general/$numero_alumno : 0;
 
           }
 

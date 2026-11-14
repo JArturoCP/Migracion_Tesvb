@@ -23,7 +23,7 @@
     </div>
     <div class="row ">
         <div class="col-md-8 col-md-offset-2">
-@foreach($ind_rep as$carrera)
+@foreach($ind_rep as $carrera)
     <div class="panel panel-info" style="margin :5px 0px">
             <div class="panel-body">
                 <div class="col-md-12">

@@ -15,7 +15,7 @@ use Session;
 class Serv_Esc_Dual_Checar_Carga_Academica_AlumnoController extends Controller
 {
 
-    public function index($id_alumno)
+    public function index($id_alumno = null)
     {
         //dd($id_alumno);
         //$id_alumno=0;
@@ -116,7 +116,6 @@ class Serv_Esc_Dual_Checar_Carga_Academica_AlumnoController extends Controller
             AND gnral_periodos.id_periodo= ?
             AND eva_carga_academica.id_alumno= ?', [$periodo, $id_alu]);
             //$especial=$especial->curso;
-            $suma = $suma->suma;
             if ($suma > 38) {
                 $creditoss = 1;
             } else if ($suma < 0) {
@@ -437,7 +436,7 @@ class Serv_Esc_Dual_Checar_Carga_Academica_AlumnoController extends Controller
     public function enviarcarga($id){
         $periodo=Session::get('periodo_actual');
         DB::update('UPDATE eva_validacion_de_cargas SET estado_validacion = 1 WHERE id_alumno = ? AND id_periodo = ?', [$id, $periodo]);
-        return redirect()->route('checar_carga_academica.index');
+        return redirect()->route('se_duales.llenar_carga_academica_dual.index');
     }
     public function update(Request $request, $id)
     {
@@ -447,13 +446,16 @@ class Serv_Esc_Dual_Checar_Carga_Academica_AlumnoController extends Controller
             'id_tipo_curso'=>$request->get('tipo'),
             'grupo'=>$request->get('grupo')
         );
-        CargaAcademica::find($id)->update($datos);
-        return redirect()->route('checar_carga_academica.index');
+        $carga = CargaAcademica::findOrFail($id);
+        $carga->update($datos);
+        return redirect('/servicios_escolares/duales/revision_control_escolar/'.$carga->id_alumno);
     }
     public function destroy($id)
     {
 //dd('destroy');
-        CargaAcademica::destroy($id);
-        return redirect()->route('checar_carga_academica.index');
+        $carga = CargaAcademica::findOrFail($id);
+        $id_alumno = $carga->id_alumno;
+        $carga->delete();
+        return redirect('/servicios_escolares/duales/revision_control_escolar/'.$id_alumno);
     }
 }

@@ -20,6 +20,7 @@ class Cali_acta_normalExport implements FromView
 
     public function view():View
     {
+        $nom_materia = $clave_m = $unidades = $imp_porcentaje = null;
         $id_docente=$this->id_docente;
         $id_materia=$this->id_materia;
        $id_grupo= $this->id_grupo;

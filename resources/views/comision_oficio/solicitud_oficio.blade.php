@@ -52,7 +52,7 @@
                             <label for="exampleInputEmail1">Estado de la comisión<b style="color:red; font-size:23px;">*</b></label>
                             <select class="form-control  "placeholder="selecciona una Opcion" id="estados" name="estados" >
                                 <option disabled selected hidden>Selecciona una opción</option>
-                                @foreach($estados_alu as$estados_alu)
+                                @foreach($estados_alu as $estados_alu)
                                     <option value="{{$estados_alu->id_estado}}" data-esta="{{$estados_alu->nombre_estado}}">{{$estados_alu->nombre_estado}}</option>
                                 @endforeach
                             </select>

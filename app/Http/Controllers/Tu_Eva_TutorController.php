@@ -328,6 +328,7 @@ class Tu_Eva_TutorController extends Controller
     }
     public function for_docente()
     {
-        return view('tutorias.tutor_docente.docente');
+        // La vista tutorias.tutor_docente.docente no existe en el proyecto
+        return redirect('/tutorias');
     }
 }

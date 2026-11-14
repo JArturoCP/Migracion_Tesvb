@@ -148,6 +148,9 @@ $fecha_inicial= date("d-m-Y",strtotime($fechas->fecha_inicial));
             $semana4=16;
         }
 
+        if (!isset($semana1)) {
+            abort(404, 'Número de reporte de seguimiento inválido.');
+        }
         $cronograma=DB::selectOne('SELECT * FROM `resi_cronograma` WHERE `no_semana` = ? AND `id_anteproyecto` = ? ORDER BY `no_semana` ASC', [$semana1, $id_anteproyecto]);
         $fecha1=date("d-m-Y",strtotime($cronograma->f_inicio));
         $fecha2=date("d-m-Y",strtotime($cronograma->f_termino));

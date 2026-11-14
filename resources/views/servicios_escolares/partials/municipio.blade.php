@@ -59,7 +59,7 @@
         </div>
     </div>
 </div>
-@foreach($carreras as$carrera)
+@foreach($carreras as $carrera)
     <div class="panel panel-info" style="margin :5px 0px">
         <div class="panel-heading">
             <h4 class="panel-title">
@@ -153,7 +153,7 @@
                 ]
             }]
         });
-        @foreach($carreras as$carrera)
+        @foreach($carreras as $carrera)
         Highcharts.chart('container_mun_{{ $carrera['id_carrera'] }}', {
             chart: {
                 width: 350,

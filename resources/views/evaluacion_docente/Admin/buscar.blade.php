@@ -30,7 +30,7 @@
                                                    </tr>
                                             </thead>
                                             <tbody>
-                                                     @foreach($profesores as$profesores)
+                                                     @foreach($profesores as $profesores)
                                                   <tr>
                                                           <th class="text-center">{{$profesores->nombre}}</th>
                                                           <th class="text-center"><a href="/reportes2/{{$profesores->id_personal}}/{{1}}/{{0}}" target="_blank"><span class="glyphicon glyphicon-list-alt em6" aria-hidden="true" ></span></a></th>

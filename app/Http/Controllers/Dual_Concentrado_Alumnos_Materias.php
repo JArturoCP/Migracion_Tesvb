@@ -15,6 +15,8 @@ class Dual_Concentrado_Alumnos_Materias extends Controller
      */
     public function index($id_materia)
     {
+        $bajas = null;
+        $array_calificaciones = [];
         $id_periodo = Session::get('periodo_actual');
         $carreras = DB::table('gnral_carreras')
             ->where('id_carrera', '!=', 9)
@@ -307,7 +309,7 @@ class Dual_Concentrado_Alumnos_Materias extends Controller
 
         }
         else{
-            $promedio_general=$promedio_general/$numero_alumno;
+            $promedio_general=$numero_alumno ? $promedio_general/$numero_alumno : 0;
 
         }
 

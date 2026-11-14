@@ -119,7 +119,7 @@
                                 @empty
 
                                 @endforelse
-                                <?php  $unidades_restantes=$unidades-$cont; ?>
+                                <?php  $unidades_restantes=$unidades-($cont ?? 0); ?>
                                 @for ($i = 1; $i <= $unidades_restantes; $i++)
                                     @if( empty($uni_asignadas[$i-1]))
                                         <td>0</td>
@@ -177,8 +177,8 @@
                             </tr>
                         @endforeach
                         <tr>
-                            <td colspan="{{4+$cont}}"></td>
-                            <?php  $unidades_restantes=$unidades-$cont; ?>
+                            <td colspan="{{4+($cont ?? 0)}}"></td>
+                            <?php  $unidades_restantes=$unidades-($cont ?? 0); ?>
                             @for ($i = 1; $i <= $unidades_restantes; $i++)
                                 @if( empty($uni_asignadas[$i-1]))
                                 @else

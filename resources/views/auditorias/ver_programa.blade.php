@@ -43,7 +43,7 @@
                         @endif
                         <h3 class="panel-title text-center">Programa de auditorías
                             <strong>
-                                {{\Jenssegers\Date\Date::parse($programa->fecha_i)->format('F')}} - {{\Jenssegers\Date\Date::parse($programa->fecha_f)->format('F Y')}}
+                                {{\Carbon\Carbon::parse($programa->fecha_i)->locale('es')->translatedFormat('F')}} - {{\Carbon\Carbon::parse($programa->fecha_f)->locale('es')->translatedFormat('F Y')}}
                             </strong>
                         </h3>
                     </div>
@@ -67,7 +67,7 @@
 {{--                                <p>{{$programa->objetivo}}</p>--}}
                                 @if($numeros=array("1.","2.","3.","4.","5.","6.","7.","8.","9.","10."))
                                     <p>
-                                        <?php echo $programa->objetivo=str_replace_array('--',$numeros,str_replace($numeros,'<br>--',$programa->objetivo,$count)); ?>
+                                        <?php echo $programa->objetivo=\Illuminate\Support\Str::replaceArray('--',$numeros,str_replace($numeros,'<br>--',$programa->objetivo,$count)); ?>
                                     </p>
                                 @endif
                             </div>
@@ -76,7 +76,7 @@
 {{--                                <p>{{$programa->metodos}}</p>--}}
                                 @if($numeros=array("1.","2.","3.","4.","5.","6.","7.","8.","9.","10."))
                                     <p>
-                                        <?php echo $programa->metodos=str_replace_array('--',$numeros,str_replace($numeros,'<br>--',$programa->metodos,$count)); ?>
+                                        <?php echo $programa->metodos=\Illuminate\Support\Str::replaceArray('--',$numeros,str_replace($numeros,'<br>--',$programa->metodos,$count)); ?>
                                     </p>
                                 @endif
 
@@ -101,7 +101,7 @@
                                     <td class="col col-md-3">
                                         <p class="text-center"><label>Recursos:</label></p>
                                         @if($numeros=array("2.","3.","4.","5.","6.","7.","8.","9.","10."))
-                                            <?php echo $programa->recursos=str_replace_array('--',$numeros,str_replace($numeros,'<br>--',$programa->recursos,$count)); ?>
+                                            <?php echo $programa->recursos=\Illuminate\Support\Str::replaceArray('--',$numeros,str_replace($numeros,'<br>--',$programa->recursos,$count)); ?>
                                         @endif
                                         {{--                                    {{$programa->recursos}}--}}
                                     </td>

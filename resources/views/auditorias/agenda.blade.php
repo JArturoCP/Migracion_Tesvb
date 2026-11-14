@@ -57,7 +57,7 @@
                         <div id="exTab2" class="">
                             <ul class="nav nav-tabs">
                                 @foreach($fechas as $dia)
-                                    <li class="{{$dia==Session::get('dia')?'active':''}} elemento" data-item="{{$dia}}"><a href="#{{$dia}}" class="tab" data-fecha="{{$dia}}" data-toggle="tab" aria-expanded="{{$dia==Session::get('dateUsed')?'true':'false'}}">{{\Jenssegers\Date\Date::parse($dia)->format('d-m-Y')}}</a></li>
+                                    <li class="{{$dia==Session::get('dia')?'active':''}} elemento" data-item="{{$dia}}"><a href="#{{$dia}}" class="tab" data-fecha="{{$dia}}" data-toggle="tab" aria-expanded="{{$dia==Session::get('dateUsed')?'true':'false'}}">{{\Carbon\Carbon::parse($dia)->locale('es')->translatedFormat('d-m-Y')}}</a></li>
                                 @endforeach
                             </ul>
                             <div class="tab-content ">

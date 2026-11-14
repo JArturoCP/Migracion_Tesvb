@@ -80,7 +80,7 @@
 
                         <h3 class="panel-title text-center">Planes de auditoría para el programa
                             <strong>
-                                {{\Jenssegers\Date\Date::parse($programa->fecha_i)->format('F')}} - {{\Jenssegers\Date\Date::parse($programa->fecha_f)->format('F Y')}}
+                                {{\Carbon\Carbon::parse($programa->fecha_i)->locale('es')->translatedFormat('F')}} - {{\Carbon\Carbon::parse($programa->fecha_f)->locale('es')->translatedFormat('F Y')}}
                             </strong>
                         </h3>
                     </div>

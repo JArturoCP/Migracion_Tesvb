@@ -16,7 +16,7 @@ class Examen_GnralC_FormController extends Controller
         //dd($id_seccion);
         // 🔒 VALIDAR PERIODO
         if (!Examen_GnralC_PeriodoController::enAplicacion()) {
-            return redirect()->route('index_examen')
+            return redirect()->route('examen_conocimientos')
                 ->with('error', 'El examen no está disponible fuera del periodo de aplicación.');
         }
 
@@ -62,7 +62,7 @@ class Examen_GnralC_FormController extends Controller
     {
         // 🔒 VALIDAR PERIODO
         if (!Examen_GnralC_PeriodoController::enAplicacion()) {
-            return redirect()->route('index_examen')
+            return redirect()->route('examen_conocimientos')
                 ->with('error', 'El examen no está disponible.');
         }
 
@@ -246,7 +246,7 @@ class Examen_GnralC_FormController extends Controller
 {
      // 🔒 VALIDAR PERIODO
         if (!Examen_GnralC_PeriodoController::enAplicacion()) {
-            return redirect()->route('index_examen')
+            return redirect()->route('examen_conocimientos')
                 ->with('error', 'El examen no está disponible.');
         }
 

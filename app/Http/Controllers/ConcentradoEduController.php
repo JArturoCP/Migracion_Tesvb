@@ -128,6 +128,15 @@ class ConcentradoEduController extends Controller
         return view('formatos.con_edu',compact('periodo','totales','total_g','t_td','ver','t_sem'))->with('carreras',$datos_carreras);
     }
 
+    public function pdf()
+    {
+        // Mismos datos que la pantalla del concentrado, en la tabla que usa el Excel
+        $datos = $this->index()->getData();
+        return \Barryvdh\DomPDF\Facade\Pdf::loadView('formatos.partials.con_edu', $datos)
+            ->setPaper('letter', 'landscape')
+            ->stream('Concentrado Estructura Educativa-'.date('d-m-Y').'.pdf');
+    }
+
     public function excel()
     {
 

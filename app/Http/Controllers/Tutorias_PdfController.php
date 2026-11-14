@@ -203,6 +203,7 @@ $datosHabitos->load('intelectual');
         $pdf->SetDrawColor(010,010,010);
         $pdf->Rect(180, 10, 15, 15, 'DF');
 
+        $ext = null;
         switch ($datosGenerales[0]->foto){
             case 'image/jpeg':
                 $ext='.jpeg';
@@ -215,7 +216,9 @@ $datosHabitos->load('intelectual');
                 break;
         }
 
-        $pdf->Image('Fotografias/'.$datosGenerales[0]->no_cuenta.$ext,180,10,20,19);
+        if ($ext && is_file('Fotografias/'.$datosGenerales[0]->no_cuenta.$ext)) {
+            $pdf->Image('Fotografias/'.$datosGenerales[0]->no_cuenta.$ext,180,10,20,19);
+        }
         $pdf->SetFont('Arial', 'B', 4.8);
         $pdf->SetTextColor(010,010,010);
         $pdf->SetFillColor(204,204,204);
@@ -1014,6 +1017,7 @@ where gnral_alumnos.id_semestre = gnral_semestres.id_semestre and gnral_alumnos.
         $pdf->SetDrawColor(010,010,010);
         $pdf->Rect(180, 10, 15, 15, 'DF');
 
+        $ext = null;
         switch ($datosGenerales[0]->foto){
             case 'image/jpeg':
                 $ext='.jpeg';
@@ -1025,7 +1029,9 @@ where gnral_alumnos.id_semestre = gnral_semestres.id_semestre and gnral_alumnos.
                 $ext='.jpg';
                 break;
         }
-        $pdf->Image('Fotografias/'.$datosGenerales[0]->no_cuenta.$ext,180,10,20,19);
+        if ($ext && is_file('Fotografias/'.$datosGenerales[0]->no_cuenta.$ext)) {
+            $pdf->Image('Fotografias/'.$datosGenerales[0]->no_cuenta.$ext,180,10,20,19);
+        }
         $pdf->SetFont('Arial', 'B', 4.8);
         $pdf->SetTextColor(010,010,010);
         $pdf->SetFillColor(204,204,204);

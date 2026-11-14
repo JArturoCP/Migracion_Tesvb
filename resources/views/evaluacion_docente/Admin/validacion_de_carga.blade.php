@@ -72,7 +72,7 @@
                                 </thead>
                                 <tbody>
 
-                                @foreach($consulta as$consulta)
+                                @foreach($consulta as $consulta)
                                     <tr>
                                         <th>{{$consulta->cuenta}}</th>
                                         <td>{{$consulta->nombre}} {{$consulta->apaterno}} {{$consulta->amaterno}}</td>
@@ -113,7 +113,7 @@
                                 </thead>
                                 <tbody>
 
-                                @foreach($consulta2 as$consulta2)
+                                @foreach($consulta2 as $consulta2)
                                     <tr>
                                         <th>{{$consulta2->cuenta}}</th>
                                         <td>{{$consulta2->nombre}} {{$consulta2->apaterno}} {{$consulta2->amaterno}}</td>
@@ -163,7 +163,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($consulta3 as$consulta3)
+                                @foreach($consulta3 as $consulta3)
                                     <tr>
                                         <th>{{$consulta3->cuenta}}</th>
                                         <td>{{$consulta3->nombre}} {{$consulta3->apaterno}} {{$consulta3->amaterno}}</td>
@@ -219,7 +219,7 @@
                                   </thead>
                                   <tbody>
 
-                                  @foreach($consulta4 as$consulta4)
+                                  @foreach($consulta4 as $consulta4)
                                       <tr>
                                           <th>{{$consulta4->cuenta}}</th>
                     <td>{{$consulta4->nombre}} {{$consulta4->apaterno}} {{$consulta4->amaterno}}</td>

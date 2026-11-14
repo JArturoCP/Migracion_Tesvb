@@ -296,7 +296,7 @@ where amb_documentacion_encargados.id_encargado=amb_encargados.id_encargado and
         Mail::send('ambiental.jefe_ambiental.notificacion_correciones', [
             "procedimiento" => $encargado[0]->nom_procedimiento
         ], function($message) use ($correo) {
-            $message->from(env('MAIL_FROM_ADDRESS'), 'SUBDIRECCIÓN DE VINCULACIÓN Y EXTENSIÓN');
+            $message->from(config('mail.from.address'), 'SUBDIRECCIÓN DE VINCULACIÓN Y EXTENSIÓN');
             $message->to($correo)
                 ->replyTo(Auth::user()->email) // Aquí pones el usuario real
                 ->subject('Notificación de Autorización de Documentación de Procedimiento de Ambiental Enviada');
@@ -320,7 +320,7 @@ where amb_documentacion_encargados.id_encargado=amb_encargados.id_encargado and
         Mail::send('ambiental.jefe_ambiental.notificacion_aceptacion', [
             "procedimiento" => $encargado[0]->nom_procedimiento
         ], function($message) use ($correo) {
-            $message->from(env('MAIL_FROM_ADDRESS'), 'SUBDIRECCIÓN DE VINCULACIÓN Y EXTENSIÓN');
+            $message->from(config('mail.from.address'), 'SUBDIRECCIÓN DE VINCULACIÓN Y EXTENSIÓN');
             $message->to($correo)
                 ->replyTo(Auth::user()->email) // Aquí pones el usuario real
                 ->subject('Notificación de Autorización de Documentación de Procedimiento de Ambiental Enviada');

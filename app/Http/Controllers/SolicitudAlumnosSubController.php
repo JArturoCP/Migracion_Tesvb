@@ -117,7 +117,7 @@ class SolicitudAlumnosSubController extends Controller
 
 
 //////////////////////////////////////////////////////////////////////////////////////7no
-   /* public function modifica_jefe_no(Request $request, $arreglo)
+    public function modifica_jefe_no(Request $request, $arreglo)
     {
         $datos=(explode(',',$arreglo));
 
@@ -145,7 +145,7 @@ class SolicitudAlumnosSubController extends Controller
          return redirect()->route('solicitud_alumnos.index');
 
 
-    }*/
+    }
 
     public function destroy($id)
     {

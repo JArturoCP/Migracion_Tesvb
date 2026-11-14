@@ -61,7 +61,7 @@
                         <div id="exTab2" class="">
                             <ul class="nav nav-tabs">
                                 @foreach($fechas as $dia)
-                                    <li class="{{$dia==Session::get('dia')?'active':''}} elemento" data-item="{{$dia}}"><a href="#{{$dia}}" class="tab" data-fecha="{{$dia}}" data-toggle="tab" aria-expanded="{{$dia==Session::get('dateUsed')?'true':'false'}}">{{\Jenssegers\Date\Date::parse($dia)->format('d-m-Y')}}</a></li>
+                                    <li class="{{$dia==Session::get('dia')?'active':''}} elemento" data-item="{{$dia}}"><a href="#{{$dia}}" class="tab" data-fecha="{{$dia}}" data-toggle="tab" aria-expanded="{{$dia==Session::get('dateUsed')?'true':'false'}}">{{\Carbon\Carbon::parse($dia)->locale('es')->translatedFormat('d-m-Y')}}</a></li>
                                 @endforeach
                             </ul>
                             <div class="tab-content ">
@@ -72,7 +72,7 @@
                                                 @if($esLider)
                                                 <a href="#!" class="pull-right btn-add-agenda" data-fecha="{{$dia}}" data-toggle="tooltip" title="Agregar evento"><span class="glyphicon glyphicon-plus"></span></a>
                                                 @endif
-                                                <h3 class="panel-title text-center">Agenda del día {{\Jenssegers\Date\Date::parse($dia)->format('d-m-Y')}}</h3>
+                                                <h3 class="panel-title text-center">Agenda del día {{\Carbon\Carbon::parse($dia)->locale('es')->translatedFormat('d-m-Y')}}</h3>
                                             </div>
                                             <div class="panel-body">
                                                 <table class="table table-striped table-bordered table-condensed">

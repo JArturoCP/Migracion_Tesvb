@@ -388,7 +388,7 @@ class AudAgendaController extends Controller
         if ($idLider = AudAuditores::where('id_categoria',1)->get()[0]->id_personal==Session::get('id_perso')){
             $esLider=true;$idLider = AudAuditores::where('id_categoria',1)->get()[0];
         }
-        $porcentaje=ceil((sizeof($procesosT)*100)/$procesosAsignados->count());
+        $porcentaje=$procesosAsignados->count() ? ceil((sizeof($procesosT)*100)/$procesosAsignados->count()) : 0;
        // dd($procesosT);
         $actividades=AudActividades::all();
         $agendaActividadT=AudAgendaActividad::join('aud_actividad','aud_agenda_actividad.id_actividad','=','aud_actividad.id_actividad')
@@ -787,6 +787,7 @@ class AudAgendaController extends Controller
     public function edit2($id,$dia)
     {
         //
+        $datos = null;
         Session::put('dia',$dia);
         Session::put('editando',true);
         $procesos=DB::table('ri_proceso')

@@ -256,7 +256,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($datos_carga as$consulta1)
+                    @foreach($datos_carga as $consulta1)
                         @if($consulta1['id_materia'] == 2258)
                             <tr>
                                 <th></th>

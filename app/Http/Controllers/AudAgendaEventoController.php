@@ -233,6 +233,7 @@ class AudAgendaEventoController extends Controller
     public function edit($id)
     {
         //
+        $datos = $procesosE = null;
         $auditoria_id=DB::table('aud_agenda_evento')
             ->join('aud_auditor_auditoria','aud_auditor_auditoria.id_auditor_auditoria','=','aud_agenda_evento.id_auditor_auditoria')
             ->join('aud_auditoria','aud_auditor_auditoria.id_auditoria','=','aud_auditoria.id_auditoria')

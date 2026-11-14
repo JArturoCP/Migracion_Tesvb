@@ -87,7 +87,7 @@ class SgcAuditoriasController extends Controller
         $tipo=$tipe;
         $personas=GnralPersonales::all()->sortBy('nombre');
         $numero=$id;
-        return view('sgc.auditores', compact('auditorias','tipo','numero','personas'));
+        return view('sgc.auditores', compact('tipo','numero','personas'));
     }
 
     /**

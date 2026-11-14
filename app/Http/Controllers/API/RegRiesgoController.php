@@ -67,8 +67,7 @@ class RegRiesgoController extends Controller
      */
     public function show($id)
     {
-        //
-        return view("riesgos.index");
+        return response()->json(RegRiesgo::with('riesgos','unidadAdmin','seleccion','nivelDecision','clasificacionRiesgo')->findOrFail($id));
     }
 
     /**

@@ -35,6 +35,7 @@ ti_fecha_jurado_alumn.id_alumno = ti_datos_alumno_reg_dep.id_alumno and
     }
 
 public function formulario_datos_titulado_dato_alumno($id_alumno){
+        $numero_mencion_honorifica = $libro_mencion_honorifica = $numero_foja_titulo = $numero_libro_titulo = $num_acta = $numero_libro_acta_titulacion = $foja_acta_titulacion = null;
         $alumno=DB::selectOne('SELECT ti_descuentos_alum.telefono,ti_reg_datos_alum.correo_electronico,ti_reg_datos_alum.no_cuenta cuenta, ti_reg_datos_alum.nombre_al nombre,
        ti_reg_datos_alum.apaterno,ti_reg_datos_alum.mencion_honorifica men_honorifica, ti_reg_datos_alum.amaterno, gnral_carreras.id_carrera, gnral_carreras.nombre carrera, ti_fecha_jurado_alumn.*
 from ti_descuentos_alum,ti_reg_datos_alum, ti_fecha_jurado_alumn, gnral_carreras,ti_datos_alumno_reg_dep WHERE

@@ -5,7 +5,6 @@
  * Date: 06/07/2019
  * Time: 03:05 PM
  */
-use Jenssegers\Date\Date;
 ?>
 @extends('layouts.app')
 @section('title', 'Informe del Estado')
@@ -52,7 +51,7 @@ use Jenssegers\Date\Date;
                                     {{$auditoria->criterio}}
                                 </td>
                                 <td>
-                                    <a href="{{url('auditorias/informe_estado')}}/{{$auditoria->id_auditoria}}">{{Date::parse($auditoria->fecha_i)->format('F')}} - {{Date::parse($auditoria->fecha_f)->format('F Y')}}</a>
+                                    <a href="{{url('auditorias/informe_estado')}}/{{$auditoria->id_auditoria}}">{{\Carbon\Carbon::parse($auditoria->fecha_i)->locale('es')->translatedFormat('F')}} - {{\Carbon\Carbon::parse($auditoria->fecha_f)->locale('es')->translatedFormat('F Y')}}</a>
 
                                 </td>
                             </tr>

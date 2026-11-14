@@ -412,7 +412,7 @@
                     // tu_array[tu_array.length]=$(this).parent().closest("p").children("select").val();
                 });
                 /*
-{{-- @foreach($condicion as$con)
+{{-- @foreach($condicion as $con)
                      if($("input:radio[name={{$con->id_materia}}]").is(':checked'))
                      {
                       checkboxRadio[checkboxRadio.length]=($('input:radio[name={{$con->id_materia}}]:checked').val());

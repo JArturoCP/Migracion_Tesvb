@@ -133,7 +133,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/piase-estudiante/evidencia', 'PiaseEstudianteController@subirEvidencia')
         ->name('piase.estudiante.evidencia.subir');
 
-    Route::resource('/consulta_actividades/', 'ConsultaRegActividadesController');
+    Route::resource('/consulta_actividades', 'ConsultaRegActividadesController');
     Route::delete('/consulta_actividades_elimina/{id_registro_alumno}', 'Consulta_modificar_ActividadController@eliminar_registro');
 
     Route::resource('/evidencias_alumnos', 'EvidenciasAlumnosController');
@@ -250,7 +250,7 @@ Route::middleware('auth')->group(function () {
 //Rutas Jefe de Division
     Route::resource('/docente_actividad', 'DocenteActividadJefeController');
     Route::get('/docente_nueva_actividad', function () {
-        $id_actividad = Input::get('id_actividad');
+        $id_actividad = request()->query('id_actividad');
         $categoriass = \App\ActividadesComplementarias::where('id_categoria', '=', $id_actividad)->get();
         return Response::json($categoriass);
     });
@@ -276,7 +276,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('/libera_planeacion', 'LiberaPlaneacionJefeController');
     Route::get('/edita_planeacion/{arreglo}', 'LiberaPlaneacionJefeController@planeacion_jefe');
 //Route::get('/planeacion_si/{arreglo}','LiberaPlaneacionJefeController@planeacion_jefe_si');
-    Route::resource('/constancias', 'LiberaActividadJefeController');
+    Route::resource('/constancias', 'LiberaActividadJefeController')->only(['index']);
     Route::resource('/constancia_gen', 'ActividadesGenralesController');
     Route::get('/constancias_todas', 'TodasConstancias@constancias');
 //////RUTAS PARA CONTANCIAS EN PDF/////
@@ -372,9 +372,9 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/imprime_grafica', 'pdf_reporte_grafica@index');
 ///alumno revisa su carga academica
-    Route::resource('/checar_carga', 'checar_cargaController');
-    Route::resource('/checar_cargau', 'checar_cargaController');
-    Route::resource('/checar', 'checar_cargaController');
+    Route::resource('/checar_carga', 'checar_cargaController')->only(['index', 'edit', 'update', 'destroy']);
+    Route::resource('/checar_cargau', 'checar_cargaController')->only(['index', 'edit', 'update', 'destroy']);
+    Route::resource('/checar', 'checar_cargaController')->only(['index', 'edit', 'update', 'destroy']);
     Route::get('/enviar_carga/{id}', 'checar_cargaController@enviarcarga');
     Route::get('/enviar_carga_jefe_division/{id}', 'checar_cargaController@enviarcargajefe');
     Route::get('/revicion_control_escolar/{id}', 'checar_cargaController@revicion');
@@ -389,18 +389,13 @@ Route::middleware('auth')->group(function () {
     /// ///////
     Route::get('/ajax-subcat', function () {
 
-        $id_estado = Input::get('id_estado');
+        $id_estado = request()->query('id_estado');
         $municipios = \App\Municipios::where('id_estado', '=', $id_estado)->get();
         return Response::json($municipios);
     });
     Route::get('/ajax/{arreglo}', 'checar_cargaController@insertarvarios');//{
 
-    Route::get('pdf', function () {
 
-        $pdf = PDF::loadView('vista');
-        return $pdf->stream();
-        return $pdf->stream();
-    });
 
     Route::get('/reticulas/{reti}', 'carga_academicaController@consultas');
 //////////////////////Evaluacion por parte del alumno////////////////
@@ -410,7 +405,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/insertaralumno_materia/{arreglo}', 'evaluacion_alumnoController@insertaralumno_materia');
     //////////////////////////EVALUA/tutorias/reportecoordinador/tutorias_reportesemestralinstitucionalCION DOCENTE GUARDAR COMENTARIOS//////////////////////////////
     Route::post('/evaluacion_alumno/guardar_comentario','evaluacion_alumnoController@guardar_comentario');
-    Route::resource('/comentarios_docentes', 'Eva_docentes_comentario');
+    Route::resource('/comentarios_docentes', 'Eva_docentes_comentario')->only(['index']);
     Route::get('/reporte_comentario_docente/{id_docente}', 'Reporte_Docentes_ComentariosController@index');
     Route::get('/ver_comentario_docente/{id_docente}/{id_grupo}/{grupo}/{id_materia}', 'Reporte_Docentes_ComentariosController@ver_grupos');
 //buscar
@@ -418,10 +413,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('/buscar_profesores_carrera', 'Profesores_por_carrera');
     Route::resource('/buscar_alumnos', 'Buscar_alumnos');
     Route::get('/reportes/{id_profesor}', 'reportes_controller@index');
-    Route::get('/porcarrera/{id_carreras}', 'reportes_controller@consulta_carreras');
     Route::get('/promedio/{id_profesor}', 'reportes_controller@suma_evaluacion');
     Route::get('/promedio_carrera/{id_profesor}', 'reportes_controller@suma_evaluacion_por_carrera');
-    Route::resource('/imprecion', 'reportes_controller@imprecion');
 
     Route::resource('/Migrar', 'Migrar');
 
@@ -429,7 +422,7 @@ Route::middleware('auth')->group(function () {
 
 
 //////////////////////RUTAS HORARIOS///////
-    Route::resource('/docentes/create', 'DocentesAgController');
+    Route::resource('/docentes/create', 'DocentesAgController')->only(['index', 'store']);
 
     Route::resource('/generales/situaciones', 'SituacionController');
     Route::resource('/generales/personales', 'TipoPersonalController');
@@ -441,7 +434,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('/generales/aulas', 'AulaController');
     Route::resource('/generales/jefaturas', 'JefaturaController');
     Route::get('/aulas/estados/{id}', 'AulaController@estado');
-    Route::resource('/reticulass', 'ReticulaController');
+    Route::resource('/reticulass', 'ReticulaController')->only(['index', 'store', 'show', 'edit', 'update', 'destroy']);
     Route::get('/reticulass_elimina/{id}', 'ReticulaController@destroy');
     Route::post('/agregar_materias/', 'ReticulaController@store');
     Route::get('reticulasmo/{id}/edit', 'ReticulaController@edit');
@@ -449,9 +442,9 @@ Route::middleware('auth')->group(function () {
     Route::get('ver/materias/directivo/{idc}/{idr}', 'ReticulaController@mostrar_reticulas_direc');
     Route::get('ver/reticulas/directivo/{id}', 'ReticulaController@mostrar_reticulasd');
     Route::get('agrega/reticulas/{name}', 'ReticulaController@agrega_reticulas');
-    Route::resource('/docente', 'DocentesController');
+    Route::resource('/docente', 'DocentesController')->only(['index', 'show', 'update', 'destroy']);
     Route::get('/docentes/modificar/', 'DocentesController@modificar_docentes');
-    Route::resource('/docentes/create', 'DocentesAgController');
+    Route::resource('/docentes/create', 'DocentesAgController')->only(['index', 'store']);
     Route::delete('/docente/eliminar/{id}', 'DocentesController@eliminar');
     Route::get('/docentes/perfiles/{perfil}', 'DocentesAgController@perfiles');
     Route::get('/docentes/cargos/{cargo}/{abre}', 'DocentesAgController@cargos');
@@ -459,30 +452,28 @@ Route::middleware('auth')->group(function () {
     Route::get('/docentes/situaciones/{situacion}/{abre}', 'DocentesAgController@situaciones');
     Route::get('/docentes/materias/{idprof}', 'MateriasPerfilController@index');
     Route::post('/agrega/materias_perfil', 'MateriasPerfilController@agrega_materias');
-    Route::resource('/horarios/armar_horarios', 'ArmarHorariosController');
-    Route::resource('/armar_horarios', 'ArmarHorariosController@armar_horarios');
+    Route::resource('/horarios/armar_horarios', 'ArmarHorariosController')->only(['index', 'store', 'edit', 'update', 'destroy']);
     Route::post('/agrega_horario', 'ArmarHorariosController@store');
     Route::post('/elimina_horario', 'ArmarHorariosController@destroy');
     Route::get('/ver/profesores/{id}', 'ArmarHorariosController@mostrar_profesores');
     Route::get('/crear_pdf/{prof}/{init_periodo}/{tiempo}/{fin_periodo}', 'PdfHorariosController@index');
     Route::get('/pdf_aulas/{id_carrera}/{id_aula}', 'PdfHorariosController@aulas');
     Route::get('/pdf_grupos/{sem}/{grupo}/{carr}', 'PdfHorariosController@gruposs');
-    Route::get('/ver/doc_aulas/{aula}', 'ArmarHorariosController@doc_aulas');
     Route::post('/crear_horarios', 'ArmarHorariosController@redireccionar');
     Route::get('/agrega/act/{tipo}/{id}/{n}', 'ArmarHorariosController@agrega_actividad');
     Route::resource('/plantilla/docentes', 'DocentesPlantillaController');
-    Route::resource('/plantilla/ver', 'DocentesPlantillaVerController');
+    Route::resource('/plantilla/ver', 'DocentesPlantillaVerController')->only(['index']);
     Route::get('/plantilla/datos/{id_carrera}/{id_cargo}', 'DocentesPlantillaVerController@show');
     Route::get('/plantilla/horario/{id}', 'DocentesPlantillaVerController@plantilla_horarios');
     Route::get('/graficas/{idp}/{idc}', 'DocentesPlantillaVerController@graficas');
     Route::get('/graficas_admin/{idp}/{idc}', 'DocentesPlantillaEduController@graficas');
-    Route::resource('/plantilla/educativa', 'DocentesPlantillaEduController');
+    Route::resource('/plantilla/educativa', 'DocentesPlantillaEduController')->only(['index', 'edit', 'update', 'destroy']);
     Route::get('/aprobar_act/{hr}/{act}', 'DocentesPlantillaEduController@aprobar');
     Route::get('/p_educativa/datos/{carrera}/{cargo}', 'DocentesPlantillaEduController@show');
 //jefaturas
-    Route::resource('/horarios/hrs_grupos/jefes', 'HrsGruposJController');
+    Route::resource('/horarios/hrs_grupos/jefes', 'HrsGruposJController')->only(['index', 'store', 'show', 'edit', 'update', 'destroy']);
     Route::get('/horarios_grupos/jefes/{semestre}/{grupo}', 'HrsGruposJController@horarios_grupos');
-    Route::resource('/horarios/hrs_aulas/jefes', 'HrsAulasJController');
+    Route::resource('/horarios/hrs_aulas/jefes', 'HrsAulasJController')->only(['index', 'store', 'show', 'edit', 'update', 'destroy'])->names('hrs_aulas_jefes');
     Route::get('/horarios_aulas/jefes/{aula}', 'HrsAulasJController@horarios_aulas');
     Route::get('/hrs_carrera', 'ProfMatController@hrs_carrera');
     Route::get('/hrs_carrera/categoria/{categoria}', 'ProfMatController@categorias');
@@ -493,34 +484,33 @@ Route::middleware('auth')->group(function () {
     Route::get('/horarios_grupos/{semestre}/{grupo}/{carrera}', 'HrsGruposController@horarios_grupos');
     Route::resource('/horarios/hrs_aulas', 'HrsAulasController');
     Route::get('/horarios_aulas/{carrera}/{aula}', 'HrsAulasController@horarios_aulas');
-    Route::resource('/profesores/materias', 'ProfMatController');
+    Route::resource('/profesores/materias', 'ProfMatController')->only(['index', 'store', 'show', 'edit', 'update', 'destroy']);
     Route::get('/excel/prof-mat', 'ProfMatController@excel');
-    Route::resource('/formatos/con_edu', 'ConcentradoEduController');
+    Route::resource('/formatos/con_edu', 'ConcentradoEduController')->only(['index', 'store', 'show', 'edit', 'update', 'destroy']);
     //Route::resource('/formatos/concentrado_aca', 'ConcentradoAcaController');
-    Route::resource('/formatos/distribucion', 'DistribucionController');
+    Route::resource('/formatos/distribucion', 'DistribucionController')->only(['index', 'create', 'store', 'show', 'destroy']);
     Route::get('/distribucion/{carrera}', 'DistribucionController@show');
-    Route::resource('/formatos/relacion', 'RelacionController');
-    Route::resource('/relacion/ver', 'RelacionController');
+    Route::resource('/formatos/relacion', 'RelacionController')->only(['index', 'store', 'show', 'edit', 'update', 'destroy']);
+    Route::resource('/relacion/ver', 'RelacionController')->only(['index', 'store', 'show', 'edit', 'update', 'destroy'])->names(['index' => 'relacion_ver.index']);
     Route::get('/excel_concentrado', 'ConcentradoEduController@excel');
     Route::get('/excel_distribucion', 'DistribucionController@excel');
     Route::get('/excel_relacion', 'RelacionController@excel');
     //  Route::get('/excel_plantilla/{carrera}/{cargo}', 'DocentesPlantillaVerController@excel');
     Route::get('/excel_plantilla/{carrera}/{cargo}', 'DocentesPlantillaVerController@excel1');
 
-    Route::get('/pdf_estructura', 'PdfHorariosController@estructura');
+    Route::get('/pdf_estructura', 'ConcentradoEduController@pdf');
     Route::get('/pdf_plantilla/{cargo}', 'PdfHorariosController@plantilla');
     Route::post('/comprueba/creditos', 'ArmarHorariosController@comprobar_creditos');
     Route::get('/recarga_personal/{idcarrera}', 'HomeController@recargapersonal');
     Route::get('/agregando/cantidad/{iddis}/{cant}', 'DistribucionController@agregar_cantidad');
     Route::get('/cambiar/caso/{idh}/{caso}', 'RelacionController@agregar_caso');
-    Route::get('/cambiar/causa/{idh}/{causa}', 'RelacionController@agregar_causa');
-    Route::resource('/personales', 'Personales');
+    Route::resource('/personales', 'Personales')->names('personales_lista');
     Route::resource('/persona', 'Personales');
     Route::resource('/personalesu', 'Personales');
     Route::get('/datos_academicos/{id}', 'DocentesController@editar');
     Route::get('/modifica_datos/{c}/{hm}/{hmi}', 'DocentesController@actualizar');
 
-    Route::resource('/formatos/horas_docentes/', 'Hrs_docentesClasesController');
+    Route::resource('/formatos/horas_docentes', 'Hrs_docentesClasesController')->only(['index']);
     Route::get('/formatos/excel_horas_docentes/', 'Hrs_docentesClasesController@excel_horas_docentes');
 
 /////// HS777   ///////
@@ -567,7 +557,6 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/servicios_escolares/estadisticas/indice_reprobacion_semestre/{id_carrera}/{id_semestre}', 'SEscolaresController@estadisticas_indice_reprobacion_sem');
     Route::get('/servicios_escolares/acciones/{id_docente}/{id_materia}/generar_periodo', 'SEscolaresController@generaPeriodo');
-    Route::get('/servicios_escolares/acciones/{id_docente}/{id_materia}/modificar_periodo', 'SEscolaresController@modificaPeriodo');
     Route::get('/servicios_escolares/actualizaCalificacion', 'SEscolaresController@modificaCalificacion');
     Route::get('/servicios_escolares/modificaCalificacionSumativa', 'SEscolaresController@modificaCalificacionSumativa');
     Route::get('/generar_excel/acta_constitutiva/{id_profesor}/{id_materia}/{id_grupo}', 'Cali_actaController@acta_constituitiva');
@@ -589,17 +578,17 @@ Route::middleware('auth')->group(function () {
     Route::get('/generar_excel/municipios', 'Datos_Generales_al_excelController@exportMunicipios');
     Route::get('/generar_excel/edades', 'Datos_Generales_al_excelController@exportEdades');
 
-    Route::resource('/servicios_escolares/alumnos/carrera', 'Datos_GeneralesalumnosController');
+    Route::resource('/servicios_escolares/alumnos/carrera', 'Datos_GeneralesalumnosController')->only(['index']);
     Route::get('/servicios_escolares/alumnos/generales/{id}', 'Datos_GeneralesalumnosController@datosgeneralesal');
     Route::get('/servicios_escolares/alumnos/mostrar/{id}', 'Datos_GeneralesalumnosController@mostrar');
     Route::get('/servicios_escolares/alumnos/mostrar_calificaciones/{id_alumno}', 'Datos_GeneralesalumnosController@mostrar_calificaciones');
-    Route::resource('/servicios_escolare/concentrados_calificaciones/', 'Cal_concentrado_calificacionesController');
+    Route::resource('/servicios_escolare/concentrados_calificaciones', 'Cal_concentrado_calificacionesController')->only(['index']);
     Route::get('/servicios_escolares/modificaciones_cargas_cademicas/', 'Cal_concentrado_calificacionesController@modificaciones_cargas_cademicas');
 
     Route::get('/servicios_escolares/concentrado_calificaciones/semestres/{id_semestre}', 'Cal_concentrado_calificacionesController@concentrado_calificaciones');
     Route::get('/servicios_escolares/concentrado_calificaciones/materias/{id_carrera}/{id_semestre}/{id_grupo}', 'Cal_concentrado_calificacionesController@concentrado_materias');
     Route::get('/servicios_escolares/concentrado_calificaciones_excel/{id_carrera}/{id_semestre}/{grupo}', 'ExcelController@concentrado_calificaciones');
-    Route::resource('/servicios_escolares/historial_academico/', 'Cal_historial_academicoController');
+    Route::resource('/servicios_escolares/historial_academico', 'Cal_historial_academicoController')->only(['index']);
     Route::get('/servicios_escolares/historial_academico/carrera/{id_carrera}', 'Cal_historial_academicoController@historial_academico');
     Route::get('/servicios_escolares/historial_academico/alumno/{id_alumno}/{calificada}/', 'Cal_historial_academicoController@historial_alumno');
     Route::post('/servicios_escolares/historial_academico/alumno/residencia/{id_alumno}', 'Cal_historial_academicoController@calificar_residencia');
@@ -617,7 +606,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/guardar-baja-definitiva', 'Cal_historial_academicoController@guardarBajaDefinitiva');
     Route::get('/servicios_escolares/bitacora_def_temp/{id_carrera?}', 'Cal_historial_academicoController@bitacora_def_temp');
     Route::get('/alumno/academico/cal', 'Cal_historial_academicoController@al_cal_academico');
-    Route::resource('/servicios_escolares/promedio_semestre/', 'Cal_promedio_semestreController');
+    Route::resource('/servicios_escolares/promedio_semestre', 'Cal_promedio_semestreController')->only(['index']);
     Route::get('/servicios_escolares/promedio_alumnos_periodo/semestres/{id_carrera}', 'Cal_promedio_semestreController@promedio_alumnos_periodo');
     Route::get('/servicios_escolares/promedio_alumno_grupo/{id_carrera}/{id_semestre}', 'Cal_promedio_semestreController@promedio_alumno_grupo');
     Route::get('/servicios_escolares/promedio_alumnos_semestres_excel/{id_carrera}/{id_semestre}/', 'ExcelController@promedio_alumnos_semestres_excel');
@@ -673,7 +662,7 @@ Route::middleware('auth')->group(function () {
     {{-- ===========MENÚ JEFE DIVISION SEGUIMIENTO DE ESTUDIANTES DE INGLES ======================== --}}
     {{-- ==================================================================================== --}}
     */
-    Route::resource('/jefe_division/seguimiento_ingles','In_Seg_Jefe_DivisionController');
+    Route::resource('/jefe_division/seguimiento_ingles','In_Seg_Jefe_DivisionController')->only(['index']);
 
     ///////Alumno
     Route::get('/calificaciones', 'calalumnosController@index');
@@ -694,7 +683,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('riesgos/decision', 'RiNivelDecisionController');
     Route::resource('riesgos/clasifica', 'RiClasifRController');
     Route::resource('riesgos/partes', 'RiPartesController');
-    Route::resource('riesgos/add_partes/{id_proceso}/', 'RiAddPartesController', ['except' => ['destroy', 'show']]);//aqui
+    Route::resource('riesgos/add_partes/{id_proceso}/', 'RiAddPartesController', ['except' => ['destroy', 'show']])->names(['index' => 'add_partes.index', 'create' => 'add_partes.create', 'store' => 'add_partes.store', 'edit' => 'add_partes.edit']);//aqui
     Route::delete('riesgos/add_partes/{id_proceso}/', 'RiAddPartesController@destroy');
     Route::get('riesgos/add_partes/collapse/{id_colapse}/', 'RiAddPartesController@show');
     Route::resource('riesgos/requisitos', 'RiRequisitoController');
@@ -762,7 +751,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/oficios/eliminar_dependencia/', 'OficiosComisionController@eliminar_dependencia');
     Route::get('/oficios/modificar/{id_oficio}', 'OficiosComisionController@modificaregistrados');
     Route::get('/oficios/modificar/oficio_aceptado/{id_oficio}', 'OficiosComisionController@modificaroficio_aceptado');
-    Route::post('/oficios/solicitud/comisionado/modificado', 'OficiosComisionController@modificado');
     Route::get('/oficios/comisionados/{id}', ['as' => 'personalcomisionado', 'uses' => 'OficiosComisionController@registrados']);
     Route::get('/oficios/solicitudenviar/{id_oficio}', 'OcRegOficioController@envio');
     Route::get('/oficios/modificar_oficio/comisionado/{id_oficio_comisionado}', 'OcRegOficioController@aceptar_modificacion');
@@ -770,7 +758,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/oficios/historialoficios', 'OcRegOficioController@historialoficios');
     Route::get('/oficios/mostrar/{id_oficio}', 'OcRegOficioController@mostrar');
     Route::post('/oficios/comisionado/agregarcomisionados', 'OficiosRegistrarcomisionadosController@store');
-    Route::get('/oficios/mostraroficio', 'OcRegOficioController@oficioscomisionados');
     Route::get('/oficios/aceptadosubdireccion/{id_oficio}', 'OcRegOficioController@aceptadosubdireccion');
     Route::get('/oficios/rechazadosubdireccion/{id_oficio}', 'OcRegOficioController@rechazadosubdireccion');
     Route::get('/oficios/aceptado/{id_oficio}', 'OcRegOficioController@aceptado');
@@ -791,30 +778,29 @@ Route::middleware('auth')->group(function () {
         'as' => 'pdfregistroautosviaticos',
         'uses' => 'PdfoficioComisionAutosViaticos@index',
     ]);
-    Route::resource('/departamento/plantilla', 'PersonalPlantillaController');
+    Route::resource('/departamento/plantilla', 'PersonalPlantillaController')->only(['index', 'store', 'destroy']);
     Route::get('/departamentoplantilla/ver', 'PersonalPlantillaVerController@index');
     Route::delete('/departamentoplantilla/elimina/{id}', 'PersonalPlantillaController@eliminar');
     Route::post('/departamentoplantilla/mostrar', 'PersonalPlantillaVerController@store');
     Route::get('/departamento/plantillas/{id}', ['as' => 'personaldepartamento', 'uses' => 'PersonalPlantillaController@personaldepartamento']);
 //******************************************************************************
     /* Laboratorios*/
-    Route::resource('/laboratorios/laboratorios/', 'Lb_laboratoriosController');
+    Route::resource('/laboratorios/laboratorios', 'Lb_laboratoriosController')->only(['index']);
     Route::get('/laboratorios/mostrar/{laboratorio}/{fecha_inicial}/{fecha_final}', 'Lb_laboratoriosController@laboratorios');
     Route::post('/laboratorios/registrar', 'Lb_laboratoriosController@apartarlab');
     Route::post('/laboratorios/registrar/profesor/materia', 'Lb_laboratoriosController@materiaprofesor');
     Route::delete('/laboratorios/eliminar/{id}', 'Lb_laboratoriosController@eliminar');
     Route::delete('/laboratorios/eliminar/profesores/{id}', 'Lb_laboratoriosController@eliminar_profesor');
-    Route::get('/ingles_horarios/imprimir_horarios/{fecha_inicial}/{id_laboratorio}', 'Lb_laboratoriosController@imprimir_horarios');
     Route::get('/laboratorios/verificacion_dia_lab/{id_semana_profesor}/{id_laboratorio}', 'Lb_laboratoriosController@verificacion_dia_lab');
     Route::get('/laboratorios/reg_lab_fecha/{id_semana}/{id_laboratorio}/{fecha_registro}', 'Lb_laboratoriosController@reg_lab_fecha');
     Route::get('pdf-lab-horarios/{laboratorio}/{fecha_inicial}/{fecha_final}', 'PDF_Lab_HorariosController@index');
 ///-------------------------------------------------------------------------------------------------------------------
 /// **********************************************++ activar el modulo de amar  horarios*************+
-    Route::resource('/centro_computo/activar_armar_horarios/', 'C_C_Controller');
+    Route::resource('/centro_computo/activar_armar_horarios', 'C_C_Controller')->only(['index']);
 ///
     Route::resource('sgc/programa', 'SgcProgramaController');///
     Route::resource('sgc/procesoAgenda', 'SgcProcesoAgendaController');
-    Route::resource('sgc/auditorias', 'SgcAuditoriasController');///
+    Route::resource('sgc/auditorias', 'SgcAuditoriasController')->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);///
     Route::resource('sgc/asignaAudi', 'SgcAsignaAudiController');
     Route::resource('sgc/guarda_evento', 'SgcAgendaController');
     Route::get('sgc/agenda/{id}', 'SgcAgendaController@show');
@@ -832,9 +818,9 @@ Route::middleware('auth')->group(function () {
     Route::resource('sgc/reporte_programa', 'SgcReporteAuditoriaController');
     Route::get('sgc/print_reporte/{data}', 'SgcReporteAuditoriaController@show');///
 //Recursos Auditorias********************************************************************
-    Route::resource('auditorias/auditores', 'AudAuditoresController');
+    Route::resource('auditorias/auditores', 'AudAuditoresController')->names('aud_auditores');
     Route::resource('auditorias/programas', 'AudProgramasController');
-    Route::resource('auditorias/print_page_job', 'AudPdfHojaController');
+    Route::resource('auditorias/print_page_job', 'AudPdfHojaController')->names('aud_print_page_job');
     Route::resource('auditorias/planes', 'AudAuditoriasController');
     Route::resource('auditorias/procesos_plan', 'AudAuditoriaProcesoController');
     Route::resource('auditorias/auditores_asignados', 'AudAuditorAuditoriaController');
@@ -847,13 +833,13 @@ Route::middleware('auth')->group(function () {
 
     Route::post("auditorias/validar_programa/{id}", "AudProgramasController@statePrograma");
 //Route::resource('auditorias/validar','AudValidarAgendaController');
-    Route::resource('auditorias/evento', 'AudAgendaEventoController');
+    Route::resource('auditorias/evento', 'AudAgendaEventoController')->only(['index', 'create', 'store', 'show', 'edit', 'update']);
     Route::resource('auditorias/procesos', 'AudProcesosController');
     Route::post("auditorias/procesos_unidad", 'AudProcesosController@addUnidad');
     Route::delete("auditorias/procesos_unidad/{id}", 'AudProcesosController@deleteUnidad');
 
     Route::resource('auditorias/actividades', 'AudActividadesController');
-    Route::resource('auditorias/hoja_trabajo', 'AudReporteController');
+    Route::resource('auditorias/hoja_trabajo', 'AudReporteController')->names('aud_hoja_trabajo');
     Route::resource('auditorias/ver_hoja', 'AudHojaController');
     Route::resource('auditorias/generales', 'AudGeneralesController');
 //Rutas parciales Auditorias*************************************************************
@@ -877,46 +863,46 @@ Route::middleware('auth')->group(function () {
     Route::get('auditorias/constancia/{id}', 'AudPrintController@constancia');
 //****************************************************************************************
 //*******************************PAA***********************************************
-    Route::resource('/paa/programa_paa', 'PaaProgramaController');
+    Route::resource('/paa/programa_paa', 'PaaProgramaController')->only(['index', 'store']);
     Route::get('/paa/programa_paa/modificar/{id_programa}', 'PaaProgramaController@editar');
     Route::put('/paa/programa_paa/modificacion/{id_programa}', 'PaaProgramaController@modificar');
-    Route::resource('/paa/subprograma_paa', 'PaaSubprogramaController');
+    Route::resource('/paa/subprograma_paa', 'PaaSubprogramaController')->only(['index', 'store']);
     Route::get('/paa/subprograma_paa/modificar/{id_subprograma}', 'PaaSubProgramaController@editar');
     Route::put('/paa/subprograma_paa/modificacion/{id_subprograma}', 'PaaSubProgramaController@modificar');
-    Route::resource('/paa/acciones_paa', 'PaaAccionController');
+    Route::resource('/paa/acciones_paa', 'PaaAccionController')->only(['index', 'store']);
     Route::get('/paa/acciones_paa/modificar/{id_accion}', 'PaaAccionController@editar');
     Route::post('/paa/acciones_paa/modificar_accion', 'PaaAccionController@modificar');
-    Route::resource('/paa/unidad_medida_paa', 'PaaUnidadMedidaController');
+    Route::resource('/paa/unidad_medida_paa', 'PaaUnidadMedidaController')->only(['index', 'store']);
     Route::get('/paa/unidad_medida/modificar/{id_unidad}', 'PaaUnidadMedidaController@editar');
     Route::put('/paa/unida_medida/modificacion/{id_unidad}', 'PaaUnidadMedidaController@modificar');
-    Route::resource('/paa/generarpaa', 'PaaGenerarPaaController');
+    Route::resource('/paa/generarpaa', 'PaaGenerarPaaController')->only(['index']);
 //******************************MODULO DE RESIDENCIA PROFESIONAL************************************//
 //*****************************************************************************************************//
-    Route::resource('/residencia/registrar_solicitud_residencia', 'Resi_Solicitud_ResiController');
+    Route::resource('/residencia/registrar_solicitud_residencia', 'Resi_Solicitud_ResiController')->only(['index']);
     Route::post('/residencia/guardar_solicitud_residencia/{id_anteproyecto}', 'Resi_Solicitud_ResiController@guardar_solicitud_residencia');
     Route::get('/residencia/pdf_solicitud_residencia/{id_anteproyecto}', 'Resi_Solicitud_pdfController@index');
     Route::post('/residencia/guardar_mod_solicitud_residencia/{id_anteproyecto}', 'Resi_Solicitud_ResiController@guardar_mod_solicitud_residencia');
 
-    Route::resource('/residencia/evalucion_anteproyecto', 'Resi_Periodo_eval_anteproyectoController');
+    Route::resource('/residencia/evalucion_anteproyecto', 'Resi_Periodo_eval_anteproyectoController')->only(['index', 'store']);
     Route::delete('/residencia/evalucion_anteproyecto/eliminar/{id_periodo_anteproyecto}', 'Resi_Periodo_eval_anteproyectoController@eliminar');
     Route::post('/residencia/activar_periodo_anteproyecto/', 'Resi_Periodo_eval_anteproyectoController@activar_periodo_anteproyecto');
     Route::post('/residencia/desactivar_periodo_anteproyecto/', 'Resi_Periodo_eval_anteproyectoController@desactivar_periodo_anteproyecto');
     //** RUTA PARA MODIFICAR LAS FECHAS DEL PERIODO DE EVALUACION DE ANTEPROYECTOS**/
     Route::put('/residencia/evalucion_anteproyecto/editar/{id}','Resi_Periodo_eval_anteproyectoController@editar');
 
-    Route::resource('/residencia/registrar_anteproyecto', 'Resi_Registrar_anteproyectoController');
-    Route::resource('/residencia/anteproyecto/portada', 'Resi_Registrar_portadaController');
-    Route::resource('/residencia/anteproyecto/objetivos', 'Resi_Registrar_objetivosController');
-    Route::resource('/residencia/anteproyecto/alcances', 'Resi_Registrar_alcancesController');
-    Route::resource('/residencia/anteproyecto/justificacion', 'Resi_Registrar_justificacionController');
-    Route::resource('/residencia/anteproyecto/marco_teorico', 'Resi_Registrar_marcoteoricoController');
-    Route::resource('/residencia/anteproyecto/cronograma', 'Resi_Registrar_cronogramaController');
+    Route::resource('/residencia/registrar_anteproyecto', 'Resi_Registrar_anteproyectoController')->only(['index']);
+    Route::resource('/residencia/anteproyecto/portada', 'Resi_Registrar_portadaController')->only(['index', 'store']);
+    Route::resource('/residencia/anteproyecto/objetivos', 'Resi_Registrar_objetivosController')->only(['index', 'store']);
+    Route::resource('/residencia/anteproyecto/alcances', 'Resi_Registrar_alcancesController')->only(['index', 'store']);
+    Route::resource('/residencia/anteproyecto/justificacion', 'Resi_Registrar_justificacionController')->only(['index', 'store']);
+    Route::resource('/residencia/anteproyecto/marco_teorico', 'Resi_Registrar_marcoteoricoController')->only(['index', 'store']);
+    Route::resource('/residencia/anteproyecto/cronograma', 'Resi_Registrar_cronogramaController')->only(['index']);
     Route::get('/residencia/anteproyecto/cronograma/agregar_actividad/{id_actividad}', 'Resi_Registrar_cronogramaController@agregar_actividad');
     Route::post('/residencia/anteproyecto/cronograma/registrar_actividad/', 'Resi_Registrar_cronogramaController@registrar_actividad');
     Route::get('/residencia/anteproyecto/cronograma/modificar_actividad/{id_cronograma}', 'Resi_Registrar_cronogramaController@moficar_actividad');
     Route::post('/residencia/anteproyecto/cronograma/modificacion_actividad/', 'Resi_Registrar_cronogramaController@moficacion_actividad');
     Route::post('/residencia/anteproyecto/enviar/', 'Resi_Registrar_anteproyectoController@enviar');
-    Route::resource('/residencia/asignar_revisores', 'Resi_Jefes_residenciaController');
+    Route::resource('/residencia/asignar_revisores', 'Resi_Jefes_residenciaController')->only(['index']);
     Route::get('/residencia/agregar_revisores/{id_asesor}', 'Resi_Jefes_residenciaController@agregar_revisores');
     Route::post('/residencia/periodo_asesor', 'Resi_Jefes_residenciaController@periodo_asesor');
     Route::delete('/residencia/eliminar_revisor', 'Resi_Jefes_residenciaController@eliminar_revisor');
@@ -934,10 +920,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/residentes/oficio_aceptacion_proyecto/{id_asesores}', 'Resi_pdf_oficio_aceptacion_proController@index');
     Route::get('/residentes/alumno/{id_anteproyecto}', 'Resi_Jefes_residenciaController@residentes_alumno');
     Route::post('/residencia/actualizar_calificacion/{id}','Resi_Jefes_residenciaController@actualizar_calificacion')->name('actualizar_calificacion');
-    Route::get('/residencia/lista_documentacion/alta_residencia', 'Resi_correcciones_anteproyectoControllorer@documentacion_alta_residencia');
     Route::post('/residencia/guardar_documentacion_alta', 'Resi_correcciones_anteproyectoControllorer@guardar_documentacion_alta');
 
-    Route::resource('/residencia/revisores_anteproyecto', 'Resi_revisar_anteproyectoController');
+    Route::resource('/residencia/revisores_anteproyecto', 'Resi_revisar_anteproyectoController')->only(['index']);
     Route::get('/residencia/carrera_anteproyecto/{id_revisores}', 'Resi_revisar_anteproyectoController@carrrera_revisor');
     Route::get('/residencia/revisar_anteproyecto/{id_anteproyecto}/{id_profesor}', 'Resi_revisar_anteproyectoController@revisar_anteproyecto');
     Route::post('/residencia/revisar_portada/', 'Resi_revisar_anteproyectoController@revisar_portada');
@@ -952,8 +937,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/residencia/guardar_comentarios_marcoteorico/', 'Resi_revisar_anteproyectoController@guardar_comentarios_marcoteorico');
     Route::post('/residencia/guardar_comentarios_cronograma/', 'Resi_revisar_anteproyectoController@guardar_comentarios_cronograma');
     Route::get('/residencia/enviar_anteproyecto_alumno/{id_anteproyecto}/{id_profesor}', 'Resi_revisar_anteproyectoController@enviar_anteproyecto_alumno');
-    Route::resource('/residencia/correcciones_anteproyecto/', 'Resi_correcciones_anteproyectoControllorer');
-    Route::get('/residencia/anteproyecto/corregir_portada', 'Resi_correcciones_anteproyectoControllorer@corregir_portada');
+    Route::resource('/residencia/correcciones_anteproyecto', 'Resi_correcciones_anteproyectoControllorer')->only(['index']);
     Route::get('/residencia/anteproyecto/corregir_objetivos', 'Resi_correcciones_anteproyectoControllorer@corregir_objetivos');
     Route::get('/residencia/anteproyecto/corregir_alcances', 'Resi_correcciones_anteproyectoControllorer@corregir_alcances');
     Route::get('/residencia/anteproyecto/corregir_justificacion', 'Resi_correcciones_anteproyectoControllorer@corregir_justificacion');
@@ -967,7 +951,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/residencia/guardar_correciones_marco_teorico/', 'Resi_correcciones_anteproyectoControllorer@guardar_correciones_marco_teorico');
     Route::post('/residencia/guardar_correciones_cronograma/', 'Resi_correcciones_anteproyectoControllorer@guardar_correciones_cronograma');
     Route::post('/residencia/enviar_anteproyecto_corregido/', 'Resi_correcciones_anteproyectoControllorer@enviar_anteproyecto_corregido');
-    Route::resource('/residencia/empresa', 'Resi_agregar_empresaController');
+    Route::resource('/residencia/empresa', 'Resi_agregar_empresaController')->only(['index']);
     Route::get('/residencia/modificar_empresa/{id_empresa}', 'Resi_agregar_empresaController@modificar_empresa');
     Route::post('/residencia/modificacion_empresa/', 'Resi_agregar_empresaController@modificacion_empresa');
     Route::post('/residencia/insertar_empresa/', 'Resi_agregar_empresaController@insertar_empresa');
@@ -976,7 +960,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/residencia/registrar_empresa_asesor/', 'Resi_agregar_empresaController@registrar_empresa_asesor');
     Route::post('/residencia/modificar_empresa_asesor/', 'Resi_agregar_empresaController@modificar_empresa_asesor');
     Route::get('/residencia/notificacion_anteproyecto/', 'Resi_agregar_empresaController@notificacion_anteproyecto');
-    Route::resource('/residencia/dictamen_anteproyecto', 'Resi_pdf_dictamen_anteproyectoController');
+    Route::resource('/residencia/dictamen_anteproyecto', 'Resi_pdf_dictamen_anteproyectoController')->only(['index']);
     Route::get('/residencia/mostrar_comentario_portada/{id_evaluacion}/{id_anteproyecto}', 'Resi_mostrarcomentariosController@comentarios_portada');
     Route::get('/residencia/mostrar_comentario_objetivos/{id_evaluacion}/{id_anteproyecto}', 'Resi_mostrarcomentariosController@comentarios_objetivos');
     Route::get('/residencia/mostrar_comentario_alcances/{id_evaluacion}/{id_anteproyecto}', 'Resi_mostrarcomentariosController@comentarios_alcances');
@@ -984,12 +968,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/residencia/mostrar_comentario_marco_teorico/{id_evaluacion}/{id_anteproyecto}', 'Resi_mostrarcomentariosController@comentarios_marco_teorico');
     Route::get('/residencia/mostrar_comentario_cronograma/{id_evaluacion}/{id_anteproyecto}', 'Resi_mostrarcomentariosController@comentarios_cronograma');
     Route::get('/residencia/mostrar_alumno_residencia/{id}', ['as' => 'alumno_residencia', 'uses' => 'Resi_revisar_anteproyectoController@ver_alumno_residencia']);
-    Route::resource('/residencia/agregar_anteproyecto_asesores', 'Resi_agregar_revisores_anteproyectosController');
+    Route::resource('/residencia/agregar_anteproyecto_asesores', 'Resi_agregar_revisores_anteproyectosController')->only(['index']);
     Route::get('/residencia/mostrar_asesores_anteproyecto/{id_anteproyecto}', 'Resi_agregar_revisores_anteproyectosController@mostrar_asesores_anteproyecto');
     Route::post('/residencia/guardar_asesores_anteproyecto/', 'Resi_agregar_revisores_anteproyectosController@guardar_asesores_anteproyecto');
     Route::get('/residencia/modificar_asesores_anteproyecto/{id_anteproyecto}', 'Resi_agregar_revisores_anteproyectosController@modificar_asesores_anteproyecto');
     Route::post('/residencia/modificacion_asesores_anteproyecto/', 'Resi_agregar_revisores_anteproyectosController@modificacion_asesores_anteproyecto');
-    Route::resource('/residencia/seguimiento_residencia', 'Resi_seguimientoController');
+    Route::resource('/residencia/seguimiento_residencia', 'Resi_seguimientoController')->only(['index']);
     Route::get('/residencia/seguimiento_asesor', 'Resi_seguimientoController@seguimiento_asesor');
     Route::get('/residencia/seguimiento_alumno/{id_anteproyecto}', 'Resi_seguimientoController@seguimiento_alumno');
     Route::get('/residencia/formato_evaluacion_residencia/{id_anteproyecto}', 'Resi_seguimientoController@formato_evaluacion_residencia');
@@ -1013,7 +997,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/residencia/seguimiento/oficio_revisor/{id_anteproyecto}', 'Resi_oficio_aceptacion_revisorController@index');
     Route::get('/residencia/seguimiento/portada/{id_anteproyecto}', 'Resi_portadaController@index');
     Route::get('/residencia/seguimiento/pdf_encuesta/{id_anteproyecto}', 'Resi_pdf_encuestaController@index');
-    Route::resource('/residencia/departamento_residencia', 'Resi_departamento_residenciaController');
+    Route::resource('/residencia/departamento_residencia', 'Resi_departamento_residenciaController')->only(['index']);
     Route::get('/residencia/institucional_proyectos', 'Resi_departamento_residenciaController@institucional_proyectos');
     Route::get('/residencia/exportar_datos_alumnos_residencia', 'Resi_departamento_residenciaController@exportar_datos_alumnos_residencia');
     Route::get('/residencia/carreras_proyectos', 'Resi_departamento_residenciaController@carreras_proyectos');
@@ -1030,7 +1014,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/residencia/carrera_empresa_mostrar/{id_carrera}', 'Resi_departamento_residenciaController@carrera_empresa_mostrar');
     Route::get('/residencia/empresa_institucional/', 'Resi_departamento_residenciaController@empresa_institucional');
 
-    Route::resource('/residencia/autorizar_anteproyecto', 'Resi_departamento_autorizar_anteproyectoController');
+    Route::resource('/residencia/autorizar_anteproyecto', 'Resi_departamento_autorizar_anteproyectoController')->only(['index']);
     Route::get('/residencia/autorizar_anteproyecto/anteproyecto_autorizar/{id_carrera}', 'Resi_departamento_autorizar_anteproyectoController@anteproyecto_autorizar_departamento');
     Route::get('/residencia/autorizacion_documentacion/{id_anteproyecto}', 'Resi_departamento_autorizar_anteproyectoController@autorizacion_documentacion');
     Route::get('/residencia/autorizacion_documentacion_modificada/{id_anteproyecto}', 'Resi_departamento_autorizar_anteproyectoController@autorizacion_documentacion_modificada');
@@ -1066,7 +1050,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/residencia/envio_documento_residencia/{id_alta_residencia}', 'Resi_departamento_autorizar_anteproyectoController@envio_documento_residencia');
     Route::post('/residencia/envio_documento_residencia/modificada/{id_alta_residencia}', 'Resi_departamento_autorizar_anteproyectoController@envio_documento_residencia_modificada');
 
-    Route::resource('/residencia/enviar_documentacion/alumno/', 'Resi_documentacionfinal_alController');
+    Route::resource('/residencia/enviar_documentacion/alumno', 'Resi_documentacionfinal_alController')->only(['index']);
     Route::post('/residencia/modificar_correo_documentacionfinal/alumno', 'Resi_documentacionfinal_alController@modificar_correo_documentacionfinal');
     Route::post('/residencia/acta_calificacion/documentacionfinal/{id_liberacion_documentos}', 'Resi_documentacionfinal_alController@acta_calificacion_documentacionfinal');
     Route::post('/residencia/portada/documentacionfinal/{id_liberacion_documentos}', 'Resi_documentacionfinal_alController@portada_documentacionfinal');
@@ -1080,7 +1064,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/residencia/seguimiento_externo/documentacionfinal/{id_liberacion_documentos}', 'Resi_documentacionfinal_alController@seguimiento_externo_documentacionfinal');
     Route::post('/residencia/envio_documento_residencia_final/{id_liberacion_documentos}', 'Resi_documentacionfinal_alController@envio_documento_residencia_final');
 
-    Route::resource('/residencia/revision_documentos_finales', 'Resi_documentacionfinal_depController');
+    Route::resource('/residencia/revision_documentos_finales', 'Resi_documentacionfinal_depController')->only(['index']);
     Route::get('/residencia/revision_doc_finales/{id_carrera}', 'Resi_documentacionfinal_depController@revisar_doc_finales');
     Route::get('/residencia/proceso_mod_doc_finales/{id_carrera}', 'Resi_documentacionfinal_depController@mod_doc_finales');
     Route::get('/residencia/alumno_liberacion_final_mod/doc/{id_liberacion_documentos}', 'Resi_documentacionfinal_depController@alumno_liberacion_final_mod');
@@ -1101,7 +1085,7 @@ Route::middleware('auth')->group(function () {
 
     ///**********************************Horarios de ingles***********************************
 /// **************************************************************************************
-    Route::resource('/profesores_ingles/create', 'In_registrar_profesoresController');
+    Route::resource('/profesores_ingles/create', 'In_registrar_profesoresController')->only(['index', 'store'])->names('profesores_ingles_create');
     Route::get('/profesores_ingles/periodos/{id_periodo}', 'In_registrar_profesoresController@periodo');
     Route::get('/recargar/periodos_ingles/{id_periodo}', 'In_registrar_profesoresController@recargar_periodo');
     Route::get('/profesores_ingles/modificar/{id_usuario}', 'In_registrar_profesoresController@modificar_profesor');
@@ -1115,7 +1099,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/agregar_profesor/ingles_plantilla/{id_profesor}', 'In_armar_plantillaController@ingles_plantilla');
     Route::post('/agregar_profesor/agregar_ingles_plantilla/', 'In_armar_plantillaController@agregar_ingles_plantilla');
     Route::delete('/profesor_ingles/eliminar/', 'In_armar_plantillaController@eliminar_profesor_plantilla');
-    Route::resource('/ingles_horarios/agregar', 'In_armar_horarioinglesController');
+    Route::resource('/ingles_horarios/agregar', 'In_armar_horarioinglesController')->only(['index']);
     Route::get('/ingles_horarios/horarios_ingles/{id_profesor}', 'In_armar_horarioinglesController@horario_ingles');
     Route::get('/ingles_horarios/horarios_ingles_niveles/{id_profesor}/{id_niveles}', 'In_armar_horarioinglesController@horario_ingles_niveles');
     Route::get('/ingles_horarios/ingles_niveles/', 'In_armar_horarioinglesController@ingles_niveles');
@@ -1155,21 +1139,21 @@ Route::middleware('auth')->group(function () {
     Route::get('ingles/constancia/{id_alumno}', 'In_pdf_generar_constancias_alumController@generar_pdf_alumno')
         ->name('ingles.constancia');
 
-    Route::resource('/ingles/mostrar_horarios_profesores', 'In_mostrar_horariosController');
+    Route::resource('/ingles/mostrar_horarios_profesores', 'In_mostrar_horariosController')->only(['index']);
     Route::get('/ingles/pdf_carga_academica_ingles/{id_grupo}/{id_nivel}', 'In_pdf_carga_inglesController@index');
     Route::get('/ingles/mostrar_horario_profesor/{id_profesor}', 'In_mostrar_horariosController@mostrar_horario_profesor');
     Route::get('/ingles/mostrar_horario_profesor_grupo/', 'In_mostrar_horariosController@mostrar_horario_profesor_grupo');
     Route::get('/ingles/grupos_niveles/{id_grupos}/{id_nivel}', 'In_mostrar_horariosController@mostrar_grupo_nivel');
     Route::get('/ingles_horarios/pdf_grupo_horarios/{id_grupos}/{id_nivel}', 'In_pdf_grupoController@index');
-    Route::resource('/ingles_horarios/mostrar_grupo', 'In_gruposController');
+    Route::resource('/ingles_horarios/mostrar_grupo', 'In_gruposController')->only(['index']);
     Route::get('/ingles/autorizacion_cargas/', 'In_gruposController@autorizacion_cargas');
     Route::get('/ingles/cargas_aut_excel/', 'In_gruposController@cargas_aut_excel');
     Route::get('/ingles/ver_carga_academica_ingles/{id_validar_carga}', 'In_gruposController@ver_carga_academica_ingles');
     Route::get('/ingles/modificar_carga_academica_ingles/{id_validar_carga}', 'In_gruposController@modificar_carga_academica_ingles');
     Route::post('/ingles/modificacion_carga_academica_ingles/', 'In_gruposController@modificacion_carga_academica_ingles');
-    Route::resource('/ingles/mostrar_niveles', 'In_nivelesController');
+    Route::resource('/ingles/mostrar_niveles', 'In_nivelesController')->only(['index']);
     Route::get('/ingles/mostrar_periodos', 'In_nivelesController@periodos');
-    Route::resource('/ingles/', 'In_inicioController');
+    Route::resource('/ingles', 'In_inicioController')->only(['index']);
     Route::get('/ingles/Calificaciones', 'In_inicioController@inicio_calificaciones');
     Route::get('/ingles/Calificaciones/mostrar_alumnos/{id_nivel}/{id_grupo}', 'In_inicioController@mostrar_alumnos');
     Route::get('/ingles/Calificaciones/periodos_ingles/{id_nivel}/{id_grupo}', 'In_inicioController@periodos_ingles');
@@ -1185,13 +1169,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/ingles/acta_ordinaria/{id_nivel}/{id_grupo}', 'In_acta_ordinariaController@index');
     Route::get('/ingles/acta_ordinaria_act/{id_nivel}/{id_grupo}', 'In_acta_ordinariaController@acta_ingles_actualizada');
     Route::get('/ingles/lista_asistencia/{id_nivel}/{id_grupo}', 'In_acta_ordinariaController@lista_asistencia_ingles');
-    Route::resource('/ingles/historial_academico_alumno/', 'In_historial_alumController');
+    Route::resource('/ingles/historial_academico_alumno', 'In_historial_alumController')->only(['index']);
     Route::get('/ingles/historial/ver_alumnos_carrera/{id_carrera}', 'In_historial_alumController@ver_alumnos_carrera');
     Route::get('/ingles/historial_calificaciones_excel/{id_carrera}', 'In_historial_alumController@historial_calificaciones_excel');
     ///////////////////////boucher de ingles///////////////////////////////////////////////////////////////////////////////
-    Route::resource('/ingles_horarios/cargar_voucher_pago/', 'In_voucher_pagoController');
+    Route::resource('/ingles_horarios/cargar_voucher_pago', 'In_voucher_pagoController');
     ////****** depto. culturales
-    Route::resource('/ingles/vouchers_validacion', 'In_voucher_validacionController');
+    Route::resource('/ingles/vouchers_validacion', 'In_voucher_validacionController')->only(['index', 'destroy']);
     Route::post('/aceptar_voucher/{id_voucher}', 'In_voucher_validacionController@aceptar_voucher')
         ->name('alumno.aceptar_voucher');
     Route::get('/ingles/mostrar_excell_voucher', 'excell_voucherController@index');
@@ -1248,7 +1232,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/ipomex/mostrar_fracciones/contralor_ver_ipomex/', 'Ipomex_agregar_fracionesController@contralor_ver_ipomex');
     ///////////////////*****************************************//////////////////////////////////////////////////
 /// ///////////////////Beca de estimulo********////
-    Route::resource('/beca_estimulo/', 'Beca_SolicitudController');
+    Route::resource('/beca_estimulo', 'Beca_SolicitudController')->only(['index']);
     Route::get('/beca_estimulo/enviar_solicitud/{id_alumno}/{descuento_estimulo}/{promedio}/{id_semestre}', 'Beca_SolicitudController@enviar_estimulo');
     Route::get('/beca_estimulo/escolares/autorizar', 'Beca_SolicitudController@escolares_autorizar');
     Route::get('/beca_estimulo/escolares/verificar_beca/{id_autorizar}/{autorizacion}', 'Beca_SolicitudController@verificar_beca');
@@ -1258,7 +1242,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/beca_estimulo/vulnerabilidad_registrar', 'Beca_vulnerabilidadController@index');
     Route::get('/beca_estimulo/escolares/auto_verificar', 'Beca_SolicitudController@auto_verificar_beca');
 ///////////////////////******computo***//////////
-    Route::resource('/computo/calificar', 'Computo_calificarController');
+    Route::resource('/computo/calificar', 'Computo_calificarController')->only(['index']);
     Route::get('/computo/calificacion_al/{id_carga}', 'Computo_calificarController@calificacion_al');
     Route::get('/computo/ver_cal/promedios', 'Computo_calificarController@promedios_al_carrera');
     Route::get('/computo/ver_carrera_alumno/{id_carrera}', 'Computo_calificarController@ver_carrera_alumno');
@@ -1287,7 +1271,7 @@ Route::middleware('auth')->group(function () {
 
     //////////////////////////////////////////////////////////////////////////////////*************************/////
     /// **************Solicitud Prorroga****************//////////////////////////////////////
-    Route::resource('/solicitud/prorroga', 'Prorroga_SolicitudController');
+    Route::resource('/solicitud/prorroga', 'Prorroga_SolicitudController')->only(['index']);
     Route::post('/solicitud/enviar_solicitud_prorroga/{id_alumno}', 'Prorroga_SolicitudController@registrar_solicitud');
     Route::get('/solicitud/prorroga_autorizar', 'Prorroga_SolicitudController@autorizar_prorroga');
     Route::get('/solicitud/exportar_solicitudes_prorroga', 'Prorroga_SolicitudController@exportar_solicitudes_prorroga');
@@ -1297,7 +1281,7 @@ Route::middleware('auth')->group(function () {
 //////////////////////////////////////////////////////////////////////////////////
 /// ////////////////////////////////////////////////////////////////////////////*****************************
 /// **********solicitud de adeudo
-    Route::resource('/solicitud_adeudo/', 'Solicitud_adeudoController');
+    Route::resource('/solicitud_adeudo', 'Solicitud_adeudoController')->only(['index']);
     Route::get('/solicitud_alumno_adeudo/{id_carrera}', 'Solicitud_adeudoController@ver_alumnos_reg');
     Route::get('/registrar_alumno_adeudo/{id_carrera}/{id_alumno}/{comentario}', 'Solicitud_adeudoController@registrar_alumno_adeudo');
     Route::post('/eliminar_alumno_adeudo/{id_carrera}/', 'Solicitud_adeudoController@eliminar_alumno_adeudo');
@@ -1317,11 +1301,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/servicios_escolares/baja/imprimir/{id_alumno}/{id}/{tipo}', 'Solicitud_Baja_Pdf_Controller@imprimir');
 
     ////tutorias ///
-    Route::resource('/tutorias/', 'Tutorias_inicioController');
+    Route::resource('/tutorias', 'Tutorias_inicioController')->only(['index']);
     ///VISTA DE QUIEN ES EL COORDINADOR INSTITUCIONAL
-    Route::Resource('/tutorias/desarrollovista', 'Tutorias_DesarrolloVistaController');
+    Route::Resource('/tutorias/desarrollovista', 'Tutorias_DesarrolloVistaController')->only(['index']);
     ///ASIGNAR COORDINDOR INSTITUCIONAL
-    Route::Resource('/tutorias/asignacorgenvista', 'Tutorias_AsignaCorGenController');
+    Route::Resource('/tutorias/asignacorgenvista', 'Tutorias_AsignaCorGenController')->only(['index']);
 
     ///LISTA DE PROFESORES EN ASIGNA COORDINADOR INSTITUCIONAL
     Route::Resource('/tutorias/asignacoordinadorgeneral', 'Tutorias_AsignaCoordinadorGeneralController');
@@ -1330,7 +1314,7 @@ Route::middleware('auth')->group(function () {
     ///CONSULTA MUESTRA COORDINADOR INSTITUCIONAL EN DESARROLLO ACADEMICO
     Route::Resource('/tutorias/desarrollo', 'Tutorias_DesarrolloController');
     ///PLANEACION DESARROLLO ACADEMICO
-    Route::Resource('/tutorias/planeaciondesarrollo', 'Tutorias_Dep_desarrolloController');
+    Route::Resource('/tutorias/planeaciondesarrollo', 'Tutorias_Dep_desarrolloController')->only(['index', 'update']);
     Route::put('/tutorias/modificar_planeaciondesarrollo/{id_plan_actividad}', 'Tutorias_Dep_desarrolloController@update');
 
     ///Route::Resource('/tutorias/planeaciondesarrollo/dos', 'Tutorias_Dep_desarrollo_sController');
@@ -1421,7 +1405,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/tutorias/enviact', 'Tutorias_Coordina_instController@enviaupd');
     Route::post('/tutorias/sugerenciades', 'Tutorias_Coordina_instController@sugdesa');
 
-    Route::Resource('/tutorias/planeacioncoorgen', 'Tutorias_Coordina_instController');
+    Route::Resource('/tutorias/planeacioncoorgen', 'Tutorias_Coordina_instController')->only(['index']);
     Route::post('/tutorias/actividades', 'Tutorias_Dep_desarrolloController@actividades');
     ///REVISION DE PLANEACION COORDINADOR INSTITUCIOANL
     Route::get('/tutorias/revision', function () {
@@ -1433,20 +1417,20 @@ Route::middleware('auth')->group(function () {
     Route::post('/tutorias/actualizasuge', 'Tutorias_ViewAlumnosController@actualizasugerencia');
 
     ///TUTORES
-    Route::Resource('/tutorias/asignatuvista', 'Tutorias_AsignaTuController');
+    Route::Resource('/tutorias/asignatuvista', 'Tutorias_AsignaTuController')->only(['index']);
     Route::Resource('/tutorias/asignatutores', 'Tutorias_AsignaTutorController');
     Route::get('/tutorias/asignatutores/{id}/destroy', [
         'uses' => 'Tutorias_AsignaTutorController@destroy',
-        'as' => 'asignatutores.destroy'
+        'as' => 'asignatutores.destroy_get'
     ]);
     ///RUTAS JEFE DE DIV
     Route::Resource('/tutorias/jefe', 'Tutorias_JefeController');
-    Route::Resource('/tutorias/jefevista', 'Tutorias_JefeVistaController');
+    Route::Resource('/tutorias/jefevista', 'Tutorias_JefeVistaController')->only(['index']);
 
     ///COORDINADOR
-    Route::Resource('/tutorias/asignacoordinador/', 'Tutorias_AsignaCoordinadorController');
+    Route::Resource('/tutorias/asignacoordinador', 'Tutorias_AsignaCoordinadorController');
     Route::delete('/tutorias/asignacoordinador/eliminar/{id}', 'Tutorias_AsignaCoordinadorController@destroy');
-    Route::Resource('/tutorias/asignacovista', 'Tutorias_AsignaCoController');
+    Route::Resource('/tutorias/asignacovista', 'Tutorias_AsignaCoController')->only(['index']);
 
     ///TUTOR
     Route::post('/tutorias/apc', 'Tutorias_Dep_desarrolloController@corraprob');
@@ -1455,7 +1439,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/tutorias/enviasug', 'Tutorias_Dep_desarrolloController@sugesend');
     Route::post('/tutorias/apruebadesarrollo', 'Tutorias_Dep_desarrolloController@aprueba');
     Route::post('/tutorias/desver', 'Tutorias_Dep_desarrolloController@ver');
-    Route::Resource('/tutorias/tutorvista', 'Tutorias_TutorVistaController');
+    Route::Resource('/tutorias/tutorvista', 'Tutorias_TutorVistaController')->only(['index']);
     Route::post('/tutorias/profesor', 'Tutorias_ProfesorController@alumnos');
     Route::post('/tutorias/profe', 'Tutorias_ProfesorController@ev');
     Route::post('/tutorias/cambio', 'Tutorias_ProfesorController@cambio');
@@ -1467,9 +1451,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/tutorias/semestres_tesvb', 'Tutorias_ProfesorController@semestres_tesvb');
     Route::post('/tutorias/registrar_semestre_grupo', 'Tutorias_ProfesorController@registrar_semestre_grupo');
     Route::post('/tutorias/modificar_semestre_grupo', 'Tutorias_ProfesorController@modificar_semestre_grupo');
-    Route::Resource('/tutorias/desercion', 'Tutorias_DesercionController');
+    Route::Resource('/tutorias/desercion', 'Tutorias_DesercionController')->only(['index']);
     Route::post('/tutorias/probabilidad', 'Tutorias_ProbabilidadController@alumnos');
-    Route::Resource('/tutorias/seguimiento', 'Tutorias_SeguimientoController');
+    Route::Resource('/tutorias/seguimiento', 'Tutorias_SeguimientoController')->only(['index'])->names('tutorias_seguimiento');
     Route::post('/tutorias/seguimientoplan', 'Tutorias_SeguimientoPlanController@alumnos');
 
     ///VISTA PLANEACION TUTOR
@@ -1504,9 +1488,9 @@ Route::middleware('auth')->group(function () {
     ///VER CANALIZACION TUTOR
     Route::post('/tutorias/vercanaliza', 'Tutorias_ViewAlumnosController@veralumno1');/////////////////////////////////si se utiliza
     Route::post('/tutorias/modalact', 'Tutorias_Canalizados_tutorController@canactualiza');
-    Route::Resource('/tutorias/actividad', 'Tutorias_actividades_alumnoController');
+    Route::Resource('/tutorias/actividad', 'Tutorias_actividades_alumnoController')->only(['index', 'store', 'show', 'edit', 'update', 'destroy']);
     Route::post("/tutorias/pdf/citacan", "Tutorias_PdfCitController@pdf_cita")->name("pdf_cita");
-    Route::Resource('/tutorias/calendario', 'Tutorias_calendario_eventosController');
+    Route::Resource('/tutorias/calendario', 'Tutorias_calendario_eventosController')->only(['index']);
     Route::post('/tutorias/actualizadatos', 'Tutorias_Canalizados_tutorController@datosact');
     Route::post('/tutorias/pcan', 'Tutorias_Canalizados_tutorController@store');
     Route::get('/tutorias/carreras', function () {
@@ -1518,7 +1502,7 @@ Route::middleware('auth')->group(function () {
     Route::post('//tutorias/modalact', 'Tutorias_Canalizados_tutorController@canactualiza');
 
     //////// Reporte Semestral
-    Route::Resource('/tutorias/repsemestral', 'Tutorias_ReporteSemestralController');
+    Route::Resource('/tutorias/repsemestral', 'Tutorias_ReporteSemestralController')->only(['index']);
     Route::post('/tutorias/reportealum', 'Tutorias_ReporteSemestralController@alum');
     Route::post('/tutorias/verepo', 'Tutorias_ReporteSemestralController@verpararepo');
     Route::post('/tutorias/sendreporte', 'Tutorias_ReporteSemestralController@enviareporte');
@@ -1527,7 +1511,7 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/tutorias/pdf/pdfreportegen', 'Tutorias_PdfReporteSemestralController@pdf_reportesem')->name('pdf_reportesem');
 
-    Route::resource('/tutorias/listas_asistencia_semestre/', 'TutoriasListasController');
+    Route::resource('/tutorias/listas_asistencia_semestre', 'TutoriasListasController')->only(['index']);
     Route::get('/tutorias/agregar_semestre_grupo/{id_asigna_tutor}', 'TutoriasListasController@agregar_semestre_grupo');
     Route::post('/tutorias/guardar_registro_semestre/', 'TutoriasListasController@guardar_registro_semestre');
     Route::get('/tutorias/ver_estudiantes_grupo/{id_asigna_tutor}', 'TutoriasListasController@ver_estudiantes_grupo');
@@ -1539,13 +1523,13 @@ Route::middleware('auth')->group(function () {
     //////// Reporte semestral carrera
     Route::get('/tutorias/reportecoordinador/inicio_reporte_coordinador/{id_asigna_coordinador}', 'Tutorias_ReporteSemestralCController@inicio_reporte_coordinador');
     Route::post('/tutorias/reportecoordinador/guardar_observacion', 'Tutorias_ReporteSemestralCController@guardar_observacion');
-    Route::Resource('/tutorias/reportecoordinador/repsemestralcarrera', 'Tutorias_ReporteSemestralCController');
+    Route::Resource('/tutorias/reportecoordinador/repsemestralcarrera', 'Tutorias_ReporteSemestralCController')->only(['index']);
     Route::get('/tutorias/reportecoordinador/tutorias_reportesemestralcarrera/{id_asigna_coordinador}', 'Tutorias_PdfReporteSemetralCController@pdf_reportesemcarrera');
     Route::get('/tutorias/reportecoordinador/editar_observacion_tutor/{id_asigna_generacion}', 'Tutorias_ReporteSemestralCController@editar_observacion_tutor');
     Route::post('/tutorias/reportecoordinador/guardar_mod_observacion/{id_repcarrera}', 'Tutorias_ReporteSemestralCController@guardar_mod_observacion');
 
     //////Reporte Semestral Institucional
-    Route::Resource('/tutorias/reporteinstitucional/repsemestral_ins', 'Tutorias_ReporteSemestralInsController');
+    Route::Resource('/tutorias/reporteinstitucional/repsemestral_ins', 'Tutorias_ReporteSemestralInsController')->only(['index']);
     Route::post('/tutorias/reporteinstitucional/guardar_observacion', 'Tutorias_ReporteSemestralInsController@guardar_observacion_inst');
     Route::get('/tutorias/reporteinstitucional/editar_observacion_carrera/{id_carrera}', 'Tutorias_ReporteSemestralInsController@editar_observacion_carrera');
     Route::post('/tutorias/reporteinstitucional/guardar_mod_observacion/{id_institucional}', 'Tutorias_ReporteSemestralInsController@guardar_mod_observacion_inst');
@@ -1553,7 +1537,7 @@ Route::middleware('auth')->group(function () {
 ///////////////////////////////////////////////////////////////////
 /// //////////////************SERVICIO SOCIAL*************/////////
 /// //////////////////////////////////////////////////////////////
-    Route::Resource('/servicio_social/docuemtacion_priemra_etapa/', 'Serv_documentacion_primeraController');
+    Route::Resource('/servicio_social/docuemtacion_priemra_etapa', 'Serv_documentacion_primeraController')->only(['index']);
     Route::post('/servicio_social/registrar_carta_aceptacion/{id_alumno}/{tipo_empresa}', 'Serv_documentacion_primeraController@registrar_carta_aceptacion');
     Route::post('/servicio_social/registrar_anexo_tecnico/{id_alumno}/{tipo_empresa}', 'Serv_documentacion_primeraController@registrar_anexo_tecnico');
     Route::post('/servicio_social/registrar_curp/{id_alumno}/{tipo_empresa}', 'Serv_documentacion_primeraController@registrar_curp');
@@ -1571,14 +1555,14 @@ Route::middleware('auth')->group(function () {
     Route::post('/servicio_social/enviar_registro_servicio/{id_datos_alumnos}', 'Serv_documentacion_primeraController@enviar_registro_servicio');
     Route::post('/servicio_social/registro_tipo_empresa_publica/{id_datos_alumnos}', 'Serv_documentacion_primeraController@registro_tipo_empresa_publica');
     Route::post('/servicio_social/modificar_pdf_empresapublica/{id_empresa_privada}', 'Serv_documentacion_primeraController@modificar_pdf_empresapublica');
-    Route::Resource('/servicio_social/departamento_revision_primera_etapa/', 'Serv_departamento_servicio_socialController');
+    Route::Resource('/servicio_social/departamento_revision_primera_etapa', 'Serv_departamento_servicio_socialController')->only(['index']);
     Route::get('/servicio_social/autorizacion_documentacion/{id_datos_alumnos}', 'Serv_departamento_servicio_socialController@autorizacion_documentacion');
     Route::post('/servicio_social/enviar_primeraetapa/{id_datos_alumnos}', 'Serv_departamento_servicio_socialController@enviar_primeraetapa');
     Route::get('/servicio_social/autorizacion_documentacion_modifcaciones/{id_datos_alumnos}', 'Serv_departamento_servicio_socialController@autorizacion_documentacion_modifcaciones');
     Route::get('/servicio_social/autorizada_documentacion_serv/{id_datos_alumnos}', 'Serv_departamento_servicio_socialController@autorizada_documentacion_serv');
 
 
-    Route::Resource('/servicio_social/ingresar_contancia/departamento/', 'Serv_alta_alumnosController');
+    Route::Resource('/servicio_social/ingresar_contancia/departamento', 'Serv_alta_alumnosController')->only(['index']);
     Route::get('/servicio_social/registrar_constancia/departamento/{id_datos_alumnos}', 'Serv_alta_alumnosController@registrar_constancia');
     Route::post('/servicio_social/guardar_carta_presentacion/', 'Serv_alta_alumnosController@guardar_presentacion');
     Route::get('/servicio_social/modificar_carta_presentacion/{id_datos_alumnos}', 'Serv_alta_alumnosController@modificar_carta_presentacion');
@@ -1595,8 +1579,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/servicio_social/autorizar_cartapresentacionalumno/alumno/', 'Serv_alta_alumnosController@autorizar_cartapresentacionalumno');
     Route::get('/servicio_social/rechazar_cartapresentacionalumno/{id_datos_alumnos}', 'Serv_alta_alumnosController@rechazar_cartapresentacionalumno');
     Route::post('/servicio_social/envio_rechazar_cartapresentacion/', 'Serv_alta_alumnosController@envio_rechazar_cartapresentacion');
-    Route::get('/servicio_social/agregar_tipo_servicio/alumno/{id_registro_alumno}', 'Serv_alta_alumnosController@agregar_tipo_servicio_alumno');
-    Route::post('/servicio_social/registrar_tipo_servicio/alumno/', 'Serv_alta_alumnosController@registrar_tipo_servicio_alumno');
     Route::post('/servicio_social/exportar_datos_servicio_social', 'ExcelController@exportar_social_servicio');
     //Route::post('/servicio_social/departamento_carreras', 'Resi_departamento_residenciaController@');
     Route::get('/servicio_social/departamento_carreras', 'Resi_departamento_residenciaController@inicio_carreras_servicio_social');
@@ -1708,7 +1690,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/titulacion/documentacion_requisitos_titulacion/', 'Ti_registro_alumnosController@documentacion_requisitos_titulacion');
     Route::get('/titulacion/ingles_carreras/', 'Ti_dep_inglesController@ingles_carreras');
     Route::get('/titulacion/ingles_alumnos_carrera/{id_carrera}', 'Ti_dep_inglesController@ingles_alumnos_carrera');
-    Route::get('/titulacion/certificado_alumno/{id_alumno}', 'Ti_dep_inglesController@certificado_alumno');
     Route::get('/titulacion/agregar_certificado/{id_alumno}', 'Ti_dep_inglesController@agregar_certificado');
     Route::post('/titulacion/guardar_certificado_alumno/', 'Ti_dep_inglesController@guardar_certificado_alumno');
     Route::get('/titulacion/editar_certificado/{id_certificado_acreditacion}', 'Ti_dep_inglesController@editar_certificado');
@@ -1751,7 +1732,6 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/titulacion/autorizar_doc_requisitos/', 'Ti_autorizar_doc_departamentoController@carrera_doc_requisitos');
     Route::get('/titulacion/autorizar_alumnos_doc_requisitos/{id_carrera}', 'Ti_autorizar_doc_departamentoController@index');
-    Route::get('/titulacion/carrera_alum_doc/{id_carrera}', 'Ti_autorizar_doc_departamentoController@carrera_alum_doc');
     Route::get('/titulacion/proceso_modificacion_doc_requisitos/{id_carrera}', 'Ti_autorizar_doc_departamentoController@proceso_modificacion_doc_requisitos');
     Route::get('/titulacion/autorizados_doc_requisitos/{id_carrera}', 'Ti_autorizar_doc_departamentoController@autorizar_alumno_doc_requisitos');
     Route::get('/titulacion/revisar_doc_requisitos/{id_alumno}', 'Ti_autorizar_doc_departamentoController@revisar_doc_requisitos');
@@ -1836,7 +1816,6 @@ Route::middleware('auth')->group(function () {
 
     /// titulacion tercera_etapa
     Route::get('/titulacion/registro_jurado/', 'Ti_registro_juradoController@index');
-    Route::get('/titulacion/estado_reg_jurado/{id_alumno}', 'Ti_registro_juradoController@estado_reg_jurado');
     Route::post('/titulacion/registrar_fecha_jurado/{id_alumno}', 'Ti_registro_juradoController@registrar_fecha_jurado');
     Route::post('/titulacion/eliminar_fecha_titulacion/{id_alumno}', 'Ti_registro_juradoController@eliminar_fecha_titulacion');
     Route::post('/titulacion/elim_fe_titulacion/{id_alumno}', 'Ti_registro_juradoController@elim_fe_titulacion');
@@ -2134,7 +2113,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/presupuesto_anteproyecto/eliminar_servicio/{id_reg_material_ant}', 'Pres_reg_req_mat_antController@eliminar_servicio');
     Route::post('/presupuesto_anteproyecto/guardar_eliminar_bien/{id_reg_material_ant}', 'Pres_reg_req_mat_antController@guardar_eliminar_bien');
 
-    Route::resource('/presupuesto_anteproyecto/techo_presupuestal/', 'Pres_techo_presupuestalController');
+    Route::resource('/presupuesto_anteproyecto/techo_presupuestal', 'Pres_techo_presupuestalController')->only(['index']);
     Route::post('/presupuesto_anteproyecto/techo_presupuestal/agregar_proyecto/', 'Pres_techo_presupuestalController@agregar_proyecto_techo_presupuestal_ante');
     Route::get('/presupuesto_anteproyecto/techo_presupuestal/agregar_fuentes_financiamiento/{id_presupuesto}', 'Pres_techo_presupuestalController@agregar_fuentes_financiamiento_ante');
     Route::post('/presupuesto_anteproyecto/techo_presupuestal/guardar_fuentes_financiamiento/{id_presupuesto}', 'Pres_techo_presupuestalController@guardar_fuentes_financiamiento_ante');
@@ -2145,8 +2124,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/presupuesto_anteproyecto/agregar_bienes_servicios_anteproyecto/{id_actividades_req_ante}', 'Pres_techo_presupuestalController@agregar_bienes_servicios_anteproyecto');
     Route::post('/presupuesto_anteproyecto/enviar_requisiciones/', 'Pres_reg_req_mat_antController@enviar_requisiciones');
 
-    Route::resource('/presupuesto_anteproyecto/revicion_requisiciones_anteproyecto/', 'Pres_revision_req_anteController');
-    Route::get('/presupuesto_anteproyecto/revicion_req_proy_anteproyecto/{id_proyecto}', 'Pres_revision_req_anteController@revicion_req_proy_anteproyecto');
+    Route::resource('/presupuesto_anteproyecto/revicion_requisiciones_anteproyecto', 'Pres_revision_req_anteController')->only(['index']);
     Route::get('/presupuesto_anteproyecto/revicion_req_departamento/{id_req_mat_ante}', 'Pres_revision_req_anteController@revicion_req_departamento');
     Route::get('/presupuesto_anteproyecto/revisicion_bienes_servicios_departamento/{id_actividades_req_ante}/{id_req_mat_ante}', 'Pres_revision_req_anteController@revisicion_bienes_servicios_departamento');
     Route::post('/presupuesto_anteproyecto/guardar_modificaciones/', 'Pres_revision_req_anteController@guardar_modificaciones');
@@ -2165,7 +2143,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/presupuesto_anteproyecto/ver_autorizacion_bienes_servicios_departamento/{id_actividades_req_ante}/{id_req_mat_ante}', 'Pres_revision_req_anteController@ver_autorizacion_bienes_servicios_departamento');
     Route::get('/presupuesto_anteproyecto/autorizados_req_departamento/{id_req_mat_ante}', 'Pres_revision_req_anteController@autorizados_req_departamento');
 
-    Route::resource('/presupuesto_anteproyecto/requisiciones_autorizadas_proyecto/', 'Pres_autorizadas_req_proController');
+    Route::resource('/presupuesto_anteproyecto/requisiciones_autorizadas_proyecto', 'Pres_autorizadas_req_proController')->only(['index']);
     Route::get('/presupuesto_anteproyecto/presupuesto_total_anteproyecto/{id_presupuesto}', 'Pres_autorizadas_req_proController@presupuesto_total_anteproyecto');
     Route::get('/presupuesto_anteproyecto/presupuesto_total_anteproyecto_inc/{id_presupuesto}', 'Pres_autorizadas_req_proController@presupuesto_total_anteproyecto_inc');
 
@@ -2296,7 +2274,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/presupuesto_autorizado/eliminacion_solicitud/{id_solicitud}', 'Pres_aut_agregar_presuController@eliminacion_solicitud');
     Route::post('/presupuesto_autorizado/guardar_eliminacion_solicitud/{id_solicitud}', 'Pres_aut_agregar_presuController@guardar_eliminacion_solicitud');
 
-    Route::resource('/presupuesto_autorizado/agregar_req_solicitud_autorizadas/', 'Pres_aut_req_solicitudes_autController');
+    Route::resource('/presupuesto_autorizado/agregar_req_solicitud_autorizadas', 'Pres_aut_req_solicitudes_autController')->only(['index']);
     Route::get('/presupuesto_autorizado/registrar_documentacion_solicitud/{id_solicitud}', 'Pres_aut_req_solicitudes_autController@registrar_documentacion_solicitud');
     Route::get('/presupuesto_autorizado/registrar_requisicion/{id_solicitud}', 'Pres_aut_req_solicitudes_autController@registrar_requisicion');
     Route::post('/presupuesto_autorizado/guardar_requisicion/{id_solicitud}', 'Pres_aut_req_solicitudes_autController@guardar_requisicion');
@@ -2489,7 +2467,7 @@ Route::middleware('auth')->group(function () {
 //****************************************************************************************************
     //************************************************************************************************
     //**********************************ENCUESTA DE SATISFACCIÓN AL CLIENTE***********************-****
-    Route::resource('/encuestas_satisfaccion/registro_encuesta_incripcion/', 'Enc_incripcionController');
+    Route::resource('/encuestas_satisfaccion/registro_encuesta_incripcion', 'Enc_incripcionController')->only([]);
     Route::get('/encuestas_satisfaccion/encuesta_incripcion/', 'Enc_incripcionController@encuesta_incripcion');
     Route::post('/encuestas_satisfaccion/enviar_encuesta_incripcion/', 'Enc_incripcionController@enviar_encuesta_incripcion');
     Route::get('/encuestas_satisfaccion/encuesta_incripcion_periodo/', 'Enc_incripcionController@encuesta_incripcion_periodo');
@@ -2589,7 +2567,7 @@ Route::middleware('auth')->group(function () {
     //**************************************************************************************************
     //*************************************************************************************************
     //*******************************HERRAMIENTAS COMPUTO ********************************************
-    Route::resource('/centro_computo/registro_estudiantes_correo/', 'Compu_reg_usuarioController');
+    Route::resource('/centro_computo/registro_estudiantes_correo', 'Compu_reg_usuarioController')->only(['index']);
     Route::post('/centro_computo/registro_datos_estudiante_excel/', 'Compu_reg_usuarioController@registro_datos_estudiante_excel');
     Route::get('/centro_computo/notificacion_datos_reg/', 'Compu_reg_usuarioController@notificacion_datos_reg');
     Route::get('/centro_computo/configuracion_dat/', 'Compu_reg_usuarioController@configuracion_datos');
@@ -2598,7 +2576,7 @@ Route::middleware('auth')->group(function () {
     //*****************************************************************************************************
     //***************************************SGOE**********************************************************
 
-    Route::resource('/sgoe/inicio','Sgoe_inicioController');
+    Route::resource('/sgoe/inicio','Sgoe_inicioController')->only(['index'])->names('sgoe_inicio');
     Route::get('/sgoe/documentacion','Sgoe_inicioController@documentacion');
 
 
@@ -2611,7 +2589,7 @@ Route::middleware('auth')->group(function () {
     Route::resource(
         '/duales/agregar_alumnos_dual',
         'Dual_AlumnoController'
-    );
+    )->only(['index']);
 
 
     Route::post(
@@ -2635,7 +2613,7 @@ Route::middleware('auth')->group(function () {
     Route::resource(
         '/duales/llenar_carga_academica_dual',
         'Dual_Carga_Academica_Alumno'
-    );
+    )->only(['index']);
     Route::get('/duales/alumnos/materias/{id_duales_actuales}','Dual_Alumnos_MateriasController@index');
     Route::post('/duales/agrega/materias_alumnos','Dual_Alumnos_MateriasController@agrega_materias');
     Route::delete('/duales/eliminar_carga_academica/{id_carga_academica}','Dual_Alumnos_MateriasController@eliminar_carga_academica');
@@ -2645,12 +2623,12 @@ Route::middleware('auth')->group(function () {
 //********************************************************************************************************
 //****************************** CHECAR CARGA ************************************************************//
 //********************************************************************************************************
-    Route::resource('/duales/checar_carga_academica','Dual_Checar_Carga_Academica_Alumno');
+    Route::resource('/duales/checar_carga_academica','Dual_Checar_Carga_Academica_Alumno')->only(['index', 'edit', 'update', 'destroy']);
     Route::get('/duales/revision_control_escolar/{id_alumno}','Dual_Checar_Carga_Academica_Alumno@revision_carga');
 //********************************************************************************************************
 //****************************** VALIDAR CARGA ***********************************************************//
 //********************************************************************************************************
-    Route::resource('/duales/validacion_de_carga','Dual_Validar_Carga_Academica_Alumno');
+    Route::resource('/duales/validacion_de_carga','Dual_Validar_Carga_Academica_Alumno')->names('duales.validacion_de_carga');
 //********************************************************************************************************
 //****************************** ENVIAR CARGA ************************************************************//
 //********************************************************************************************************
@@ -2658,13 +2636,13 @@ Route::middleware('auth')->group(function () {
 //********************************************************************************************************
 //****************************** IMPRIMIR ****************************************************************//
 //********************************************************************************************************
-    Route::resource('/duales/imprime_carga','Dual_PDF_Carga_Academica');
+    Route::resource('/duales/imprime_carga','Dual_PDF_Carga_Academica')->names('duales.imprime_carga');
     Route::get('/duales/imprime_control/{id_alumno}','Dual_PDF_Carga_Academica_Control@index');
     //******************************ASIGNAR MENTORES DUALES**************************************************//
-    Route::resource('/duales/Agregar_docentes_duales', 'Dual_Mentor');
+    Route::resource('/duales/Agregar_docentes_duales', 'Dual_Mentor')->only(['index']);
     Route::post('/duales/guardar_mentor_dual', 'Dual_Mentor@guardar_mentor_dual');
     //********************CALIFICACIONES DE LOS ALUMNOS DUALES********************//
-    Route::resource('/duales/mentor_calificar', 'Dual_Mentor_Calificaciones');
+    Route::resource('/duales/mentor_calificar', 'Dual_Mentor_Calificaciones')->only(['index']);
     Route::get('/duales/calificar_estudiante/{id_carga}', 'Dual_Validar_Carga_Academica_Alumno@calificar_estudiante');
     Route::get('/acta_dual_actual/{id_alumno}/{id_periodo}', 'Cal_pdf_acta_dualController@acta_dual_actual');
     //********************EXPORTAR LISTAS DE LOS ALUMNOS DUALES********************//
@@ -2684,17 +2662,17 @@ Route::middleware('auth')->group(function () {
 
 
     // ===== MENÚ SERVICIOS ESCOLARES MODULO DUALES===== //
-    Route::resource('/servicios_escolares/duales/agregar_alumnos_dual','Serv_Esc_Dual_AlumnoController');
+    Route::resource('/servicios_escolares/duales/agregar_alumnos_dual','Serv_Esc_Dual_AlumnoController')->only(['index'])->names('se_duales.agregar_alumnos_dual');
     Route::post('/servicios_escolares/duales/guardar_alumno_dual','Serv_Esc_Dual_AlumnoController@guardar_alumno_dual');
     Route::delete('/servicios_escolares/duales/Eliminar_dual/{id_duales_actuales}','Serv_Esc_Dual_AlumnoController@eliminar_alumno_dual');
     Route::delete('/servicios_escolares/duales/eliminacion_dual/{id_duales_actuales}','Serv_Esc_Dual_AlumnoController@eliminacion_dual');
-    Route::resource('/servicios_escolares/duales/llenar_carga_academica_dual', 'Serv_Esc_Dual_Carga_Academica_AlumnoController');
+    Route::resource('/servicios_escolares/duales/llenar_carga_academica_dual', 'Serv_Esc_Dual_Carga_Academica_AlumnoController')->only(['index'])->names('se_duales.llenar_carga_academica_dual');
     Route::get('/servicios_escolares/duales/alumnos/materias/{id_duales_actuales}', 'Serv_Esc_Dual_Alumnos_MateriasController@index');
     Route::post('/servicios_escolares/duales/agrega/materias_alumnos', 'Serv_Esc_Dual_Alumnos_MateriasController@agrega_materias');
     Route::delete('/servicios_escolares/duales/eliminar_carga_academica/{id_carga_academica}', 'Serv_Esc_Dual_Alumnos_MateriasController@eliminar_carga_academica');
-    Route::resource('/servicios_escolares/duales/checar_carga_academica', 'Serv_Esc_Dual_Checar_Carga_Academica_AlumnoController');
+    Route::resource('/servicios_escolares/duales/checar_carga_academica', 'Serv_Esc_Dual_Checar_Carga_Academica_AlumnoController')->only(['index', 'edit', 'update', 'destroy'])->names('se_duales.checar_carga_academica');
     Route::get('/servicios_escolares/duales/revision_control_escolar/{id_alumno}', 'Serv_Esc_Dual_Checar_Carga_Academica_AlumnoController@revision_carga');
-    Route::resource('/servicios_escolares/duales/validacion_de_carga', 'Serv_Esc_Dual_Validar_Carga_Academica_AlumnoController');
+    Route::resource('/servicios_escolares/duales/validacion_de_carga', 'Serv_Esc_Dual_Validar_Carga_Academica_AlumnoController')->names('se_duales.validacion_de_carga');
     Route::get('/servicios_escolares/duales/enviar_carga/{id}', 'Serv_Esc_Dual_Checar_Carga_Academica_AlumnoController@enviarcarga');
 
     //***********REPORTE EVIDENCIAS**************************************//
@@ -2717,7 +2695,7 @@ Route::middleware('auth')->group(function () {
     /// /////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /// ***************************reportes de profesores*******************************/////////////
 
-    Route::resource('/distribucion_horas_profesores/' , 'HrsDistribucionHorasDocController');
+    Route::resource('/distribucion_horas_profesores' , 'HrsDistribucionHorasDocController')->only(['index']);
     Route::get('/distribucion_horas_profesores/profesores_categoria/{id_categoria}' , 'HrsDistribucionHorasDocController@distribucion_profesores_categoria');
     Route::get('/distribucion_horas_profesores/materias/{id_personal}' , 'HrsDistribucionHorasDocController@distribucion_horas_prof_mat');
     Route::get('/distribucion_horas_profesores/total/' , 'HrsDistribucionHorasDocController@distribucion_horas_prof_total');
@@ -2727,7 +2705,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/distribucion_horas_profesores/profesores_categorias/{id_categoria}' , 'HrsDistribucionHorasDocController@distribucion_profesores_categorias');
     Route::get('/distribucion_horas_profesores/excel_profesores_categorias/{id_categoria}' , 'HrsDistribucionHorasDocController@distribucion_profesores_cat_excel');
 
-    Route::resource('/indices_repro_prof/' , 'HrsIndicesRep_ProfController');
+    Route::resource('/indices_repro_prof' , 'HrsIndicesRep_ProfController')->only(['index']);
     Route::get('/indices_repro_prof/carrera_categoria/{id_carrera}' , 'HrsIndicesRep_ProfController@indice_repro_carrera_categoria');
     Route::get('/indices_repro_prof/carrera_cat_docente/{id_carrera}/{id_categoria}' , 'HrsIndicesRep_ProfController@indice_repro_carrera_cat_docente');
     Route::get('/indices_repro_prof/excel_indice_rep_prof/{id_carrera}/{id_categoria}' , 'HrsIndicesRep_ProfController@excel_indice_rep_prof');
@@ -2750,7 +2728,7 @@ Route::middleware('auth')->group(function () {
     Route::put  ('/solicitudes/updateDocente/{id}', 'PMSolicitudMaterialesController@updateDocente')->name('solicitudes.updateDocente');
     Route::resource('/prestamo/Jefe_prestamos_materiales', 'PMSolicitudMaterialesController');
     //Route::put('/Jefe_prestamos_materiales/{id}', [PMSolicitudMaterialesController::class, 'update'])->name('Jefe_prestamos_materiales.update');
-    Route::put('/Jefe_prestamos_materiales/{id}', 'PMSolicitudMaterialesController@update')->name('Jefe_prestamos_materiales.update');
+    Route::put('/Jefe_prestamos_materiales/{id}', 'PMSolicitudMaterialesController@update')->name('Jefe_prestamos_materiales.update_put');
 
 
     Route::put('/solicitud/{id}', [\App\Http\Controllers\PMSolicitudMaterialesController::class, 'update'])->name('solicitud.update');
@@ -2935,7 +2913,6 @@ Route::middleware('auth')->group(function () {
     | ADMIN VER DETALLES DE LOS DOCENTES                                       |
     |--------------------------------------------------------------------------
     */
-    Route::get('/admin/examen_general/docente','Admin_Exam_GnralController@verDocente')->name('admin.examen_general.docente');
 
     /*
     |--------------------------------------------------------------------------
