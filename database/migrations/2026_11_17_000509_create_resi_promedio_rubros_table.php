@@ -1,0 +1,44 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('resi_promedio_rubros', function (Blueprint $table) {
+            $table->engine('InnoDB');
+            $table->charset('latin1');
+            $table->collation('latin1_swedish_ci');
+
+            $table->integer('id_promedios', true);
+            $table->integer('id_cronograma');
+            $table->integer('id_semana');
+            $table->integer('id_anteproyecto');
+            $table->integer('promedio');
+            $table->text('observaciones');
+            $table->text('pendientes');
+
+            $table->primary(['id_promedios']);
+        });
+
+        Schema::table('resi_promedio_rubros', function (Blueprint $table) {
+            $table->foreign(['id_anteproyecto'], 'fk_resi_promedio_rubros_id_anteproyecto')->references(['id_anteproyecto'])->on('resi_anteproyecto')->onDelete('restrict')->onUpdate('cascade');
+            $table->foreign(['id_cronograma'], 'fk_resi_promedio_rubros_id_cronograma')->references(['id_cronograma'])->on('resi_cronograma')->onDelete('restrict')->onUpdate('cascade');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('resi_promedio_rubros');
+    }
+};
