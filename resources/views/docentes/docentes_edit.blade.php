@@ -114,7 +114,7 @@
                    <div class="col-md-3 col-md-offset-1">
                     <div class="form-group">
                       <label for="telefono">Teléfono</label>
-                      <input type="number" onKeypress="if(event.keycode<45 || if(event.keycode>57) event.returnValue = false;" class="form-control" value="{{ $docente_edit->telefono}}" id="caja-error8" name="telefono" placeholder="Teléfono..">
+                      <input type="tel" class="form-control" value="{{ $docente_edit->telefono}}" id="caja-error8" name="telefono" placeholder="Teléfono..">
                       @if($errors -> has ('telefono'))
                           <span style="color:red;">{{ $errors -> first('telefono') }}</span>
                          <style>
@@ -163,23 +163,17 @@
                       <div class="dropdown">
                         <label for="selectNombra">Nombramiento</label>
                                 <select name="selectNombra" id="selectNombra" class="form-control ">
-                                  @if($docente_edit->nombramiento=="T")
-                                      <option value="T" selected="selected">Temporal</option>
-                                      <option value="D">Definitivo</option>
-                                      @else
-                                        @if($docente_edit->nombramiento=="D")
-                                          <option value="D" selected="selected">Definitivo</option>
-                                          <option value="T">Temporal</option>
-                                          @endif
-                                    @endif
-                                </select>
+<option value="">Selecciona una opción</option>
+<option value="T" @selected(strtoupper((string) old('selectNombra', $docente_edit->nombramiento)) === strtoupper('T'))>Temporal</option>
+<option value="D" @selected(strtoupper((string) old('selectNombra', $docente_edit->nombramiento)) === strtoupper('D'))>Definitivo</option>
+</select>
                     </div>
                     </div>      
                   </div>
                     <div class="col-md-2 col-md-offset-1 ">
                     <div class="form-group">
                       <label for="celular">Celular</label>
-                      <input type="number" class="form-control" value="{{ $docente_edit->celular}}" id="caja-error9" name="celular" placeholder="Celular..">
+                      <input type="tel" class="form-control" value="{{ $docente_edit->celular}}" id="caja-error9" name="celular" placeholder="Celular..">
                       @if($errors -> has ('celular'))
                           <span style="color:red;">{{ $errors -> first('celular') }}</span>
                          <style>
@@ -229,51 +223,14 @@
                       <div class="dropdown">
                         <label for="selectEsc">Escolaridad</label>
                                 <select id="selectEsc" name="selectEsc" class="form-control ">
-                                   @if($docente_edit->escolaridad=="TECNICO"||$docente_edit->escolaridad=="Tecnico")
-                                      <option value="Tecnico" selected="selected">Tecnico</option>
-                                      <option value="Licenciatura">Licenciatura</option>
-                                      <option value="Maestria">Maestria</option>
-                                      <option value="Doctorado">Doctorado</option>
-                                        <option value="Secundaria">Secundaria</option>
-                                        <option value="Preparatoria">Preparatoria</option>
-                                      @elseif($docente_edit->escolaridad=="LICENCIATURA" ||$docente_edit->escolaridad=="Licenciatura")
-                                          <option value="Licenciatura" selected="selected">Licenciatura</option>
-                                          <option value="Tecnico">Tecnico</option>
-                                          <option value="Maestria">Maestria</option>
-                                          <option value="Doctorado">Doctorado</option>
-                                        <option value="Secundaria">Secundaria</option>
-                                        <option value="Preparatoria">Preparatoria</option>
-                                    @elseif($docente_edit->escolaridad=="MAESTRIA" ||$docente_edit->escolaridad=="Maestria")
-                                          <option value="Maestria" selected="selected">Maestria</option>
-                                          <option value="Tecnico">Tecnico</option>
-                                          <option value="Licenciatura">Licenciatura</option>
-                                          <option value="Doctorado">Doctorado</option>
-                                        <option value="Secundaria">Secundaria</option>
-                                        <option value="Preparatoria">Preparatoria</option>
-                                    @elseif($docente_edit->escolaridad=="DOCTORADO"|| $docente_edit->escolaridad=="Doctorado")
-                                          <option value="Doctorado" selected="selected">Doctorado</option>
-                                          <option value="Maestria">Maestria</option>
-                                          <option value="Tecnico">Tecnico</option>
-                                          <option value="Licenciatura">Licenciatura</option>
-                                        <option value="Secundaria">Secundaria</option>
-                                        <option value="Preparatoria">Preparatoria</option>
-                                    @elseif($docente_edit->escolaridad=="PREPARATORIA"|| $docente_edit->escolaridad=="Preparatoria")
-                                        <option value="Preparatoria" selected="selected">Preparatoria</option>
-                                        <option value="Maestria">Maestria</option>
-                                        <option value="Tecnico">Tecnico</option>
-                                        <option value="Licenciatura">Licenciatura</option>
-                                        <option value="Doctorado">Doctorado</option>
-                                        <option value="Secundaria">Secundaria</option>
-                                    @elseif($docente_edit->escolaridad=="SECUNDARIA"|| $docente_edit->escolaridad=="Secundaria")
-                                        <option value="Secundaria" selected="selected">Secundaria</option>
-                                        <option value="Maestria">Maestria</option>
-                                        <option value="Tecnico">Tecnico</option>
-                                        <option value="Licenciatura">Licenciatura</option>
-                                        <option value="Doctorado">Doctorado</option>
-                                        <option value="Preparatoria">Preparatoria</option>
-                                    @endif
-
-                                </select>
+<option value="">Selecciona una opción</option>
+<option value="Tecnico" @selected(strtoupper((string) old('selectEsc', $docente_edit->escolaridad)) === strtoupper('Tecnico'))>Técnico</option>
+<option value="Licenciatura" @selected(strtoupper((string) old('selectEsc', $docente_edit->escolaridad)) === strtoupper('Licenciatura'))>Licenciatura</option>
+<option value="Maestria" @selected(strtoupper((string) old('selectEsc', $docente_edit->escolaridad)) === strtoupper('Maestria'))>Maestría</option>
+<option value="Doctorado" @selected(strtoupper((string) old('selectEsc', $docente_edit->escolaridad)) === strtoupper('Doctorado'))>Doctorado</option>
+<option value="Secundaria" @selected(strtoupper((string) old('selectEsc', $docente_edit->escolaridad)) === strtoupper('Secundaria'))>Secundaria</option>
+<option value="Preparatoria" @selected(strtoupper((string) old('selectEsc', $docente_edit->escolaridad)) === strtoupper('Preparatoria'))>Preparatoria</option>
+</select>
                     </div>
                   </div>
                   </div>
@@ -282,16 +239,10 @@
                       <div class="dropdown">
                         <label for="selectSexo">Sexo</label>
                                 <select name="selectSexo" id="selectSexo" class="form-control ">
-                                  @if($docente_edit->sexo=="M")
-                                      <option value="M" selected="selected">M</option>
-                                      <option value="F">F</option>
-                                      @else
-                                        @if($docente_edit->sexo=="F")
-                                          <option value="F" selected="selected">F</option>
-                                          <option value="M">M</option>
-                                          @endif
-                                    @endif
-                                </select>
+<option value="">Selecciona una opción</option>
+<option value="M" @selected(strtoupper((string) old('selectSexo', $docente_edit->sexo)) === strtoupper('M'))>M</option>
+<option value="F" @selected(strtoupper((string) old('selectSexo', $docente_edit->sexo)) === strtoupper('F'))>F</option>
+</select>
                     </div>  
                   </div>
                   </div>
@@ -457,7 +408,7 @@
 </form>
           <br>
                   <div class="col-md-3 col-md-offset-5">
-                    <button id="guarda_docente" type="submit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-saved" aria-hidden="true"></span>Guardar cambios</button>
+                    <button id="guarda_docente" type="submit" form="form_docente_edita" class="btn btn-success"><span class="glyphicon glyphicon-floppy-saved" aria-hidden="true"></span>Guardar cambios</button>
                   </div>  
 
             </div>
@@ -653,6 +604,14 @@
 </main>
 
 <script>
+window.docenteEdicion = {
+    old: @json(session()->getOldInput()),
+    errors: @json($errors->getBag('default')->messages()),
+    success: @json(session('docente_success'))
+};
+</script>
+<script src="{{ asset('js/docentes/editar.js') }}?v={{ filemtime(public_path('js/docentes/editar.js')) }}"></script>
+<script>
 $(document).ready(function() {
   $(".b_perfil").click(function(event){
     $("#m_perfil").modal("show");
@@ -666,269 +625,6 @@ $(document).ready(function() {
         $(".b_situacion").click(function(event){
     $("#m_situacion").modal("show");
   });
-
-   $("#guarda_docente").click(function(event){
-       var nombre_docente = $("#nombre_docente").val();
-
-       if(nombre_docente == ""){
-           swal({
-               position: "top",
-               type: "warning",
-               title: "Ingresa tu nombre",
-               showConfirmButton: false,
-               timer: 3500
-           });
-       }
-       else{
-           var clave_docente = $("#clave_docente").val();
-           if(clave_docente == ""){
-               swal({
-                   position: "top",
-                   type: "warning",
-                   title: "Ingresa tu Clave Docente(ISSEMyM)",
-                   showConfirmButton: false,
-                   timer: 3500
-               });
-           }else{
-               var f_nac = $("#f_nac").val();
-               if(f_nac == ""){
-                   swal({
-                       position: "top",
-                       type: "warning",
-                       title: "Ingresa tu fecha de nacimiento",
-                       showConfirmButton: false,
-                       timer: 3500
-                   });
-               }else{
-
-                   var rfc = $("#rfc").val();
-                   if(rfc == ""){
-                       swal({
-                           position: "top",
-                           type: "warning",
-                           title: "Ingresa tu RFC",
-                           showConfirmButton: false,
-                           timer: 3500
-                       });
-                   }
-                   else{
-                       var dir = $("#dir").val();
-                       if(dir == ""){
-                           swal({
-                               position: "top",
-                               type: "warning",
-                               title: "Ingresa tu dirección",
-                               showConfirmButton: false,
-                               timer: 3500
-                           });
-                       }
-                       else{
-                           var o_nac = $("#o_nac").val();
-                           if(o_nac == ""){
-                               swal({
-                                   position: "top",
-                                   type: "warning",
-                                   title: "Ingresa tu lugar de nacimiento",
-                                   showConfirmButton: false,
-                                   timer: 3500
-                               });
-                           }
-                           else{
-                               var esc_p = $("#esc_p").val();
-                               if(esc_p == ""){
-                                   swal({
-                                       position: "top",
-                                       type: "warning",
-                                       title: "Ingresa tu escuela de procedencia",
-                                       showConfirmButton: false,
-                                       timer: 3500
-                                   });
-                               }
-                               else{
-                                   var telefono = $("#telefono").val();
-                                   if(telefono == ""){
-                                       swal({
-                                           position: "top",
-                                           type: "warning",
-                                           title: "Ingresa tu telefono",
-                                           showConfirmButton: false,
-                                           timer: 3500
-                                       });
-                                   }
-                                   else{
-                                       var celular = $("#celular").val();
-                                       if(celular == ""){
-                                           swal({
-                                               position: "top",
-                                               type: "warning",
-                                               title: "Ingresa tu celular",
-                                               showConfirmButton: false,
-                                               timer: 3500
-                                           });
-                                       }
-                                       else{
-                                           var cedula = $("#cedula").val();
-                                           if(cedula == ""){
-                                               swal({
-                                                   position: "top",
-                                                   type: "warning",
-                                                   title: "Ingresa tu cedula",
-                                                   showConfirmButton: false,
-                                                   timer: 3500
-                                               });
-                                           }
-                                           else{
-                                               var f_ingreso = $("#f_ingreso").val();
-                                               if(f_ingreso == ""){
-                                                   swal({
-                                                       position: "top",
-                                                       type: "warning",
-                                                       title: "Ingresa tu fecha de ingreso al TESVB",
-                                                       showConfirmButton: false,
-                                                       timer: 3500
-                                                   });
-                                               }
-                                               else{
-                                                   var f_ingreso = $("#f_ingreso").val();
-                                                   if(f_ingreso == ""){
-                                                       swal({
-                                                           position: "top",
-                                                           type: "warning",
-                                                           title: "Ingresa tu fecha de ingreso",
-                                                           showConfirmButton: false,
-                                                           timer: 3500
-                                                       });
-                                                   }
-                                                   var f_contrata = $("#f_contrata").val();
-                                                   if(f_contrata == ""){
-                                                       swal({
-                                                           position: "top",
-                                                           type: "warning",
-                                                           title: "Ingresa tu fecha contratación",
-                                                           showConfirmButton: false,
-                                                           timer: 3500
-                                                       });
-                                                   }
-                                                   else{
-                                                       var selectSexo = $("#selectSexo").val();
-
-                                                       if(selectSexo == null){
-                                                           swal({
-                                                               position: "top",
-                                                               type: "warning",
-                                                               title: "Selecciona sexo",
-                                                               showConfirmButton: false,
-                                                               timer: 3500
-                                                           });
-                                                       }
-                                                       else{
-                                                           var selectEsc = $("#selectEsc").val();
-                                                           if(selectEsc == null){
-                                                               swal({
-                                                                   position: "top",
-                                                                   type: "warning",
-                                                                   title: "Selecciona escolaridad",
-                                                                   showConfirmButton: false,
-                                                                   timer: 3500
-                                                               });
-                                                           }
-                                                           else{
-                                                               var selectNombra = $("#selectNombra").val();
-                                                               if(selectNombra == null){
-                                                                   swal({
-                                                                       position: "top",
-                                                                       type: "warning",
-                                                                       title: "Selecciona nombramiento",
-                                                                       showConfirmButton: false,
-                                                                       timer: 3500
-                                                                   });
-                                                               }
-                                                               else{
-                                                                   var selectPerfil = $("#selectPerfil").val();
-                                                                   if(selectPerfil == null){
-                                                                       swal({
-                                                                           position: "top",
-                                                                           type: "warning",
-                                                                           title: "Selecciona perfil",
-                                                                           showConfirmButton: false,
-                                                                           timer: 3500
-                                                                       });
-                                                                   }
-                                                                   else{
-                                                                       var selectSituacion = $("#selectSituacion").val();
-                                                                       if(selectSituacion == null){
-                                                                           swal({
-                                                                               position: "top",
-                                                                               type: "warning",
-                                                                               title: "Selecciona situación",
-                                                                               showConfirmButton: false,
-                                                                               timer: 3500
-                                                                           });
-                                                                       }
-                                                                       else{
-                                                                           var selectAbrevia = $("#selectAbreviacion").val();
-                                                                           if(selectAbrevia == null){
-                                                                               swal({
-                                                                                   position: "top",
-                                                                                   type: "warning",
-                                                                                   title: "Selecciona abreviacón",
-                                                                                   showConfirmButton: false,
-                                                                                   timer: 3500
-                                                                               });
-                                                                           }
-                                                                           else{
-                                                                               var numero_empleado = $("#numero_empleado").val();
-                                                                               if(numero_empleado == ""){
-                                                                                   swal({
-                                                                                       position: "top",
-                                                                                       type: "warning",
-                                                                                       title: "Ingresa el número de empleado",
-                                                                                       showConfirmButton: false,
-                                                                                       timer: 3500
-                                                                                   });
-                                                                               }
-                                                                               else{
-                                                                                   $("#form_docente_edita").submit();
-                                                                                   swal({
-                                                                                       position: "top",
-                                                                                       type: "success",
-                                                                                       title: "Registro exitoso",
-                                                                                       showConfirmButton: false,
-                                                                                       timer: 3500
-                                                                                   });
-
-                                                                               }
-
-                                                                           }
-                                                                       }
-                                                                   }
-                                                               }
-                                                           }
-                                                       }
-
-                                                   }
-
-                                               }
-
-                                           }
-
-                                       }
-                                   }
-
-                               }
-                           }
-
-                       }
-
-                   }
-               }
-
-           }
-
-       }
-
-
-    });
 
   $("#guarda_perfil").click(function(event){
       var perfil=$("#nombre_perfil").val();

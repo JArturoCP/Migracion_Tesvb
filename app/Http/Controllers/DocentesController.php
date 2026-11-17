@@ -175,121 +175,92 @@ class DocentesController extends Controller
 */
     public function update(Request $request, $id_docente)
     {
-        //dd($request);
-        $usuario=Session::get('id_usuario');
-        $depto=DB::selectOne('select gnral_personales.id_departamento,gnral_personales.horas_maxima,
-        gnral_personales.id_cargo,gnral_personales.maximo_horas_ingles from gnral_personales
-            where gnral_personales.tipo_usuario= ? ', [$usuario]);
+        // Este formulario modifica los datos personales de la cuenta autenticada.
+        $personal = Gnral_Personales::findOrFail($id_docente);
+        abort_unless((int) $personal->tipo_usuario === (int) $request->user()->id, 403);
 
-        $id_abreviacion=$request->get('selectAbreviacion');
+        $rules = [
+            'nombre_docente' => 'required|string|max:60',
+            'clave_docente' => 'required|string|max:8',
+            'rfc' => 'required|string|max:13',
+            'esc_p' => 'required|string',
+            'dir' => 'required|string|max:100',
+            'correo' => 'required|email|max:40',
+            'selectPerfil' => 'required|integer|exists:gnral_perfiles,id_perfil',
+            'selectSituacion' => 'required|integer|exists:hrs_situaciones,id_situacion',
+            'o_nac' => 'required|string|max:30',
+            'f_nac' => 'required|date|before:today|max:10',
+            'f_ingreso' => 'required|date|max:10',
+            'selectNombra' => 'required|in:T,D',
+            'f_contrata' => 'required|date|max:10',
+            'selectEsc' => 'required|string|max:15',
+            'telefono' => 'required|string|max:20',
+            'celular' => 'required|string|max:20',
+            'cedula' => 'required|integer|min:0|max:2147483647',
+            'selectSexo' => 'required|in:M,F',
+            'selectAbreviacion' => 'required|integer|exists:abreviaciones,id_abreviacion',
+            'numero_empleado' => 'required|string|max:100',
+        ];
+        $attributes = [
+            'nombre_docente' => 'nombre', 'clave_docente' => 'clave', 'rfc' => 'RFC',
+            'esc_p' => 'escuela de procedencia', 'dir' => 'dirección', 'correo' => 'correo',
+            'selectPerfil' => 'perfil', 'selectSituacion' => 'situación', 'o_nac' => 'origen de nacimiento',
+            'f_nac' => 'fecha de nacimiento', 'f_ingreso' => 'fecha de ingreso',
+            'selectNombra' => 'nombramiento', 'f_contrata' => 'fecha de contratación',
+            'selectEsc' => 'escolaridad', 'telefono' => 'teléfono', 'celular' => 'celular',
+            'cedula' => 'cédula', 'selectSexo' => 'sexo', 'selectAbreviacion' => 'abreviación',
+            'numero_empleado' => 'número de empleado',
+        ];
+        $data = $request->validate($rules, [
+            'required' => 'El campo :attribute es obligatorio.',
+            'string' => 'El campo :attribute debe ser texto.',
+            'email' => 'Ingresa un correo electrónico válido.',
+            'max' => 'El campo :attribute supera el límite permitido (:max).',
+            'min' => 'El campo :attribute debe ser al menos :min.',
+            'integer' => 'El campo :attribute debe ser un número entero.',
+            'date' => 'Ingresa una fecha válida en :attribute.',
+            'before' => 'La fecha de nacimiento debe ser anterior a hoy.',
+            'exists' => 'Selecciona una opción válida para :attribute.',
+            'in' => 'Selecciona una opción válida para :attribute.',
+        ], $attributes);
 
-        $clave2=$request->get('clave_docente');
-        $menos=strlen($clave2);
-
-        if($menos<8)
-        {
-            $cadena1="";
-            $cadena="";
-            $tam=8-$menos;
-            for ($i=0; $i < $tam; $i++)
-            {
-                 $cadena1.="0";
-            }
-            $cadena.=$cadena1.$request->get('clave_docente');
-            $clave=$cadena;
+        $mapping = [
+            'nombre_docente' => 'nombre', 'rfc' => 'rfc', 'esc_p' => 'esc_procedencia',
+            'dir' => 'direccion', 'correo' => 'correo', 'selectPerfil' => 'id_perfil',
+            'selectSituacion' => 'id_situacion', 'o_nac' => 'origen_nac',
+            'f_nac' => 'fch_nac', 'f_ingreso' => 'fch_ingreso_tesvb',
+            'selectNombra' => 'nombramiento', 'f_contrata' => 'fch_recontratacion',
+            'selectEsc' => 'escolaridad', 'telefono' => 'telefono', 'celular' => 'celular',
+            'cedula' => 'cedula', 'selectSexo' => 'sexo', 'numero_empleado' => 'numero_empleado',
+        ];
+        $values = ['clave' => str_pad($data['clave_docente'], 8, '0', STR_PAD_LEFT)];
+        foreach ($mapping as $input => $column) {
+            $values[$column] = in_array($input, ['nombre_docente', 'rfc', 'esc_p', 'dir', 'correo', 'o_nac', 'selectEsc'], true)
+                ? mb_strtoupper($data[$input], 'utf-8') : $data[$input];
         }
 
-        else
-        {
-            $clave=$request->get('clave_docente');
-        }
-
-        $this->validate($request,[
-                'nombre_docente' => 'required',
-                'clave_docente' => 'required',
-                'rfc'=> 'required',
-                'esc_p'=> 'required',
-                'dir'=> 'required',
-                'correo' => 'required',
-                'selectPerfil' => 'required',
-                'selectSituacion' => 'required',
-                'o_nac' => 'required',
-                'f_nac' => 'required',
-                'f_ingreso' => 'required',
-                'selectNombra' => 'required',
-                'f_contrata' => 'required',
-                'selectEsc' => 'required',
-                'telefono' => 'required',
-                'celular' => 'required',
-                'cedula' => 'required',
-                'selectSexo' => 'required',
-                'selectAbreviacion' => 'required',
-                'numero_empleado' => 'required'
-
-            ]);
-
-                $personales = array(
-                'nombre' => mb_strtoupper($request->get('nombre_docente'),'utf-8'),
-                'clave' => $clave,
-                'rfc' => mb_strtoupper($request->get('rfc'),'utf-8'),
-                'esc_procedencia' => mb_strtoupper($request->get('esc_p'),'utf-8'),
-                'direccion' => mb_strtoupper($request->get('dir'),'utf-8'),
-                'correo' => mb_strtoupper($request->get('correo'),'utf-8'),
-                'id_perfil' => $request->get('selectPerfil'),
-                'id_situacion' => $request->get('selectSituacion'),
-                'origen_nac' => mb_strtoupper($request->get('o_nac'),'utf-8'),
-                'fch_nac' => $request->get('f_nac'),
-                'fch_ingreso_tesvb' => $request->get('f_ingreso'),
-                'nombramiento' => $request->get('selectNombra'),
-                'fch_recontratacion' => $request->get('f_contrata'),
-                'escolaridad' => mb_strtoupper($request->get('selectEsc'),'utf-8'),
-                'id_cargo' => $depto->id_cargo,
-                'horas_maxima' => $depto->horas_maxima,
-                'telefono' => $request->get('telefono'),
-                'celular' => $request->get('celular'),
-                'cedula' => $request->get('cedula'),
-                'sexo' => $request->get('selectSexo'),
-                'maximo_horas_ingles' => $depto->maximo_horas_ingles,
-                'id_abreviacion' => $request->get('selectAbreviacion'),
-                'id_departamento' => $depto->id_departamento,
-                    'numero_empleado' => $request->get('numero_empleado')
-
+        // Ambos registros se guardan juntos; cargo, horas y departamento no se editan aquí.
+        try {
+            DB::transaction(function () use ($personal, $values, $data) {
+                $personal->update($values);
+                Abreviaciones_prof::updateOrCreate(
+                    ['id_personal' => $personal->id_personal],
+                    ['id_abreviacion' => $data['selectAbreviacion']]
                 );
-
-        $cadena="";
-                $cadena.=$clave;
-                $cadena1="";
-                $cadena1.=$request->get('rfc');
-
-        Gnral_Personales::find($id_docente)->update($personales);
-
-        $personal=DB::selectOne('select id_personal from gnral_personales where
-                        rfc=? and clave=?', [(string) ($cadena1), (string) ($cadena)]);
-        $personal=($personal->id_personal);
-
-        $checa=DB::selectOne('select id_abreviacion_prof from abreviaciones_prof where
-            id_personal= ?', [$personal]);
-        $checa2=isset($checa->id_abreviacion_prof)?$checa->id_abreviacion_prof:0;
-        if($checa2==0)
-        {
-            $abreviacion=array(
-                        'id_abreviacion' => $id_abreviacion,
-                        'id_personal' => $personal);
-
-            $agrega_abrev=Abreviaciones_prof::create($abreviacion);
+            });
+        } catch (\Illuminate\Database\QueryException $exception) {
+            report($exception);
+            $message = 'No se pudieron guardar los cambios. Tus datos siguen en el formulario; intenta nuevamente.';
+            if ($request->expectsJson()) {
+                return response()->json(['message' => $message], 500);
+            }
+            return back()->withInput()->withErrors(['guardado' => $message]);
         }
-        else
-        {
-            $abreviacion=array(
-                        'id_abreviacion' => $id_abreviacion,
-                        'id_personal' => $personal);
 
-            Abreviaciones_prof::find($checa->id_abreviacion_prof)->update($abreviacion);
+        if ($request->expectsJson()) {
+            return response()->json(['message' => 'Datos actualizados correctamente.']);
         }
-        $mensage_carga='DATOS GUARDADOS EXITOSAMENTE';
-        $color=2;
-        return redirect('/home');
-        //return view('evaluacion_docente.Alumnos.mensages',compact('mensage_carga','color'));
+        return redirect('/docentes/modificar/')->with('docente_success', 'Datos actualizados correctamente.');
     }
 
     public function destroy($id_materia)
