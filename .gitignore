@@ -22,3 +22,6 @@
 Homestead.json
 Homestead.yaml
 Thumbs.db
+
+# Plantilla TailAdmin de referencia (no se versiona)
+/plantilla_dashboard
