@@ -1,0 +1,23 @@
+/*
+ * TESVB - Tipografía institucional
+ * Atkinson Hyperlegible Next
+ */
+
+:root {
+    --tesvb-font-family: 'Atkinson Hyperlegible Next', Arial, sans-serif;
+}
+
+body,
+h1, h2, h3, h4, h5, h6,
+p, a, label,
+button, input, select, textarea,
+table, th, td,
+.form-control,
+.btn,
+.dropdown-menu,
+.navbar,
+.modal,
+.alert,
+.dataTables_wrapper {
+    font-family: var(--tesvb-font-family);
+}
