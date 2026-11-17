@@ -1,6 +1,6 @@
 # Plan: nuevo panel del perfil DIRECTIVO (TailAdmin + Tailwind v4)
 
-Rama: `feature/dash-directivo` (creada desde `cacique`). Fase 2: **plan sin cambios de código**.
+Rama: `cacique` (se trabaja directamente en ella, sin rama aparte). Fase 2: **plan sin cambios de código**.
 Referencias: `docs/ANALISIS_SISTEMA.md`, `docs/INVENTARIO_DIRECTIVO.md` (166 entradas) y la plantilla en `plantilla_dashboard/tailadmin-free/` (TailAdmin Free 2.5.1, MIT; ignorada en git).
 
 ## 0. Decisiones confirmadas y pendientes
@@ -330,7 +330,7 @@ Las pruebas siguen el patrón de `tests/Unit/EditarDocenteTest.php`: SQLite en m
 
 **Cómo revertir:**
 1. Sin desplegar: `PANEL_DIRECTIVO_NUEVO=false` + `php artisan config:clear`.
-2. En código: `git revert` del commit 14 (desactiva la entrada) o de toda la rama.
+2. En código: `git revert` del commit 14 (desactiva la entrada) o de los commits del panel.
 3. Nada del sistema viejo se modifica, así que no hay que restaurar nada más.
 
 ## 12. Hallazgos incidentales (no se corrigen en esta tarea)

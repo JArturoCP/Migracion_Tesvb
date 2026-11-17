@@ -1,7 +1,7 @@
 # Inventario del menú del perfil DIRECTIVO
 
 Fuente: `resources/views/partials/menu_admin.blade.php` (rama `cacique`, commit `067d959`).
-Fecha: 2026-11-17. Aprobado en la Fase 1 de `feature/dash-directivo`.
+Fecha: 2026-11-17. Aprobado en la Fase 1 del rediseño del panel (rama `cacique`).
 
 Este documento es la **lista de control** del nuevo sidebar: cada entrada debe existir en `app/Menus/MenuDirectivo.php` con la misma URL, el mismo método y la misma condición. La prueba Pest de comparación de enlaces (Fase 4) se basa en esta tabla.
 
