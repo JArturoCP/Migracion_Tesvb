@@ -1,7 +1,7 @@
 # Plan: nuevo diseño de `/inicio` (TailAdmin + Tailwind v4)
 
 Rama: `cacique`. Estado: **plan aprobado en alcance, pendiente de visto bueno para iniciar la Fase 3**.
-Referencias: `docs/ANALISIS_SISTEMA.md`, `docs/INVENTARIO_MENU.md` (326 elementos, todos los roles) y la plantilla en `plantilla_dashboard/tailadmin-free/` (TailAdmin Free 2.5.1, MIT; ignorada en git).
+Referencias: `docs/ANALISIS_SISTEMA.md`, `docs/INVENTARIO_MENU.md` (328 elementos, todos los roles) y la plantilla en `plantilla_dashboard/tailadmin-free/` (TailAdmin Free 2.5.1, MIT; ignorada en git).
 
 ## 1. Alcance
 

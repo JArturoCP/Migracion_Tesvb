@@ -13,9 +13,9 @@ Para no depender de una revisión a mano, el inventario se extrajo con tres scri
 2. **Etiquetas:** se sigue la anidación de `<ul>` para obtener el texto del enlace y el de los menús desplegables que lo contienen (`Módulo › Submenú`).
 3. **Validación:** cada URL se compara con `php artisan route:list --json` (2 915 rutas), incluidos los parámetros opcionales `{x?}`.
 
-Se comprobó que las 326 filas tienen sección asignada, que la numeración M001-M326 es continua y que las 164 filas que corresponden al directivo coinciden una a una con #1-#166 (los 2 restantes, #1 y #62, son íconos de periodo y no enlaces).
+Se comprobó que las 326 filas extraídas (más M327-M328, agregadas después) tienen sección asignada, que la numeración M001-M326 es continua y que las 164 filas que corresponden al directivo coinciden una a una con #1-#166 (los 2 restantes, #1 y #62, son íconos de periodo y no enlaces).
 
-**Corrección respecto de la Fase 1:** en la Fase 1 se contaron 335 `href`/`action` en todo el archivo. Esa cifra incluía **8 enlaces dentro de comentarios HTML** `<!-- -->`, que el usuario nunca ve (L865 "buscar_alumnos", L878-881 "Armar Horarios / Ver Horarios Grupos / Ver Horarios Aulas / Profesores Materias" de jefes, L935 y L941 "Indice Reprobación", L1182 "indices_repro_prof"), y **1 `action`** del formulario oculto de logout (L438, que forma parte de M002). 335 − 8 − 1 = **326 elementos**. Por lo mismo, de los "5 enlaces rotos" señalados en la Fase 1, L935 y L941 están comentados, L949 y L1114 sí tienen ruta (`{id_carrera}/docentes` y el parámetro opcional `bitacora_def_temp/{id_carrera?}`) y solo L1202 (M112, oculto) no la tiene. Ninguna de las 166 entradas del directivo cambia.
+**Corrección respecto de la Fase 1:** en la Fase 1 se contaron 335 `href`/`action` en todo el archivo. Esa cifra incluía **8 enlaces dentro de comentarios HTML** `<!-- -->`, que el usuario nunca ve (L865 "buscar_alumnos", L878-881 "Armar Horarios / Ver Horarios Grupos / Ver Horarios Aulas / Profesores Materias" de jefes, L935 y L941 "Indice Reprobación", L1182 "indices_repro_prof"), y **1 `action`** del formulario oculto de logout (L438, que forma parte de M002). 335 − 8 − 1 = **326 elementos** con `href` real; a ellos se suman M327-M328 (enlaces con `href="#"` y `window.open`), para un total de **328**. Por lo mismo, de los "5 enlaces rotos" señalados en la Fase 1, L935 y L941 están comentados, L949 y L1114 sí tienen ruta (`{id_carrera}/docentes` y el parámetro opcional `bitacora_def_temp/{id_carrera?}`) y solo L1202 (M112, oculto) no la tiene. Ninguna de las 166 entradas del directivo cambia.
 
 ## Base de datos
 
@@ -149,7 +149,7 @@ Notas:
 
 ### 2. Alumno (`palumno`)
 
-32 elementos (27 visibles, 5 ocultos).
+34 elementos (29 visibles, 5 ocultos). Incluye M327-M328 (ver la nota en "Validación de rutas").
 
 | ID | Módulo (original) | Submódulo (original) | URL | Condición completa (Blade, de afuera hacia adentro) | Línea | #Dir | Nota |
 |---|---|---|---|---|---|---|---|
@@ -185,6 +185,8 @@ Notas:
 | M249 | Titulación | Documentación de los requisitos de Titulación (1ra Etapa) | `/titulacion/documentacion_requisitos_titulacion/` | `($palumno==true)  ⟫  ($reg_alum_ti == true)` | 2088 |  |  |
 | M250 | Titulación | Registro de Datos Personales (2da Etapa) | `/titulacion/reg_datos_personales/segunda_etapa/` | `($palumno==true)  ⟫  ($reg_alum_ti == true)  ⟫  ($ti_segunda_etapa == true)` | 2092 |  |  |
 | M251 | Titulación | Registro de jurado (3ra etapa) | `/titulacion/registro_jurado/` | `($palumno==true)  ⟫  ($reg_alum_ti == true)  ⟫  ($ti_tercera_parte == true)` | 2096 |  |  |
+| M327 | Datos Residencia Profesional | Dictamen Anteproyecto | `/residencia/dictamen_anteproyecto` (abre con `onclick="window.open(...)"`, `href="#"`) | `($palumno==true)  ⟫  ($semestre >= 8)  ⟫  ($registrar_residencia == true)  ⟫  ($registro_empresa == true)` | 1997 |  | agregado después (ver nota) |
+| M328 | Datos Residencia Profesional | Dictamen Anteproyecto | `/residencia/dictamen_anteproyecto` (abre con `onclick="window.open(...)"`, `href="#"`) | `($palumno==true)  ⟫  ($semestre >= 8)  ⟫  NOT ($registrar_residencia == true)  ⟫  ($registro_empresa == true)` | 2020 |  | agregado después (ver nota) |
 
 ### 3. Docente con actividad complementaria (`profesor_conact`)
 
@@ -588,7 +590,7 @@ Notas:
 | Sección | Elementos | Visibles | Ocultos |
 |---|---|---|---|
 | 1. Elementos globales | 2 | 2 | 0 |
-| 2. Alumno | 32 | 27 | 5 |
+| 2. Alumno | 34 | 29 | 5 |
 | 3. Docente con actividad | 9 | 9 | 0 |
 | 4. Docente sin actividad | 6 | 6 | 0 |
 | 5. Jefe de división | 27 | 27 | 0 |
@@ -604,7 +606,7 @@ Notas:
 | 15. Todo el personal TESVB | 58 | 58 | 0 |
 | 16. Por unidad administrativa | 46 | 38 | 8 |
 | 17. Por relación en BD o id fijo | 10 | 10 | 0 |
-| **Total** | **326** | **309** | **17** |
+| **Total** | **328** | **311** | **17** |
 
 Además: 4 íconos de periodo (que se fusionan en un solo botón) y el selector de cambio de carrera (M001), descritos en "Elementos que no son enlaces".
 
@@ -623,7 +625,8 @@ Se conservan en `MenuPrincipal` marcados `->oculto()` con un comentario, y **no 
 
 ## Validación de rutas
 
-- **325 de 326** URLs existen en `route:list` (GET), y `/logout` existe como POST.
+- **327 de 328** URLs existen en `route:list` (GET), y `/logout` existe como POST.
+- **Nota (M327-M328):** al copiar el menú al sidebar nuevo (Fase 3) apareció que el alumno tiene 2 enlaces "Dictamen Anteproyecto" con `href="#"` y la URL en `onclick="window.open(...)"` (L1997 y L2020). El extractor original ignoraba los `href="#"`; se agregan al final de la numeración para no renumerar el resto. La copia del sidebar los conserva igual.
 - **M112** (`/servicio_social/asignar_tipo_servicio/`, L1202) **no tiene ruta**. Está **oculto**, así que hoy nadie lo ve. Se conserva igual (oculto).
 
 ## Enlaces dudosos (se conservan sin cambios)
