@@ -158,7 +158,7 @@ class HomeController2 extends Controller
         $periodo_reprobacion_tutor = $datosTutorReprobacion['periodo'];
         $debug_tutor_reprobacion = $datosTutorReprobacion;
 
-        return view('home_recargado', compact('adeudo','departamento_carrera','estado_encuesta1','estado_encuesta2',
+        return view('panel.inicio', compact('adeudo','departamento_carrera','estado_encuesta1','estado_encuesta2',
             'estado_encuesta3','estado_encuesta4','estado_servicio', 'estado_inscripcion','estado_reinscripcion','estado_residencia',
             'es_tutor_reprobacion','total_alumnos_reprobacion_tutor','periodo_reprobacion_tutor','debug_tutor_reprobacion'));
     }
