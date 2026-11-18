@@ -1,5 +1,6 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 @section('title', 'Inicio')
+@include('evaluacion_docente.partials.recursos_panel', ['datatables' => true])
 @section('content')
 
 
@@ -72,307 +73,230 @@
       //else{
         //TNotify.alert("contraseña incorrecta");
       //}
-      
+
   });
 
 
-  
+
 } );
 
 
 </script>
 
-<main>
-  
-<div class=" row col-md-8 col-md-offset-2">
-    <div class="panel panel-info">
-        <div class="panel-heading">
-          <h3 class="panel-title text-center">ALUMNOS EVALUACIÓN DOCENTE</h3>
-        </div>         
+    <x-panel.encabezado titulo="ALUMNOS EVALUACIÓN DOCENTE" />
+
+    {{-- Botones que MODIFICAN datos: /activar cambia el estado de la evaluación y "Evaluar" → /Migrar hace los cálculos del periodo. --}}
+    <div class="tw:mb-6 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3">
+        @if($activa_eva==1)
+            <x-panel.boton variante="exito" type="button" href="/activar">Activar Evaluación <span class="fa fa-check" aria-hidden="true"></span></x-panel.boton>
+        @else
+            <x-panel.boton variante="peligro" type="button" href="/activar">Desactivar Evaluación <span class="fa fa-times" aria-hidden="true"></span></x-panel.boton>
+        @endif
+        @if($evaluar==1)
+            <x-panel.boton variante="exito" id="evaluar">Evaluar <span class="fa fa-check" aria-hidden="true"></span></x-panel.boton>
+        @else
+            <x-panel.boton variante="peligro" disabled="disabled">Evaluar <span class="fa fa-check" aria-hidden="true"></span></x-panel.boton>
+        @endif
     </div>
-  </div>
 
-
-<div class="row col-md-2 col-md-offset-8">
-                                        @if($activa_eva==1)
-                          <div class="col-md-3">
-                            <a class=" btn btn-success "  type="button" href="/activar">Activar Evaluación <span class="glyphicon glyphicon-ok " aria-hidden="true"></a>
-                          </div>
-
-                                           @else
-                          <div class="col-md-3">
-                            <a class=" btn btn-danger"  type="button" href="/activar">Desactivar Evaluación <span class="glyphicon glyphicon-remove " aria-hidden="true"></a>
-                          </div>
-                                          @endif
-</div>
-<div class="row col-md-2">
-                                        @if($evaluar==1)
-                          <div class="col-md-3">
-                              <a  class=" btn btn-success " id="evaluar" type="button">Evaluar<span class="glyphicon glyphicon-ok " aria-hidden="true"></span></a>
-                          </div>
-                                           @else
-                          <div class="col-md-3">
-                              <a disabled="disabled" class=" btn btn-danger"  type="button" >Evaluar<span class="glyphicon glyphicon-ok " aria-hidden="true"></span></a>
-                          </div>
-                                          @endif
-</div>
-</br></br></br></br></br></br>
-<div class="row col-md-10 col-md-offset-1">
-
-
- <div class="panel-group" id="accordion">
-    @foreach($carreras as $carrera)
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h4 class="panel-title">
-                          <div> 
-                            <div class="col-md-6">
-                              <a data-toggle="collapse" data-parent="#accordion" href="#carrera_{{$carrera->id_carrera}} ">
+    <div class="tw-pantalla tw:space-y-3" id="accordion">
+        @foreach($carreras as $carrera)
+            <div class="tw:overflow-hidden tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
+                <div class="tw:flex tw:flex-wrap tw:items-center tw:gap-4 tw:px-5 tw:py-4">
+                    <h4 class="tw:min-w-0 tw:flex-1 tw:text-base">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#carrera_{{$carrera->id_carrera}} " class="tw:inline-flex tw:items-center tw:gap-2 tw:text-gray-800 tw:hover:text-brand-500">
+                            <span class="fa fa-chevron-down tw:text-xs tw:text-gray-400" aria-hidden="true"></span>
                             {{$carrera->nombre}}</a>
-                          </div>
-                            @if($carrera->por>=0&&$carrera->por<=33)
-                            <div class="progress ">
-                                   <div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: {{$carrera->por}}%;color:black;">
-                                     {{$carrera->por}}%  
-                                  </div>
-                              </div>
-                              @endif
-                                @if($carrera->por>=34&&$carrera->por<=66)
-                            <div class="progress ">
-                                   <div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: {{$carrera->por}}%;color:black;">
-                                    {{$carrera->por}}%  
-                                  </div>
-                              </div>
-                              @endif
-                                 @if($carrera->por>=67&&$carrera->por<=100)
-                            <div class="progress ">
-                                   <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: {{$carrera->por}}%;color:black;">
-                                    {{$carrera->por}}%  
-                                  </div>
-                              </div>
-                              @endif
-                         
+                    </h4>
+                    <div class="tw:w-full tw:sm:w-72">
+                        @if($carrera->por>=0&&$carrera->por<=33)
+                            <div class="tw:flex tw:h-5 tw:w-full tw:overflow-hidden tw:rounded-full tw:bg-gray-200">
+                                <div class="tw:flex tw:h-full tw:items-center tw:justify-center tw:bg-red-400 tw:text-xs tw:font-medium" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: {{$carrera->por}}%;color:black;">
+                                    {{$carrera->por}}%
+                                </div>
                             </div>
-                                                
-                        </h4>
-      </div>
-  <div id="carrera_{{$carrera->id_carrera}}" class="panel-collapse collapse">
-        <div class="panel-body">
+                        @endif
+                        @if($carrera->por>=34&&$carrera->por<=66)
+                            <div class="tw:flex tw:h-5 tw:w-full tw:overflow-hidden tw:rounded-full tw:bg-gray-200">
+                                <div class="tw:flex tw:h-full tw:items-center tw:justify-center tw:bg-amber-400 tw:text-xs tw:font-medium" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: {{$carrera->por}}%;color:black;">
+                                    {{$carrera->por}}%
+                                </div>
+                            </div>
+                        @endif
+                        @if($carrera->por>=67&&$carrera->por<=100)
+                            <div class="tw:flex tw:h-5 tw:w-full tw:overflow-hidden tw:rounded-full tw:bg-gray-200">
+                                <div class="tw:flex tw:h-full tw:items-center tw:justify-center tw:bg-green-400 tw:text-xs tw:font-medium" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: {{$carrera->por}}%;color:black;">
+                                    {{$carrera->por}}%
+                                </div>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+                <div id="carrera_{{$carrera->id_carrera}}" class="panel-collapse collapse">
+                    <div class="tw:border-t tw:border-gray-100 tw:p-5 tw:sm:p-6">
+                        <div class="tw:mb-5 tw:flex tw:flex-wrap tw:gap-2">
+                            <x-panel.badge tono="gris">TOTAL DE ALUMNOS: {{$carrera->total}}</x-panel.badge>
+                            <x-panel.badge tono="exito">ALUMNOS QUE YA EVALUARON: {{$carrera->ya}}</x-panel.badge>
+                        </div>
+
+                        <ul class="tw-pestanas tw:mb-5 tw:flex tw:flex-wrap tw:gap-2 tw:border-b tw:border-gray-200">
+                            <li><a data-toggle="tab" href="#si{{$carrera->id_carrera}}">Alumnos que ya evaluaron</a></li>
+                            <li><a data-toggle="tab" href="#no{{$carrera->id_carrera}}">Alumnos que no han evaluado</a></li>
+                        </ul>
+                        <div class="tab-content" >
+
+                            <div id="si{{$carrera->id_carrera}}" class="tab-pane active">
+                                <x-panel.tabla id="ejemplo{{$carrera->id_carrera}}" compacta>
+                                    <thead>
+                                    <tr>
+                                        <th>No. Cuenta</th>
+
+                                        <th>Alumno(a)</th>
+                                        <th>Semestre</th>
+                                        <th>Estado</th>
 
 
-
-           <div>TOTAL DE ALUMNOS: {{$carrera->total}}  </div>
-                          <div>ALUMNOS QUE YA EVALUARON: {{$carrera->ya}}</div>
-                         </br>
-                        </br>
-
-                      
-
-<div class="container col-md-12">
-  
-  <ul class="nav nav-tabs">
-    <li><a data-toggle="tab" href="#si{{$carrera->id_carrera}}">Alumnos que ya evaluaron</a></li>
-    <li><a data-toggle="tab" href="#no{{$carrera->id_carrera}}">Alumnos que no han evaluado</a></li>
-  </ul>
-</br></br>
-  <div class="tab-content" >
-   
-        <div id="si{{$carrera->id_carrera}}" class="tab-pane active">
-          <table id="ejemplo{{$carrera->id_carrera}}" class="table table-bordered " Style="background: white;" >
-                                   <thead>
-                                          <tr>
-                                                  <th class="col-md-2">No. Cuenta</th>
-                                                
-                                                  <th class="col-md-5">Alumno(a)</th>
-                                                  <th class="col-md-1">Semestre</th>
-                                                  <th class="col-md-4">Estado</th>
-
-                                                  
-                                           </tr>
+                                    </tr>
                                     </thead>
                                     <tbody>
-                                             @foreach($alumnos as $alu)
-                                             @if($carrera->id_carrera==$alu->id_carrera&& $alu->no_pregunta==1000)
-                                          <tr>
+                                    @foreach($alumnos as $alu)
+                                        @if($carrera->id_carrera==$alu->id_carrera&& $alu->no_pregunta==1000)
+                                            <tr>
 
-                                                  <th class="col-md-2">{{$alu->cuenta}}</th>
-                                                  <th class="col-md-5">{{$alu->nombre}} {{$alu->apaterno}} {{$alu->amaterno}}</th>
-                                                  <th class="col-md-1">{{$alu->id_semestre}}</th>
-                                                  @if($alu->no_pregunta==1000)
-                                                  <th class="col-md-4">
-                                                    <div class="col-md-10">
-                                                    <div class="progress ">
-                                                      <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
-                                                            100%
-                                                    </div>
-                                                    </div>
-                                                    </div>
-                                                    <div class="col-md-2">
-                                                      <span class="glyphicon glyphicon-ok-sign "style="color:green; font-size:18px;" aria-hidden="true"></span>
-                                                      </div>
-                                                    </th>
-                                                    
-                                                   @endif
-                                                 
-                                          </tr>
-                                          @endif
-                                          @endforeach
-                                       
+                                                <td>{{$alu->cuenta}}</td>
+                                                <td class="tw:font-medium tw:text-gray-800">{{$alu->nombre}} {{$alu->apaterno}} {{$alu->amaterno}}</td>
+                                                <td>{{$alu->id_semestre}}</td>
+                                                @if($alu->no_pregunta==1000)
+                                                    <td>
+                                                        <div class="tw:flex tw:items-center tw:gap-3">
+                                                            <div class="tw:flex tw:h-4 tw:min-w-24 tw:flex-1 tw:overflow-hidden tw:rounded-full tw:bg-gray-200">
+                                                                <div class="tw:flex tw:h-full tw:items-center tw:justify-center tw:bg-brand-500 tw:text-[10px] tw:font-medium tw:text-white" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
+                                                                    100%
+                                                                </div>
+                                                            </div>
+                                                            <span class="fa fa-check-circle" style="color:green; font-size:18px;" aria-hidden="true"></span>
+                                                        </div>
+                                                    </td>
 
-                                         
-    
-                                   </tbody>
-                            </table>
-     
+                                                @endif
 
-        </div>
-        <div id="no{{$carrera->id_carrera}}" class="tab-pane ">
+                                            </tr>
+                                        @endif
+                                    @endforeach
 
-                   <table id="ejemplos{{$carrera->id_carrera}}" class="table table-bordered " Style="background: white;" >
-                                   <thead>
-                                          <tr>
-                                                  <th class="col-md-2">No. Cuenta</th>
-                                                
-                                                  <th class="col-md-5">Alumno(a)</th>
-                                                  <th class="col-md-1">Semestre</th>
-                                                  <th class="col-md-4">Estado</th>
 
-                                                  
-                                           </tr>
+
+
+                                    </tbody>
+                                </x-panel.tabla>
+
+
+                            </div>
+                            <div id="no{{$carrera->id_carrera}}" class="tab-pane ">
+
+                                <x-panel.tabla id="ejemplos{{$carrera->id_carrera}}" compacta>
+                                    <thead>
+                                    <tr>
+                                        <th>No. Cuenta</th>
+
+                                        <th>Alumno(a)</th>
+                                        <th>Semestre</th>
+                                        <th>Estado</th>
+
+
+                                    </tr>
                                     </thead>
                                     <tbody>
-                                             @foreach($alumnoss as $aluu)
-                                             @if($carrera->id_carrera==$aluu->id_carrera&& $aluu->no_pregunta < 1000)
-                                          <tr>
+                                    @foreach($alumnoss as $aluu)
+                                        @if($carrera->id_carrera==$aluu->id_carrera&& $aluu->no_pregunta < 1000)
+                                            <tr>
 
-                                                  <th class="col-md-2">{{$aluu->cuenta}}</th>
-                                                  <th class="col-md-5">{{$aluu->nombre}} {{$aluu->apaterno}} {{$aluu->amaterno}}</th>
-                                                  <th class="col-md-1">{{$aluu->id_semestre}}</th>
-                                                  @if($aluu->no_pregunta==1000)
-                                                  <th class="col-md-4">
-                                                    <div class="col-md-10">
-                                                    <div class="progress ">
-                                                      <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
-                                                            100%
-                                                    </div>
-                                                    </div>
-                                                    </div>
-                                                    <div class="col-md-2">
-                                                      <span class="glyphicon glyphicon-ok-sign "style="color:green; font-size:18px;" aria-hidden="true"></span>
-                                                      </div>
-                                                    </th>
-                                                    
-                                                        @endif
-                                                  @if($aluu->no_pregunta==0)
-                                                  <th class="col-md-4"> 
-                                                     <div class="col-md-10">
-                                                    <div class="progress ">
-                                                      <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%;color:black;">
-                                                            0%
-                                                    </div>
-                                                    </div>
-                                                    </div>
-                                                    <div class="col-md-2">
-                                                      <span class="glyphicon glyphicon-remove-sign" style="color:red; font-size:18px;" aria-hidden="true"></span>
-                                                      </div>
-                                                    </th>
-                     
-                                                  @endif
-                                                  @if($aluu->no_pregunta>=1 && $aluu->no_pregunta <=99)
+                                                <td>{{$aluu->cuenta}}</td>
+                                                <td class="tw:font-medium tw:text-gray-800">{{$aluu->nombre}} {{$aluu->apaterno}} {{$aluu->amaterno}}</td>
+                                                <td>{{$aluu->id_semestre}}</td>
+                                                @if($aluu->no_pregunta==1000)
+                                                    <td>
+                                                        <div class="tw:flex tw:items-center tw:gap-3">
+                                                            <div class="tw:flex tw:h-4 tw:min-w-24 tw:flex-1 tw:overflow-hidden tw:rounded-full tw:bg-gray-200">
+                                                                <div class="tw:flex tw:h-full tw:items-center tw:justify-center tw:bg-brand-500 tw:text-[10px] tw:font-medium tw:text-white" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
+                                                                    100%
+                                                                </div>
+                                                            </div>
+                                                            <span class="fa fa-check-circle" style="color:green; font-size:18px;" aria-hidden="true"></span>
+                                                        </div>
+                                                    </td>
 
-                                                  <th class="col-md-4">
-                                                      <div class="col-md-10">
-                                                    <div class="progress">
-                                                      <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: {{$aluu->no_pregunta}}%;color:black;">
-                                                            {{$aluu->no_pregunta}}%
-                                                    </div>
-                                                    </div>
-                                                  </div>
+                                                @endif
+                                                @if($aluu->no_pregunta==0)
+                                                    <td>
+                                                        <div class="tw:flex tw:items-center tw:gap-3">
+                                                            <div class="tw:flex tw:h-4 tw:min-w-24 tw:flex-1 tw:overflow-hidden tw:rounded-full tw:bg-gray-200">
+                                                                <div class="tw:flex tw:h-full tw:items-center tw:justify-center tw:bg-brand-500 tw:text-[10px] tw:font-medium" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%;color:black;">
+                                                                    0%
+                                                                </div>
+                                                            </div>
+                                                            <span class="fa fa-times-circle" style="color:red; font-size:18px;" aria-hidden="true"></span>
+                                                        </div>
+                                                    </td>
+
+                                                @endif
+                                                @if($aluu->no_pregunta>=1 && $aluu->no_pregunta <=99)
+
+                                                    <td>
+                                                        <div class="tw:flex tw:h-4 tw:min-w-24 tw:overflow-hidden tw:rounded-full tw:bg-gray-200">
+                                                            <div class="tw:flex tw:h-full tw:items-center tw:justify-center tw:bg-brand-300 tw:text-[10px] tw:font-medium" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: {{$aluu->no_pregunta}}%;color:black;">
+                                                                {{$aluu->no_pregunta}}%
+                                                            </div>
+                                                        </div>
 
 
-                                                  </th>
-                                                  @endif
-                                          </tr>
-                                          @endif
-                                          @endforeach
-                                       
-
-                                         
-    
-                                   </tbody>
-                            </table>
-         
-        </div>
-  </div>
-</div>
+                                                    </td>
+                                                @endif
+                                            </tr>
+                                        @endif
+                                    @endforeach
 
 
-        </div>
-      </div>
+
+
+                                    </tbody>
+                                </x-panel.tabla>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endforeach
     </div>
-   @endforeach
-  </div>
-   
-</div>
-    
-</div>
 
 <!--        -->
-<div id="modal_evaluar" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-  <div class="modal-dialog modal-sm" role="document">
-    <div class="modal-content">
-      <div class="modal-body">
-        
-       
-                Una vez que se realicen los cálculos de la evaluación docente no se podrá realizar ningún cambio en este periodo   </div>
-                    <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                <input id="confirma_evaluar" type="button" class="btn btn-danger" value="Aceptar"></input>
-              </div>
-      
-      </div>
+<x-panel.modal id="modal_evaluar" tamano="sm" aria-labelledby="mySmallModalLabel" sin-relleno>
+    <div class="tw-modal-cuerpo tw:pt-12 tw:text-sm tw:text-gray-700">
+        Una vez que se realicen los cálculos de la evaluación docente no se podrá realizar ningún cambio en este periodo
     </div>
-  </div>
-</div>
+    <x-panel.modal-pie>
+        <x-panel.boton variante="secundario" data-dismiss="modal">Cancelar</x-panel.boton>
+        <input id="confirma_evaluar" type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:bg-red-600 tw:px-4 tw:py-2.5 tw:text-sm tw:font-medium tw:text-white tw:shadow-theme-xs tw:hover:bg-red-700 tw:disabled:opacity-60" value="Aceptar"></input>
+    </x-panel.modal-pie>
+</x-panel.modal>
 
-<div id="modal_confirma_evaluar" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-  <div class="modal-dialog modal-sm" role="document">
-    <div class="modal-content">
-      <div class="modal-body">
-        
-       <div class="form-group">
-  <label for="pwd">Contraseña:</label>
-  <input type="password" class="form-control" id="contra">
-</div>
-
-                    <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                <input id="verificar" type="button" class="btn btn-danger" value="Aceptar"></input>
-              </div>
-      
-      </div>
+<x-panel.modal id="modal_confirma_evaluar" tamano="sm" aria-labelledby="mySmallModalLabel" sin-relleno>
+    <div class="tw-modal-cuerpo tw:pt-12">
+        <x-panel.input etiqueta="Contraseña:" type="password" id="contra" />
     </div>
-  </div>
-</div>
+    <x-panel.modal-pie>
+        <x-panel.boton variante="secundario" data-dismiss="modal">Cancelar</x-panel.boton>
+        <input id="verificar" type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:bg-red-600 tw:px-4 tw:py-2.5 tw:text-sm tw:font-medium tw:text-white tw:shadow-theme-xs tw:hover:bg-red-700" value="Aceptar"></input>
+    </x-panel.modal-pie>
+</x-panel.modal>
 
 
-<div id="mensaje" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-  <div class="modal-dialog modal-sm" role="document">
-    <div class="modal-content">
-      <div class="modal-body">
-  
-         Este proceso puede demorar algunos minutos...
-    <img id="logo1" src="img/loading.gif">
-  
-      
-      </div>
+<x-panel.modal id="mensaje" tamano="sm" aria-labelledby="mySmallModalLabel">
+    <div class="tw:flex tw:flex-col tw:items-center tw:gap-3 tw:pt-6 tw:text-center tw:text-sm tw:text-gray-700">
+        Este proceso puede demorar algunos minutos...
+        <img id="logo1" src="img/loading.gif">
     </div>
-  </div>
-</div>
+</x-panel.modal>
 
-
-
-
-
-</main>
 @endsection

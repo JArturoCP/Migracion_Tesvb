@@ -1,5 +1,6 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 @section('title', 'Inicio')
+@include('evaluacion_docente.partials.recursos_panel', ['graficas' => true])
 @section('content')
     <?php
     $direccion=Session::get('ip');
@@ -209,140 +210,110 @@
 
         });
     </script>
-    <main>
-        <div class="row">
-            <div class="col-md-1 ">
-                @if($id_unidad_admin == true)
-                    <div class="col-md-11 col-md-offset-1">
-                        <a id="cerrar" class="btn btn-success "><span class="glyphicon glyphicon-arrow-left"  aria-hidden="true"></span> </a>
-                    </div>
-                @endif
-            </div>
+    <x-panel.encabezado titulo="REPORTE EVALUACIÓN DOCENTE" :migas="['Profesores' => url('/buscar_profesores')]">
+        @if($id_unidad_admin == true)
+            <x-slot:extra>
+                <x-panel.boton variante="secundario" tamano="sm" id="cerrar" title="Cerrar"><span class="fa fa-arrow-left"  aria-hidden="true"></span> </x-panel.boton>
+            </x-slot:extra>
+        @endif
+    </x-panel.encabezado>
 
-            <div class="col-md-8 col-md-offset-1">
-
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title text-center">REPORTE EVALUACIÓN DOCENTE</h3>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div id="imgContainer" >
+    <div class="tw-pantalla tw:space-y-6">
+        <div id="imgContainer" class="tw:grid tw:grid-cols-1 tw:gap-6 tw:xl:grid-cols-3">
             @if($id_unidad_admin == true)
-                <div class="col-sm-4 col-md-4 " id="derecho">
-
-
-                    <div class="col-sm-12 col-md-12 ">
-                        <div class="col-sm-7 col-md-7">
-
-                            <a href="/reportes2/{{$id_profesor}}/{{1}}/{{0}}" class="btn btn-primary crear" ><span class="glyphicon glyphicon-list-alt"  aria-hidden="true"></span> Grafica General</a>
-                        </div>
-                        <div class="col-sm-5 col-md-5" >
-                            <a id="exportar" class="btn btn-primary crear" target="_blank"><span class="glyphicon glyphicon-print"  aria-hidden="true"></span> Imprimir</a>
-
-                        </div>
+                <div id="derecho" class="tw:space-y-4">
+                    <div class="tw:flex tw:flex-wrap tw:gap-3">
+                        <x-panel.boton tamano="sm" class="crear" href="/reportes2/{{$id_profesor}}/{{1}}/{{0}}"><span class="fa fa-list-alt"  aria-hidden="true"></span> Grafica General</x-panel.boton>
+                        <a id="exportar" class="crear tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:gap-1.5 tw:rounded-lg tw:bg-white tw:px-3 tw:py-2 tw:text-sm tw:font-medium tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50" target="_blank"><span class="fa fa-print"  aria-hidden="true"></span> Imprimir</a>
                     </div>
-                    <br>
-                    <br>
 
-                    <div >
+                    <div class="tw:space-y-3" id="accordion">
+                        @foreach($carreras as $carrera)
+                            <div class="tw:overflow-hidden tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
+                                <div class="tw:px-5 tw:py-4">
+                                    @if($id_unidad_admin == true)
+                                        <h4 class="tw:flex tw:items-center tw:justify-between tw:gap-3 tw:text-sm">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#{{ $carrera ["id_carrera"] }}" class="tw:inline-flex tw:items-center tw:gap-2 tw:text-gray-800 tw:hover:text-brand-500"><span class="fa fa-chevron-down tw:text-xs tw:text-gray-400" aria-hidden="true">
+                            </span>{{$carrera["nombre_carrera"]}}</a> <a href="/reportes2/{{$id_profesor}}/{{2}}/{{$carrera["id_carrera"]}}" class="tw:text-brand-500" title="Gráfica de la carrera"><span class="fa fa-list-alt 5em" aria-hidden="true" ></span></a>
+                                        </h4>
+                                    @endif
+                                </div>
 
-                        <div class="panel-group" id="accordion">
-                            @foreach($carreras as $carrera)
-                                <div class="panel panel-default ">
-                                    <div class="panel-heading">
-                                        @if($id_unidad_admin == true)
-                                            <h4 class="panel-title">
-                                                <a data-toggle="collapse" data-parent="#accordion" href="#{{ $carrera ["id_carrera"] }}"><span class="glyphicon ">
-                            </span>{{$carrera["nombre_carrera"]}}</a> <a href="/reportes2/{{$id_profesor}}/{{2}}/{{$carrera["id_carrera"]}}"><span class="glyphicon glyphicon-list-alt 5em" aria-hidden="true" ></span></a></th>
-
-                                            </h4>
-                                        @endif
-                                    </div>
-
-                                    <div id="{{ $carrera ["id_carrera"] }}" class="panel-collapse collapse ">
-                                        @if($id_unidad_admin == true)
-                                            <div class="panel-body">
-
-                                                <table class="table table-bordered " Style="background: white;" id="example">
-                                                    <thead>
+                                <div id="{{ $carrera ["id_carrera"] }}" class="panel-collapse collapse ">
+                                    @if($id_unidad_admin == true)
+                                        <div class="tw:border-t tw:border-gray-100">
+                                            <x-panel.tabla id="example" compacta>
+                                                <thead>
+                                                <tr>
+                                                    <th>MATERIAS</th>
+                                                    <th>GRUPO</th>
+                                                    @if($id_unidad_admin == true)
+                                                        <th class="tw:text-center">CONSULTAR</th>
+                                                    @endif
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                @foreach($carrera["materias"] as $materia)
                                                     <tr>
-                                                        <th>MATERIAS</th>
-                                                        <th>GRUPO</th>
+                                                        <td>{{$materia["nombre_materia"]}}</td>
+                                                        <td>{{$materia["nombre_grupo"]}}</td>
                                                         @if($id_unidad_admin == true)
-                                                            <th>CONSULTAR</th>
+                                                            <td class="tw:text-center"><a href="/reportes2/{{$materia["id_hrs"]}},{{$materia["nombre_materia"]}},{{$materia["nombre_grupo"]}},{{$materia["idcarrera"]}},{{$id_profesor}}/{{3}}/{{0}}" class="tw:text-brand-500" title="Consultar"><span class="fa fa-list-alt 5em" style="font-size:22px;" aria-hidden="true" ></span></a></td>
                                                         @endif
                                                     </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    @foreach($carrera["materias"] as $materia)
-                                                        <tr>
-                                                            <th>{{$materia["nombre_materia"]}}</th>
-                                                            <th>{{$materia["nombre_grupo"]}}</th>
-                                                            @if($id_unidad_admin == true)
-                                                                <th class="text-center"><a href="/reportes2/{{$materia["id_hrs"]}},{{$materia["nombre_materia"]}},{{$materia["nombre_grupo"]}},{{$materia["idcarrera"]}},{{$id_profesor}}/{{3}}/{{0}}"><span class="glyphicon glyphicon-list-alt 5em" style="font-size:22px;" aria-hidden="true" ></span></a></th>
-                                                            @endif
-                                                        </tr>
-                                                    @endforeach
-                                                    </tbody>
-                                                </table>
+                                                @endforeach
+                                                </tbody>
+                                            </x-panel.tabla>
 
-                                            </div>
-                                        @endif
-                                    </div>
-
+                                        </div>
+                                    @endif
                                 </div>
-                            @endforeach
-                        </div>
+
+                            </div>
+                        @endforeach
                     </div>
                 </div>
-            @else
-                <div class="col-md-2"></div>
-
             @endif
-            <div class="col-sm-8 col-md-8 ">
+            <div @class(['tw:space-y-6', 'tw:xl:col-span-2' => $id_unidad_admin == true, 'tw:xl:col-span-3' => $id_unidad_admin != true])>
+                <x-panel.tarjeta sin-relleno>
+                    <x-panel.tabla id="aceptados">
+                        <thead>
+                        <tr>
+                            <th>DOCENTE:</th>
+                            <th class="tw:text-center">PROMEDIO GENERAL</th>
+                            <th class="tw:text-center">DESCRIPCIÓN</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td scope="col" class="tw:font-medium tw:text-gray-800"> {{$profesor}}</td>
+                            <td style="text-align:center;" scope="col">{{$promedio_t}}</td>
+                            @if($promedio_t>=0 &&$promedio_t<=3.24)
+                                <td style="text-align:center;">DESEMPEÑO INSUFICIENTE</td>
+                            @elseif($promedio_t>=3.25 && $promedio_t<=3.74)
+                                <td style="text-align:center;">SUFICIENTE</td>
+                            @elseif($promedio_t>=3.75 && $promedio_t<=4.24)
+                                <td style="text-align:center;">BUENO</td>
+                            @elseif($promedio_t>=4.25 && $promedio_t<=4.74)
+                                <td style="text-align:center;">NOTABLE</td>
+                            @elseif($promedio_t>=4.75 && $promedio_t<=5)
+                                <td style="text-align:center;">EXCELENTE</td>
+                            @endif
+                        </tr>
+                        </tbody>
+                    </x-panel.tabla>
+                </x-panel.tarjeta>
 
-                <table class="table table-bordered " Style="background: white;" id="aceptados">
-
-
-                    <tr>
-                        <th class="col-md-3">DOCENTE:</th>
-                        <th class="col-md-2">PROMEDIO GENERAL</th>
-                        <th class="col-md-1">DESCRIPCIÓN</th>
-                    </tr>
-
-
-
-                    <tr>
-                        <td scope="col"> {{$profesor}}</td>
-                        <td style="text-align:center;" scope="col">{{$promedio_t}}</td>
-                        @if($promedio_t>=0 &&$promedio_t<=3.24)
-                            <td style="text-align:center;">DESEMPEÑO INSUFICIENTE</td>
-                        @elseif($promedio_t>=3.25 && $promedio_t<=3.74)
-                            <td style="text-align:center;">SUFICIENTE</td>
-                        @elseif($promedio_t>=3.75 && $promedio_t<=4.24)
-                            <td style="text-align:center;">BUENO</td>
-                        @elseif($promedio_t>=4.25 && $promedio_t<=4.74)
-                            <td style="text-align:center;">NOTABLE</td>
-                        @elseif($promedio_t>=4.75 && $promedio_t<=5)
-                            <td style="text-align:center;">EXCELENTE</td>
-                        @endif
-                    </tr>
-
-
-                </table>
-
-                <div>
-                    @if($id_unidad_admin == true)
-                        <table class="table table-bordered">
+                @if($id_unidad_admin == true)
+                    <x-panel.tarjeta sin-relleno>
+                        <x-panel.tabla>
                             <thead>
                             <tr>
                                 <th>MATERIA</th>
-                                <th>
+                                <th class="tw:text-center">
                                     ALUMNOS INSCRITOS</th>
-                                <th>ALUMNOS EVALUARON</th>
-                                <th>PROMEDIO</th>
+                                <th class="tw:text-center">ALUMNOS EVALUARON</th>
+                                <th class="tw:text-center">PROMEDIO</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -355,37 +326,22 @@
                                 </tr>
                             @endforeach
                             </tbody>
-                        </table>
-                    @endif
-                </div>
-
+                        </x-panel.tabla>
+                    </x-panel.tarjeta>
+                @endif
             </div>
-            <br>
-
         </div>
 
-        <div class="col-md-12">
-
-
-        </div>
         <!--<input id="exportar" type="button">-->
 
-        <div class="row">
-
-            @if($id_unidad_admin != true)
-                <div class="col-md-2">
-
-
-                </div>
-            @endif
-
-            <div class="col-md-3 " >
-                <table class="table table-bordered">
+        <div class="tw:grid tw:grid-cols-1 tw:gap-6 tw:xl:grid-cols-5">
+            <x-panel.tarjeta class="tw:xl:col-span-2" titulo="Aspectos evaluados" sin-relleno>
+                <x-panel.tabla compacta>
                     <thead>
                     <tr>
-                        <th>Aspectos evaluados</th>
-                        <th>Puntuaje</th>
-                        <th>Calificación</th>
+                        <th class="tw:text-center">Aspectos evaluados</th>
+                        <th class="tw:text-center">Puntuaje</th>
+                        <th class="tw:text-center">Calificación</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -432,8 +388,8 @@
 
                     @endforeach
                     <tr>
-                        <td style="text-align:center;">TOTAL</td>
-                        <td style="text-align:center;">{{$promedio_t}}</td>
+                        <td style="text-align:center;" class="tw:font-semibold">TOTAL</td>
+                        <td style="text-align:center;" class="tw:font-semibold">{{$promedio_t}}</td>
 
                         @if($promedio_t>=0 &&$promedio_t<=3.24)
                             <td style="text-align:center;">DESEMPEÑO INSUFICIENTE</td>
@@ -449,99 +405,90 @@
                     </tr>
 
                     </tbody>
-                </table>
-            </div>
+                </x-panel.tabla>
+            </x-panel.tarjeta>
 
-            <div id="mostrar_graficas" class=" col-md-5"  >
-
-
-            </div>
+            <x-panel.tarjeta class="tw:xl:col-span-3" titulo="Resultado gráfico">
+                {{-- Highcharts dibuja aquí con ancho fijo de 1000 px (mismas opciones de siempre): se desplaza en pantallas chicas. --}}
+                <div class="tw:overflow-x-auto">
+                    <div id="mostrar_graficas"  >
+                    </div>
+                </div>
+            </x-panel.tarjeta>
         </div>
-        <div clas="row">
 
-
-            <div class="col-md-10 col-md-offset-1" >
-                <br><br><br>
-                <table class="table table-bordered " Style="background: white;" id="aceptados">
-
-
+        <x-panel.tarjeta titulo="Detalle por criterio" sin-relleno>
+            <x-panel.tabla class="tw-tabla-bordes" id="aceptados">
+                <tr>
+                    <th>Criterio</th>
+                    <th>Pregunta</th>
+                    <th class="tw:text-center">Calificacion</th>
+                    <th>Observacion</th>
+                </tr>
+                @foreach($preguntas2 as $pre)
                     <tr>
-                        <th class="col-md-2">Criterio</th>
-                        <th class="col-md-4">Pregunta</th>
-                        <th class="col-md-1">Calificacion</th>
-                        <th class="col-md-5">Observacion</th>
+                        <th scope="rowgroup" rowspan="{{$pre['cantidad']}}" class="tw:bg-gray-50 tw:align-middle">
+                            <div style="text-align:center;" class="tw:text-sm tw:font-semibold tw:text-gray-800">{{$pre["nombre_criterio"]}}</div>
+                            <div style="text-align:center;" class="tw:mt-3 tw:text-lg tw:font-semibold tw:text-brand-500">{{$pre["calificacion"]}}</div>
+                            <div style="text-align:center;" class="tw:mt-2 tw:text-xs tw:text-gray-500">
+                                @if($pre["calificacion"]>=0 && $pre["calificacion"]<=3.24)
+                                    DESEMPEÑO INSUFICIENTE
+                                @elseif($pre["calificacion"]>=3.25 && $pre["calificacion"]<=3.74)
+                                    SUFICIENTE
+                                @elseif($pre["calificacion"]>=3.75 && $pre["calificacion"]<=4.24)
+                                    BUENO
+                                @elseif($pre["calificacion"]>=4.25 && $datos_pregunta["calificacion"]<=4.74)
+                                    NOTABLE
+                                @elseif($pre["calificacion"]>=4.75 && $pre["calificacion"]<=5)
+                                    EXCELENTE
+                                @endif
+                            </div>
+                        </th>
+
+
                     </tr>
-                    @foreach($preguntas2 as $pre)
+
+                    @foreach($pre["preguntas"] as $preg)
                         <tr>
-                            <th scope="rowgroup" rowspan="{{$pre['cantidad']}}">
-                                <div style="text-align:center;">{{$pre["nombre_criterio"]}}</div>
-                                </br>  </br>
-                                <div style="text-align:center;">{{$pre["calificacion"]}}</div>
-                                </br>
-                                <div style="text-align:center;">
-                                    @if($pre["calificacion"]>=0 && $pre["calificacion"]<=3.24)
-                                        DESEMPEÑO INSUFICIENTE
-                                    @elseif($pre["calificacion"]>=3.25 && $pre["calificacion"]<=3.74)
-                                        SUFICIENTE
-                                    @elseif($pre["calificacion"]>=3.75 && $pre["calificacion"]<=4.24)
-                                        BUENO
-                                    @elseif($pre["calificacion"]>=4.25 && $datos_pregunta["calificacion"]<=4.74)
-                                        NOTABLE
-                                    @elseif($pre["calificacion"]>=4.75 && $pre["calificacion"]<=5)
-                                        EXCELENTE
-                                    @endif
-                                </div>
-
-
+                            <td scope="col">{{$preg['pregunta']}}</td>
+                            <td style="text-align:center;" scope="col">{{$preg['calificacion']}}</td>
+                            <td scope="col">{{$preg['observacion']}}</td>
                         </tr>
-
-                        @foreach($pre["preguntas"] as $preg)
-                            <tr>
-                                <td scope="col">{{$preg['pregunta']}}</td>
-                                <td style="text-align:center;" scope="col">{{$preg['calificacion']}}</td>
-                                <td scope="col">{{$preg['observacion']}}</td>
-                            </tr>
-
-
-                        @endforeach
 
 
                     @endforeach
-                </table>
 
+
+                @endforeach
+            </x-panel.tabla>
+        </x-panel.tarjeta>
+    </div>
+
+    <form class="form" role="form" method="POST" id="formgeneral" action="/imprime_grafica"  style="display:none;">
+        <!-- Tab panes -->
+
+        {{ csrf_field()}}
+
+        <div class="tab-content">
+
+            <div role="tabpanel" class="tab-pane active" id="uno">
+
+
+
+                <div>
+                    <label for="exampleInputEmail1">Curp<b style="color:red; font-size:23px;">*</b></label>
+                    <!--<input type="text" class="form-control"  placeholder="" id="dir_imagen" name="dir_imagen" value="">-->
+                    <input type="hidden" id="dir_imagen" name="dir_imagen">
+                    <input type="text" placeholder="" id="hrs_prof" name="id_hrs" value="{{$g_id_hrs}}" >
+                    <input type="text" placeholder="" id="condi" name="condi" value="{{$condi}}" >
+                    <input type="text" placeholder="" id="carrera" name="carrera" value="{{$g_carrera}}">
+                    <input type="text" placeholder="" id="id_profesor" name="id_profesor" value="{{$id_profesor}}">
+
+
+                </div>
 
             </div>
         </div>
-
-        <form class="form" role="form" method="POST" id="formgeneral" action="/imprime_grafica"  style="display:none;">
-            <!-- Tab panes -->
-
-            {{ csrf_field()}}
-
-            <div class="tab-content">
-
-                <div role="tabpanel" class="tab-pane active" id="uno">
-
-
-
-                    <div class="form-group col-xs-12 col-sm-4 col-md-3 col-lg-3">
-                        <label for="exampleInputEmail1">Curp<b style="color:red; font-size:23px;">*</b></label>
-                        <!--<input type="text" class="form-control"  placeholder="" id="dir_imagen" name="dir_imagen" value="">-->
-                        <input type="hidden" id="dir_imagen" name="dir_imagen">
-                        <input type="text" class="form-control"  placeholder="" id="hrs_prof" name="id_hrs" value="{{$g_id_hrs}}" >
-                        <input type="text" class="form-control"  placeholder="" id="condi" name="condi" value="{{$condi}}" >
-                        <input type="text" class="form-control"  placeholder="" id="carrera" name="carrera" value="{{$g_carrera}}">
-                        <input type="text" class="form-control"  placeholder="" id="id_profesor" name="id_profesor" value="{{$id_profesor}}">
-
-
-                    </div>
-
-                </div>
-            </div>
-        </form>
-
-    </main>
-
-
+    </form>
 
 @endsection

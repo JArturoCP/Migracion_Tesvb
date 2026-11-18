@@ -1,5 +1,6 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 @section('title', 'Inicio')
+@include('evaluacion_docente.partials.recursos_panel', ['graficas' => true])
 @section('content')
 
 <script type="text/javascript">
@@ -452,118 +453,106 @@ $('#exportar').click(function(){
 
 </script>
 
+    <x-panel.encabezado titulo="REPORTE EVALUACIÓN DOCENTE" :migas="['Profesores' => url('/buscar_profesores')]" />
 
+<div class="tw-pantalla tw:space-y-6">
 
-<main>
+<div class="tw:flex tw:flex-wrap tw:items-center tw:gap-3">
+    <x-panel.boton variante="secundario" tamano="sm" id="export">get image</x-panel.boton>
+    <input id="exportar" type="button" class="tw:h-9 tw:w-9 tw:cursor-pointer tw:rounded-lg tw:bg-white tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:hover:bg-gray-50" title="Exportar">
+</div>
+<div id="imgContainer" class="tw:flex tw:flex-wrap tw:items-center tw:gap-3"></div>
 
-<button id="export">get image</button>
-<div id="imgContainer"></div>
+<div class="tw:grid tw:grid-cols-1 tw:gap-6 tw:xl:grid-cols-3">
 
-<div class="col-md-12">
- 
-        <div class="col-sm-4 col-md-4" >
-          <div><div class="col-sm-6 col-md-6"><button><a href="/reportes/{{$solo_id_profesor}}">GRAFICA GENERAL<span class="glyphicon glyphicon-list-alt 5em" aria-hidden="true" ></span></a></button></div>
-            <div class="col-sm-6 col-md-6"><button><a href="#" id="imprime">Imprimir<span class="glyphicon glyphicon-list-alt 5em" aria-hidden="true" ></span></a></button></div>
-           </div>
-          
-            </br> </br> 
-            <div class="panel-group" id="accordion">
-              @foreach($carreras as $carrera) 
-              <div class="panel panel-default ">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse" data-parent="#accordion" href="#{{ $carrera ["id_carrera"] }}"><span class="glyphicon ">
-                            </span>{{$carrera["nombre_carrera"]}}</a> <a href="/promedio_carrera/{{$carrera["id_carrera"]}},{{$solo_id_profesor}}"><span class="glyphicon glyphicon-list-alt 5em" aria-hidden="true" ></span></a></th>
-                                                  
+        <div class="tw:space-y-4">
+          <div class="tw:flex tw:flex-wrap tw:gap-3">
+            <x-panel.boton tamano="sm" href="/reportes/{{$solo_id_profesor}}">GRAFICA GENERAL<span class="fa fa-list-alt 5em" aria-hidden="true" ></span></x-panel.boton>
+            <x-panel.boton variante="secundario" tamano="sm" href="#" id="imprime">Imprimir<span class="fa fa-list-alt 5em" aria-hidden="true" ></span></x-panel.boton>
+          </div>
+
+            <div class="tw:space-y-3" id="accordion">
+              @foreach($carreras as $carrera)
+              <div class="tw:overflow-hidden tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
+                    <div class="tw:px-5 tw:py-4">
+                        <h4 class="tw:flex tw:items-center tw:justify-between tw:gap-3 tw:text-sm">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#{{ $carrera ["id_carrera"] }}" class="tw:inline-flex tw:items-center tw:gap-2 tw:text-gray-800 tw:hover:text-brand-500"><span class="fa fa-chevron-down tw:text-xs tw:text-gray-400" aria-hidden="true">
+                            </span>{{$carrera["nombre_carrera"]}}</a> <a href="/promedio_carrera/{{$carrera["id_carrera"]}},{{$solo_id_profesor}}" class="tw:text-brand-500" title="Gráfica de la carrera"><span class="fa fa-list-alt 5em" aria-hidden="true" ></span></a>
                         </h4>
                     </div>
 
                     <div id="{{ $carrera ["id_carrera"] }}" class="panel-collapse collapse ">
-                        <div class="panel-body">
+                        <div class="tw:border-t tw:border-gray-100">
 
-                            <table class="table table-bordered " Style="background: white;" id="example">
+                            <x-panel.tabla id="example" compacta>
                                    <thead>
                                           <tr>
                                                   <th>Materias</th>
                                                   <th>GRUPO</th>
-                                                  <th>CONSULTAR</th>                                               
+                                                  <th class="tw:text-center">CONSULTAR</th>
                                            </tr>
                                     </thead>
                                     <tbody>
                                              @foreach($carrera["materias"] as $materia)
                                           <tr>
-                                                  <th>{{$materia["nombre_materia"]}}</th>
-                                                  <th>{{$materia["nombre_grupo"]}}</th>
-                                                  <th><a href="/promedio/{{$materia["id_hrs"]}},{{$solo_id_profesor}},{{$materia["nombre_materia"]}},{{$materia["nombre_grupo"]}},{{$materia["idcarrera"]}}"><span class="glyphicon glyphicon-list-alt 5em" aria-hidden="true" ></span></a></th>
-                                                  
+                                                  <td>{{$materia["nombre_materia"]}}</td>
+                                                  <td>{{$materia["nombre_grupo"]}}</td>
+                                                  <td class="tw:text-center"><a href="/promedio/{{$materia["id_hrs"]}},{{$solo_id_profesor}},{{$materia["nombre_materia"]}},{{$materia["nombre_grupo"]}},{{$materia["idcarrera"]}}" class="tw:text-brand-500" title="Consultar"><span class="fa fa-list-alt 5em" aria-hidden="true" ></span></a></td>
+
                                           </tr>
-                                          @endforeach                               
+                                          @endforeach
                                    </tbody>
-                            </table>
+                            </x-panel.tabla>
 
                         </div>
                     </div>
-                  
+
                 </div>
    @endforeach
              </div>
           </div>
 
-            <input id="exportar" type="button">
-          <div id="mostrar_graficas" class="col-sm-7 col-md-7" >
-            
+          <x-panel.tarjeta class="tw:xl:col-span-2" titulo="Resultado gráfico">
+              <div class="tw:overflow-x-auto">
+                  <div id="mostrar_graficas" >
 
-          </div>
-         
+                  </div>
+              </div>
+          </x-panel.tarjeta>
+
 </div>
 
-
-<div clas="rows">
-
-
-
-<div class="col-md-10 col-md-offset-1" >
-</br></br></br>
- <table class="table table-bordered " Style="background: white;" id="aceptados">
-
-   
+<x-panel.tarjeta titulo="Detalle por criterio" sin-relleno>
+ <x-panel.tabla class="tw-tabla-bordes" id="aceptados">
      <tr>
-        <th class="col-md-2">Criterio</th>
-        <th class="col-md-4">Pregunta</th>
-        <th class="col-md-1">Calificacion</th>
-         <th class="col-md-5">Observacion</th>
+        <th>Criterio</th>
+        <th>Pregunta</th>
+        <th class="tw:text-center">Calificacion</th>
+         <th>Observacion</th>
     </tr>
 @foreach($preguntas2 as $pre)
     <tr>
-        <th scope="rowgroup" rowspan="{{$pre['cantidad']}}">
-          <div style="text-align:center;">{{$pre["nombre_criterio"]}}</div>
-        </br>  </br>
-          <div style="text-align:center;">{{$pre["calificacion"]}}</div>
-        </br>  
-          <div style="text-align:center;">{{$pre["observacioncri"]}}</div>
-          
-          
+        <th scope="rowgroup" rowspan="{{$pre['cantidad']}}" class="tw:bg-gray-50 tw:align-middle">
+          <div style="text-align:center;" class="tw:text-sm tw:font-semibold tw:text-gray-800">{{$pre["nombre_criterio"]}}</div>
+          <div style="text-align:center;" class="tw:mt-3 tw:text-lg tw:font-semibold tw:text-brand-500">{{$pre["calificacion"]}}</div>
+          <div style="text-align:center;" class="tw:mt-2 tw:text-xs tw:text-gray-500">{{$pre["observacioncri"]}}</div>
+        </th>
+
     </tr>
 
      @foreach($pre["preguntas"] as $preg)
      <tr>
         <td scope="col">{{$preg['pregunta']}}</td>
-        <td scope="col">{{$preg['calificacion']}}</td>
+        <td scope="col" class="tw:text-center">{{$preg['calificacion']}}</td>
         <td scope="col">{{$preg['observacion']}}</td>
     </tr>
 
-          
+
      @endforeach
- 
-   
+
+
 @endforeach
- </table>
-
-
+ </x-panel.tabla>
+</x-panel.tarjeta>
 </div>
-</div>
-</main>	
-
-
-
 @endsection
