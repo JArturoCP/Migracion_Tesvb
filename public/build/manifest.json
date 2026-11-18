@@ -11,6 +11,12 @@
     "file": "assets/outfit-latin-wght-normal-Bc-8i84L.woff2",
     "src": "node_modules/@fontsource-variable/outfit/files/outfit-latin-wght-normal.woff2"
   },
+  "node_modules/apexcharts/dist/apexcharts.esm.js": {
+    "file": "assets/apexcharts.esm-yWY8cQCZ.js",
+    "name": "apexcharts.esm",
+    "src": "node_modules/apexcharts/dist/apexcharts.esm.js",
+    "isDynamicEntry": true
+  },
   "resources/css/app.css": {
     "file": "assets/app-C2Kb53jL.css",
     "src": "resources/css/app.css",
@@ -21,7 +27,7 @@
     ]
   },
   "resources/css/panel.css": {
-    "file": "assets/panel-C82INPmA.css",
+    "file": "assets/panel-D_w8eNus.css",
     "src": "resources/css/panel.css",
     "isEntry": true,
     "name": "panel",
@@ -39,12 +45,15 @@
     ]
   },
   "resources/js/panel.js": {
-    "file": "assets/panel-DRmad-kf.js",
+    "file": "assets/panel-Cwcqp-wi.js",
     "name": "panel",
     "src": "resources/js/panel.js",
     "isEntry": true,
     "imports": [
       "_module.esm-BK6u66ms.js"
+    ],
+    "dynamicImports": [
+      "node_modules/apexcharts/dist/apexcharts.esm.js"
     ]
   }
 }
