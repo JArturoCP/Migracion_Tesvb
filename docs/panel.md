@@ -184,6 +184,23 @@ Cuando se quiera pasar una pantalla interna al diseño nuevo:
 | Inglés y Tutorías | Siguen con `layout_ingles` y `app_tutorias`; migrarlos después |
 | Pantalla "CARGANDO" | `home.blade.php` muestra 1 s el diseño viejo antes de `/inicio` |
 | Pantallas internas | Siguen con `layouts.app`; migrarlas una por una (§7) |
-| `IncidenciasController@vista5` | L251 obtiene `$id_personal` como objeto; L261 lo compara con `inc_solicitudes.id_jefe` y L281 lo concatena en el SQL. Probablemente debería ser `$id_personal->id_personal`. Revisar aparte |
+| `IncidenciasController@vista5` | **Descartado.** Se había anotado un posible error (uso del objeto `$id_personal`), pero la L252 lo reasigna a `$id_personal->id_personal` y la concatenación de la L281 está comentada. Se comprobó contra MySQL: la pantalla funciona bien (ver `docs/DASHBOARD_ROLES.md` §2.5) |
 | `<ul>` sin cerrar en `menu_admin` | El bloque del jefe de división (L873) abre un `<ul class="nav">` que nunca cierra; el navegador lo corrige solo. Sin efecto en el panel nuevo |
 | MySQL | Las pruebas usan SQLite. Validar con la BD real cuando esté disponible (consultas en `docs/INVENTARIO_MENU.md`) |
+
+## 9. Dashboard por rol
+
+Debajo de la bienvenida y de los avisos, `/inicio` muestra un dashboard con los componentes de TailAdmin (métricas, barras, medidor radial, línea, lista con porcentajes y tabla), con **datos reales** del rol.
+
+| Archivo | Qué es |
+|---|---|
+| `app/Services/Panel/DatosDirectivo.php` | Datos del directivo: consultas de solo lectura, parámetros enlazados, caché de 10 minutos por periodo, `null` si falla |
+| `app/View/Composers/PanelInicioComposer.php` | Elige el dashboard según la sesión y entrega `$tablero` y `$perfilTablero` a `panel.inicio` (registrado en `AppServiceProvider`) |
+| `resources/views/panel/dashboard/*.blade.php` | Bloques de la plantilla y el acomodo por rol (`directivo.blade.php`) |
+| `resources/js/panel/graficas.js` | Gráficas ApexCharts (opciones de la plantilla); ApexCharts se carga solo en páginas con gráficas |
+| `tests/Feature/Panel/DashboardDirectivoTest.php` | Reglas, solo lecturas, caché, "Sin datos" y que otros roles no lo vean |
+
+- Hoy solo el **directivo** tiene dashboard. La propuesta para los demás roles (alumno, docente, jefe de división, servicios escolares y un genérico), las consultas, la validación contra MySQL y los pasos para agregar un rol están en **`docs/DASHBOARD_ROLES.md`**.
+- Cada indicador replica la regla de una pantalla existente (Estadísticas, Ver Horarios Docentes, índice de reprobación), para que los números coincidan.
+- Si un dato no está disponible se muestra "Sin datos"; nunca se inventan números.
+- La caché usa el store configurado (`CACHE_STORE`); para ver cambios de inmediato: `php artisan cache:clear`.

@@ -120,4 +120,4 @@ Esto aplica a todos los roles que llegan a `/inicio`. **Para revertir:** `git re
 | Pantalla "CARGANDO" | `home.blade.php` muestra 1 s el diseño viejo antes de `/inicio` |
 | Enlaces dudosos | M174 (#54) y M214-M216 (#95-97): commit aparte |
 | M112 | Ruta inexistente; está oculto |
-| `IncidenciasController@vista5` | L251 obtiene `$id_personal` como objeto; L261 lo compara con `inc_solicitudes.id_jefe` y L281 lo concatena en el SQL. Probablemente debería ser `$id_personal->id_personal`. Revisar aparte |
+| `IncidenciasController@vista5` | **Descartado.** Se había anotado un posible error (uso del objeto `$id_personal`), pero la L252 lo reasigna a `$id_personal->id_personal` y la concatenación de la L281 está comentada. Se comprobó contra MySQL: la pantalla funciona bien (ver `docs/DASHBOARD_ROLES.md` §2.5) |
