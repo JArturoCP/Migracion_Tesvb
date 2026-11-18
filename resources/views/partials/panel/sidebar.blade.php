@@ -1887,6 +1887,7 @@
                                 </li>
                             </ul>
 </div>
+                        </li>{{-- Cierre que falta en el original (menu_admin L1804): el <li> de P.A.AC nunca se cerraba. --}}
 
                         <li>
                             <a href="#" @click.prevent="selected = (selected === 'm57' ? '' : 'm57')" class="group menu-item" :class="selected === 'm57' ? 'menu-item-active' : 'menu-item-inactive'" data-panel-modulo>
@@ -2637,7 +2638,7 @@
                     
                     @endif
 
-                </div>
+                {{-- [menu_admin L2502] Aquí el original cerraba <div class="collapse navbar-collapse">, que no existe en el diseño nuevo. --}}
 
 {{-- [menu_admin L2532-2620] JS jQuery de submenús y tooltips: lo sustituye Alpine. Las funciones AJAX de oficios
      (cargar / cargarpersonal) no se copian porque en el original nunca se llaman (setInterval comentado). --}}

@@ -34,7 +34,7 @@
             </svg>
         </span>
 
-        <span class="me-1 hidden max-w-56 truncate text-sm font-medium sm:block">
+        <span class="me-1 hidden max-w-48 truncate text-sm font-medium sm:block xl:max-w-none">
             @if($jefe_division==true || $consultas==true)
                 {{ $nombre }}
             @else

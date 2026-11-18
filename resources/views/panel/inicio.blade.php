@@ -1,6 +1,6 @@
 {{--
     Panel de inicio del nuevo diseño (/inicio). COPIA de home_recargado.blade.php:
-    el bloque PHP (L4-125) es idéntico y se conservan las mismas condiciones, avisos, encuestas
+    el bloque PHP (L4-124) es idéntico y se conservan las mismas condiciones, avisos, encuestas
     y modal de adeudos, con los mismos datos de HomeController2@index. Solo cambia el diseño
     (TailAdmin) y los acentos de los textos; se agrega arriba una tarjeta de bienvenida con datos
     que ya están en la sesión. No se copia el diagnóstico ?debug_tutor=1 (L173-191).
@@ -132,7 +132,7 @@
 	}
 
 	?>
-	<div class="container">
+	{{-- [home_recargado L125] <div class="container"> de Bootstrap: no se copia (su cierre estaba al final del original). --}}
 	<div class="grid grid-cols-12 gap-4 md:gap-6">
 
 		{{-- Bienvenida (nuevo): nombre y periodo de la sesión --}}
