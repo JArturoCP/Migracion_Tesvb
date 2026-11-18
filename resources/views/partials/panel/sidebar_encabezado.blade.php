@@ -3,7 +3,7 @@
     :class="sidebarToggle ? 'xl:justify-center' : 'justify-between'"
     class="sidebar-header flex items-center gap-2 pt-5 pb-8"
 >
-    <a href="{{ url('/inicio') }}">
+    <a href="{{ url('/inicio') }}" data-panel-propio>
         <span class="sr-only">Inicio</span>
         {{-- Logo completo: en modo oscuro va sobre fondo blanco porque el texto del logo es negro. --}}
         <span class="logo" :class="sidebarToggle ? 'xl:hidden' : ''">

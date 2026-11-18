@@ -356,6 +356,26 @@
                 $nperiodo = Session::get('nombre_periodo');
                 ?>
 
+{{-- [menu_admin L348-370] Asignaciones de la insignia (copia literal): $nombre_carrera, $id_carrera, $nombre_ingles
+     y $nombre_periodo_ingles se usan más abajo (p. ej. el bloque del jefe de división usa $id_carrera).
+     El texto de la insignia se muestra en el menú de usuario del header. --}}
+            @if($jefe_division==true || $consultas==true)
+            <?php
+                        $nombre_carrera = Session::get('nombre_carrera');
+                        $id_carrera = Session::get('id_carrera');
+                        ?>
+            @else
+
+            @if($profesor_ingles==true)
+            <?php
+                            $nombre_ingles = Session::get('nombre_ingles');
+                            $nombre_periodo_ingles = Session::get('nombre_periodo_ingles');
+                            ?>
+
+            @else
+            @endif
+            @endif
+
 {{-- [menu_admin L396-409] Cambio de periodo (misma condición). Abre el modal de periodos. --}}
                     @if($profesor_conact==true || $jefe_division==true || $directivo==true ||$desa==true ||
                     $profesor_sinact==true || $departamento_titulacion == true)
@@ -2619,10 +2639,32 @@
 
                 </div>
 
-{{-- [menu_admin L2503-2643] El modal #modal_modificar_periodo y el JS jQuery (submenús, tooltips, AJAX de oficios sin uso) no se copian:
-     los submenús los maneja Alpine, el AJAX nunca se llamaba en el original y .periodo_ingles solo existe en las vistas de inglés. --}}
+{{-- [menu_admin L2532-2620] JS jQuery de submenús y tooltips: lo sustituye Alpine. Las funciones AJAX de oficios
+     (cargar / cargarpersonal) no se copian porque en el original nunca se llaman (setInterval comentado). --}}
                 </ul>
             </div>
         </nav>
     </div>
 </aside>
+
+{{-- [menu_admin L2507-2531] Modal "Modificar periodo" (perfil de inglés): mismo formulario POST con CSRF.
+     El original lo abría con jQuery al hacer clic en .periodo_ingles (GET /profesores_ingles/periodos/{id});
+     ahora lo hace resources/js/panel/modal_periodo_ingles.js. --}}
+<div x-data="{ abierto: false }" @abrir-modal-periodo-ingles.window="abierto = true" @keydown.escape.window="abierto = false">
+    <div x-cloak x-show="abierto" x-transition.opacity class="fixed inset-0 z-99999 flex items-center justify-center overflow-y-auto p-5" id="modal_modificar_periodo" role="dialog" aria-modal="true" aria-labelledby="myModalLabel">
+        <div class="fixed inset-0 h-full w-full bg-gray-400/50 backdrop-blur-[32px]" @click="abierto = false"></div>
+        <div class="relative w-full max-w-lg rounded-3xl bg-white p-6 dark:bg-gray-900 lg:p-8">
+            <form class="form" action="" role="form" method="POST">
+                {{ csrf_field() }}
+                <div class="mb-4 flex items-center justify-between">
+                    <h4 class="text-lg font-semibold text-gray-800 dark:text-white/90" id="myModalLabel">Modificar periodo</h4>
+                    <button type="button" @click="abierto = false" aria-label="Cerrar" class="text-2xl leading-none text-gray-500 hover:text-gray-800 dark:text-gray-400">&times;</button>
+                </div>
+                <div id="contenedor_modificar_periodo">
+
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
