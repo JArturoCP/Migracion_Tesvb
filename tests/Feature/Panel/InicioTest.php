@@ -41,8 +41,11 @@ it('/inicio devuelve panel.inicio con el layout nuevo', function (string $rol, a
         ->assertSee('AGO-DIC 2026');
 
     $html = $respuesta->getContent();
-    expect(strtolower($html))->not->toContain('jquery')
-        ->and(strtolower($html))->not->toContain('bootstrap');
+    // No carga jQuery ni Bootstrap (el puente en línea de layouts.panel solo los menciona por si una pantalla los trae).
+    foreach (\Tests\Support\CompararVistas::recursos($html) as $recurso) {
+        expect(strtolower($recurso))->not->toContain('jquery')
+            ->and(strtolower($recurso))->not->toContain('bootstrap');
+    }
 
     // Solo se permiten URLs del propio sitio y el espacio de nombres de los SVG (no es una petición).
     preg_match_all('#https?://[^"\'\s)<>]+#', $html, $urls);

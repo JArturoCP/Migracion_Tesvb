@@ -32,6 +32,7 @@
     @endif
 
     @stack('cabeza')
+    @include('partials.panel.puente')
 
     @vite(['resources/css/marco.css', 'resources/js/panel.js'])
 </head>

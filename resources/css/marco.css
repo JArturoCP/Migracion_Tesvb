@@ -33,6 +33,7 @@
 /* Pantallas migradas al panel (layouts/panel): base sin Bootstrap y componentes. */
 @import "./panel/modulo.css";
 @import "./panel/componentes.css";
+@import "./panel/librerias.css";
 @plugin "@tailwindcss/forms" {
     strategy: "class";
 }
