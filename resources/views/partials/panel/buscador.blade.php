@@ -1,4 +1,5 @@
-{{-- Buscador del header (TailAdmin header/index.html). Ctrl+K / ⌘K lo enfoca. --}}
+{{-- Buscador del header (TailAdmin header/index.html). Ctrl+K / ⌘K lo enfoca; Esc lo limpia.
+     Filtra en el navegador los enlaces del sidebar (resources/js/panel/buscador.js). --}}
 <form @submit.prevent>
     <div class="xl:w-107.5">
         <div
@@ -14,6 +15,8 @@
 
             <input
                 x-ref="searchInput"
+                x-model="$store.buscador.texto"
+                @keydown.escape="$store.buscador.limpiar(); $el.blur()"
                 data-slot="input-group-control"
                 type="search"
                 placeholder="Buscar en el menú…"

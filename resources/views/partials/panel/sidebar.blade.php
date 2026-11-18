@@ -372,7 +372,7 @@
 <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Cambio de carrera</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'carrera'])
                             </a>
-                            <div x-cloak x-show="selected === 'carrera'" x-collapse>
+                            <div x-cloak x-show="$store.buscador.activo || selected === 'carrera'" x-collapse>
                                 <ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
                                 @foreach($carreras as $carrera)
                                 <li>
@@ -425,7 +425,7 @@
 <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Complementarias</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm1'])
 </a>
-                            <div x-cloak x-show="selected === 'm1'" x-collapse>
+                            <div x-cloak x-show="$store.buscador.activo || selected === 'm1'" x-collapse>
 <ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
                                 <li><a href="{{url('/planeacion_actividad')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Planeación de Actividades</a>
                                 </li>
@@ -445,7 +445,7 @@
 <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Duales</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm2'])
 </a>
-                                <div x-cloak x-show="selected === 'm2'" x-collapse>
+                                <div x-cloak x-show="$store.buscador.activo || selected === 'm2'" x-collapse>
 <ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
                                     <li><a href="{{url('/duales/mentor_calificar')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Calificar Alumnos Duales</a></li>
                                 </ul>
@@ -461,7 +461,7 @@
 <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Solicitudes</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm3'])
 </a>
-                                <div x-cloak x-show="selected === 'm3'" x-collapse>
+                                <div x-cloak x-show="$store.buscador.activo || selected === 'm3'" x-collapse>
 <ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
                                     <li><a href="{{route('materialDocente')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Material</a></li>
                                 </ul>
@@ -478,7 +478,7 @@
 <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Evaluación Docente</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm4'])
 </a>
-                            <div x-cloak x-show="selected === 'm4'" x-collapse>
+                            <div x-cloak x-show="$store.buscador.activo || selected === 'm4'" x-collapse>
 <ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
                                 <li><a href="/reportes2/{{$id_perso}}/{{1}}/{{0}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Resultados de Evaluación</a>
                                 </li>
@@ -499,7 +499,7 @@
 <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Residencia</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm5'])
 </a>
-                            <div x-cloak x-show="selected === 'm5'" x-collapse>
+                            <div x-cloak x-show="$store.buscador.activo || selected === 'm5'" x-collapse>
 <ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
                                 @if($personal_academia==true)
                                 <li><a href="{{url('/residencia/agregar_anteproyecto_asesores')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Agregar asesores</a></li>
@@ -563,7 +563,7 @@
 <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Datos P.</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm6'])
 </a>
-                            <div x-cloak x-show="selected === 'm6'" x-collapse>
+                            <div x-cloak x-show="$store.buscador.activo || selected === 'm6'" x-collapse>
 <ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
                                 <li><a href="{{url('/docentes/modificar/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Editar</a></li>
                             </ul>
@@ -580,7 +580,7 @@
 <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Evaluación Docente</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm7'])
 </a>
-                            <div x-cloak x-show="selected === 'm7'" x-collapse>
+                            <div x-cloak x-show="$store.buscador.activo || selected === 'm7'" x-collapse>
 <ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
                                 <li><a href="/reportes2/{{$id_perso}}/{{1}}/{{0}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Resultados de Evaluación</a>
                                 </li>
@@ -605,7 +605,7 @@
 <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Residencia</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm8'])
 </a>
-                            <div x-cloak x-show="selected === 'm8'" x-collapse>
+                            <div x-cloak x-show="$store.buscador.activo || selected === 'm8'" x-collapse>
 <ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
                                 @if($personal_academia==true)
                                 <li><a href="{{url('/residencia/agregar_anteproyecto_asesores')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Agregar asesores</a>
@@ -658,7 +658,7 @@
 <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">PIASE</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm9'])
 </a>
-                            <div x-cloak x-show="selected === 'm9'" x-collapse>
+                            <div x-cloak x-show="$store.buscador.activo || selected === 'm9'" x-collapse>
 <ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
                                 @if($es_tutor_reprobacion_menu == true)
                                 <li>
@@ -706,7 +706,7 @@
 <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Datos P.</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm10'])
 </a>
-                            <div x-cloak x-show="selected === 'm10'" x-collapse>
+                            <div x-cloak x-show="$store.buscador.activo || selected === 'm10'" x-collapse>
 <ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
                                 <li><a href="{{url('/docentes/modificar/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Editar</a></li>
                             </ul>
@@ -726,7 +726,7 @@
 <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Servicios Escolares</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm11'])
 </a>
-                            <div x-cloak x-show="selected === 'm11'" x-collapse>
+                            <div x-cloak x-show="$store.buscador.activo || selected === 'm11'" x-collapse>
 <ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
                                 <li><a href="{{url('/computo/calificar')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Calificar</a></li>
                                 <li><a href="{{url('/servicios_escolares/evaluaciones_cc_academico')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Cambio de Periodo</a></li>
@@ -741,7 +741,7 @@
 <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Envío Encuesta Sat.</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm12'])
 </a>
-                            <div x-cloak x-show="selected === 'm12'" x-collapse>
+                            <div x-cloak x-show="$store.buscador.activo || selected === 'm12'" x-collapse>
 <ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
                                 <li><a href="{{url('/encuestas_satisfaccion/periodo_mantenimiento/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Enviar Encuesta de Satisfacción de cliente interno</a></li>
                                 <li><a href="{{url('/encuestas_satisfaccion/menu_historial_mantenimiento/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Historial Encuesta de Satisfacción de cliente</a></li>
@@ -766,7 +766,7 @@
 <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Herramientas</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm13'])
 </a>
-                            <div x-cloak x-show="selected === 'm13'" x-collapse>
+                            <div x-cloak x-show="$store.buscador.activo || selected === 'm13'" x-collapse>
 <ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
                                 <li><a href="{{url('/centro_computo/activar_armar_horarios/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Activar armar horarios</a></li>
                                 <li><a href="{{url('/centro_computo/registro_estudiantes_correo/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Registro de usuarios en el sistema</a></li>
@@ -790,7 +790,7 @@
 <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Datos P.</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm14'])
 </a>
-                            <div x-cloak x-show="selected === 'm14'" x-collapse>
+                            <div x-cloak x-show="$store.buscador.activo || selected === 'm14'" x-collapse>
 <ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
                                 <li><a href="{{url('/docentes/modificar/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Editar</a></li>
                             </ul>
@@ -803,7 +803,7 @@
 <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Cargos del Personal</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm15'])
 </a>
-                            <div x-cloak x-show="selected === 'm15'" x-collapse>
+                            <div x-cloak x-show="$store.buscador.activo || selected === 'm15'" x-collapse>
 <ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
                                 <li><a href="{{url('/docente')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Personal del TESVB</a></li>
                                 <li><a href="{{url('/generales/cargos')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Categoría Personal</a></li>
@@ -824,7 +824,7 @@
 <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Plantilla Personal</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm16'])
 </a>
-                            <div x-cloak x-show="selected === 'm16'" x-collapse>
+                            <div x-cloak x-show="$store.buscador.activo || selected === 'm16'" x-collapse>
 <ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
                                 <li><a href="{{url('/departamento/plantilla')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Agregar Plantilla</a></li>
                                 <li><a href="{{url('/departamentoplantilla/ver')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Ver Plantilla</a></li>
@@ -842,7 +842,7 @@
 <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Datos P.</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm17'])
 </a>
-                            <div x-cloak x-show="selected === 'm17'" x-collapse>
+                            <div x-cloak x-show="$store.buscador.activo || selected === 'm17'" x-collapse>
 <ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
                                 <li><a href="{{url('/docentes/modificar/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Editar</a></li>
                             </ul>
@@ -855,7 +855,7 @@
 <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Complementarias</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm18'])
 </a>
-                            <div x-cloak x-show="selected === 'm18'" x-collapse>
+                            <div x-cloak x-show="$store.buscador.activo || selected === 'm18'" x-collapse>
 <ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
                                 <li><a href="{{url('/docente_actividad')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Asignar Docente a Actividad</a></li>
                                 <li><a href="{{url('/alumnos_actividades')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Liberar Solicitud Alumnos</a></li>
@@ -875,7 +875,7 @@
 @include('partials.panel.iconos.flecha', ['clave' => 'm19'])
 </a>
 
-                            <div x-cloak x-show="selected === 'm19'" x-collapse>
+                            <div x-cloak x-show="$store.buscador.activo || selected === 'm19'" x-collapse>
 <ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
                                 <li>
                                     <a href="{{url('/buscar_profesores_carrera')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Profesores</a>
@@ -906,7 +906,7 @@
 <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Formatos</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm20'])
 </a>
-                            <div x-cloak x-show="selected === 'm20'" x-collapse>
+                            <div x-cloak x-show="$store.buscador.activo || selected === 'm20'" x-collapse>
 <ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
                                 <li><a href="{{url('/formatos/distribucion')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Distrib.de hrs. frente a grupo</a></li>
                                 <li><a href="{{url('/formatos/relacion')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Relación de personal docente</a>
@@ -920,7 +920,7 @@
 <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Plantilla</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm21'])
 </a>
-                            <div x-cloak x-show="selected === 'm21'" x-collapse>
+                            <div x-cloak x-show="$store.buscador.activo || selected === 'm21'" x-collapse>
 <ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
                                 <li><a href="{{url('/plantilla/docentes')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Agregar Docentes</a></li>
                                 <li><a href="{{url('/plantilla/ver')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Ver Plantilla</a></li>
@@ -933,14 +933,14 @@
 <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Generales</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm22'])
 </a>
-                            <div x-cloak x-show="selected === 'm22'" x-collapse>
+                            <div x-cloak x-show="$store.buscador.activo || selected === 'm22'" x-collapse>
 <ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
                                 <li x-data="{ abierto: false }">
                                     <a href="#" @click.prevent="abierto = !abierto" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-modulo>
 <span>Académico</span>
 @include('partials.panel.iconos.flecha_subgrupo')
 </a>
-                                    <div x-cloak x-show="abierto" x-collapse>
+                                    <div x-cloak x-show="$store.buscador.activo || abierto" x-collapse>
 <ul class="mt-1 flex flex-col gap-1 border-l border-gray-200 pl-3 dark:border-gray-800">
                                         <li><a href="{{url('/reticulass')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Retículas</a></li>
                                         <li><a href="{{url('/docente')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Docentes</a></li>
@@ -997,7 +997,7 @@
 @include('partials.panel.iconos.flecha', ['clave' => 'm23'])
 </a>
 
-                            <div x-cloak x-show="selected === 'm23'" x-collapse>
+                            <div x-cloak x-show="$store.buscador.activo || selected === 'm23'" x-collapse>
 <ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
                                 <li>
                                     <a href="{{ url('/residencia/asignar_revisores') }}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Asignar Revisores</a>
@@ -1030,7 +1030,7 @@
 @include('partials.panel.iconos.flecha', ['clave' => 'm24'])
 </a>
 
-                                <div x-cloak x-show="selected === 'm24'" x-collapse>
+                                <div x-cloak x-show="$store.buscador.activo || selected === 'm24'" x-collapse>
 <ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
                                     <li>
                                         <a href="{{url('/buscar_profesores')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Profesores</a>
@@ -1052,7 +1052,7 @@
 <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Horarios</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm25'])
 </a>
-                                <div x-cloak x-show="selected === 'm25'" x-collapse>
+                                <div x-cloak x-show="$store.buscador.activo || selected === 'm25'" x-collapse>
 <ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
                                     <li><a href="{{url('/horarios/hrs_grupos')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Ver Horarios Grupos</a></li>
                                     <li><a href="{{url('/horarios/hrs_aulas')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Ver Horarios Aulas</a></li>
@@ -1094,7 +1094,7 @@
 @include('partials.panel.iconos.flecha', ['clave' => 'm26'])
 </a>
 
-                                <div x-cloak x-show="selected === 'm26'" x-collapse>
+                                <div x-cloak x-show="$store.buscador.activo || selected === 'm26'" x-collapse>
 <ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
                                     <li>
                                         <a href="{{url('/validacion_de_carga')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Revisión de cargas</a>
@@ -1186,7 +1186,7 @@
 @include('partials.panel.iconos.flecha', ['clave' => 'm28'])
 </a>
 
-                                <div x-cloak x-show="selected === 'm28'" x-collapse>
+                                <div x-cloak x-show="$store.buscador.activo || selected === 'm28'" x-collapse>
 <ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
                                     <li><a href="/distribucion_horas_profesores/total/" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Distribución de total de horas de los profesores</a></li>
                                     <li><a href="/distribucion_horas_profesores/total_totales/" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Distribución de horas de todos los profesores</a></li>
@@ -1208,7 +1208,7 @@
 @include('partials.panel.iconos.flecha', ['clave' => 'm29'])
 </a>
 
-                                <div x-cloak x-show="selected === 'm29'" x-collapse>
+                                <div x-cloak x-show="$store.buscador.activo || selected === 'm29'" x-collapse>
 <ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
                                     <li><a href="/servicio_social/departamento_revision_primera_etapa/"
                                             class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Autorización de Documentación 1ra Etapa</a></li>
@@ -1225,7 +1225,7 @@
 @include('partials.panel.iconos.flecha', ['clave' => 'm30'])
 </a>
 
-                                <div x-cloak x-show="selected === 'm30'" x-collapse>
+                                <div x-cloak x-show="$store.buscador.activo || selected === 'm30'" x-collapse>
 <ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
                                     <li><a href="/residencia/ver_anteproyectos_revisores"
                                             class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Anteproyectos Autorizados por los Revisores</a></li>
@@ -1245,7 +1245,7 @@
 @include('partials.panel.iconos.flecha', ['clave' => 'm31'])
 </a>
 
-                                <div x-cloak x-show="selected === 'm31'" x-collapse>
+                                <div x-cloak x-show="$store.buscador.activo || selected === 'm31'" x-collapse>
 <ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
                                     <li><a href="/residencia/departamento_residencia" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Proyectos</a></li>
                                     <li><a href="/residencia/estadisticas_residencia" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Estadísticas</a></li>
@@ -1261,7 +1261,7 @@
 <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Seg. Servicio Social</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm32'])
 </a>
-                                <div x-cloak x-show="selected === 'm32'" x-collapse>
+                                <div x-cloak x-show="$store.buscador.activo || selected === 'm32'" x-collapse>
 <ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
                                     <li><a href="{{ url('/servicio_social/departamento_carreras') }}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Calificar Servicio Social</a></li>
                                 </ul>
@@ -1275,7 +1275,7 @@
 @include('partials.panel.iconos.flecha', ['clave' => 'm33'])
 </a>
 
-                                <div x-cloak x-show="selected === 'm33'" x-collapse>
+                                <div x-cloak x-show="$store.buscador.activo || selected === 'm33'" x-collapse>
 <ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
                                     <li><a href="/encuestas_satisfaccion/agregar_periodo_year/" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Encuestas de Satisfacción del Cliente (Servicio Social)</a></li>
                                     <li><a href="/encuestas_satisfaccion/historial_periodo_year/" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Historial Encuestas de Satisfacción del Cliente (Servicio Social)</a></li>
@@ -1296,7 +1296,7 @@
 <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Datos P.</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm34'])
 </a>
-                                <div x-cloak x-show="selected === 'm34'" x-collapse>
+                                <div x-cloak x-show="$store.buscador.activo || selected === 'm34'" x-collapse>
 <ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
                                     <li><a href="{{url('/docentes/modificar/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Editar</a></li>
                                 </ul>
@@ -1309,7 +1309,7 @@
 <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Titulación</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm35'])
 </a>
-                                <div x-cloak x-show="selected === 'm35'" x-collapse>
+                                <div x-cloak x-show="$store.buscador.activo || selected === 'm35'" x-collapse>
 <ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
                                     <li><a href="{{url('/titulacion/registro_alumnos_titulacion/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Registrar alumnos para Titulación</a></li>
                                     <li><a href="{{url('/titulacion/autorizar_doc_requisitos/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Autorizar documentación de requisitos de Titulación</a></li>
@@ -1337,7 +1337,7 @@
 <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Catálogos Titulación</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm36'])
 </a>
-                                <div x-cloak x-show="selected === 'm36'" x-collapse>
+                                <div x-cloak x-show="$store.buscador.activo || selected === 'm36'" x-collapse>
 <ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
                                     <li><a href="{{url('/titulacion/reg_catalogo_tomos_titulo/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Registrar Tomos de titulos</a></li>
                                     <li><a href="{{url('/titulacion/agregar_escuelas_preparatorias/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Registrar escuelas preparatorias</a></li>
@@ -1356,7 +1356,7 @@
 <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Datos P.</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm37'])
 </a>
-                                <div x-cloak x-show="selected === 'm37'" x-collapse>
+                                <div x-cloak x-show="$store.buscador.activo || selected === 'm37'" x-collapse>
 <ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
                                     <li><a href="{{url('/docentes/modificar/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Editar</a></li>
                                 </ul>
@@ -1369,7 +1369,7 @@
 <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Complementarias</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm38'])
 </a>
-                                <div x-cloak x-show="selected === 'm38'" x-collapse>
+                                <div x-cloak x-show="$store.buscador.activo || selected === 'm38'" x-collapse>
 <ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
                                     <li><a href="{{url('/nueva_actividad')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Registrar Nueva Actividad</a></li>
                                     <li><a href="{{url('/solicitud_alumnos')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Solicitud Alumnos</a></li>
@@ -1395,7 +1395,7 @@
 @include('partials.panel.iconos.flecha', ['clave' => 'm39'])
 </a>
 
-                                <div x-cloak x-show="selected === 'm39'" x-collapse>
+                                <div x-cloak x-show="$store.buscador.activo || selected === 'm39'" x-collapse>
 <ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
                                     <li>
                                         <a href="{{url('/buscar_profesores')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Profesores</a>
@@ -1414,7 +1414,7 @@
 <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Horarios</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm40'])
 </a>
-                                <div x-cloak x-show="selected === 'm40'" x-collapse>
+                                <div x-cloak x-show="$store.buscador.activo || selected === 'm40'" x-collapse>
 <ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
                                     <li><a href="{{url('/horarios/horarios_docentes')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Ver Horarios Docentes</a>
                                     </li>
@@ -1430,7 +1430,7 @@
 <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Formatos</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm41'])
 </a>
-                                <div x-cloak x-show="selected === 'm41'" x-collapse>
+                                <div x-cloak x-show="$store.buscador.activo || selected === 'm41'" x-collapse>
 <ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
                                     <li><a href="{{url('/formatos/con_edu')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Concentrado Estructura Educ.</a></li>
                                     <li><a href="{{url('/formatos/distribucion')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Distrib.de hrs. frente a grupo</a></li>
@@ -1446,7 +1446,7 @@
 <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Plantilla</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm42'])
 </a>
-                                <div x-cloak x-show="selected === 'm42'" x-collapse>
+                                <div x-cloak x-show="$store.buscador.activo || selected === 'm42'" x-collapse>
 <ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
                                     <li><a href="{{url('/plantilla/ver')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Ver Plantilla</a></li>
                                     <li><a href="{{url('/plantilla/educativa')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Plantilla Educativa</a></li>
@@ -1459,14 +1459,14 @@
 <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Generales</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm43'])
 </a>
-                                <div x-cloak x-show="selected === 'm43'" x-collapse>
+                                <div x-cloak x-show="$store.buscador.activo || selected === 'm43'" x-collapse>
 <ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
                                     <li x-data="{ abierto: false }">
                                         <a href="#" @click.prevent="abierto = !abierto" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-modulo>
 <span>Académico</span>
 @include('partials.panel.iconos.flecha_subgrupo')
 </a>
-                                        <div x-cloak x-show="abierto" x-collapse>
+                                        <div x-cloak x-show="$store.buscador.activo || abierto" x-collapse>
 <ul class="mt-1 flex flex-col gap-1 border-l border-gray-200 pl-3 dark:border-gray-800">
                                             <li><a href="{{url('/reticulass')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Retículas</a></li>
                                             <li><a href="{{url('/docente')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Docentes</a></li>
@@ -1502,7 +1502,7 @@
 <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Oficios Com.</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm44'])
 </a>
-                                <div x-cloak x-show="selected === 'm44'" x-collapse>
+                                <div x-cloak x-show="$store.buscador.activo || selected === 'm44'" x-collapse>
 <ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
                                     @if($unidad==26)
                                     <li><a href="{{url('/oficios/evaluacionsubdirecion')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Validar Oficios</a>
@@ -1521,7 +1521,7 @@
 <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Seg. de Oficios</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm45'])
 </a>
-                                <div x-cloak x-show="selected === 'm45'" x-collapse>
+                                <div x-cloak x-show="$store.buscador.activo || selected === 'm45'" x-collapse>
 <ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
                                     <li><a href="{{url('/docentes/modificar/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Editar</a></li>
                                 </ul>
@@ -1539,7 +1539,7 @@
 <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Titulación</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm46'])
 </a>
-                                <div x-cloak x-show="selected === 'm46'" x-collapse>
+                                <div x-cloak x-show="$store.buscador.activo || selected === 'm46'" x-collapse>
 <ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
                                     <li><a href="{{url('/titulacion/autorizacion_entrega_cd')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Autorizar entrega de PDF</a></li>
                                     <li><a href="{{url('/titulacion/documento_titulacion_autorizado/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Documento de Titulación autorizado de los estudiantes</a></li>
@@ -1558,7 +1558,7 @@
 <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Procedimiento Amb.</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm47'])
 </a>
-                                <div x-cloak x-show="selected === 'm47'" x-collapse>
+                                <div x-cloak x-show="$store.buscador.activo || selected === 'm47'" x-collapse>
 <ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
                                     <li><a href="{{url('/ambiental/enviar_documentacion/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Enviar evidencias del procedimiento</a></li>
                                     <li><a href="{{url('/ambiental/historial_documentacion/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Historial de las evidencias procedimiento</a></li>
@@ -1616,7 +1616,7 @@
 <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Adeudos de Estudiantes</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm48'])
 </a>
-                            <div x-cloak x-show="selected === 'm48'" x-collapse>
+                            <div x-cloak x-show="$store.buscador.activo || selected === 'm48'" x-collapse>
 <ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
                                 <li><a href="{{url('/solicitud_adeudo/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Registrar alumnos con adeudo</a></li>
                                 @if($unidad == 16 || $unidad == 28 || $escolar == true)
@@ -1647,7 +1647,7 @@
 <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Req. Anteproyecto</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm50'])
 </a>
-                            <div x-cloak x-show="selected === 'm50'" x-collapse>
+                            <div x-cloak x-show="$store.buscador.activo || selected === 'm50'" x-collapse>
 <ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
                                 <li><a href="{{url('/presupuesto_anteproyecto/techo_presupuestal/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Techo presupuestal</a></li>
                                 <li><a href="{{url('/presupuesto_anteproyecto/periodos_anteproyecto/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Periodos de anteproyectos</a></li>
@@ -1668,7 +1668,7 @@
 <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Catálogo de Requisiciones</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm51'])
 </a>
-                            <div x-cloak x-show="selected === 'm51'" x-collapse>
+                            <div x-cloak x-show="$store.buscador.activo || selected === 'm51'" x-collapse>
 <ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
                                 @if($direccion_finanzas == true || $unidad == 24 || $unidad == 25 )
                                 <li><a
@@ -1689,7 +1689,7 @@
 <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Presupuesto autorizado</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm52'])
 </a>
-                            <div x-cloak x-show="selected === 'm52'" x-collapse>
+                            <div x-cloak x-show="$store.buscador.activo || selected === 'm52'" x-collapse>
 <ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
                                 <li><a href="{{url('/presupuesto_autorizado/agregar_presupesto_partida/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Agregar presupuesto autorizado</a></li>
                                 <li><a href="{{url('/presupuesto_autorizado/presupesto_partida_copia/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Presupuesto autorizado para modificar</a></li>
@@ -1723,7 +1723,7 @@
 <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Ipomex</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm53'])
 </a>
-                            <div x-cloak x-show="selected === 'm53'" x-collapse>
+                            <div x-cloak x-show="$store.buscador.activo || selected === 'm53'" x-collapse>
 <ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
                                 <li><a href="{{url('/ipomex/mostrar_fracciones/contralor_ver_ipomex/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Ver jefes con fracciones</a></li>
                                 <li><a href="{{url('/ipomex/mostrar_fracciones')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Ver mis fracciones</a></li>
@@ -1759,7 +1759,7 @@
 <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Solicitudes</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm54'])
 </a>
-                            <div x-cloak x-show="selected === 'm54'" x-collapse>
+                            <div x-cloak x-show="$store.buscador.activo || selected === 'm54'" x-collapse>
 <ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
                                 <li><a href="{{url('/beca_estimulo/academico/autorizar')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Solicitudes de beca</a></li>
                                 <li><a href="{{url('/solicitud/prorroga_autorizar')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Solicitud de prórroga</a></li>
@@ -1780,7 +1780,7 @@
 <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Evidencias Inf. Doc.</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm55'])
 </a>
-                            <div x-cloak x-show="selected === 'm55'" x-collapse>
+                            <div x-cloak x-show="$store.buscador.activo || selected === 'm55'" x-collapse>
 <ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
                                 <li><a href="{{url('/ambiental/ver_procedimientos/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Procedimientos</a></li>
                                 <li><a href="{{url('/ambiental/ver_encargados/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Encargados de los Procedimientos</a>
@@ -1830,7 +1830,7 @@
 <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">P.A.AC</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm56'])
 </a>
-                            <div x-cloak x-show="selected === 'm56'" x-collapse>
+                            <div x-cloak x-show="$store.buscador.activo || selected === 'm56'" x-collapse>
 <ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
                                 <li x-data="{ abierto: false }">
                                     @if($unidad == 1)
@@ -1838,7 +1838,7 @@
 <span>Catálogo</span>
 @include('partials.panel.iconos.flecha_subgrupo')
 </a>
-                                    <div x-cloak x-show="abierto" x-collapse>
+                                    <div x-cloak x-show="$store.buscador.activo || abierto" x-collapse>
 <ul class="mt-1 flex flex-col gap-1 border-l border-gray-200 pl-3 dark:border-gray-800">
                                         <li><a href="{{url('/paa/programa_paa')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Programa</a></li>
                                         <li><a href="{{url('/paa/subprograma_paa')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Subprograma</a></li>
@@ -1855,7 +1855,7 @@
 <span>OPCIONES DE P.A.AC</span>
 @include('partials.panel.iconos.flecha_subgrupo')
 </a>
-                                    <div x-cloak x-show="abierto" x-collapse>
+                                    <div x-cloak x-show="$store.buscador.activo || abierto" x-collapse>
 <ul class="mt-1 flex flex-col gap-1 border-l border-gray-200 pl-3 dark:border-gray-800">
                                         <li><a href="{{url('/paa/generarpaa')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Generar</a></li>
                                         <li><a href="{{url('/paa/subprograma_paa')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Modificar P.A.A</a></li>
@@ -1874,7 +1874,7 @@
 <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Req. de Mat. Anteproyecto</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm57'])
 </a>
-                            <div x-cloak x-show="selected === 'm57'" x-collapse>
+                            <div x-cloak x-show="$store.buscador.activo || selected === 'm57'" x-collapse>
 <ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
                                 <li><a
                                         href="{{url('/presupuesto_anteproyecto/registrar_requerimientos_anteproyecto/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Registrar requisición de materiales del anteproyecto</a>
@@ -1889,7 +1889,7 @@
 <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Solicitudes de req. del presupuesto autorizado</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm58'])
 </a>
-                            <div x-cloak x-show="selected === 'm58'" x-collapse>
+                            <div x-cloak x-show="$store.buscador.activo || selected === 'm58'" x-collapse>
 <ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
                                 <li>
                                     <a href="{{url('/presupuesto_autorizado/agregar_req_solicitud_autorizadas/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Registrar requisiciones a las solicitudes autorizadas</a>
@@ -1916,7 +1916,7 @@
 <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Complementarias</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm59'])
 </a>
-                            <div x-cloak x-show="selected === 'm59'" x-collapse>
+                            <div x-cloak x-show="$store.buscador.activo || selected === 'm59'" x-collapse>
 <ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
                                 <li><a href="{{url('/consulta_actividades/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Registrar</a></li>
                                 <li><a href="{{url('/evidencias_alumnos')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Evidencias</a></li>
@@ -1932,7 +1932,7 @@
 <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Datos Alumno(a)</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm60'])
 </a>
-                            <div x-cloak x-show="selected === 'm60'" x-collapse>
+                            <div x-cloak x-show="$store.buscador.activo || selected === 'm60'" x-collapse>
 <ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
                                 <li><a href="{{url('/datos_alumno')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Actualizar</a></li>
                                 @if($ver_carga==false)
@@ -1989,7 +1989,7 @@
 <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Evaluación Docente</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm61'])
 </a>
-                            <div x-cloak x-show="selected === 'm61'" x-collapse>
+                            <div x-cloak x-show="$store.buscador.activo || selected === 'm61'" x-collapse>
 <ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
                                 <li><a href="{{url('/evaluacion_alumno')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Iniciar Evaluación</a></li>
                             </ul>
@@ -2014,7 +2014,7 @@
 <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Solicitudes</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm63'])
 </a>
-                            <div x-cloak x-show="selected === 'm63'" x-collapse>
+                            <div x-cloak x-show="$store.buscador.activo || selected === 'm63'" x-collapse>
 <ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
                                 <li><a href="{{url('/beca_estimulo/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Solicitud del Estimulo al D. E.</a></li>
                                 <li><a href="{{url('/solicitud/prorroga')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Solicitud de prórroga</a></li>
@@ -2046,7 +2046,7 @@
 <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Datos Residencia Profesional</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm64'])
 </a>
-                                <div x-cloak x-show="selected === 'm64'" x-collapse>
+                                <div x-cloak x-show="$store.buscador.activo || selected === 'm64'" x-collapse>
 <ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
                                     @if($registrar_residencia == true)
                                     <li>
@@ -2104,7 +2104,7 @@
 <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Seguimiento Residencia</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm65'])
 </a>
-                                <div x-cloak x-show="selected === 'm65'" x-collapse>
+                                <div x-cloak x-show="$store.buscador.activo || selected === 'm65'" x-collapse>
 <ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
                                     <li><a href="{{url('/residencia/seguimiento_residencia')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Mostrar Seguimiento de Residencia</a></li>
                                     <li style="display: none"><a
@@ -2124,7 +2124,7 @@
 <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Servicio Social</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm66'])
 </a>
-                                <div x-cloak x-show="selected === 'm66'" x-collapse>
+                                <div x-cloak x-show="$store.buscador.activo || selected === 'm66'" x-collapse>
 <ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
                                     <li><a href="{{url('/servicio_social/docuemtacion_priemra_etapa/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Documentación de la primera etapa S.S.</a></li>
                                     <li><a href="{{url('/servicio_social/enviocartapresentacionalumno/alumno/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Envío de Carta de Presentación-Aceptación</a></li>
@@ -2147,7 +2147,7 @@
 <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Titulación</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm67'])
 </a>
-                                <div x-cloak x-show="selected === 'm67'" x-collapse>
+                                <div x-cloak x-show="$store.buscador.activo || selected === 'm67'" x-collapse>
 <ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
                                     <li><a href="{{url('/titulacion/documentacion_requisitos_titulacion/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Documentación de los requisitos de Titulación (1ra Etapa)</a></li>
                                     @if($ti_segunda_etapa == true)
@@ -2202,7 +2202,7 @@
 <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Incidencias de Asistencia</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm68'])
 </a>
-                            <div x-cloak x-show="selected === 'm68'" x-collapse>
+                            <div x-cloak x-show="$store.buscador.activo || selected === 'm68'" x-collapse>
 <ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
                                 @if($unidad == 3)
                                 <li><a href="{{url('/incidencias/validar_oficios_departamentos')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Validar oficios de los departamentos</a></li>
@@ -2264,7 +2264,7 @@
 <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">SGOE</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm69'])
 </a>
-                            <div x-cloak x-show="selected === 'm69'" x-collapse>
+                            <div x-cloak x-show="$store.buscador.activo || selected === 'm69'" x-collapse>
 <ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
                                 {{-- Opción SGOE --}}
                                 <li><a href="{{url('/sgoe/inicio')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>SGOE</a></li>
@@ -2276,7 +2276,7 @@
 <span>Riesgos y Oportuni.</span>
 @include('partials.panel.iconos.flecha_subgrupo')
 </a>
-                                    <div x-cloak x-show="abierto" x-collapse>
+                                    <div x-cloak x-show="$store.buscador.activo || abierto" x-collapse>
 <ul class="mt-1 flex flex-col gap-1 border-l border-gray-200 pl-3 dark:border-gray-800">
                                         <li><a href="{{url('/riesgos/proceso')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Registro Procesos</a></li>
 
@@ -2285,7 +2285,7 @@
 <span>Registro Catálogos Riesgos</span>
 @include('partials.panel.iconos.flecha_subgrupo')
 </a>
-                                            <div x-cloak x-show="abierto" x-collapse>
+                                            <div x-cloak x-show="$store.buscador.activo || abierto" x-collapse>
 <ul class="mt-1 flex flex-col gap-1 border-l border-gray-200 pl-3 dark:border-gray-800">
                                                 <li><a href="{{url('/riesgos/riesgo')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Riesgos</a></li>
                                                 <li><a href="{{url('/riesgos/seleccion')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Selecciones</a></li>
@@ -2306,7 +2306,7 @@
 <span>Registro Catálogos Oportunidades</span>
 @include('partials.panel.iconos.flecha_subgrupo')
 </a>
-                                            <div x-cloak x-show="abierto" x-collapse>
+                                            <div x-cloak x-show="$store.buscador.activo || abierto" x-collapse>
 <ul class="mt-1 flex flex-col gap-1 border-l border-gray-200 pl-3 dark:border-gray-800">
                                                 <li><a href="{{url('/riesgos/mejoracliente')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Mejoras del Cliente</a>
                                                 </li>
@@ -2341,7 +2341,7 @@
 <span>Auditorías</span>
 @include('partials.panel.iconos.flecha_subgrupo')
 </a>
-                                    <div x-cloak x-show="abierto" x-collapse>
+                                    <div x-cloak x-show="$store.buscador.activo || abierto" x-collapse>
 <ul class="mt-1 flex flex-col gap-1 border-l border-gray-200 pl-3 dark:border-gray-800">
                                         @if($es_auditor_lider_sgoe_menu)
                                         <li><a href="{{url('/auditorias/actividades')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Actividades para la agenda</a>
@@ -2364,7 +2364,7 @@
 <span>No conformidades</span>
 @include('partials.panel.iconos.flecha_subgrupo')
 </a>
-                                    <div x-cloak x-show="abierto" x-collapse>
+                                    <div x-cloak x-show="$store.buscador.activo || abierto" x-collapse>
 <ul class="mt-1 flex flex-col gap-1 border-l border-gray-200 pl-3 dark:border-gray-800">
                                         <li>
                                             <a href="{{url('/auditorias/notas_auditorias')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Acciones Correctivas</a>
@@ -2381,7 +2381,7 @@
 <span>Encuestas Satisfacción</span>
 @include('partials.panel.iconos.flecha_subgrupo')
 </a>
-                                    <div x-cloak x-show="abierto" x-collapse>
+                                    <div x-cloak x-show="$store.buscador.activo || abierto" x-collapse>
 <ul class="mt-1 flex flex-col gap-1 border-l border-gray-200 pl-3 dark:border-gray-800">
                                         <li><a
                                                 href="{{url('/encuestas_satisfaccion/encuesta_incripcion_periodo')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Inscripción</a>
@@ -2408,7 +2408,7 @@
 <span>Encuestas</span>
 @include('partials.panel.iconos.flecha_subgrupo')
 </a>
-                                    <div x-cloak x-show="abierto" x-collapse>
+                                    <div x-cloak x-show="$store.buscador.activo || abierto" x-collapse>
 <ul class="mt-1 flex flex-col gap-1 border-l border-gray-200 pl-3 dark:border-gray-800">
                                         <li><a href="{{url('/encuestas_satisfaccion/registro_enc_mante_usuario/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Encuesta de satisfacción al cliente Centro de Cómputo</a></li>
                                     </ul>
@@ -2423,7 +2423,7 @@
 <span>Seguimiento OM/NC/AC</span>
 @include('partials.panel.iconos.flecha_subgrupo')
 </a>
-                                    <div x-cloak x-show="abierto" x-collapse>
+                                    <div x-cloak x-show="$store.buscador.activo || abierto" x-collapse>
 <ul class="mt-1 flex flex-col gap-1 border-l border-gray-200 pl-3 dark:border-gray-800">
                                         <li><a href="{{ url('/auditorias/responsables_implementar') }}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Ejecutar</a>
                                         </li>
@@ -2493,20 +2493,20 @@
 <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Inventario TESVB</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm70'])
 </a>
-                            <div x-cloak x-show="selected === 'm70'" x-collapse>
+                            <div x-cloak x-show="$store.buscador.activo || selected === 'm70'" x-collapse>
 <ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
                                 <li><a href="{{url('/SectorAux')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Sector Auxiliar</a></li>
                                 <li x-data="{ abierto: false }"><a href="#" @click.prevent="abierto = !abierto" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-modulo>
 <span>Bienes</span>
 @include('partials.panel.iconos.flecha_subgrupo')
 </a>
-                                    <div x-cloak x-show="abierto" x-collapse>
+                                    <div x-cloak x-show="$store.buscador.activo || abierto" x-collapse>
 <ul class="mt-1 flex flex-col gap-1 border-l border-gray-200 pl-3 dark:border-gray-800">
                                         <li x-data="{ abierto: false }"><a href="#" @click.prevent="abierto = !abierto" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-modulo>
 <span>Gestionar atributos del Bien</span>
 @include('partials.panel.iconos.flecha_subgrupo')
 </a>
-                                            <div x-cloak x-show="abierto" x-collapse>
+                                            <div x-cloak x-show="$store.buscador.activo || abierto" x-collapse>
 <ul class="mt-1 flex flex-col gap-1 border-l border-gray-200 pl-3 dark:border-gray-800">
                                                 <li><a href="{{url('/Marcas')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Marcas</a></li>
                                                 <li><a href="{{url('/Provedores')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Proveedores</a></li>
@@ -2523,7 +2523,7 @@
 <span>Resguardos</span>
 @include('partials.panel.iconos.flecha_subgrupo')
 </a>
-                                    <div x-cloak x-show="abierto" x-collapse>
+                                    <div x-cloak x-show="$store.buscador.activo || abierto" x-collapse>
 <ul class="mt-1 flex flex-col gap-1 border-l border-gray-200 pl-3 dark:border-gray-800">
                                         <li><a href="{{'/Resguardos'}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Asignación y Consulta de Resguardos</a></li>
                                         <li><a href="{{'/Resguardos-Consulta'}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Tarjetas de Resguardo</a></li>
@@ -2534,7 +2534,7 @@
 <span>Padrón de Bienes</span>
 @include('partials.panel.iconos.flecha_subgrupo')
 </a>
-                                    <div x-cloak x-show="abierto" x-collapse>
+                                    <div x-cloak x-show="$store.buscador.activo || abierto" x-collapse>
 <ul class="mt-1 flex flex-col gap-1 border-l border-gray-200 pl-3 dark:border-gray-800">
                                         <li><a href="{{'/Resguardos-Padron'}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Padrón del TESVB</a></li>
                                     </ul>
@@ -2545,7 +2545,7 @@
 <span>Reportes</span>
 @include('partials.panel.iconos.flecha_subgrupo')
 </a>
-                                    <div x-cloak x-show="abierto" x-collapse>
+                                    <div x-cloak x-show="$store.buscador.activo || abierto" x-collapse>
 <ul class="mt-1 flex flex-col gap-1 border-l border-gray-200 pl-3 dark:border-gray-800">
                                         <li><a href="{{'/Reportes'}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Reportes en Excel</a></li>
                                     </ul>
@@ -2565,7 +2565,7 @@
 <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Duales</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm71'])
 </a>
-                            <div x-cloak x-show="selected === 'm71'" x-collapse>
+                            <div x-cloak x-show="$store.buscador.activo || selected === 'm71'" x-collapse>
 <ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
                                 <li><a href="{{url('/duales/agregar_alumnos_dual')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Agregar Alumnos Duales</a></li>
                                 <li><a href="{{url('/duales/llenar_carga_academica_dual')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Llenar Cargas Académicas</a></li>
@@ -2581,7 +2581,7 @@
 <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Seguimiento Inglés</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm72'])
 </a>
-                            <div x-cloak x-show="selected === 'm72'" x-collapse>
+                            <div x-cloak x-show="$store.buscador.activo || selected === 'm72'" x-collapse>
 <ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
                                 <li><a href="{{url('/jefe_division/seguimiento_ingles')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Estudiantes</a></li>
                             </ul>
@@ -2607,7 +2607,7 @@
 <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Materiales y solicitudes</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm73'])
 </a>
-                            <div x-cloak x-show="selected === 'm73'" x-collapse>
+                            <div x-cloak x-show="$store.buscador.activo || selected === 'm73'" x-collapse>
 <ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
                                 <li><a href="{{url('/prestamo/Jefe_prestamos_materiales/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Ver solicitudes</a></li>
                                 <li><a href="{{url('/prestamo/materials')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Ver materiales</a></li>

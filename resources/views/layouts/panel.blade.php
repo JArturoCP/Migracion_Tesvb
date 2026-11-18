@@ -43,6 +43,11 @@
         </div>
     </div>
 
+    {{-- Modal de cambio de periodo: misma condición que layouts/app.blade.php (@section part_modal_periodos). --}}
+    @if (!Auth::guest())
+        @include('partials.panel.periodos')
+    @endif
+
     @stack('scripts')
 </body>
 </html>
