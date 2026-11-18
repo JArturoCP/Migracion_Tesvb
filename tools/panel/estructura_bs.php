@@ -55,7 +55,7 @@ while (preg_match('#<div\b(?=[^>]*\bclass="modal(?: |")[^>]*>)(?=[^>]*\bid="([^"
     }
     $fin = $pos;
     $bloque = substr($t, $ini, $fin - $ini);
-    if (!preg_match('#^(<div[^>]*>)(\s*)<div class="modal-dialog( modal-(sm|lg|md))?"[^>]*>\s*<div class="modal-content"[^>]*>#', $bloque, $c)) { $desde = $fin; continue; }
+    if (!preg_match('#^(<div[^>]*>)(\s*)<div class="modal-dialog( modal-(sm|lg|md))?"[^>]*>\s*<div class="modal-content"([^>]*)>#', $bloque, $c)) { $desde = $fin; continue; }
     $tamano = ['sm' => 'sm', 'lg' => 'lg', 'md' => 'md'][$c[4] ?? 'md'] ?? 'md';
     $interior = substr($bloque, strlen($c[0]));
     // quitar los cierres de .modal-content y .modal-dialog (los dos </div> anteriores al cierre del modal)
@@ -77,6 +77,8 @@ while (preg_match('#<div\b(?=[^>]*\bclass="modal(?: |")[^>]*>)(?=[^>]*\bid="([^"
     $extra = '';
     if (preg_match('/aria-labelledby="([^"]*)"/', $atributos, $al)) $extra .= ' aria-labelledby="' . $al[1] . '"';
     if (preg_match('/data-backdrop="static"/', $atributos)) $extra .= ' estatico';
+    // el id de .modal-content (si lo tiene) se conserva en un div que envuelve el contenido
+    if (preg_match('/\bid="([^"]+)"/', $c[5] ?? '', $idc)) $interior = "<div id=\"{$idc[1]}\">" . $interior . '</div>';
     $nuevo = "<x-panel.modal id=\"$id\" tamano=\"$tamano\" sin-relleno$claseCerrar$extra>" . $interior . '</x-panel.modal>';
     $t = substr($t, 0, $ini) . $nuevo . substr($t, $fin);
     $desde = $ini + strlen($nuevo);

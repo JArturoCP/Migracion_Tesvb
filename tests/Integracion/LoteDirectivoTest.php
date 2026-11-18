@@ -81,7 +81,9 @@ function loteComparar($prueba, string $ruta): string
 
     // página del panel, sin Bootstrap, HTML balanceado
     expect($nuevo)->toContain('data-panel-contenido')->toContain('window.PanelModal')
-        ->and(BalanceHtml::errores($nuevo))->toBe([]);
+        // se aceptan solo los cierres implícitos válidos de HTML en tablas (</td> por </tr>, </tr> por </tbody>), que
+        // arman las vistas originales según los datos (p. ej. la tabla de horarios con su contador de celdas)
+        ->and(array_values(array_filter(BalanceHtml::errores($nuevo), fn ($e) => ! preg_match('#^<(td|th|tr)> de la línea \d+ sin cerrar \(lo cierra </(td|th|tr|tbody|thead|table)>#', $e))))->toBe([]);
     foreach (CompararVistas::recursos($nuevo) as $r) {
         expect($r)->not->toMatch('/bootstrap(\.min)?\.(css|js)|\/css\/app\.css|dataTables\.bootstrap/i');
     }
@@ -128,9 +130,15 @@ dataset('lote1_directivo', [
     'Formatos › Relación de personal docente' => ['/formatos/relacion'],
     'Formatos › Relación de personal docente (carrera 1)' => ['/relacion/ver/1'],
     'Formatos › Horas por docentes' => ['/formatos/horas_docentes'],
+    // Horarios (M148-M151): también el horario de un docente, grupo o aula (modal) y la tabla por categoría
+    'Horarios › Ver Horarios Docentes' => ['/horarios/horarios_docentes', '#href="(/horarios_docentes/\d+)"#'],
+    'Horarios › Ver Horarios Grupos' => ['/horarios/hrs_grupos', '#href="(/horarios_grupos/\d+/\d+/\d+)"#'],
+    'Horarios › Ver Horarios Aulas' => ['/horarios/hrs_aulas', '#href="(/horarios_aulas/\d+/\d+)"#'],
+    'Horarios › Horas por carrera' => ['/hrs_carrera'],
+    'Horarios › Horas por carrera (categoría 1)' => ['/hrs_carrera/categoria/1'],
 ]);
 
-it('se abre en el panel con la misma lógica que antes', function (string $ruta) {
+it('se abre en el panel con la misma lógica que antes', function (string $ruta, ?string $enlace = null) {
     $this->post('/login', ['email' => 'directivo@example.com', 'password' => \Database\Seeders\UsersSeeder::PASSWORD_PRUEBA]);
     $this->get('/home');
 
@@ -140,6 +148,10 @@ it('se abre en el panel con la misma lógica que antes', function (string $ruta)
     if (preg_match('#href="(/[a-z_/]+/\d+/edit)"#', $html, $m)) {
         $edicion = loteComparar($this, $m[1]);
         expect($edicion)->toContain('data-panel-modal');
+    }
+    // otra vista a la que lleva un enlace de la pantalla (p. ej. el horario de un docente)
+    if ($enlace !== null && preg_match($enlace, $html, $m)) {
+        loteComparar($this, html_entity_decode($m[1]));
     }
 })->with('lote1_directivo');
 

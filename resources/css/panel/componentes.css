@@ -216,3 +216,23 @@ body.tw-modal-abierto {
   font-weight: 500;
   color: var(--tw-color-gray-500);
 }
+
+/* Pestañas verticales (lista de carreras con data-toggle="tab"). */
+.tw-lista-pestanas > a {
+  display: block;
+  border-bottom: 1px solid var(--tw-color-gray-100);
+  padding: 12px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--tw-color-gray-700);
+}
+.tw-lista-pestanas > a:last-child {
+  border-bottom: 0;
+}
+.tw-lista-pestanas > a:hover {
+  background-color: var(--tw-color-gray-50);
+}
+.tw-lista-pestanas > a.active {
+  background-color: var(--tw-color-brand-50);
+  color: var(--tw-color-brand-500);
+}
