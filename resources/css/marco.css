@@ -45,6 +45,7 @@
 @source "../views/tutorias/calendario_eventos";
 @source "../views/tutorias/eva_tutorias";
 @source "../views/tutorias/partials";
+@source "../views/evaluacion_docente";
 @source "../views/layouts/panel.blade.php";
 @source "../views/layouts/marco.blade.php";
 @source "../views/partials/panel";

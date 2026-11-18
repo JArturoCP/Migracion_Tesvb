@@ -1,22 +1,10 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 @section('title', 'Evaluacion docente')
+@include('evaluacion_docente.partials.recursos_panel')
 @section('content')
+    <x-panel.encabezado titulo="Evaluación docente" />
 
-    <main>
-        <div>
-            <div class="row">
-                <div class="col-md-6 col-md-offset-3">
-                    <div class="panel panel-info">
-                        <div class="panel-heading">
-                            <h3 class="panel-title text-center">Evaluación docente</h3>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-                <div class="col-md-6 col-md-offset-3">
-                    <label class=" alert alert-danger"  data-toggle="tab" >Derivado a que cursas un programa de estudio en el sistema dual no es posible la realización de evaluacion docente.</label>
-                </div>
-        </div>
-    </main>
+    <div class="tw:mx-auto tw:max-w-2xl">
+        <x-panel.alerta tipo="error">Derivado a que cursas un programa de estudio en el sistema dual no es posible la realización de evaluacion docente.</x-panel.alerta>
+    </div>
 @endsection

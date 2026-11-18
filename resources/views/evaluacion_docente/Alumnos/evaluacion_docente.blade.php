@@ -1,12 +1,19 @@
-
-@extends('layouts.app')
-@section('title', 'Inicio')
+@extends('layouts.panel')
+@section('title', 'Evaluación docente')
+@include('evaluacion_docente.partials.recursos_panel')
 @section('content')
     <?php
     $direccion=Session::get('ip');
     ?>
+    {{--
+        Mismas condiciones, ids, clases y campos que antes: los scripts de abajo no cambian.
+        - .iniciar (docentes a evaluar) y .condicion (preguntas) se ocultan con las mismas reglas <style> de siempre;
+          por eso esos contenedores no llevan clases de display.
+        - Modales #mensaje, #fallo y #macep: x-panel.modal; $('#id').modal('show'|'hide') lo atiende el puente.
+    --}}
+    <x-panel.encabezado titulo="Evaluación docente" />
 
-    <main>
+    <div class="tw-pantalla tw:space-y-6">
 
         @if($estado==1)
 
@@ -17,11 +24,7 @@
                 }
             </style>
 
-            <div class="col-md-12 " >
-                <div class="col-md-6 col-md-offset-3">
-                    <label class=" alert alert-danger"  data-toggle="tab" >Mientras tu carga academica no este validada no podras relizar evaluacion</label>
-                </div>
-            </div>
+            <x-panel.alerta tipo="error" class="tw:mx-auto tw:max-w-3xl">Mientras tu carga academica no este validada no podras relizar evaluacion</x-panel.alerta>
         @endif
 
         @if($no==0)
@@ -36,64 +39,63 @@
                 }
             </style>
 
-            <div class="col-md-12 iniciar " >
-                <div class="col-md-8 col-md-offset-2">
-                    <table class="table table-bordered " Style="background: white;">
-                        <thead class="bg-info">
+            <div class="iniciar" >
+                <x-panel.tarjeta titulo="Docentes a evaluar" subtitulo="Estos son tus docentes y materias del periodo." sin-relleno>
+                    <x-panel.tabla>
+                        <thead>
                         <tr>
-                            <th class="col-md-4 " style="text-align: center">DOCENTE</th>
-                            <th class="col-md-7 " style="text-align: center">MATERIAS</th>
-                            <th class="col-md-1 " style="text-align: center">GRUPO</th>
+                            <th>DOCENTE</th>
+                            <th>MATERIAS</th>
+                            <th class="tw:text-center">GRUPO</th>
                         </tr>
                         </thead>
                         <tbody>
                         @foreach($docentes as $docentes)
                             <tr>
-                                <td style="text-align: center">{{$docentes->nombre}}</td>
-                                <td style="text-align: center">{{$docentes->materias}}</td>
-                                <td style="text-align: center">{{$docentes->id_semestre}}0{{$docentes->grupo}}</td>
-                                <td style="display:none;" ><input checked type="checkbox" id="test1" value="{{$docentes->id_hrs_profesor}}" class="col-md-12" name="orderBox[]"/></td>
+                                <td class="tw:font-medium tw:text-gray-800">{{$docentes->nombre}}</td>
+                                <td>{{$docentes->materias}}</td>
+                                <td class="tw:text-center">{{$docentes->id_semestre}}0{{$docentes->grupo}}</td>
+                                <td style="display:none;" ><input checked type="checkbox" id="test1" value="{{$docentes->id_hrs_profesor}}" name="orderBox[]"/></td>
                             </tr>
                         @endforeach
 
                         </tbody>
-                    </table>
+                    </x-panel.tabla>
 
 
                     @if($materiase==1)
 
-                        <div><p class="bg-danger">MATERIAS ESPECIALES : Solo se puede selccionar un docente por materia</p></div>
+                        <div class="tw:space-y-4 tw:border-t tw:border-gray-100 tw:p-5 tw:sm:p-6">
+                            <x-panel.alerta tipo="error">MATERIAS ESPECIALES : Solo se puede selccionar un docente por materia</x-panel.alerta>
 
-                        <table class="table table-bordered " Style="background: white;">
-                            <thead>
-                            <tr>
-                                <th class="col-md-4 ">DOCENTE</th>
-                                <th class="col-md-6 ">MATERIAS</th>
-                                <th class="col-md-1 ">GRUPO</th>
-                                <th class="col-md-1 ">    </th>
-                            </tr>
-                            </thead>
-                            <tbody>
-
-                            @foreach($docentes_especial as $docee)
+                            <x-panel.tabla>
+                                <thead>
                                 <tr>
-                                    <td>{{$docee->nombre}}</td>
-                                    <td>{{$docee->materias}}</td>
-                                    <td>{{$docee->id_semestre}}0{{$docee->grupo}}</td>
-                                    <td><input type="radio" name="{{$docee->id}}"  value="{{$docee->id_hrs_profesor}}"></td>
+                                    <th>DOCENTE</th>
+                                    <th>MATERIAS</th>
+                                    <th class="tw:text-center">GRUPO</th>
+                                    <th class="tw:text-center">    </th>
                                 </tr>
-                            @endforeach
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+
+                                @foreach($docentes_especial as $docee)
+                                    <tr>
+                                        <td>{{$docee->nombre}}</td>
+                                        <td>{{$docee->materias}}</td>
+                                        <td class="tw:text-center">{{$docee->id_semestre}}0{{$docee->grupo}}</td>
+                                        <td class="tw:text-center"><input type="radio" class="tw:size-5 tw:cursor-pointer tw:accent-brand-500" name="{{$docee->id}}"  value="{{$docee->id_hrs_profesor}}"></td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </x-panel.tabla>
+                        </div>
                     @endif
 
-                </div>
-
-
-                <div class="col-md-2 col-md-offset-5" style="padding:15px">
-                    <button type="button" class="btn btn-success" id="iniciar" data-toggle="tab" ><b>Iniciar Evaluación </b><span class="glyphicon glyphicon-pencil"></span> </button>
-                </div>
-                <br><br><br>
+                    <div class="tw:flex tw:justify-end tw:border-t tw:border-gray-100 tw:px-5 tw:py-4 tw:sm:px-6">
+                        <x-panel.boton variante="exito" id="iniciar" data-toggle="tab"><b>Iniciar Evaluación </b><i class="fa fa-pencil"></i> </x-panel.boton>
+                    </div>
+                </x-panel.tarjeta>
             </div>
         @endif
         @if($id_pregunta==49)
@@ -107,214 +109,160 @@
 
                 }
             </style>
-            <div class="col-md-12 " >
-                <div class="col-md-2 col-md-offset-5">
-                    {{$pregunta}}
-                </div>
-            </div>
-            </br></br></br>
+            <x-panel.alerta tipo="exito" class="tw:mx-auto tw:max-w-3xl">
+                {{$pregunta}}
+            </x-panel.alerta>
 
         @endif
 
         <div class="condicion" id="condicion" >
-
-            </br></br>
-            <div class="col-md-12">
-                <div class="alert alert-warning alert-dismissible fade in"">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <h4><b>Instrucciones</b></h4>
-                <ul>
+            <div class="alert tw:relative tw:mb-6 tw:rounded-xl tw:border tw:border-amber-300 tw:bg-amber-50 tw:p-4 tw:pr-12" role="alert">
+                <a href="#" class="tw:absolute tw:top-3 tw:right-4 tw:text-2xl tw:leading-none tw:text-amber-600 tw:hover:text-amber-800" data-dismiss="alert" aria-label="close">&times;</a>
+                <h4 class="tw:mb-2 tw:text-base"><b>Instrucciones</b></h4>
+                <ul class="tw:list-disc tw:space-y-1 tw:pl-5 tw:text-sm tw:text-gray-700">
                     <li>Lee las siguientes preguntas y responde de manera correcta de acuerdo a los criterios</li>
                     <li>En la ultima parte de la evaluación docente por favor de agregar un comentario por docente para poder finalizarla</li>
                 </ul>
             </div>
-        </div>
-        </br></br>
-        <div class="col-md-12">
-            <input class="" id="tabla" style="display:none;" value="{{$id_tabla}}">
-            <input class="" id="pregunta" style="display:none;" value="{{$id_pregunta}}">
-            <p class="bg-primary" style="font-size: 20px;" >
-                {{$id_pregunta}} .- ¿ {{$pregunta}} ?
-            </p>
-            <!--contiene el numero de docentes evaluados-->
-            <input id="ciclos"class="bg-primary" style="font-size: 16px; display:none;" value="{{$num}}">
 
-            </input>
-        </div>
+            <div class="tw:mb-6">
+                <input class="" id="tabla" style="display:none;" value="{{$id_tabla}}">
+                <input class="" id="pregunta" style="display:none;" value="{{$id_pregunta}}">
+                <p class="tw:rounded-2xl tw:bg-brand-500 tw:px-6 tw:py-5 tw:text-xl tw:font-medium tw:text-white tw:shadow-theme-md" >
+                    {{$id_pregunta}} .- ¿ {{$pregunta}} ?
+                </p>
+                <!--contiene el numero de docentes evaluados-->
+                <input id="ciclos" style="display:none;" value="{{$num}}">
+            </div>
 
-        </br></br></br>
-
-        <div class="col-md-12">
             <!-- Alerta de error cuando el comentario es obligatorio -->
-            <div id="errorAlert" class="alert alert-danger hidden" role="alert" style="text-align: center">
+            <div id="errorAlert" class="hidden tw:mb-6 tw:rounded-xl tw:border tw:border-red-200 tw:bg-red-50 tw:p-4 tw:text-center tw:text-sm tw:text-red-700" role="alert">
                 <strong>¡Alerta!</strong> El comentario es obligatorio para esta evaluación docente.
             </div>
-        </div>
 
-        <form id="formulario_eva_docente" action="{{url("/evaluacion_alumno/guardar_comentario")}}" method="POST" role="form">
-            {{ csrf_field() }}
-            <div class="col-md-9">
-                @if(session('success'))
-                    <div class="alert alert-success">
-                        {{ session('success') }}
-                    </div>
-                @endif
-
-                <table class="table table-bordered" style="background: white;">
-                    <thead class="bg-success">
-                    <tr>
-                        <th class="col-md-5" style="text-align: center">MATERIA</th>
-                        <th class="col-md-4" style="text-align: center">DOCENTE</th>
-                        <th style="text-align: center">1</th>
-                        <th style="text-align: center">2</th>
-                        <th style="text-align: center">3</th>
-                        <th style="text-align: center">4</th>
-                        <th style="text-align: center">5</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach($profesores as $profesor)
-                        <tr>
-                            <th style="text-align: center">{{ $profesor->ma }}</th>
-                            <th style="text-align: center">{{ $profesor->p }}</th>
-                            <td style="display:none;">
-                                <input checked type="checkbox" id="test1" value="{{ $profesor->id_alumno_materia }}" class="col-md-12" name="orderBoxx[]"/>
-
-                            </td>
-                            @for($i = 0; $i < 5; $i++)
-                                <th>
-                                    <input type="radio" id="test1" class="col-md-12" name="radio{{ $profesor->indice }}" value="{{ $i + 1 }}"/>
-                                </th>
-                            @endfor
-                        </tr>
-                        @if($id_pregunta == 48)
-                            <tr id="commentsRow">
-                                <td colspan="7" style="text-align: padding-top: 10px;">
-                                    <label for="comments">Comentarios al Docente<strong style="color: red;font-size: 20px">*</strong></label>
-                                    <input type="hidden" id="id_alumno_materia" name="id_alumno_materia[]" value="{{$profesor->id_alumno_materia}}">
-                                    <textarea id="comments" name="comments[]" class="form-control" placeholder="Porfavor escribe un comentario acerca del docente"></textarea>
-                                </td>
-                            </tr>
+            <div class="tw:grid tw:grid-cols-1 tw:gap-6 tw:xl:grid-cols-4">
+                <div class="tw:xl:col-span-3">
+                    <form id="formulario_eva_docente" action="{{url("/evaluacion_alumno/guardar_comentario")}}" method="POST" role="form">
+                        {{ csrf_field() }}
+                        @if(session('success'))
+                            <x-panel.alerta tipo="exito" class="tw:mb-4">
+                                {{ session('success') }}
+                            </x-panel.alerta>
                         @endif
-                    @endforeach
-                    </tbody>
-                </table>
 
-                <div class="col-md-12">
-                    <div class="col-md-12">
-                        <div class="col-md-offset-8">
-                            <button type="button" class="btn btn-primary" id="sig"><b>Siguiente</b><span class="glyphicon glyphicon-transfer"></span> </button>
-                            <button type="button" class="btn btn-success" id="enviar_formulario"><b>Guardar Comentario</b> <span class="glyphicon glyphicon-transfer"></span> </button>
-                        </div>
-                    </div>
-                    </br> </br> </br> </br> </br> </br> </br>
-                </div>
+                        <x-panel.tarjeta sin-relleno>
+                            <x-panel.tabla>
+                                <thead>
+                                <tr>
+                                    <th>MATERIA</th>
+                                    <th>DOCENTE</th>
+                                    <th class="tw:text-center">1</th>
+                                    <th class="tw:text-center">2</th>
+                                    <th class="tw:text-center">3</th>
+                                    <th class="tw:text-center">4</th>
+                                    <th class="tw:text-center">5</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($profesores as $profesor)
+                                    <tr>
+                                        <td class="tw:font-medium tw:text-gray-800">{{ $profesor->ma }}</td>
+                                        <td>{{ $profesor->p }}</td>
+                                        <td style="display:none;">
+                                            <input checked type="checkbox" id="test1" value="{{ $profesor->id_alumno_materia }}" name="orderBoxx[]"/>
 
-        </form>
-        </div>
+                                        </td>
+                                        @for($i = 0; $i < 5; $i++)
+                                            <td class="tw:text-center">
+                                                <input type="radio" id="test1" class="tw:size-5 tw:cursor-pointer tw:accent-brand-500" name="radio{{ $profesor->indice }}" value="{{ $i + 1 }}"/>
+                                            </td>
+                                        @endfor
+                                    </tr>
+                                    @if($id_pregunta == 48)
+                                        <tr id="commentsRow">
+                                            <td colspan="7">
+                                                <label for="comments">Comentarios al Docente<strong class="tw:text-red-600">*</strong></label>
+                                                <input type="hidden" id="id_alumno_materia" name="id_alumno_materia[]" value="{{$profesor->id_alumno_materia}}">
+                                                <textarea id="comments" name="comments[]" rows="3" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden" placeholder="Porfavor escribe un comentario acerca del docente"></textarea>
+                                            </td>
+                                        </tr>
+                                    @endif
+                                @endforeach
+                                </tbody>
+                            </x-panel.tabla>
 
-
-
-        <div id="rajita" class="col-md-3">
-            <div class="col-md-12">
-                <h5 style="text-align: center"><strong>CRITERIOS</strong></h5>
-            </div>
-            <table class="table table-bordered">
-                <thead class="bg-success">
-                <tr>
-                    <th style="text-align: center">Valor</th>
-                    <th style="text-align: center">Criterio a Evaluar</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr style="text-align: center">
-                    <td>1</td>
-                    <td>Totalmente en desacuerdo</td>
-                </tr>
-                <tr style="text-align: center">
-                    <td>2</td>
-                    <td>En desacuerdo</td>
-                </tr>
-                <tr style="text-align: center">
-                    <td>3</td>
-                    <td>Indeciso</td>
-                </tr>
-                <tr style="text-align: center">
-                    <td>4</td>
-                    <td>De acuerdo</td>
-                </tr>
-                <tr style="text-align: center">
-                    <td>5</td>
-                    <td>Totalmente de acuerdo</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-
-        </br></br></br>
-        </br></br>
-        <div class="col-md-12 ">
-            </br>
-            </br>
-        </div>
-
-        </div>
-
-        <div id="mensaje" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-            <div class="modal-dialog modal-sm" role="document">
-                <div class="modal-content">
-                    <div class="modal-body">
-                        <p style="text-align: center;color: red">
-                            <span class="glyphicon glyphicon-alert"></span>
-                            Aún no has evaluado a todos los docentes
-                            <span class="glyphicon glyphicon-alert"></span>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <div id="fallo" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-            <div class="modal-dialog modal-sm" role="document">
-                <div class="modal-content">
-                    <div class="modal-body text-warning">
-                        <p style="font-weight: bold; color:#BA0000; text-align:center;">Falta por seleccionar docente(s) de materia(s) Especial(es)</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-10 col-md-offset-1">
-                <div class="modal fade" id="macep" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-
-
-                            <div class="modal-header" style="background: crimson">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                                <h3 class="modal-title text-center" id="myModalLabel" style="color:whitesmoke;"><strong>¡¡¡AVISO IMPORTANTE!!!</strong></h3>
+                            <div class="tw:flex tw:flex-wrap tw:justify-end tw:gap-3 tw:border-t tw:border-gray-100 tw:px-5 tw:py-4 tw:sm:px-6">
+                                <x-panel.boton id="sig"><b>Siguiente</b><i class="fa fa-exchange"></i> </x-panel.boton>
+                                <x-panel.boton variante="exito" id="enviar_formulario"><b>Guardar Comentario</b> <i class="fa fa-exchange"></i> </x-panel.boton>
                             </div>
-                            <div class="modal-body">
-                                <div class="panel panel-info">
-                                    <div class="panel-body">
-                                        <label class="alert alert-danger text-center">UNA VEZ INICIADA LA EVALUACION NO SE PODRA REALIZAR NINGUN CAMBIO</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer" >
-                                <button type="button" class="btn btn-success" href="" id="acep"><b>Aceptar</b></button>
-                                <button type="button" class="btn btn-primary" data-dismiss="modal"><b>Cancelar</b></button>
-                            </div>
-                        </div>
-                    </div>
+                        </x-panel.tarjeta>
+
+                    </form>
+                </div>
+
+                <div id="rajita">
+                    <x-panel.tarjeta titulo="CRITERIOS" sin-relleno>
+                        <x-panel.tabla compacta>
+                            <thead>
+                            <tr>
+                                <th class="tw:text-center">Valor</th>
+                                <th>Criterio a Evaluar</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td class="tw:text-center tw:font-semibold">1</td>
+                                <td>Totalmente en desacuerdo</td>
+                            </tr>
+                            <tr>
+                                <td class="tw:text-center tw:font-semibold">2</td>
+                                <td>En desacuerdo</td>
+                            </tr>
+                            <tr>
+                                <td class="tw:text-center tw:font-semibold">3</td>
+                                <td>Indeciso</td>
+                            </tr>
+                            <tr>
+                                <td class="tw:text-center tw:font-semibold">4</td>
+                                <td>De acuerdo</td>
+                            </tr>
+                            <tr>
+                                <td class="tw:text-center tw:font-semibold">5</td>
+                                <td>Totalmente de acuerdo</td>
+                            </tr>
+                            </tbody>
+                        </x-panel.tabla>
+                    </x-panel.tarjeta>
                 </div>
             </div>
         </div>
-    </main>
+
+        <x-panel.modal id="mensaje" tamano="sm" aria-labelledby="mySmallModalLabel">
+            <p class="tw:text-center tw:font-medium tw:text-red-600">
+                <i class="fa fa-exclamation-triangle"></i>
+                Aún no has evaluado a todos los docentes
+                <i class="fa fa-exclamation-triangle"></i>
+            </p>
+        </x-panel.modal>
+
+
+        <x-panel.modal id="fallo" tamano="sm" aria-labelledby="mySmallModalLabel">
+            <p class="tw:text-center tw:font-bold" style="color:#BA0000;">Falta por seleccionar docente(s) de materia(s) Especial(es)</p>
+        </x-panel.modal>
+
+        <x-panel.modal id="macep" aria-labelledby="myModalLabel">
+            <x-slot:encabezado>
+                <h3 class="tw:text-lg tw:font-bold tw:text-red-600" id="myModalLabel"><strong>¡¡¡AVISO IMPORTANTE!!!</strong></h3>
+            </x-slot:encabezado>
+            <x-panel.alerta tipo="error">
+                <span class="tw:font-semibold">UNA VEZ INICIADA LA EVALUACION NO SE PODRA REALIZAR NINGUN CAMBIO</span>
+            </x-panel.alerta>
+            <x-slot:pie>
+                <x-panel.boton variante="secundario" data-dismiss="modal"><b>Cancelar</b></x-panel.boton>
+                <x-panel.boton variante="exito" id="acep"><b>Aceptar</b></x-panel.boton>
+            </x-slot:pie>
+        </x-panel.modal>
+    </div>
 
     <script type="text/javascript">
         $(document).ready(function() {
@@ -531,5 +479,4 @@
 
         });
     </script>
-
 @endsection
