@@ -2,7 +2,7 @@
     Modal de cambio de periodo del nuevo diseño. COPIA de partials/periodos.blade.php:
     el bloque PHP (L3-44) es idéntico y los enlaces son los mismos (GET /periodo/{id}).
     Solo cambia el marcado: Alpine (resources/js/panel/periodos.js) en lugar de jQuery y del modal de Bootstrap.
-    Se abre con el evento "abrir-periodos" (botón de partials/panel/periodo_boton.blade.php).
+    Se abre con el evento "abrir-periodos" (botón del header: partials/panel/periodo_header.blade.php).
 --}}
     <?php
     $arre_periodos = Session::get('arre_periodos');

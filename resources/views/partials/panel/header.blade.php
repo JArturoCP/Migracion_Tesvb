@@ -53,6 +53,7 @@
             :class="isApplicationMenuOpen ? 'flex' : 'hidden'"
         >
             <div class="flex items-center gap-2 2xsm:gap-3">
+                @include('partials.panel.periodo_header')
                 @include('partials.panel.tema')
             </div>
 

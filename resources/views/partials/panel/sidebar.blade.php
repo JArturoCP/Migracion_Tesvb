@@ -376,13 +376,7 @@
             @endif
             @endif
 
-{{-- [menu_admin L396-409] Cambio de periodo (misma condición). Abre el modal de periodos. --}}
-                    @if($profesor_conact==true || $jefe_division==true || $directivo==true ||$desa==true ||
-                    $profesor_sinact==true || $departamento_titulacion == true)
-                        <li>
-                            @include('partials.panel.periodo_boton')
-                        </li>
-                    @endif
+{{-- [menu_admin L396-409] Cambio de periodo: se muestra en el header (partials/panel/periodo_header.blade.php) con la misma condición. --}}
 
 {{-- [menu_admin L410-428] Cambio de carrera (misma condición y mismos enlaces). --}}
                     @if($cambio_c==1)
@@ -404,17 +398,7 @@
                         </li>
                     @endif
 
-{{-- [menu_admin L429-442] Salir: mismo POST /logout con CSRF. --}}
-                        <li>
-                            <a href="{{ url('/logout') }}" onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();" class="group menu-item menu-item-inactive" data-panel-enlace>
-@include('partials.panel.iconos.candado')
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Salir</span>
-                            </a>
-                            <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
-                                {{ csrf_field() }}
-                            </form>
-                        </li>
+{{-- [menu_admin L429-442] Salir: está en el menú de usuario del header ("Cerrar sesión", mismo POST /logout con CSRF). --}}
 
 {{-- [menu_admin L443-2502] Módulos: mismas condiciones y enlaces, con marcado de TailAdmin. --}}
 
@@ -1194,9 +1178,7 @@
 <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Solicitudes de Beca</span>
 </a></li>
 
-                            <li>
-                                @include('partials.panel.periodo_boton')
-                            </li>
+                            {{-- [menu_admin L1158-1165] Cambio de periodo (escolar): en el header, misma condición. --}}
                             @endif
                             @if($unidad == 5 || $unidad == 26)
                             <li>
@@ -1649,13 +1631,7 @@
 </div>
                         </li>
                     
-                    @if($unidad == 14 || $unidad == 20 )
-
-                        <li>
-                            @include('partials.panel.periodo_boton')
-                        </li>
-                    
-                    @endif
+                    {{-- [menu_admin L1590-1602] Cambio de periodo (unidad 14 o 20): en el header, misma condición. --}}
                     @endif
                     {{-- direccion de administracion y finanzas---}}
                     @if($direccion_finanzas == true || $unidad == 24 || $unidad == 25 || $unidad == 1 || $unidad == 2 )
@@ -2023,11 +1999,7 @@
 @include('partials.panel.iconos.tablas')
 <span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Calificaciones</span>
 </a></li>
-                        @if($escolar !=true)
-                        <li>
-                            @include('partials.panel.periodo_boton')
-                        </li>
-                        @endif
+                        {{-- [menu_admin L1928-1937] Cambio de periodo (alumno): en el header, misma condición. --}}
 
                         <li>
                             <a href="#" @click.prevent="selected = (selected === 'm63' ? '' : 'm63')" class="group menu-item" :class="selected === 'm63' ? 'menu-item-active' : 'menu-item-inactive'" data-panel-modulo>

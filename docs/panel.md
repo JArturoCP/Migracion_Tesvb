@@ -19,7 +19,7 @@ Plan aprobado: `docs/PLAN_PANEL.md`. Inventario del menú: `docs/INVENTARIO_MENU
 | `resources/views/partials/panel/periodos.blade.php` | Copia de `partials/periodos.blade.php` (mismo PHP, mismos enlaces `/periodo/{id}`), como modal de Alpine |
 | `resources/views/partials/panel/header.blade.php`, `buscador`, `tema`, `usuario` | Header de la plantilla: botón del menú, buscador, modo oscuro y menú de usuario (insignia copiada de `menu_admin` L340-370 y "Cerrar sesión" con el mismo POST `/logout`) |
 | `resources/views/partials/panel/sidebar_encabezado.blade.php` | Logo del sidebar |
-| `resources/views/partials/panel/periodo_boton.blade.php` | Botón "Cambiar periodo" que sustituye a los 4 íconos de calendario del menú viejo |
+| `resources/views/partials/panel/periodo_header.blade.php` | Botón "Cambiar periodo" del **header** (junto al modo oscuro). Sustituye a los 4 íconos de calendario del menú viejo, con las mismas condiciones (se muestra si se cumple cualquiera) |
 | `resources/views/partials/panel/iconos/*.blade.php` | Íconos SVG de la plantilla |
 | `resources/css/panel.css` | Tema de TailAdmin (MIT) para Tailwind v4: fuente Outfit local; solo escanea las vistas del panel |
 | `resources/js/panel.js` y `resources/js/panel/*` | Alpine (persist, collapse), `dropdown` de TailAdmin, buscador, modal de periodos y modal de periodo de inglés |
@@ -114,7 +114,8 @@ php artisan test --filter=Avisos
 - **Sidebar:** un solo título "MENÚ", con los módulos en el mismo orden que el menú viejo. Los submenús se pliegan y solo hay uno abierto a la vez; el submenú abierto se recuerda (`localStorage`). En escritorio (≥ 1280 px) se colapsa a íconos con el botón del header y se expande al pasar el mouse; en tablet y móvil se abre sobre el contenido.
 - **Buscador (Ctrl+K / ⌘K):** filtra en el navegador los enlaces del sidebar, sin distinguir acentos ni mayúsculas, y abre los submenús mientras hay texto. Esc lo limpia. Los elementos ocultos del original siguen ocultos.
 - **Modo oscuro:** se guarda en `localStorage.darkMode`.
-- **Cambiar periodo:** el botón aparece con las mismas condiciones que los íconos de calendario del menú viejo y abre un modal con los mismos enlaces `/periodo/{id}`.
+- **Cambiar periodo:** botón en el **header**, a la derecha, junto al modo oscuro (ícono de calendario y, en pantallas anchas, el periodo actual abreviado, p. ej. "AGO 2026 – ENE 2027"). Aparece con las mismas condiciones que los 4 íconos de calendario del menú viejo y abre el modal con los mismos enlaces `/periodo/{id}`.
+- **Cerrar sesión:** solo en el menú de usuario del header (mismo `POST /logout` con CSRF). El sidebar ya no tiene "Salir" ni el ícono de periodo; la prueba de comparación los busca en el header.
 
 ## 7. Cómo migrar un módulo al nuevo layout
 

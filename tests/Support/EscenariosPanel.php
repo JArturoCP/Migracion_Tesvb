@@ -260,6 +260,9 @@ class EscenariosPanel
             'usuario 2630 (sin unidad)' => ['docente', ['id_usuario' => 2630]],
             'usuario 2662 (sin unidad)' => ['docente', ['id_usuario' => 2662]],
             'escolar con unidad 16' => ['escolar', ['unidad' => 16]],
+            // Botón de periodo solo por la condición de unidad 14/20 (menu_admin L1570/L1590)
+            'centro de cómputo con unidad 14' => ['computo', ['unidad' => 14]],
+            'residencias con unidad 20' => ['residencias', ['unidad' => 20]],
             'profesor de inglés' => ['ingles', []],
         ];
         foreach ($unidades as $u) {
@@ -412,6 +415,16 @@ class EscenariosPanel
             View::flushState();
 
             return view('partials.panel.sidebar')->render();
+        });
+    }
+
+    /** Renderiza el header nuevo (botón de periodo y cerrar sesión viven aquí). */
+    public static function headerNuevo(): string
+    {
+        return self::conSesionIntacta(function () {
+            View::flushState();
+
+            return view('partials.panel.header')->render();
         });
     }
 
