@@ -15,7 +15,7 @@
  *   - La fuente Outfit se carga local (@fontsource-variable/outfit), sin Google Fonts.
  *   - Tailwind solo escanea las vistas del panel (source(none) + @source), para no generar
  *     clases a partir de las 1 270 vistas de Bootstrap 3.
- *   - Se quitan los estilos de librerías que el panel no usa (ApexCharts, jsvectormap,
+ *   - Se quitan los estilos de librerías que el panel no usa (jsvectormap,
  *     flatpickr, swiper, prism).
  */
 
@@ -362,5 +362,56 @@
     --tw-translate-x: 0 !important;
     translate: 0 0 !important;
   }
+}
+
+
+/* Estilos de ApexCharts (copiados de TailAdmin, src/css/style.css "third-party libraries CSS"). */
+
+.apexcharts-text,
+.apexcharts-datalabel,
+.apexcharts-data-labels text {
+  @apply !fill-gray-700 dark:!fill-gray-400;
+}
+
+.apexcharts-tooltip.apexcharts-theme-light {
+  @apply gap-1 !rounded-lg !border-gray-200 p-3 !shadow-theme-sm dark:!border-gray-800 dark:!bg-gray-900;
+}
+
+.apexcharts-tooltip-arrow {
+  @apply !border-gray-200 dark:!border-gray-800 dark:!bg-gray-900;
+}
+
+.apexcharts-tooltip-marker {
+  @apply !mr-1.5 !h-1.5 !w-1.5;
+}
+.apexcharts-canvas,
+.apexcharts-canvas * {
+  direction: ltr !important;
+}
+
+.apexcharts-legend-text {
+  @apply !pl-5 !text-gray-700 dark:!text-gray-400;
+}
+.apexcharts-tooltip-series-group {
+  @apply !p-0;
+}
+.apexcharts-tooltip-y-group {
+  @apply !p-0;
+}
+.apexcharts-tooltip-title {
+  @apply !mb-0 !border-b-0 !bg-transparent !p-0 !text-[10px] !leading-4 !text-gray-800 dark:!text-white/90;
+}
+.apexcharts-tooltip-text {
+  @apply text-xs! !text-gray-700 dark:!text-white/90;
+}
+.apexcharts-tooltip-text-y-value {
+  @apply font-medium!;
+}
+
+.apexcharts-gridline {
+  @apply !stroke-gray-100 dark:!stroke-gray-800;
+}
+.chartDarkStyle .apexcharts-datalabels-group .apexcharts-text {
+  @apply !fill-gray-800 !font-semibold dark:!fill-white/90;
 }
 
