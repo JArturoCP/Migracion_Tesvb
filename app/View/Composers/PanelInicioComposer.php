@@ -17,12 +17,14 @@ class PanelInicioComposer
     public function compose(View $view): void
     {
         $tablero = null;
+        $perfilTablero = null; // nombre de la vista resources/views/panel/dashboard/{perfil}.blade.php
 
         // Misma detección que el menú y el panel: la bandera se guarda como "directivo." (HomeController.php:537).
         if (session()->has('directivo')) {
+            $perfilTablero = 'directivo';
             $tablero = DatosDirectivo::paraPeriodo((int) session('periodo_actual'));
         }
 
-        $view->with('tablero', $tablero);
+        $view->with('tablero', $tablero)->with('perfilTablero', $perfilTablero);
     }
 }

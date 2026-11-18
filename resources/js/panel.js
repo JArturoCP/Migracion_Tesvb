@@ -4,6 +4,7 @@ import dropdown from './panel/dropdown';
 import registrarBuscador from './panel/buscador';
 import selectorPeriodo from './panel/periodos';
 import registrarModalPeriodoIngles from './panel/modal_periodo_ingles';
+import iniciarGraficas from './panel/graficas';
 
 Alpine.data('dropdown', dropdown);
 Alpine.data('selectorPeriodo', selectorPeriodo);
@@ -12,3 +13,6 @@ registrarModalPeriodoIngles();
 
 window.Alpine = Alpine;
 Alpine.start();
+
+// Gráficas del dashboard (solo si la página tiene elementos [data-grafica]).
+iniciarGraficas();

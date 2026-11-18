@@ -217,6 +217,11 @@
 				</div>
 			@endif
 		@endif
+
+		{{-- Dashboard del perfil (nuevo): datos de App\Services\Panel vía App\View\Composers\PanelInicioComposer --}}
+		@if($perfilTablero)
+			@include('panel.dashboard.' . $perfilTablero)
+		@endif
 	</div>
 
 	{{-- [home_recargado L236-273] Modal de adeudos del alumno: se abre al cargar (antes con jQuery, ahora con Alpine) --}}

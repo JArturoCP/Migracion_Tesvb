@@ -17,4 +17,9 @@ export default defineConfig({
         }),
         tailwindcss(),
     ],
+    build: {
+        // ApexCharts (~1 MB) queda en un archivo aparte que solo se descarga en páginas con gráficas
+        // (import dinámico en resources/js/panel/graficas.js); no afecta la carga del resto de la app.
+        chunkSizeWarningLimit: 1100,
+    },
 });
