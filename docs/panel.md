@@ -150,7 +150,7 @@ Cuidados que salieron en el piloto:
 | **Enlaces dudosos M214-M216 (#95-97)** | En P.A.AC (oculto), las etiquetas no corresponden a su URL ("Modificar P.A.A" → `/paa/subprograma_paa`, "Cargar evidencia" → `/paa/acciones_paa`, "Modificar" → `/paa/unidad_medida_paa`). Corregir en un commit aparte, en los dos archivos |
 | M112 | `/servicio_social/asignar_tipo_servicio/` no tiene ruta (está oculto) |
 | Inglés y Tutorías | Siguen con `layout_ingles` y `app_tutorias`; migrarlos después |
-| Pantalla "CARGANDO" | `home.blade.php` muestra 1 s el diseño viejo antes de `/inicio` |
+| ~~Pantalla "CARGANDO"~~ | **Resuelto:** `home.blade.php` ya no usa `layouts.app`; es una página mínima del panel (logo y spinner) que pasa de inmediato a `/inicio` con `window.location.replace`, con `<noscript>` de respaldo. `HomeController@index` y las rutas no cambiaron |
 | Pantallas internas | Siguen con `layouts.app`; migrarlas una por una (§7) |
 | `IncidenciasController@vista5` | **Descartado.** Se había anotado un posible error (uso del objeto `$id_personal`), pero la L252 lo reasigna a `$id_personal->id_personal` y la concatenación de la L281 está comentada. Se comprobó contra MySQL: la pantalla funciona bien (ver `docs/DASHBOARD_ROLES.md` §2.5) |
 | `<ul>` sin cerrar en `menu_admin` | El bloque del jefe de división (L873) abre un `<ul class="nav">` que nunca cierra; el navegador lo corrige solo. Sin efecto en el panel nuevo |
