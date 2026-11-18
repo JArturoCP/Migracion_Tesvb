@@ -214,13 +214,10 @@ $convertirClases = function (string $valor, string $tag, string $tipo) use (&$de
     return implode(' ', $todo);
 };
 
-$salida = preg_replace_callback('/(?<=[\s"\'])class=(["\'])(.*?)\1/s', function ($m) use ($convertirClases, &$html) {
-    return $m[0];
-}, $html);
-
 // Recorre con desplazamientos para conocer la etiqueta y el type de cada atributo.
+// El valor puede tener expresiones Blade con comillas dentro: class="v{{ $d["id"] }} …".
 $res = ''; $pos = 0;
-if (preg_match_all('/(?<=[\s"\'])class=(["\'])(.*?)\1/s', $html, $todos, PREG_OFFSET_CAPTURE)) {
+if (preg_match_all('/(?<=[\s"\'])class=(["\'])((?:\{\{.*?\}\}|\{!!.*?!!\}|(?!\1).)*?)\1/s', $html, $todos, PREG_OFFSET_CAPTURE)) {
     foreach ($todos[0] as $i => [$texto, $off]) {
         $antes = substr($html, 0, $off);
         $ini = strrpos($antes, '<');

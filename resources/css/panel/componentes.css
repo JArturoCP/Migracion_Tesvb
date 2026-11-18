@@ -236,3 +236,76 @@ body.tw-modal-abierto {
   background-color: var(--tw-color-brand-50);
   color: var(--tw-color-brand-500);
 }
+
+/*
+ * Interruptor SI/NO de Plantilla Educativa (<div class="switch-p"><input class="cmn-toggle"> + <label data-on data-off>).
+ * En el sistema anterior no tenía estilos (se veía la casilla nativa). Solo CSS: el input sigue siendo el
+ * mismo (id, clases, data-*, evento change) y el label "for" lo activa.
+ */
+.tw-modulo .switch-p {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 0;
+}
+.tw-modulo .switch-p input.cmn-toggle {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+.tw-modulo .switch-p input.cmn-toggle + label {
+  position: relative;
+  display: inline-block;
+  width: 66px;
+  height: 30px;
+  margin: 0;
+  border-radius: 9999px;
+  background-color: var(--tw-color-gray-200);
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+.tw-modulo .switch-p input.cmn-toggle + label::before {
+  content: "";
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 22px;
+  height: 22px;
+  border-radius: 9999px;
+  background-color: #fff;
+  box-shadow: 0 1px 3px rgb(16 24 40 / 0.2);
+  transition: left 0.2s;
+}
+.tw-modulo .switch-p input.cmn-toggle + label::after {
+  content: attr(data-off);
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--tw-color-gray-500);
+}
+.tw-modulo .switch-p input.cmn-toggle:checked + label {
+  background-color: var(--tw-color-brand-500);
+}
+.tw-modulo .switch-p input.cmn-toggle:checked + label::before {
+  left: 40px;
+}
+.tw-modulo .switch-p input.cmn-toggle:checked + label::after {
+  content: attr(data-on);
+  right: auto;
+  left: 12px;
+  color: #fff;
+}
+.tw-modulo .switch-p input.cmn-toggle:focus-visible + label {
+  box-shadow: 0 0 0 3px rgb(70 95 255 / 0.25);
+}
+
+/* Filas convertidas de Bootstrap (flex-wrap): las columnas no crecen más allá de su ancho por el contenido
+   (una tabla ancha se desplaza dentro de su contenedor en lugar de salirse de la tarjeta). */
+.tw-modulo .tw\:flex-wrap > * {
+  min-width: 0;
+}

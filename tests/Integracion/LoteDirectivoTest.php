@@ -136,6 +136,11 @@ dataset('lote1_directivo', [
     'Horarios › Ver Horarios Aulas' => ['/horarios/hrs_aulas', '#href="(/horarios_aulas/\d+/\d+)"#'],
     'Horarios › Horas por carrera' => ['/hrs_carrera'],
     'Horarios › Horas por carrera (categoría 1)' => ['/hrs_carrera/categoria/1'],
+    // Plantilla (M156-M157): también la vista por carrera y cargo
+    'Plantilla › Ver Plantilla' => ['/plantilla/ver'],
+    'Plantilla › Ver Plantilla (carrera 1, cargo 1)' => ['/plantilla/datos/1/1'],
+    'Plantilla › Plantilla Educativa' => ['/plantilla/educativa'],
+    'Plantilla › Plantilla Educativa (carrera 1, cargo 1)' => ['/p_educativa/datos/1/1'],
 ]);
 
 it('se abre en el panel con la misma lógica que antes', function (string $ruta, ?string $enlace = null) {
@@ -180,7 +185,7 @@ function loteFragmento($prueba, string $ruta): string
     return $nuevo;
 }
 
-it('los fragmentos que cargan Retículas y Docentes por AJAX conservan su lógica', function () {
+it('los fragmentos que cargan Retículas, Docentes y Plantilla por AJAX conservan su lógica', function () {
     $this->post('/login', ['email' => 'directivo@example.com', 'password' => \Database\Seeders\UsersSeeder::PASSWORD_PRUEBA]);
     $this->get('/home');
 
@@ -194,4 +199,10 @@ it('los fragmentos que cargan Retículas y Docentes por AJAX conservan su lógic
     loteFragmento($this, "/reticulasmo/$materia/edit");          // reticulas.partialsg.partial_mo_reticula
     loteFragmento($this, "/datos_academicos/$personal");         // docentes.partials.partial_mo_docente
     loteFragmento($this, "/docentes/materias/$personal");        // docentes.partials.materias_perfil
+    $conHorario = DB::table('gnral_horarios')->value('id_personal') ?? $personal;
+    // /plantilla/horario/{id} (plantilla.partialsh.partial_ver_horarios) no se abre aquí: su controlador ejecuta
+    // CREATE OR REPLACE VIEW (falla en MySQL con el error 1351 antes de llegar a la vista, igual que antes de
+    // migrar) y una instrucción DDL confirmaría la transacción de la prueba.
+    loteFragmento($this, "/graficas/$conHorario/1");              // plantilla.partialsh.graficas
+    loteFragmento($this, "/graficas_admin/$conHorario/1");        // plantilla.partialsh.graficas (Plantilla Educativa)
 });

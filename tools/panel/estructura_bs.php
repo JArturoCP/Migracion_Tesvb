@@ -66,6 +66,7 @@ while (preg_match('#<div\b(?=[^>]*\bclass="modal(?: |")[^>]*>)(?=[^>]*\bid="([^"
     }
     $tieneEncabezado = (bool) preg_match('#class="modal-header#', $interior);
     // la × del componente conserva la clase "close" por si un script hace $(".close").click(…)
+    $idCerrar = preg_match('#<button[^>]*data-dismiss="modal"[^>]*>#', preg_match('#<div class="modal-header.*?</div>#s', $interior, $hh) ? $hh[0] : '', $bc) && preg_match('/\bid="([^"]+)"/', $bc[0], $bid) ? " id-cerrar=\"{$bid[1]}\"" : '';
     $claseCerrar = preg_match('#<button[^>]*class="close"[^>]*data-dismiss="modal"|<button[^>]*data-dismiss="modal"[^>]*class="close"#', $interior) ? ' clase-cerrar="close"' : '';
     $interior = preg_replace_callback('#(<div class="modal-header[^"]*"[^>]*>)(.*?)(</div>)#s', function ($h) {
         $sinCerrar = preg_replace('#<button[^>]*data-dismiss="modal"[^>]*>.*?</button>#s', '', $h[2]);
@@ -79,7 +80,7 @@ while (preg_match('#<div\b(?=[^>]*\bclass="modal(?: |")[^>]*>)(?=[^>]*\bid="([^"
     if (preg_match('/data-backdrop="static"/', $atributos)) $extra .= ' estatico';
     // el id de .modal-content (si lo tiene) se conserva en un div que envuelve el contenido
     if (preg_match('/\bid="([^"]+)"/', $c[5] ?? '', $idc)) $interior = "<div id=\"{$idc[1]}\">" . $interior . '</div>';
-    $nuevo = "<x-panel.modal id=\"$id\" tamano=\"$tamano\" sin-relleno$claseCerrar$extra>" . $interior . '</x-panel.modal>';
+    $nuevo = "<x-panel.modal id=\"$id\" tamano=\"$tamano\" sin-relleno$claseCerrar$idCerrar$extra>" . $interior . '</x-panel.modal>';
     $t = substr($t, 0, $ini) . $nuevo . substr($t, $fin);
     $desde = $ini + strlen($nuevo);
     $n6++;
