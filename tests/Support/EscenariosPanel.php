@@ -67,6 +67,7 @@ class EscenariosPanel
                 $t->increments('id_carga_academica');
                 $t->integer('id_alumno')->nullable();
                 $t->integer('id_periodo')->nullable();
+                $t->integer('id_status_materia')->nullable();
             },
             'cal_evaluaciones' => function (Blueprint $t) {
                 $t->increments('id_evaluacion');
@@ -87,6 +88,8 @@ class EscenariosPanel
                 $t->increments('id_alumno');
                 $t->integer('id_usuario')->nullable();
                 $t->integer('id_carrera')->nullable();
+                $t->integer('id_semestre')->nullable();
+                $t->string('genero')->nullable();
             },
             'ar_casos_estudiantes' => function (Blueprint $t) {
                 $t->increments('id_ar_caso');
@@ -118,6 +121,18 @@ class EscenariosPanel
                 $t->increments('id_carrera');
                 $t->string('nombre')->nullable();
                 $t->string('siglas')->nullable();
+                $t->string('COLOR')->nullable();
+            },
+            // Dashboard del directivo (App\Services\Panel\DatosDirectivo)
+            'eva_validacion_de_cargas' => function (Blueprint $t) {
+                $t->increments('id');
+                $t->integer('id_alumno')->nullable();
+                $t->integer('id_periodo')->nullable();
+                $t->integer('estado_validacion')->nullable();
+            },
+            'gnral_semestres' => function (Blueprint $t) {
+                $t->increments('id_semestre');
+                $t->string('descripcion')->nullable();
             },
             'gnral_periodo_carreras' => function (Blueprint $t) {
                 $t->increments('id_periodo_carrera');
@@ -185,7 +200,7 @@ class EscenariosPanel
             'exp_asigna_tutor', 'exp_asigna_alumnos', 'eva_carga_academica', 'cal_evaluaciones', 'ar_areas_atencion',
             'ar_area_responsables_periodo', 'gnral_alumnos', 'ar_casos_estudiantes', 'ar_caso_canalizaciones',
             'aud_auditores', 'aud_lider_acciones', 'aud_seguimiento_auditorias', 'gnral_carreras',
-            'gnral_periodo_carreras', 'gnral_horarios'] as $tabla) {
+            'gnral_periodo_carreras', 'gnral_horarios', 'eva_validacion_de_cargas', 'gnral_semestres'] as $tabla) {
             if (Schema::hasTable($tabla)) {
                 DB::table($tabla)->delete();
             }
