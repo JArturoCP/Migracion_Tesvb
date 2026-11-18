@@ -39,6 +39,12 @@
 }
 
 @source "../views/components/panel";
+/* Vistas de módulos migradas al panel (se escanean solo las clases tw:; el resto no genera CSS). */
+@source "../views/tutorias/alumnos";
+@source "../views/tutorias/actividades_alumno";
+@source "../views/tutorias/calendario_eventos";
+@source "../views/tutorias/eva_tutorias";
+@source "../views/tutorias/partials";
 @source "../views/layouts/panel.blade.php";
 @source "../views/layouts/marco.blade.php";
 @source "../views/partials/panel";

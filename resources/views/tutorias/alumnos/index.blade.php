@@ -1,123 +1,62 @@
-@extends('tutorias.app_tutorias')
+@extends('layouts.panel')
+@section('title', 'Expediente')
+@include('tutorias.partials.recursos_panel')
 @section('content')
+    @include('tutorias.alumnos.partial.navegacion_panel', ['titulo' => 'Expediente', 'activa' => '/tutorias/inicioalu'])
+
+    {{-- #principal: aquí monta Vue (datos: 1 = expediente lleno, 2 = por llenar). x-ignore: Alpine no lo procesa. --}}
     @if($alumno ==null)
-        <div class="container pb-5 pt-5" id="principal">
-            <div class="row">
-                <div class="col-8 offset-2">
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="row">
-                                        <div class="col-10 align-middle"><h5>{{Session::get('nombre')}}</h5></div>
-
-                                        <div class="col-2" v-if="datos==1">
-
-                                            <a href="{{url('/tutorias/pdf/all')}}" target="_blank" class="btn btn-danger text-white float-right"> <i class="fas fa-file-pdf"></i></a>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="text-center">
-                                <a href="AlumActualizar" v-if="datos==1" class="btn btn-success"> <h1><i class="fas fa-folder"></i></h1> Editar Expediente</a>
-                                <a href="Alum" v-if="datos==2" class="btn btn-primary"> <h1><i class="fas fa-folder"></i></h1> Llenar Expediente</a>
-
-                            </div>
-
-
-
-                        </div>
-                    </div>
-
+        <div class="tw:mx-auto tw:max-w-2xl" id="principal" x-ignore>
+            <x-panel.tarjeta :titulo="Session::get('nombre')" subtitulo="Expediente de Tutorías">
+                <x-slot:acciones>
+                    <x-panel.boton variante="peligro" tamano="sm" :href="url('/tutorias/pdf/all')" target="_blank" v-if="datos==1" title="Descargar expediente en PDF"><i class="fas fa-file-pdf"></i> PDF</x-panel.boton>
+                </x-slot:acciones>
+                <div class="tw:flex tw:flex-wrap tw:justify-center tw:gap-4 tw:py-4">
+                    <x-panel.boton variante="exito" tamano="lg" href="AlumActualizar" v-if="datos==1"><i class="fas fa-folder tw:text-2xl"></i> Editar Expediente</x-panel.boton>
+                    <x-panel.boton tamano="lg" href="Alum" v-if="datos==2"><i class="fas fa-folder tw:text-2xl"></i> Llenar Expediente</x-panel.boton>
                 </div>
-            </div>
-    @else
-        <div class="container pb-5 pt-5" id="principal">
-            <div class="row">
-                <div class="col-8 offset-2">
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="row">
-                                        <div class="col-10 align-middle"><h5>{{Session::get('nombre')}}</h5></div>
-
-                                        <div class="col-2" v-if="datos==1">
-                                            <a href="{{url('/tutorias/pdf/all')}}" target="_blank" class="btn btn-danger text-white float-right"> <i class="fas fa-file-pdf"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="text-center">
-                                <a href="AlumActualizar" v-if="datos==1" class="btn btn-success"> <h1><i class="fas fa-folder"></i></h1> Editar Expediente</a>
-                                <a href="Alum" v-if="datos==2" class="btn btn-primary"> <h1><i class="fas fa-folder"></i></h1> Llenar Expediente</a>
-
-                            </div>
-
-                            <div class="row">
-                                <div class="col-10" v-if="datos==1">
-                                    <br>
-                                </div>
-                                <div class="col-12 text-center " style="color: #942a25" v-if="datos==1">
-                                    @if($alumno->foto == 'image/jpeg')
-                                        <img src="{{ asset('Fotografias/'.$alumno->cuenta.'.jpeg') }}" class="img-rounded" alt="Agrega tu foto, para poder imprimir tu expediente. Dar clic en Modificar Fototgrafia" width="136" height="200" />
-                                    @elseif($alumno->foto == 'image/png')
-                                        <img src="{{ asset('Fotografias/'.$alumno->cuenta.'.png') }}" class="img-rounded" alt="Agrega tu foto, para poder imprimir tu expediente. Dar clic en Modificar Fototgrafia" width="136" height="200" />
-                                    @elseif($alumno->foto == 'image/jpg')
-
-                                        <img src="{{ asset('Fotografias/'.$alumno->cuenta.'.jpg') }}" class="img-rounded" alt="Agrega tu foto, para poder imprimir tu expediente. Dar clic en Modificar Fototgrafia" width="136" height="200" />
-                                    @endif
-                                </div>
-                                <div class="col-12 text-center" v-if="datos==1">
-                                    <br>
-                                    <button type="button" class="btn btn-info " data-toggle="modal" data-target="#myModal">Modificar fotografia</button>   </div>
-
-                            </div>
-
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-            <div class="modal fade" id="myModal" role="dialog">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-
-                            <h4 class="modal-title">Modificar fotografia </h4>
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        </div>
-                        <form class="form" id="form_solicitud_residencia" action="{{url("/computo/modificar_imagen/".$alumno->id_alumno)}}" role="form" method="POST" enctype="multipart/form-data" >
-                            {{ csrf_field() }}
-                            <div class="modal-body">
-
-                                <div class="row">
-                                    <div class="col-md-10 col-md-offset-1">
-                                        <label>Seleccionar Foto</label>
-                                        <input type="file" class="form-control" accept="image/jpeg,image/png" name="foto"  id="foto" required>
-
-                                    </div>
-                                </div>
-
-
-                            </div>
-                            <div class="modal-footer">
-                                <button class="btn btn-primary" type="submit">Aceptar</button>
-
-
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
+            </x-panel.tarjeta>
         </div>
-        @endif
+    @else
+        <div class="tw:mx-auto tw:max-w-2xl" id="principal" x-ignore>
+            <x-panel.tarjeta :titulo="Session::get('nombre')" subtitulo="Expediente de Tutorías">
+                <x-slot:acciones>
+                    <x-panel.boton variante="peligro" tamano="sm" :href="url('/tutorias/pdf/all')" target="_blank" v-if="datos==1" title="Descargar expediente en PDF"><i class="fas fa-file-pdf"></i> PDF</x-panel.boton>
+                </x-slot:acciones>
+                <div class="tw:flex tw:flex-wrap tw:justify-center tw:gap-4 tw:py-4">
+                    <x-panel.boton variante="exito" tamano="lg" href="AlumActualizar" v-if="datos==1"><i class="fas fa-folder tw:text-2xl"></i> Editar Expediente</x-panel.boton>
+                    <x-panel.boton tamano="lg" href="Alum" v-if="datos==2"><i class="fas fa-folder tw:text-2xl"></i> Llenar Expediente</x-panel.boton>
+                </div>
+
+                <div class="tw:mt-2 tw:flex tw:flex-col tw:items-center tw:gap-4 tw:border-t tw:border-gray-100 tw:pt-6" v-if="datos==1">
+                    <div class="tw:text-center" style="color: #942a25">
+                        @if($alumno->foto == 'image/jpeg')
+                            <img src="{{ asset('Fotografias/'.$alumno->cuenta.'.jpeg') }}" class="tw:rounded-xl tw:border tw:border-gray-200 tw:object-cover" alt="Agrega tu foto, para poder imprimir tu expediente. Dar clic en Modificar Fototgrafia" width="136" height="200" />
+                        @elseif($alumno->foto == 'image/png')
+                            <img src="{{ asset('Fotografias/'.$alumno->cuenta.'.png') }}" class="tw:rounded-xl tw:border tw:border-gray-200 tw:object-cover" alt="Agrega tu foto, para poder imprimir tu expediente. Dar clic en Modificar Fototgrafia" width="136" height="200" />
+                        @elseif($alumno->foto == 'image/jpg')
+
+                            <img src="{{ asset('Fotografias/'.$alumno->cuenta.'.jpg') }}" class="tw:rounded-xl tw:border tw:border-gray-200 tw:object-cover" alt="Agrega tu foto, para poder imprimir tu expediente. Dar clic en Modificar Fototgrafia" width="136" height="200" />
+                        @endif
+                    </div>
+                    <x-panel.boton variante="info" data-toggle="modal" data-target="#myModal">Modificar fotografia</x-panel.boton>
+                </div>
+            </x-panel.tarjeta>
+
+            <x-panel.modal id="myModal" titulo="Modificar fotografia" tamano="lg" sin-relleno>
+                <form class="form" id="form_solicitud_residencia" action="{{url("/computo/modificar_imagen/".$alumno->id_alumno)}}" role="form" method="POST" enctype="multipart/form-data" >
+                    {{ csrf_field() }}
+                    <div class="tw-modal-cuerpo">
+                        <x-panel.input etiqueta="Seleccionar Foto" type="file" accept="image/jpeg,image/png" name="foto" id="foto" required />
+                    </div>
+                    <x-panel.modal-pie>
+                        <x-panel.boton variante="secundario" data-dismiss="modal">Cerrar</x-panel.boton>
+                        <x-panel.boton type="submit">Aceptar</x-panel.boton>
+                    </x-panel.modal-pie>
+                </form>
+            </x-panel.modal>
+        </div>
+    @endif
 
 <script>
     new Vue({

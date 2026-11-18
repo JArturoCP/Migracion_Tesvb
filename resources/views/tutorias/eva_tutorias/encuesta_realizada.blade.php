@@ -1,14 +1,12 @@
-@extends('tutorias.app_tutorias')
+@extends('layouts.panel')
+@section('title', 'Evaluación al Tutor')
+@include('tutorias.partials.recursos_panel')
 @section('content')
-    <div class="row">
-        <div class="col-5 offset-3">
-            <div class="card bg-success text-dark text-center">
-                <h3 >Encuesta realizada</h3>
-            </div>
-        </div>
-    </div>
-    <div>
-        <p></p>
-    </div>
+    @include('tutorias.alumnos.partial.navegacion_panel', ['titulo' => 'Evaluación al Tutor', 'activa' => '/tutoras_evaluacion/evaluacion_al_tutor/'])
 
+    <div class="tw:mx-auto tw:max-w-xl">
+        <x-panel.alerta tipo="exito">
+            <h3 class="tw:text-base tw:font-semibold tw:text-gray-800">Encuesta realizada</h3>
+        </x-panel.alerta>
+    </div>
 @endsection
