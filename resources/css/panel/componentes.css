@@ -208,3 +208,11 @@ body.tw-modal-abierto {
 .tw-modulo [style*="display:none"] {
   display: none !important;
 }
+
+/* Tablas de formatos cuyos encabezados vienen en <td> (dos primeras filas). */
+.tw-tabla-encabezado tr:nth-child(-n+2) > td {
+  background-color: var(--tw-color-gray-50);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--tw-color-gray-500);
+}

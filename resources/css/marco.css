@@ -47,6 +47,9 @@
 @source "../views/tutorias/partials";
 @source "../views/evaluacion_docente";
 @source "../views/generales";
+@source "../views/formatos";
+@source "../views/horarios";
+@source "../views/plantilla";
 @source "../views/reticulas";
 @source "../views/docentes";
 @source "../views/personal.blade.php";

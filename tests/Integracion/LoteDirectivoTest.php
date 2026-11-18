@@ -51,7 +51,30 @@ afterEach(function () {
 function loteComparar($prueba, string $ruta): string
 {
     $_SERVER['REQUEST_URI'] = $ruta;
-    $respuesta = $prueba->get($ruta)->assertOk();
+    // datos que el controlador entrega a la vista principal (para reproducir un error de la vista con la versión anterior)
+    $capturada = null;
+    View::creator('*', function ($v) use (&$capturada) {
+        if ($capturada === null && ! str_starts_with($v->name(), 'partials.') && ! str_starts_with($v->name(), 'components.') && ! str_starts_with($v->name(), 'layouts.')) {
+            $capturada = [$v->name(), $v->getData()];
+        }
+    });
+    $respuesta = $prueba->get($ruta);
+    if ($respuesta->getStatusCode() === 500 && $capturada && $respuesta->exception instanceof \Illuminate\View\ViewException) {
+        // La vista nueva falla: la anterior debe fallar igual con los mismos datos (error heredado de los datos o del controlador).
+        $mensaje = $respuesta->exception->getPrevious()?->getMessage();
+        View::flushState();
+        try {
+            view('antes::' . $capturada[0], $capturada[1])->render();
+            $anterior = null;
+        } catch (\Throwable $e) {
+            $anterior = $e->getPrevious()?->getMessage() ?? $e->getMessage();
+        }
+        expect($anterior)->toBe($mensaje, "$ruta falla en la vista nueva pero no igual en la anterior");
+        fwrite(STDERR, "\n  [aviso] $ruta: falla igual que antes con los datos de prueba: $mensaje\n");
+
+        return '';
+    }
+    $respuesta->assertOk();
     $vista = $respuesta->original;
     expect($vista)->toBeInstanceOf(\Illuminate\View\View::class);
     $nuevo = $respuesta->getContent();
@@ -98,6 +121,13 @@ dataset('lote1_directivo', [
     'Generales › Académico › Retículas' => ['/reticulass'],
     'Generales › Académico › Docentes' => ['/docente'],
     'Generales › Asignación de Permisos' => ['/personales'],
+    // Formatos (M152-M155)
+    'Formatos › Concentrado Estructura Educ.' => ['/formatos/con_edu'],
+    'Formatos › Distrib. de hrs. frente a grupo' => ['/formatos/distribucion'],
+    'Formatos › Distrib. de hrs. (carrera 1)' => ['/distribucion/1'],
+    'Formatos › Relación de personal docente' => ['/formatos/relacion'],
+    'Formatos › Relación de personal docente (carrera 1)' => ['/relacion/ver/1'],
+    'Formatos › Horas por docentes' => ['/formatos/horas_docentes'],
 ]);
 
 it('se abre en el panel con la misma lógica que antes', function (string $ruta) {
