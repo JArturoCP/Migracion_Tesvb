@@ -1,18 +1,18 @@
 @foreach($reticulas as $reti)
-<div class="panel-group col-md-10 col-md-offset-1" id="accordion">
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h4 class="panel-title">
+<div class="tw:w-full tw:lg:w-10/12 tw:lg:ml-[8.3333%] tw:px-2" id="accordion">
+  <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
+    <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4">
+      <h4 class="tw:text-base tw:font-medium tw:text-gray-800">
         <a data-toggle="collapse" data-parent="#accordion" href="#{{ $reti ["id_reticula"]}}r">
         {{ $reti ["reticula"]}}</a>
       </h4>
     </div>
-    <div id="{{ $reti ["id_reticula"]}}r" class="panel-collapse collapse">
-      <div class="panel-body">
+    <div id="{{ $reti ["id_reticula"]}}r" class="collapse">
+      <div class="tw:p-5 tw:sm:p-6">
 
-        <div class="list-group col-md-4 cont ml">     
+        <div class="cont ml tw:w-full tw:divide-y tw:divide-gray-100 tw:rounded-lg tw:border tw:border-gray-200 tw:lg:w-4/12 tw:px-2">     
         @foreach($reti["semestres"] as $semes)
-            <a href="#tab{{ $reti ["id_reticula"]}}{{ $semes["id_semestre"] }}" role="tab" data-toggle="tab" class="list-group-item">{{ $semes ["semestre"]}}</a>
+            <a href="#tab{{ $reti ["id_reticula"]}}{{ $semes["id_semestre"] }}" role="tab" data-toggle="tab" class="tw:block tw:px-4 tw:py-3">{{ $semes ["semestre"]}}</a>
         @endforeach
         </div>
 
@@ -20,11 +20,12 @@
     <div class="tab-content">
         @foreach($reti["semestres"] as $semes)
             <div role="tabpanel" class="tab-pane fade" id="tab{{ $reti ["id_reticula"]}}{{ $semes["id_semestre"] }}">
-                    <div class="col-md-6 col-md-offset-1">
-                      <div style="margin-top:1em;" class="panel panel-info text-center col-md-6 col-md-offset-3">
+                    <div class="tw:w-full tw:lg:w-6/12 tw:lg:ml-[8.3333%] tw:px-2">
+                      <div style="margin-top:1em;" class="tw:w-full tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white tw:text-center tw:lg:w-6/12 tw:lg:ml-[25%] tw:px-2">
                         <h4 >Materias {{ $semes["semestre"] }}</h4>
                       </div>
-                        <table class="table table-bordered pagina ml">
+                        <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:bg-white">
+<table class="pagina ml tw-tabla tw-tabla-bordes">
                           <thead>
                           <tr>
                               <th ></th>
@@ -53,7 +54,8 @@
                             </tr>
                             @endforeach
                           </tbody>
-                        </table>   
+                        </table>
+</div>   
                     </div>         
             </div>
         @endforeach

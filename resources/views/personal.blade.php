@@ -1,5 +1,6 @@
- @extends('layouts.app')
+ @extends('layouts.panel')
 @section('title', 'Inicio')
+@include('partials.panel.recursos_app', ['datatables' => true])
 @section('content')
 
 
@@ -36,21 +37,18 @@ $("#confirma_elimina").click(function(event){
 
 <main>
 
-<div class="col-md-7 col-md-offset-2">
-    <div class="panel panel-info">
-        <div class="panel-heading">
-          <h3 class="panel-title text-center">ASIGNACIÓN DE PERMISOS</h3>
-        </div>         
-    </div>
+<div class="tw:w-full tw:px-2">
+    <x-panel.encabezado titulo="ASIGNACIÓN DE PERMISOS" />
   </div>
 
 
-  <div class=" col-md-10 col-md-offset-1">
+  <div class="tw:w-full tw:lg:w-10/12 tw:lg:ml-[8.3333%] tw:px-2">
 
       
 
 
-                            <table id="ejemplo" class="table table-bordered " Style="background: white;" >
+                            <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:bg-white">
+<table id="ejemplo" class="tw-tabla tw-tabla-bordes" >
                                    <thead>
                                           <tr>
                                                   <th>NOMBRE</th>
@@ -72,8 +70,8 @@ $("#confirma_elimina").click(function(event){
                                                   <th>{{$per->clave}}</th>
                                                    <th>{{$per->correo}}</th>
                                                     <th>{{$per->id_departamento}}</th>
-                                                  <th class="text-center"><a href="/personales/{{$per->id_personal}}/edit"><span class="glyphicon glyphicon-cog em6" aria-hidden="true" ></span></a></th>
-                                                  <th class="text-center"><a class="elimina" id="{{$per->id_personal}}"><span class="glyphicon glyphicon-trash em6" aria-hidden="true" ></span></span></a></th>
+                                                  <th class="tw:text-center"><a href="/personales/{{$per->id_personal}}/edit" class="tw:inline-flex tw:size-8 tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:text-brand-500 tw:hover:bg-brand-50"><span class="fa fa-cog em6" aria-hidden="true" ></span></a></th>
+                                                  <th class="tw:text-center"><a class="elimina tw:inline-flex tw:size-8 tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:text-red-500 tw:hover:bg-red-50" id="{{$per->id_personal}}"><span class="fa fa-trash em6" aria-hidden="true" ></span></a></th>
                                                   
                                           </tr>
                                           @endforeach
@@ -82,6 +80,7 @@ $("#confirma_elimina").click(function(event){
     
                                    </tbody>
                             </table>
+</div>
 
                 
        </div>
@@ -94,24 +93,23 @@ $("#confirma_elimina").click(function(event){
   @show
   @endif
                      
-  <div id="modal_elimina" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-  <div class="modal-dialog modal-sm" role="document">
-    <div class="modal-content">
-      <div class="modal-body">
-        <form action="" method="POST" role="form" id="form_delete">
+  <x-panel.modal id="modal_elimina" tamano="sm" sin-relleno aria-labelledby="mySmallModalLabel">
+      <form action="" method="POST" role="form" id="form_delete">
+<div class="tw-modal-cuerpo tw:pt-12">
+        
          {{method_field('DELETE') }}
           {{ csrf_field() }}
                 ¿Realmente deseas eliminar a este usuario?
               </div>
-                    <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                <input id="confirma_elimina" type="button" class="btn btn-danger" value="Aceptar"></input>
+                    <div class="tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                <button type="button" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" data-dismiss="modal">Cancelar</button>
+                <input id="confirma_elimina" type="button" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-red-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-red-700 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" value="Aceptar"></input>
               </div>
         </form>
-      </div>
-    </div>
-  </div>
-</div>
+      
+    
+  </x-panel.modal>
+{{-- (se quitó un </div> sobrante del original que cerraba el área de contenido) --}}
       
 </main>
 @endsection

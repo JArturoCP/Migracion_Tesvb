@@ -28,6 +28,98 @@ class CompararVistas
         return $nodo;
     }
 
+    /**
+     * Contenido de una página de layouts.app: <div class="tesvb-contenido"> y, si un </div> sobrante de la
+     * vista lo cerró antes de tiempo, también lo que quedó después de él hasta el pie (<footer>).
+     */
+    public static function regionApp(string $html): DOMElement
+    {
+        $dom = new DOMDocument();
+        libxml_use_internal_errors(true);
+        $dom->loadHTML('<?xml encoding="utf-8"?>' . $html);
+        libxml_clear_errors();
+        $xp = new DOMXPath($dom);
+        $inicio = $xp->query('//div[@class="tesvb-contenido"]')->item(0);
+        if (! $inicio instanceof DOMElement) {
+            throw new \RuntimeException('No se encontró div.tesvb-contenido');
+        }
+        $contenedor = $dom->createElement('div');
+        $contenedor->setAttribute('data-region-app', '1');
+        $nodos = [$inicio];
+        for ($n = $inicio->nextSibling; $n; $n = $n->nextSibling) {
+            if ($n instanceof DOMElement && ($n->nodeName === 'footer' || $xp->query('.//footer', $n)->length)) {
+                break;
+            }
+            $nodos[] = $n;
+        }
+        $inicio->parentNode->insertBefore($contenedor, $inicio);
+        foreach ($nodos as $n) {
+            $contenedor->appendChild($n);
+        }
+
+        return $contenedor;
+    }
+
+    /**
+     * Formularios como los arma el navegador (regla del "form element pointer" de HTML5), a partir del HTML
+     * en el orden en que llega: un <form> dentro de otro se ignora, un </form> cierra el formulario abierto,
+     * un </form> sin formulario abierto se ignora, y cada campo pertenece al formulario abierto cuando
+     * aparece (aunque un </div> lo haya sacado del árbol). Así se comparan vistas con formularios mal
+     * anidados igual que las ve el usuario. $desde / $hasta delimitan el contenido (texto que lo marca).
+     */
+    public static function formulariosNavegador(string $html, string $desde, string $hasta): array
+    {
+        $i = $desde === '' ? 0 : strpos($html, $desde);
+        $f = $i === false ? false : ($hasta === '' ? strlen($html) : strpos($html, $hasta, $i));
+        if ($i === false || $f === false) {
+            throw new \RuntimeException("No se encontró la región entre $desde y $hasta");
+        }
+        $fragmento = preg_replace(['#<script\b.*?</script>#si', '#<!--.*?-->#s', '#<template\b.*?</template>#si'], '', substr($html, $i, $f - $i));
+        preg_match_all('#<(/?)(form|input|select|textarea|button)\b((?:[^>"\']|"[^"]*"|\'[^\']*\')*)>#i', $fragmento, $m, PREG_SET_ORDER);
+        $lista = [];
+        $abierto = null;
+        $atributo = function (string $attrs, string $nombre) {
+            return preg_match('/\b' . $nombre . '\s*=\s*("([^"]*)"|\'([^\']*)\'|([^\s>]+))/i', $attrs, $a) ? ($a[2] !== '' ? $a[2] : ($a[3] ?? '') . ($a[4] ?? '')) : null;
+        };
+        foreach ($m as [$_, $cierre, $tag, $attrs]) {
+            $tag = strtolower($tag);
+            if ($tag === 'form') {
+                if ($cierre) { $abierto = null; continue; }
+                if ($abierto !== null) { continue; }
+                $lista[] = ['id' => (string) $atributo($attrs, 'id'), 'action' => (string) $atributo($attrs, 'action'),
+                    'method' => strtoupper($atributo($attrs, 'method') ?: 'GET'), 'campos' => []];
+                $abierto = count($lista) - 1;
+                continue;
+            }
+            if ($cierre || $abierto === null) { continue; }
+            $nombre = $atributo($attrs, 'name');
+            if ($nombre !== null && $nombre !== '') { $lista[$abierto]['campos'][] = $nombre; }
+        }
+        foreach ($lista as &$form) {
+            $form['campos'] = array_values(array_unique($form['campos']));
+            sort($form['campos']);
+            $form['token'] = in_array('_token', $form['campos'], true);
+        }
+
+        return $lista;
+    }
+
+    /** name de todos los campos del contenido (dentro o fuera de formularios), leídos del HTML en orden; ver formulariosNavegador(). */
+    public static function camposNavegador(string $html, string $desde, string $hasta): array
+    {
+        $i = $desde === '' ? 0 : strpos($html, $desde);
+        $f = $i === false ? false : ($hasta === '' ? strlen($html) : strpos($html, $hasta, $i));
+        if ($i === false || $f === false) {
+            throw new \RuntimeException("No se encontró la región entre $desde y $hasta");
+        }
+        $fragmento = preg_replace(['#<script\b.*?</script>#si', '#<!--.*?-->#s'], '', substr($html, $i, $f - $i));
+        preg_match_all('#<(?:input|select|textarea)\b(?:[^>"\x27]|"[^"]*"|\x27[^\x27]*\x27)*?\bname\s*=\s*"([^"]*)"#i', $fragmento, $m);
+        $n = array_values(array_unique(array_filter($m[1], fn ($x) => $x !== '')));
+        sort($n);
+
+        return $n;
+    }
+
     /** Formularios en orden: action, method, si lleva _token y los name de sus campos (ordenados, sin repetir). */
     public static function formularios(DOMElement $raiz): array
     {

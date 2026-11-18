@@ -145,7 +145,8 @@ $glyph = ['glyphicon-ok' => 'fa-check', 'glyphicon-list-alt' => 'fa-list-alt', '
     'glyphicon-pencil' => 'fa-pencil', 'glyphicon-arrow-left' => 'fa-arrow-left', 'glyphicon-search' => 'fa-search', 'glyphicon-trash' => 'fa-trash',
     'glyphicon-plus' => 'fa-plus', 'glyphicon-eye-open' => 'fa-eye', 'glyphicon-download-alt' => 'fa-download', 'glyphicon-floppy-disk' => 'fa-floppy-o',
     'glyphicon-user' => 'fa-user', 'glyphicon-stats' => 'fa-bar-chart', 'glyphicon-refresh' => 'fa-refresh', 'glyphicon-file' => 'fa-file',
-    'glyphicon-edit' => 'fa-pencil-square-o', 'glyphicon-info-sign' => 'fa-info-circle', 'glyphicon-warning-sign' => 'fa-exclamation-triangle'];
+    'glyphicon-edit' => 'fa-pencil-square-o', 'glyphicon-cog' => 'fa-cog', 'glyphicon-ban-circle' => 'fa-ban', 'glyphicon-export' => 'fa-external-link',
+    'glyphicon-ok-circle' => 'fa-check-circle-o', 'glyphicon-open-file' => 'fa-file-o', 'glyphicon-tags' => 'fa-tags', 'glyphicon-tasks' => 'fa-tasks', 'glyphicon-info-sign' => 'fa-info-circle', 'glyphicon-warning-sign' => 'fa-exclamation-triangle'];
 $resp = $bs === 3 ? ['xs' => '', 'sm' => 'md:', 'md' => 'lg:', 'lg' => 'xl:'] : ['' => '', 'sm' => 'sm:', 'md' => 'md:', 'lg' => 'lg:', 'xl' => 'xl:'];
 $control = 'tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500';
 $archivoCtl = 'tw:h-11 tw:w-full tw:overflow-hidden tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:text-sm tw:text-gray-500 tw:shadow-theme-xs tw:file:mr-5 tw:file:border-0 tw:file:border-r tw:file:border-solid tw:file:border-gray-200 tw:file:bg-gray-50 tw:file:py-3 tw:file:pr-3 tw:file:pl-3.5 tw:file:text-sm tw:file:text-gray-700 tw:hover:file:bg-gray-100 tw:focus:outline-hidden';
@@ -213,13 +214,13 @@ $convertirClases = function (string $valor, string $tag, string $tipo) use (&$de
     return implode(' ', $todo);
 };
 
-$salida = preg_replace_callback('/(?<=\s)class=(["\'])(.*?)\1/s', function ($m) use ($convertirClases, &$html) {
+$salida = preg_replace_callback('/(?<=[\s"\'])class=(["\'])(.*?)\1/s', function ($m) use ($convertirClases, &$html) {
     return $m[0];
 }, $html);
 
 // Recorre con desplazamientos para conocer la etiqueta y el type de cada atributo.
 $res = ''; $pos = 0;
-if (preg_match_all('/(?<=\s)class=(["\'])(.*?)\1/s', $html, $todos, PREG_OFFSET_CAPTURE)) {
+if (preg_match_all('/(?<=[\s"\'])class=(["\'])(.*?)\1/s', $html, $todos, PREG_OFFSET_CAPTURE)) {
     foreach ($todos[0] as $i => [$texto, $off]) {
         $antes = substr($html, 0, $off);
         $ini = strrpos($antes, '<');

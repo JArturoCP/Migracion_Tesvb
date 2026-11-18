@@ -46,6 +46,11 @@
 @source "../views/tutorias/eva_tutorias";
 @source "../views/tutorias/partials";
 @source "../views/evaluacion_docente";
+@source "../views/generales";
+@source "../views/reticulas";
+@source "../views/docentes";
+@source "../views/personal.blade.php";
+@source "../views/editar_personal.blade.php";
 @source "../views/layouts/panel.blade.php";
 @source "../views/home.blade.php";
 @source "../views/layouts/marco.blade.php";
