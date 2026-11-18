@@ -3,6 +3,15 @@
 Fecha: 2026-11-17. Rama `cacique`. Generado con un script de solo lectura sobre `resources/views`, `app/`, `routes/`, `php artisan route:list --json` (2 915 rutas) y `docs/INVENTARIO_MENU.md`.
 Referencias: `docs/panel.md` (cómo migrar, §7 y §11) y `docs/PLAN_PANEL.md`.
 
+## Avance
+
+| Lote | Pantallas | Detalle |
+|---|---|---|
+| Piloto | Tutorías del alumno y Evaluación docente (alumno y directivo) | `docs/panel.md` §11.4 |
+| Lote 1 del directivo | Generales (13), Formatos (4), Horarios (4), Plantilla (2) | `docs/LOTE1_DIRECTIVO.md` |
+
+Los totales de abajo son del inventario inicial (antes del lote 1).
+
 ## 1. Resumen
 
 | Concepto | Vistas |

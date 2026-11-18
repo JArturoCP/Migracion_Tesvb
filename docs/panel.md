@@ -126,9 +126,9 @@ Solo cambia el marcado visual. Ejemplos completos: las vistas del piloto (§11.4
 1. **Guarda la versión anterior** en `tests/Fixtures/vistas_antes/<misma ruta>.blade.php` (para la prueba de comparación).
 2. **Cambia el layout:** `@extends('layouts.app')` (o `tutorias.app_tutorias`) → `@extends('layouts.panel')`. Las secciones `title` y `content` se conservan.
 3. **Carga sus librerías con `@push('cabeza')`**, en el mismo orden que su layout anterior y **sin el CSS de Bootstrap**. Ya hay dos parciales:
-   - `@include('evaluacion_docente.partials.recursos_panel', ['datatables' => true, 'graficas' => true])` — jQuery, Font Awesome 4.7, SweetAlert2/TNotify y, si se piden, DataTables 1.13.6 local y Highcharts (pantallas que venían de `layouts.app`);
+   - `@include('partials.panel.recursos_app', ['datatables' => true, 'graficas' => true, 'validacion' => true, 'colorpicker' => true, 'blockui' => true])` — jQuery, Font Awesome 4.7, SweetAlert2/TNotify y, si se piden, DataTables 1.13.6 local, Highcharts, bootstrap-colorpicker, jQuery Validate y blockUI (pantallas que venían de `layouts.app`). **Carga todo plugin que llame el script**, aunque sea fuera de `$(document).ready`: si falta, el error detiene el script completo;
    - `@include('tutorias.partials.recursos_panel', ['calendario' => true])` — `js_tutorias/app.js` (jQuery + Vue 2 + axios), Font Awesome 5 y, si se pide, FullCalendar (pantallas de Tutorías).
-4. **Reescribe el marcado con los componentes** `x-panel.*` (§11): encabezado, tarjetas, tablas, botones, campos, modales, alertas, badges y pestañas. Para formularios largos se puede convertir primero con `tools/panel/bs2tw.php` (§11.5) y luego envolver con los componentes.
+4. **Reescribe el marcado con los componentes** `x-panel.*` (§11): encabezado, tarjetas, tablas, botones, campos, modales, alertas, badges y pestañas. Para pantallas CRUD de `layouts.app` se puede partir de `tools/panel/estructura_bs.php` y `tools/panel/bs2tw.php` (§11.5) y revisar a mano. Corrige el HTML mal anidado conservando lo que hace el navegador (ver `docs/LOTE1_DIRECTIVO.md` §4).
 5. **Modales:** el `div.modal` de Bootstrap pasa a `<x-panel.modal id="mismo_id">`. `data-toggle="modal"`, `data-dismiss="modal"` y `$('#id').modal('show'|'hide')` siguen funcionando sin cambiar el script (puente, §11.3).
 6. **Contenedores de Vue** (`new Vue({ el: '#x' })`): agrega `x-ignore` al elemento `#x` para que Alpine no interprete sus `@click` y `:class`. En atributos de componentes Blade, `:atributo` es PHP; para Vue usa `v-bind:atributo`.
 7. **Agrega la carpeta a Tailwind:** `@source "../views/<carpeta>";` en `resources/css/marco.css`.
@@ -265,6 +265,7 @@ así los scripts y Vue siguen encontrando lo mismo. Estilos que no son clases `t
 </x-panel.modal>
 ```
 Desde JS: `$('#editar').modal('show')`, `$('#editar').modal('hide')` o `PanelModal.abrir('editar')` / `PanelModal.cerrar('editar')`.
+Si un script usa la × del modal original, conserva su clase o su id: `<x-panel.modal id="x" clase-cerrar="close" id-cerrar="acepta2">`.
 
 **Alerta** (`info`, `exito`, `advertencia`, `error`):
 ```blade
@@ -318,6 +319,8 @@ Si la pantalla trae Bootstrap JS dentro de otra librería (`js_tutorias/app.js`)
 
 ### 11.4 Piloto migrado
 
+Lote 1 del directivo (Generales, Formatos, Horarios, Plantilla): `docs/LOTE1_DIRECTIVO.md`.
+
 | Vistas | Rutas | Rol |
 |---|---|---|
 | `tutorias/alumnos/{index, incio_registro, expediente, expedienteUpdate, partial/modalNSE}` | `/tutorias/inicioalu`, `/tutorias/Alum`, `/tutorias/AlumActualizar` | Alumno |
@@ -328,6 +331,10 @@ Si la pantalla trae Bootstrap JS dentro de otra librería (`js_tutorias/app.js`)
 
 La navegación interna de Tutorías (`tutorias/alumnos/partial/navegacion_panel.blade.php`) son pestañas con las mismas condiciones de sesión del menú anterior. Las demás pantallas de Tutorías (tutor, jefe, coordinador…) siguen con `tutorias.app_tutorias` dentro del marco.
 
-### 11.5 Convertidor de clases (`tools/panel/bs2tw.php`)
+### 11.5 Herramientas de conversión (`tools/panel/`)
+
+`php tools/panel/estructura_bs.php resources/views/<vista>.blade.php [opciones]` hace los cambios de estructura de una vista de `layouts.app`: layout y `recursos_app` (opciones separadas por coma: `validacion,datatables`…), título → `x-panel.encabezado`, alerta flash → `x-panel.alerta`, botón flotante, tablas en contenedor y modales de Bootstrap → `x-panel.modal` (conserva el id de `.modal-content` y la clase o id de la ×). Después se pasa `bs2tw.php` y se revisa a mano.
+
+#### Convertidor de clases (`tools/panel/bs2tw.php`)
 
 `php tools/panel/bs2tw.php resources/views/<vista>.blade.php 3|4` reescribe los `class="…"` estáticos de Bootstrap 3 o 4 a clases `tw:` (rejilla, tarjetas/paneles, botones, campos, alertas, tablas, pestañas, glyphicons → Font Awesome 4.7). No toca `:class`/`v-bind:class` ni fragmentos Blade, y conserva las clases de estado y las que usan los `<script>` de la vista. Imprime las clases que conviene revisar a mano (p. ej. modales, que se pasan a `<x-panel.modal>`).
