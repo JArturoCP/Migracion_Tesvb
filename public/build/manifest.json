@@ -1,0 +1,50 @@
+{
+  "_module.esm-BK6u66ms.js": {
+    "file": "assets/module.esm-BK6u66ms.js",
+    "name": "module.esm"
+  },
+  "node_modules/@fontsource-variable/outfit/files/outfit-latin-ext-wght-normal.woff2": {
+    "file": "assets/outfit-latin-ext-wght-normal-DdQaqQDo.woff2",
+    "src": "node_modules/@fontsource-variable/outfit/files/outfit-latin-ext-wght-normal.woff2"
+  },
+  "node_modules/@fontsource-variable/outfit/files/outfit-latin-wght-normal.woff2": {
+    "file": "assets/outfit-latin-wght-normal-Bc-8i84L.woff2",
+    "src": "node_modules/@fontsource-variable/outfit/files/outfit-latin-wght-normal.woff2"
+  },
+  "resources/css/app.css": {
+    "file": "assets/app-C2Kb53jL.css",
+    "src": "resources/css/app.css",
+    "isEntry": true,
+    "name": "app",
+    "names": [
+      "app.css"
+    ]
+  },
+  "resources/css/panel.css": {
+    "file": "assets/panel-C82INPmA.css",
+    "src": "resources/css/panel.css",
+    "isEntry": true,
+    "name": "panel",
+    "names": [
+      "panel.css"
+    ]
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-CmOPvXbh.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true,
+    "imports": [
+      "_module.esm-BK6u66ms.js"
+    ]
+  },
+  "resources/js/panel.js": {
+    "file": "assets/panel-DRmad-kf.js",
+    "name": "panel",
+    "src": "resources/js/panel.js",
+    "isEntry": true,
+    "imports": [
+      "_module.esm-BK6u66ms.js"
+    ]
+  }
+}
