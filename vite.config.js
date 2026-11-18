@@ -9,8 +9,8 @@ export default defineConfig({
                 // Breeze: se conservan para que el @vite de layouts/guest.blade.php siga funcionando.
                 'resources/css/app.css',
                 'resources/js/app.js',
-                // Nuevo diseño (layouts/panel.blade.php).
-                'resources/css/panel.css',
+                // Nuevo diseño: /inicio (layouts/panel) y marco de los módulos (layouts/marco).
+                'resources/css/marco.css',
                 'resources/js/panel.js',
             ],
             refresh: true,

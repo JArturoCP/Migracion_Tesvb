@@ -1,7 +1,7 @@
 // Buscador del header: filtra en el navegador los enlaces del sidebar (partials/panel/sidebar.blade.php).
 // No hace peticiones: solo muestra u oculta los <li> que ya están en la página.
 // Los elementos ocultos en el menú original (style="display: none") siguen ocultos: el filtro solo
-// agrega o quita la clase "hidden" y nunca toca el estilo en línea.
+// agrega o quita la clase "tw:hidden" y nunca toca el estilo en línea.
 
 const normalizar = (texto) =>
     (texto || '')
@@ -26,7 +26,7 @@ const filtrarLi = (li, consulta, ancestroCoincide) => {
         if (filtrarLi(hijo, consulta, ancestroCoincide || coincidePropio)) algunHijo = true;
     });
     const visible = coincidePropio || algunHijo || ancestroCoincide;
-    li.classList.toggle('hidden', !visible);
+    li.classList.toggle('tw:hidden', !visible);
     return coincidePropio || algunHijo;
 };
 
@@ -35,7 +35,7 @@ export function filtrarMenu(texto) {
     if (!menu) return;
 
     const consulta = normalizar(texto);
-    menu.querySelectorAll('li.hidden').forEach((li) => li.classList.remove('hidden'));
+    menu.querySelectorAll('li.tw\\:hidden').forEach((li) => li.classList.remove('tw:hidden'));
     if (consulta === '') return;
 
     menu.querySelectorAll(':scope > li').forEach((li) => filtrarLi(li, consulta, false));

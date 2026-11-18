@@ -1,8 +1,8 @@
 {{-- Mensaje cuando un dato no está disponible. Nunca se muestran números inventados.
-     $alto: clase de altura mínima escrita completa (p. ej. 'min-h-48'), para que Tailwind la genere. --}}
-<div class="flex {{ $alto ?? 'min-h-32' }} flex-col items-center justify-center gap-1 rounded-xl border border-dashed border-gray-200 px-4 py-6 text-center dark:border-gray-800" data-panel-sin-datos>
-    <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Sin datos</p>
+     $alto: clase de altura mínima escrita completa (p. ej. 'tw:min-h-48'), para que Tailwind la genere. --}}
+<div class="tw:flex {{ $alto ?? 'tw:min-h-32' }} tw:flex-col tw:items-center tw:justify-center tw:gap-1 tw:rounded-xl tw:border tw:border-dashed tw:border-gray-200 tw:px-4 tw:py-6 tw:text-center tw:dark:border-gray-800" data-panel-sin-datos>
+    <p class="tw:text-sm tw:font-medium tw:text-gray-500 tw:dark:text-gray-400">Sin datos</p>
     @isset($detalle)
-        <p class="text-xs text-gray-400 dark:text-gray-500">{{ $detalle }}</p>
+        <p class="tw:text-xs tw:text-gray-400 tw:dark:text-gray-500">{{ $detalle }}</p>
     @endisset
 </div>

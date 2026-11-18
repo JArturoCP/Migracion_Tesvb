@@ -1,0 +1,40 @@
+{{--
+    Marco del panel nuevo alrededor de las pantallas de los módulos.
+
+    Lo incluye un layout de origen (p. ej. tutorias/app_tutorias.blade.php) cuando hay sesión iniciada,
+    con dos parámetros:
+      $cabeza  vista con el contenido de <head> del layout de origen (mismos CSS y JS de siempre:
+               Bootstrap, jQuery, DataTables, Vue, FullCalendar…), para que los módulos funcionen igual.
+      $cuerpo  vista con el contenido del layout de origen que rodea a @yield('content'): menú interno,
+               avisos, modales, contenido y pie. Se muestra sin cambios.
+
+    Solo cambian el sidebar y el header, que son los del panel (/inicio). El contenido va dentro de
+    x-ignore para que Alpine no interprete los atributos de las plantillas Vue (@click, :class…).
+    El marco siempre se ve en modo claro (sin botón de modo oscuro).
+--}}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    @include($cabeza)
+
+    @vite(['resources/css/marco.css', 'resources/js/panel.js'])
+</head>
+<body x-data="{ page: 'modulo', darkMode: false, sidebarToggle: false }">
+    <div class="tw:flex tw:min-h-screen" data-panel-marco>
+        @include('partials.panel.sidebar')
+
+        <div class="tw:relative tw:flex tw:min-w-0 tw:flex-1 tw:flex-col tw:overflow-x-clip" data-panel-area>
+            @include('partials.panel.header', ['enMarco' => true])
+
+            <div id="main-content" x-ignore data-panel-contenido-modulo>
+                @include($cuerpo)
+            </div>
+        </div>
+    </div>
+
+    {{-- Modal de cambio de periodo del header (mismos enlaces /periodo/{id}). --}}
+    @if (!Auth::guest())
+        @include('partials.panel.periodos')
+    @endif
+</body>
+</html>

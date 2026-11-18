@@ -48,51 +48,52 @@
     ?>
     @if($arre_periodos->count() > 0 && $periodo_actual > 0)
         <div
+            class="tw-marco"
             x-data="selectorPeriodo({{ $periodo_actual }})"
             @abrir-periodos.window="abrir()"
             @keydown.escape.window="cerrar()"
         >
             <div
                 x-cloak
-                x-show="abierto"
+                x-show.important="abierto"
                 x-transition.opacity
-                class="fixed inset-0 z-99999 flex items-center justify-center overflow-y-auto p-5"
+                class="tw:fixed tw:inset-0 tw:z-99999 tw:flex tw:items-center tw:justify-center tw:overflow-y-auto tw:p-5"
                 role="dialog"
                 aria-modal="true"
                 aria-labelledby="panel-periodos-titulo"
             >
-                <div class="fixed inset-0 h-full w-full bg-gray-400/50 backdrop-blur-[32px]" @click="cerrar()"></div>
+                <div class="tw:fixed tw:inset-0 tw:h-full tw:w-full tw:bg-gray-400/50 tw:backdrop-blur-[32px]" @click="cerrar()"></div>
 
-                <div class="relative w-full max-w-md rounded-3xl bg-white p-6 dark:bg-gray-900 lg:p-8" @click.outside="cerrar()">
-                    <div class="mb-5 flex items-center justify-between gap-3">
-                        <h4 id="panel-periodos-titulo" class="text-lg font-semibold text-gray-800 dark:text-white/90">Selecciona Periodo</h4>
-                        <div class="flex items-center gap-1">
+                <div class="tw:relative tw:w-full tw:max-w-md tw:rounded-3xl tw:bg-white tw:p-6 tw:dark:bg-gray-900 tw:lg:p-8" @click.outside="cerrar()">
+                    <div class="tw:mb-5 tw:flex tw:items-center tw:justify-between tw:gap-3">
+                        <h4 id="panel-periodos-titulo" class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">Selecciona Periodo</h4>
+                        <div class="tw:flex tw:items-center tw:gap-1">
                             <button type="button" @click="arriba()" aria-label="Periodos anteriores"
-                                class="inline-flex size-9 items-center justify-center rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-white/5">
-                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" class="rotate-180" aria-hidden="true"><path d="M4.792 7.396L10 12.604l5.208-5.208" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                                class="tw:inline-flex tw:size-9 tw:items-center tw:justify-center tw:rounded-lg tw:border tw:border-gray-300 tw:text-gray-600 tw:hover:bg-gray-50 tw:dark:border-gray-700 tw:dark:text-gray-400 tw:dark:hover:bg-white/5">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" class="tw:rotate-180" aria-hidden="true"><path d="M4.792 7.396L10 12.604l5.208-5.208" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
                             </button>
                             <button type="button" @click="abajo()" aria-label="Periodos siguientes"
-                                class="inline-flex size-9 items-center justify-center rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-white/5">
+                                class="tw:inline-flex tw:size-9 tw:items-center tw:justify-center tw:rounded-lg tw:border tw:border-gray-300 tw:text-gray-600 tw:hover:bg-gray-50 tw:dark:border-gray-700 tw:dark:text-gray-400 tw:dark:hover:bg-white/5">
                                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.792 7.396L10 12.604l5.208-5.208" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
                             </button>
                         </div>
                     </div>
 
-                    <ul class="flex flex-col gap-2">
+                    <ul class="tw:flex tw:flex-col tw:gap-2">
                         @foreach($arre_periodos as $per)
                             @if(is_object($per) && isset($per->id_periodo) && isset($per->periodo))
                                 @if((int) $per->id_periodo === (int) $periodo_actual)
-                                    <li x-show="visible({{ (int) $per->id_periodo }})" id="tr{{ $per->id_periodo }}">
+                                    <li x-show.important="visible({{ (int) $per->id_periodo }})" id="tr{{ $per->id_periodo }}">
                                         <a href="/periodo/{{ $per->id_periodo }}"
-                                           class="flex items-center justify-between rounded-lg bg-brand-500 px-4 py-3 text-sm font-semibold text-white">
+                                           class="tw:flex tw:items-center tw:justify-between tw:rounded-lg tw:bg-brand-500 tw:px-4 tw:py-3 tw:text-sm tw:font-semibold tw:text-white">
                                             {{ $per->periodo }}
-                                            <span class="text-xs font-normal opacity-80">Actual</span>
+                                            <span class="tw:text-xs tw:font-normal tw:opacity-80">Actual</span>
                                         </a>
                                     </li>
                                 @else
-                                    <li x-show="visible({{ (int) $per->id_periodo }})" id="tr{{ $per->id_periodo }}">
+                                    <li x-show.important="visible({{ (int) $per->id_periodo }})" id="tr{{ $per->id_periodo }}">
                                         <a href="/periodo/{{ $per->id_periodo }}"
-                                           class="flex items-center rounded-lg border border-gray-200 px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-100 dark:border-gray-800 dark:text-gray-300 dark:hover:bg-white/5">
+                                           class="tw:flex tw:items-center tw:rounded-lg tw:border tw:border-gray-200 tw:px-4 tw:py-3 tw:text-sm tw:font-medium tw:text-gray-700 tw:hover:bg-gray-100 tw:dark:border-gray-800 tw:dark:text-gray-300 tw:dark:hover:bg-white/5">
                                             {{ $per->periodo }}
                                         </a>
                                     </li>
@@ -101,9 +102,9 @@
                         @endforeach
                     </ul>
 
-                    <div class="mt-6 flex justify-end">
+                    <div class="tw:mt-6 tw:flex tw:justify-end">
                         <button type="button" @click="cerrar()"
-                            class="inline-flex items-center justify-center rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/3">
+                            class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:border tw:border-gray-300 tw:bg-white tw:px-4 tw:py-2.5 tw:text-sm tw:font-medium tw:text-gray-700 tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:border-gray-700 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:hover:bg-white/3">
                             Cancelar
                         </button>
                     </div>

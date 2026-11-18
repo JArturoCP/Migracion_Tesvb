@@ -4,8 +4,8 @@
     Las celdas van directo dentro del grid de panel/inicio.blade.php.
 --}}
 @if($tablero === null)
-    <div class="col-span-12" data-panel-dashboard="directivo">
-        <div class="rounded-2xl border border-gray-200 bg-white p-5 md:p-6 dark:border-gray-800 dark:bg-white/3">
+    <div class="tw:col-span-12" data-panel-dashboard="directivo">
+        <div class="tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white tw:p-5 tw:md:p-6 tw:dark:border-gray-800 tw:dark:bg-white/3">
             @include('panel.dashboard.sin_datos', ['detalle' => 'No fue posible obtener los indicadores del periodo.'])
         </div>
     </div>
@@ -21,7 +21,7 @@
     ?>
 
     {{-- Métricas + barras --}}
-    <div class="col-span-12 space-y-6 xl:col-span-7" data-panel-dashboard="directivo">
+    <div class="tw:col-span-12 tw:space-y-6 tw:xl:col-span-7" data-panel-dashboard="directivo">
         @include('panel.dashboard.metricas', ['metricas' => [
             ['clave' => 'inscritos', 'etiqueta' => 'Estudiantes inscritos', 'icono' => 'estudiantes',
              'valor' => $tablero['inscritos']['valor'], 'anterior' => $tablero['inscritos']['anterior'], 'periodo_anterior' => $tablero['periodo_anterior']],
@@ -39,7 +39,7 @@
     </div>
 
     {{-- Medidor radial --}}
-    <div class="col-span-12 xl:col-span-5">
+    <div class="tw:col-span-12 tw:xl:col-span-5">
         @include('panel.dashboard.radial', [
             'titulo' => 'Índice de aprobación',
             'subtitulo' => $periodoTexto,
@@ -56,7 +56,7 @@
     </div>
 
     {{-- Línea: últimos 6 periodos --}}
-    <div class="col-span-12">
+    <div class="tw:col-span-12">
         @include('panel.dashboard.linea', [
             'titulo' => 'Matrícula de los últimos periodos',
             'subtitulo' => 'Estudiantes inscritos y docentes con horario por periodo',
@@ -69,7 +69,7 @@
     </div>
 
     {{-- Lista con porcentajes --}}
-    <div class="col-span-12 xl:col-span-5">
+    <div class="tw:col-span-12 tw:xl:col-span-5">
         @include('panel.dashboard.lista', [
             'titulo' => 'Distribución por carrera',
             'subtitulo' => 'Estudiantes inscritos en ' . $periodoTexto,
@@ -81,7 +81,7 @@
     </div>
 
     {{-- Tabla --}}
-    <div class="col-span-12 xl:col-span-7">
+    <div class="tw:col-span-12 tw:xl:col-span-7">
         @include('panel.dashboard.tabla', [
             'titulo' => 'Resumen por carrera',
             'subtitulo' => $periodoTexto,

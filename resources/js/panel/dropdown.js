@@ -153,7 +153,7 @@ export default (options = {}) => {
         floating.style.display = "";
       }
 
-      const shouldMatchWidth = matchW || floating.classList.contains("w-full");
+      const shouldMatchWidth = matchW || floating.classList.contains("tw:w-full");
 
       const update = () => {
         const isRTL = checkIsRTL(floating);

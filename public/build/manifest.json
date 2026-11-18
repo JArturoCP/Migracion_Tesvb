@@ -26,13 +26,13 @@
       "app.css"
     ]
   },
-  "resources/css/panel.css": {
-    "file": "assets/panel-D-Y5kkh6.css",
-    "src": "resources/css/panel.css",
+  "resources/css/marco.css": {
+    "file": "assets/marco-DCkSWbYu.css",
+    "src": "resources/css/marco.css",
     "isEntry": true,
-    "name": "panel",
+    "name": "marco",
     "names": [
-      "panel.css"
+      "marco.css"
     ]
   },
   "resources/js/app.js": {
@@ -45,7 +45,7 @@
     ]
   },
   "resources/js/panel.js": {
-    "file": "assets/panel-Cwcqp-wi.js",
+    "file": "assets/panel-B2vWGGh1.js",
     "name": "panel",
     "src": "resources/js/panel.js",
     "isEntry": true,

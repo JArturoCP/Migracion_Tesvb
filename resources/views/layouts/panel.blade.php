@@ -3,6 +3,8 @@
     Ofrece las mismas secciones que layouts/app.blade.php (title y content), más @stack('scripts'),
     para que migrar una pantalla sea cambiar su @extends('layouts.app') por @extends('layouts.panel').
     No carga Bootstrap, jQuery, Vue 1 ni recursos externos: todo sale de @vite.
+    Estructura igual a la del marco de los módulos (layouts/marco.blade.php): scroll de la página completa,
+    sidebar sticky y header sticky. Clases de Tailwind con prefijo tw: (resources/css/marco.css).
 --}}
 <!DOCTYPE html>
 <html lang="es">
@@ -20,23 +22,24 @@
         } catch (e) {}
     </script>
 
-    @vite(['resources/css/panel.css', 'resources/js/panel.js'])
+    @vite(['resources/css/marco.css', 'resources/js/panel.js'])
 </head>
 <body
     x-data="{ page: 'inicio', loaded: true, darkMode: false, stickyMenu: false, sidebarToggle: false, scrollTop: false }"
     x-init="
         try { darkMode = JSON.parse(localStorage.getItem('darkMode')) ?? false; } catch (e) { darkMode = false; }
         $watch('darkMode', value => { try { localStorage.setItem('darkMode', JSON.stringify(value)); } catch (e) {} })"
-    :class="{ 'dark bg-gray-900': darkMode === true }"
+    class="tw-marco tw:bg-gray-50"
+    :class="{ 'dark tw:bg-gray-900': darkMode === true }"
 >
-    <div class="flex h-screen overflow-hidden">
+    <div class="tw:flex tw:min-h-screen" data-panel-marco>
         @include('partials.panel.sidebar')
 
-        <div class="relative flex flex-1 flex-col overflow-x-hidden overflow-y-auto">
+        <div class="tw:relative tw:flex tw:min-w-0 tw:flex-1 tw:flex-col tw:overflow-x-clip" data-panel-area>
             <main id="main-content">
                 @include('partials.panel.header')
 
-                <div class="mx-auto max-w-(--breakpoint-2xl) p-4 pb-20 md:p-6 md:pb-6">
+                <div class="tw:mx-auto tw:max-w-(--tw-breakpoint-2xl) tw:p-4 tw:pb-20 tw:md:p-6 tw:md:pb-6">
                     @yield('content')
                 </div>
             </main>

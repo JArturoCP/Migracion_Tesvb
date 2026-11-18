@@ -3,7 +3,7 @@
 /*
  * Estructura de /inicio: el HTML tiene las etiquetas balanceadas en todos los roles y variantes,
  * y el sidebar queda al lado del contenido (como src/pages/index.html de TailAdmin):
- *   body > div.flex.h-screen.overflow-hidden > [aside.sidebar, div.relative.flex-1 > main > header]
+ *   body > div[data-panel-marco] (flex, min-h-screen) > [aside.sidebar (sticky), div[data-panel-area] > main > header]
  * Una etiqueta sin cerrar o de más en el sidebar cierra el contenedor flex antes de tiempo y
  * el sidebar termina arriba del contenido.
  */
@@ -41,11 +41,14 @@ it('el sidebar queda al lado del contenido dentro del contenedor flex', function
     libxml_clear_errors();
     $xp = new DOMXPath($dom);
 
-    $contenedor = '//body/div[contains(concat(" ", normalize-space(@class), " "), " flex ") and contains(@class, "h-screen") and contains(@class, "overflow-hidden")]';
+    // Scroll de la página completa (como el marco de los módulos): contenedor flex con el aside sticky
+    // y, a su lado, el área con el header y el contenido.
+    $contenedor = '//body/div[@data-panel-marco]';
     expect($xp->query($contenedor))->toHaveCount(1)
-        ->and($xp->query($contenedor . '/aside[contains(@class, "sidebar")]'))->toHaveCount(1)
-        ->and($xp->query($contenedor . '/div[contains(@class, "flex-1")]/main/header'))->toHaveCount(1)
-        ->and($xp->query($contenedor . '/div[contains(@class, "flex-1")]/main//*[@data-panel-bienvenida]'))->toHaveCount(1)
+        ->and($xp->query($contenedor . '[contains(@class, "tw:flex") and contains(@class, "tw:min-h-screen")]'))->toHaveCount(1)
+        ->and($xp->query($contenedor . '/aside[contains(@class, "tw:sidebar") and contains(@class, "tw:xl:sticky")]'))->toHaveCount(1)
+        ->and($xp->query($contenedor . '/div[@data-panel-area]/main/header'))->toHaveCount(1)
+        ->and($xp->query($contenedor . '/div[@data-panel-area]/main//*[@data-panel-bienvenida]'))->toHaveCount(1)
         // El menú completo queda dentro del aside.
         ->and($xp->query($contenedor . '/aside//ul[@data-panel-menu]'))->toHaveCount(1);
 })->with([

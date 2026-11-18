@@ -44,14 +44,14 @@
         @click="$dispatch('abrir-periodos')"
         title="Cambiar periodo"
         aria-label="Cambiar periodo{{ $periodo_corto !== '' ? ' (actual: ' . $periodo_corto . ')' : '' }}"
-        class="relative inline-flex h-11 min-w-11 shrink-0 items-center justify-center gap-2 rounded-[10px] border border-gray-300 bg-transparent px-3 text-gray-700 shadow-theme-xs transition-all select-none hover:bg-gray-50 hover:text-gray-800 focus-visible:ring-3 focus-visible:ring-gray-300/50 focus-visible:outline-hidden active:translate-y-px dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700/50 dark:hover:text-white"
+        class="tw:relative tw:inline-flex tw:h-11 tw:min-w-11 tw:shrink-0 tw:items-center tw:justify-center tw:gap-2 tw:rounded-[10px] tw:border tw:border-gray-300 tw:bg-transparent tw:px-3 tw:text-gray-700 tw:shadow-theme-xs tw:transition-all tw:select-none tw:hover:bg-gray-50 tw:hover:text-gray-800 tw:focus-visible:ring-3 tw:focus-visible:ring-gray-300/50 tw:focus-visible:outline-hidden tw:active:translate-y-px tw:dark:border-gray-700 tw:dark:bg-gray-800 tw:dark:text-gray-300 tw:dark:hover:bg-gray-700/50 tw:dark:hover:text-white"
         data-panel-periodo
     >
-        <svg class="size-5 shrink-0" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <svg class="tw:size-5 tw:shrink-0" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path d="M8 2.75v2m8-2v2M3.75 9.25h16.5M5.25 4.75h13.5a1.5 1.5 0 011.5 1.5v12.5a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5V6.25a1.5 1.5 0 011.5-1.5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
         @if($periodo_corto !== '')
-            <span class="hidden text-sm font-medium whitespace-nowrap xl:inline">{{ $periodo_corto }}</span>
+            <span class="tw:hidden tw:text-sm tw:font-medium tw:whitespace-nowrap tw:xl:inline">{{ $periodo_corto }}</span>
         @endif
     </button>
 @endif

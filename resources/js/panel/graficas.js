@@ -116,18 +116,18 @@ const opcionesLinea = (datos, pestana = 'general') => {
                     .map((s, i) => {
                         const v = valores[i]?.[dataPointIndex];
                         if (v === undefined || v === null) return '';
-                        return `<div class="flex items-center justify-between gap-3">
-                            <div class="flex items-center gap-1.5">
-                                <span class="size-1.5 rounded-full shrink-0" style="background-color: ${w.config.colors[i] || '#465FFF'}"></span>
-                                <span class="text-xs text-gray-800 dark:text-white/90">${s.name}</span>
-                                <span class="text-xs font-medium text-gray-400 dark:text-gray-500">:</span>
+                        return `<div class="tw:flex tw:items-center tw:justify-between tw:gap-3">
+                            <div class="tw:flex tw:items-center tw:gap-1.5">
+                                <span class="tw:size-1.5 tw:rounded-full tw:shrink-0" style="background-color: ${w.config.colors[i] || '#465FFF'}"></span>
+                                <span class="tw:text-xs tw:text-gray-800 tw:dark:text-white/90">${s.name}</span>
+                                <span class="tw:text-xs tw:font-medium tw:text-gray-400 tw:dark:text-gray-500">:</span>
                             </div>
-                            <span class="text-xs font-medium text-gray-800 dark:text-white/90">${Number(v).toLocaleString('es-MX')}</span>
+                            <span class="tw:text-xs tw:font-medium tw:text-gray-800 tw:dark:text-white/90">${Number(v).toLocaleString('es-MX')}</span>
                         </div>`;
                     })
                     .join('');
-                return `<div class="min-w-32.5 p-2 bg-white dark:bg-gray-900 rounded-lg shadow-theme-md border border-gray-200 dark:border-gray-800 space-y-1">
-                    <p class="mb-1 text-[10px] leading-4 text-gray-500 dark:text-gray-400">${categoria}</p>${filas}</div>`;
+                return `<div class="tw:min-w-32.5 tw:p-2 tw:bg-white tw:dark:bg-gray-900 tw:rounded-lg tw:shadow-theme-md tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:space-y-1">
+                    <p class="tw:mb-1 tw:text-[10px] tw:leading-4 tw:text-gray-500 tw:dark:text-gray-400">${categoria}</p>${filas}</div>`;
             },
         },
         xaxis: {

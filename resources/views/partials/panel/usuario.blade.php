@@ -13,7 +13,7 @@
     $nperiodo = Session::get('nombre_periodo');
 ?>
 <div
-    class="relative"
+    class="tw:relative"
     x-data="dropdown({ placement: 'bottom-end', offset: 8 })"
     @click.outside="open = false"
     @keydown.escape.window="open = false"
@@ -26,15 +26,15 @@
         :aria-expanded="open.toString()"
         aria-controls="panel-usuario-menu"
         @click="toggle()"
-        class="flex items-center text-gray-700 dark:text-gray-400"
+        class="tw:flex tw:items-center tw:text-gray-700 tw:dark:text-gray-400"
     >
-        <span class="me-3 flex size-11 items-center justify-center overflow-hidden rounded-lg bg-brand-50 text-brand-500 dark:bg-brand-500/15 dark:text-brand-400">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="size-6">
+        <span class="tw:me-3 tw:flex tw:size-11 tw:items-center tw:justify-center tw:overflow-hidden tw:rounded-lg tw:bg-brand-50 tw:text-brand-500 tw:dark:bg-brand-500/15 tw:dark:text-brand-400">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="tw:size-6">
                 <path d="M12 3.5a4 4 0 1 0 0 8 4 4 0 0 0 0-8ZM4.5 20.25c0-3.59 3.36-6.5 7.5-6.5s7.5 2.91 7.5 6.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
         </span>
 
-        <span class="me-1 hidden max-w-48 truncate text-sm font-medium sm:block xl:max-w-none">
+        <span class="tw:me-1 tw:hidden tw:max-w-48 tw:truncate tw:text-sm tw:font-medium tw:sm:block tw:xl:max-w-none">
             @if($jefe_division==true || $consultas==true)
                 {{ $nombre }}
             @else
@@ -46,47 +46,47 @@
             @endif
         </span>
 
-        <svg class="size-5 text-gray-500 transition-transform duration-200 dark:text-gray-400" :class="open ? 'rotate-180' : 'rotate-0'" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg class="tw:size-5 tw:text-gray-500 tw:transition-transform tw:duration-200 tw:dark:text-gray-400" :class="open ? 'tw:rotate-180' : 'tw:rotate-0'" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M4.792 7.396L10 12.604l5.208-5.208" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
     </button>
 
     <div
         x-cloak
-        x-show="open"
+        x-show.important="open"
         x-ref="menu"
         id="panel-usuario-menu"
         role="menu"
         aria-labelledby="panel-usuario-boton"
-        x-transition:enter="animate-in fade-in-0 zoom-in-95 duration-100"
-        x-transition:leave="animate-out fade-out-0 zoom-out-95 fill-mode-forwards duration-75"
-        class="fixed z-50 flex w-65 flex-col gap-1 rounded-2xl border border-gray-200 bg-white p-3 shadow-theme-lg outline-none dark:border-gray-800 dark:bg-[#1E2635]"
+        x-transition:enter="tw:animate-in tw:fade-in-0 tw:zoom-in-95 tw:duration-100"
+        x-transition:leave="tw:animate-out tw:fade-out-0 tw:zoom-out-95 tw:fill-mode-forwards tw:duration-75"
+        class="tw:fixed tw:z-50 tw:flex tw:w-65 tw:flex-col tw:gap-1 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white tw:p-3 tw:shadow-theme-lg tw:outline-none tw:dark:border-gray-800 tw:dark:bg-[#1E2635]"
     >
         {{-- Misma información que la insignia del menú actual --}}
-        <div class="px-3 py-2" data-panel-insignia>
+        <div class="tw:px-3 tw:py-2" data-panel-insignia>
             @if($jefe_division==true || $consultas==true)
                 <?php
                     $nombre_carrera = Session::get('nombre_carrera');
                     $id_carrera = Session::get('id_carrera');
                 ?>
-                <span class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{$nombre}} . {{ $nombre_carrera }}</span>
-                <span class="mt-0.5 block text-xs text-gray-500 dark:text-gray-400">{{ $nperiodo }}</span>
+                <span class="tw:block tw:text-sm tw:font-medium tw:text-gray-700 tw:dark:text-gray-300">{{$nombre}} . {{ $nombre_carrera }}</span>
+                <span class="tw:mt-0.5 tw:block tw:text-xs tw:text-gray-500 tw:dark:text-gray-400">{{ $nperiodo }}</span>
             @else
                 @if($profesor_ingles==true)
                     <?php
                         $nombre_ingles = Session::get('nombre_ingles');
                         $nombre_periodo_ingles = Session::get('nombre_periodo_ingles');
                     ?>
-                    <span class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{$nombre_ingles}}</span>
-                    <span class="mt-0.5 block text-xs text-gray-500 dark:text-gray-400">{{ $nombre_periodo_ingles }}</span>
+                    <span class="tw:block tw:text-sm tw:font-medium tw:text-gray-700 tw:dark:text-gray-300">{{$nombre_ingles}}</span>
+                    <span class="tw:mt-0.5 tw:block tw:text-xs tw:text-gray-500 tw:dark:text-gray-400">{{ $nombre_periodo_ingles }}</span>
                 @else
-                    <span class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{$nombre}}</span>
-                    <span class="mt-0.5 block text-xs text-gray-500 dark:text-gray-400">{{ $nperiodo }}</span>
+                    <span class="tw:block tw:text-sm tw:font-medium tw:text-gray-700 tw:dark:text-gray-300">{{$nombre}}</span>
+                    <span class="tw:mt-0.5 tw:block tw:text-xs tw:text-gray-500 tw:dark:text-gray-400">{{ $nperiodo }}</span>
                 @endif
             @endif
         </div>
 
-        <div class="-mx-3 my-1.5 h-px bg-gray-100 dark:bg-gray-700"></div>
+        <div class="tw:-mx-3 tw:my-1.5 tw:h-px tw:bg-gray-100 tw:dark:bg-gray-700"></div>
 
         {{-- Cerrar sesión: mismo POST /logout con CSRF que el menú actual --}}
         <form action="{{ url('/logout') }}" method="POST">
@@ -94,9 +94,9 @@
             <button
                 type="submit"
                 role="menuitem"
-                class="group/dropdown-menu-item relative flex w-full cursor-pointer items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-red-500 outline-hidden transition-colors duration-200 select-none hover:bg-red-50 hover:text-red-600 focus:bg-red-50 focus:text-red-600 dark:text-red-400 dark:hover:bg-red-500/10 dark:hover:text-red-400 dark:focus:bg-red-500/10 dark:focus:text-red-400"
+                class="tw:group/dropdown-menu-item tw:relative tw:flex tw:w-full tw:cursor-pointer tw:items-center tw:gap-3 tw:rounded-lg tw:px-3 tw:py-2.5 tw:text-sm tw:font-medium tw:text-red-500 tw:outline-hidden tw:transition-colors tw:duration-200 tw:select-none tw:hover:bg-red-50 tw:hover:text-red-600 tw:focus:bg-red-50 tw:focus:text-red-600 tw:dark:text-red-400 tw:dark:hover:bg-red-500/10 tw:dark:hover:text-red-400 tw:dark:focus:bg-red-500/10 tw:dark:focus:text-red-400"
             >
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="size-5 text-red-500 dark:text-red-400">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="tw:size-5 tw:text-red-500 tw:dark:text-red-400">
                     <path d="M4 12h7.75M8 8l-3.998 4 3.997 4M9.75 4.996V4.25a1.5 1.5 0 011.5-1.5h6a1.5 1.5 0 011.5 1.5v15.5a1.5 1.5 0 01-1.5 1.5h-6a1.5 1.5 0 01-1.5-1.5V19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
                 <span>Cerrar sesión</span>

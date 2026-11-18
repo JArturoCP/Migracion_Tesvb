@@ -10,13 +10,13 @@
     (ver docs/panel.md) y verificarse con: php artisan test --filter=ComparacionEnlaces
     Cada bloque indica entre corchetes las líneas de origen en menu_admin.blade.php.
 --}}
-<a class="sr-only" href="#main-content">Saltar al contenido</a>
+<a class="tw:sr-only" href="#main-content">Saltar al contenido</a>
 
 {{-- Fondo oscuro al abrir el sidebar en móvil --}}
 <div
     x-cloak
-    x-show="sidebarToggle"
-    class="fixed inset-0 z-99 bg-gray-900/50 backdrop-blur-xs xl:hidden"
+    x-show.important="sidebarToggle"
+    class="tw:fixed tw:inset-0 tw:z-99 tw:bg-gray-900/50 tw:backdrop-blur-xs tw:xl:hidden"
     aria-hidden="true"
     @click="sidebarToggle = false"
     x-transition.opacity
@@ -24,21 +24,21 @@
 
 <aside
     x-cloak
-    :class="sidebarToggle ? 'translate-x-0 xl:w-22.5' : '-translate-x-full'"
-    class="sidebar fixed top-0 left-0 z-9999 flex h-screen w-72.5 flex-col border-r border-gray-200 bg-white px-5 transition-all duration-300 xl:static xl:translate-x-0 dark:border-gray-800 dark:bg-black"
+    :class="sidebarToggle ? 'tw:translate-x-0 tw:xl:w-22.5' : 'tw:-translate-x-full'"
+    class="tw-marco tw:sidebar tw:fixed tw:top-0 tw:left-0 tw:z-9999 tw:flex tw:h-screen tw:w-72.5 tw:shrink-0 tw:flex-col tw:border-r tw:border-gray-200 tw:bg-white tw:px-5 tw:transition-all tw:duration-300 tw:xl:sticky tw:xl:translate-x-0 tw:dark:border-gray-800 tw:dark:bg-black"
     @click.outside="if (window.innerWidth < 1280) sidebarToggle = false"
     aria-label="Menú lateral"
 >
     @include('partials.panel.sidebar_encabezado')
 
-    <div class="no-scrollbar flex flex-1 flex-col overflow-y-auto duration-300 ease-linear">
+    <div class="tw:no-scrollbar tw:flex tw:flex-1 tw:flex-col tw:overflow-y-auto tw:duration-300 tw:ease-linear">
         <nav x-data="{ selected: $persist('').as('panel_menu_abierto') }" aria-label="Menú principal">
             <div>
-                <h3 class="mb-4 text-xs leading-5 text-gray-400 uppercase">
-                    <span class="menu-group-title" :class="sidebarToggle ? 'xl:hidden' : ''">MENÚ</span>
+                <h3 class="tw:mb-4 tw:text-xs tw:leading-5 tw:text-gray-400 tw:uppercase">
+                    <span class="tw:menu-group-title" :class="sidebarToggle ? 'tw:xl:hidden' : ''">MENÚ</span>
                 </h3>
 
-                <ul class="mb-6 flex flex-col gap-1" data-panel-menu>
+                <ul class="tw:mb-6 tw:flex tw:flex-col tw:gap-1" data-panel-menu>
 {{-- [menu_admin L2-290] Banderas, variables y consultas: copia literal. --}}
 <?php
     //   $permiso_noregis=Session::get('personal_noregis');
@@ -381,16 +381,16 @@
 {{-- [menu_admin L410-428] Cambio de carrera (misma condición y mismos enlaces). --}}
                     @if($cambio_c==1)
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'carrera' ? '' : 'carrera')" class="group menu-item" :class="selected === 'carrera' ? 'menu-item-active' : 'menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'carrera' ? '' : 'carrera')" class="tw:group tw:menu-item" :class="selected === 'carrera' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
 @include('partials.panel.iconos.elementos', ['clave' => 'carrera'])
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Cambio de carrera</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Cambio de carrera</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'carrera'])
                             </a>
-                            <div x-cloak x-show="$store.buscador.activo || selected === 'carrera'" x-collapse>
-                                <ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
+                            <div x-cloak x-show.important="$store.buscador.activo || selected === 'carrera'" x-collapse>
+                                <ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
                                 @foreach($carreras as $carrera)
                                 <li>
-                                    <a href="/recarga_personal/{{ $carrera->id_carrera }}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>{{ $carrera->nombre }}</a>
+                                    <a href="/recarga_personal/{{ $carrera->id_carrera }}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>{{ $carrera->nombre }}</a>
                                 </li>
                                 @endforeach
                                 </ul>
@@ -424,34 +424,34 @@
                                 ?>
                     
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm1' ? '' : 'm1')" class="group menu-item" :class="selected === 'm1' ? 'menu-item-active' : 'menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm1' ? '' : 'm1')" class="tw:group tw:menu-item" :class="selected === 'm1' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
 @include('partials.panel.iconos.graficas', ['clave' => 'm1'])
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Complementarias</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Complementarias</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm1'])
 </a>
-                            <div x-cloak x-show="$store.buscador.activo || selected === 'm1'" x-collapse>
-<ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
-                                <li><a href="{{url('/planeacion_actividad')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Planeación de Actividades</a>
+                            <div x-cloak x-show.important="$store.buscador.activo || selected === 'm1'" x-collapse>
+<ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
+                                <li><a href="{{url('/planeacion_actividad')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Planeación de Actividades</a>
                                 </li>
-                                <li><a href="{{url('/consulta_general')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Evaluación</a></li>
+                                <li><a href="{{url('/consulta_general')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Evaluación</a></li>
                             </ul>
 </div>
                         </li>
 
-                        <li><a href="{{url('/docentes/modificar/')}}" class="group menu-item menu-item-inactive" data-panel-enlace>
+                        <li><a href="{{url('/docentes/modificar/')}}" class="tw:group tw:menu-item tw:menu-item-inactive" data-panel-enlace>
 @include('partials.panel.iconos.usuario')
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Datos P.</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Datos P.</span>
 </a></li>
 
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm2' ? '' : 'm2')" class="group menu-item" :class="selected === 'm2' ? 'menu-item-active' : 'menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm2' ? '' : 'm2')" class="tw:group tw:menu-item" :class="selected === 'm2' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
 @include('partials.panel.iconos.grupo', ['clave' => 'm2'])
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Duales</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Duales</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm2'])
 </a>
-                                <div x-cloak x-show="$store.buscador.activo || selected === 'm2'" x-collapse>
-<ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
-                                    <li><a href="{{url('/duales/mentor_calificar')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Calificar Alumnos Duales</a></li>
+                                <div x-cloak x-show.important="$store.buscador.activo || selected === 'm2'" x-collapse>
+<ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
+                                    <li><a href="{{url('/duales/mentor_calificar')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Calificar Alumnos Duales</a></li>
                                 </ul>
 </div>
 
@@ -460,14 +460,14 @@
                     @if($id_carrera == 2)
                     
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm3' ? '' : 'm3')" class="group menu-item" :class="selected === 'm3' ? 'menu-item-active' : 'menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm3' ? '' : 'm3')" class="tw:group tw:menu-item" :class="selected === 'm3' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
 @include('partials.panel.iconos.formularios', ['clave' => 'm3'])
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Solicitudes</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Solicitudes</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm3'])
 </a>
-                                <div x-cloak x-show="$store.buscador.activo || selected === 'm3'" x-collapse>
-<ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
-                                    <li><a href="{{route('materialDocente')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Material</a></li>
+                                <div x-cloak x-show.important="$store.buscador.activo || selected === 'm3'" x-collapse>
+<ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
+                                    <li><a href="{{route('materialDocente')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Material</a></li>
                                 </ul>
 </div>
 
@@ -477,14 +477,14 @@
                     @if($id_unidad_admin != true)
                     
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm4' ? '' : 'm4')" class="group menu-item" :class="selected === 'm4' ? 'menu-item-active' : 'menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm4' ? '' : 'm4')" class="tw:group tw:menu-item" :class="selected === 'm4' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
 @include('partials.panel.iconos.graficas', ['clave' => 'm4'])
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Evaluación Docente</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Evaluación Docente</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm4'])
 </a>
-                            <div x-cloak x-show="$store.buscador.activo || selected === 'm4'" x-collapse>
-<ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
-                                <li><a href="/reportes2/{{$id_perso}}/{{1}}/{{0}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Resultados de Evaluación</a>
+                            <div x-cloak x-show.important="$store.buscador.activo || selected === 'm4'" x-collapse>
+<ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
+                                <li><a href="/reportes2/{{$id_perso}}/{{1}}/{{0}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Resultados de Evaluación</a>
                                 </li>
                             </ul>
 </div>
@@ -492,24 +492,24 @@
                     
                     @endif
                     
-                        <li><a href="/docente/{{$id_perso}}/carreras" class="group menu-item menu-item-inactive" data-panel-enlace>
+                        <li><a href="/docente/{{$id_perso}}/carreras" class="tw:group tw:menu-item tw:menu-item-inactive" data-panel-enlace>
 @include('partials.panel.iconos.tablas')
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Calificaciones</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Calificaciones</span>
 </a></li>
 
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm5' ? '' : 'm5')" class="group menu-item" :class="selected === 'm5' ? 'menu-item-active' : 'menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm5' ? '' : 'm5')" class="tw:group tw:menu-item" :class="selected === 'm5' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
 @include('partials.panel.iconos.grupo', ['clave' => 'm5'])
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Residencia</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Residencia</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm5'])
 </a>
-                            <div x-cloak x-show="$store.buscador.activo || selected === 'm5'" x-collapse>
-<ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
+                            <div x-cloak x-show.important="$store.buscador.activo || selected === 'm5'" x-collapse>
+<ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
                                 @if($personal_academia==true)
-                                <li><a href="{{url('/residencia/agregar_anteproyecto_asesores')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Agregar asesores</a></li>
+                                <li><a href="{{url('/residencia/agregar_anteproyecto_asesores')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Agregar asesores</a></li>
                                 @endif
                                 @if($revisor==true)
-                                <li><a href="{{url('/residencia/revisores_anteproyecto/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Revisar proyecto de residencia</a></li>
+                                <li><a href="{{url('/residencia/revisores_anteproyecto/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Revisar proyecto de residencia</a></li>
                                 @endif
                             </ul>
 </div>
@@ -518,20 +518,20 @@
                     @endif
                     @if($seguimiento_asesor==true)
                     
-                        <li><a href="/residencia/seguimiento_asesor" class="group menu-item menu-item-inactive" data-panel-enlace>
+                        <li><a href="/residencia/seguimiento_asesor" class="tw:group tw:menu-item tw:menu-item-inactive" data-panel-enlace>
 @include('partials.panel.iconos.grupo')
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Seguimiento de Residencia</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Seguimiento de Residencia</span>
 </a></li>
                     
                     @endif
 
-                    {{--<ul class="nav navbar-nav">
-                                <li class="dropdown"><a href="{{ url('/auditorias/responsables_implementar') }}">Seguimiento
+                    {{--<ul class="tw:nav tw:navbar-nav">
+                                <li class="tw:dropdown"><a href="{{ url('/auditorias/responsables_implementar') }}">Seguimiento
                     Implantar</a></li>
                     </ul>
 
-                    <ul class="nav navbar-nav">
-                        <li class="dropdown"><a href="{{ url('/auditorias/responsables_revisar') }}">Seguimiento
+                    <ul class="tw:nav tw:navbar-nav">
+                        <li class="tw:dropdown"><a href="{{ url('/auditorias/responsables_revisar') }}">Seguimiento
                                 Revisar</a></li>
                     </ul>--}}
 
@@ -546,9 +546,9 @@
                     @if($docente && $docente->estado_docente_inv == 1)
 
                         <li>
-                            <a href="{{ route('examen_conocimientos') }}" class="group menu-item menu-item-inactive" data-panel-enlace>
+                            <a href="{{ route('examen_conocimientos') }}" class="tw:group tw:menu-item tw:menu-item-inactive" data-panel-enlace>
 @include('partials.panel.iconos.graficas')
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Examen Conocimientos Gral.</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Examen Conocimientos Gral.</span>
 </a>
                         </li>
 
@@ -562,14 +562,14 @@
                                 ?>
                     
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm6' ? '' : 'm6')" class="group menu-item" :class="selected === 'm6' ? 'menu-item-active' : 'menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm6' ? '' : 'm6')" class="tw:group tw:menu-item" :class="selected === 'm6' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
 @include('partials.panel.iconos.usuario', ['clave' => 'm6'])
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Datos P.</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Datos P.</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm6'])
 </a>
-                            <div x-cloak x-show="$store.buscador.activo || selected === 'm6'" x-collapse>
-<ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
-                                <li><a href="{{url('/docentes/modificar/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Editar</a></li>
+                            <div x-cloak x-show.important="$store.buscador.activo || selected === 'm6'" x-collapse>
+<ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
+                                <li><a href="{{url('/docentes/modificar/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Editar</a></li>
                             </ul>
 </div>
                         </li>
@@ -579,14 +579,14 @@
                     @if($id_unidad_admin != true)
                     
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm7' ? '' : 'm7')" class="group menu-item" :class="selected === 'm7' ? 'menu-item-active' : 'menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm7' ? '' : 'm7')" class="tw:group tw:menu-item" :class="selected === 'm7' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
 @include('partials.panel.iconos.graficas', ['clave' => 'm7'])
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Evaluación Docente</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Evaluación Docente</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm7'])
 </a>
-                            <div x-cloak x-show="$store.buscador.activo || selected === 'm7'" x-collapse>
-<ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
-                                <li><a href="/reportes2/{{$id_perso}}/{{1}}/{{0}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Resultados de Evaluación</a>
+                            <div x-cloak x-show.important="$store.buscador.activo || selected === 'm7'" x-collapse>
+<ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
+                                <li><a href="/reportes2/{{$id_perso}}/{{1}}/{{0}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Resultados de Evaluación</a>
                                 </li>
                             </ul>
 </div>
@@ -595,28 +595,28 @@
                     @endif
                     @if($id_unidad_admin != true)
                     
-                        <li><a href="/docente/{{$id_perso}}/carreras" class="group menu-item menu-item-inactive" data-panel-enlace>
+                        <li><a href="/docente/{{$id_perso}}/carreras" class="tw:group tw:menu-item tw:menu-item-inactive" data-panel-enlace>
 @include('partials.panel.iconos.tablas')
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Calificaciones</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Calificaciones</span>
 </a></li>
                     
                     @endif
                     @if($id_unidad_admin != true)
                     
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm8' ? '' : 'm8')" class="group menu-item" :class="selected === 'm8' ? 'menu-item-active' : 'menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm8' ? '' : 'm8')" class="tw:group tw:menu-item" :class="selected === 'm8' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
 @include('partials.panel.iconos.grupo', ['clave' => 'm8'])
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Residencia</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Residencia</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm8'])
 </a>
-                            <div x-cloak x-show="$store.buscador.activo || selected === 'm8'" x-collapse>
-<ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
+                            <div x-cloak x-show.important="$store.buscador.activo || selected === 'm8'" x-collapse>
+<ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
                                 @if($personal_academia==true)
-                                <li><a href="{{url('/residencia/agregar_anteproyecto_asesores')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Agregar asesores</a>
+                                <li><a href="{{url('/residencia/agregar_anteproyecto_asesores')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Agregar asesores</a>
                                 </li>
                                 @endif
                                 @if($revisor==true)
-                                <li><a href="{{url('/residencia/revisores_anteproyecto/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Revisar proyecto de residencia</a></li>
+                                <li><a href="{{url('/residencia/revisores_anteproyecto/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Revisar proyecto de residencia</a></li>
                                 @endif
                             </ul>
 </div>
@@ -625,9 +625,9 @@
                     @endif
                     @if($seguimiento_asesor==true)
                     
-                        <li><a href="/residencia/seguimiento_asesor" class="group menu-item menu-item-inactive" data-panel-enlace>
+                        <li><a href="/residencia/seguimiento_asesor" class="tw:group tw:menu-item tw:menu-item-inactive" data-panel-enlace>
 @include('partials.panel.iconos.grupo')
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Seguimiento de Residencia</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Seguimiento de Residencia</span>
 </a></li>
                     
                     @endif
@@ -636,17 +636,17 @@
                     @if($tipo_p== 2)
                     @if($id_unidad_admin != true)
                     
-                        <li><a href="{{url('tutorias/')}}" class="group menu-item menu-item-inactive" data-panel-enlace>
+                        <li><a href="{{url('tutorias/')}}" class="tw:group tw:menu-item tw:menu-item-inactive" data-panel-enlace>
 @include('partials.panel.iconos.usuario')
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Tutorías</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Tutorías</span>
 </a></li>
                     
                     @else
                     @if($desa==true || $jefe_division == true )
                     
-                        <li><a href="{{url('tutorias/')}}" class="group menu-item menu-item-inactive" data-panel-enlace>
+                        <li><a href="{{url('tutorias/')}}" class="tw:group tw:menu-item tw:menu-item-inactive" data-panel-enlace>
 @include('partials.panel.iconos.usuario')
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Tutorías</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Tutorías</span>
 </a></li>
                     
                     @endif
@@ -657,31 +657,31 @@
                     true || $es_alumno_piase_menu == true)
                     
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm9' ? '' : 'm9')" class="group menu-item" :class="selected === 'm9' ? 'menu-item-active' : 'menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm9' ? '' : 'm9')" class="tw:group tw:menu-item" :class="selected === 'm9' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
 @include('partials.panel.iconos.grupo', ['clave' => 'm9'])
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">PIASE</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">PIASE</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm9'])
 </a>
-                            <div x-cloak x-show="$store.buscador.activo || selected === 'm9'" x-collapse>
-<ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
+                            <div x-cloak x-show.important="$store.buscador.activo || selected === 'm9'" x-collapse>
+<ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
                                 @if($es_tutor_reprobacion_menu == true)
                                 <li>
-                                    <a href="{{ url('/canalizacion-reprobacion-principal') }}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Canalizar por reprobación</a>
+                                    <a href="{{ url('/canalizacion-reprobacion-principal') }}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Canalizar por reprobación</a>
                                 </li>
                                 @endif
                                 @if($es_responsable_area_atencion_menu == true)
                                 <li>
-                                    <a href="{{ route('areas_atencion.mis_casos.index') }}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Atención y seguimiento</a>
+                                    <a href="{{ route('areas_atencion.mis_casos.index') }}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Atención y seguimiento</a>
                                 </li>
                                 @endif
                                 @if($es_alumno_piase_menu == true)
                                 <li>
-                                    <a href="{{ route('piase.estudiante.index') }}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Mis citas y actividades</a>
+                                    <a href="{{ route('piase.estudiante.index') }}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Mis citas y actividades</a>
                                 </li>
                                 @endif
                                 @if($desa==true)
                                 <li>
-                                    <a href="{{ route('desarrollo_academico.areas_atencion.index') }}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Configurar áreas y horarios</a>
+                                    <a href="{{ route('desarrollo_academico.areas_atencion.index') }}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Configurar áreas y horarios</a>
                                 </li>
                                 @endif
                             </ul>
@@ -693,9 +693,9 @@
                     @if($unidad==19)
                     
                         <li>
-                        <li><a href="{{url('/ingles/')}}" class="group menu-item menu-item-inactive" data-panel-enlace>
+                        <li><a href="{{url('/ingles/')}}" class="tw:group tw:menu-item tw:menu-item-inactive" data-panel-enlace>
 @include('partials.panel.iconos.paginas')
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Inglés</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Inglés</span>
 </a></li>
                         </li>
 
@@ -705,50 +705,50 @@
                     @if($jefe_computo==true)
 
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm10' ? '' : 'm10')" class="group menu-item" :class="selected === 'm10' ? 'menu-item-active' : 'menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm10' ? '' : 'm10')" class="tw:group tw:menu-item" :class="selected === 'm10' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
 @include('partials.panel.iconos.usuario', ['clave' => 'm10'])
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Datos P.</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Datos P.</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm10'])
 </a>
-                            <div x-cloak x-show="$store.buscador.activo || selected === 'm10'" x-collapse>
-<ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
-                                <li><a href="{{url('/docentes/modificar/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Editar</a></li>
+                            <div x-cloak x-show.important="$store.buscador.activo || selected === 'm10'" x-collapse>
+<ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
+                                <li><a href="{{url('/docentes/modificar/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Editar</a></li>
                             </ul>
 </div>
                         </li>
 
                         <li>
-                        <li><a href="{{url('/laboratorios/laboratorios/')}}" class="group menu-item menu-item-inactive" data-panel-enlace>
+                        <li><a href="{{url('/laboratorios/laboratorios/')}}" class="tw:group tw:menu-item tw:menu-item-inactive" data-panel-enlace>
 @include('partials.panel.iconos.elementos')
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Laboratorios</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Laboratorios</span>
 </a></li>
                         </li>
 
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm11' ? '' : 'm11')" class="group menu-item" :class="selected === 'm11' ? 'menu-item-active' : 'menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm11' ? '' : 'm11')" class="tw:group tw:menu-item" :class="selected === 'm11' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
 @include('partials.panel.iconos.formularios', ['clave' => 'm11'])
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Servicios Escolares</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Servicios Escolares</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm11'])
 </a>
-                            <div x-cloak x-show="$store.buscador.activo || selected === 'm11'" x-collapse>
-<ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
-                                <li><a href="{{url('/computo/calificar')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Calificar</a></li>
-                                <li><a href="{{url('/servicios_escolares/evaluaciones_cc_academico')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Cambio de Periodo</a></li>
-                                <li><a href="{{url('/computo/ver_cal/promedios')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Promedios >= 90</a></li>
+                            <div x-cloak x-show.important="$store.buscador.activo || selected === 'm11'" x-collapse>
+<ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
+                                <li><a href="{{url('/computo/calificar')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Calificar</a></li>
+                                <li><a href="{{url('/servicios_escolares/evaluaciones_cc_academico')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Cambio de Periodo</a></li>
+                                <li><a href="{{url('/computo/ver_cal/promedios')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Promedios >= 90</a></li>
                             </ul>
 </div>
                         </li>
 
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm12' ? '' : 'm12')" class="group menu-item" :class="selected === 'm12' ? 'menu-item-active' : 'menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm12' ? '' : 'm12')" class="tw:group tw:menu-item" :class="selected === 'm12' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
 @include('partials.panel.iconos.paginas', ['clave' => 'm12'])
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Envío Encuesta Sat.</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Envío Encuesta Sat.</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm12'])
 </a>
-                            <div x-cloak x-show="$store.buscador.activo || selected === 'm12'" x-collapse>
-<ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
-                                <li><a href="{{url('/encuestas_satisfaccion/periodo_mantenimiento/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Enviar Encuesta de Satisfacción de cliente interno</a></li>
-                                <li><a href="{{url('/encuestas_satisfaccion/menu_historial_mantenimiento/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Historial Encuesta de Satisfacción de cliente</a></li>
+                            <div x-cloak x-show.important="$store.buscador.activo || selected === 'm12'" x-collapse>
+<ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
+                                <li><a href="{{url('/encuestas_satisfaccion/periodo_mantenimiento/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Enviar Encuesta de Satisfacción de cliente interno</a></li>
+                                <li><a href="{{url('/encuestas_satisfaccion/menu_historial_mantenimiento/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Historial Encuesta de Satisfacción de cliente</a></li>
                                 {{--   <li><a href="{{url('/centro_computo/configuracion_dat/')}}">checar
                                 configuracion</a>
                         </li> --}}
@@ -757,28 +757,28 @@
                     </li>
                     
                     {{--
-                                    <ul class="nav navbar-nav navbar-left">
-                                        <li class="dropdown">
+                                    <ul class="tw:nav tw:navbar-nav tw:navbar-left">
+                                        <li class="tw:dropdown">
                                         <li><a href="{{url('/computo/registrar_imagen/')}}">Registrar imagen </a></li>
                     </li>
                     </ul>
                     --}}
                     
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm13' ? '' : 'm13')" class="group menu-item" :class="selected === 'm13' ? 'menu-item-active' : 'menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm13' ? '' : 'm13')" class="tw:group tw:menu-item" :class="selected === 'm13' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
 @include('partials.panel.iconos.elementos', ['clave' => 'm13'])
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Herramientas</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Herramientas</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm13'])
 </a>
-                            <div x-cloak x-show="$store.buscador.activo || selected === 'm13'" x-collapse>
-<ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
-                                <li><a href="{{url('/centro_computo/activar_armar_horarios/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Activar armar horarios</a></li>
-                                <li><a href="{{url('/centro_computo/registro_estudiantes_correo/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Registro de usuarios en el sistema</a></li>
-                                <li><a href="{{url('/centro_computo/usuario/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Permisos</a></li>
-                                <li><a href="{{url('/centro_computo/ver_usuario_estudiante/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Usuarios Estudiantes</a></li>
-                                <li><a href="{{url('/centro_computo/ver_usuario_personal_tesvb/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Usuarios Personal TESVB</a></li>
-                                <li><a href="{{url('/centro_computo/ver_usuario_facilitadores/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Usuarios Facilitadores</a></li>
-                                <li><a href="{{url('/centro_computo/informes_titulacion/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Modificar informe de titulación</a></li>
+                            <div x-cloak x-show.important="$store.buscador.activo || selected === 'm13'" x-collapse>
+<ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
+                                <li><a href="{{url('/centro_computo/activar_armar_horarios/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Activar armar horarios</a></li>
+                                <li><a href="{{url('/centro_computo/registro_estudiantes_correo/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Registro de usuarios en el sistema</a></li>
+                                <li><a href="{{url('/centro_computo/usuario/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Permisos</a></li>
+                                <li><a href="{{url('/centro_computo/ver_usuario_estudiante/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Usuarios Estudiantes</a></li>
+                                <li><a href="{{url('/centro_computo/ver_usuario_personal_tesvb/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Usuarios Personal TESVB</a></li>
+                                <li><a href="{{url('/centro_computo/ver_usuario_facilitadores/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Usuarios Facilitadores</a></li>
+                                <li><a href="{{url('/centro_computo/informes_titulacion/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Modificar informe de titulación</a></li>
 
                             </ul>
 </div>
@@ -789,49 +789,49 @@
                     @if($jefe_personal==true)
 
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm14' ? '' : 'm14')" class="group menu-item" :class="selected === 'm14' ? 'menu-item-active' : 'menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm14' ? '' : 'm14')" class="tw:group tw:menu-item" :class="selected === 'm14' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
 @include('partials.panel.iconos.usuario', ['clave' => 'm14'])
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Datos P.</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Datos P.</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm14'])
 </a>
-                            <div x-cloak x-show="$store.buscador.activo || selected === 'm14'" x-collapse>
-<ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
-                                <li><a href="{{url('/docentes/modificar/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Editar</a></li>
+                            <div x-cloak x-show.important="$store.buscador.activo || selected === 'm14'" x-collapse>
+<ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
+                                <li><a href="{{url('/docentes/modificar/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Editar</a></li>
                             </ul>
 </div>
                         </li>
 
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm15' ? '' : 'm15')" class="group menu-item" :class="selected === 'm15' ? 'menu-item-active' : 'menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm15' ? '' : 'm15')" class="tw:group tw:menu-item" :class="selected === 'm15' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
 @include('partials.panel.iconos.usuario', ['clave' => 'm15'])
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Cargos del Personal</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Cargos del Personal</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm15'])
 </a>
-                            <div x-cloak x-show="$store.buscador.activo || selected === 'm15'" x-collapse>
-<ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
-                                <li><a href="{{url('/docente')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Personal del TESVB</a></li>
-                                <li><a href="{{url('/generales/cargos')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Categoría Personal</a></li>
+                            <div x-cloak x-show.important="$store.buscador.activo || selected === 'm15'" x-collapse>
+<ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
+                                <li><a href="{{url('/docente')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Personal del TESVB</a></li>
+                                <li><a href="{{url('/generales/cargos')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Categoría Personal</a></li>
                             </ul>
 </div>
                         </li>
 
                         <li>
-                        <li><a href="{{url('/oficios/evaluacion')}}" class="group menu-item menu-item-inactive" data-panel-enlace>
+                        <li><a href="{{url('/oficios/evaluacion')}}" class="tw:group tw:menu-item tw:menu-item-inactive" data-panel-enlace>
 @include('partials.panel.iconos.formularios')
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Validar Oficios</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Validar Oficios</span>
 </a></li>
                         </li>
 
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm16' ? '' : 'm16')" class="group menu-item" :class="selected === 'm16' ? 'menu-item-active' : 'menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm16' ? '' : 'm16')" class="tw:group tw:menu-item" :class="selected === 'm16' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
 @include('partials.panel.iconos.tablas', ['clave' => 'm16'])
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Plantilla Personal</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Plantilla Personal</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm16'])
 </a>
-                            <div x-cloak x-show="$store.buscador.activo || selected === 'm16'" x-collapse>
-<ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
-                                <li><a href="{{url('/departamento/plantilla')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Agregar Plantilla</a></li>
-                                <li><a href="{{url('/departamentoplantilla/ver')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Ver Plantilla</a></li>
+                            <div x-cloak x-show.important="$store.buscador.activo || selected === 'm16'" x-collapse>
+<ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
+                                <li><a href="{{url('/departamento/plantilla')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Agregar Plantilla</a></li>
+                                <li><a href="{{url('/departamentoplantilla/ver')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Ver Plantilla</a></li>
                             </ul>
 </div>
                         </li>
@@ -841,31 +841,31 @@
                     @if($jefe_division==true)
                     
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm17' ? '' : 'm17')" class="group menu-item" :class="selected === 'm17' ? 'menu-item-active' : 'menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm17' ? '' : 'm17')" class="tw:group tw:menu-item" :class="selected === 'm17' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
 @include('partials.panel.iconos.usuario', ['clave' => 'm17'])
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Datos P.</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Datos P.</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm17'])
 </a>
-                            <div x-cloak x-show="$store.buscador.activo || selected === 'm17'" x-collapse>
-<ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
-                                <li><a href="{{url('/docentes/modificar/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Editar</a></li>
+                            <div x-cloak x-show.important="$store.buscador.activo || selected === 'm17'" x-collapse>
+<ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
+                                <li><a href="{{url('/docentes/modificar/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Editar</a></li>
                             </ul>
 </div>
                         </li>
 
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm18' ? '' : 'm18')" class="group menu-item" :class="selected === 'm18' ? 'menu-item-active' : 'menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm18' ? '' : 'm18')" class="tw:group tw:menu-item" :class="selected === 'm18' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
 @include('partials.panel.iconos.graficas', ['clave' => 'm18'])
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Complementarias</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Complementarias</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm18'])
 </a>
-                            <div x-cloak x-show="$store.buscador.activo || selected === 'm18'" x-collapse>
-<ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
-                                <li><a href="{{url('/docente_actividad')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Asignar Docente a Actividad</a></li>
-                                <li><a href="{{url('/alumnos_actividades')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Liberar Solicitud Alumnos</a></li>
-                                <li><a href="{{url('/libera_planeacion')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Liberar Planeación Docente</a></li>
-                                <li><a href="{{url('/constancias')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Constancia Individual</a></li>
-                                <li><a href="{{url('/constancia_gen')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Constancia General</a></li>
+                            <div x-cloak x-show.important="$store.buscador.activo || selected === 'm18'" x-collapse>
+<ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
+                                <li><a href="{{url('/docente_actividad')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Asignar Docente a Actividad</a></li>
+                                <li><a href="{{url('/alumnos_actividades')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Liberar Solicitud Alumnos</a></li>
+                                <li><a href="{{url('/libera_planeacion')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Liberar Planeación Docente</a></li>
+                                <li><a href="{{url('/constancias')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Constancia Individual</a></li>
+                                <li><a href="{{url('/constancia_gen')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Constancia General</a></li>
                                 {{--     <li><a href="{{url('/datos_historicos')}}">Datos Históricos</a>
                         </li> --}}
                     </ul>
@@ -873,16 +873,16 @@
                     </li>
 
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm19' ? '' : 'm19')" class="group menu-item" :class="selected === 'm19' ? 'menu-item-active' : 'menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm19' ? '' : 'm19')" class="tw:group tw:menu-item" :class="selected === 'm19' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
 @include('partials.panel.iconos.graficas', ['clave' => 'm19'])
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Evaluación</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Evaluación</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm19'])
 </a>
 
-                            <div x-cloak x-show="$store.buscador.activo || selected === 'm19'" x-collapse>
-<ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
+                            <div x-cloak x-show.important="$store.buscador.activo || selected === 'm19'" x-collapse>
+<ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
                                 <li>
-                                    <a href="{{url('/buscar_profesores_carrera')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Profesores</a>
+                                    <a href="{{url('/buscar_profesores_carrera')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Profesores</a>
                                 </li>
                                 <!--<li>
                                         <a href="{{url('/buscar_alumnos')}}">
@@ -893,10 +893,10 @@
 </div>
                         </li>
 
-                        <!--<li class="dropdown bloqueo">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                        <!--<li class="tw:dropdown tw:bloqueo">
+                            <a href="#" class="tw:dropdown-toggle" data-toggle="dropdown" role="button"
                                 aria-haspopup="true" aria-expanded="false">Horarios</a>
-                            <ul class="dropdown-menu">
+                            <ul class="tw:dropdown-menu">
                                 <li><a href="{{url('/horarios/armar_horarios')}}">Armar Horarios</a></li>
                                 <li><a href="{{url('/horarios/hrs_grupos/jefes')}}">Ver Horarios Grupos</a></li>
                                 <li><a href="{{url('/horarios/hrs_aulas/jefes')}}">Ver Horarios Aulas</a></li>
@@ -905,73 +905,73 @@
                         </li>-->
 
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm20' ? '' : 'm20')" class="group menu-item" :class="selected === 'm20' ? 'menu-item-active' : 'menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm20' ? '' : 'm20')" class="tw:group tw:menu-item" :class="selected === 'm20' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
 @include('partials.panel.iconos.tablas', ['clave' => 'm20'])
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Formatos</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Formatos</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm20'])
 </a>
-                            <div x-cloak x-show="$store.buscador.activo || selected === 'm20'" x-collapse>
-<ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
-                                <li><a href="{{url('/formatos/distribucion')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Distrib.de hrs. frente a grupo</a></li>
-                                <li><a href="{{url('/formatos/relacion')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Relación de personal docente</a>
+                            <div x-cloak x-show.important="$store.buscador.activo || selected === 'm20'" x-collapse>
+<ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
+                                <li><a href="{{url('/formatos/distribucion')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Distrib.de hrs. frente a grupo</a></li>
+                                <li><a href="{{url('/formatos/relacion')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Relación de personal docente</a>
                                 </li>
                             </ul>
 </div>
                         </li>
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm21' ? '' : 'm21')" class="group menu-item" :class="selected === 'm21' ? 'menu-item-active' : 'menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm21' ? '' : 'm21')" class="tw:group tw:menu-item" :class="selected === 'm21' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
 @include('partials.panel.iconos.tablas', ['clave' => 'm21'])
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Plantilla</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Plantilla</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm21'])
 </a>
-                            <div x-cloak x-show="$store.buscador.activo || selected === 'm21'" x-collapse>
-<ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
-                                <li><a href="{{url('/plantilla/docentes')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Agregar Docentes</a></li>
-                                <li><a href="{{url('/plantilla/ver')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Ver Plantilla</a></li>
+                            <div x-cloak x-show.important="$store.buscador.activo || selected === 'm21'" x-collapse>
+<ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
+                                <li><a href="{{url('/plantilla/docentes')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Agregar Docentes</a></li>
+                                <li><a href="{{url('/plantilla/ver')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Ver Plantilla</a></li>
                             </ul>
 </div>
                         </li>
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm22' ? '' : 'm22')" class="group menu-item" :class="selected === 'm22' ? 'menu-item-active' : 'menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm22' ? '' : 'm22')" class="tw:group tw:menu-item" :class="selected === 'm22' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
 @include('partials.panel.iconos.elementos', ['clave' => 'm22'])
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Generales</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Generales</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm22'])
 </a>
-                            <div x-cloak x-show="$store.buscador.activo || selected === 'm22'" x-collapse>
-<ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
+                            <div x-cloak x-show.important="$store.buscador.activo || selected === 'm22'" x-collapse>
+<ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
                                 <li x-data="{ abierto: false }">
-                                    <a href="#" @click.prevent="abierto = !abierto" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-modulo>
+                                    <a href="#" @click.prevent="abierto = !abierto" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-modulo>
 <span>Académico</span>
 @include('partials.panel.iconos.flecha_subgrupo')
 </a>
-                                    <div x-cloak x-show="$store.buscador.activo || abierto" x-collapse>
-<ul class="mt-1 flex flex-col gap-1 border-l border-gray-200 pl-3 dark:border-gray-800">
-                                        <li><a href="{{url('/reticulass')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Retículas</a></li>
-                                        <li><a href="{{url('/docente')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Docentes</a></li>
+                                    <div x-cloak x-show.important="$store.buscador.activo || abierto" x-collapse>
+<ul class="tw:mt-1 tw:flex tw:flex-col tw:gap-1 tw:border-l tw:border-gray-200 tw:pl-3 tw:dark:border-gray-800">
+                                        <li><a href="{{url('/reticulass')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Retículas</a></li>
+                                        <li><a href="{{url('/docente')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Docentes</a></li>
                                     </ul>
 </div>
                                 </li>
-                                <li><a href="{{url('/generales/situaciones')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Situación Profesional</a></li>
-                                <li><a href="{{url('/generales/perfiles')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Perfil</a></li>
-                                <li><a href="{{url('/generales/edificios')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Edificios</a></li>
-                                <li><a href="{{url('/generales/aulas')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Aulas</a></li>
+                                <li><a href="{{url('/generales/situaciones')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Situación Profesional</a></li>
+                                <li><a href="{{url('/generales/perfiles')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Perfil</a></li>
+                                <li><a href="{{url('/generales/edificios')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Edificios</a></li>
+                                <li><a href="{{url('/generales/aulas')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Aulas</a></li>
                             </ul>
 </div>
                         </li>
 
                         <li>
-                            <a href="{{ route('j_carrera.analisis_reprobacion.index') }}" class="group menu-item menu-item-inactive" data-panel-enlace>
+                            <a href="{{ route('j_carrera.analisis_reprobacion.index') }}" class="tw:group tw:menu-item tw:menu-item-inactive" data-panel-enlace>
 @include('partials.panel.iconos.graficas')
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Análisis de reprobación</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Análisis de reprobación</span>
 </a>
                         </li>
-                        <!--<li class="dropdown bloqueo">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                        <!--<li class="tw:dropdown tw:bloqueo">
+                            <a href="#" class="tw:dropdown-toggle" data-toggle="dropdown" role="button"
                                 aria-haspopup="true" aria-expanded="false">
                                 Indice Reprobación 
                             </a>
 
-                            <ul class="dropdown-menu">
+                            <ul class="tw:dropdown-menu">
                                 <li>
                                     <a
                                         href="{{ url('/servicios_escolares/estadisticas/indice_reprobacion/'.$id_carrera) }}">
@@ -988,35 +988,35 @@
                         </li>
 -->
                         <li>
-                            <a href="{{ url($id_carrera.'/docentes') }}" class="group menu-item menu-item-inactive" data-panel-enlace>
+                            <a href="{{ url($id_carrera.'/docentes') }}" class="tw:group tw:menu-item tw:menu-item-inactive" data-panel-enlace>
 @include('partials.panel.iconos.tablas')
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Calificaciones</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Calificaciones</span>
 </a>
                         </li>
 
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm23' ? '' : 'm23')" class="group menu-item" :class="selected === 'm23' ? 'menu-item-active' : 'menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm23' ? '' : 'm23')" class="tw:group tw:menu-item" :class="selected === 'm23' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
 @include('partials.panel.iconos.grupo', ['clave' => 'm23'])
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Residencia</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Residencia</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm23'])
 </a>
 
-                            <div x-cloak x-show="$store.buscador.activo || selected === 'm23'" x-collapse>
-<ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
+                            <div x-cloak x-show.important="$store.buscador.activo || selected === 'm23'" x-collapse>
+<ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
                                 <li>
-                                    <a href="{{ url('/residencia/asignar_revisores') }}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Asignar Revisores</a>
+                                    <a href="{{ url('/residencia/asignar_revisores') }}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Asignar Revisores</a>
                                 </li>
 
                                 <li>
-                                    <a href="{{ url('/residencia/asignar_academia') }}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Asignar Academia</a>
+                                    <a href="{{ url('/residencia/asignar_academia') }}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Asignar Academia</a>
                                 </li>
 
                                 <li>
-                                    <a href="{{ url('/residentes/carrera_oficio_aceptacion') }}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Oficio de aceptación</a>
+                                    <a href="{{ url('/residentes/carrera_oficio_aceptacion') }}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Oficio de aceptación</a>
                                 </li>
 
                                 <li>
-                                    <a href="{{ url('/residentes/carrera') }}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Calificaciones de los residentes</a>
+                                    <a href="{{ url('/residentes/carrera') }}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Calificaciones de los residentes</a>
                                 </li>
                             </ul>
 </div>
@@ -1028,22 +1028,22 @@
                         @if($desa==true )
                         
                             <li>
-                                <a href="#" @click.prevent="selected = (selected === 'm24' ? '' : 'm24')" class="group menu-item" :class="selected === 'm24' ? 'menu-item-active' : 'menu-item-inactive'" data-panel-modulo>
+                                <a href="#" @click.prevent="selected = (selected === 'm24' ? '' : 'm24')" class="tw:group tw:menu-item" :class="selected === 'm24' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
 @include('partials.panel.iconos.graficas', ['clave' => 'm24'])
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Evaluación Docente</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Evaluación Docente</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm24'])
 </a>
 
-                                <div x-cloak x-show="$store.buscador.activo || selected === 'm24'" x-collapse>
-<ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
+                                <div x-cloak x-show.important="$store.buscador.activo || selected === 'm24'" x-collapse>
+<ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
                                     <li>
-                                        <a href="{{url('/buscar_profesores')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Profesores</a>
+                                        <a href="{{url('/buscar_profesores')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Profesores</a>
                                     </li>
                                     <li>
-                                        <a href="{{url('/buscar_alumnos')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Alumnos</a>
+                                        <a href="{{url('/buscar_alumnos')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Alumnos</a>
                                     </li>
                                     <li>
-                                        <a href="{{url('/comentarios_docentes')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Ver Comentarios</a>
+                                        <a href="{{url('/comentarios_docentes')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Ver Comentarios</a>
                                     </li>
 
                                 </ul>
@@ -1051,38 +1051,38 @@
 
                             </li>
                             <li>
-                                <a href="#" @click.prevent="selected = (selected === 'm25' ? '' : 'm25')" class="group menu-item" :class="selected === 'm25' ? 'menu-item-active' : 'menu-item-inactive'" data-panel-modulo>
+                                <a href="#" @click.prevent="selected = (selected === 'm25' ? '' : 'm25')" class="tw:group tw:menu-item" :class="selected === 'm25' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
 @include('partials.panel.iconos.calendario', ['clave' => 'm25'])
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Horarios</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Horarios</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm25'])
 </a>
-                                <div x-cloak x-show="$store.buscador.activo || selected === 'm25'" x-collapse>
-<ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
-                                    <li><a href="{{url('/horarios/hrs_grupos')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Ver Horarios Grupos</a></li>
-                                    <li><a href="{{url('/horarios/hrs_aulas')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Ver Horarios Aulas</a></li>
-                                    <li><a href="{{url('/hrs_carrera')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Horas por carrera</a></li>
+                                <div x-cloak x-show.important="$store.buscador.activo || selected === 'm25'" x-collapse>
+<ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
+                                    <li><a href="{{url('/horarios/hrs_grupos')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Ver Horarios Grupos</a></li>
+                                    <li><a href="{{url('/horarios/hrs_aulas')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Ver Horarios Aulas</a></li>
+                                    <li><a href="{{url('/hrs_carrera')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Horas por carrera</a></li>
                                 </ul>
 </div>
                             </li>
                             <li>
-                                <a href="{{url('/servicios_escolares/evaluaciones_academicas')}}" class="group menu-item menu-item-inactive" data-panel-enlace>
+                                <a href="{{url('/servicios_escolares/evaluaciones_academicas')}}" class="tw:group tw:menu-item tw:menu-item-inactive" data-panel-enlace>
 @include('partials.panel.iconos.graficas')
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Evaluaciones</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Evaluaciones</span>
 </a>
                             </li>
 
                             {{-- 🔥 BOTÓN NUEVO EGEL --}}
                             <li>
-                                <a href="{{ route('admin.dashboard') }}" class="group menu-item menu-item-inactive" data-panel-enlace>
+                                <a href="{{ route('admin.dashboard') }}" class="tw:group tw:menu-item tw:menu-item-inactive" data-panel-enlace>
 @include('partials.panel.iconos.graficas')
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Administrar Examen EGEL</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Administrar Examen EGEL</span>
 </a>
                             </li>
 
                             <li>
-                                <a href="{{ route('admin_examen_conocimientos') }}" class="group menu-item menu-item-inactive" data-panel-enlace>
+                                <a href="{{ route('admin_examen_conocimientos') }}" class="tw:group tw:menu-item tw:menu-item-inactive" data-panel-enlace>
 @include('partials.panel.iconos.graficas')
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Administrar Examen Conocimientos Gral.</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Administrar Examen Conocimientos Gral.</span>
 </a>
                             </li>
 
@@ -1092,80 +1092,80 @@
                         @if($escolar==true || $directivo==true)
                         
                             <li>
-                                <a href="#" @click.prevent="selected = (selected === 'm26' ? '' : 'm26')" class="group menu-item" :class="selected === 'm26' ? 'menu-item-active' : 'menu-item-inactive'" data-panel-modulo>
+                                <a href="#" @click.prevent="selected = (selected === 'm26' ? '' : 'm26')" class="tw:group tw:menu-item" :class="selected === 'm26' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
 @include('partials.panel.iconos.formularios', ['clave' => 'm26'])
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Control Escolar</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Control Escolar</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm26'])
 </a>
 
-                                <div x-cloak x-show="$store.buscador.activo || selected === 'm26'" x-collapse>
-<ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
+                                <div x-cloak x-show.important="$store.buscador.activo || selected === 'm26'" x-collapse>
+<ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
                                     <li>
-                                        <a href="{{url('/validacion_de_carga')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Revisión de cargas</a>
+                                        <a href="{{url('/validacion_de_carga')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Revisión de cargas</a>
                                     </li>
                                     @if($directivo==true)
                                     <li>
-                                        <a href="/duales/gestion_academica" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Gestión de Académica de Alumnos Duales</a>
+                                        <a href="/duales/gestion_academica" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Gestión de Académica de Alumnos Duales</a>
                                     </li>
                                     @endif
-                                    <li><a href="/servicios_escolares/carreras_calificaciones" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Evaluaciones</a>
+                                    <li><a href="/servicios_escolares/carreras_calificaciones" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Evaluaciones</a>
                                     </li>
-                                    <li><a href="/servicios_escolares/estadisticas" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Estadísticas</a></li>
-                                    <li><a href="/servicios_escolares/bitacora_periodos" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Modificaciones en periodos</a></li>
-                                    <li><a href="/servicios_escolares/bitacora_evaluaciones" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Modificaciones en evaluaciones ordinarias</a></li>
+                                    <li><a href="/servicios_escolares/estadisticas" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Estadísticas</a></li>
+                                    <li><a href="/servicios_escolares/bitacora_periodos" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Modificaciones en periodos</a></li>
+                                    <li><a href="/servicios_escolares/bitacora_evaluaciones" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Modificaciones en evaluaciones ordinarias</a></li>
                                     <li><a href="/servicios_escolares/bitacora_evaluaciones_sumativas"
-                                            class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Modificaciones en evaluaciones sumativas</a></li>
-                                    <li><a href="/servicios_escolares/alumnos/carrera" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Datos de los alumnos por carrera</a></li>
+                                            class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Modificaciones en evaluaciones sumativas</a></li>
+                                    <li><a href="/servicios_escolares/alumnos/carrera" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Datos de los alumnos por carrera</a></li>
                                     @if($escolar==true)
                                     <li>
-                                        <a href="{{url('/cct/registros/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Instituciones educativas</a>
+                                        <a href="{{url('/cct/registros/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Instituciones educativas</a>
                                         {{-- <a href="{{url('/agregar_escuelas_procedencia/')}}">Agregar escuelas de
                                         procedencias</a> --}}
                                     </li>
                                     <li>
-                                        <a href="{{url('/servicios_escolares/promedio_semestre/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Promedios de los alumnos del periodo</a>
+                                        <a href="{{url('/servicios_escolares/promedio_semestre/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Promedios de los alumnos del periodo</a>
                                     </li>
                                     <li>
-                                        <a href="{{url('/servicios_escolare/concentrados_calificaciones/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Concentrado de Calificaciones</a>
+                                        <a href="{{url('/servicios_escolare/concentrados_calificaciones/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Concentrado de Calificaciones</a>
                                     </li>
                                     <li>
-                                        <a href="{{url('/duales/concentrado_calificaciones_duales/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Concentrado de Calificaciones de Alumnos Duales</a>
+                                        <a href="{{url('/duales/concentrado_calificaciones_duales/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Concentrado de Calificaciones de Alumnos Duales</a>
                                     </li>
                                     <li>
-                                        <a href="{{url('/servicios_escolares/historial_academico/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Historial Académico de los estudiantes</a>
+                                        <a href="{{url('/servicios_escolares/historial_academico/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Historial Académico de los estudiantes</a>
                                     </li>
                                     <li>
-                                        <a href="{{url('/servicios_escolares/bajas_temporales/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Bajas temporales de los estudiantes</a>
+                                        <a href="{{url('/servicios_escolares/bajas_temporales/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Bajas temporales de los estudiantes</a>
                                     </li>
                                     <li>
-                                        <a href="{{url('/servicios_escolares/bajas_definitivas/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Bajas definitivas de los estudiantes</a>
+                                        <a href="{{url('/servicios_escolares/bajas_definitivas/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Bajas definitivas de los estudiantes</a>
                                     </li>
                                     <li>
-                                        <a href="{{url('/servicios_escolares/bitacora_def_temp/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Bitácora de bajas temporales y definitivas</a>
+                                        <a href="{{url('/servicios_escolares/bitacora_def_temp/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Bitácora de bajas temporales y definitivas</a>
                                     </li>
                                     <li>
-                                        <a href="{{url('/servicios_escolares/plan_estudio/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Agregar Plan de estudio</a>
+                                        <a href="{{url('/servicios_escolares/plan_estudio/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Agregar Plan de estudio</a>
                                     </li>
                                     <li>
-                                        <a href="{{url('/servicios_escolares/especialidades/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Agregar Especialidad</a>
+                                        <a href="{{url('/servicios_escolares/especialidades/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Agregar Especialidad</a>
                                     </li>
                                     <li>
-                                        <a href="{{url('/servicios_escolares/modificaciones_cargas_cademicas/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Ver historial de mod. cargas académicas</a>
+                                        <a href="{{url('/servicios_escolares/modificaciones_cargas_cademicas/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Ver historial de mod. cargas académicas</a>
                                     </li>
                                     <li>
-                                        <a href="{{url('/servicios_escolares/registrar_semestre_alumnos/carrera')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Registrar semestre al estudiante nuevo registro</a>
+                                        <a href="{{url('/servicios_escolares/registrar_semestre_alumnos/carrera')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Registrar semestre al estudiante nuevo registro</a>
                                     </li>
                                     <li style="display: none">
-                                        <a href="{{url('/servicios_escolares/carrera_estudiantes_desactivados/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Ver estudiantes inactivos</a>
+                                        <a href="{{url('/servicios_escolares/carrera_estudiantes_desactivados/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Ver estudiantes inactivos</a>
                                     </li>
                                     <li>
-                                        <a href="{{url('/servicios_escolares/carrera_actualizar_semestre_periodo/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Ver periodos de actualizacion de semestre estudiantes</a>
+                                        <a href="{{url('/servicios_escolares/carrera_actualizar_semestre_periodo/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Ver periodos de actualizacion de semestre estudiantes</a>
                                     </li>
-                                    <li><a href="{{url('/computo/calificar')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Calificar estudiantes (Curso intersemestral)</a></li>
-                                    <li><a href="{{url('/encuestas_satisfaccion/encuesta_incripcion_periodo/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Encuestas de satisfacción al cliente (inscripción)</a></li>
-                                    <li><a href="{{url('/encuestas_satisfaccion/encuesta_reincripcion_periodo')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Encuestas de satisfacción al cliente (reinscripción)</a></li>
-                                    <li><a href="{{url('/servicios_escolares/duales/agregar_alumnos_dual')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Registrar Estudiantes (Historial Académico CON-REE)</a></li>
-                                    <li><a href="{{url('servicios_escolares/duales/llenar_carga_academica_dual')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Llenar Cargas Académicas (Historial Académico CON-REE)</a></li>
+                                    <li><a href="{{url('/computo/calificar')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Calificar estudiantes (Curso intersemestral)</a></li>
+                                    <li><a href="{{url('/encuestas_satisfaccion/encuesta_incripcion_periodo/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Encuestas de satisfacción al cliente (inscripción)</a></li>
+                                    <li><a href="{{url('/encuestas_satisfaccion/encuesta_reincripcion_periodo')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Encuestas de satisfacción al cliente (reinscripción)</a></li>
+                                    <li><a href="{{url('/servicios_escolares/duales/agregar_alumnos_dual')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Registrar Estudiantes (Historial Académico CON-REE)</a></li>
+                                    <li><a href="{{url('servicios_escolares/duales/llenar_carga_academica_dual')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Llenar Cargas Académicas (Historial Académico CON-REE)</a></li>
 
                                     @endif
                                 </ul>
@@ -1173,26 +1173,26 @@
                             </li>
                             @if($escolar==true)
                             
-                                <li><a href="{{url('/beca_estimulo/escolares/autorizar')}}" class="group menu-item menu-item-inactive" data-panel-enlace>
+                                <li><a href="{{url('/beca_estimulo/escolares/autorizar')}}" class="tw:group tw:menu-item tw:menu-item-inactive" data-panel-enlace>
 @include('partials.panel.iconos.formularios')
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Solicitudes de Beca</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Solicitudes de Beca</span>
 </a></li>
 
                             {{-- [menu_admin L1158-1165] Cambio de periodo (escolar): en el header, misma condición. --}}
                             @endif
                             @if($unidad == 5 || $unidad == 26)
                             <li>
-                                <a href="#" @click.prevent="selected = (selected === 'm28' ? '' : 'm28')" class="group menu-item" :class="selected === 'm28' ? 'menu-item-active' : 'menu-item-inactive'" data-panel-modulo>
+                                <a href="#" @click.prevent="selected = (selected === 'm28' ? '' : 'm28')" class="tw:group tw:menu-item" :class="selected === 'm28' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
 @include('partials.panel.iconos.tablas', ['clave' => 'm28'])
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Reporte de profesores</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Reporte de profesores</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm28'])
 </a>
 
-                                <div x-cloak x-show="$store.buscador.activo || selected === 'm28'" x-collapse>
-<ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
-                                    <li><a href="/distribucion_horas_profesores/total/" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Distribución de total de horas de los profesores</a></li>
-                                    <li><a href="/distribucion_horas_profesores/total_totales/" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Distribución de horas de todos los profesores</a></li>
-                                    <li><a href="/distribucion_horas_profesores/" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Distribución de horas de los profesores</a></li>
+                                <div x-cloak x-show.important="$store.buscador.activo || selected === 'm28'" x-collapse>
+<ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
+                                    <li><a href="/distribucion_horas_profesores/total/" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Distribución de total de horas de los profesores</a></li>
+                                    <li><a href="/distribucion_horas_profesores/total_totales/" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Distribución de horas de todos los profesores</a></li>
+                                    <li><a href="/distribucion_horas_profesores/" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Distribución de horas de los profesores</a></li>
                                     <!--<li style=""><a href="/indices_repro_prof/" >Indices de reprobación de los profesores</a></li>-->
                                 </ul>
 </div>
@@ -1204,85 +1204,85 @@
                         @if($jefe_residencia == true)
                         
                             <li style="display: none">
-                                <a href="#" @click.prevent="selected = (selected === 'm29' ? '' : 'm29')" class="group menu-item" :class="selected === 'm29' ? 'menu-item-active' : 'menu-item-inactive'" data-panel-modulo>
+                                <a href="#" @click.prevent="selected = (selected === 'm29' ? '' : 'm29')" class="tw:group tw:menu-item" :class="selected === 'm29' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
 @include('partials.panel.iconos.paginas', ['clave' => 'm29'])
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Servicio social</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Servicio social</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm29'])
 </a>
 
-                                <div x-cloak x-show="$store.buscador.activo || selected === 'm29'" x-collapse>
-<ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
+                                <div x-cloak x-show.important="$store.buscador.activo || selected === 'm29'" x-collapse>
+<ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
                                     <li><a href="/servicio_social/departamento_revision_primera_etapa/"
-                                            class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Autorización de Documentación 1ra Etapa</a></li>
-                                    <li><a href="/servicio_social/ingresar_contancia/departamento/" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Carta de Presentación-Aceptación</a></li>
-                                    <li><a href="/servicio_social/asignar_tipo_servicio/" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Asignar Tipo de Servicio a Alumno</a></li>
+                                            class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Autorización de Documentación 1ra Etapa</a></li>
+                                    <li><a href="/servicio_social/ingresar_contancia/departamento/" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Carta de Presentación-Aceptación</a></li>
+                                    <li><a href="/servicio_social/asignar_tipo_servicio/" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Asignar Tipo de Servicio a Alumno</a></li>
 
                                 </ul>
 </div>
                             </li>
                             <li>
-                                <a href="#" @click.prevent="selected = (selected === 'm30' ? '' : 'm30')" class="group menu-item" :class="selected === 'm30' ? 'menu-item-active' : 'menu-item-inactive'" data-panel-modulo>
+                                <a href="#" @click.prevent="selected = (selected === 'm30' ? '' : 'm30')" class="tw:group tw:menu-item" :class="selected === 'm30' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
 @include('partials.panel.iconos.grupo', ['clave' => 'm30'])
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Seg. Anteproyecto</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Seg. Anteproyecto</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm30'])
 </a>
 
-                                <div x-cloak x-show="$store.buscador.activo || selected === 'm30'" x-collapse>
-<ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
+                                <div x-cloak x-show.important="$store.buscador.activo || selected === 'm30'" x-collapse>
+<ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
                                     <li><a href="/residencia/ver_anteproyectos_revisores"
-                                            class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Anteproyectos Autorizados por los Revisores</a></li>
+                                            class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Anteproyectos Autorizados por los Revisores</a></li>
                                     {{--  <li style=""><a href="/residencia/autorizar_anteproyecto" class="">Autorizar Documentación de Alta de Residencia </a></li> --}}
-                                    <li><a href="/residencia/autorizar_documentacion_anteproyecto" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Autorizar Documentación de Alta de Residencia</a></li>
+                                    <li><a href="/residencia/autorizar_documentacion_anteproyecto" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Autorizar Documentación de Alta de Residencia</a></li>
                                     {{--  <li><a href="/residencia/anteproyectos_autorizados/" class="">Anteproyectos Autorizados por el Departamento</a></li> --}}
-                                    <li><a href="/residencia/evalucion_anteproyecto" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Periodos Revisión</a>
+                                    <li><a href="/residencia/evalucion_anteproyecto" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Periodos Revisión</a>
                                     </li>
-                                    <li><a href="/residencia/empresa" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Empresa</a></li>
+                                    <li><a href="/residencia/empresa" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Empresa</a></li>
                                 </ul>
 </div>
                             </li>
                             <li>
-                                <a href="#" @click.prevent="selected = (selected === 'm31' ? '' : 'm31')" class="group menu-item" :class="selected === 'm31' ? 'menu-item-active' : 'menu-item-inactive'" data-panel-modulo>
+                                <a href="#" @click.prevent="selected = (selected === 'm31' ? '' : 'm31')" class="tw:group tw:menu-item" :class="selected === 'm31' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
 @include('partials.panel.iconos.grupo', ['clave' => 'm31'])
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Seg. Residencia</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Seg. Residencia</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm31'])
 </a>
 
-                                <div x-cloak x-show="$store.buscador.activo || selected === 'm31'" x-collapse>
-<ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
-                                    <li><a href="/residencia/departamento_residencia" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Proyectos</a></li>
-                                    <li><a href="/residencia/estadisticas_residencia" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Estadísticas</a></li>
-                                    <li><a href="/residencia/autorizar_imprimir_acta" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Autorizar impresión de acta de residencia</a></li>
+                                <div x-cloak x-show.important="$store.buscador.activo || selected === 'm31'" x-collapse>
+<ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
+                                    <li><a href="/residencia/departamento_residencia" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Proyectos</a></li>
+                                    <li><a href="/residencia/estadisticas_residencia" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Estadísticas</a></li>
+                                    <li><a href="/residencia/autorizar_imprimir_acta" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Autorizar impresión de acta de residencia</a></li>
                                     {{--     <li><a href="/residencia/revision_documentos_finales" class="">Autorizar Documentación de Liberación de Residencia</a></li> --}}
                                 </ul>
 </div>
                             </li>
 
                             <li>
-                                <a href="#" @click.prevent="selected = (selected === 'm32' ? '' : 'm32')" class="group menu-item" :class="selected === 'm32' ? 'menu-item-active' : 'menu-item-inactive'" data-panel-modulo>
+                                <a href="#" @click.prevent="selected = (selected === 'm32' ? '' : 'm32')" class="tw:group tw:menu-item" :class="selected === 'm32' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
 @include('partials.panel.iconos.paginas', ['clave' => 'm32'])
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Seg. Servicio Social</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Seg. Servicio Social</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm32'])
 </a>
-                                <div x-cloak x-show="$store.buscador.activo || selected === 'm32'" x-collapse>
-<ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
-                                    <li><a href="{{ url('/servicio_social/departamento_carreras') }}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Calificar Servicio Social</a></li>
+                                <div x-cloak x-show.important="$store.buscador.activo || selected === 'm32'" x-collapse>
+<ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
+                                    <li><a href="{{ url('/servicio_social/departamento_carreras') }}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Calificar Servicio Social</a></li>
                                 </ul>
 </div>
                             </li>
 
                             <li>
-                                <a href="#" @click.prevent="selected = (selected === 'm33' ? '' : 'm33')" class="group menu-item" :class="selected === 'm33' ? 'menu-item-active' : 'menu-item-inactive'" data-panel-modulo>
+                                <a href="#" @click.prevent="selected = (selected === 'm33' ? '' : 'm33')" class="tw:group tw:menu-item" :class="selected === 'm33' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
 @include('partials.panel.iconos.paginas', ['clave' => 'm33'])
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Envío Encuestas Sat.</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Envío Encuestas Sat.</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm33'])
 </a>
 
-                                <div x-cloak x-show="$store.buscador.activo || selected === 'm33'" x-collapse>
-<ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
-                                    <li><a href="/encuestas_satisfaccion/agregar_periodo_year/" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Encuestas de Satisfacción del Cliente (Servicio Social)</a></li>
-                                    <li><a href="/encuestas_satisfaccion/historial_periodo_year/" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Historial Encuestas de Satisfacción del Cliente (Servicio Social)</a></li>
+                                <div x-cloak x-show.important="$store.buscador.activo || selected === 'm33'" x-collapse>
+<ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
+                                    <li><a href="/encuestas_satisfaccion/agregar_periodo_year/" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Encuestas de Satisfacción del Cliente (Servicio Social)</a></li>
+                                    <li><a href="/encuestas_satisfaccion/historial_periodo_year/" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Historial Encuestas de Satisfacción del Cliente (Servicio Social)</a></li>
                                     <li><a href="/encuestas_satisfaccion/agregar_periodo_year_residencia/"
-                                            class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Encuestas de Satisfacción del Cliente (Residencia Profesional)</a>
+                                            class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Encuestas de Satisfacción del Cliente (Residencia Profesional)</a>
                                     </li>
                                 </ul>
 </div>
@@ -1293,56 +1293,56 @@
                         @if($departamento_titulacion==true)
                         
                             <li>
-                                <a href="#" @click.prevent="selected = (selected === 'm34' ? '' : 'm34')" class="group menu-item" :class="selected === 'm34' ? 'menu-item-active' : 'menu-item-inactive'" data-panel-modulo>
+                                <a href="#" @click.prevent="selected = (selected === 'm34' ? '' : 'm34')" class="tw:group tw:menu-item" :class="selected === 'm34' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
 @include('partials.panel.iconos.usuario', ['clave' => 'm34'])
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Datos P.</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Datos P.</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm34'])
 </a>
-                                <div x-cloak x-show="$store.buscador.activo || selected === 'm34'" x-collapse>
-<ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
-                                    <li><a href="{{url('/docentes/modificar/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Editar</a></li>
+                                <div x-cloak x-show.important="$store.buscador.activo || selected === 'm34'" x-collapse>
+<ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
+                                    <li><a href="{{url('/docentes/modificar/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Editar</a></li>
                                 </ul>
 </div>
                             </li>
 
                             <li>
-                                <a href="#" @click.prevent="selected = (selected === 'm35' ? '' : 'm35')" class="group menu-item" :class="selected === 'm35' ? 'menu-item-active' : 'menu-item-inactive'" data-panel-modulo>
+                                <a href="#" @click.prevent="selected = (selected === 'm35' ? '' : 'm35')" class="tw:group tw:menu-item" :class="selected === 'm35' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
 @include('partials.panel.iconos.paginas', ['clave' => 'm35'])
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Titulación</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Titulación</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm35'])
 </a>
-                                <div x-cloak x-show="$store.buscador.activo || selected === 'm35'" x-collapse>
-<ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
-                                    <li><a href="{{url('/titulacion/registro_alumnos_titulacion/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Registrar alumnos para Titulación</a></li>
-                                    <li><a href="{{url('/titulacion/autorizar_doc_requisitos/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Autorizar documentación de requisitos de Titulación</a></li>
-                                    <li><a href="{{url('/titulacion/autorizar_datos_personales/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Autorizar datos personales de los estudiantes de Titulación</a></li>
-                                    <li><a href="{{url('/titulacion/validacion_agregar_jurado/carreras/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Validación para agregar jurado</a></li>
-                                    <li><a href="{{url('/titulacion/autorizar_jurado_estudiantes/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Autorizar jurado de los estudiantes de Titulación</a></li>
-                                    <li><a href="{{url('/titulacion/calendario_estudiantes_autorizado/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Consultar Titulaciones por día</a></li>
-                                    <li><a href="{{url('/titulacion/formulario_datos_titulado/inicio/carrera/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Autorizar titulaciones</a></li>
-                                    <li><a href="{{url('/titulacion/relacion de documentos/inicio/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Relación de documentos</a></li>
-                                    <li><a href="{{url('/titulacion/liberacion_titulado_carrera/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Ver alumnos titulados liberados</a></li>
+                                <div x-cloak x-show.important="$store.buscador.activo || selected === 'm35'" x-collapse>
+<ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
+                                    <li><a href="{{url('/titulacion/registro_alumnos_titulacion/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Registrar alumnos para Titulación</a></li>
+                                    <li><a href="{{url('/titulacion/autorizar_doc_requisitos/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Autorizar documentación de requisitos de Titulación</a></li>
+                                    <li><a href="{{url('/titulacion/autorizar_datos_personales/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Autorizar datos personales de los estudiantes de Titulación</a></li>
+                                    <li><a href="{{url('/titulacion/validacion_agregar_jurado/carreras/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Validación para agregar jurado</a></li>
+                                    <li><a href="{{url('/titulacion/autorizar_jurado_estudiantes/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Autorizar jurado de los estudiantes de Titulación</a></li>
+                                    <li><a href="{{url('/titulacion/calendario_estudiantes_autorizado/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Consultar Titulaciones por día</a></li>
+                                    <li><a href="{{url('/titulacion/formulario_datos_titulado/inicio/carrera/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Autorizar titulaciones</a></li>
+                                    <li><a href="{{url('/titulacion/relacion de documentos/inicio/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Relación de documentos</a></li>
+                                    <li><a href="{{url('/titulacion/liberacion_titulado_carrera/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Ver alumnos titulados liberados</a></li>
                                     <li><a
-                                            href="{{url('/encuestas_satisfaccion/enviar_encuesta_estudiante_titulacion/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Encuestas de satisfacción al cliente</a></li>
+                                            href="{{url('/encuestas_satisfaccion/enviar_encuesta_estudiante_titulacion/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Encuestas de satisfacción al cliente</a></li>
                                     <li><a
-                                            href="{{url('/encuestas_satisfaccion/historial_encuesta_estudiante_titulacion/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Historial de Encuestas de satisfacción al cliente</a></li>
-                                    <li><a href="{{url('/titulacion/ver_certificado_ingles_carrera/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Ver estado del certificado de ingles del estudiante</a></li>
-                                    <li><a href="{{url('/centro_computo/informes_titulacion/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Modificar informe de titulación</a></li>
+                                            href="{{url('/encuestas_satisfaccion/historial_encuesta_estudiante_titulacion/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Historial de Encuestas de satisfacción al cliente</a></li>
+                                    <li><a href="{{url('/titulacion/ver_certificado_ingles_carrera/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Ver estado del certificado de ingles del estudiante</a></li>
+                                    <li><a href="{{url('/centro_computo/informes_titulacion/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Modificar informe de titulación</a></li>
 
                                 </ul>
 </div>
                             </li>
 
                             <li>
-                                <a href="#" @click.prevent="selected = (selected === 'm36' ? '' : 'm36')" class="group menu-item" :class="selected === 'm36' ? 'menu-item-active' : 'menu-item-inactive'" data-panel-modulo>
+                                <a href="#" @click.prevent="selected = (selected === 'm36' ? '' : 'm36')" class="tw:group tw:menu-item" :class="selected === 'm36' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
 @include('partials.panel.iconos.paginas', ['clave' => 'm36'])
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Catálogos Titulación</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Catálogos Titulación</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm36'])
 </a>
-                                <div x-cloak x-show="$store.buscador.activo || selected === 'm36'" x-collapse>
-<ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
-                                    <li><a href="{{url('/titulacion/reg_catalogo_tomos_titulo/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Registrar Tomos de titulos</a></li>
-                                    <li><a href="{{url('/titulacion/agregar_escuelas_preparatorias/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Registrar escuelas preparatorias</a></li>
+                                <div x-cloak x-show.important="$store.buscador.activo || selected === 'm36'" x-collapse>
+<ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
+                                    <li><a href="{{url('/titulacion/reg_catalogo_tomos_titulo/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Registrar Tomos de titulos</a></li>
+                                    <li><a href="{{url('/titulacion/agregar_escuelas_preparatorias/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Registrar escuelas preparatorias</a></li>
 
                                 </ul>
 </div>
@@ -1353,30 +1353,30 @@
                         @if($directivo==true || $consultas==true || $directivo==10)
                         
                             <li>
-                                <a href="#" @click.prevent="selected = (selected === 'm37' ? '' : 'm37')" class="group menu-item" :class="selected === 'm37' ? 'menu-item-active' : 'menu-item-inactive'" data-panel-modulo>
+                                <a href="#" @click.prevent="selected = (selected === 'm37' ? '' : 'm37')" class="tw:group tw:menu-item" :class="selected === 'm37' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
 @include('partials.panel.iconos.usuario', ['clave' => 'm37'])
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Datos P.</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Datos P.</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm37'])
 </a>
-                                <div x-cloak x-show="$store.buscador.activo || selected === 'm37'" x-collapse>
-<ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
-                                    <li><a href="{{url('/docentes/modificar/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Editar</a></li>
+                                <div x-cloak x-show.important="$store.buscador.activo || selected === 'm37'" x-collapse>
+<ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
+                                    <li><a href="{{url('/docentes/modificar/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Editar</a></li>
                                 </ul>
 </div>
                             </li>
 
                             <li>
-                                <a href="#" @click.prevent="selected = (selected === 'm38' ? '' : 'm38')" class="group menu-item" :class="selected === 'm38' ? 'menu-item-active' : 'menu-item-inactive'" data-panel-modulo>
+                                <a href="#" @click.prevent="selected = (selected === 'm38' ? '' : 'm38')" class="tw:group tw:menu-item" :class="selected === 'm38' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
 @include('partials.panel.iconos.graficas', ['clave' => 'm38'])
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Complementarias</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Complementarias</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm38'])
 </a>
-                                <div x-cloak x-show="$store.buscador.activo || selected === 'm38'" x-collapse>
-<ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
-                                    <li><a href="{{url('/nueva_actividad')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Registrar Nueva Actividad</a></li>
-                                    <li><a href="{{url('/solicitud_alumnos')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Solicitud Alumnos</a></li>
-                                    <li><a href="{{url('/datos_estadisticos')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Datos Estadísticos</a></li>
-                                    <li><a href="{{url('/datos_historicos_graficos')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Datos Históricos</a></li>
+                                <div x-cloak x-show.important="$store.buscador.activo || selected === 'm38'" x-collapse>
+<ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
+                                    <li><a href="{{url('/nueva_actividad')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Registrar Nueva Actividad</a></li>
+                                    <li><a href="{{url('/solicitud_alumnos')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Solicitud Alumnos</a></li>
+                                    <li><a href="{{url('/datos_estadisticos')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Datos Estadísticos</a></li>
+                                    <li><a href="{{url('/datos_historicos_graficos')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Datos Históricos</a></li>
                                 </ul>
 </div>
                             </li>
@@ -1385,25 +1385,25 @@
                                         $id_perso = Session::get('id_perso');
                                         ?>
                         
-                            <li><a href="/docente/{{$id_perso}}/carreras" class="group menu-item menu-item-inactive" data-panel-enlace>
+                            <li><a href="/docente/{{$id_perso}}/carreras" class="tw:group tw:menu-item tw:menu-item-inactive" data-panel-enlace>
 @include('partials.panel.iconos.tablas')
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Calificaciones</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Calificaciones</span>
 </a></li>
 
                             <li>
-                                <a href="#" @click.prevent="selected = (selected === 'm39' ? '' : 'm39')" class="group menu-item" :class="selected === 'm39' ? 'menu-item-active' : 'menu-item-inactive'" data-panel-modulo>
+                                <a href="#" @click.prevent="selected = (selected === 'm39' ? '' : 'm39')" class="tw:group tw:menu-item" :class="selected === 'm39' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
 @include('partials.panel.iconos.graficas', ['clave' => 'm39'])
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Evaluación Doc.</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Evaluación Doc.</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm39'])
 </a>
 
-                                <div x-cloak x-show="$store.buscador.activo || selected === 'm39'" x-collapse>
-<ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
+                                <div x-cloak x-show.important="$store.buscador.activo || selected === 'm39'" x-collapse>
+<ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
                                     <li>
-                                        <a href="{{url('/buscar_profesores')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Profesores</a>
+                                        <a href="{{url('/buscar_profesores')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Profesores</a>
                                     </li>
                                     <li>
-                                        <a href="{{url('/buscar_alumnos')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Alumnos</a>
+                                        <a href="{{url('/buscar_alumnos')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Alumnos</a>
                                     </li>
                                 </ul>
 </div>
@@ -1411,84 +1411,84 @@
 
                             {{--  --}}
                             <li>
-                                <a href="#" @click.prevent="selected = (selected === 'm40' ? '' : 'm40')" class="group menu-item" :class="selected === 'm40' ? 'menu-item-active' : 'menu-item-inactive'" data-panel-modulo>
+                                <a href="#" @click.prevent="selected = (selected === 'm40' ? '' : 'm40')" class="tw:group tw:menu-item" :class="selected === 'm40' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
 @include('partials.panel.iconos.calendario', ['clave' => 'm40'])
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Horarios</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Horarios</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm40'])
 </a>
-                                <div x-cloak x-show="$store.buscador.activo || selected === 'm40'" x-collapse>
-<ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
-                                    <li><a href="{{url('/horarios/horarios_docentes')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Ver Horarios Docentes</a>
+                                <div x-cloak x-show.important="$store.buscador.activo || selected === 'm40'" x-collapse>
+<ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
+                                    <li><a href="{{url('/horarios/horarios_docentes')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Ver Horarios Docentes</a>
                                     </li>
-                                    <li><a href="{{url('/horarios/hrs_grupos')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Ver Horarios Grupos</a></li>
-                                    <li><a href="{{url('/horarios/hrs_aulas')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Ver Horarios Aulas</a></li>
-                                    <li><a href="{{url('/hrs_carrera')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Horas por carrera</a></li>
+                                    <li><a href="{{url('/horarios/hrs_grupos')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Ver Horarios Grupos</a></li>
+                                    <li><a href="{{url('/horarios/hrs_aulas')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Ver Horarios Aulas</a></li>
+                                    <li><a href="{{url('/hrs_carrera')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Horas por carrera</a></li>
                                 </ul>
 </div>
                             </li>
                             <li>
-                                <a href="#" @click.prevent="selected = (selected === 'm41' ? '' : 'm41')" class="group menu-item" :class="selected === 'm41' ? 'menu-item-active' : 'menu-item-inactive'" data-panel-modulo>
+                                <a href="#" @click.prevent="selected = (selected === 'm41' ? '' : 'm41')" class="tw:group tw:menu-item" :class="selected === 'm41' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
 @include('partials.panel.iconos.tablas', ['clave' => 'm41'])
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Formatos</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Formatos</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm41'])
 </a>
-                                <div x-cloak x-show="$store.buscador.activo || selected === 'm41'" x-collapse>
-<ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
-                                    <li><a href="{{url('/formatos/con_edu')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Concentrado Estructura Educ.</a></li>
-                                    <li><a href="{{url('/formatos/distribucion')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Distrib.de hrs. frente a grupo</a></li>
-                                    <li><a href="{{url('/formatos/relacion')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Relación de personal docente</a>
+                                <div x-cloak x-show.important="$store.buscador.activo || selected === 'm41'" x-collapse>
+<ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
+                                    <li><a href="{{url('/formatos/con_edu')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Concentrado Estructura Educ.</a></li>
+                                    <li><a href="{{url('/formatos/distribucion')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Distrib.de hrs. frente a grupo</a></li>
+                                    <li><a href="{{url('/formatos/relacion')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Relación de personal docente</a>
                                     </li>
-                                    <li><a href="{{url('/formatos/horas_docentes/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Horas por docentes</a></li>
+                                    <li><a href="{{url('/formatos/horas_docentes/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Horas por docentes</a></li>
                                 </ul>
 </div>
                             </li>
                             <li>
-                                <a href="#" @click.prevent="selected = (selected === 'm42' ? '' : 'm42')" class="group menu-item" :class="selected === 'm42' ? 'menu-item-active' : 'menu-item-inactive'" data-panel-modulo>
+                                <a href="#" @click.prevent="selected = (selected === 'm42' ? '' : 'm42')" class="tw:group tw:menu-item" :class="selected === 'm42' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
 @include('partials.panel.iconos.tablas', ['clave' => 'm42'])
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Plantilla</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Plantilla</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm42'])
 </a>
-                                <div x-cloak x-show="$store.buscador.activo || selected === 'm42'" x-collapse>
-<ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
-                                    <li><a href="{{url('/plantilla/ver')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Ver Plantilla</a></li>
-                                    <li><a href="{{url('/plantilla/educativa')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Plantilla Educativa</a></li>
+                                <div x-cloak x-show.important="$store.buscador.activo || selected === 'm42'" x-collapse>
+<ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
+                                    <li><a href="{{url('/plantilla/ver')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Ver Plantilla</a></li>
+                                    <li><a href="{{url('/plantilla/educativa')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Plantilla Educativa</a></li>
                                 </ul>
 </div>
                             </li>
                             <li>
-                                <a href="#" @click.prevent="selected = (selected === 'm43' ? '' : 'm43')" class="group menu-item" :class="selected === 'm43' ? 'menu-item-active' : 'menu-item-inactive'" data-panel-modulo>
+                                <a href="#" @click.prevent="selected = (selected === 'm43' ? '' : 'm43')" class="tw:group tw:menu-item" :class="selected === 'm43' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
 @include('partials.panel.iconos.elementos', ['clave' => 'm43'])
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Generales</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Generales</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm43'])
 </a>
-                                <div x-cloak x-show="$store.buscador.activo || selected === 'm43'" x-collapse>
-<ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
+                                <div x-cloak x-show.important="$store.buscador.activo || selected === 'm43'" x-collapse>
+<ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
                                     <li x-data="{ abierto: false }">
-                                        <a href="#" @click.prevent="abierto = !abierto" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-modulo>
+                                        <a href="#" @click.prevent="abierto = !abierto" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-modulo>
 <span>Académico</span>
 @include('partials.panel.iconos.flecha_subgrupo')
 </a>
-                                        <div x-cloak x-show="$store.buscador.activo || abierto" x-collapse>
-<ul class="mt-1 flex flex-col gap-1 border-l border-gray-200 pl-3 dark:border-gray-800">
-                                            <li><a href="{{url('/reticulass')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Retículas</a></li>
-                                            <li><a href="{{url('/docente')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Docentes</a></li>
+                                        <div x-cloak x-show.important="$store.buscador.activo || abierto" x-collapse>
+<ul class="tw:mt-1 tw:flex tw:flex-col tw:gap-1 tw:border-l tw:border-gray-200 tw:pl-3 tw:dark:border-gray-800">
+                                            <li><a href="{{url('/reticulass')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Retículas</a></li>
+                                            <li><a href="{{url('/docente')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Docentes</a></li>
                                         </ul>
 </div>
                                     </li>
-                                    <li><a href="{{url('/generales/edificios')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Edificios</a></li>
-                                    <li><a href="{{url('/generales/aulas')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Aulas</a></li>
+                                    <li><a href="{{url('/generales/edificios')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Edificios</a></li>
+                                    <li><a href="{{url('/generales/aulas')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Aulas</a></li>
                                     @if($directivo==true)
-                                    <li><a href="{{url('/generales/situaciones')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Situación Profesional</a>
+                                    <li><a href="{{url('/generales/situaciones')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Situación Profesional</a>
                                     </li>
-                                    <li><a href="{{url('/generales/perfiles')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Perfil</a></li>
-                                    <li><a href="{{url('/generales/carreras')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Carreras</a></li>
-                                    <li><a href="{{url('/generales/extra_clases')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Extra Clase</a></li>
-                                    <li><a href="{{url('/generales/cargos')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Categoría Docente</a></li>
-                                    <li><a href="{{url('/generales/jefaturas')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Jefaturas de División</a></li>
-                                    <li><a href="{{url('/personales')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Asignación de Permisos</a></li>
-                                    <li><a href="{{url('/generales/unidad_administrativa')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Unidades Administrativas</a></li>
+                                    <li><a href="{{url('/generales/perfiles')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Perfil</a></li>
+                                    <li><a href="{{url('/generales/carreras')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Carreras</a></li>
+                                    <li><a href="{{url('/generales/extra_clases')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Extra Clase</a></li>
+                                    <li><a href="{{url('/generales/cargos')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Categoría Docente</a></li>
+                                    <li><a href="{{url('/generales/jefaturas')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Jefaturas de División</a></li>
+                                    <li><a href="{{url('/personales')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Asignación de Permisos</a></li>
+                                    <li><a href="{{url('/generales/unidad_administrativa')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Unidades Administrativas</a></li>
 
-                                    <li><a href="{{url('/generales/jefe_unidad_administrativa')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Jefes Unidades Administrativas</a></li>
+                                    <li><a href="{{url('/generales/jefe_unidad_administrativa')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Jefes Unidades Administrativas</a></li>
                                     @endif
                                 </ul>
 </div>
@@ -1499,33 +1499,33 @@
                         @if($id_unidad_admin||$directivo)
                         
                             <li>
-                                <a href="#" @click.prevent="selected = (selected === 'm44' ? '' : 'm44')" class="group menu-item" :class="selected === 'm44' ? 'menu-item-active' : 'menu-item-inactive'" data-panel-modulo>
+                                <a href="#" @click.prevent="selected = (selected === 'm44' ? '' : 'm44')" class="tw:group tw:menu-item" :class="selected === 'm44' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
 @include('partials.panel.iconos.paginas', ['clave' => 'm44'])
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Oficios Com.</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Oficios Com.</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm44'])
 </a>
-                                <div x-cloak x-show="$store.buscador.activo || selected === 'm44'" x-collapse>
-<ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
+                                <div x-cloak x-show.important="$store.buscador.activo || selected === 'm44'" x-collapse>
+<ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
                                     @if($unidad==26)
-                                    <li><a href="{{url('/oficios/evaluacionsubdirecion')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Validar Oficios</a>
+                                    <li><a href="{{url('/oficios/evaluacionsubdirecion')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Validar Oficios</a>
                                     </li>
                                     @endif
-                                    <li><a href="{{url('/oficios/solicitud')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Solicitud Oficio</a></li>
-                                    <li><a href="{{url('/oficios/registrosoficio')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Ver Oficios</a></li>
+                                    <li><a href="{{url('/oficios/solicitud')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Solicitud Oficio</a></li>
+                                    <li><a href="{{url('/oficios/registrosoficio')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Ver Oficios</a></li>
 
                                 </ul>
 </div>
                             </li>
 
                             <li>
-                                <a href="#" @click.prevent="selected = (selected === 'm45' ? '' : 'm45')" class="group menu-item" :class="selected === 'm45' ? 'menu-item-active' : 'menu-item-inactive'" data-panel-modulo>
+                                <a href="#" @click.prevent="selected = (selected === 'm45' ? '' : 'm45')" class="tw:group tw:menu-item" :class="selected === 'm45' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
 @include('partials.panel.iconos.paginas', ['clave' => 'm45'])
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Seg. de Oficios</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Seg. de Oficios</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm45'])
 </a>
-                                <div x-cloak x-show="$store.buscador.activo || selected === 'm45'" x-collapse>
-<ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
-                                    <li><a href="{{url('/docentes/modificar/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Editar</a></li>
+                                <div x-cloak x-show.important="$store.buscador.activo || selected === 'm45'" x-collapse>
+<ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
+                                    <li><a href="{{url('/docentes/modificar/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Editar</a></li>
                                 </ul>
 </div>
                             </li>
@@ -1536,15 +1536,15 @@
                         @if( $id_per == 2630 )
 
                             <li>
-                                <a href="#" @click.prevent="selected = (selected === 'm46' ? '' : 'm46')" class="group menu-item" :class="selected === 'm46' ? 'menu-item-active' : 'menu-item-inactive'" data-panel-modulo>
+                                <a href="#" @click.prevent="selected = (selected === 'm46' ? '' : 'm46')" class="tw:group tw:menu-item" :class="selected === 'm46' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
 @include('partials.panel.iconos.paginas', ['clave' => 'm46'])
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Titulación</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Titulación</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm46'])
 </a>
-                                <div x-cloak x-show="$store.buscador.activo || selected === 'm46'" x-collapse>
-<ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
-                                    <li><a href="{{url('/titulacion/autorizacion_entrega_cd')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Autorizar entrega de PDF</a></li>
-                                    <li><a href="{{url('/titulacion/documento_titulacion_autorizado/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Documento de Titulación autorizado de los estudiantes</a></li>
+                                <div x-cloak x-show.important="$store.buscador.activo || selected === 'm46'" x-collapse>
+<ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
+                                    <li><a href="{{url('/titulacion/autorizacion_entrega_cd')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Autorizar entrega de PDF</a></li>
+                                    <li><a href="{{url('/titulacion/documento_titulacion_autorizado/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Documento de Titulación autorizado de los estudiantes</a></li>
                                 </ul>
 </div>
                             </li>
@@ -1555,15 +1555,15 @@
                         @if($encargado_ambiental == true)
 
                             <li>
-                                <a href="#" @click.prevent="selected = (selected === 'm47' ? '' : 'm47')" class="group menu-item" :class="selected === 'm47' ? 'menu-item-active' : 'menu-item-inactive'" data-panel-modulo>
+                                <a href="#" @click.prevent="selected = (selected === 'm47' ? '' : 'm47')" class="tw:group tw:menu-item" :class="selected === 'm47' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
 @include('partials.panel.iconos.paginas', ['clave' => 'm47'])
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Procedimiento Amb.</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Procedimiento Amb.</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm47'])
 </a>
-                                <div x-cloak x-show="$store.buscador.activo || selected === 'm47'" x-collapse>
-<ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
-                                    <li><a href="{{url('/ambiental/enviar_documentacion/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Enviar evidencias del procedimiento</a></li>
-                                    <li><a href="{{url('/ambiental/historial_documentacion/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Historial de las evidencias procedimiento</a></li>
+                                <div x-cloak x-show.important="$store.buscador.activo || selected === 'm47'" x-collapse>
+<ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
+                                    <li><a href="{{url('/ambiental/enviar_documentacion/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Enviar evidencias del procedimiento</a></li>
+                                    <li><a href="{{url('/ambiental/historial_documentacion/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Historial de las evidencias procedimiento</a></li>
 
                                 </ul>
 </div>
@@ -1575,11 +1575,11 @@
                         {{--Menú SGC--}}
                         {{--@if($id_unidad_admin || $equipo_auditor) {{--condicion para ver el menu auditorias si la sesion es de un auditor--}}
 
-                        {{--<ul class="nav navbar-nav">
-                                                <li class="dropdown bloq">
-                                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Auditorías<span
-                                                                class="caret"></span></a>
-                                                    <ul class="dropdown-menu">
+                        {{--<ul class="tw:nav tw:navbar-nav">
+                                                <li class="tw:dropdown tw:bloq">
+                                                    <a href="#" class="tw:dropdown-toggle" data-toggle="dropdown">Auditorías<span
+                                                                class="tw:caret"></span></a>
+                                                    <ul class="tw:dropdown-menu">
 
                                                             <li><a href="{{url('/auditorias/actividades')}}">Actividades
                         para
@@ -1596,11 +1596,11 @@
                     </li>
                     </ul>
                     @endif--}}
-                    {{--<ul class="nav navbar-nav">
-                                                    <li class="dropdown blog">
-                                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">No conformidades<span
-                                                                    class="caret"></span></a>
-                                                        <ul class="dropdown-menu">
+                    {{--<ul class="tw:nav tw:navbar-nav">
+                                                    <li class="tw:dropdown tw:blog">
+                                                        <a href="#" class="tw:dropdown-toggle" data-toggle="dropdown">No conformidades<span
+                                                                    class="tw:caret"></span></a>
+                                                        <ul class="tw:dropdown-menu">
                                                             <li>
                                                                 <a href="{{url('/auditorias/notas_auditorias')}}">Acciones
                     Correctivas</a>
@@ -1613,19 +1613,19 @@
                     @if($id_unidad_admin == true || $id_per ===2630 || $id_per ===2662 || $escolar == true)
 
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm48' ? '' : 'm48')" class="group menu-item" :class="selected === 'm48' ? 'menu-item-active' : 'menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm48' ? '' : 'm48')" class="tw:group tw:menu-item" :class="selected === 'm48' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
 @include('partials.panel.iconos.formularios', ['clave' => 'm48'])
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Adeudos de Estudiantes</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Adeudos de Estudiantes</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm48'])
 </a>
-                            <div x-cloak x-show="$store.buscador.activo || selected === 'm48'" x-collapse>
-<ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
-                                <li><a href="{{url('/solicitud_adeudo/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Registrar alumnos con adeudo</a></li>
+                            <div x-cloak x-show.important="$store.buscador.activo || selected === 'm48'" x-collapse>
+<ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
+                                <li><a href="{{url('/solicitud_adeudo/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Registrar alumnos con adeudo</a></li>
                                 @if($unidad == 16 || $unidad == 28 || $escolar == true)
-                                <li><a href="{{url('/constancia_adeudo/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Constancias de no adeudo</a></li>
+                                <li><a href="{{url('/constancia_adeudo/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Constancias de no adeudo</a></li>
                                 @endif
                                 @if($id_per ===2662)
-                                <li><a href="{{url('/ver_carrera_encuestas_adeudo//')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Adeudo de Encuestas</a></li>
+                                <li><a href="{{url('/ver_carrera_encuestas_adeudo//')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Adeudo de Encuestas</a></li>
                                 @endif
                             </ul>
 </div>
@@ -1638,18 +1638,18 @@
                     @if($direccion_finanzas == true || $unidad == 24 || $unidad == 25)
                     
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm50' ? '' : 'm50')" class="group menu-item" :class="selected === 'm50' ? 'menu-item-active' : 'menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm50' ? '' : 'm50')" class="tw:group tw:menu-item" :class="selected === 'm50' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
 @include('partials.panel.iconos.caja', ['clave' => 'm50'])
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Req. Anteproyecto</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Req. Anteproyecto</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm50'])
 </a>
-                            <div x-cloak x-show="$store.buscador.activo || selected === 'm50'" x-collapse>
-<ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
-                                <li><a href="{{url('/presupuesto_anteproyecto/techo_presupuestal/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Techo presupuestal</a></li>
-                                <li><a href="{{url('/presupuesto_anteproyecto/periodos_anteproyecto/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Periodos de anteproyectos</a></li>
-                                <li><a href="{{url('/presupuesto_anteproyecto/revicion_requisiciones_anteproyecto/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Revisión de requisiciones</a></li>
-                                <li><a href="{{url('/presupuesto_anteproyecto/requisiciones_autorizadas_proyecto/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Requisiciones autorizadas de los proyectos</a></li>
-                                <li><a href="{{url('/presupuesto_anteproyecto/inicio_historial_anteproyecto/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Historiales de los anteproyectos del los presupuestos</a></li>
+                            <div x-cloak x-show.important="$store.buscador.activo || selected === 'm50'" x-collapse>
+<ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
+                                <li><a href="{{url('/presupuesto_anteproyecto/techo_presupuestal/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Techo presupuestal</a></li>
+                                <li><a href="{{url('/presupuesto_anteproyecto/periodos_anteproyecto/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Periodos de anteproyectos</a></li>
+                                <li><a href="{{url('/presupuesto_anteproyecto/revicion_requisiciones_anteproyecto/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Revisión de requisiciones</a></li>
+                                <li><a href="{{url('/presupuesto_anteproyecto/requisiciones_autorizadas_proyecto/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Requisiciones autorizadas de los proyectos</a></li>
+                                <li><a href="{{url('/presupuesto_anteproyecto/inicio_historial_anteproyecto/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Historiales de los anteproyectos del los presupuestos</a></li>
 
                             </ul>
 </div>
@@ -1659,19 +1659,19 @@
                     @if($direccion_finanzas == true || $unidad == 24 || $unidad == 25 || $unidad == 1 || $unidad == 2 )
                     
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm51' ? '' : 'm51')" class="group menu-item" :class="selected === 'm51' ? 'menu-item-active' : 'menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm51' ? '' : 'm51')" class="tw:group tw:menu-item" :class="selected === 'm51' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
 @include('partials.panel.iconos.paginas', ['clave' => 'm51'])
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Catálogo de Requisiciones</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Catálogo de Requisiciones</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm51'])
 </a>
-                            <div x-cloak x-show="$store.buscador.activo || selected === 'm51'" x-collapse>
-<ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
+                            <div x-cloak x-show.important="$store.buscador.activo || selected === 'm51'" x-collapse>
+<ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
                                 @if($direccion_finanzas == true || $unidad == 24 || $unidad == 25 )
                                 <li><a
-                                        href="{{url('/presupuesto_anteproyecto/partida_presupuestal/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Partidas presupuestales</a></li>
+                                        href="{{url('/presupuesto_anteproyecto/partida_presupuestal/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Partidas presupuestales</a></li>
                                 @endif
-                                <li><a href="{{url('/presupuesto_anteproyecto/proyectos_presupuestales/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Proyectos presupuestales</a></li>
-                                <li><a href="{{url('/presupuesto_anteproyecto/proyectos_metas/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Metas de los proyectos presupuestales</a></li>
+                                <li><a href="{{url('/presupuesto_anteproyecto/proyectos_presupuestales/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Proyectos presupuestales</a></li>
+                                <li><a href="{{url('/presupuesto_anteproyecto/proyectos_metas/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Metas de los proyectos presupuestales</a></li>
                             </ul>
 </div>
                         </li>
@@ -1680,20 +1680,20 @@
                     @if($direccion_finanzas == true || $unidad == 24 || $unidad == 25)
                     
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm52' ? '' : 'm52')" class="group menu-item" :class="selected === 'm52' ? 'menu-item-active' : 'menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm52' ? '' : 'm52')" class="tw:group tw:menu-item" :class="selected === 'm52' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
 @include('partials.panel.iconos.graficas', ['clave' => 'm52'])
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Presupuesto autorizado</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Presupuesto autorizado</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm52'])
 </a>
-                            <div x-cloak x-show="$store.buscador.activo || selected === 'm52'" x-collapse>
-<ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
-                                <li><a href="{{url('/presupuesto_autorizado/agregar_presupesto_partida/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Agregar presupuesto autorizado</a></li>
-                                <li><a href="{{url('/presupuesto_autorizado/presupesto_partida_copia/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Presupuesto autorizado para modificar</a></li>
-                                <li><a href="{{url('/presupuesto_autorizado/departamentos_presupesto_partida/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Departamentos con presupuesto autorizado</a></li>
-                                <li><a href="{{url('/presupuesto_autorizado/revisar_solicitudes/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Revisión de solicitudes</a></li>
-                                <li><a href="{{url('/presupuesto_autorizado/solicitudes_autorizadas_departamentos')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Solicitudes autorizadas liberadas</a></li>
+                            <div x-cloak x-show.important="$store.buscador.activo || selected === 'm52'" x-collapse>
+<ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
+                                <li><a href="{{url('/presupuesto_autorizado/agregar_presupesto_partida/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Agregar presupuesto autorizado</a></li>
+                                <li><a href="{{url('/presupuesto_autorizado/presupesto_partida_copia/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Presupuesto autorizado para modificar</a></li>
+                                <li><a href="{{url('/presupuesto_autorizado/departamentos_presupesto_partida/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Departamentos con presupuesto autorizado</a></li>
+                                <li><a href="{{url('/presupuesto_autorizado/revisar_solicitudes/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Revisión de solicitudes</a></li>
+                                <li><a href="{{url('/presupuesto_autorizado/solicitudes_autorizadas_departamentos')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Solicitudes autorizadas liberadas</a></li>
                                 <li><a
-                                        href="{{url('/presupuesto_autorizado/inicio_presupuesto_autorizado_historial/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Historial de presupuesto autorizado</a></li>
+                                        href="{{url('/presupuesto_autorizado/inicio_presupuesto_autorizado_historial/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Historial de presupuesto autorizado</a></li>
                             </ul>
 </div>
                         </li>
@@ -1706,23 +1706,23 @@
                     @if($unidad == 40 || $unidad == 1)
                     @if($unidad == 40 )
                     
-                        <li><a href="{{url('/ipomex/mostrar_fracciones/contralor_ver_ipomex/')}}" class="group menu-item menu-item-inactive" data-panel-enlace>
+                        <li><a href="{{url('/ipomex/mostrar_fracciones/contralor_ver_ipomex/')}}" class="tw:group tw:menu-item tw:menu-item-inactive" data-panel-enlace>
 @include('partials.panel.iconos.paginas')
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Ipomex</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Ipomex</span>
 </a></li>
                     
                     @else
                     
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm53' ? '' : 'm53')" class="group menu-item" :class="selected === 'm53' ? 'menu-item-active' : 'menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm53' ? '' : 'm53')" class="tw:group tw:menu-item" :class="selected === 'm53' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
 @include('partials.panel.iconos.paginas', ['clave' => 'm53'])
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Ipomex</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Ipomex</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm53'])
 </a>
-                            <div x-cloak x-show="$store.buscador.activo || selected === 'm53'" x-collapse>
-<ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
-                                <li><a href="{{url('/ipomex/mostrar_fracciones/contralor_ver_ipomex/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Ver jefes con fracciones</a></li>
-                                <li><a href="{{url('/ipomex/mostrar_fracciones')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Ver mis fracciones</a></li>
+                            <div x-cloak x-show.important="$store.buscador.activo || selected === 'm53'" x-collapse>
+<ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
+                                <li><a href="{{url('/ipomex/mostrar_fracciones/contralor_ver_ipomex/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Ver jefes con fracciones</a></li>
+                                <li><a href="{{url('/ipomex/mostrar_fracciones')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Ver mis fracciones</a></li>
 
                             </ul>
 </div>
@@ -1731,9 +1731,9 @@
                     @endif
                     @else
                     
-                        <li><a href="{{url('/ipomex/mostrar_fracciones')}}" class="group menu-item menu-item-inactive" data-panel-enlace>
+                        <li><a href="{{url('/ipomex/mostrar_fracciones')}}" class="tw:group tw:menu-item tw:menu-item-inactive" data-panel-enlace>
 @include('partials.panel.iconos.paginas')
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Ipomex</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Ipomex</span>
 </a></li>
                     
                     @endif
@@ -1741,50 +1741,50 @@
 
                     @if($unidad == 5 )
                     
-                        <li><a href="{{url('/beca_estimulo/academico/autorizar')}}" class="group menu-item menu-item-inactive" data-panel-enlace>
+                        <li><a href="{{url('/beca_estimulo/academico/autorizar')}}" class="tw:group tw:menu-item tw:menu-item-inactive" data-panel-enlace>
 @include('partials.panel.iconos.formularios')
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Solicitudes de beca</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Solicitudes de beca</span>
 </a></li>
                     
                     @endif
                     @if($unidad == 26)
 
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm54' ? '' : 'm54')" class="group menu-item" :class="selected === 'm54' ? 'menu-item-active' : 'menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm54' ? '' : 'm54')" class="tw:group tw:menu-item" :class="selected === 'm54' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
 @include('partials.panel.iconos.formularios', ['clave' => 'm54'])
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Solicitudes</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Solicitudes</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm54'])
 </a>
-                            <div x-cloak x-show="$store.buscador.activo || selected === 'm54'" x-collapse>
-<ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
-                                <li><a href="{{url('/beca_estimulo/academico/autorizar')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Solicitudes de beca</a></li>
-                                <li><a href="{{url('/solicitud/prorroga_autorizar')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Solicitud de prórroga</a></li>
+                            <div x-cloak x-show.important="$store.buscador.activo || selected === 'm54'" x-collapse>
+<ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
+                                <li><a href="{{url('/beca_estimulo/academico/autorizar')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Solicitudes de beca</a></li>
+                                <li><a href="{{url('/solicitud/prorroga_autorizar')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Solicitud de prórroga</a></li>
                             </ul>
 </div>
                         </li>
-                        <li><a href="{{url('/residencia/carreras_proyectos')}}" class="group menu-item menu-item-inactive" data-panel-enlace>
+                        <li><a href="{{url('/residencia/carreras_proyectos')}}" class="tw:group tw:menu-item tw:menu-item-inactive" data-panel-enlace>
 @include('partials.panel.iconos.grupo')
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Residencia</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Residencia</span>
 </a></li>
 
                     @endif
                     @if($unidad == 17)
 
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm55' ? '' : 'm55')" class="group menu-item" :class="selected === 'm55' ? 'menu-item-active' : 'menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm55' ? '' : 'm55')" class="tw:group tw:menu-item" :class="selected === 'm55' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
 @include('partials.panel.iconos.paginas', ['clave' => 'm55'])
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Evidencias Inf. Doc.</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Evidencias Inf. Doc.</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm55'])
 </a>
-                            <div x-cloak x-show="$store.buscador.activo || selected === 'm55'" x-collapse>
-<ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
-                                <li><a href="{{url('/ambiental/ver_procedimientos/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Procedimientos</a></li>
-                                <li><a href="{{url('/ambiental/ver_encargados/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Encargados de los Procedimientos</a>
+                            <div x-cloak x-show.important="$store.buscador.activo || selected === 'm55'" x-collapse>
+<ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
+                                <li><a href="{{url('/ambiental/ver_procedimientos/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Procedimientos</a></li>
+                                <li><a href="{{url('/ambiental/ver_encargados/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Encargados de los Procedimientos</a>
                                 </li>
-                                <li><a href="{{url('/ambiental/ver_periodos/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Periodos de Envío de Documentación</a>
+                                <li><a href="{{url('/ambiental/ver_periodos/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Periodos de Envío de Documentación</a>
                                 </li>
-                                <li><a href="{{url('/ambiental/ver_documentacion_ambiental/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Autorizar Documentación</a></li>
-                                <li><a href="{{url('/ambiental/historial_ambiental_departamento/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Historial Documentación Ambiental</a></li>
+                                <li><a href="{{url('/ambiental/ver_documentacion_ambiental/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Autorizar Documentación</a></li>
+                                <li><a href="{{url('/ambiental/historial_ambiental_departamento/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Historial Documentación Ambiental</a></li>
 
                             </ul>
 </div>
@@ -1792,14 +1792,14 @@
 
                     @endif
                     {{--@if($unidad == 2 || $unidad == 5)
-                                                            <ul class="nav navbar-nav navbar-left alumno" style="">
+                                                            <ul class="tw:nav tw:navbar-nav tw:navbar-left tw:alumno" style="">
 
-                                                                <li class="dropdown">
-                                                                    <a class="dropdown-toogle" href="" data-toggle="dropdown"
+                                                                <li class="tw:dropdown">
+                                                                    <a class="tw:dropdown-toogle" href="" data-toggle="dropdown"
                                                                        role="button" aria-haspopup="true" aria-expanded="false">Encuestas Satisfacción
 
                                                                         </a>
-                                                                    <ul class="dropdown-menu">
+                                                                    <ul class="tw:dropdown-menu">
 
                                                                         <li><a href="{{url('/encuestas_satisfaccion/encuesta_incripcion_periodo')}}">Inscripción</a>
                     </li>
@@ -1821,25 +1821,25 @@
 
                     {{-- ul oculto (display:none) en el original --}}
                         <li style="display: none">
-                            <a href="#" @click.prevent="selected = (selected === 'm56' ? '' : 'm56')" class="group menu-item" :class="selected === 'm56' ? 'menu-item-active' : 'menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm56' ? '' : 'm56')" class="tw:group tw:menu-item" :class="selected === 'm56' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
 @include('partials.panel.iconos.paginas', ['clave' => 'm56'])
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">P.A.AC</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">P.A.AC</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm56'])
 </a>
-                            <div x-cloak x-show="$store.buscador.activo || selected === 'm56'" x-collapse>
-<ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
+                            <div x-cloak x-show.important="$store.buscador.activo || selected === 'm56'" x-collapse>
+<ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
                                 <li x-data="{ abierto: false }">
                                     @if($unidad == 1)
-                                    <a href="#" @click.prevent="abierto = !abierto" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-modulo>
+                                    <a href="#" @click.prevent="abierto = !abierto" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-modulo>
 <span>Catálogo</span>
 @include('partials.panel.iconos.flecha_subgrupo')
 </a>
-                                    <div x-cloak x-show="$store.buscador.activo || abierto" x-collapse>
-<ul class="mt-1 flex flex-col gap-1 border-l border-gray-200 pl-3 dark:border-gray-800">
-                                        <li><a href="{{url('/paa/programa_paa')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Programa</a></li>
-                                        <li><a href="{{url('/paa/subprograma_paa')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Subprograma</a></li>
-                                        <li><a href="{{url('/paa/acciones_paa')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Acción</a></li>
-                                        <li><a href="{{url('/paa/unidad_medida_paa')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Unidad de medida</a>
+                                    <div x-cloak x-show.important="$store.buscador.activo || abierto" x-collapse>
+<ul class="tw:mt-1 tw:flex tw:flex-col tw:gap-1 tw:border-l tw:border-gray-200 tw:pl-3 tw:dark:border-gray-800">
+                                        <li><a href="{{url('/paa/programa_paa')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Programa</a></li>
+                                        <li><a href="{{url('/paa/subprograma_paa')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Subprograma</a></li>
+                                        <li><a href="{{url('/paa/acciones_paa')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Acción</a></li>
+                                        <li><a href="{{url('/paa/unidad_medida_paa')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Unidad de medida</a>
                                         </li>
 
                                     </ul>
@@ -1847,16 +1847,16 @@
                                     @endif
                                 </li>
                                 <li x-data="{ abierto: false }">
-                                    <a href="#" @click.prevent="abierto = !abierto" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-modulo>
+                                    <a href="#" @click.prevent="abierto = !abierto" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-modulo>
 <span>OPCIONES DE P.A.AC</span>
 @include('partials.panel.iconos.flecha_subgrupo')
 </a>
-                                    <div x-cloak x-show="$store.buscador.activo || abierto" x-collapse>
-<ul class="mt-1 flex flex-col gap-1 border-l border-gray-200 pl-3 dark:border-gray-800">
-                                        <li><a href="{{url('/paa/generarpaa')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Generar</a></li>
-                                        <li><a href="{{url('/paa/subprograma_paa')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Modificar P.A.A</a></li>
-                                        <li><a href="{{url('/paa/acciones_paa')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Cargar evidencia</a></li>
-                                        <li><a href="{{url('/paa/unidad_medida_paa')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Modificar</a></li>
+                                    <div x-cloak x-show.important="$store.buscador.activo || abierto" x-collapse>
+<ul class="tw:mt-1 tw:flex tw:flex-col tw:gap-1 tw:border-l tw:border-gray-200 tw:pl-3 tw:dark:border-gray-800">
+                                        <li><a href="{{url('/paa/generarpaa')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Generar</a></li>
+                                        <li><a href="{{url('/paa/subprograma_paa')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Modificar P.A.A</a></li>
+                                        <li><a href="{{url('/paa/acciones_paa')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Cargar evidencia</a></li>
+                                        <li><a href="{{url('/paa/unidad_medida_paa')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Modificar</a></li>
 
                                     </ul>
 </div>
@@ -1866,33 +1866,33 @@
                         </li>{{-- Cierre que falta en el original (menu_admin L1804): el <li> de P.A.AC nunca se cerraba. --}}
 
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm57' ? '' : 'm57')" class="group menu-item" :class="selected === 'm57' ? 'menu-item-active' : 'menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm57' ? '' : 'm57')" class="tw:group tw:menu-item" :class="selected === 'm57' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
 @include('partials.panel.iconos.caja', ['clave' => 'm57'])
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Req. de Mat. Anteproyecto</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Req. de Mat. Anteproyecto</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm57'])
 </a>
-                            <div x-cloak x-show="$store.buscador.activo || selected === 'm57'" x-collapse>
-<ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
+                            <div x-cloak x-show.important="$store.buscador.activo || selected === 'm57'" x-collapse>
+<ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
                                 <li><a
-                                        href="{{url('/presupuesto_anteproyecto/registrar_requerimientos_anteproyecto/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Registrar requisición de materiales del anteproyecto</a>
+                                        href="{{url('/presupuesto_anteproyecto/registrar_requerimientos_anteproyecto/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Registrar requisición de materiales del anteproyecto</a>
                                 </li>
                             </ul>
 </div>
                         </li>
 
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm58' ? '' : 'm58')" class="group menu-item" :class="selected === 'm58' ? 'menu-item-active' : 'menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm58' ? '' : 'm58')" class="tw:group tw:menu-item" :class="selected === 'm58' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
 @include('partials.panel.iconos.graficas', ['clave' => 'm58'])
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Solicitudes de req. del presupuesto autorizado</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Solicitudes de req. del presupuesto autorizado</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm58'])
 </a>
-                            <div x-cloak x-show="$store.buscador.activo || selected === 'm58'" x-collapse>
-<ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
+                            <div x-cloak x-show.important="$store.buscador.activo || selected === 'm58'" x-collapse>
+<ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
                                 <li>
-                                    <a href="{{url('/presupuesto_autorizado/agregar_req_solicitud_autorizadas/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Registrar requisiciones a las solicitudes autorizadas</a>
+                                    <a href="{{url('/presupuesto_autorizado/agregar_req_solicitud_autorizadas/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Registrar requisiciones a las solicitudes autorizadas</a>
                                 </li>
                                 <li>
-                                    <a href="{{url('/presupuesto_autorizado/solicitudes_aut_departamento/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Ver solicitudes autorizadas liberadas</a>
+                                    <a href="{{url('/presupuesto_autorizado/solicitudes_aut_departamento/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Ver solicitudes autorizadas liberadas</a>
                                 </li>
                             </ul>
 </div>
@@ -1908,34 +1908,34 @@
 
                         <li>
 
-                            <a href="#" @click.prevent="selected = (selected === 'm59' ? '' : 'm59')" class="group menu-item" :class="selected === 'm59' ? 'menu-item-active' : 'menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm59' ? '' : 'm59')" class="tw:group tw:menu-item" :class="selected === 'm59' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
 @include('partials.panel.iconos.graficas', ['clave' => 'm59'])
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Complementarias</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Complementarias</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm59'])
 </a>
-                            <div x-cloak x-show="$store.buscador.activo || selected === 'm59'" x-collapse>
-<ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
-                                <li><a href="{{url('/consulta_actividades/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Registrar</a></li>
-                                <li><a href="{{url('/evidencias_alumnos')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Evidencias</a></li>
-                                <li><a href="{{url('/liberacion_alumno')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Liberación</a></li>
-                                <li><a href="{{url('/creditos')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Créditos</a></li>
+                            <div x-cloak x-show.important="$store.buscador.activo || selected === 'm59'" x-collapse>
+<ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
+                                <li><a href="{{url('/consulta_actividades/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Registrar</a></li>
+                                <li><a href="{{url('/evidencias_alumnos')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Evidencias</a></li>
+                                <li><a href="{{url('/liberacion_alumno')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Liberación</a></li>
+                                <li><a href="{{url('/creditos')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Créditos</a></li>
                             </ul>
 </div>
                         </li>
 
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm60' ? '' : 'm60')" class="group menu-item" :class="selected === 'm60' ? 'menu-item-active' : 'menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm60' ? '' : 'm60')" class="tw:group tw:menu-item" :class="selected === 'm60' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
 @include('partials.panel.iconos.usuario', ['clave' => 'm60'])
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Datos Alumno(a)</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Datos Alumno(a)</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm60'])
 </a>
-                            <div x-cloak x-show="$store.buscador.activo || selected === 'm60'" x-collapse>
-<ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
-                                <li><a href="{{url('/datos_alumno')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Actualizar</a></li>
+                            <div x-cloak x-show.important="$store.buscador.activo || selected === 'm60'" x-collapse>
+<ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
+                                <li><a href="{{url('/datos_alumno')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Actualizar</a></li>
                                 @if($ver_carga==false)
-                                <li><a href="{{url('/carga_academica')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Llenar Carga Académica</a></li>
+                                <li><a href="{{url('/carga_academica')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Llenar Carga Académica</a></li>
                                 @endif
-                                <li><a href="{{url('/checar_carga')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Ver Carga Académica</a>
+                                <li><a href="{{url('/checar_carga')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Ver Carga Académica</a>
                                 </li>
                                 {{--
                                                                     <li><a href="{{url('/alumno/academico/cal')}}">Promedio
@@ -1948,16 +1948,16 @@
                     </li>
 
                         <li>
-                        <li><a href="{{url('/ingles/')}}" class="group menu-item menu-item-inactive" data-panel-enlace>
+                        <li><a href="{{url('/ingles/')}}" class="tw:group tw:menu-item tw:menu-item-inactive" data-panel-enlace>
 @include('partials.panel.iconos.paginas')
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Inglés</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Inglés</span>
 </a></li>
                         </li>
 
                         <li>
-                        <li><a href="{{url('/tutorias/')}}" class="group menu-item menu-item-inactive" data-panel-enlace>
+                        <li><a href="{{url('/tutorias/')}}" class="tw:group tw:menu-item tw:menu-item-inactive" data-panel-enlace>
 @include('partials.panel.iconos.usuario')
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Tutorías</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Tutorías</span>
 </a></li>
                         </li>
 
@@ -1970,9 +1970,9 @@
                     @if(in_array($id_carrera, [6, 8]))
                     
                         <li>
-                            <a href="{{ url('/examen_egel/dashboard') }}" class="group menu-item menu-item-inactive" data-panel-enlace>
+                            <a href="{{ url('/examen_egel/dashboard') }}" class="tw:group tw:menu-item tw:menu-item-inactive" data-panel-enlace>
 @include('partials.panel.iconos.graficas')
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Examen EGEL</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Examen EGEL</span>
 </a>
                         </li>
                     
@@ -1981,44 +1981,44 @@
                     @if($ver_eva==true)
 
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm61' ? '' : 'm61')" class="group menu-item" :class="selected === 'm61' ? 'menu-item-active' : 'menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm61' ? '' : 'm61')" class="tw:group tw:menu-item" :class="selected === 'm61' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
 @include('partials.panel.iconos.graficas', ['clave' => 'm61'])
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Evaluación Docente</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Evaluación Docente</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm61'])
 </a>
-                            <div x-cloak x-show="$store.buscador.activo || selected === 'm61'" x-collapse>
-<ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
-                                <li><a href="{{url('/evaluacion_alumno')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Iniciar Evaluación</a></li>
+                            <div x-cloak x-show.important="$store.buscador.activo || selected === 'm61'" x-collapse>
+<ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
+                                <li><a href="{{url('/evaluacion_alumno')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Iniciar Evaluación</a></li>
                             </ul>
 </div>
                         </li>
                     
                     @endif
                     
-                        <li><a href="{{url('/calificaciones')}}" class="group menu-item menu-item-inactive" data-panel-enlace>
+                        <li><a href="{{url('/calificaciones')}}" class="tw:group tw:menu-item tw:menu-item-inactive" data-panel-enlace>
 @include('partials.panel.iconos.tablas')
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Calificaciones</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Calificaciones</span>
 </a></li>
                         {{-- [menu_admin L1928-1937] Cambio de periodo (alumno): en el header, misma condición. --}}
 
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm63' ? '' : 'm63')" class="group menu-item" :class="selected === 'm63' ? 'menu-item-active' : 'menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm63' ? '' : 'm63')" class="tw:group tw:menu-item" :class="selected === 'm63' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
 @include('partials.panel.iconos.formularios', ['clave' => 'm63'])
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Solicitudes</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Solicitudes</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm63'])
 </a>
-                            <div x-cloak x-show="$store.buscador.activo || selected === 'm63'" x-collapse>
-<ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
-                                <li><a href="{{url('/beca_estimulo/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Solicitud del Estimulo al D. E.</a></li>
-                                <li><a href="{{url('/solicitud/prorroga')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Solicitud de prórroga</a></li>
-                                <li><a href="{{url('/verificacion_adeudo_alumno/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Solicitud de constancia de no adeudo</a></li>
+                            <div x-cloak x-show.important="$store.buscador.activo || selected === 'm63'" x-collapse>
+<ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
+                                <li><a href="{{url('/beca_estimulo/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Solicitud del Estimulo al D. E.</a></li>
+                                <li><a href="{{url('/solicitud/prorroga')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Solicitud de prórroga</a></li>
+                                <li><a href="{{url('/verificacion_adeudo_alumno/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Solicitud de constancia de no adeudo</a></li>
 
                                 @php
                                 $carrera = DB::select('SELECT id_carrera FROM gnral_alumnos WHERE id_usuario = ?' ,
                                 [Auth::id()]);
                                 @endphp
                                 @if (!empty($carrera) && $carrera[0]->id_carrera == 2)
-                                <li><a href="{{url('/prestamo/Alumnos_Prestamos_material')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Solicitud de material</a></li>
+                                <li><a href="{{url('/prestamo/Alumnos_Prestamos_material')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Solicitud de material</a></li>
                                 @endif
 
                             </ul>
@@ -2034,53 +2034,53 @@
                         <?php $estado_reg_anteproyecto = Session::get('estado_reg_anteproyecto');?>
 
                             <li>
-                                <a href="#" @click.prevent="selected = (selected === 'm64' ? '' : 'm64')" class="group menu-item" :class="selected === 'm64' ? 'menu-item-active' : 'menu-item-inactive'" data-panel-modulo>
+                                <a href="#" @click.prevent="selected = (selected === 'm64' ? '' : 'm64')" class="tw:group tw:menu-item" :class="selected === 'm64' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
 @include('partials.panel.iconos.grupo', ['clave' => 'm64'])
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Datos Residencia Profesional</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Datos Residencia Profesional</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm64'])
 </a>
-                                <div x-cloak x-show="$store.buscador.activo || selected === 'm64'" x-collapse>
-<ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
+                                <div x-cloak x-show.important="$store.buscador.activo || selected === 'm64'" x-collapse>
+<ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
                                     @if($registrar_residencia == true)
                                     <li>
-                                        <a href="{{url('/residencia/registrar_anteproyecto')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Registrar Anteproyecto</a>
+                                        <a href="{{url('/residencia/registrar_anteproyecto')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Registrar Anteproyecto</a>
                                     </li>
 
                                     @if($estado_reg_anteproyecto == true)
                                     <li>
-                                        <a href="{{url('/residencia/correcciones_anteproyecto/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Correciones anteproyecto</a>
+                                        <a href="{{url('/residencia/correcciones_anteproyecto/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Correciones anteproyecto</a>
                                     </li>
                                     @endif
                                     @if($anteproyecto_aceptado == true)
-                                    <li><a href="{{url('/residencia/agregar_empresa')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Agregar empresa</a></li>
+                                    <li><a href="{{url('/residencia/agregar_empresa')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Agregar empresa</a></li>
                                     @endif
                                     @if($registro_empresa == true)
 
                                     <li><a href="#"
-                                            onclick="window.open('{{url('/residencia/dictamen_anteproyecto')}}')" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Dictamen Anteproyecto</a></li>
+                                            onclick="window.open('{{url('/residencia/dictamen_anteproyecto')}}')" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Dictamen Anteproyecto</a></li>
                                     <li><a
-                                            href="{{url('/residencia/registrar_solicitud_residencia')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Registrar datos de la solicitud de residencia</a></li>
+                                            href="{{url('/residencia/registrar_solicitud_residencia')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Registrar datos de la solicitud de residencia</a></li>
                                     <li style="display: none"><a
-                                            href="{{url('/residencia/documentos_alta_residencia')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Enviar documentos de alta de residencia</a></li>
+                                            href="{{url('/residencia/documentos_alta_residencia')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Enviar documentos de alta de residencia</a></li>
 
                                     @endif
                                     @else
                                     @if($estado_reg_anteproyecto == true)
                                     <li>
-                                        <a href="{{url('/residencia/correcciones_anteproyecto/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Correciones anteproyecto</a>
+                                        <a href="{{url('/residencia/correcciones_anteproyecto/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Correciones anteproyecto</a>
                                     </li>
                                     @endif
                                     @if($anteproyecto_aceptado == true)
-                                    <li><a href="{{url('/residencia/agregar_empresa')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Agregar empresa</a></li>
+                                    <li><a href="{{url('/residencia/agregar_empresa')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Agregar empresa</a></li>
                                     @endif
                                     @if($registro_empresa == true)
                                     <li> <a href="#"
-                                            onclick="window.open('{{url('/residencia/dictamen_anteproyecto')}}')" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Dictamen Anteproyecto</a></li>
+                                            onclick="window.open('{{url('/residencia/dictamen_anteproyecto')}}')" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Dictamen Anteproyecto</a></li>
                                     <li><a
-                                            href="{{url('/residencia/registrar_solicitud_residencia')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Registrar datos de la solicitud de residencia</a></li>
+                                            href="{{url('/residencia/registrar_solicitud_residencia')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Registrar datos de la solicitud de residencia</a></li>
 
                                     <li style="display: none"><a
-                                            href="{{url('/residencia/documentos_alta_residencia')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Enviar documentos de alta de residencia</a></li>
+                                            href="{{url('/residencia/documentos_alta_residencia')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Enviar documentos de alta de residencia</a></li>
 
                                     @endif
                                     @endif
@@ -2092,16 +2092,16 @@
                         @if($seguimiento_alumno == true)
 
                             <li>
-                                <a href="#" @click.prevent="selected = (selected === 'm65' ? '' : 'm65')" class="group menu-item" :class="selected === 'm65' ? 'menu-item-active' : 'menu-item-inactive'" data-panel-modulo>
+                                <a href="#" @click.prevent="selected = (selected === 'm65' ? '' : 'm65')" class="tw:group tw:menu-item" :class="selected === 'm65' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
 @include('partials.panel.iconos.grupo', ['clave' => 'm65'])
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Seguimiento Residencia</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Seguimiento Residencia</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm65'])
 </a>
-                                <div x-cloak x-show="$store.buscador.activo || selected === 'm65'" x-collapse>
-<ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
-                                    <li><a href="{{url('/residencia/seguimiento_residencia')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Mostrar Seguimiento de Residencia</a></li>
+                                <div x-cloak x-show.important="$store.buscador.activo || selected === 'm65'" x-collapse>
+<ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
+                                    <li><a href="{{url('/residencia/seguimiento_residencia')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Mostrar Seguimiento de Residencia</a></li>
                                     <li style="display: none"><a
-                                            href="{{url('/residencia/enviar_documentacion/alumno/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Enviar documentación de Liberación de Residencia</a></li>
+                                            href="{{url('/residencia/enviar_documentacion/alumno/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Enviar documentación de Liberación de Residencia</a></li>
 
                                 </ul>
 </div>
@@ -2112,15 +2112,15 @@
                         {{-- ul oculto (display:none) en el original --}}
 
                             <li style="display: none">
-                                <a href="#" @click.prevent="selected = (selected === 'm66' ? '' : 'm66')" class="group menu-item" :class="selected === 'm66' ? 'menu-item-active' : 'menu-item-inactive'" data-panel-modulo>
+                                <a href="#" @click.prevent="selected = (selected === 'm66' ? '' : 'm66')" class="tw:group tw:menu-item" :class="selected === 'm66' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
 @include('partials.panel.iconos.paginas', ['clave' => 'm66'])
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Servicio Social</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Servicio Social</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm66'])
 </a>
-                                <div x-cloak x-show="$store.buscador.activo || selected === 'm66'" x-collapse>
-<ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
-                                    <li><a href="{{url('/servicio_social/docuemtacion_priemra_etapa/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Documentación de la primera etapa S.S.</a></li>
-                                    <li><a href="{{url('/servicio_social/enviocartapresentacionalumno/alumno/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Envío de Carta de Presentación-Aceptación</a></li>
+                                <div x-cloak x-show.important="$store.buscador.activo || selected === 'm66'" x-collapse>
+<ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
+                                    <li><a href="{{url('/servicio_social/docuemtacion_priemra_etapa/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Documentación de la primera etapa S.S.</a></li>
+                                    <li><a href="{{url('/servicio_social/enviocartapresentacionalumno/alumno/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Envío de Carta de Presentación-Aceptación</a></li>
 
                                 </ul>
 </div>
@@ -2135,20 +2135,20 @@
                         @if($reg_alum_ti == true)
 
                             <li>
-                                <a href="#" @click.prevent="selected = (selected === 'm67' ? '' : 'm67')" class="group menu-item" :class="selected === 'm67' ? 'menu-item-active' : 'menu-item-inactive'" data-panel-modulo>
+                                <a href="#" @click.prevent="selected = (selected === 'm67' ? '' : 'm67')" class="tw:group tw:menu-item" :class="selected === 'm67' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
 @include('partials.panel.iconos.paginas', ['clave' => 'm67'])
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Titulación</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Titulación</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm67'])
 </a>
-                                <div x-cloak x-show="$store.buscador.activo || selected === 'm67'" x-collapse>
-<ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
-                                    <li><a href="{{url('/titulacion/documentacion_requisitos_titulacion/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Documentación de los requisitos de Titulación (1ra Etapa)</a></li>
+                                <div x-cloak x-show.important="$store.buscador.activo || selected === 'm67'" x-collapse>
+<ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
+                                    <li><a href="{{url('/titulacion/documentacion_requisitos_titulacion/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Documentación de los requisitos de Titulación (1ra Etapa)</a></li>
                                     @if($ti_segunda_etapa == true)
                                     <li><a
-                                            href="{{url('/titulacion/reg_datos_personales/segunda_etapa/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Registro de Datos Personales (2da Etapa)</a></li>
+                                            href="{{url('/titulacion/reg_datos_personales/segunda_etapa/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Registro de Datos Personales (2da Etapa)</a></li>
                                     @endif
                                     @if($ti_tercera_parte == true)
-                                    <li><a href="{{url('/titulacion/registro_jurado/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Registro de jurado (3ra etapa)</a></li>
+                                    <li><a href="{{url('/titulacion/registro_jurado/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Registro de jurado (3ra etapa)</a></li>
 
                                     @endif
                                     {{--
@@ -2171,9 +2171,9 @@
                     @if($profesor_ingles==true)
                     
                         <li>
-                        <li><a href="{{url('/ingles/')}}" class="group menu-item menu-item-inactive" data-panel-enlace>
+                        <li><a href="{{url('/ingles/')}}" class="tw:group tw:menu-item tw:menu-item-inactive" data-panel-enlace>
 @include('partials.panel.iconos.paginas')
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Inglés</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Inglés</span>
 </a></li>
                         </li>
                     
@@ -2190,24 +2190,24 @@
                     @if($personal_tesvb == true)
                     
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm68' ? '' : 'm68')" class="group menu-item" :class="selected === 'm68' ? 'menu-item-active' : 'menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm68' ? '' : 'm68')" class="tw:group tw:menu-item" :class="selected === 'm68' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
 @include('partials.panel.iconos.formularios', ['clave' => 'm68'])
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Incidencias de Asistencia</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Incidencias de Asistencia</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm68'])
 </a>
-                            <div x-cloak x-show="$store.buscador.activo || selected === 'm68'" x-collapse>
-<ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
+                            <div x-cloak x-show.important="$store.buscador.activo || selected === 'm68'" x-collapse>
+<ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
                                 @if($unidad == 3)
-                                <li><a href="{{url('/incidencias/validar_oficios_departamentos')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Validar oficios de los departamentos</a></li>
+                                <li><a href="{{url('/incidencias/validar_oficios_departamentos')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Validar oficios de los departamentos</a></li>
 
                                 @elseif($unidad == 5 || $unidad == 22)
-                                <li><a href="{{url('/incidencias/validar_oficios_dep_acad_finanzas')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Validar oficios de los departamentos</a></li>
+                                <li><a href="{{url('/incidencias/validar_oficios_dep_acad_finanzas')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Validar oficios de los departamentos</a></li>
                                 @endif
                                 @if($jefe_division==true || $directivo==true || $direccion_finanzas==true ||
                                 $jefe_personal==true ||$id_unidad_admin==true )
-                                <li><a href="{{url('/incidencias/validar_oficios')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Validar oficios del departamento</a></li>
-                                <li><a href="{{url('/incidencias/historial_oficios_autorizados')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Historial de oficios autorizados del departamento</a></li>
-                                <li><a href="{{url('/incidencias/historial_evid_personal')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Historial de evidencias de conocimiento del departamento</a></li>
+                                <li><a href="{{url('/incidencias/validar_oficios')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Validar oficios del departamento</a></li>
+                                <li><a href="{{url('/incidencias/historial_oficios_autorizados')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Historial de oficios autorizados del departamento</a></li>
+                                <li><a href="{{url('/incidencias/historial_evid_personal')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Historial de evidencias de conocimiento del departamento</a></li>
 
                                 {{--
                                                                       <li><a href="{{url('/incidencias/historial_evid_conocimiento')}}">Historial
@@ -2216,20 +2216,20 @@
                         --}}
                         @endif
                         @if( !$id_unidad_admin)
-                        <li><a href="{{url('/incidencias/solicitar_oficio')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Solicitar oficio</a></li>
-                        <li><a href="{{url('/incidencias/cargar_otra_evidencia')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Subir evidencia de conocimiento</a>
+                        <li><a href="{{url('/incidencias/solicitar_oficio')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Solicitar oficio</a></li>
+                        <li><a href="{{url('/incidencias/cargar_otra_evidencia')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Subir evidencia de conocimiento</a>
                         </li>
                         {{--  <li><a href="{{url('/incidencias/articulos_evidencia')}}">Subir evidencia</a></li>
                         --}}
-                        <li><a href="{{url('/incidencias/historial_docentesSo')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Historial oficios autorizados</a>
+                        <li><a href="{{url('/incidencias/historial_docentesSo')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Historial oficios autorizados</a>
                         </li>
-                        <li><a href="{{url('/incidencias/historial_docentesEv')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Historial evidencias de conocimiento</a></li>
+                        <li><a href="{{url('/incidencias/historial_docentesEv')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Historial evidencias de conocimiento</a></li>
                         @endif
                         @if($jefe_personal==true)
-                        <li><a href="{{url('/incidencias/validar_evidencia_departamentos')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Validar evidencia de conocimiento de los departamentos</a></li>
-                        <li><a href="{{url('/incidencias/historial_oficios')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Historial de oficios de los departamentos</a></li>
-                        <li><a href="{{url('/incidencias/historial_evidencias')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Historial de evidencias de conocimiento de los departamentos</a></li>
-                        <li><a href="{{url('/incidencias/reportes_incidencias')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Reportes</a></li>
+                        <li><a href="{{url('/incidencias/validar_evidencia_departamentos')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Validar evidencia de conocimiento de los departamentos</a></li>
+                        <li><a href="{{url('/incidencias/historial_oficios')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Historial de oficios de los departamentos</a></li>
+                        <li><a href="{{url('/incidencias/historial_evidencias')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Historial de evidencias de conocimiento de los departamentos</a></li>
+                        <li><a href="{{url('/incidencias/reportes_incidencias')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Reportes</a></li>
                         @endif
 
                     </ul>
@@ -2238,12 +2238,12 @@
                     
                     @endif
 
-                    {{--<ul class="nav navbar-nav ">
-                                                <li class="dropdown">
-                                                    <a class="dropdown-toogle" href="" data-toggle="dropdown"
+                    {{--<ul class="tw:nav tw:navbar-nav ">
+                                                <li class="tw:dropdown">
+                                                    <a class="tw:dropdown-toogle" href="" data-toggle="dropdown"
                                                        role="button" aria-haspopup="true" aria-expanded="false" style="">Encuestas
                                                         </a>
-                                                    <ul class="dropdown-menu">
+                                                    <ul class="tw:dropdown-menu">
                                                         <li><a href="{{url('/encuestas_satisfaccion/registro_enc_mante_usuario/')}}">Encuesta
                     de satisfacción al cliente Centro de Computo</a></li>
 
@@ -2252,75 +2252,75 @@
                     </ul>--}}
                     
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm69' ? '' : 'm69')" class="group menu-item" :class="selected === 'm69' ? 'menu-item-active' : 'menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm69' ? '' : 'm69')" class="tw:group tw:menu-item" :class="selected === 'm69' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
 @include('partials.panel.iconos.graficas', ['clave' => 'm69'])
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">SGOE</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">SGOE</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm69'])
 </a>
-                            <div x-cloak x-show="$store.buscador.activo || selected === 'm69'" x-collapse>
-<ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
+                            <div x-cloak x-show.important="$store.buscador.activo || selected === 'm69'" x-collapse>
+<ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
                                 {{-- Opción SGOE --}}
-                                <li><a href="{{url('/sgoe/inicio')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>SGOE</a></li>
+                                <li><a href="{{url('/sgoe/inicio')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>SGOE</a></li>
 
                                 @if($personal_tesvb == true && ($id_unidad_admin||$directivo))
                                 {{--OPCIÓN: Riesgos y Oportuni. --}}
                                 <li x-data="{ abierto: false }">
-                                    <a href="#" @click.prevent="abierto = !abierto" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-modulo>
+                                    <a href="#" @click.prevent="abierto = !abierto" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-modulo>
 <span>Riesgos y Oportuni.</span>
 @include('partials.panel.iconos.flecha_subgrupo')
 </a>
-                                    <div x-cloak x-show="$store.buscador.activo || abierto" x-collapse>
-<ul class="mt-1 flex flex-col gap-1 border-l border-gray-200 pl-3 dark:border-gray-800">
-                                        <li><a href="{{url('/riesgos/proceso')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Registro Procesos</a></li>
+                                    <div x-cloak x-show.important="$store.buscador.activo || abierto" x-collapse>
+<ul class="tw:mt-1 tw:flex tw:flex-col tw:gap-1 tw:border-l tw:border-gray-200 tw:pl-3 tw:dark:border-gray-800">
+                                        <li><a href="{{url('/riesgos/proceso')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Registro Procesos</a></li>
 
                                         <li x-data="{ abierto: false }">
-                                            <a href="#" @click.prevent="abierto = !abierto" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-modulo>
+                                            <a href="#" @click.prevent="abierto = !abierto" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-modulo>
 <span>Registro Catálogos Riesgos</span>
 @include('partials.panel.iconos.flecha_subgrupo')
 </a>
-                                            <div x-cloak x-show="$store.buscador.activo || abierto" x-collapse>
-<ul class="mt-1 flex flex-col gap-1 border-l border-gray-200 pl-3 dark:border-gray-800">
-                                                <li><a href="{{url('/riesgos/riesgo')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Riesgos</a></li>
-                                                <li><a href="{{url('/riesgos/seleccion')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Selecciones</a></li>
-                                                <li><a href="{{url('/riesgos/tipoeva')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Tipo Evaluación</a></li>
-                                                <li><a href="{{url('/riesgos/factor')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Factor</a></li>
-                                                <li><a href="{{url('/riesgos/tipof')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Tipo Factor</a></li>
-                                                <li><a href="{{url('/riesgos/estrategia')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Estrategias</a></li>
-                                                <li><a href="{{url('/riesgos/decision')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Nivel Decisión</a></li>
-                                                <li><a href="{{url('/riesgos/clasifica')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Clasificación Riesgo</a>
+                                            <div x-cloak x-show.important="$store.buscador.activo || abierto" x-collapse>
+<ul class="tw:mt-1 tw:flex tw:flex-col tw:gap-1 tw:border-l tw:border-gray-200 tw:pl-3 tw:dark:border-gray-800">
+                                                <li><a href="{{url('/riesgos/riesgo')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Riesgos</a></li>
+                                                <li><a href="{{url('/riesgos/seleccion')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Selecciones</a></li>
+                                                <li><a href="{{url('/riesgos/tipoeva')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Tipo Evaluación</a></li>
+                                                <li><a href="{{url('/riesgos/factor')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Factor</a></li>
+                                                <li><a href="{{url('/riesgos/tipof')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Tipo Factor</a></li>
+                                                <li><a href="{{url('/riesgos/estrategia')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Estrategias</a></li>
+                                                <li><a href="{{url('/riesgos/decision')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Nivel Decisión</a></li>
+                                                <li><a href="{{url('/riesgos/clasifica')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Clasificación Riesgo</a>
                                                 </li>
-                                                <li><a href="{{url('/riesgos/sistema')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Categoría del Proceso</a></li>
+                                                <li><a href="{{url('/riesgos/sistema')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Categoría del Proceso</a></li>
                                             </ul>
 </div>
                                         </li>
 
                                         <li x-data="{ abierto: false }">
-                                            <a href="#" @click.prevent="abierto = !abierto" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-modulo>
+                                            <a href="#" @click.prevent="abierto = !abierto" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-modulo>
 <span>Registro Catálogos Oportunidades</span>
 @include('partials.panel.iconos.flecha_subgrupo')
 </a>
-                                            <div x-cloak x-show="$store.buscador.activo || abierto" x-collapse>
-<ul class="mt-1 flex flex-col gap-1 border-l border-gray-200 pl-3 dark:border-gray-800">
-                                                <li><a href="{{url('/riesgos/mejoracliente')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Mejoras del Cliente</a>
+                                            <div x-cloak x-show.important="$store.buscador.activo || abierto" x-collapse>
+<ul class="tw:mt-1 tw:flex tw:flex-col tw:gap-1 tw:border-l tw:border-gray-200 tw:pl-3 tw:dark:border-gray-800">
+                                                <li><a href="{{url('/riesgos/mejoracliente')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Mejoras del Cliente</a>
                                                 </li>
-                                                <li><a href="{{url('/riesgos/mejorareputacion')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Reputación Institucional</a></li>
-                                                <li><a href="{{url('/riesgos/mejorasgc')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Mejora SGC</a></li>
-                                                <li><a href="{{url('/riesgos/potencialapertura')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Potencial Apertura Nuevos Programas de Estudio</a></li>
-                                                <li><a href="{{url('/riesgos/potencialcosto')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Potencial Costo de Implementación</a></li>
-                                                <li><a href="{{url('/riesgos/potencialcrecimiento')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Potencial de Crecimiento de la Matrícula Actual</a></li>
-                                                <li><a href="{{url('/riesgos/probabilidad')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Registra Probabilidad</a>
+                                                <li><a href="{{url('/riesgos/mejorareputacion')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Reputación Institucional</a></li>
+                                                <li><a href="{{url('/riesgos/mejorasgc')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Mejora SGC</a></li>
+                                                <li><a href="{{url('/riesgos/potencialapertura')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Potencial Apertura Nuevos Programas de Estudio</a></li>
+                                                <li><a href="{{url('/riesgos/potencialcosto')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Potencial Costo de Implementación</a></li>
+                                                <li><a href="{{url('/riesgos/potencialcrecimiento')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Potencial de Crecimiento de la Matrícula Actual</a></li>
+                                                <li><a href="{{url('/riesgos/probabilidad')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Registra Probabilidad</a>
                                                 </li>
-                                                <li><a href="{{url('/riesgos/ocurrenciasp')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Registra Ocurrencias Previas</a></li>
-                                                <li><a href="{{url('/riesgos/calificacion')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Registra Calificación Máxima</a></li>
+                                                <li><a href="{{url('/riesgos/ocurrenciasp')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Registra Ocurrencias Previas</a></li>
+                                                <li><a href="{{url('/riesgos/calificacion')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Registra Calificación Máxima</a></li>
                                             </ul>
 </div>
                                         </li>
 
-                                        <li><a href="{{url('/riesgos/partes')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Partes Interesadas</a></li>
+                                        <li><a href="{{url('/riesgos/partes')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Partes Interesadas</a></li>
 
                                         @if($directivo || $unidad==10)
-                                        <li><a href="{{url('/riesgos/seguimiento')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Seguimiento</a></li>
-                                        <li><a href="{{url('riesgos/seguimiento/tabla')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Cronograma</a></li>
+                                        <li><a href="{{url('/riesgos/seguimiento')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Seguimiento</a></li>
+                                        <li><a href="{{url('riesgos/seguimiento/tabla')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Cronograma</a></li>
                                         @endif
                                     </ul>
 </div>
@@ -2330,21 +2330,21 @@
                                 {{-- 2. Auditorías: líder ve todo; auditor solo Programa de auditorías --}}
                                 @if($es_auditor_lider_sgoe_menu || $es_auditor_responsable_sgoe_menu)
                                 <li x-data="{ abierto: false }">
-                                    <a href="#" @click.prevent="abierto = !abierto" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-modulo>
+                                    <a href="#" @click.prevent="abierto = !abierto" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-modulo>
 <span>Auditorías</span>
 @include('partials.panel.iconos.flecha_subgrupo')
 </a>
-                                    <div x-cloak x-show="$store.buscador.activo || abierto" x-collapse>
-<ul class="mt-1 flex flex-col gap-1 border-l border-gray-200 pl-3 dark:border-gray-800">
+                                    <div x-cloak x-show.important="$store.buscador.activo || abierto" x-collapse>
+<ul class="tw:mt-1 tw:flex tw:flex-col tw:gap-1 tw:border-l tw:border-gray-200 tw:pl-3 tw:dark:border-gray-800">
                                         @if($es_auditor_lider_sgoe_menu)
-                                        <li><a href="{{url('/auditorias/actividades')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Actividades para la agenda</a>
+                                        <li><a href="{{url('/auditorias/actividades')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Actividades para la agenda</a>
                                         </li>
-                                        <li><a href="{{url('/auditorias/auditores')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Auditores</a></li>
-                                        <li><a href="{{url('/auditorias/generales')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Catálogo Generales</a></li>
-                                        <li><a href="{{url('/auditorias/procesos')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Procesos</a></li>
-                                        <li><a href="{{url('/auditorias/responsables')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Seguimiento</a></li>
+                                        <li><a href="{{url('/auditorias/auditores')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Auditores</a></li>
+                                        <li><a href="{{url('/auditorias/generales')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Catálogo Generales</a></li>
+                                        <li><a href="{{url('/auditorias/procesos')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Procesos</a></li>
+                                        <li><a href="{{url('/auditorias/responsables')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Seguimiento</a></li>
                                         @endif
-                                        <li><a href="{{url('/auditorias/programas')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Programa de auditorías</a></li>
+                                        <li><a href="{{url('/auditorias/programas')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Programa de auditorías</a></li>
                                     </ul>
 </div>
                                 </li>
@@ -2353,14 +2353,14 @@
                                 @if($personal_tesvb == true)
                                 {{-- Opción No conformidades --}}
                                 <li x-data="{ abierto: false }">
-                                    <a href="#" @click.prevent="abierto = !abierto" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-modulo>
+                                    <a href="#" @click.prevent="abierto = !abierto" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-modulo>
 <span>No conformidades</span>
 @include('partials.panel.iconos.flecha_subgrupo')
 </a>
-                                    <div x-cloak x-show="$store.buscador.activo || abierto" x-collapse>
-<ul class="mt-1 flex flex-col gap-1 border-l border-gray-200 pl-3 dark:border-gray-800">
+                                    <div x-cloak x-show.important="$store.buscador.activo || abierto" x-collapse>
+<ul class="tw:mt-1 tw:flex tw:flex-col tw:gap-1 tw:border-l tw:border-gray-200 tw:pl-3 tw:dark:border-gray-800">
                                         <li>
-                                            <a href="{{url('/auditorias/notas_auditorias')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Acciones Correctivas</a>
+                                            <a href="{{url('/auditorias/notas_auditorias')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Acciones Correctivas</a>
                                         </li>
                                     </ul>
 </div>
@@ -2370,24 +2370,24 @@
                                 {{-- 4. Encuestas Satisfacción --}}
                                 @if($personal_tesvb == true && ($unidad == 2 || $unidad == 5))
                                 <li x-data="{ abierto: false }">
-                                    <a href="#" @click.prevent="abierto = !abierto" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-modulo>
+                                    <a href="#" @click.prevent="abierto = !abierto" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-modulo>
 <span>Encuestas Satisfacción</span>
 @include('partials.panel.iconos.flecha_subgrupo')
 </a>
-                                    <div x-cloak x-show="$store.buscador.activo || abierto" x-collapse>
-<ul class="mt-1 flex flex-col gap-1 border-l border-gray-200 pl-3 dark:border-gray-800">
+                                    <div x-cloak x-show.important="$store.buscador.activo || abierto" x-collapse>
+<ul class="tw:mt-1 tw:flex tw:flex-col tw:gap-1 tw:border-l tw:border-gray-200 tw:pl-3 tw:dark:border-gray-800">
                                         <li><a
-                                                href="{{url('/encuestas_satisfaccion/encuesta_incripcion_periodo')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Inscripción</a>
+                                                href="{{url('/encuestas_satisfaccion/encuesta_incripcion_periodo')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Inscripción</a>
                                         </li>
                                         <li><a
-                                                href="{{url('/encuestas_satisfaccion/encuesta_reincripcion_periodo/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Reinscripción</a>
+                                                href="{{url('/encuestas_satisfaccion/encuesta_reincripcion_periodo/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Reinscripción</a>
                                         </li>
-                                        <li><a href="{{url('/encuestas_satisfaccion/menu_historial_mantenimiento/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Centro de cómputo</a></li>
-                                        <li><a href="{{url('/encuestas_satisfaccion/historial_periodo_year/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Servicio social</a></li>
+                                        <li><a href="{{url('/encuestas_satisfaccion/menu_historial_mantenimiento/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Centro de cómputo</a></li>
+                                        <li><a href="{{url('/encuestas_satisfaccion/historial_periodo_year/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Servicio social</a></li>
                                         <li><a
-                                                href="{{url('/encuestas_satisfaccion/agregar_periodo_year_residencia/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Residencia Profesional</a></li>
+                                                href="{{url('/encuestas_satisfaccion/agregar_periodo_year_residencia/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Residencia Profesional</a></li>
                                         <li><a
-                                                href="{{url('/encuestas_satisfaccion/historial_encuesta_estudiante_titulacion')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Titulación</a>
+                                                href="{{url('/encuestas_satisfaccion/historial_encuesta_estudiante_titulacion')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Titulación</a>
                                         </li>
                                     </ul>
 </div>
@@ -2397,13 +2397,13 @@
                                 @if($personal_tesvb == true)
                                 {{-- 5. Encuestas --}}
                                 <li x-data="{ abierto: false }">
-                                    <a href="#" @click.prevent="abierto = !abierto" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-modulo>
+                                    <a href="#" @click.prevent="abierto = !abierto" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-modulo>
 <span>Encuestas</span>
 @include('partials.panel.iconos.flecha_subgrupo')
 </a>
-                                    <div x-cloak x-show="$store.buscador.activo || abierto" x-collapse>
-<ul class="mt-1 flex flex-col gap-1 border-l border-gray-200 pl-3 dark:border-gray-800">
-                                        <li><a href="{{url('/encuestas_satisfaccion/registro_enc_mante_usuario/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Encuesta de satisfacción al cliente Centro de Cómputo</a></li>
+                                    <div x-cloak x-show.important="$store.buscador.activo || abierto" x-collapse>
+<ul class="tw:mt-1 tw:flex tw:flex-col tw:gap-1 tw:border-l tw:border-gray-200 tw:pl-3 tw:dark:border-gray-800">
+                                        <li><a href="{{url('/encuestas_satisfaccion/registro_enc_mante_usuario/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Encuesta de satisfacción al cliente Centro de Cómputo</a></li>
                                     </ul>
 </div>
                                 </li>
@@ -2412,15 +2412,15 @@
                                 @if($personal_tesvb == true)
                                 {{-- 6. Seguimiento Acciones --}}
                                 <li x-data="{ abierto: false }">
-                                    <a href="#" @click.prevent="abierto = !abierto" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-modulo>
+                                    <a href="#" @click.prevent="abierto = !abierto" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-modulo>
 <span>Seguimiento OM/NC/AC</span>
 @include('partials.panel.iconos.flecha_subgrupo')
 </a>
-                                    <div x-cloak x-show="$store.buscador.activo || abierto" x-collapse>
-<ul class="mt-1 flex flex-col gap-1 border-l border-gray-200 pl-3 dark:border-gray-800">
-                                        <li><a href="{{ url('/auditorias/responsables_implementar') }}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Ejecutar</a>
+                                    <div x-cloak x-show.important="$store.buscador.activo || abierto" x-collapse>
+<ul class="tw:mt-1 tw:flex tw:flex-col tw:gap-1 tw:border-l tw:border-gray-200 tw:pl-3 tw:dark:border-gray-800">
+                                        <li><a href="{{ url('/auditorias/responsables_implementar') }}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Ejecutar</a>
                                         </li>
-                                        <li><a href="{{ url('/auditorias/responsables_revisar') }}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Revisar</a></li>
+                                        <li><a href="{{ url('/auditorias/responsables_revisar') }}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Revisar</a></li>
                                     </ul>
 </div>
                                 </li>
@@ -2430,28 +2430,28 @@
 
                                 @if($personal_tesvb == true && $equipo_auditor)
                                 <li>
-                                    <a href="{{url('/auditorias/notas_auditor')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Seguimiento Auditorías Anteriores</a>
+                                    <a href="{{url('/auditorias/notas_auditor')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Seguimiento Auditorías Anteriores</a>
                                 </li>
                                 @endif
 
                                 {{-- 8. Crear Lider Acciones--}}
                                 @if($es_auditor_lider_sgoe_menu)
                                 <li>
-                                    <a href="{{ route('auditorias.asignar_lider') }}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Asignar Líder</a>
+                                    <a href="{{ route('auditorias.asignar_lider') }}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Asignar Líder</a>
                                 </li>
                                 @endif
 
                                 {{-- 9. Ver Lider Acciones--}}
                                 @if($es_lider_acciones_sgoe_menu)
                                 <li>
-                                    <a href="{{ route('auditorias.lider_acciones') }}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Ver Acciones</a>
+                                    <a href="{{ route('auditorias.lider_acciones') }}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Ver Acciones</a>
                                 </li>
                                 @endif
 
                                 {{-- 10. Seguimiento de auditorías --}}
                                 @if($puede_ver_seguimiento_auditorias_menu)
                                 <li>
-                                    <a href="{{ route('auditorias.seguimiento_auditorias.index') }}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Seguimiento de auditorías</a>
+                                    <a href="{{ route('auditorias.seguimiento_auditorias.index') }}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Seguimiento de auditorías</a>
                                 </li>
                                 @endif
 
@@ -2481,66 +2481,66 @@
                     @if($unidad == 25)
                     
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm70' ? '' : 'm70')" class="group menu-item" :class="selected === 'm70' ? 'menu-item-active' : 'menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm70' ? '' : 'm70')" class="tw:group tw:menu-item" :class="selected === 'm70' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
 @include('partials.panel.iconos.caja', ['clave' => 'm70'])
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Inventario TESVB</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Inventario TESVB</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm70'])
 </a>
-                            <div x-cloak x-show="$store.buscador.activo || selected === 'm70'" x-collapse>
-<ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
-                                <li><a href="{{url('/SectorAux')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Sector Auxiliar</a></li>
-                                <li x-data="{ abierto: false }"><a href="#" @click.prevent="abierto = !abierto" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-modulo>
+                            <div x-cloak x-show.important="$store.buscador.activo || selected === 'm70'" x-collapse>
+<ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
+                                <li><a href="{{url('/SectorAux')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Sector Auxiliar</a></li>
+                                <li x-data="{ abierto: false }"><a href="#" @click.prevent="abierto = !abierto" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-modulo>
 <span>Bienes</span>
 @include('partials.panel.iconos.flecha_subgrupo')
 </a>
-                                    <div x-cloak x-show="$store.buscador.activo || abierto" x-collapse>
-<ul class="mt-1 flex flex-col gap-1 border-l border-gray-200 pl-3 dark:border-gray-800">
-                                        <li x-data="{ abierto: false }"><a href="#" @click.prevent="abierto = !abierto" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-modulo>
+                                    <div x-cloak x-show.important="$store.buscador.activo || abierto" x-collapse>
+<ul class="tw:mt-1 tw:flex tw:flex-col tw:gap-1 tw:border-l tw:border-gray-200 tw:pl-3 tw:dark:border-gray-800">
+                                        <li x-data="{ abierto: false }"><a href="#" @click.prevent="abierto = !abierto" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-modulo>
 <span>Gestionar atributos del Bien</span>
 @include('partials.panel.iconos.flecha_subgrupo')
 </a>
-                                            <div x-cloak x-show="$store.buscador.activo || abierto" x-collapse>
-<ul class="mt-1 flex flex-col gap-1 border-l border-gray-200 pl-3 dark:border-gray-800">
-                                                <li><a href="{{url('/Marcas')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Marcas</a></li>
-                                                <li><a href="{{url('/Provedores')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Proveedores</a></li>
-                                                <li><a href="{{url('/Modelos')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Modelos</a></li>
+                                            <div x-cloak x-show.important="$store.buscador.activo || abierto" x-collapse>
+<ul class="tw:mt-1 tw:flex tw:flex-col tw:gap-1 tw:border-l tw:border-gray-200 tw:pl-3 tw:dark:border-gray-800">
+                                                <li><a href="{{url('/Marcas')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Marcas</a></li>
+                                                <li><a href="{{url('/Provedores')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Proveedores</a></li>
+                                                <li><a href="{{url('/Modelos')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Modelos</a></li>
                                             </ul>
 </div>
                                         </li>
-                                        <li><a href="{{url('/Bienes')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Registro, Gestión y consulta de Bienes</a></li>
+                                        <li><a href="{{url('/Bienes')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Registro, Gestión y consulta de Bienes</a></li>
                                     </ul>
 </div>
                                 </li>
-                                <li><a href="{{url('/Categorias')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Categorías</a></li>
-                                <li x-data="{ abierto: false }"><a href="#" @click.prevent="abierto = !abierto" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-modulo>
+                                <li><a href="{{url('/Categorias')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Categorías</a></li>
+                                <li x-data="{ abierto: false }"><a href="#" @click.prevent="abierto = !abierto" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-modulo>
 <span>Resguardos</span>
 @include('partials.panel.iconos.flecha_subgrupo')
 </a>
-                                    <div x-cloak x-show="$store.buscador.activo || abierto" x-collapse>
-<ul class="mt-1 flex flex-col gap-1 border-l border-gray-200 pl-3 dark:border-gray-800">
-                                        <li><a href="{{'/Resguardos'}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Asignación y Consulta de Resguardos</a></li>
-                                        <li><a href="{{'/Resguardos-Consulta'}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Tarjetas de Resguardo</a></li>
+                                    <div x-cloak x-show.important="$store.buscador.activo || abierto" x-collapse>
+<ul class="tw:mt-1 tw:flex tw:flex-col tw:gap-1 tw:border-l tw:border-gray-200 tw:pl-3 tw:dark:border-gray-800">
+                                        <li><a href="{{'/Resguardos'}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Asignación y Consulta de Resguardos</a></li>
+                                        <li><a href="{{'/Resguardos-Consulta'}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Tarjetas de Resguardo</a></li>
                                     </ul>
 </div>
                                 </li>
-                                <li x-data="{ abierto: false }"><a href="#" @click.prevent="abierto = !abierto" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-modulo>
+                                <li x-data="{ abierto: false }"><a href="#" @click.prevent="abierto = !abierto" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-modulo>
 <span>Padrón de Bienes</span>
 @include('partials.panel.iconos.flecha_subgrupo')
 </a>
-                                    <div x-cloak x-show="$store.buscador.activo || abierto" x-collapse>
-<ul class="mt-1 flex flex-col gap-1 border-l border-gray-200 pl-3 dark:border-gray-800">
-                                        <li><a href="{{'/Resguardos-Padron'}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Padrón del TESVB</a></li>
+                                    <div x-cloak x-show.important="$store.buscador.activo || abierto" x-collapse>
+<ul class="tw:mt-1 tw:flex tw:flex-col tw:gap-1 tw:border-l tw:border-gray-200 tw:pl-3 tw:dark:border-gray-800">
+                                        <li><a href="{{'/Resguardos-Padron'}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Padrón del TESVB</a></li>
                                     </ul>
 </div>
                                 </li>
-                                <li><a href="{{url('/Areas')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Historial Departamentos</a></li>
-                                <li x-data="{ abierto: false }"><a href="#" @click.prevent="abierto = !abierto" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-modulo>
+                                <li><a href="{{url('/Areas')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Historial Departamentos</a></li>
+                                <li x-data="{ abierto: false }"><a href="#" @click.prevent="abierto = !abierto" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-modulo>
 <span>Reportes</span>
 @include('partials.panel.iconos.flecha_subgrupo')
 </a>
-                                    <div x-cloak x-show="$store.buscador.activo || abierto" x-collapse>
-<ul class="mt-1 flex flex-col gap-1 border-l border-gray-200 pl-3 dark:border-gray-800">
-                                        <li><a href="{{'/Reportes'}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Reportes en Excel</a></li>
+                                    <div x-cloak x-show.important="$store.buscador.activo || abierto" x-collapse>
+<ul class="tw:mt-1 tw:flex tw:flex-col tw:gap-1 tw:border-l tw:border-gray-200 tw:pl-3 tw:dark:border-gray-800">
+                                        <li><a href="{{'/Reportes'}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Reportes en Excel</a></li>
                                     </ul>
 </div>
                                 </li>
@@ -2553,30 +2553,30 @@
                     @if($jefe_division==true)
                     
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm71' ? '' : 'm71')" class="group menu-item" :class="selected === 'm71' ? 'menu-item-active' : 'menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm71' ? '' : 'm71')" class="tw:group tw:menu-item" :class="selected === 'm71' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
 @include('partials.panel.iconos.grupo', ['clave' => 'm71'])
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Duales</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Duales</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm71'])
 </a>
-                            <div x-cloak x-show="$store.buscador.activo || selected === 'm71'" x-collapse>
-<ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
-                                <li><a href="{{url('/duales/agregar_alumnos_dual')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Agregar Alumnos Duales</a></li>
-                                <li><a href="{{url('/duales/llenar_carga_academica_dual')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Llenar Cargas Académicas</a></li>
-                                <li><a href="{{url('/duales/Agregar_docentes_duales')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Agregar Mentores Duales</a>
+                            <div x-cloak x-show.important="$store.buscador.activo || selected === 'm71'" x-collapse>
+<ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
+                                <li><a href="{{url('/duales/agregar_alumnos_dual')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Agregar Alumnos Duales</a></li>
+                                <li><a href="{{url('/duales/llenar_carga_academica_dual')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Llenar Cargas Académicas</a></li>
+                                <li><a href="{{url('/duales/Agregar_docentes_duales')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Agregar Mentores Duales</a>
                                 </li>
                             </ul>
 </div>
                         </li>
 
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm72' ? '' : 'm72')" class="group menu-item" :class="selected === 'm72' ? 'menu-item-active' : 'menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm72' ? '' : 'm72')" class="tw:group tw:menu-item" :class="selected === 'm72' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
 @include('partials.panel.iconos.paginas', ['clave' => 'm72'])
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Seguimiento Inglés</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Seguimiento Inglés</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm72'])
 </a>
-                            <div x-cloak x-show="$store.buscador.activo || selected === 'm72'" x-collapse>
-<ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
-                                <li><a href="{{url('/jefe_division/seguimiento_ingles')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Estudiantes</a></li>
+                            <div x-cloak x-show.important="$store.buscador.activo || selected === 'm72'" x-collapse>
+<ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
+                                <li><a href="{{url('/jefe_division/seguimiento_ingles')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Estudiantes</a></li>
                             </ul>
 </div>
                         </li>
@@ -2586,31 +2586,31 @@
 
                     @if($unidad == 8)
                     
-                        <li><a href="{{url('/revicion_carga_jefe/')}}" class="group menu-item menu-item-inactive" data-panel-enlace>
+                        <li><a href="{{url('/revicion_carga_jefe/')}}" class="tw:group tw:menu-item tw:menu-item-inactive" data-panel-enlace>
 @include('partials.panel.iconos.tablas')
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Validar Cargas</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Validar Cargas</span>
 </a></li>
                     
                     @endif
                     @if($unidad == 6)
                     
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm73' ? '' : 'm73')" class="group menu-item" :class="selected === 'm73' ? 'menu-item-active' : 'menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm73' ? '' : 'm73')" class="tw:group tw:menu-item" :class="selected === 'm73' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
 @include('partials.panel.iconos.caja', ['clave' => 'm73'])
-<span class="menu-item-text" :class="sidebarToggle ? 'xl:hidden' : ''">Materiales y solicitudes</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Materiales y solicitudes</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm73'])
 </a>
-                            <div x-cloak x-show="$store.buscador.activo || selected === 'm73'" x-collapse>
-<ul :class="sidebarToggle ? 'xl:hidden' : 'flex'" class="menu-dropdown mt-2 flex animate-in flex-col gap-1 pl-9 duration-200 fade-in-0 slide-in-from-top-1">
-                                <li><a href="{{url('/prestamo/Jefe_prestamos_materiales/')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Ver solicitudes</a></li>
-                                <li><a href="{{url('/prestamo/materials')}}" class="group menu-dropdown-item menu-dropdown-item-inactive" data-panel-enlace>Ver materiales</a></li>
+                            <div x-cloak x-show.important="$store.buscador.activo || selected === 'm73'" x-collapse>
+<ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
+                                <li><a href="{{url('/prestamo/Jefe_prestamos_materiales/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Ver solicitudes</a></li>
+                                <li><a href="{{url('/prestamo/materials')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Ver materiales</a></li>
                             </ul>
 </div>
                         </li>
                     
                     @endif
 
-                {{-- [menu_admin L2502] Aquí el original cerraba <div class="collapse navbar-collapse">, que no existe en el diseño nuevo. --}}
+                {{-- [menu_admin L2502] Aquí el original cerraba <div class="tw:collapse tw:navbar-collapse">, que no existe en el diseño nuevo. --}}
 
 {{-- [menu_admin L2532-2620] JS jQuery de submenús y tooltips: lo sustituye Alpine. Las funciones AJAX de oficios
      (cargar / cargarpersonal) no se copian porque en el original nunca se llaman (setInterval comentado). --}}
@@ -2623,15 +2623,15 @@
 {{-- [menu_admin L2507-2531] Modal "Modificar periodo" (perfil de inglés): mismo formulario POST con CSRF.
      El original lo abría con jQuery al hacer clic en .periodo_ingles (GET /profesores_ingles/periodos/{id});
      ahora lo hace resources/js/panel/modal_periodo_ingles.js. --}}
-<div x-data="{ abierto: false }" @abrir-modal-periodo-ingles.window="abierto = true" @keydown.escape.window="abierto = false">
-    <div x-cloak x-show="abierto" x-transition.opacity class="fixed inset-0 z-99999 flex items-center justify-center overflow-y-auto p-5" id="modal_modificar_periodo" role="dialog" aria-modal="true" aria-labelledby="myModalLabel">
-        <div class="fixed inset-0 h-full w-full bg-gray-400/50 backdrop-blur-[32px]" @click="abierto = false"></div>
-        <div class="relative w-full max-w-lg rounded-3xl bg-white p-6 dark:bg-gray-900 lg:p-8">
-            <form class="form" action="" role="form" method="POST">
+<div class="tw-marco" x-data="{ abierto: false }" @abrir-modal-periodo-ingles.window="abierto = true" @keydown.escape.window="abierto = false">
+    <div x-cloak x-show.important="abierto" x-transition.opacity class="tw:fixed tw:inset-0 tw:z-99999 tw:flex tw:items-center tw:justify-center tw:overflow-y-auto tw:p-5" id="modal_modificar_periodo" role="dialog" aria-modal="true" aria-labelledby="myModalLabel">
+        <div class="tw:fixed tw:inset-0 tw:h-full tw:w-full tw:bg-gray-400/50 tw:backdrop-blur-[32px]" @click="abierto = false"></div>
+        <div class="tw:relative tw:w-full tw:max-w-lg tw:rounded-3xl tw:bg-white tw:p-6 tw:dark:bg-gray-900 tw:lg:p-8">
+            <form class="tw:form" action="" role="form" method="POST">
                 {{ csrf_field() }}
-                <div class="mb-4 flex items-center justify-between">
-                    <h4 class="text-lg font-semibold text-gray-800 dark:text-white/90" id="myModalLabel">Modificar periodo</h4>
-                    <button type="button" @click="abierto = false" aria-label="Cerrar" class="text-2xl leading-none text-gray-500 hover:text-gray-800 dark:text-gray-400">&times;</button>
+                <div class="tw:mb-4 tw:flex tw:items-center tw:justify-between">
+                    <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="myModalLabel">Modificar periodo</h4>
+                    <button type="button" @click="abierto = false" aria-label="Cerrar" class="tw:text-2xl tw:leading-none tw:text-gray-500 tw:hover:text-gray-800 tw:dark:text-gray-400">&times;</button>
                 </div>
                 <div id="contenedor_modificar_periodo">
 

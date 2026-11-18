@@ -205,3 +205,13 @@ Debajo de la bienvenida y de los avisos, `/inicio` muestra un dashboard con los 
 - Cada indicador replica la regla de una pantalla existente (Estadísticas, Ver Horarios Docentes, índice de reprobación), para que los números coincidan.
 - Si un dato no está disponible se muestra "Sin datos"; nunca se inventan números.
 - La caché usa el store configurado (`CACHE_STORE`); para ver cambios de inmediato: `php artisan cache:clear`.
+
+## 10. Marco de los módulos y prefijo `tw:`
+
+- **Una sola copia del sidebar y del header** (`partials/panel/*`) para `/inicio` y para las pantallas de los módulos.
+- **`resources/css/marco.css`** (sustituye a `panel.css`): Tailwind v4 con **prefijo `tw:`** (`tw:flex`, `tw:hidden`, `tw:dark:bg-gray-900`…), sin preflight global y con las utilidades fuera de capas y en `!important`, para convivir con Bootstrap 3/4 en la misma página. El reinicio de estilos solo aplica dentro de `.tw-marco` (sidebar, header, modales del marco y todo `/inicio`). Las medidas están en px porque Bootstrap 3 fija `html { font-size: 10px }`.
+- En las vistas del marco se usa **`x-show.important`** (Alpine), porque las clases de `display` son `!important`.
+- **`layouts/marco.blade.php`**: con sesión iniciada, un layout de origen se muestra dentro del sidebar y el header del panel con su mismo `<head>` (Bootstrap, jQuery, Vue, FullCalendar…) y su mismo cuerpo. El contenido va dentro de `x-ignore` para que Alpine no interprete las plantillas Vue (`@click`, `:class`). El marco de los módulos siempre es claro (sin botón de modo oscuro). Sin sesión (invitados) se muestra el diseño original.
+- **Tutorías** (`tutorias/app_tutorias.blade.php`) ya usa el marco: el layout se dividió en `tutorias/partials/cabeza`, `encabezado` y `cuerpo` sin cambiar su HTML.
+- Scroll de la **página completa** (sidebar `tw:xl:sticky`, header `tw:sticky`), como en el marco, para que funcionen FixedHeader, datepickers y los scripts que usan el scroll de la ventana.
+- Al escribir vistas nuevas del panel, **todas las clases de Tailwind llevan `tw:`**. Las clases propias del marco también: `tw:menu-item`, `tw:sidebar`, `tw:custom-scrollbar`…
