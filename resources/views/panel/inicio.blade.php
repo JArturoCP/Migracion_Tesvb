@@ -10,6 +10,8 @@
 --}}
 @extends('layouts.panel')
 @section('title', 'Inicio')
+@section('sin_pie', '1')
+@section('modo_oscuro', '1')
 @section('content')
 	<?php
 	$men=Session::get('men');

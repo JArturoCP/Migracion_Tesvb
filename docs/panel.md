@@ -13,7 +13,7 @@ Plan aprobado: `docs/PLAN_PANEL.md`. Inventario del menú: `docs/INVENTARIO_MENU
 
 | Archivo | Qué es |
 |---|---|
-| `resources/views/layouts/panel.blade.php` | Layout nuevo. Secciones `title` y `content` (iguales a `layouts.app`) y `@stack('scripts')`. Carga solo `@vite(['resources/css/panel.css', 'resources/js/panel.js'])` |
+| `resources/views/layouts/panel.blade.php` | Layout nuevo de `/inicio` y de las pantallas migradas. Secciones `title` y `content` (iguales a `layouts.app`), `@stack('cabeza')`, `@stack('scripts')`, puente de Bootstrap y pie institucional (§11.2). Sin Bootstrap; `@vite(['resources/css/marco.css', 'resources/js/panel.js'])` |
 | `resources/views/partials/panel/sidebar.blade.php` | **Copia de `partials/menu_admin.blade.php`** con el marcado de TailAdmin |
 | `resources/views/panel/inicio.blade.php` | **Copia de `home_recargado.blade.php`** con el marcado de TailAdmin y una tarjeta de bienvenida |
 | `resources/views/partials/panel/periodos.blade.php` | Copia de `partials/periodos.blade.php` (mismo PHP, mismos enlaces `/periodo/{id}`), como modal de Alpine |
@@ -21,7 +21,7 @@ Plan aprobado: `docs/PLAN_PANEL.md`. Inventario del menú: `docs/INVENTARIO_MENU
 | `resources/views/partials/panel/sidebar_encabezado.blade.php` | Logo del sidebar |
 | `resources/views/partials/panel/periodo_header.blade.php` | Botón "Cambiar periodo" del **header** (junto al modo oscuro). Sustituye a los 4 íconos de calendario del menú viejo, con las mismas condiciones (se muestra si se cumple cualquiera) |
 | `resources/views/partials/panel/iconos/*.blade.php` | Íconos SVG de la plantilla |
-| `resources/css/panel.css` | Tema de TailAdmin (MIT) para Tailwind v4: fuente Outfit local; solo escanea las vistas del panel |
+| `resources/css/marco.css` y `resources/css/panel/*.css` | Tema de TailAdmin (MIT) para Tailwind v4 con prefijo `tw:` (§10), base del contenido, componentes y librerías (§11); fuente Outfit local |
 | `resources/js/panel.js` y `resources/js/panel/*` | Alpine (persist, collapse), `dropdown` de TailAdmin, buscador, modal de periodos y modal de periodo de inglés |
 | `config/tesvb.php` | Rutas de los logos |
 | `public/img/panel/tesvb-icono.png` | Recorte "VB" de `public/img/TESVB.png` para el sidebar colapsado |
@@ -101,7 +101,7 @@ php artisan test --filter=Avisos
   npm ci
   npm run build
   ```
-- **`public/build` se versiona en git.** Después de cualquier cambio en `resources/css/panel.css`, `resources/js/**` o en las clases de las vistas del panel, compila y commitea `public/build`. El servidor de producción **no** necesita Node: basta con `git pull`.
+- **`public/build` se versiona en git.** Después de cualquier cambio en `resources/css/**`, `resources/js/**` o en las clases de las vistas del panel, compila y commitea `public/build`. El servidor de producción **no** necesita Node: basta con `git pull`.
 - Si dos ramas compilan a la vez, `public/build/manifest.json` puede dar conflicto: se resuelve compilando de nuevo después de unir las ramas.
 - En desarrollo: `npm run dev` crea `public/hot`; detenlo y borra `public/hot` antes de probar el build de producción.
 - Todo se sirve localmente: no hay CDNs ni Google Fonts en el panel.
@@ -117,63 +117,30 @@ php artisan test --filter=Avisos
 - **Cambiar periodo:** botón en el **header**, a la derecha, junto al modo oscuro (ícono de calendario y, en pantallas anchas, el periodo actual abreviado, p. ej. "AGO 2026 – ENE 2027"). Aparece con las mismas condiciones que los 4 íconos de calendario del menú viejo y abre el modal con los mismos enlaces `/periodo/{id}`.
 - **Cerrar sesión:** solo en el menú de usuario del header (mismo `POST /logout` con CSRF). El sidebar ya no tiene "Salir" ni el ícono de periodo; la prueba de comparación los busca en el header.
 
-## 7. Cómo migrar un módulo al nuevo layout
+## 7. Cómo migrar un módulo al nuevo diseño
 
-Cuando se quiera pasar una pantalla interna al diseño nuevo:
+Regla: **la lógica no cambia**. Se conservan rutas, controladores, consultas, `@if`/`@foreach`, permisos,
+`action` y `method` de cada formulario, `name` de los campos, `id` y clases que usan los scripts, y los datos.
+Solo cambia el marcado visual. Ejemplos completos: las vistas del piloto (§11.4).
 
-1. **Cambia el layout:** `@extends('layouts.app')` → `@extends('layouts.panel')`. Las secciones `title` y `content` se conservan. Los `<script>` que dependan del orden de carga pásalos a `@push('scripts') … @endpush`.
-2. **Agrega las vistas a Tailwind:** añade `@source "../views/<carpeta_del_modulo>";` en `resources/css/panel.css`, para que se generen sus clases.
-3. **Reescribe las clases de Bootstrap 3** con la tabla de §7.1. No mezcles las dos: `layouts.panel` no carga Bootstrap, y clases como `hidden`, `collapse`, `container`, `table` e `invisible` significan cosas distintas en Tailwind.
-4. **Sustituye los plugins de jQuery** (§7.2). `layouts.panel` no carga jQuery, Bootstrap JS, DataTables, Vue 1 ni los pickers.
-5. **Prueba:** abre la pantalla con cada rol que la usa, en modo claro y oscuro, en escritorio y en móvil; revisa la consola (sin errores ni 404) y que los formularios conserven `@csrf`, `name` y `action`.
-6. **Compila** (`npm run build`) y commitea `public/build`.
-7. Cuando **todas** las pantallas usen `layouts.panel`, `menu_admin.blade.php`, `home_recargado.blade.php` y `partials/periodos.blade.php` se pueden retirar, y con ellos el mantenimiento doble.
+1. **Guarda la versión anterior** en `tests/Fixtures/vistas_antes/<misma ruta>.blade.php` (para la prueba de comparación).
+2. **Cambia el layout:** `@extends('layouts.app')` (o `tutorias.app_tutorias`) → `@extends('layouts.panel')`. Las secciones `title` y `content` se conservan.
+3. **Carga sus librerías con `@push('cabeza')`**, en el mismo orden que su layout anterior y **sin el CSS de Bootstrap**. Ya hay dos parciales:
+   - `@include('evaluacion_docente.partials.recursos_panel', ['datatables' => true, 'graficas' => true])` — jQuery, Font Awesome 4.7, SweetAlert2/TNotify y, si se piden, DataTables 1.13.6 local y Highcharts (pantallas que venían de `layouts.app`);
+   - `@include('tutorias.partials.recursos_panel', ['calendario' => true])` — `js_tutorias/app.js` (jQuery + Vue 2 + axios), Font Awesome 5 y, si se pide, FullCalendar (pantallas de Tutorías).
+4. **Reescribe el marcado con los componentes** `x-panel.*` (§11): encabezado, tarjetas, tablas, botones, campos, modales, alertas, badges y pestañas. Para formularios largos se puede convertir primero con `tools/panel/bs2tw.php` (§11.5) y luego envolver con los componentes.
+5. **Modales:** el `div.modal` de Bootstrap pasa a `<x-panel.modal id="mismo_id">`. `data-toggle="modal"`, `data-dismiss="modal"` y `$('#id').modal('show'|'hide')` siguen funcionando sin cambiar el script (puente, §11.3).
+6. **Contenedores de Vue** (`new Vue({ el: '#x' })`): agrega `x-ignore` al elemento `#x` para que Alpine no interprete sus `@click` y `:class`. En atributos de componentes Blade, `:atributo` es PHP; para Vue usa `v-bind:atributo`.
+7. **Agrega la carpeta a Tailwind:** `@source "../views/<carpeta>";` en `resources/css/marco.css`.
+8. **Prueba:** agrega la vista al dataset de `tests/Feature/Panel/PilotoVistasTest.php` (compara formularios, campos, ids, clases de scripts y textos con la versión anterior) y su ruta a `tests/Integracion/PilotoHttpTest.php` (200 con la cuenta del rol, contra MySQL local). Revisa en el navegador: consola sin errores, modales, pestañas, tablas y envío de formularios.
+9. **Compila** (`npm run build`) y commitea `public/build`.
 
-### 7.1 Equivalencias Bootstrap 3 → Tailwind (estilo TailAdmin)
+Cuidados que salieron en el piloto:
 
-| Bootstrap 3 | Tailwind / TailAdmin |
-|---|---|
-| `container` | `mx-auto max-w-(--breakpoint-2xl) p-4 md:p-6` (ya lo pone `layouts.panel`) |
-| `row` + `col-md-6` / `col-md-4` / `col-md-12` | `grid grid-cols-12 gap-4 md:gap-6` + `col-span-12 md:col-span-6` / `md:col-span-4` / `col-span-12` |
-| `col-md-offset-2` | `md:col-start-3` |
-| `panel panel-default` | `rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/3` |
-| `panel-heading` | `border-b border-gray-200 px-5 py-4 text-base font-semibold text-gray-800 dark:border-gray-800 dark:text-white/90` |
-| `panel-body` | `p-5 md:p-6` |
-| `btn btn-primary` | `inline-flex items-center justify-center rounded-lg bg-brand-500 px-4 py-3 text-sm font-medium text-white shadow-theme-xs hover:bg-brand-600` |
-| `btn btn-default` | `inline-flex items-center justify-center rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400` |
-| `btn btn-success` / `btn-danger` / `btn-warning` | Igual que `btn-primary` con `bg-green-500` / `bg-red-500` / `bg-amber-500` |
-| `btn-sm` / `btn-lg` | `px-3 py-2 text-xs` / `px-5 py-3.5 text-base` |
-| `table table-bordered table-striped` | `<div class="overflow-x-auto"><table class="min-w-full divide-y divide-gray-200 text-sm dark:divide-gray-800">`, celdas `px-4 py-3 text-left`, filas alternas `odd:bg-gray-50 dark:odd:bg-white/3` |
-| `table-responsive` | `overflow-x-auto` |
-| `form-group` | `mb-4` |
-| `control-label` / `label` (de formulario) | `mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400` |
-| `form-control` | `h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 shadow-theme-xs focus:border-brand-300 focus:ring-3 focus:ring-brand-500/10 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90` |
-| `select.form-control` | Igual que `form-control` (el plugin `@tailwindcss/forms` da la flecha) |
-| `label label-success` (etiqueta) | `inline-flex rounded-full bg-green-50 px-2.5 py-0.5 text-xs font-medium text-green-600 dark:bg-green-500/15 dark:text-green-500` |
-| `badge` | `inline-flex rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-700 dark:bg-white/5 dark:text-white/80` |
-| `alert alert-success` / `info` / `warning` / `danger` | `rounded-xl border p-4 text-sm` + `border-green-500 bg-green-50 text-green-700` / `border-blue-500 bg-blue-50 text-blue-700` / `border-amber-500 bg-amber-50 text-amber-700` / `border-red-500 bg-red-50 text-red-700` (y sus `dark:` como en `panel/inicio.blade.php`) |
-| `modal` | Modal de Alpine (ver `partials/panel/periodos.blade.php`): `fixed inset-0 z-99999 flex items-center justify-center` + fondo `bg-gray-400/50 backdrop-blur-[32px]` + caja `rounded-3xl bg-white p-6 dark:bg-gray-900` |
-| `text-center` / `text-right` / `pull-right` | `text-center` / `text-right` / `ml-auto` o `float-right` |
-| `hidden-xs` / `visible-xs` | `hidden sm:block` / `sm:hidden` |
-| `glyphicon …` | SVG de `partials/panel/iconos` o de la plantilla |
-| `nav nav-tabs` | `flex gap-2 border-b border-gray-200` + pestañas con `x-data="{ tab: '…' }"` |
-
-### 7.2 Sustitución de plugins de jQuery
-
-| Antes | Después |
-|---|---|
-| `$('#x').modal('show')` / `data-toggle="modal"` | Modal de Alpine: `x-data="{ abierto: false }"`, `x-show="abierto"`, abrir con `@click="abierto = true"` o un evento (`$dispatch('abrir-x')` + `@abrir-x.window`) |
-| `data-toggle="dropdown"` | Componente `dropdown` de TailAdmin (ya registrado): `x-data="dropdown({ placement: 'bottom-end' })"` (ver `partials/panel/usuario.blade.php`) |
-| `collapse` / acordeones | `x-show` + `x-collapse` |
-| `tooltip` | Atributo `title` o el componente `tooltip` de la plantilla (`src/js/components/ui/tooltip.js`) |
-| DataTables | Para listas cortas: búsqueda y orden con Alpine (`x-model` + filtro). Para tablas grandes: paginación y filtros del lado del servidor con `->paginate()` de Laravel. Alternativa sin jQuery: Simple-DataTables (npm, sin CDN) |
-| bootstrap-datepicker / pickadate / timepicker | `<input type="date">`, `<input type="time">`, `<input type="datetime-local">`; si se necesita más: flatpickr (npm), que es el que usa TailAdmin |
-| bootstrap-colorpicker | `<input type="color">` |
-| bootstrap-toggle | Interruptor con Alpine y clases (ver "Toggle switch" en la plantilla) |
-| blockUI | Estado de carga con Alpine: `x-data="{ cargando: false }"` + capa `fixed inset-0` con `x-show="cargando"` |
-| `$.get` / `$.ajax` | `fetch()` (con `X-CSRF-TOKEN` de `<meta name="csrf-token">` para POST) o `axios` (ya está en `package.json`) |
-| SweetAlert2 / `tesvb-notify.js` | Se pueden importar desde npm en `resources/js/panel.js` si se necesitan; no cargarlos desde `public/js` |
-| Highcharts | ApexCharts (npm), como en la plantilla |
+- Las clases `tw:` son `!important`. Un `style="display:none"`, `.hide()` de jQuery o `v-show` de Vue igual ocultan (regla en `componentes.css`), pero **un contenedor que se oculta con una regla CSS propia** (p. ej. `<style>.condicion{display:none}</style>`) no debe llevar clases de display (`tw:flex`, `tw:grid`…).
+- Algunos scripts cuentan elementos de toda la página (`$("input:checked").length`): el sidebar y el header no tienen campos marcados, así que los conteos no cambian; no agregues campos marcados fuera del contenido.
+- Un `<a href="">` dibujado con `<x-panel.boton href="">` navega: si el original era `<button href="">`, no pases `href`.
+- Las clases de estado que usan los scripts (`active`, `show`, `in`, `collapse`, `hidden`, `tab-pane`, `tab-content`) se conservan; `componentes.css` les da el comportamiento que antes daba Bootstrap.
 
 ## 8. Pendientes
 
@@ -209,9 +176,158 @@ Debajo de la bienvenida y de los avisos, `/inicio` muestra un dashboard con los 
 ## 10. Marco de los módulos y prefijo `tw:`
 
 - **Una sola copia del sidebar y del header** (`partials/panel/*`) para `/inicio` y para las pantallas de los módulos.
-- **`resources/css/marco.css`** (sustituye a `panel.css`): Tailwind v4 con **prefijo `tw:`** (`tw:flex`, `tw:hidden`, `tw:dark:bg-gray-900`…), sin preflight global y con las utilidades fuera de capas y en `!important`, para convivir con Bootstrap 3/4 en la misma página. El reinicio de estilos solo aplica dentro de `.tw-marco` (sidebar, header, modales del marco y todo `/inicio`). Las medidas están en px porque Bootstrap 3 fija `html { font-size: 10px }`.
+- **`resources/css/marco.css`** (sustituye a `panel.css`; importa `resources/css/panel/*.css`): Tailwind v4 con **prefijo `tw:`** (`tw:flex`, `tw:hidden`, `tw:dark:bg-gray-900`…), sin preflight global y con las utilidades fuera de capas y en `!important`, para convivir con Bootstrap 3/4 en la misma página. El reinicio de estilos con `!important` solo aplica dentro de `.tw-marco` (sidebar, header y modales del marco); el contenido de `layouts.panel` usa `.tw-modulo`, sin `!important` (§11.2). Las medidas están en px porque Bootstrap 3 fija `html { font-size: 10px }`.
 - En las vistas del marco se usa **`x-show.important`** (Alpine), porque las clases de `display` son `!important`.
 - **`layouts/marco.blade.php`**: con sesión iniciada, un layout de origen se muestra dentro del sidebar y el header del panel con su mismo `<head>` (Bootstrap, jQuery, Vue, FullCalendar…) y su mismo cuerpo. El contenido va dentro de `x-ignore` para que Alpine no interprete las plantillas Vue (`@click`, `:class`). El marco de los módulos siempre es claro (sin botón de modo oscuro). Sin sesión (invitados) se muestra el diseño original.
 - **Tutorías** (`tutorias/app_tutorias.blade.php`) ya usa el marco: el layout se dividió en `tutorias/partials/cabeza`, `encabezado` y `cuerpo` sin cambiar su HTML.
 - Scroll de la **página completa** (sidebar `tw:xl:sticky`, header `tw:sticky`), como en el marco, para que funcionen FixedHeader, datepickers y los scripts que usan el scroll de la ventana.
 - Al escribir vistas nuevas del panel, **todas las clases de Tailwind llevan `tw:`**. Las clases propias del marco también: `tw:menu-item`, `tw:sidebar`, `tw:custom-scrollbar`…
+
+## 11. Componentes del panel (`resources/views/components/panel/`)
+
+Componentes Blade con el estilo de TailAdmin para rediseñar las pantallas de los módulos. Todos pasan los
+atributos extra (`id`, `class`, `name`, `data-*`, `onclick`, `v-if`, `v-model`…) al elemento HTML principal,
+así los scripts y Vue siguen encontrando lo mismo. Estilos que no son clases `tw:` en `resources/css/panel/componentes.css`.
+
+### 11.1 Catálogo
+
+**Encabezado de página** (título + breadcrumb; "Inicio" siempre va primero):
+```blade
+<x-panel.encabezado titulo="Actividades" :migas="['Tutorías' => url('/tutorias/inicioalu')]">
+    <x-slot:extra><x-panel.badge>Periodo 2026-1</x-panel.badge></x-slot:extra>
+</x-panel.encabezado>
+```
+
+**Tarjeta** (`sin-relleno` para que una tabla llegue al borde):
+```blade
+<x-panel.tarjeta titulo="Docentes" subtitulo="Periodo actual">
+    <x-slot:acciones><x-panel.boton tamano="sm">Nuevo</x-panel.boton></x-slot:acciones>
+    Contenido…
+</x-panel.tarjeta>
+```
+
+**Tabla** (las filas van tal cual en el slot; el `id` llega al `<table>`, útil para DataTables):
+```blade
+<x-panel.tabla id="ejemplo" compacta>
+    <thead><tr><th>Nombre</th><th>Grupo</th></tr></thead>
+    <tbody>@foreach ($filas as $f)<tr><td>{{ $f->nombre }}</td><td>{{ $f->grupo }}</td></tr>@endforeach</tbody>
+</x-panel.tabla>
+```
+
+**Botón** (`<button type="button">`; con `href` se dibuja como `<a>`). Variantes: `primario`, `secundario`, `exito`, `peligro`, `advertencia`, `info`, `contorno-primario`, `contorno-exito`, `contorno-peligro`. Tamaños: `sm`, `md`, `lg`.
+```blade
+<x-panel.boton type="submit">Guardar</x-panel.boton>
+<x-panel.boton variante="peligro" tamano="sm" :href="url('/tutorias/pdf/all')" target="_blank">PDF</x-panel.boton>
+```
+
+**Input** (`type="file"` usa el estilo de archivo de la plantilla; `ayuda` y `error` opcionales):
+```blade
+<x-panel.input etiqueta="Correo" name="email" id="email" type="email" required :error="$errors->first('email')" />
+```
+
+**Select** (las `<option>` van en el slot):
+```blade
+<x-panel.select etiqueta="Carrera" name="id_carrera" id="id_carrera">
+    @foreach ($carreras as $c)<option value="{{ $c->id_carrera }}">{{ $c->nombre }}</option>@endforeach
+</x-panel.select>
+```
+
+**Textarea** (el valor va en el slot):
+```blade
+<x-panel.textarea etiqueta="Comentario" name="comentario" id="comentario" rows="4">{{ old('comentario') }}</x-panel.textarea>
+```
+
+**Checkbox** y **radio**:
+```blade
+<x-panel.checkbox name="acepto" id="acepto" value="1">Acepto los términos</x-panel.checkbox>
+<x-panel.radio name="pregunta_1" value="5" required>Excelente</x-panel.radio>
+```
+
+**Modal** (JS propio, sin Alpine ni Bootstrap; tamaños `sm`, `md`, `lg`, `xl`; `estatico` = no cierra con clic fuera ni Esc):
+```blade
+<x-panel.boton data-toggle="modal" data-target="#editar">Editar</x-panel.boton>
+
+<x-panel.modal id="editar" titulo="Editar evidencia">
+    Contenido…
+    <x-slot:pie>
+        <x-panel.boton variante="secundario" data-dismiss="modal">Cancelar</x-panel.boton>
+        <x-panel.boton type="submit">Guardar</x-panel.boton>
+    </x-slot:pie>
+</x-panel.modal>
+
+{{-- Si un <form> envuelve cuerpo y botones: --}}
+<x-panel.modal id="edit" titulo="Evidencia" sin-relleno>
+    <form action="{{ url('tutorias/actividad') }}" method="post" enctype="multipart/form-data">
+        @csrf
+        <div class="tw-modal-cuerpo">…campos…</div>
+        <x-panel.modal-pie><x-panel.boton type="submit">Guardar</x-panel.boton></x-panel.modal-pie>
+    </form>
+</x-panel.modal>
+```
+Desde JS: `$('#editar').modal('show')`, `$('#editar').modal('hide')` o `PanelModal.abrir('editar')` / `PanelModal.cerrar('editar')`.
+
+**Alerta** (`info`, `exito`, `advertencia`, `error`):
+```blade
+<x-panel.alerta tipo="exito" titulo="Listo">Se guardó la evaluación.</x-panel.alerta>
+```
+
+**Badge** (`marca`, `exito`, `advertencia`, `error`, `info`, `gris`):
+```blade
+<x-panel.badge tono="exito">Activo</x-panel.badge>
+```
+
+**Pestañas** — de navegación entre páginas, o de paneles en la misma página (`data-toggle="tab"`):
+```blade
+<x-panel.pestanas :items="[
+    ['etiqueta' => 'Expediente', 'url' => '/tutorias/inicioalu', 'activa' => true],
+    ['etiqueta' => 'Actividades', 'url' => '/tutorias/actividad'],
+]" />
+
+<x-panel.pestanas :items="[['etiqueta' => 'Datos', 'destino' => '#datos', 'activa' => true], ['etiqueta' => 'Notas', 'destino' => '#notas']]" />
+<div class="tab-content">
+    <div class="tab-pane active" id="datos">…</div>
+    <div class="tab-pane" id="notas">…</div>
+</div>
+```
+
+**Estado vacío**:
+```blade
+<x-panel.vacio titulo="Sin actividades" mensaje="Tu tutor aún no registra actividades." />
+```
+
+### 11.2 Layout y estilos base
+
+- `layouts/panel.blade.php`: `<body class="tw-modulo">` (reinicio de estilos SIN `!important`, en `resources/css/panel/modulo.css`, para que DataTables, FullCalendar, Highcharts y SweetAlert2 conserven sus estilos), `@stack('cabeza')`, puente, `@stack('scripts')` y pie institucional (`partials/panel/pie.blade.php`; `@section('sin_pie', '1')` lo quita, como en `/inicio`).
+- `.tw-pantalla` en un contenedor da tipografía base (h1–h6, label, small) al marcado convertido de Bootstrap.
+- `resources/css/panel/librerias.css`: tema de la plantilla para DataTables, FullCalendar 3 y Highcharts.
+
+### 11.3 Puente de Bootstrap (`partials/panel/puente.blade.php`)
+
+Script en línea, después de las librerías de la pantalla. Hace que el código de siempre funcione sin Bootstrap:
+
+| Código existente | Qué hace el puente |
+|---|---|
+| `data-toggle="modal" data-target="#x"`, `data-dismiss="modal"` | Abre/cierra el `<x-panel.modal id="x">` |
+| `$('#x').modal('show' \| 'hide' \| 'toggle')` | Igual, con los eventos `show/shown/hide/hidden.bs.modal` (se pueden cancelar con `preventDefault`) |
+| `data-toggle="tab"` / `"pill"`, `$('#a').tab('show')` | Activa la pestaña (`active` en el enlace o su `<li>`) y su panel (`active show in`); respeta `disabled` |
+| `data-toggle="collapse"`, `data-parent`, `$('#x').collapse(...)` | Alterna `show`/`in`; con `data-parent` cierra los demás (acordeón) |
+| `data-dismiss="alert"` | Quita la alerta |
+| `.tooltip()` / `.popover()` de Bootstrap | No hacen nada: se usa el `title` nativo |
+
+Si la pantalla trae Bootstrap JS dentro de otra librería (`js_tutorias/app.js`), el puente quita sus manejadores `data-api` para que no dibuje sus propios modales. También se instala en una segunda copia de jQuery que cargue la pantalla (p. ej. el calendario de Tutorías). Ids que empiezan con número (`href="#5"`) se buscan como lo hace jQuery.
+
+### 11.4 Piloto migrado
+
+| Vistas | Rutas | Rol |
+|---|---|---|
+| `tutorias/alumnos/{index, incio_registro, expediente, expedienteUpdate, partial/modalNSE}` | `/tutorias/inicioalu`, `/tutorias/Alum`, `/tutorias/AlumActualizar` | Alumno |
+| `tutorias/actividades_alumno/actividades_alumno`, `tutorias/calendario_eventos/calendario_eventos` | `/tutorias/actividad`, `/tutorias/calendario` | Alumno |
+| `tutorias/eva_tutorias/{alumnos_index, _dos, _tres, encuesta_realizada}` | `/tutoras_evaluacion/evaluacion_al_tutor/` (+ `dos/`, `tres/`) | Alumno |
+| `evaluacion_docente/Alumnos/{evaluacion_docente, mensages, mensaje_modi_carga, mensaje_dual}` | `/evaluacion_alumno` | Alumno (`mensages` también lo usa `checar_cargaController`) |
+| `evaluacion_docente/Admin/{buscar, reportes2, mencamper, reportes, mensages2}`, `evaluacion_docente/Alumnos/buscar` | `/buscar_profesores`, `/buscar_profesores_carrera`, `/reportes2/…`, `/reportes/…`, `/buscar_alumnos`, `/Migrar` | Directivo (y quien tenga esas rutas) |
+
+La navegación interna de Tutorías (`tutorias/alumnos/partial/navegacion_panel.blade.php`) son pestañas con las mismas condiciones de sesión del menú anterior. Las demás pantallas de Tutorías (tutor, jefe, coordinador…) siguen con `tutorias.app_tutorias` dentro del marco.
+
+### 11.5 Convertidor de clases (`tools/panel/bs2tw.php`)
+
+`php tools/panel/bs2tw.php resources/views/<vista>.blade.php 3|4` reescribe los `class="…"` estáticos de Bootstrap 3 o 4 a clases `tw:` (rejilla, tarjetas/paneles, botones, campos, alertas, tablas, pestañas, glyphicons → Font Awesome 4.7). No toca `:class`/`v-bind:class` ni fragmentos Blade, y conserva las clases de estado y las que usan los `<script>` de la vista. Imprime las clases que conviene revisar a mano (p. ej. modales, que se pasan a `<x-panel.modal>`).

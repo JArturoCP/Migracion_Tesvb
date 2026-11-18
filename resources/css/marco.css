@@ -30,10 +30,14 @@
 @import "tailwindcss/theme.css" prefix(tw);
 @import "tailwindcss/utilities.css" source(none) prefix(tw) important;
 @import "tw-animate-css";
+/* Pantallas migradas al panel (layouts/panel): base sin Bootstrap y componentes. */
+@import "./panel/modulo.css";
+@import "./panel/componentes.css";
 @plugin "@tailwindcss/forms" {
     strategy: "class";
 }
 
+@source "../views/components/panel";
 @source "../views/layouts/panel.blade.php";
 @source "../views/layouts/marco.blade.php";
 @source "../views/partials/panel";
