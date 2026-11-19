@@ -39,7 +39,7 @@
                 @foreach($carreras as $carrera)
                     <tr>
 
-                        <td class="tw:font-medium tw:text-gray-800">{{$carrera["carrera"]}}</td>
+                        <td class="tw:font-medium tw:text-gray-800 tw:dark:text-white/90">{{$carrera["carrera"]}}</td>
                         <td>{{$carrera["clase"]}}</td>
                         <td>{{$carrera["tutorias"]}}</td>
                         <td>{{$carrera["gestion"]}}</td>
@@ -50,7 +50,7 @@
                     </tr>
                 @endforeach
                 <tr class="tw:font-semibold">
-                    <td class="tw:bg-brand-50 tw:font-semibold tw:text-gray-800">TOTALES POR CARRERAS</td>
+                    <td class="tw:bg-brand-50 tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">TOTALES POR CARRERAS</td>
                     <td class="tw:bg-brand-50">{{$clase1}}</td>
                     <td class="tw:bg-brand-50">{{$tutorias1}}</td>
                     <td class="tw:bg-brand-50">{{$gestion1}}</td>

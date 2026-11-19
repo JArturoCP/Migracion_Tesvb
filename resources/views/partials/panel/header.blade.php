@@ -55,10 +55,8 @@
             <div class="tw:flex tw:items-center tw:gap-2 tw:2xsm:gap-3">
                 @include('partials.panel.periodo_ingles_header')
                 @include('partials.panel.periodo_header')
-                {{-- En las pantallas de los módulos (marco) el modo oscuro no se ofrece: el marco siempre es claro. --}}
-                @unless($enMarco ?? false)
-                    @include('partials.panel.tema')
-                @endunless
+                {{-- Modo oscuro: siempre, en el mismo lugar (en el marco solo cambia el sidebar y el header). --}}
+                @include('partials.panel.tema')
             </div>
 
             @include('partials.panel.usuario')

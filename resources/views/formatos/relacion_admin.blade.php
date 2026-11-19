@@ -90,7 +90,7 @@
     @endforeach
   @endforeach
 <tr>
-  <td colspan="2" class="tw:font-semibold tw:text-gray-800">TOTALES</td>
+  <td colspan="2" class="tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">TOTALES</td>
   <td></td>
   <td></td>
   <td></td>

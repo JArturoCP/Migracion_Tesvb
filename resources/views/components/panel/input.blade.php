@@ -8,7 +8,7 @@
 @php
     $archivo = $attributes->get('type') === 'file';
     $base = $archivo
-        ? 'tw-control tw:h-11 tw:w-full tw:overflow-hidden tw:rounded-lg tw:border tw:bg-transparent tw:text-sm tw:text-gray-500 tw:shadow-theme-xs tw:file:mr-5 tw:file:border-0 tw:file:border-r tw:file:border-solid tw:file:border-gray-200 tw:file:bg-gray-50 tw:file:py-3 tw:file:pr-3 tw:file:pl-3.5 tw:file:text-sm tw:file:text-gray-700 tw:hover:file:bg-gray-100 tw:focus:outline-hidden'
+        ? 'tw-control tw:h-11 tw:w-full tw:overflow-hidden tw:rounded-lg tw:border tw:bg-transparent tw:text-sm tw:text-gray-500 tw:dark:text-gray-400 tw:shadow-theme-xs tw:file:mr-5 tw:file:border-0 tw:file:border-r tw:file:border-solid tw:file:border-gray-200 tw:file:bg-gray-50 tw:file:py-3 tw:file:pr-3 tw:file:pl-3.5 tw:file:text-sm tw:file:text-gray-700 tw:hover:file:bg-gray-100 tw:focus:outline-hidden'
         : 'tw-control tw:h-11 tw:w-full tw:rounded-lg tw:border tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:ring-3 tw:focus:outline-hidden tw:dark:bg-gray-900 tw:dark:text-white/90';
 @endphp
 <div class="tw-campo">
@@ -23,6 +23,6 @@
     @if ($error)
         <p class="tw:mt-1.5 tw:text-xs tw:text-red-600">{{ $error }}</p>
     @elseif ($ayuda)
-        <p class="tw:mt-1.5 tw:text-xs tw:text-gray-500">{{ $ayuda }}</p>
+        <p class="tw:mt-1.5 tw:text-xs tw:text-gray-500 tw:dark:text-gray-400">{{ $ayuda }}</p>
     @endif
 </div>

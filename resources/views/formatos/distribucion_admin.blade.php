@@ -61,7 +61,7 @@
 
   <tr>
     <td>{{ $materia ["id_semestre"] }}</td>
-    <td class="tw:font-medium tw:text-gray-800">{{ $materia ["nombre_materia"] }}</td>
+    <td class="tw:font-medium tw:text-gray-800 tw:dark:text-white/90">{{ $materia ["nombre_materia"] }}</td>
     <td>{{ $materia ["horas_totales"] }}</td>
     <td>{{ $materia ["no_grupos"] }}</td>
     <td>{{ $materia ["cantidad"] }}</td>
@@ -75,7 +75,7 @@
 @endforeach
   <tr>
     <td>9</td>
-    <td class="tw:font-medium tw:text-gray-800">RESIDENCIA PROFESIONAL</td>
+    <td class="tw:font-medium tw:text-gray-800 tw:dark:text-white/90">RESIDENCIA PROFESIONAL</td>
     <td>{{ $resi_hrs }}</td>
     <td>{{ "N.A" }}</td>
     <td>0</td>
@@ -91,7 +91,7 @@
     <td>0</td>
   </tr>
   <tr>
-    <td colspan="2" class="tw:text-center tw:font-semibold tw:text-gray-800">TOTALES</td>
+    <td colspan="2" class="tw:text-center tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">TOTALES</td>
     <td>{{ $total_matr }}</td>
     <td></td>
     <td></td>

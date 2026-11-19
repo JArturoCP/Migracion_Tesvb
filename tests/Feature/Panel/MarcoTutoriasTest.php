@@ -42,7 +42,7 @@ it('con sesión muestra Tutorías dentro del marco sin cambiar su contenido', fu
         ->toContain('js/js_tutorias/app.js')                 // mismos scripts del layout original
         ->toContain('js/js_tutorias/fullcalendar.min.js')
         ->toContain('css/css_tutorias/app.css')
-        ->not->toContain('Cambiar entre modo claro y oscuro') // el marco de los módulos siempre es claro
+        ->toContain('Cambiar entre modo claro y oscuro') // modo oscuro en todas las pantallas (en el marco solo sidebar y header)
         ->not->toContain('<header id="header"');             // la franja amarilla la sustituye el header del panel
 });
 

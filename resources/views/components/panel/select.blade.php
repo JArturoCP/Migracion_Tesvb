@@ -15,13 +15,13 @@
             'tw:border-gray-300 tw:focus:border-brand-300 tw:focus:ring-brand-500/10 tw:dark:border-gray-700' => ! $error,
             'tw:border-red-300 tw:focus:ring-red-500/10' => $error,
         ]) }}>{{ $slot }}</select>
-        <span class="tw:pointer-events-none tw:absolute tw:top-1/2 tw:right-4 tw:-translate-y-1/2 tw:text-gray-500" aria-hidden="true">
+        <span class="tw:pointer-events-none tw:absolute tw:top-1/2 tw:right-4 tw:-translate-y-1/2 tw:text-gray-500 tw:dark:text-gray-400" aria-hidden="true">
             <svg class="tw:stroke-current" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4.79175 7.396L10.0001 12.6043L15.2084 7.396" stroke="" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
         </span>
     </div>
     @if ($error)
         <p class="tw:mt-1.5 tw:text-xs tw:text-red-600">{{ $error }}</p>
     @elseif ($ayuda)
-        <p class="tw:mt-1.5 tw:text-xs tw:text-gray-500">{{ $ayuda }}</p>
+        <p class="tw:mt-1.5 tw:text-xs tw:text-gray-500 tw:dark:text-gray-400">{{ $ayuda }}</p>
     @endif
 </div>

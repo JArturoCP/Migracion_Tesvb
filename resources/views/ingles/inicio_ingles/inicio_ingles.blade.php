@@ -114,7 +114,7 @@
                         <x-panel.tarjeta :titulo="$grupo['titulo']">
                             <ul class="tw:flex tw:flex-col tw:gap-1">
                                 @foreach($grupo['enlaces'] as [$texto, $href])
-                                    <li><a href="{{ $href }}" class="tw:flex tw:items-center tw:justify-between tw:rounded-lg tw:px-3 tw:py-2 tw:text-sm tw:text-gray-700 tw:hover:bg-gray-100 tw:dark:text-gray-300 tw:dark:hover:bg-white/5">{{ $texto }}<span aria-hidden="true" class="tw:text-gray-400">›</span></a></li>
+                                    <li><a href="{{ $href }}" class="tw:flex tw:items-center tw:justify-between tw:rounded-lg tw:px-3 tw:py-2 tw:text-sm tw:text-gray-700 tw:hover:bg-gray-100 tw:dark:text-gray-300 tw:dark:hover:bg-white/5">{{ $texto }}<span aria-hidden="true" class="tw:text-gray-400 tw:dark:text-gray-500">›</span></a></li>
                                 @endforeach
                             </ul>
                         </x-panel.tarjeta>

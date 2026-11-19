@@ -36,7 +36,7 @@
                                 <tr>
                                     <td>{{ $carreras["nombre_carrera"] }}</td>
                                     <td>{{ $docente["cargo"] }}</td>
-                                    <td class="tw:font-medium tw:text-gray-800">{{ $docente["nombre"] }}</td>
+                                    <td class="tw:font-medium tw:text-gray-800 tw:dark:text-white/90">{{ $docente["nombre"] }}</td>
                                     <td>{{ $docente["nombre_periodo"] }}</td>
                                     <td>{{ $materia["id_semestre"] }}</td>
                                     <td>{{ $materia["nombre_materia"] }}</td>

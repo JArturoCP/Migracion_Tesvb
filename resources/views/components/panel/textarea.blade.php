@@ -15,6 +15,6 @@
     @if ($error)
         <p class="tw:mt-1.5 tw:text-xs tw:text-red-600">{{ $error }}</p>
     @elseif ($ayuda)
-        <p class="tw:mt-1.5 tw:text-xs tw:text-gray-500">{{ $ayuda }}</p>
+        <p class="tw:mt-1.5 tw:text-xs tw:text-gray-500 tw:dark:text-gray-400">{{ $ayuda }}</p>
     @endif
 </div>

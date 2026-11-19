@@ -19,7 +19,7 @@
         @foreach($docentes as $docente)
               <tr>
                 <td>{{ $docente->clave }}</td>
-                <td class="tw:font-medium tw:text-gray-800">{{ $docente->nombre }}</td>
+                <td class="tw:font-medium tw:text-gray-800 tw:dark:text-white/90">{{ $docente->nombre }}</td>
                 <td class="tw:text-center">
                   <a href="/horarios_docentes/{{ $docente->id_personal }}" class="tw:inline-flex tw:size-9 tw:items-center tw:justify-center tw:rounded-lg tw:text-brand-500 tw:ring-1 tw:ring-brand-200 tw:hover:bg-brand-50" title="Ver horario"><span class="fa fa-list-alt em6" aria-hidden="true"></span></a>
                 </td>

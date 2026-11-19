@@ -10,21 +10,27 @@
 
     Solo cambian el sidebar y el header, que son los del panel (/inicio). El contenido va dentro de
     x-ignore para que Alpine no interprete los atributos de las plantillas Vue (@click, :class…).
-    El marco siempre se ve en modo claro (sin botón de modo oscuro).
+    Modo oscuro: el botón del header está también aquí (misma preferencia localStorage.darkMode), pero solo
+    cambia el sidebar y el header; el contenido del módulo (Bootstrap) se queda claro.
 --}}
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    @include('partials.panel.modo_oscuro')
     @include($cabeza)
 
     @vite(['resources/css/marco.css', 'resources/js/panel.js'])
 </head>
-<body x-data="{ page: 'modulo', darkMode: false, sidebarToggle: false }">
+<body x-data="{ page: 'modulo', darkMode: false, sidebarToggle: false }"
+    x-init="(() => {
+        try { darkMode = JSON.parse(localStorage.getItem('darkMode')) ?? false; } catch (e) { darkMode = false; }
+        $watch('darkMode', value => { try { localStorage.setItem('darkMode', JSON.stringify(value)); } catch (e) {} });
+    })()">
     <div class="tw:flex tw:min-h-screen" data-panel-marco>
         @include('partials.panel.sidebar')
 
         <div class="tw:relative tw:flex tw:min-w-0 tw:flex-1 tw:flex-col tw:overflow-x-clip" data-panel-area>
-            @include('partials.panel.header', ['enMarco' => true])
+            @include('partials.panel.header')
 
             <div id="main-content" x-ignore data-panel-contenido-modulo>
                 @include($cuerpo)

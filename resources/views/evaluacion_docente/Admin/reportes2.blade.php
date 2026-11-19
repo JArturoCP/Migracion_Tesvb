@@ -224,16 +224,16 @@
                 <div id="derecho" class="tw:space-y-4">
                     <div class="tw:flex tw:flex-wrap tw:gap-3">
                         <x-panel.boton tamano="sm" class="crear" href="/reportes2/{{$id_profesor}}/{{1}}/{{0}}"><span class="fa fa-list-alt"  aria-hidden="true"></span> Grafica General</x-panel.boton>
-                        <a id="exportar" class="crear tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:gap-1.5 tw:rounded-lg tw:bg-white tw:px-3 tw:py-2 tw:text-sm tw:font-medium tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50" target="_blank"><span class="fa fa-print"  aria-hidden="true"></span> Imprimir</a>
+                        <a id="exportar" class="crear tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:gap-1.5 tw:rounded-lg tw:bg-white tw:px-3 tw:py-2 tw:text-sm tw:font-medium tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-white/3 tw:dark:text-gray-300" target="_blank"><span class="fa fa-print"  aria-hidden="true"></span> Imprimir</a>
                     </div>
 
                     <div class="tw:space-y-3" id="accordion">
                         @foreach($carreras as $carrera)
-                            <div class="tw:overflow-hidden tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
+                            <div class="tw:overflow-hidden tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white tw:dark:bg-white/3 tw:dark:border-gray-800">
                                 <div class="tw:px-5 tw:py-4">
                                     @if($id_unidad_admin == true)
                                         <h4 class="tw:flex tw:items-center tw:justify-between tw:gap-3 tw:text-sm">
-                                            <a data-toggle="collapse" data-parent="#accordion" href="#{{ $carrera ["id_carrera"] }}" class="tw:inline-flex tw:items-center tw:gap-2 tw:text-gray-800 tw:hover:text-brand-500"><span class="fa fa-chevron-down tw:text-xs tw:text-gray-400" aria-hidden="true">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#{{ $carrera ["id_carrera"] }}" class="tw:inline-flex tw:items-center tw:gap-2 tw:text-gray-800 tw:hover:text-brand-500 tw:dark:text-white/90"><span class="fa fa-chevron-down tw:text-xs tw:text-gray-400 tw:dark:text-gray-500" aria-hidden="true">
                             </span>{{$carrera["nombre_carrera"]}}</a> <a href="/reportes2/{{$id_profesor}}/{{2}}/{{$carrera["id_carrera"]}}" class="tw:text-brand-500" title="Gráfica de la carrera"><span class="fa fa-list-alt 5em" aria-hidden="true" ></span></a>
                                         </h4>
                                     @endif
@@ -241,7 +241,7 @@
 
                                 <div id="{{ $carrera ["id_carrera"] }}" class="panel-collapse collapse ">
                                     @if($id_unidad_admin == true)
-                                        <div class="tw:border-t tw:border-gray-100">
+                                        <div class="tw:border-t tw:border-gray-100 tw:dark:border-gray-800">
                                             <x-panel.tabla id="example" compacta>
                                                 <thead>
                                                 <tr>
@@ -286,7 +286,7 @@
                         </thead>
                         <tbody>
                         <tr>
-                            <td scope="col" class="tw:font-medium tw:text-gray-800"> {{$profesor}}</td>
+                            <td scope="col" class="tw:font-medium tw:text-gray-800 tw:dark:text-white/90"> {{$profesor}}</td>
                             <td style="text-align:center;" scope="col">{{$promedio_t}}</td>
                             @if($promedio_t>=0 &&$promedio_t<=3.24)
                                 <td style="text-align:center;">DESEMPEÑO INSUFICIENTE</td>
@@ -427,10 +427,10 @@
                 </tr>
                 @foreach($preguntas2 as $pre)
                     <tr>
-                        <th scope="rowgroup" rowspan="{{$pre['cantidad']}}" class="tw:bg-gray-50 tw:align-middle">
-                            <div style="text-align:center;" class="tw:text-sm tw:font-semibold tw:text-gray-800">{{$pre["nombre_criterio"]}}</div>
+                        <th scope="rowgroup" rowspan="{{$pre['cantidad']}}" class="tw:bg-gray-50 tw:align-middle tw:dark:bg-white/3">
+                            <div style="text-align:center;" class="tw:text-sm tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">{{$pre["nombre_criterio"]}}</div>
                             <div style="text-align:center;" class="tw:mt-3 tw:text-lg tw:font-semibold tw:text-brand-500">{{$pre["calificacion"]}}</div>
-                            <div style="text-align:center;" class="tw:mt-2 tw:text-xs tw:text-gray-500">
+                            <div style="text-align:center;" class="tw:mt-2 tw:text-xs tw:text-gray-500 tw:dark:text-gray-400">
                                 @if($pre["calificacion"]>=0 && $pre["calificacion"]<=3.24)
                                     DESEMPEÑO INSUFICIENTE
                                 @elseif($pre["calificacion"]>=3.25 && $pre["calificacion"]<=3.74)

@@ -22,9 +22,9 @@
 
         <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
             <div class="tw:w-full tw:px-2">
-                <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
-                    <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4">
-                        <h3 class="tw:text-base tw:font-medium tw:text-gray-800 tw:text-center">PLANTILLA</h3>
+                <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white tw:dark:bg-white/3 tw:dark:border-gray-800">
+                    <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4 tw:dark:bg-white/3 tw:dark:border-gray-800">
+                        <h3 class="tw:text-base tw:font-medium tw:text-gray-800 tw:text-center tw:dark:text-white/90">PLANTILLA</h3>
                     </div>
                     <div class="tw:grid tw:grid-cols-1 tw:gap-4 tw:p-5 tw:sm:grid-cols-2 tw:sm:p-6">
                         @if($directivo==1 ||$consultas==1)
@@ -32,7 +32,7 @@
                             <div class="tw:min-w-0">
                                 <div class="dropdown">
                                     <label for="dropdownMenu1">Carrera</label>
-                                    <select name="selectCarrera" id="selectCarrera" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11">
+                                    <select name="selectCarrera" id="selectCarrera" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700">
                                         <option disabled selected>Selecciona carrera...</option>
                                         @foreach($carreras as $carrera)
                                             @if($carrera->id_carrera==$id_carrera)
@@ -48,7 +48,7 @@
                                 <div class="tw:min-w-0" id="div_cargo">
                                     <div class="dropdown-center">
                                         <label for="selectCargo">Cargo</label>
-                                        <select name="selectCargo" id="selectCargo" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11">
+                                        <select name="selectCargo" id="selectCargo" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700">
                                             <option disabled selected>Selecciona cargo...</option>
                                             @foreach($cargos as $cargo)
                                                 @if($cargo->id_cargo==$id_cargo)
@@ -64,7 +64,7 @@
                                 <div class="tw:min-w-0" id="div_cargo" style="display:none;">
                                     <div class="dropdown-center">
                                         <label for="selectCargo">Cargo</label>
-                                        <select name="selectCargo" id="selectCargo" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11">
+                                        <select name="selectCargo" id="selectCargo" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700">
                                             <option disabled selected>Selecciona cargo...</option>
                                             @foreach($cargos as $cargo)
                                                 <option value="{{$cargo->id_cargo}}" >{{$cargo->cargo}}</option>
@@ -78,7 +78,7 @@
                             <div class="tw:min-w-0" id="div_cargo">
                                 <div class="dropdown-center">
                                     <label for="selectCargo">Cargo</label>
-                                    <select name="selectCargo" id="selectCargo" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11">
+                                    <select name="selectCargo" id="selectCargo" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700">
                                         <option disabled selected>Selecciona cargo...</option>
                                         @foreach($cargos as $cargo)
                                             @if($cargo->id_cargo==$id_cargo)
@@ -98,7 +98,7 @@
             @if(isset($ver))
                 <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4" id="contenedor_p">
                     <div class="tw:w-full tw:lg:w-11/12 tw:px-2" >
-                        <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:bg-white">
+                        <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:bg-white tw:dark:bg-white/3 tw:dark:border-gray-800">
 <table class="tabla-grande tw-tabla tw-tabla-bordes">
                             <tr>
                                 <th>Nombre</th>
@@ -182,7 +182,7 @@
         <x-panel.modal id="modal_graficas" tamano="lg" sin-relleno clase-cerrar="close" id-cerrar="acepta2" aria-labelledby="myModalLabel">
                     <div class="tw:px-6 tw:pt-6 tw:pr-14">
                         
-                        <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800" id="myModalLabel">HISTORIAL DE HORAS DOCENTE</h4>
+                        <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="myModalLabel">HISTORIAL DE HORAS DOCENTE</h4>
                     </div>
                     <div class="tw-modal-cuerpo">
                         {{ csrf_field() }}
@@ -190,7 +190,7 @@
                         <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
                             <div class="tw:w-full tw:lg:w-4/12 tw:lg:ml-[33.3333%] tw:px-2">
                                 <div class="dropdown">
-                                    <select name="selectCiclo" id="selectCiclo" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11">
+                                    <select name="selectCiclo" id="selectCiclo" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700">
                                         <option disabled selected>Selecciona ciclo...</option>
                                         <option value="1" >{{ "Marzo-Agosto" }}</option>
                                         <option value="2" >{{ "Septiembre-Febrero" }}</option>

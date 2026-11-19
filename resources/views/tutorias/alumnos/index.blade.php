@@ -28,15 +28,15 @@
                     <x-panel.boton tamano="lg" href="Alum" v-if="datos==2"><i class="fas fa-folder tw:text-2xl"></i> Llenar Expediente</x-panel.boton>
                 </div>
 
-                <div class="tw:mt-2 tw:flex tw:flex-col tw:items-center tw:gap-4 tw:border-t tw:border-gray-100 tw:pt-6" v-if="datos==1">
+                <div class="tw:mt-2 tw:flex tw:flex-col tw:items-center tw:gap-4 tw:border-t tw:border-gray-100 tw:pt-6 tw:dark:border-gray-800" v-if="datos==1">
                     <div class="tw:text-center" style="color: #942a25">
                         @if($alumno->foto == 'image/jpeg')
-                            <img src="{{ asset('Fotografias/'.$alumno->cuenta.'.jpeg') }}" class="tw:rounded-xl tw:border tw:border-gray-200 tw:object-cover" alt="Agrega tu foto, para poder imprimir tu expediente. Dar clic en Modificar Fototgrafia" width="136" height="200" />
+                            <img src="{{ asset('Fotografias/'.$alumno->cuenta.'.jpeg') }}" class="tw:rounded-xl tw:border tw:border-gray-200 tw:object-cover tw:dark:border-gray-800" alt="Agrega tu foto, para poder imprimir tu expediente. Dar clic en Modificar Fototgrafia" width="136" height="200" />
                         @elseif($alumno->foto == 'image/png')
-                            <img src="{{ asset('Fotografias/'.$alumno->cuenta.'.png') }}" class="tw:rounded-xl tw:border tw:border-gray-200 tw:object-cover" alt="Agrega tu foto, para poder imprimir tu expediente. Dar clic en Modificar Fototgrafia" width="136" height="200" />
+                            <img src="{{ asset('Fotografias/'.$alumno->cuenta.'.png') }}" class="tw:rounded-xl tw:border tw:border-gray-200 tw:object-cover tw:dark:border-gray-800" alt="Agrega tu foto, para poder imprimir tu expediente. Dar clic en Modificar Fototgrafia" width="136" height="200" />
                         @elseif($alumno->foto == 'image/jpg')
 
-                            <img src="{{ asset('Fotografias/'.$alumno->cuenta.'.jpg') }}" class="tw:rounded-xl tw:border tw:border-gray-200 tw:object-cover" alt="Agrega tu foto, para poder imprimir tu expediente. Dar clic en Modificar Fototgrafia" width="136" height="200" />
+                            <img src="{{ asset('Fotografias/'.$alumno->cuenta.'.jpg') }}" class="tw:rounded-xl tw:border tw:border-gray-200 tw:object-cover tw:dark:border-gray-800" alt="Agrega tu foto, para poder imprimir tu expediente. Dar clic en Modificar Fototgrafia" width="136" height="200" />
                         @endif
                     </div>
                     <x-panel.boton variante="info" data-toggle="modal" data-target="#myModal">Modificar fotografia</x-panel.boton>

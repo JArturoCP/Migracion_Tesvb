@@ -17,15 +17,15 @@
 <main class="tw:w-full tw:lg:w-full tw:px-2">
 <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 	<div class="tw:w-full tw:px-2">
-		<div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
-	  		<div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4">
-	    		<h3 class="tw:text-base tw:font-medium tw:text-gray-800 tw:text-center">Plantilla Educativa</h3>
+		<div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white tw:dark:bg-white/3 tw:dark:border-gray-800">
+	  		<div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4 tw:dark:bg-white/3 tw:dark:border-gray-800">
+	    		<h3 class="tw:text-base tw:font-medium tw:text-gray-800 tw:text-center tw:dark:text-white/90">Plantilla Educativa</h3>
 	  		</div>
 	  					              <div class="tw:grid tw:grid-cols-1 tw:gap-4 tw:p-5 tw:sm:grid-cols-2 tw:sm:p-6">
                             <div class="tw:w-full tw:lg:w-5/12 tw:md:w-6/12 tw:lg:ml-[8.3333%] tw:px-2">
                               <div class="dropdown">
                                 <label for="SelectCarrera">Carrera</label>
-                                 <select name="SelectCarrera" id="SelectCarrera" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11">
+                                 <select name="SelectCarrera" id="SelectCarrera" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700">
                                   <option>Selecciona carrera...</option>
                                     @foreach($carreras as $carrera)
                                       @if($carrera->id_carrera==$id_carrera)
@@ -41,7 +41,7 @@
                          <div class="tw:min-w-0" id="div_cargo">
                               <div class="dropdown-center">
                                 <label for="selectcargo">Cargo</label>
-                                 <select name="selectCargo" id="selectCargo" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11">
+                                 <select name="selectCargo" id="selectCargo" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700">
                                   <option disabled selected>Selecciona cargo...</option>
                                     @foreach($cargos as $cargo)
                                     @if($cargo->id_cargo==$id_cargo)
@@ -57,7 +57,7 @@
                          <div class="tw:min-w-0" id="div_cargo" style="display:none;">
                               <div class="dropdown-center">
                                 <label for="selectCargo">Cargo</label>
-                                 <select name="selectCargo" id="selectCargo" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11">
+                                 <select name="selectCargo" id="selectCargo" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700">
                                   <option disabled selected>Selecciona cargo...</option>
                                     @foreach($cargos as $cargo)                             
                                         <option value="{{$cargo->id_cargo}}" >{{$cargo->cargo}}</option>
@@ -74,8 +74,8 @@
 
 @foreach($docentes as $docente)
 <div class="plantilla_c tw:w-full tw:lg:w-8/12 tw:lg:ml-[16.6667%] tw:px-2" id="accordion">
-  <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
-    <div class="link horario tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4" style="color:<?php if($docente["aprobado"]==0){echo "#e05c5c";}else{echo "#409e45";} ?>">
+  <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white tw:dark:bg-white/3 tw:dark:border-gray-800">
+    <div class="link horario tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4 tw:dark:bg-white/3 tw:dark:border-gray-800" style="color:<?php if($docente["aprobado"]==0){echo "#e05c5c";}else{echo "#409e45";} ?>">
       <h4 class="v{{$docente["id_horario"]}} tw:flex tw:flex-wrap tw:items-center tw:gap-3 tw:text-base tw:font-medium">
         <a data-toggle="collapse" data-parent="#accordion" href="#per_{{ $docente ["id_personal"]}}">{{ $docente ["nombre"]}}</a>
         <a class = "tooltip-options link em cont graficas" id="{{ $docente["id_personal"]}}" data-toggle="tooltip" data-placement="top" title ="GRÁFICA"><span class="fa fa-tasks" aria-hidden="true"></span></a>
@@ -86,7 +86,7 @@
       <div class="tw:p-5 tw:sm:p-6">
 
 <?php $cont=true; ?>
-          <ul class="tw-pestanas tw:mb-6 tw:flex tw:flex-wrap tw:gap-2 tw:border-b tw:border-gray-200">
+          <ul class="tw-pestanas tw:mb-6 tw:flex tw:flex-wrap tw:gap-2 tw:border-b tw:border-gray-200 tw:dark:border-gray-800">
             @if($docente["clases"]=="true")<li ><a data-toggle="tab" href="#clase{{ $docente["id_horario"] }}">HRS.CLASE</a></li>@endif
             @foreach($docente["actividades"] as $doc_act)
                 <li>
@@ -117,7 +117,7 @@
     @endif
     <p>Total de Hrs :<strong>{{ $docente["h_total"] }}</strong></p>
     <div class="tw:w-full tw:lg:w-10/12 tw:lg:ml-[8.3333%] tw:px-2">
-      <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:bg-white">
+      <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:bg-white tw:dark:bg-white/3 tw:dark:border-gray-800">
 <table class="tw-tabla">
                           <thead>
                             <tr>
@@ -166,7 +166,7 @@
     @endif
     <p>Total de Hrs :<strong>{{ $docente["g_total"] }}</strong></p>
     <div class="tw:w-full tw:lg:w-10/12 tw:lg:ml-[8.3333%] tw:px-2">
-      <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:bg-white">
+      <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:bg-white tw:dark:bg-white/3 tw:dark:border-gray-800">
 <table class="tw-tabla">
                           <thead>
                             <tr>
@@ -208,7 +208,7 @@
     @endif
     <p>Total de Hrs :<strong>{{ $docente["i_total"] }}</strong></p>
     <div class="tw:w-full tw:lg:w-10/12 tw:lg:ml-[8.3333%] tw:px-2">
-      <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:bg-white">
+      <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:bg-white tw:dark:bg-white/3 tw:dark:border-gray-800">
 <table class="tw-tabla">
                           <thead>
                             <tr>
@@ -248,7 +248,7 @@
     @endif
     <p>Total de Hrs :<strong>{{ $docente["v_total"] }}</strong></p>
     <div class="tw:w-full tw:lg:w-10/12 tw:lg:ml-[8.3333%] tw:px-2">
-      <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:bg-white">
+      <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:bg-white tw:dark:bg-white/3 tw:dark:border-gray-800">
 <table class="tw-tabla">
                           <thead>
                             <tr>
@@ -288,7 +288,7 @@
     @endif
     <p>Total de Hrs :<strong>{{ $docente["r_total"] }}</strong></p>
     <div class="tw:w-full tw:lg:w-10/12 tw:lg:ml-[8.3333%] tw:px-2">
-      <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:bg-white">
+      <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:bg-white tw:dark:bg-white/3 tw:dark:border-gray-800">
 <table class="tw-tabla">
                           <thead>
                             <tr>
@@ -328,7 +328,7 @@
     @endif
     <p>Total de Hrs :<strong>{{ $docente["t_total"] }}</strong></p>
     <div class="tw:w-full tw:lg:w-10/12 tw:lg:ml-[8.3333%] tw:px-2">
-      <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:bg-white">
+      <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:bg-white tw:dark:bg-white/3 tw:dark:border-gray-800">
 <table class="tw-tabla">
                           <thead>
                             <tr>
@@ -366,7 +366,7 @@
 <x-panel.modal id="modal_graficas" tamano="lg" sin-relleno clase-cerrar="close" id-cerrar="acepta2" aria-labelledby="myModalLabel">
         <div class="tw:px-6 tw:pt-6 tw:pr-14">
           
-          <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800" id="myModalLabel">HISTORIAL DE HORAS DOCENTE</h4>
+          <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="myModalLabel">HISTORIAL DE HORAS DOCENTE</h4>
         </div>
         <div class="tw-modal-cuerpo">
           {{ csrf_field() }}
@@ -374,7 +374,7 @@
           <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
               <div class="tw:w-full tw:lg:w-4/12 tw:lg:ml-[33.3333%] tw:px-2">
                 <div class="dropdown">
-                    <select name="selectCiclo" id="selectCiclo" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11">
+                    <select name="selectCiclo" id="selectCiclo" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700">
                       <option disabled selected>Selecciona ciclo...</option>
                       <option value="1" >{{ "Marzo-Agosto" }}</option>
                       <option value="2" >{{ "Septiembre-Febrero" }}</option>

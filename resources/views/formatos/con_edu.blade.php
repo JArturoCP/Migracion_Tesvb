@@ -40,7 +40,7 @@
  @foreach($carrera["semanas"] as $semana)
   <tr>
     <td>{{ $contador }}</td>
-    <td class="tw:font-medium tw:text-gray-800">{{ $carrera ["nombre_carrera"] }}</td>
+    <td class="tw:font-medium tw:text-gray-800 tw:dark:text-white/90">{{ $carrera ["nombre_carrera"] }}</td>
     <td>{{ $semana ["hrs_semanas"] }}</td>
       <td>{{ $carrera ["g_carreras"] }}</td>
       <td>{{ $carrera["total_alumnos"] }}</td>
@@ -56,7 +56,7 @@
   @endforeach
 @endforeach
 <tr class="tw:font-semibold">
-  <td colspan="2" class="tw:text-center tw:font-semibold tw:text-gray-800">TOTALES:</td>
+  <td colspan="2" class="tw:text-center tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">TOTALES:</td>
   <td>{{ $t_sem }}</td>
   <td>{{ $total_g }}</td>
   <td></td>

@@ -13,7 +13,7 @@
                                     escuela? </label>
                             </div>
                             <div class="tw:w-4/12 tw:px-2">
-                                <select name="" id="p1" v-model.number="test.p1" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11">
+                                <select name="" id="p1" v-model.number="test.p1" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700">
                                     <option value="null" selected>Elija una opción</option>
                                     <option value="0">Sin Instrucción</option>
                                     <option value="0">Preescolar</option>
@@ -34,7 +34,7 @@
                                 <label for="p2"><b>2.-</b> ¿Cuántos baños completos con regadera y W.C. (excusado) hay en esta vivienda? </label>
                             </div>
                             <div class="tw:w-4/12 tw:px-2">
-                                <select name="" v-model.number="test.p2"  id="p2" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11">
+                                <select name="" v-model.number="test.p2"  id="p2" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700">
                                     <option value="null" selected>Elija una opción</option>
                                     <option value="0">0</option>
                                     <option value="24">1</option>
@@ -48,7 +48,7 @@
                                     con cabina o caja? </label>
                             </div>
                             <div class="tw:w-4/12 tw:px-2">
-                                <select name="" v-model.number="test.p3"  id="p3" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11">
+                                <select name="" v-model.number="test.p3"  id="p3" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700">
                                     <option value="null" selected>Elija una opción</option>
                                     <option value="0">0</option>
                                     <option value="18">1</option>
@@ -62,7 +62,7 @@
                                     cuenta con internet? </label>
                             </div>
                             <div class="tw:w-4/12 tw:px-2">
-                                <select name="" v-model.number="test.p4"  id="p4" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11">
+                                <select name="" v-model.number="test.p4"  id="p4" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700">
                                     <option value="null" selected>Elija una opción</option>
                                     <option value="0">No tiene</option>
                                     <option value="31">Sí tiene</option>
@@ -75,7 +75,7 @@
                                     último mes? </label>
                             </div>
                             <div class="tw:w-4/12 tw:px-2">
-                                <select name="" v-model.number="test.p5"  id="p5" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11">
+                                <select name="" v-model.number="test.p5"  id="p5" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700">
                                     <option value="null" selected>Elija una opción</option>
                                     <option value="0">0</option>
                                     <option value="15">1</option>
@@ -90,7 +90,7 @@
                                 <label for="p6"><b>6.-</b> En esta vivienda, ¿Cuántos cuartos se usan para dormir, sin contar pasillos ni baños? </label>
                             </div>
                             <div class="tw:w-4/12 tw:px-2">
-                                <select name=""  v-model.number="test.p6" id="p6" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11">
+                                <select name=""  v-model.number="test.p6" id="p6" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700">
                                     <option value="null" selected>Elija una opción</option>
                                     <option value="0">0</option>
                                     <option value="6">1</option>
@@ -103,6 +103,6 @@
                     </div>
                 </div>
     <x-slot:pie>
-        <button type="button" @click="CalculaNivel()" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm">Guardar</button>
+        <button type="button" @click="CalculaNivel()" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:dark:bg-white/3">Guardar</button>
     </x-slot:pie>
 </x-panel.modal>

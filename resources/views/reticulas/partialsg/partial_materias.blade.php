@@ -3,7 +3,7 @@
 
 <div>
 
-<ul class="tw-pestanas tw:mb-6 tw:flex tw:flex-wrap tw:gap-2 tw:border-b tw:border-gray-200" role="tablist">
+<ul class="tw-pestanas tw:mb-6 tw:flex tw:flex-wrap tw:gap-2 tw:border-b tw:border-gray-200 tw:dark:border-gray-800" role="tablist">
   @foreach($semestres as $semes)
     @if($semes["id_semestre"]==1)
       <li role="presentation" class="active"><a href="#{{ $semes["id_semestre"] }}s" aria-controls="profile" role="tab" data-toggle="tab">{{ $semes ["semestre"]}}</a></li>
@@ -18,7 +18,7 @@
     <div class="tab-content">
         @foreach($semestres as $semes)
                      <div role="tabpanel" class="tab-pane fade <?php if($semes["id_semestre"]==1) echo"in active"; ?>" id="{{ $semes["id_semestre"] }}s">
-            <div style="margin-top:1em;" class="tw:w-full tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white tw:text-center tw:lg:w-5/12 tw:lg:ml-[25%] tw:px-2">
+            <div style="margin-top:1em;" class="tw:w-full tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white tw:text-center tw:lg:w-5/12 tw:lg:ml-[25%] tw:px-2 tw:dark:bg-white/3 tw:dark:border-gray-800">
                 <h4 >Materias de {{ $semes["semestre"] }}</h4>
             </div>
             <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
@@ -63,11 +63,11 @@
   <x-panel.modal id="modal_editar" tamano="md" sin-relleno aria-labelledby="myModalLabel">
       <div class="tw:px-6 tw:pt-6 tw:pr-14">
         
-        <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800" id="myModalLabel" style="text-align: center">Modificación Materias</h4>
+        <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="myModalLabel" style="text-align: center">Modificación Materias</h4>
       </div>
       <div class="tw-modal-cuerpo">
           <div id="warnin" class="tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-red-200 tw:bg-red-50 tw:text-red-700" role="alert" style="display:none">
-              <button type="button" class="tw:text-2xl tw:leading-none tw:text-gray-400 tw:hover:text-gray-700" data-dismiss="alert" aria-hidden="true">&times;</button>
+              <button type="button" class="tw:text-2xl tw:leading-none tw:text-gray-400 tw:hover:text-gray-700 tw:dark:text-gray-500" data-dismiss="alert" aria-hidden="true">&times;</button>
               <strong>El número de hrs. es incorrecto</strong>
   </div>
         <div id="contenedor_editar">
@@ -77,7 +77,7 @@
 
       <div class="tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
         <!--<input id="modifica_materia" type="button" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" value="Guardar" />-->
-        <button type="button" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:dark:bg-white/3 tw:dark:text-gray-300" data-dismiss="modal">Cancelar</button>
       </div>
 
     
@@ -94,7 +94,7 @@
         ¿Realmente deseas eliminar éste elemento?
       </div>
             <div class="tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
-        <button type="button" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:dark:bg-white/3 tw:dark:text-gray-300" data-dismiss="modal">Cancelar</button>
         <input id="confirma_elimina" type="button" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-red-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-red-700 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" value="Aceptar"></input>
       </div>
 </form>

@@ -52,7 +52,7 @@
                         <tbody>
                         @foreach($docentes as $docentes)
                             <tr>
-                                <td class="tw:font-medium tw:text-gray-800">{{$docentes->nombre}}</td>
+                                <td class="tw:font-medium tw:text-gray-800 tw:dark:text-white/90">{{$docentes->nombre}}</td>
                                 <td>{{$docentes->materias}}</td>
                                 <td class="tw:text-center">{{$docentes->id_semestre}}0{{$docentes->grupo}}</td>
                                 <td style="display:none;" ><input checked type="checkbox" id="test1" value="{{$docentes->id_hrs_profesor}}" name="orderBox[]"/></td>
@@ -65,7 +65,7 @@
 
                     @if($materiase==1)
 
-                        <div class="tw:space-y-4 tw:border-t tw:border-gray-100 tw:p-5 tw:sm:p-6">
+                        <div class="tw:space-y-4 tw:border-t tw:border-gray-100 tw:p-5 tw:sm:p-6 tw:dark:border-gray-800">
                             <x-panel.alerta tipo="error">MATERIAS ESPECIALES : Solo se puede selccionar un docente por materia</x-panel.alerta>
 
                             <x-panel.tabla>
@@ -92,7 +92,7 @@
                         </div>
                     @endif
 
-                    <div class="tw:flex tw:justify-end tw:border-t tw:border-gray-100 tw:px-5 tw:py-4 tw:sm:px-6">
+                    <div class="tw:flex tw:justify-end tw:border-t tw:border-gray-100 tw:px-5 tw:py-4 tw:sm:px-6 tw:dark:border-gray-800">
                         <x-panel.boton variante="exito" id="iniciar" data-toggle="tab"><b>Iniciar Evaluación </b><i class="fa fa-pencil"></i> </x-panel.boton>
                     </div>
                 </x-panel.tarjeta>
@@ -119,7 +119,7 @@
             <div class="alert tw:relative tw:mb-6 tw:rounded-xl tw:border tw:border-amber-300 tw:bg-amber-50 tw:p-4 tw:pr-12" role="alert">
                 <a href="#" class="tw:absolute tw:top-3 tw:right-4 tw:text-2xl tw:leading-none tw:text-amber-600 tw:hover:text-amber-800" data-dismiss="alert" aria-label="close">&times;</a>
                 <h4 class="tw:mb-2 tw:text-base"><b>Instrucciones</b></h4>
-                <ul class="tw:list-disc tw:space-y-1 tw:pl-5 tw:text-sm tw:text-gray-700">
+                <ul class="tw:list-disc tw:space-y-1 tw:pl-5 tw:text-sm tw:text-gray-700 tw:dark:text-gray-300">
                     <li>Lee las siguientes preguntas y responde de manera correcta de acuerdo a los criterios</li>
                     <li>En la ultima parte de la evaluación docente por favor de agregar un comentario por docente para poder finalizarla</li>
                 </ul>
@@ -166,7 +166,7 @@
                                 <tbody>
                                 @foreach($profesores as $profesor)
                                     <tr>
-                                        <td class="tw:font-medium tw:text-gray-800">{{ $profesor->ma }}</td>
+                                        <td class="tw:font-medium tw:text-gray-800 tw:dark:text-white/90">{{ $profesor->ma }}</td>
                                         <td>{{ $profesor->p }}</td>
                                         <td style="display:none;">
                                             <input checked type="checkbox" id="test1" value="{{ $profesor->id_alumno_materia }}" name="orderBoxx[]"/>
@@ -183,7 +183,7 @@
                                             <td colspan="7">
                                                 <label for="comments">Comentarios al Docente<strong class="tw:text-red-600">*</strong></label>
                                                 <input type="hidden" id="id_alumno_materia" name="id_alumno_materia[]" value="{{$profesor->id_alumno_materia}}">
-                                                <textarea id="comments" name="comments[]" rows="3" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden" placeholder="Porfavor escribe un comentario acerca del docente"></textarea>
+                                                <textarea id="comments" name="comments[]" rows="3" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:dark:text-white/90 tw:dark:border-gray-700" placeholder="Porfavor escribe un comentario acerca del docente"></textarea>
                                             </td>
                                         </tr>
                                     @endif
@@ -191,7 +191,7 @@
                                 </tbody>
                             </x-panel.tabla>
 
-                            <div class="tw:flex tw:flex-wrap tw:justify-end tw:gap-3 tw:border-t tw:border-gray-100 tw:px-5 tw:py-4 tw:sm:px-6">
+                            <div class="tw:flex tw:flex-wrap tw:justify-end tw:gap-3 tw:border-t tw:border-gray-100 tw:px-5 tw:py-4 tw:sm:px-6 tw:dark:border-gray-800">
                                 <x-panel.boton id="sig"><b>Siguiente</b><i class="fa fa-exchange"></i> </x-panel.boton>
                                 <x-panel.boton variante="exito" id="enviar_formulario"><b>Guardar Comentario</b> <i class="fa fa-exchange"></i> </x-panel.boton>
                             </div>

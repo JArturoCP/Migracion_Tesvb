@@ -6,19 +6,19 @@
                   <div class="tw:w-full tw:lg:w-10/12 tw:lg:ml-[8.3333%] tw:px-2">
                      <div class="tw:mb-4">
                       <label for="nombre_docente">Nombre Completo:</label>
-                      <input type="text" value="{{ $docente_edit->nombre }}" disabled class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="caja-errorm" name="nombre_docente">
+                      <input type="text" value="{{ $docente_edit->nombre }}" disabled class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" id="caja-errorm" name="nombre_docente">
                     </div>
                   </div>          
                   <div class="tw:w-full tw:lg:w-5/12 tw:px-2" style="margin-left: 32px;">
                     <div class="tw:mb-4">
                       <label for="clave">Clave docente:</label>
-                      <input type="text" value="{{ $docente_edit->clave }}" disabled class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="caja-error" name="clave">
+                      <input type="text" value="{{ $docente_edit->clave }}" disabled class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" id="caja-error" name="clave">
                     </div>
                   </div>
                                   <div class="cont tw:w-full tw:lg:w-4/12 tw:px-2">
                     <div class="tw:mb-4">
                       <label for="hrs_max">Horas Maximas</label>
-                      <input type="number" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" value="{{ $docente_edit->horas_maxima }}" id="caja-error12" name="hrs_max" placeholder="Horas M..">
+                      <input type="number" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" value="{{ $docente_edit->horas_maxima }}" id="caja-error12" name="hrs_max" placeholder="Horas M..">
                       @if($errors -> has ('hrs_max'))
                           <span style="color:red;">{{ $errors -> first('hrs_max') }}</span>
                          <style>
@@ -37,7 +37,7 @@
                     <div class="tw:mb-4">  
                       <div class="dropdown">
                         <label for="selectCargo">Cargo</label>
-                                <select name="selectCargo" id="selectCargo"class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11">
+                                <select name="selectCargo" id="selectCargo"class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700">
                                   <option disabled selected>Selecciona...</option>
                                     @foreach($cargos as $cargo)
                                       @if($cargo->id_cargo==$docente_edit->id_cargo)
@@ -53,7 +53,7 @@
                <div class="cont tw:w-full tw:lg:w-4/12 tw:px-2">
                     <div class="tw:mb-4">
                       <label for="hrs_max_ingles">Hrs Max. Ingles</label>
-                      <input type="number" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"  value="{{ $docente_edit->maximo_horas_ingles }}" id="caja-error13" name="hrs_max_ingles" placeholder="Horas M..">
+                      <input type="number" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700"  value="{{ $docente_edit->maximo_horas_ingles }}" id="caja-error13" name="hrs_max_ingles" placeholder="Horas M..">
                       @if($errors -> has ('hrs_max_ingles'))
                           <span style="color:red;">{{ $errors -> first('hrs_max_ingles') }}</span>
                          <style>

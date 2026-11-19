@@ -459,7 +459,7 @@ $('#exportar').click(function(){
 
 <div class="tw:flex tw:flex-wrap tw:items-center tw:gap-3">
     <x-panel.boton variante="secundario" tamano="sm" id="export">get image</x-panel.boton>
-    <input id="exportar" type="button" class="tw:h-9 tw:w-9 tw:cursor-pointer tw:rounded-lg tw:bg-white tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:hover:bg-gray-50" title="Exportar">
+    <input id="exportar" type="button" class="tw:h-9 tw:w-9 tw:cursor-pointer tw:rounded-lg tw:bg-white tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:hover:bg-gray-50 tw:dark:bg-white/3" title="Exportar">
 </div>
 <div id="imgContainer" class="tw:flex tw:flex-wrap tw:items-center tw:gap-3"></div>
 
@@ -473,16 +473,16 @@ $('#exportar').click(function(){
 
             <div class="tw:space-y-3" id="accordion">
               @foreach($carreras as $carrera)
-              <div class="tw:overflow-hidden tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
+              <div class="tw:overflow-hidden tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white tw:dark:bg-white/3 tw:dark:border-gray-800">
                     <div class="tw:px-5 tw:py-4">
                         <h4 class="tw:flex tw:items-center tw:justify-between tw:gap-3 tw:text-sm">
-                            <a data-toggle="collapse" data-parent="#accordion" href="#{{ $carrera ["id_carrera"] }}" class="tw:inline-flex tw:items-center tw:gap-2 tw:text-gray-800 tw:hover:text-brand-500"><span class="fa fa-chevron-down tw:text-xs tw:text-gray-400" aria-hidden="true">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#{{ $carrera ["id_carrera"] }}" class="tw:inline-flex tw:items-center tw:gap-2 tw:text-gray-800 tw:hover:text-brand-500 tw:dark:text-white/90"><span class="fa fa-chevron-down tw:text-xs tw:text-gray-400 tw:dark:text-gray-500" aria-hidden="true">
                             </span>{{$carrera["nombre_carrera"]}}</a> <a href="/promedio_carrera/{{$carrera["id_carrera"]}},{{$solo_id_profesor}}" class="tw:text-brand-500" title="Gráfica de la carrera"><span class="fa fa-list-alt 5em" aria-hidden="true" ></span></a>
                         </h4>
                     </div>
 
                     <div id="{{ $carrera ["id_carrera"] }}" class="panel-collapse collapse ">
-                        <div class="tw:border-t tw:border-gray-100">
+                        <div class="tw:border-t tw:border-gray-100 tw:dark:border-gray-800">
 
                             <x-panel.tabla id="example" compacta>
                                    <thead>
@@ -532,10 +532,10 @@ $('#exportar').click(function(){
     </tr>
 @foreach($preguntas2 as $pre)
     <tr>
-        <th scope="rowgroup" rowspan="{{$pre['cantidad']}}" class="tw:bg-gray-50 tw:align-middle">
-          <div style="text-align:center;" class="tw:text-sm tw:font-semibold tw:text-gray-800">{{$pre["nombre_criterio"]}}</div>
+        <th scope="rowgroup" rowspan="{{$pre['cantidad']}}" class="tw:bg-gray-50 tw:align-middle tw:dark:bg-white/3">
+          <div style="text-align:center;" class="tw:text-sm tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">{{$pre["nombre_criterio"]}}</div>
           <div style="text-align:center;" class="tw:mt-3 tw:text-lg tw:font-semibold tw:text-brand-500">{{$pre["calificacion"]}}</div>
-          <div style="text-align:center;" class="tw:mt-2 tw:text-xs tw:text-gray-500">{{$pre["observacioncri"]}}</div>
+          <div style="text-align:center;" class="tw:mt-2 tw:text-xs tw:text-gray-500 tw:dark:text-gray-400">{{$pre["observacioncri"]}}</div>
         </th>
 
     </tr>

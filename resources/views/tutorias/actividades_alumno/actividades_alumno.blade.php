@@ -26,7 +26,7 @@
                                 <tr>
                                     <td class="tw:whitespace-nowrap">{{$plan->fi_actividad}}</td>
                                     <td class="tw:whitespace-nowrap">{{$plan->ff_actividad}}</td>
-                                    <td class="tw:font-medium tw:text-gray-800">{{$plan->desc_actividad}}</td>
+                                    <td class="tw:font-medium tw:text-gray-800 tw:dark:text-white/90">{{$plan->desc_actividad}}</td>
                                     <td>{{$plan->objetivo_actividad}}</td>
                                     <td>{{$plan->estrategia}}</td>
                                     <td>

@@ -16,16 +16,16 @@
 
     <x-panel.modal id="myModal">
         <x-slot:encabezado>
-            <h5 class="tw:text-lg tw:font-semibold tw:text-gray-800" id="tituloEvento"></h5>
+            <h5 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="tituloEvento"></h5>
         </x-slot:encabezado>
-        <ul class="tw:divide-y tw:divide-gray-100 tw:rounded-xl tw:border tw:border-gray-200">
+        <ul class="tw:divide-y tw:divide-gray-100 tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:dark:divide-gray-800">
             <li class="tw:px-4 tw:py-3">
-                <p class="tw:text-xs tw:font-medium tw:text-gray-500">Objetivo:</p>
-                <p class="tw:text-sm tw:text-gray-800" id="objetivoEvento"></p>
+                <p class="tw:text-xs tw:font-medium tw:text-gray-500 tw:dark:text-gray-400">Objetivo:</p>
+                <p class="tw:text-sm tw:text-gray-800 tw:dark:text-white/90" id="objetivoEvento"></p>
             </li>
             <li class="tw:px-4 tw:py-3">
-                <p class="tw:text-xs tw:font-medium tw:text-gray-500">Estrategia:</p>
-                <p class="tw:text-sm tw:text-gray-800" id="descEvento"></p>
+                <p class="tw:text-xs tw:font-medium tw:text-gray-500 tw:dark:text-gray-400">Estrategia:</p>
+                <p class="tw:text-sm tw:text-gray-800 tw:dark:text-white/90" id="descEvento"></p>
             </li>
         </ul>
         <x-slot:pie>

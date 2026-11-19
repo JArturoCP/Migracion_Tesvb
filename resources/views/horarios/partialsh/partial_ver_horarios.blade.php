@@ -5,7 +5,7 @@
 <x-panel.modal id="modal_hrs" tamano="lg" sin-relleno clase-cerrar="close" aria-labelledby="myModalLabel"><div id="modal_horas">
       <div class="tw:px-6 tw:pt-6 tw:pr-14">
         
-        <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800" id="myModalLabel">HORARIOS DOCENTES: {{ $docenten }}</h4>
+        <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="myModalLabel">HORARIOS DOCENTES: {{ $docenten }}</h4>
       </div>
       <div class="tw-modal-cuerpo">
         @if($imprime==1)
@@ -16,7 +16,7 @@
                         --}}
          @endif
 <br>
-            <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:bg-white">
+            <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:bg-white tw:dark:bg-white/3 tw:dark:border-gray-800">
 <table class="ml tabla_fondo tw-tabla tw-tabla-bordes tw:text-center" style="table-layout:fixed;">
                           <thead>
                             <tr>
@@ -68,7 +68,7 @@
 </div>
 <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
       <div class="tw:w-full tw:lg:w-4/12 tw:lg:ml-[33.3333%] tw:px-2">
-      <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:bg-white">
+      <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:bg-white tw:dark:bg-white/3 tw:dark:border-gray-800">
 <table class="chica tw-tabla tw-tabla-bordes">
                           <tbody>
                             @foreach($ver_totales as $totaless)

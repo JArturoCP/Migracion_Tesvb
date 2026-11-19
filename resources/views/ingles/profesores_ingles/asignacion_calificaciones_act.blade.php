@@ -80,7 +80,7 @@
 
 
                                 @elseif($calificar_unidad['unidad1'] ==1)
-                                    <td class="tw:text-center"><input id="error_{{$alumnos['id_carga']}}" type="text" value="0" class="calificacion_1 tw:rounded-md tw:border tw:border-gray-300 tw:px-2 tw:py-1.5 tw:text-center tw:text-sm tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden" style="width:7em; border-radius: 4px" data-id="{{$alumnos['id_carga']}}" name="calificacion_1" ></td>
+                                    <td class="tw:text-center"><input id="error_{{$alumnos['id_carga']}}" type="text" value="0" class="calificacion_1 tw:rounded-md tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:px-2 tw:py-1.5 tw:text-center tw:text-sm tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden" style="width:7em; border-radius: 4px" data-id="{{$alumnos['id_carga']}}" name="calificacion_1" ></td>
                                     <td style="color: black">{{$alumnos['unidad2']}}</td>
                                     <td style="color: black">{{$alumnos['unidad3']}}</td>
                                     <td style="color: black">{{$alumnos['unidad4']}}</td>
@@ -116,7 +116,7 @@
                                                 <a class="modificar_cal1"   href="#" data-id_carga_academica1="{{$alumnos['id_carga']}}"><i class="fa fa-pencil tw:ml-1" aria-hidden="true"></i></a>
                                             @endif </td>
                                     @endif
-                                    <td class="tw:text-center"><input id="error_{{$alumnos['id_carga']}}" type="text" value="0" class="calificacion_2 tw:rounded-md tw:border tw:border-gray-300 tw:px-2 tw:py-1.5 tw:text-center tw:text-sm tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden" style="width:7em; border-radius: 4px" data-id="{{$alumnos['id_carga']}}" name="calificacion_2" ></td>
+                                    <td class="tw:text-center"><input id="error_{{$alumnos['id_carga']}}" type="text" value="0" class="calificacion_2 tw:rounded-md tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:px-2 tw:py-1.5 tw:text-center tw:text-sm tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden" style="width:7em; border-radius: 4px" data-id="{{$alumnos['id_carga']}}" name="calificacion_2" ></td>
                                     <td style="color: black">{{$alumnos['unidad3']}}</td>
                                     <td style="color: black">{{$alumnos['unidad4']}}</td>
                                     @if($alumnos['promedio']<70)
@@ -172,7 +172,7 @@
                                             @endif</td>
                                     @endif
 
-                                    <td class="tw:text-center"><input id="error_{{$alumnos['id_carga']}}" type="text" value="0" class="calificacion_3 tw:rounded-md tw:border tw:border-gray-300 tw:px-2 tw:py-1.5 tw:text-center tw:text-sm tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden" style="width:7em; border-radius: 4px" data-id="{{$alumnos['id_carga']}}" name="calificacion_3" ></td>
+                                    <td class="tw:text-center"><input id="error_{{$alumnos['id_carga']}}" type="text" value="0" class="calificacion_3 tw:rounded-md tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:px-2 tw:py-1.5 tw:text-center tw:text-sm tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden" style="width:7em; border-radius: 4px" data-id="{{$alumnos['id_carga']}}" name="calificacion_3" ></td>
 
                                     <td style="color: black">{{$alumnos['unidad4']}}</td>
                                     @if($alumnos['promedio']<70)
@@ -242,7 +242,7 @@
                                             @endif</td>
                                     @endif
 
-                                    <td class="tw:text-center"><input id="error_{{$alumnos['id_carga']}}" type="text" value="0" class="calificacion_4 tw:rounded-md tw:border tw:border-gray-300 tw:px-2 tw:py-1.5 tw:text-center tw:text-sm tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden" style="width:7em; border-radius: 4px" data-id="{{$alumnos['id_carga']}}" name="calificacion_4" ></td>
+                                    <td class="tw:text-center"><input id="error_{{$alumnos['id_carga']}}" type="text" value="0" class="calificacion_4 tw:rounded-md tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:px-2 tw:py-1.5 tw:text-center tw:text-sm tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden" style="width:7em; border-radius: 4px" data-id="{{$alumnos['id_carga']}}" name="calificacion_4" ></td>
 
                                     @if($alumnos['promedio']<70)
                                         <td style="color: black;background: red;">{{$alumnos['promedio']}}</td>

@@ -15,7 +15,7 @@
 
 <div class="tw:grid tw:grid-cols-1 tw:gap-6 tw:lg:grid-cols-3">
      {{-- Carreras: pestañas verticales (data-toggle="tab"; las activa el puente del panel). --}}
-     <div class="list-group cont tw-lista-pestanas tw:self-start tw:overflow-hidden tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white" role="tablist">
+     <div class="list-group cont tw-lista-pestanas tw:self-start tw:overflow-hidden tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white tw:dark:bg-white/3 tw:dark:border-gray-800" role="tablist">
   @foreach($carreras as $carrera)
     <!--@if($carrera ["id_carrera"]==$id_carrera)
         <a href="#{{ $carrera ["id_carrera"] }}" role="tab" data-toggle="tab" class="list-group-item active">{{ $carrera ["nombre_carrera"]}}</a>
@@ -32,7 +32,7 @@
                           <tbody>
                             @foreach($carrera["aulas"] as $aula)
                             <tr>
-                                <td class="tw:font-medium tw:text-gray-800">{{ $aula ["nombre_aula"] }}</td>
+                                <td class="tw:font-medium tw:text-gray-800 tw:dark:text-white/90">{{ $aula ["nombre_aula"] }}</td>
                                 <td class="tw:text-right">
                                     <a href="/horarios_aulas/{{ $carrera ["id_carrera"] }}/{{ $aula ["id_aula"] }}" class="tw:inline-flex tw:size-9 tw:items-center tw:justify-center tw:rounded-lg tw:text-brand-500 tw:ring-1 tw:ring-brand-200 tw:hover:bg-brand-50" title="Ver horario"><span class="fa fa-list-alt em" aria-hidden="true"></span></a>
                                 </td>

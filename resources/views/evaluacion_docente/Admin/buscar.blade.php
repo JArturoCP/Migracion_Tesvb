@@ -24,7 +24,7 @@
             <tbody>
                 @foreach($profesores as $profesores)
                 <tr>
-                    <td class="tw:font-medium tw:text-gray-800">{{$profesores->nombre}}</td>
+                    <td class="tw:font-medium tw:text-gray-800 tw:dark:text-white/90">{{$profesores->nombre}}</td>
                     <td class="tw:text-center"><a href="/reportes2/{{$profesores->id_personal}}/{{1}}/{{0}}" target="_blank" class="tw:inline-flex tw:size-9 tw:items-center tw:justify-center tw:rounded-lg tw:text-brand-500 tw:ring-1 tw:ring-brand-200 tw:hover:bg-brand-50" title="Consultar"><span class="fa fa-list-alt em6" aria-hidden="true" ></span></a></td>
                 </tr>
                 @endforeach

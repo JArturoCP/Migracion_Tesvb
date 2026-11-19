@@ -46,7 +46,7 @@ it('con sesión muestra Inglés dentro del marco con los mismos recursos y conte
         ->toContain('x-ignore')
         ->toContain('CONTENIDO DEL MODULO')
         ->toContain('var scripts_ingles = 1;')
-        ->not->toContain('Cambiar entre modo claro y oscuro')
+        ->toContain('Cambiar entre modo claro y oscuro') // modo oscuro en todas las pantallas (en el marco solo sidebar y header)
         // el menú de inglés no se repite dentro del marco: sus opciones están en el sidebar y el periodo en el header
         ->not->toContain('id="myNavbar"')
         ->toContain('Inicio de Inglés')
@@ -58,4 +58,16 @@ it('con sesión muestra Inglés dentro del marco con los mismos recursos y conte
     foreach (CompararVistas::recursos($cabeza[1]) as $recurso) {
         expect($nuevo)->toContain($recurso);
     }
+});
+
+it('el modo oscuro se aplica antes de pintar en el marco y solo oscurece sidebar y header', function () {
+    $this->actingAs(EscenariosPanel::preparar('ingles', []));
+    $html = renderIngles('ingles.inicio_ingles.layout_ingles');
+
+    preg_match('#<head>(.*?)</head>#s', $html, $cabeza);
+    expect($cabeza[1])->toContain("localStorage.getItem('darkMode')")
+        ->and($html)->toContain("localStorage.setItem('darkMode'")
+        // el contenido del módulo (Bootstrap) no recibe clases tw:dark
+        ->and(preg_match('#data-panel-contenido-modulo>(.*)#s', $html, $contenido) ? substr_count($contenido[1], 'tw:dark:') : 0)
+        ->toBe(substr_count(view('partials.panel.periodos')->render(), 'tw:dark:'));
 });

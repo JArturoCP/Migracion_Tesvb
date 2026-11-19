@@ -34,6 +34,7 @@
 @import "./panel/modulo.css";
 @import "./panel/componentes.css";
 @import "./panel/librerias.css";
+@import "./panel/oscuro.css";
 @plugin "@tailwindcss/forms" {
     strategy: "class";
 }

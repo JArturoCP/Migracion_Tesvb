@@ -4,7 +4,7 @@
 <x-panel.modal id="modal_modifica" tamano="md" sin-relleno aria-labelledby="exampleModalLabel">
       <div class="tw:px-6 tw:pt-6 tw:pr-14">
         
-        <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800" id="exampleModalLabel">Modificación Cargo</h4>
+        <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="exampleModalLabel">Modificación Cargo</h4>
       </div>
       <form class="" role="form" method="POST" action="/generales/cargos/{{ $cargo_edit->id_cargo }}" novalidate>
 <div class="tw-modal-cuerpo">
@@ -15,7 +15,7 @@
                           <div class="tw:w-full tw:lg:w-6/12 tw:lg:ml-[8.3333%] tw:px-2">
                      <div class="tw:mb-4">
                       <label for="nombre_cargo">Descripción</label>
-                      <input type="text" value="{{ $cargo_edit->cargo }}" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="caja-error1" name="nombre_cargo" placeholder="Nombre..." style="text-transform:uppercase">
+                      <input type="text" value="{{ $cargo_edit->cargo }}" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" id="caja-error1" name="nombre_cargo" placeholder="Nombre..." style="text-transform:uppercase">
                       @if($errors -> has ('nombre_cargo'))
                           <span style="color:red;">{{ $errors -> first('nombre_cargo') }}</span>
                          <style>
@@ -30,7 +30,7 @@
                               <div class="tw:w-full tw:lg:w-3/12 tw:lg:ml-[8.3333%] tw:px-2">
                     <div class="tw:mb-4">
                       <label for="nombre_abrevia">Abreviatura</label>
-                      <input type="text" value="{{ $cargo_edit->abre }}" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" maxlength="5" id="caja-error" name="nombre_abrevia" placeholder="Abreviacion..." style="text-transform:uppercase">
+                      <input type="text" value="{{ $cargo_edit->abre }}" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" maxlength="5" id="caja-error" name="nombre_abrevia" placeholder="Abreviacion..." style="text-transform:uppercase">
                      @if($errors -> has ('nombre_abrevia'))
                           <span style="color:red;">{{ $errors -> first('nombre_abrevia') }}</span>
                          <style>
@@ -48,7 +48,7 @@
       </div>
       <div class="tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
         <button type="submit" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" href="" id="modifica_cargo">Guardar</button>
-        <button type="button" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:dark:bg-white/3 tw:dark:text-gray-300" data-dismiss="modal">Cancelar</button>
       </div>
       </form>
     

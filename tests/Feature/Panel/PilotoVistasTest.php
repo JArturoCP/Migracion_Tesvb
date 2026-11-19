@@ -133,7 +133,7 @@ it('usa el panel, no carga Bootstrap y su HTML está balanceado', function (stri
     expect($html)->toContain('data-panel-marco')
         ->toContain('data-panel-contenido')
         ->toContain('window.PanelModal')                       // puente de modales/pestañas sin Bootstrap
-        ->not->toContain('Cambiar entre modo claro y oscuro')    // las pantallas de módulos siempre son claras
+        ->toContain('Cambiar entre modo claro y oscuro')    // modo oscuro en todas las pantallas
         ->and(BalanceHtml::errores($html))->toBe([]);
 
     foreach (CompararVistas::recursos($html) as $recurso) {
