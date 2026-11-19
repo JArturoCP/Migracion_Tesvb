@@ -63,6 +63,8 @@
 @source "../views/ingles/inicio_ingles";
 @source "../views/ingles/profesores_ingles";
 @source "../views/ingles/partials/modificar_profesor.blade.php";
+@source "../views/actividades_complementarias/alumnos";
+@source "../views/actividades_complementarias/partials_actividades/alumno";
 @source "../views/panel";
 @source "../js/panel";
 
