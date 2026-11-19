@@ -45,7 +45,7 @@ Total: **6 vistas** (5 pantallas + 1 parcial) con 4 modales y 5 formularios: men
 | `alumnos.carga_evidencias_alumnos` | `/evidencias_alumnos` | Migrada (nota, tabla, formularios `multipart/form-data` por evidencia, blockUI) | Sí: subir evidencia (`POST /evidencias_alumnos`) |
 | `alumnos.liberacion_actividades` | `/liberacion_alumno` | Migrada | No |
 | `alumnos.creditos_semestres` | `/creditos` | Migrada | No |
-| `alumnos.mensajes` | `/evidencias_alumnos` (sin actividad aprobada) | **Sin cambios** (vista compartida con jefe de división, docente y HomeController) | No |
+| `alumnos.mensajes` | `/evidencias_alumnos` (sin actividad aprobada) | Migrada después (§5): vista compartida, el cambio de diseño aplica a todos sus usos | No |
 
 ### Qué se conservó
 
@@ -84,3 +84,29 @@ Total: **6 vistas** (5 pantallas + 1 parcial) con 4 modales y 5 formularios: men
 Todas las vistas de la carpeta tienen dueño identificado: las 5 del alumno (4 pantallas migradas + parcial de edición), `alumnos.mensajes` (compartida: alumno sin actividad aprobada, jefe de división, docente con y sin actividad desde `HomeController`), y las de `jefatura`, `profesor` y `subdireccion` (otros roles; las constancias `/Constancia/{id}` y `/constancias_todas` solo las enlaza `jefatura.imprimir_constancias`).
 
 **Resultado:** no falta ninguna pantalla del alumno. La única que no se rediseñó es `alumnos.mensajes`, por ser compartida con otros roles (§2).
+
+## 5. Vistas de mensaje (2026-11-18)
+
+Vistas que pueden devolver los controladores de Complementarias del alumno según el caso:
+
+| Controlador | Caso | Vista |
+|---|---|---|
+| `ConsultaRegActividadesController@index` / `@edit` | siempre (el aviso "LA ACTIVIDAD QUE INTENTA REGISTRAR YA EXISTE" es el modal `#actividad_registrada` de la misma vista, con `$condicion`) | `alumnos.consulta_reg_actividades` (migrada) |
+| `ConsultaRegActividadesController@store` / `@update` / `@destroy`, `Consulta_modificar_ActividadController@eliminar_registro` | siempre | `redirect('/consulta_actividades')` |
+| `EvidenciasAlumnosController@index` | con actividad aceptada (`liberacion = 2`) en el periodo | `alumnos.carga_evidencias_alumnos` (migrada) |
+| `EvidenciasAlumnosController@index` | sin actividad aceptada en el periodo (no registrada, en espera o de otro periodo: la consulta solo trae `liberacion = 2` del periodo actual) | `alumnos.mensajes` con "AÚN NO HA SIDO ACEPTADA TU ACTIVIDAD" |
+| `EvidenciasAlumnosController@store` | siempre | `redirect('/evidencias_alumnos')` |
+| `LiberacionAlumnosActividadesController@index`, `CreditosSemestresController@index` | siempre (sin ramas; tabla vacía si no hay datos) | sus vistas (migradas) |
+
+No hay caso de "periodo cerrado" ni otras vistas de error en estos controladores.
+
+**`alumnos.mensajes` rediseñada** (`layouts.panel`, tarjeta con `x-panel.alerta`, mismo texto y mismo script). Tono solo de diseño: aviso para el alumno con la actividad sin aceptar; error en los demás. Es **compartida**; quién más la usa (el cambio es solo de diseño y aplica a todos):
+
+| Quién | Ruta | Mensaje |
+|---|---|---|
+| Alumno | `/evidencias_alumnos` | AÚN NO HA SIDO ACEPTADA TU ACTIVIDAD |
+| Jefe de división (`DocenteActividadJefeController`) | `/docente_actividad` | NO EXISTE ACTIVIDAD · NO EXISTEN DOCENTES |
+| Docente con actividad (`PlaneaActividadProfController@index`) | `/planeacion_actividad` | NO EXISTE ASIGNACIÓN DE ACTIVIDAD |
+| Personal sin ninguna acción (`HomeController@index`) | `/home` | NO TIENES NINGUNA ACCION |
+
+Prueba: `ComplementariasAlumnoVistasTest` renderiza los 5 mensajes con la sesión de cada rol (alumno, jefe de división, docente con y sin actividad) y los compara con la versión anterior (sin errores, mismo texto, mismo script); `Integracion/ComplementariasAlumnoTest` abre `/evidencias_alumnos` con `alumno01` (actividad en espera) contra MySQL.

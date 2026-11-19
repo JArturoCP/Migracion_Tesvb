@@ -141,3 +141,24 @@ it('Liberación y Créditos conservan sus datos', function () {
     $html = compararVistaComplementarias('actividades_complementarias.alumnos.creditos_semestres', ['historial_creditos' => $creditos]);
     expect($html)->toContain('ING. DOCENTE UNO');
 });
+
+it('el mensaje de Complementarias (vista compartida) conserva texto y lógica para cada rol que lo ve', function (string $rol, array $opciones, string $mensaje, string $tono) {
+    EscenariosPanel::vaciar();
+    $this->actingAs(EscenariosPanel::preparar($rol, $opciones));
+    session(['ip' => 'http://localhost']);
+
+    $html = compararVistaComplementarias('actividades_complementarias.alumnos.mensajes', ['mensaje_evidencias' => $mensaje]);
+
+    $tonos = ['advertencia' => 'tw:bg-amber-50', 'error' => 'tw:bg-red-50'];
+    preg_match('#<div[^>]*data-panel-mensaje[^>]*>#', $html, $alerta);
+    expect($html)->toContain($mensaje)->toContain('window.location.href=direccion+"/evidencias_alumnos/";')
+        ->and($alerta[0] ?? '')->toContain('role="alert"');
+    // tono solo de diseño: aviso para el alumno con actividad sin aceptar, error en los demás casos
+    expect(preg_match('#data-panel-mensaje[^>]*>#', $html) && str_contains(substr($html, strpos($html, 'data-panel-mensaje') - 600, 700), explode(' ', $tonos[$tono])[0]))->toBeTrue();
+})->with([
+    'alumno: actividad aún no aceptada (/evidencias_alumnos)' => ['alumno', ['semestre' => 5], 'AÚN NO HA SIDO ACEPTADA TU ACTIVIDAD', 'advertencia'],
+    'jefe de división: sin actividad (/docente_actividad)' => ['jefe_division', [], 'NO EXISTE ACTIVIDAD', 'error'],
+    'jefe de división: sin docentes (/docente_actividad)' => ['jefe_division', [], 'NO EXISTEN DOCENTES', 'error'],
+    'docente con actividad: sin asignación (/planeacion_actividad)' => ['docente_actividad', [], 'NO EXISTE ASIGNACIÓN DE ACTIVIDAD', 'error'],
+    'personal sin ninguna acción (/home)' => ['docente', [], 'NO TIENES NINGUNA ACCION', 'error'],
+]);

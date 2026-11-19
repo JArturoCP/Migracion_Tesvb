@@ -150,3 +150,10 @@ it('Modificar actividad (edit) se abre con el modal de edición y el mismo formu
         expect($html)->toContain('id="modal_edit_actalu"')->toContain('action="/consulta_actividades/' . $registro . '"')->toContain('name="_method" value="PUT"');
     }
 });
+
+it('Evidencias con la actividad aún no aceptada muestra el mensaje en el panel', function () {
+    entrarAlumnoComplementarias($this, 'alumno01@example.com');
+    $html = complementariasComparar($this, '/evidencias_alumnos');
+    expect($html)->toContain('AÚN NO HA SIDO ACEPTADA TU ACTIVIDAD')->toContain('data-panel-mensaje')
+        ->not->toContain('alert alert-danger');
+});
