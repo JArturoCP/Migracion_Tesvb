@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\View\Composers\InglesInicioComposer;
 use App\View\Composers\PanelInicioComposer;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -26,6 +27,8 @@ class AppServiceProvider extends ServiceProvider
 
         // Datos del dashboard de /inicio por perfil (solo lectura, con caché).
         View::composer('panel.inicio', PanelInicioComposer::class);
+        // Métricas del profesor de inglés en /ingles (solo lectura, con caché).
+        View::composer('ingles.inicio_ingles.inicio_ingles', InglesInicioComposer::class);
     }
 
     /**
