@@ -2,25 +2,28 @@
 
 namespace App\View\Composers;
 
-use App\Services\Panel\DatosProfesorIngles;
+use App\Services\Panel\DatosIngles;
 use Illuminate\View\View;
 
 /**
- * Entrega a ingles/inicio_ingles/inicio_ingles.blade.php (/ingles) las métricas del profesor de inglés.
- * No cambia In_inicioController@index (sigue devolviendo la vista sin datos): solo agrega $tableroIngles,
- * y únicamente cuando la sesión es de profesor de inglés (bandera profesor_ingles de HomeController).
+ * Entrega a ingles/inicio_ingles/inicio_ingles.blade.php (/ingles) los datos del dashboard, igual que
+ * PanelInicioComposer lo hace para /inicio. In_inicioController@index no cambia (sigue sin enviar datos).
+ *
+ * Por ahora solo el PROFESOR DE INGLÉS (bandera profesor_ingles de HomeController) tiene dashboard;
+ * el alumno y la coordinación (unidad 19) ven bienvenida, avisos y accesos.
  */
 class InglesInicioComposer
 {
     public function compose(View $view): void
     {
-        $tableroIngles = null;
-        $esProfesorIngles = session()->has('profesor_ingles');
+        $tablero = null;
+        $perfilTablero = null; // vista resources/views/panel/dashboard/{perfil}.blade.php
 
-        if ($esProfesorIngles) {
-            $tableroIngles = DatosProfesorIngles::para(session('id_profesor_ingles'), session('periodo_ingles'));
+        if (session()->has('profesor_ingles')) {
+            $perfilTablero = 'profesor_ingles';
+            $tablero = DatosIngles::paraProfesor(session('id_profesor_ingles'), session('periodo_ingles'));
         }
 
-        $view->with('tableroIngles', $tableroIngles)->with('esProfesorIngles', $esProfesorIngles);
+        $view->with('tablero', $tablero)->with('perfilTablero', $perfilTablero);
     }
 }

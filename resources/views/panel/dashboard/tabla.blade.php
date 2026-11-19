@@ -1,7 +1,7 @@
 {{--
     Tabla (TailAdmin: recent-orders).
     $titulo, $subtitulo, $columnas (encabezados), $filas: lista de celdas; cada celda es un string o
-    ['principal', 'secundario'] o ['insignia' => texto|null, 'tono' => verde|ambar|rojo|gris].
+    ['principal', 'secundario'] o ['insignia' => texto|null, 'tono' => verde|ambar|rojo|gris] o ['enlace' => texto, 'url' => url] (enlace a una pantalla existente).
     $enlace: ['texto', 'url'] opcional (botón "ver todo" hacia una pantalla existente).
 --}}
 <div class="tw:overflow-hidden tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white tw:px-4 tw:pt-4 tw:pb-3 tw:sm:px-6 tw:dark:border-gray-800 tw:dark:bg-white/3" data-panel-bloque="tabla">
@@ -44,6 +44,8 @@
                                             ];
                                         ?>
                                         <span class="tw:inline-flex tw:items-center tw:justify-center tw:gap-1 tw:rounded-full tw:px-2.5 tw:py-0.5 tw:text-xs tw:font-medium {{ $tonos[$celda['tono']] ?? $tonos['gris'] }}">{{ $celda['insignia'] ?? 'Sin datos' }}</span>
+                                    @elseif(is_array($celda) && array_key_exists('enlace', $celda))
+                                        <a href="{{ $celda['url'] }}" class="tw:font-medium tw:text-brand-500 tw:hover:text-brand-600 tw:dark:text-brand-400">{{ $celda['enlace'] }}</a>
                                     @elseif(is_array($celda))
                                         <p class="tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-white/90">{{ $celda[0] }}</p>
                                         <span class="tw:text-xs tw:text-gray-500 tw:dark:text-gray-400">{{ $celda[1] }}</span>

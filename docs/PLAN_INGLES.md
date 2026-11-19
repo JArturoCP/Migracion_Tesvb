@@ -218,3 +218,28 @@ Definición final de las métricas (§2.3): M3 cuenta las evaluaciones de la uni
 **Sin cuenta de unidad 19 en la base local:** ningún registro de `gnral_unidad_personal` tiene `id_unidad_admin = 19`; la prueba la simula dentro de la transacción.
 
 **Hallazgo (no se tocó):** `periodos_calificaciones` lee `$periodo1[0]` sin revisar que exista; si un grupo tuviera un solo registro en `in_cal_periodo` y no fuera de la unidad 1, la pantalla fallaría. Las métricas no dependen de eso.
+
+## 4. Ajuste: /ingles igual al dashboard de /inicio (2026-11-18)
+
+- `/ingles` en `layouts.panel` con `sin_pie` y `modo_oscuro` (como /inicio). Bienvenida con el parcial compartido `panel.dashboard.bienvenida` (extraído de `panel/inicio`, mismo HTML), aviso `men` igual que /inicio y `@include('panel.dashboard.' . $perfilTablero)` como /inicio.
+- Profesor: `panel/dashboard/profesor_ingles.blade.php`, con la misma disposición que `directivo.blade.php` y los mismos parciales (`metricas`, `barras`, `radial`, `linea`, `lista`, `tabla`). Datos: `App\Services\Panel\DatosIngles` (reemplaza a `DatosProfesorIngles`; caché 10 min) vía `InglesInicioComposer` (`$tablero`, `$perfilTablero`).
+  - Métricas: M1 mis grupos y M2 alumnos inscritos, comparadas con el periodo de inglés anterior.
+  - Barras: alumnos inscritos por grupo. Radial: capturadas / (grupos × 2), detalle capturadas · por capturar (M3) · sin fecha (M4).
+  - Línea: grupos y alumnos inscritos del profesor en los últimos 6 periodos de `in_periodos`. Lista: alumnos por nivel. Tabla: Mis grupos (M5) con enlace "Periodos" por fila.
+  - `panel.dashboard.tabla` acepta una celda `['enlace' => texto, 'url' => …]` (nuevo tipo de celda; el directivo no cambia).
+- Alumno y unidad 19: bienvenida, aviso y accesos (con `x-panel.tarjeta`); sin métricas.
+
+### Propuesta de métricas para la unidad 19 (pendiente de aprobación)
+
+Mismo formato (`panel.dashboard.*`), periodo = `Session periodo_ingles`, solo lectura, mismas reglas que las pantallas del menú de la coordinación:
+
+| Bloque | Dato | Tabla / regla (pantalla) |
+|---|---|---|
+| Métrica | Grupos con facilitador en el periodo | `in_hrs_ingles_profesor` del periodo unido con niveles y grupos (Horarios de los Facilitadores) |
+| Métrica | Alumnos con carga validada | `in_validar_carga` del periodo con `id_estado = 2` (Cargas academicas) |
+| Métrica | Vouchers por validar | `in_voucher_pago` del periodo con `id_estado_valida_voucher = 1`, unido con `users` y `gnral_alumnos` (`In_voucher_validacionController@index`, En espera) |
+| Barras | Alumnos por grupo | regla de `mostrar_alumnos` por cada grupo del periodo |
+| Lista | Alumnos por nivel | misma regla agrupada por `in_niveles_ingles` |
+| Radial | Avance de captura de calificaciones de todos los grupos | `in_cal_periodo` unidades 1 y 4 (`evaluada`) |
+| Línea | Alumnos inscritos y vouchers aceptados por periodo (últimos 6) | mismas reglas por periodo |
+| Tabla | Vouchers: en espera / aceptados / rechazados | `in_voucher_pago.id_estado_valida_voucher` (pantallas En espera, Aceptados, Rechazados; falta confirmar los ids de aceptado y rechazado en sus consultas) |

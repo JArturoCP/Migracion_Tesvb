@@ -5,7 +5,7 @@
  * (los datos extra que se agregan para tener números distintos de cero también se revierten).
  * Se omite si no hay MySQL.
  *
- * Métricas del profesor (App\Services\Panel\DatosProfesorIngles) comparadas con lo que entregan hoy
+ * Dashboard del profesor (App\Services\Panel\DatosIngles) comparadas con lo que entregan hoy
  * las pantallas del profesor:
  *   M1 = grupos de /ingles/Calificaciones (In_inicioController@inicio_calificaciones, $niveles)
  *   M2 = suma de $alumnos_inscritos de /ingles/Calificaciones/mostrar_alumnos/{n}/{g}
@@ -95,11 +95,16 @@ it('el profesor de inglés sigue llegando a /ingles y ve el panel con bienvenida
         ->toContain(e(session('nombre_ingles')))
         ->toContain('Periodo de Inglés: ' . e(session('nombre_periodo_ingles')))
         ->toContain('data-panel-aviso="men"')
-        ->toContain('data-panel-dashboard="ingles"')
+        ->toContain('data-panel-dashboard="profesor_ingles"')
         ->toContain('data-panel-ingles-periodo')
         ->toContain('Inicio de Inglés')
         ->toContain(url('/ingles/Calificaciones'))
         ->not->toContain('bootstrap.min.css');
+    // mismos bloques que el dashboard del directivo en /inicio
+    foreach (['barras', 'radial', 'linea', 'lista', 'tabla'] as $bloque) {
+        expect($html)->toContain('data-panel-bloque="' . $bloque . '"');
+    }
+    expect($html)->toContain('data-panel-metrica="mis_grupos"')->toContain('data-panel-metrica="alumnos_inscritos"');
 
     // /ingles solo lee (además de lo que ya hacía la sesión)
     foreach ($consultas as $sql) {
@@ -109,15 +114,15 @@ it('el profesor de inglés sigue llegando a /ingles y ve el panel con bienvenida
 
 it('M1 a M4 coinciden con las pantallas de calificaciones del profesor (datos de prueba)', function () {
     entrarIngles($this, 'ingles01@example.com');
-    $tablero = $this->get('/ingles')->viewData('tableroIngles');
+    $tablero = $this->get('/ingles')->viewData('tablero');
     $esperado = metricasEsperadas($this);
 
     expect($tablero)->not->toBeNull()
-        ->and($tablero['mis_grupos'])->toBe($esperado['mis_grupos'])
-        ->and($tablero['alumnos_inscritos'])->toBe($esperado['alumnos_inscritos'])
-        ->and($tablero['por_capturar'])->toBe($esperado['por_capturar'])
-        ->and($tablero['por_capturar'])->toBe($esperado['pendientes_html'])
-        ->and($tablero['sin_fecha'])->toBe($esperado['sin_fecha'])
+        ->and($tablero['mis_grupos']['valor'])->toBe($esperado['mis_grupos'])
+        ->and($tablero['alumnos_inscritos']['valor'])->toBe($esperado['alumnos_inscritos'])
+        ->and($tablero['captura']['por_capturar'])->toBe($esperado['por_capturar'])
+        ->and($tablero['captura']['por_capturar'])->toBe($esperado['pendientes_html'])
+        ->and($tablero['captura']['sin_fecha'])->toBe($esperado['sin_fecha'])
         ->and(count($tablero['grupos']))->toBe($esperado['mis_grupos']);
 });
 
@@ -138,17 +143,17 @@ it('M1 a M4 coinciden también con más grupos, inscritos y evaluaciones pendien
     DB::table('in_carga_academica_ingles')->insert(['id_alumno' => $alumno, 'id_nivel' => $nivel, 'id_grupo' => $grupo, 'id_periodo_ingles' => $periodo, 'estado_nivel' => (int) DB::table('eva_tipo_curso')->value('id_tipo_curso')]);
     DB::table('in_validar_carga')->insert(['id_alumno' => $alumno, 'id_periodo' => $periodo, 'id_estado' => 2, 'comentario' => 'prueba']);
 
-    $tablero = $this->get('/ingles')->viewData('tableroIngles');
+    $tablero = $this->get('/ingles')->viewData('tablero');
     $esperado = metricasEsperadas($this);
 
     expect($esperado['mis_grupos'])->toBeGreaterThanOrEqual(2)
         ->and($esperado['alumnos_inscritos'])->toBeGreaterThanOrEqual(1)
         ->and($esperado['por_capturar'])->toBeGreaterThanOrEqual(1)
-        ->and($tablero['mis_grupos'])->toBe($esperado['mis_grupos'])
-        ->and($tablero['alumnos_inscritos'])->toBe($esperado['alumnos_inscritos'])
-        ->and($tablero['por_capturar'])->toBe($esperado['por_capturar'])
-        ->and($tablero['por_capturar'])->toBe($esperado['pendientes_html'])
-        ->and($tablero['sin_fecha'])->toBe($esperado['sin_fecha']);
+        ->and($tablero['mis_grupos']['valor'])->toBe($esperado['mis_grupos'])
+        ->and($tablero['alumnos_inscritos']['valor'])->toBe($esperado['alumnos_inscritos'])
+        ->and($tablero['captura']['por_capturar'])->toBe($esperado['por_capturar'])
+        ->and($tablero['captura']['por_capturar'])->toBe($esperado['pendientes_html'])
+        ->and($tablero['captura']['sin_fecha'])->toBe($esperado['sin_fecha']);
 });
 
 it('el alumno ve el nuevo /ingles sin métricas y con sus accesos de inglés', function () {
@@ -158,7 +163,7 @@ it('el alumno ve el nuevo /ingles sin métricas y con sus accesos de inglés', f
     expect($html)->toContain('data-panel-bienvenida')
         ->toContain('data-panel-aviso="men"')
         ->toContain('data-panel-ingles-periodo')
-        ->not->toContain('data-panel-dashboard="ingles"')
+        ->not->toContain('data-panel-dashboard="profesor_ingles"')
         ->toContain(url('/ingles_horarios/cargar_voucher_pago'))
         ->toContain(url('/ingles/ver_cal_alumno_ingles/'))
         ->not->toContain(url('/ingles/vouchers_validacion'));
@@ -181,6 +186,24 @@ it('la coordinación de inglés (unidad 19) ve el nuevo /ingles con sus 22 acces
 
     expect($html)->toContain('Inicio de Inglés')
         ->toContain('data-panel-ingles-periodo')
-        ->not->toContain('data-panel-dashboard="ingles"')
+        ->not->toContain('data-panel-dashboard="profesor_ingles"')
         ->and(substr_count($accesos[0], '<li><a href='))->toBe(22);
+});
+
+it("la línea por periodo coincide con /ingles/Calificaciones y mostrar_alumnos en cada periodo de inglés", function () {
+    entrarIngles($this, "ingles01@example.com");
+    $actual = (int) session("periodo_ingles");
+    $tablero = $this->get("/ingles")->viewData("tablero");
+
+    expect($tablero["historico"])->not->toBeEmpty()
+        ->and(end($tablero["historico"])["id"])->toBe($actual);
+
+    foreach ($tablero["historico"] as $punto) {
+        // mismo cambio de periodo que el botón "Inglés" del header (solo escribe en la sesión)
+        $this->from("/ingles")->get("/recargar/periodos_ingles/" . $punto["id"]);
+        $esperado = metricasEsperadas($this);
+        expect($punto["grupos"])->toBe($esperado["mis_grupos"], "Grupos en el periodo " . $punto["id"])
+            ->and($punto["inscritos"])->toBe($esperado["alumnos_inscritos"], "Inscritos en el periodo " . $punto["id"]);
+    }
+    $this->get("/recargar/periodos_ingles/" . $actual);
 });
