@@ -1,55 +1,43 @@
-@extends('ingles.inicio_ingles.layout_ingles')
+{{--
+    Calificaciones de un grupo de inglés (/ingles/Calificaciones/mostrar_alumnos/{nivel}/{grupo},
+    In_inicioController@mostrar_alumnos; periodos de inglés anteriores al 18). Diseño del panel; la lógica no cambia:
+    mismas ramas por etapa de captura ($calificar_unidad['unidad1']) y por unidad 19, mismas celdas y colores
+    de aprobación, mismos campos .calificacion_N (id error_{carga}, data-id), mismos botones #guardar_calificacion
+    (data-id_unidad, data-token), mismos enlaces .modificar_calN, Lista de asistencia y Acta ordinaria (PDF),
+    modal #modal_modificar_cal con el formulario POST /ingles/guardar_modificacion/calificacion y el mismo script.
+    Versión anterior: tests/Fixtures/vistas_antes.
+--}}
+@extends('layouts.panel')
 @section('title', 'Calificaciones de ingles')
+@include('partials.panel.recursos_app')
 @section('content')
-    <main class="col-md-12">
+    <main>
         <?php
+        $moduloIngles = true;
         $unidad = Session::get('id_unidad_admin');
         ?>
-        <div class="row">
-            <div class="col-sm-4 col-md-offset-4">
-                <div class="panel panel-success " >
-                    <div class="panel-heading">
-                        <h3 class="panel-title text-center">CALIFICACIONES DE INGLES <br> NIVEL: {{$nivel}}  GRUPO: {{$id_grupo}} <br>{{ $profesor->nombre }} {{ $profesor->apellido_paterno }} {{ $profesor->apellido_materno }}</h3>
-                    </div>
+        <x-panel.encabezado titulo="Calificaciones de ingles" :migas="['Inglés' => url('/ingles/'), 'Calificaciones de ingles' => url('/ingles/Calificaciones')]" />
 
-                </div>
-
-            </div>
-        </div>
+        <x-panel.tarjeta class="tw:mb-6">
+            <h3 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">CALIFICACIONES DE INGLES</h3>
+            <p class="tw:mt-1 tw:text-sm tw:text-gray-600 tw:dark:text-gray-300">NIVEL: {{$nivel}}  GRUPO: {{$id_grupo}}</p>
+            <p class="tw:mt-1 tw:text-sm tw:text-gray-500 tw:dark:text-gray-400">{{ $profesor->nombre }} {{ $profesor->apellido_paterno }} {{ $profesor->apellido_materno }}</p>
+        </x-panel.tarjeta>
         @if($alumnos_inscritos ==0)
-            <div class="row">
-                <div class="col-sm-4 col-md-offset-4">
-                    <div class="panel panel-danger " >
-                        <div class="panel-heading">
-                            <h3 class="panel-title text-center">No hay usuarios inscrito en este grupo</h3>
-                        </div>
-
-                    </div>
-
-                </div>
-            </div>
+            <x-panel.vacio titulo="No hay usuarios inscrito en este grupo" />
         @else
                 @if($calificar_unidad['unidad1'] ==13)
-                    <div class="row">
-                        <div class="col-md-1 col-md-offset-1">
-                            <td> <button type="button" class="btn btn-warning center" onclick="window.open('{{url('/ingles/lista_asistencia/'.$id_nivel.'/'.$id_grupo)}}')">Lista de asistencia</button></td>
-                        </div>
-                        <div class="col-md-1 col-md-offset-7">
-                            <td> <button type="button" class="btn btn-success center" onclick="window.open('{{url('/ingles/acta_ordinaria/'.$id_nivel.'/'.$id_grupo)}}')">Acta ordinaria</button></td>
-                        </div>
+                    <div class="tw:mb-4 tw:flex tw:flex-wrap tw:items-center tw:justify-between tw:gap-3">
+                        <x-panel.boton variante="advertencia" class="center" onclick="window.open('{{url('/ingles/lista_asistencia/'.$id_nivel.'/'.$id_grupo)}}')"><i class="fa fa-list" aria-hidden="true"></i> Lista de asistencia</x-panel.boton>
+                        <x-panel.boton variante="exito" class="center" onclick="window.open('{{url('/ingles/acta_ordinaria/'.$id_nivel.'/'.$id_grupo)}}')"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> Acta ordinaria</x-panel.boton>
                     </div>
                     @else
-                    <div class="row">
-                        <div class="col-md-1 col-md-offset-1">
-                            <td> <button type="button" class="btn btn-warning center" onclick="window.open('{{url('/ingles/lista_asistencia/'.$id_nivel.'/'.$id_grupo)}}')">Lista de asistencia</button></td>
-                        </div>
-
+                    <div class="tw:mb-4 tw:flex tw:flex-wrap tw:items-center tw:gap-3">
+                        <x-panel.boton variante="advertencia" class="center" onclick="window.open('{{url('/ingles/lista_asistencia/'.$id_nivel.'/'.$id_grupo)}}')"><i class="fa fa-list" aria-hidden="true"></i> Lista de asistencia</x-panel.boton>
                     </div>
               @endif
-            <div class="row" id="consultar">
-                <div class="col-md-10 col-md-offset-1">
-                    <br>
-                    <table id="table_enviado" class="table table-bordered text-center">
+            <div id="consultar">
+                    <x-panel.tabla id="table_enviado" class="tw-tabla-bordes tw-tabla-centrada" compacta>
                         <thead>
                         <tr>
                             <th>NO.</th>
@@ -92,7 +80,7 @@
 
 
                                 @elseif($calificar_unidad['unidad1'] ==1)
-                                    <td class="text-center"><input id="error_{{$alumnos['id_carga']}}" type="text" value="0" class=" text-center calificacion_1" style="width:7em; border-radius: 4px" data-id="{{$alumnos['id_carga']}}" name="calificacion_1" ></td>
+                                    <td class="tw:text-center"><input id="error_{{$alumnos['id_carga']}}" type="text" value="0" class="calificacion_1 tw:rounded-md tw:border tw:border-gray-300 tw:px-2 tw:py-1.5 tw:text-center tw:text-sm tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden" style="width:7em; border-radius: 4px" data-id="{{$alumnos['id_carga']}}" name="calificacion_1" ></td>
                                     <td style="color: black">{{$alumnos['unidad2']}}</td>
                                     <td style="color: black">{{$alumnos['unidad3']}}</td>
                                     <td style="color: black">{{$alumnos['unidad4']}}</td>
@@ -102,12 +90,12 @@
                                         <td style="color: black;background: red;">
                                             @if($unidad ==19)
                                                 {{$alumnos['unidad1']}}
-                                             <a class="modificar_cal1"   href="#" data-id_carga_academica1="{{$alumnos['id_carga']}}"><span class="oi oi-pencil p-1"></span></a>
+                                             <a class="modificar_cal1"   href="#" data-id_carga_academica1="{{$alumnos['id_carga']}}"><i class="fa fa-pencil tw:ml-1" aria-hidden="true"></i></a>
                                         @endif
                                         </td>
                                         @else
                                     <td style="color: black">{{$alumnos['unidad1']}}   @if($unidad ==19)
-                                            <a class="modificar_cal1"   href="#" data-id_carga_academica1="{{$alumnos['id_carga']}}"><span class="oi oi-pencil p-1"></span></a>
+                                            <a class="modificar_cal1"   href="#" data-id_carga_academica1="{{$alumnos['id_carga']}}"><i class="fa fa-pencil tw:ml-1" aria-hidden="true"></i></a>
                                         @endif  </td>
                                     @endif
                                     <td style="color: black">{{$alumnos['unidad2']}}</td>
@@ -121,14 +109,14 @@
                                 @elseif($calificar_unidad['unidad1'] ==2)
                                     @if($alumnos['unidad1']<80)
                                         <td style="color: black;background: red;">{{$alumnos['unidad1']}}   @if($unidad ==19)
-                                               <a class="modificar_cal1"   href="#" data-id_carga_academica1="{{$alumnos['id_carga']}}"><span class="oi oi-pencil p-1"></span></a>
+                                               <a class="modificar_cal1"   href="#" data-id_carga_academica1="{{$alumnos['id_carga']}}"><i class="fa fa-pencil tw:ml-1" aria-hidden="true"></i></a>
                                             @endif</td>
                                     @else
                                         <td style="color: black">{{$alumnos['unidad1']}}   @if($unidad ==19)
-                                                 <a class="modificar_cal1"   href="#" data-id_carga_academica1="{{$alumnos['id_carga']}}"><span class="oi oi-pencil p-1"></span></a>
+                                                 <a class="modificar_cal1"   href="#" data-id_carga_academica1="{{$alumnos['id_carga']}}"><i class="fa fa-pencil tw:ml-1" aria-hidden="true"></i></a>
                                             @endif </td>
                                     @endif
-                                        <td class="text-center"><input id="error_{{$alumnos['id_carga']}}" type="text" value="0" class=" text-center calificacion_2" style="width:7em; border-radius: 4px" data-id="{{$alumnos['id_carga']}}" name="calificacion_2" ></td>
+                                        <td class="tw:text-center"><input id="error_{{$alumnos['id_carga']}}" type="text" value="0" class="calificacion_2 tw:rounded-md tw:border tw:border-gray-300 tw:px-2 tw:py-1.5 tw:text-center tw:text-sm tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden" style="width:7em; border-radius: 4px" data-id="{{$alumnos['id_carga']}}" name="calificacion_2" ></td>
                                         <td style="color: black">{{$alumnos['unidad3']}}</td>
                                     <td style="color: black">{{$alumnos['unidad4']}}</td>
                                     @if($alumnos['promedio']<80)
@@ -139,20 +127,20 @@
                                 @elseif($calificar_unidad['unidad1'] ==7)
                                     @if($alumnos['unidad1']<80)
                                         <td style="color: black;background: red;">{{$alumnos['unidad1']}}   @if($unidad ==19)
-                                               <a class="modificar_cal1"   href="#" data-id_carga_academica1="{{$alumnos['id_carga']}}"><span class="oi oi-pencil p-1"></span></a>
+                                               <a class="modificar_cal1"   href="#" data-id_carga_academica1="{{$alumnos['id_carga']}}"><i class="fa fa-pencil tw:ml-1" aria-hidden="true"></i></a>
                                             @endif </td>
                                     @else
                                         <td style="color: black">{{$alumnos['unidad1']}}   @if($unidad ==19)
-                                                 <a class="modificar_cal1"   href="#" data-id_carga_academica1="{{$alumnos['id_carga']}}"><span class="oi oi-pencil p-1"></span></a>
+                                                 <a class="modificar_cal1"   href="#" data-id_carga_academica1="{{$alumnos['id_carga']}}"><i class="fa fa-pencil tw:ml-1" aria-hidden="true"></i></a>
                                             @endif   </td>
                                     @endif
                                         @if($alumnos['unidad2']<80)
                                             <td style="color: black;background: red;">{{$alumnos['unidad2']}} @if($unidad ==19)
-                                                    <a class="modificar_cal2"   href="#" data-id_carga_academica2="{{$alumnos['id_carga']}}"><span class="oi oi-pencil p-1"></span></a>
+                                                    <a class="modificar_cal2"   href="#" data-id_carga_academica2="{{$alumnos['id_carga']}}"><i class="fa fa-pencil tw:ml-1" aria-hidden="true"></i></a>
                                                 @endif</td>
                                         @else
                                             <td style="color: black">{{$alumnos['unidad2']}} @if($unidad ==19)
-                                                    <a class="modificar_cal2"   href="#" data-id_carga_academica2="{{$alumnos['id_carga']}}"><span class="oi oi-pencil p-1"></span></a>
+                                                    <a class="modificar_cal2"   href="#" data-id_carga_academica2="{{$alumnos['id_carga']}}"><i class="fa fa-pencil tw:ml-1" aria-hidden="true"></i></a>
                                                 @endif</td>
                                         @endif
 
@@ -167,24 +155,24 @@
                                 @elseif($calificar_unidad['unidad1'] ==3)
                                     @if($alumnos['unidad1']<80)
                                         <td style="color: black;background: red;">{{$alumnos['unidad1']}}   @if($unidad ==19)
-                                                <a class="modificar_cal1"   href="#" data-id_carga_academica1="{{$alumnos['id_carga']}}"><span class="oi oi-pencil p-1"></span></a>
+                                                <a class="modificar_cal1"   href="#" data-id_carga_academica1="{{$alumnos['id_carga']}}"><i class="fa fa-pencil tw:ml-1" aria-hidden="true"></i></a>
                                             @endif   </td>
                                     @else
                                         <td style="color: black">{{$alumnos['unidad1']}}   @if($unidad ==19)
-                                                 <a class="modificar_cal1"   href="#" data-id_carga_academica1="{{$alumnos['id_carga']}}"><span class="oi oi-pencil p-1"></span></a>
+                                                 <a class="modificar_cal1"   href="#" data-id_carga_academica1="{{$alumnos['id_carga']}}"><i class="fa fa-pencil tw:ml-1" aria-hidden="true"></i></a>
                                             @endif </td>
                                     @endif
                                     @if($alumnos['unidad2']<80)
                                         <td style="color: black;background: red;">{{$alumnos['unidad2']}} @if($unidad ==19)
-                                                <a class="modificar_cal2"   href="#" data-id_carga_academica2="{{$alumnos['id_carga']}}"><span class="oi oi-pencil p-1"></span></a>
+                                                <a class="modificar_cal2"   href="#" data-id_carga_academica2="{{$alumnos['id_carga']}}"><i class="fa fa-pencil tw:ml-1" aria-hidden="true"></i></a>
                                             @endif</td>
                                     @else
                                         <td style="color: black">{{$alumnos['unidad2']}} @if($unidad ==19)
-                                                <a class="modificar_cal2"   href="#" data-id_carga_academica2="{{$alumnos['id_carga']}}"><span class="oi oi-pencil p-1"></span></a>
+                                                <a class="modificar_cal2"   href="#" data-id_carga_academica2="{{$alumnos['id_carga']}}"><i class="fa fa-pencil tw:ml-1" aria-hidden="true"></i></a>
                                             @endif</td>
                                     @endif
 
-                                    <td class="text-center"><input id="error_{{$alumnos['id_carga']}}" type="text" value="0" class=" text-center calificacion_3" style="width:7em; border-radius: 4px" data-id="{{$alumnos['id_carga']}}" name="calificacion_3" ></td>
+                                    <td class="tw:text-center"><input id="error_{{$alumnos['id_carga']}}" type="text" value="0" class="calificacion_3 tw:rounded-md tw:border tw:border-gray-300 tw:px-2 tw:py-1.5 tw:text-center tw:text-sm tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden" style="width:7em; border-radius: 4px" data-id="{{$alumnos['id_carga']}}" name="calificacion_3" ></td>
 
                                     <td style="color: black">{{$alumnos['unidad4']}}</td>
                                     @if($alumnos['promedio']<80)
@@ -195,26 +183,26 @@
                                 @elseif($calificar_unidad['unidad1'] ==8)
                                     @if($alumnos['unidad1']<80)
                                         <td style="color: black;background: red;">{{$alumnos['unidad1']}}   @if($unidad ==19)
-                                                 <a class="modificar_cal1"   href="#" data-id_carga_academica1="{{$alumnos['id_carga']}}"><span class="oi oi-pencil p-1"></span></a>
+                                                 <a class="modificar_cal1"   href="#" data-id_carga_academica1="{{$alumnos['id_carga']}}"><i class="fa fa-pencil tw:ml-1" aria-hidden="true"></i></a>
                                             @endif </td>
                                     @else
                                         <td style="color: black">{{$alumnos['unidad1']}}   @if($unidad ==19)
-                                                <a class="modificar_cal1"   href="#" data-id_carga_academica1="{{$alumnos['id_carga']}}"><span class="oi oi-pencil p-1"></span></a>
+                                                <a class="modificar_cal1"   href="#" data-id_carga_academica1="{{$alumnos['id_carga']}}"><i class="fa fa-pencil tw:ml-1" aria-hidden="true"></i></a>
                                             @endif</td>
                                     @endif
                                     @if($alumnos['unidad2']<80)
                                         <td style="color: black;background: red;">{{$alumnos['unidad2']}}  @if($unidad ==19)
-                                                <a class="modificar_cal2"   href="#" data-id_carga_academica2="{{$alumnos['id_carga']}}"><span class="oi oi-pencil p-1"></span></a>
+                                                <a class="modificar_cal2"   href="#" data-id_carga_academica2="{{$alumnos['id_carga']}}"><i class="fa fa-pencil tw:ml-1" aria-hidden="true"></i></a>
                                             @endif</td>
                                     @else
                                         <td style="color: black">{{$alumnos['unidad2']}}  @if($unidad ==19)
-                                                <a class="modificar_cal2"   href="#" data-id_carga_academica2="{{$alumnos['id_carga']}}"><span class="oi oi-pencil p-1"></span></a>
+                                                <a class="modificar_cal2"   href="#" data-id_carga_academica2="{{$alumnos['id_carga']}}"><i class="fa fa-pencil tw:ml-1" aria-hidden="true"></i></a>
                                             @endif</td>
                                     @endif
                                         @if($alumnos['unidad3']<80)
-                                            <td style="color: black;background: red;">{{$alumnos['unidad3']}} <a class="modificar_cal3"   href="#" data-id_carga_academica3="{{$alumnos['id_carga']}}"><span class="oi oi-pencil p-1"></span></a></td>
+                                            <td style="color: black;background: red;">{{$alumnos['unidad3']}} <a class="modificar_cal3"   href="#" data-id_carga_academica3="{{$alumnos['id_carga']}}"><i class="fa fa-pencil tw:ml-1" aria-hidden="true"></i></a></td>
                                         @else
-                                            <td style="color: black">{{$alumnos['unidad3']}} <a class="modificar_cal3"   href="#" data-id_carga_academica3="{{$alumnos['id_carga']}}"><span class="oi oi-pencil p-1"></span></a></td>
+                                            <td style="color: black">{{$alumnos['unidad3']}} <a class="modificar_cal3"   href="#" data-id_carga_academica3="{{$alumnos['id_carga']}}"><i class="fa fa-pencil tw:ml-1" aria-hidden="true"></i></a></td>
                                         @endif
 
                                     <td style="color: black">{{$alumnos['unidad4']}}</td>
@@ -226,35 +214,35 @@
                                 @elseif($calificar_unidad['unidad1'] ==4)
                                     @if($alumnos['unidad1']<80)
                                         <td style="color: black;background: red;">{{$alumnos['unidad1']}}   @if($unidad ==19)
-                                                 <a class="modificar_cal1"   href="#" data-id_carga_academica1="{{$alumnos['id_carga']}}"><span class="oi oi-pencil p-1"></span></a>
+                                                 <a class="modificar_cal1"   href="#" data-id_carga_academica1="{{$alumnos['id_carga']}}"><i class="fa fa-pencil tw:ml-1" aria-hidden="true"></i></a>
                                             @endif </td>
                                     @else
                                         <td style="color: black">{{$alumnos['unidad1']}}   @if($unidad ==19)
-                                               <a class="modificar_cal1"   href="#" data-id_carga_academica1="{{$alumnos['id_carga']}}"><span class="oi oi-pencil p-1"></span></a>
+                                               <a class="modificar_cal1"   href="#" data-id_carga_academica1="{{$alumnos['id_carga']}}"><i class="fa fa-pencil tw:ml-1" aria-hidden="true"></i></a>
                                             @endif </td>
                                     @endif
                                     @if($alumnos['unidad2']<80)
                                         <td style="color: black;background: red;">{{$alumnos['unidad2']}} @if($unidad ==19)
-                                                <a class="modificar_cal2"   href="#" data-id_carga_academica2="{{$alumnos['id_carga']}}"><span class="oi oi-pencil p-1"></span></a>
+                                                <a class="modificar_cal2"   href="#" data-id_carga_academica2="{{$alumnos['id_carga']}}"><i class="fa fa-pencil tw:ml-1" aria-hidden="true"></i></a>
                                                 @endif</td>
                                     @else
                                         <td style="color: black">{{$alumnos['unidad2']}} @if($unidad ==19)
-                                                <a class="modificar_cal2"   href="#" data-id_carga_academica2="{{$alumnos['id_carga']}}"><span class="oi oi-pencil p-1"></span></a>
+                                                <a class="modificar_cal2"   href="#" data-id_carga_academica2="{{$alumnos['id_carga']}}"><i class="fa fa-pencil tw:ml-1" aria-hidden="true"></i></a>
                                             @endif</td>
                                     @endif
                                     @if($alumnos['unidad3']<80)
                                         <td style="color: black;background: red;">{{$alumnos['unidad3']}}
                                             @if($unidad ==19)
-                                            <a class="modificar_cal3"   href="#" data-id_carga_academica3="{{$alumnos['id_carga']}}"><span class="oi oi-pencil p-1"></span></a>
+                                            <a class="modificar_cal3"   href="#" data-id_carga_academica3="{{$alumnos['id_carga']}}"><i class="fa fa-pencil tw:ml-1" aria-hidden="true"></i></a>
                                             @endif
                                         </td>
                                     @else
                                         <td style="color: black">{{$alumnos['unidad3']}}   @if($unidad ==19)
-                                                <a class="modificar_cal3"   href="#" data-id_carga_academica3="{{$alumnos['id_carga']}}"><span class="oi oi-pencil p-1"></span></a>
+                                                <a class="modificar_cal3"   href="#" data-id_carga_academica3="{{$alumnos['id_carga']}}"><i class="fa fa-pencil tw:ml-1" aria-hidden="true"></i></a>
                                             @endif</td>
                                     @endif
 
-                                        <td class="text-center"><input id="error_{{$alumnos['id_carga']}}" type="text" value="0" class=" text-center calificacion_4" style="width:7em; border-radius: 4px" data-id="{{$alumnos['id_carga']}}" name="calificacion_4" ></td>
+                                        <td class="tw:text-center"><input id="error_{{$alumnos['id_carga']}}" type="text" value="0" class="calificacion_4 tw:rounded-md tw:border tw:border-gray-300 tw:px-2 tw:py-1.5 tw:text-center tw:text-sm tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden" style="width:7em; border-radius: 4px" data-id="{{$alumnos['id_carga']}}" name="calificacion_4" ></td>
 
                                     @if($alumnos['promedio']<80)
                                         <td style="color: black;background: red;">{{$alumnos['promedio']}}</td>
@@ -264,43 +252,43 @@
                                 @elseif($calificar_unidad['unidad1'] ==13)
                                     @if($alumnos['unidad1']<80)
                                         <td style="color: black;background: red;">{{$alumnos['unidad1']}}   @if($unidad ==19)
-                                                 <a class="modificar_cal1"   href="#" data-id_carga_academica1="{{$alumnos['id_carga']}}"><span class="oi oi-pencil p-1"></span></a>
+                                                 <a class="modificar_cal1"   href="#" data-id_carga_academica1="{{$alumnos['id_carga']}}"><i class="fa fa-pencil tw:ml-1" aria-hidden="true"></i></a>
                                             @endif</td>
                                     @else
                                         <td style="color: black">{{$alumnos['unidad1']}}   @if($unidad ==19)
-                                                <a class="modificar_cal1"   href="#" data-id_carga_academica1="{{$alumnos['id_carga']}}"><span class="oi oi-pencil p-1"></span></a>
+                                                <a class="modificar_cal1"   href="#" data-id_carga_academica1="{{$alumnos['id_carga']}}"><i class="fa fa-pencil tw:ml-1" aria-hidden="true"></i></a>
                                             @endif</td>
                                     @endif
                                     @if($alumnos['unidad2']<80)
                                         <td style="color: black;background: red;">{{$alumnos['unidad2']}}
                                             @if($unidad ==19)
-                                            <a class="modificar_cal2"   href="#" data-id_carga_academica2="{{$alumnos['id_carga']}}"><span class="oi oi-pencil p-1"></span></a>
+                                            <a class="modificar_cal2"   href="#" data-id_carga_academica2="{{$alumnos['id_carga']}}"><i class="fa fa-pencil tw:ml-1" aria-hidden="true"></i></a>
                                             @endif
                                         </td>
                                     @else
                                         <td style="color: black">{{$alumnos['unidad2']}}  @if($unidad ==19)
-                                                <a class="modificar_cal2"   href="#" data-id_carga_academica2="{{$alumnos['id_carga']}}"><span class="oi oi-pencil p-1"></span></a>
+                                                <a class="modificar_cal2"   href="#" data-id_carga_academica2="{{$alumnos['id_carga']}}"><i class="fa fa-pencil tw:ml-1" aria-hidden="true"></i></a>
                                             @endif</td>
                                     @endif
                                     @if($alumnos['unidad3']<80)
                                         <td style="color: black;background: red;">{{$alumnos['unidad3']}}   @if($unidad ==19)
-                                                <a class="modificar_cal3"   href="#" data-id_carga_academica3="{{$alumnos['id_carga']}}"><span class="oi oi-pencil p-1"></span></a>
+                                                <a class="modificar_cal3"   href="#" data-id_carga_academica3="{{$alumnos['id_carga']}}"><i class="fa fa-pencil tw:ml-1" aria-hidden="true"></i></a>
                                             @endif</td>
                                     @else
                                         <td style="color: black">{{$alumnos['unidad3']}}  @if($unidad ==19)
-                                                <a class="modificar_cal3"   href="#" data-id_carga_academica3="{{$alumnos['id_carga']}}"><span class="oi oi-pencil p-1"></span></a>
+                                                <a class="modificar_cal3"   href="#" data-id_carga_academica3="{{$alumnos['id_carga']}}"><i class="fa fa-pencil tw:ml-1" aria-hidden="true"></i></a>
                                             @endif</td>
                                     @endif
 
                                     @if($alumnos['unidad4']<80)
                                         <td style="color: black;background: red;">{{$alumnos['unidad4']}}
                                             @if($unidad ==19)
-                                            <a class="modificar_cal4"   href="#" data-id_carga_academica4="{{$alumnos['id_carga']}}"><span class="oi oi-pencil p-1"></span></a>
+                                            <a class="modificar_cal4"   href="#" data-id_carga_academica4="{{$alumnos['id_carga']}}"><i class="fa fa-pencil tw:ml-1" aria-hidden="true"></i></a>
                                             @endif</td>
                                     @else
                                         <td style="color: black">{{$alumnos['unidad4']}}
                                             @if($unidad ==19)
-                                            <a class="modificar_cal4"   href="#" data-id_carga_academica4="{{$alumnos['id_carga']}}"><span class="oi oi-pencil p-1"></span></a>
+                                            <a class="modificar_cal4"   href="#" data-id_carga_academica4="{{$alumnos['id_carga']}}"><i class="fa fa-pencil tw:ml-1" aria-hidden="true"></i></a>
                                             @endif</td>
                                     @endif
                                     @if($alumnos['promedio']<80)
@@ -338,7 +326,7 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                                <td class="text-center"><input style="width: 7em" type="button" class="btn btn-primary tooltip-options link" id="guardar_calificacion" name="guardar_calificacion" data-token="{{ csrf_token() }}" data-id_unidad="1" data-toggle="tooltip" data-placement="top" value="guardar"></td>
+                                <td class="tw:text-center"><input style="width: 7em" type="button" class="tooltip-options link tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:bg-brand-500 tw:px-3 tw:py-2 tw:text-sm tw:font-medium tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:cursor-not-allowed tw:disabled:bg-brand-300" id="guardar_calificacion" name="guardar_calificacion" data-token="{{ csrf_token() }}" data-id_unidad="1" data-toggle="tooltip" data-placement="top" value="guardar"></td>
                                 </tr>
                                 <td></td>
                                 <td></td>
@@ -355,7 +343,7 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                                <td class="text-center"><input style="width: 7em" type="button" class="btn btn-primary tooltip-options link" id="guardar_calificacion" name="guardar_calificacion" data-token="{{ csrf_token() }}" data-id_unidad="1" data-toggle="tooltip" data-placement="top" title="La fecha limite para evaluar expiro" value="guardar" disabled></td>
+                                <td class="tw:text-center"><input style="width: 7em" type="button" class="tooltip-options link tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:bg-brand-500 tw:px-3 tw:py-2 tw:text-sm tw:font-medium tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:cursor-not-allowed tw:disabled:bg-brand-300" id="guardar_calificacion" name="guardar_calificacion" data-token="{{ csrf_token() }}" data-id_unidad="1" data-toggle="tooltip" data-placement="top" title="La fecha limite para evaluar expiro" value="guardar" disabled></td>
                                 </tr>
                                 <td></td>
                                 <td></td>
@@ -405,7 +393,7 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                                <td class="text-center"><input style="width: 7em" type="button" class="btn btn-primary tooltip-options link" id="guardar_calificacion" name="guardar_calificacion" data-token="{{ csrf_token() }}" data-id_unidad="2" data-toggle="tooltip" data-placement="top" title="La fecha limite para evaluar expiro" value="guardar" disabled></td>
+                                <td class="tw:text-center"><input style="width: 7em" type="button" class="tooltip-options link tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:bg-brand-500 tw:px-3 tw:py-2 tw:text-sm tw:font-medium tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:cursor-not-allowed tw:disabled:bg-brand-300" id="guardar_calificacion" name="guardar_calificacion" data-token="{{ csrf_token() }}" data-id_unidad="2" data-toggle="tooltip" data-placement="top" title="La fecha limite para evaluar expiro" value="guardar" disabled></td>
                                 </tr>
                                 <tr>
                                     <td></td>
@@ -437,7 +425,7 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                                <td class="text-center"><input style="width: 7em" type="button" class="btn btn-primary tooltip-options link" id="guardar_calificacion" name="guardar_calificacion" data-token="{{ csrf_token() }}" data-id_unidad="2" data-toggle="tooltip" data-placement="top"  value="guardar"></td>
+                                <td class="tw:text-center"><input style="width: 7em" type="button" class="tooltip-options link tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:bg-brand-500 tw:px-3 tw:py-2 tw:text-sm tw:font-medium tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:cursor-not-allowed tw:disabled:bg-brand-300" id="guardar_calificacion" name="guardar_calificacion" data-token="{{ csrf_token() }}" data-id_unidad="2" data-toggle="tooltip" data-placement="top"  value="guardar"></td>
                                 </tr>
                                 <tr>
                                     <td></td>
@@ -470,7 +458,7 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                                <td class="text-center"><input style="width: 7em" type="button" class="btn btn-primary tooltip-options link" id="guardar_calificacion" name="guardar_calificacion" data-token="{{ csrf_token() }}" data-id_unidad="3" data-toggle="tooltip" data-placement="top" title="La fecha limite para evaluar expiro" value="guardar" disabled></td>
+                                <td class="tw:text-center"><input style="width: 7em" type="button" class="tooltip-options link tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:bg-brand-500 tw:px-3 tw:py-2 tw:text-sm tw:font-medium tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:cursor-not-allowed tw:disabled:bg-brand-300" id="guardar_calificacion" name="guardar_calificacion" data-token="{{ csrf_token() }}" data-id_unidad="3" data-toggle="tooltip" data-placement="top" title="La fecha limite para evaluar expiro" value="guardar" disabled></td>
                                 </tr>
                                 <tr>
                                     <td></td>
@@ -509,7 +497,7 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                                <td class="text-center"><input style="width: 7em" type="button" class="btn btn-primary tooltip-options link" id="guardar_calificacion" name="guardar_calificacion" data-token="{{ csrf_token() }}" data-id_unidad="3" data-toggle="tooltip" data-placement="top"  value="guardar"></td>
+                                <td class="tw:text-center"><input style="width: 7em" type="button" class="tooltip-options link tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:bg-brand-500 tw:px-3 tw:py-2 tw:text-sm tw:font-medium tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:cursor-not-allowed tw:disabled:bg-brand-300" id="guardar_calificacion" name="guardar_calificacion" data-token="{{ csrf_token() }}" data-id_unidad="3" data-toggle="tooltip" data-placement="top"  value="guardar"></td>
                                 </tr>
                                 <tr>
                                     <td></td>
@@ -549,7 +537,7 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                                <td class="text-center"><input style="width: 7em" type="button" class="btn btn-primary tooltip-options link" id="guardar_calificacion" name="guardar_calificacion" data-token="{{ csrf_token() }}" data-id_unidad="4" data-toggle="tooltip" data-placement="top" title="La fecha limite para evaluar expiro" value="guardar" disabled></td>
+                                <td class="tw:text-center"><input style="width: 7em" type="button" class="tooltip-options link tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:bg-brand-500 tw:px-3 tw:py-2 tw:text-sm tw:font-medium tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:cursor-not-allowed tw:disabled:bg-brand-300" id="guardar_calificacion" name="guardar_calificacion" data-token="{{ csrf_token() }}" data-id_unidad="4" data-toggle="tooltip" data-placement="top" title="La fecha limite para evaluar expiro" value="guardar" disabled></td>
                                 </tr>
                                 <tr>
                                     <td></td>
@@ -595,7 +583,7 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                                <td class="text-center"><input style="width: 7em" type="button" class="btn btn-primary tooltip-options link" id="guardar_calificacion" name="guardar_calificacion" data-token="{{ csrf_token() }}" data-id_unidad="4" data-toggle="tooltip" data-placement="top"  value="guardar"></td>
+                                <td class="tw:text-center"><input style="width: 7em" type="button" class="tooltip-options link tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:bg-brand-500 tw:px-3 tw:py-2 tw:text-sm tw:font-medium tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:cursor-not-allowed tw:disabled:bg-brand-300" id="guardar_calificacion" name="guardar_calificacion" data-token="{{ csrf_token() }}" data-id_unidad="4" data-toggle="tooltip" data-placement="top"  value="guardar"></td>
                                 </tr>
                                 <tr>
                                   
@@ -682,8 +670,7 @@
 
 
                         </tbody>
-                    </table>
-                </div>
+                    </x-panel.tabla>
             </div>
 
 
@@ -692,27 +679,22 @@
 
 
         @endif
-        <div class="modal fade" id="modal_modificar_cal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <form id="form_mod_periodo_ingles" class="form" action="{{url("/ingles/guardar_modificacion/calificacion")}}" role="form" method="POST" >
-                        {{ csrf_field() }}
-                        <div class="modal-header bg-info">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title text-center" id="myModalLabel">Modificar Calificación</h4>
-                        </div>
-                        <div class="modal-body">
-                            <div id="contenedor_modificar_cal">
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                            <button     type="submit"  style="" class="btn btn-primary"  >Guardar</button>
-                        </div>
-                    </form>
+        <x-panel.modal id="modal_modificar_cal" sin-relleno clase-cerrar="close" aria-labelledby="myModalLabel">
+            <form id="form_mod_periodo_ingles" class="form" action="{{url("/ingles/guardar_modificacion/calificacion")}}" role="form" method="POST" >
+                {{ csrf_field() }}
+                <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                    <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="myModalLabel">Modificar Calificación</h4>
                 </div>
-            </div>
-        </div>
+                <div class="tw-modal-cuerpo">
+                    <div id="contenedor_modificar_cal">
+                    </div>
+                </div>
+                <x-panel.modal-pie>
+                    <x-panel.boton variante="secundario" data-dismiss="modal">Cancelar</x-panel.boton>
+                    <x-panel.boton type="submit">Guardar</x-panel.boton>
+                </x-panel.modal-pie>
+            </form>
+        </x-panel.modal>
 
     </main>
     <script type="text/javascript">

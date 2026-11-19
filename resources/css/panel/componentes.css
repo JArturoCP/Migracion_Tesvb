@@ -309,3 +309,8 @@ body.tw-modal-abierto {
 .tw-modulo .tw\:flex-wrap > * {
   min-width: 0;
 }
+/* Tabla con celdas centradas (antes .text-center de Bootstrap en el <table>). */
+.tw-tabla-centrada th,
+.tw-tabla-centrada td {
+  text-align: center;
+}

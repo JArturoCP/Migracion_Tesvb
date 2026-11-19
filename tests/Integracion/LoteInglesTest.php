@@ -179,3 +179,24 @@ it('Periodos de calificaciones se abre en el panel con sus modales y fragmentos'
         loteInglesFragmento($this, "/ingles/modificar_per/$unidad/{$g->id_nivel}/{$g->id_grupo}");
     }
 });
+
+it('Calificaciones del grupo (mostrar_alumnos) se abre en el panel sin y con alumnos inscritos', function () {
+    entrarProfesorIngles($this);
+    $g = grupoProfesorIngles() ?? $this->markTestSkipped('El profesor no tiene grupos en el periodo');
+    $ruta = "/ingles/Calificaciones/mostrar_alumnos/{$g->id_nivel}/{$g->id_grupo}";
+
+    // con los datos de prueba (sin inscritos en el periodo)
+    $html = loteInglesComparar($this, $ruta);
+    expect($html)->toContain('id="modal_modificar_cal"');
+
+    // con un alumno inscrito (se revierte con la transacción)
+    $periodo = (int) session('periodo_ingles');
+    $alumno = (int) DB::table('gnral_alumnos')->orderBy('id_alumno', 'desc')->value('id_alumno');
+    DB::table('in_carga_academica_ingles')->insert(['id_alumno' => $alumno, 'id_nivel' => $g->id_nivel, 'id_grupo' => $g->id_grupo, 'id_periodo_ingles' => $periodo, 'estado_nivel' => (int) DB::table('eva_tipo_curso')->value('id_tipo_curso')]);
+    DB::table('in_validar_carga')->insert(['id_alumno' => $alumno, 'id_periodo' => $periodo, 'id_estado' => 2, 'comentario' => 'prueba']);
+
+    $html = loteInglesComparar($this, $ruta);
+    if ($html !== '') {
+        expect($html)->toContain('id="table_enviado"')->toContain('/ingles/lista_asistencia/');
+    }
+});

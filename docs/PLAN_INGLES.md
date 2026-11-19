@@ -243,3 +243,7 @@ Mismo formato (`panel.dashboard.*`), periodo = `Session periodo_ingles`, solo le
 | Radial | Avance de captura de calificaciones de todos los grupos | `in_cal_periodo` unidades 1 y 4 (`evaluada`) |
 | Línea | Alumnos inscritos y vouchers aceptados por periodo (últimos 6) | mismas reglas por periodo |
 | Tabla | Vouchers: en espera / aceptados / rechazados | `in_voucher_pago.id_estado_valida_voucher` (pantallas En espera, Aceptados, Rechazados; falta confirmar los ids de aceptado y rechazado en sus consultas) |
+
+## 5. Lote I-1 (profesor) terminado (2026-11-18)
+
+Detalle en `docs/LOTE1_INGLES.md`. Pendientes: lotes I-2 (alumno) a I-5 (unidad 19), y las métricas de la unidad 19 (§4, por aprobar).
