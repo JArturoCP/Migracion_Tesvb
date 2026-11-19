@@ -1,22 +1,13 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 @section('title', 'DatosHistoricos')
+@include('partials.panel.recursos_app', ['datatables' => true])
 @section('content')
 
+<main class="tw-pantalla tw:space-y-6">
+    <x-panel.encabezado titulo="DATOS HISTÓRICOS" />
 
-<main class="col-md-12">
-  <form>
-  <div class="row">
-    <div class="col-sm-10 col-md-10 col-lg-10 col-sm-offset-1 col-md-offset-1 col-lg-offset-1">
-      <div class="panel panel-info">
-        <div class="panel-heading">Datos Históricos</div>
-      </div>
-    </div>
-  </div>
-
-    <div class="row">
-      <div class="col-sm-10 col-md-10 col-lg-10 col-sm-offset-1 col-md-offset-1 col-lg-offset-1">
-        <table class="table table-bordered tabla-grande2" id="paginacion">
-
+    <x-panel.tarjeta sin-relleno>
+        <x-panel.tabla id="paginacion">
           <thead>
             <tr>
               <th>No. Cuenta</th>
@@ -34,7 +25,7 @@
             @foreach($historico as $historico)
             <tr>
               <td>{{$historico->cuenta}}</td>
-              <td>{{$historico->nombre}} {{$historico->apaterno}} {{$historico->amaterno}}</td>
+              <td class="tw:font-medium tw:text-gray-800 tw:dark:text-white/90">{{$historico->nombre}} {{$historico->apaterno}} {{$historico->amaterno}}</td>
               <td>{{$historico->semestre}}</td>
               <td>{{$historico->grupo}}</td>
               <td>{{$historico->descripcion}}</td>
@@ -45,16 +36,13 @@
             </tr>
             @endforeach  
           </tbody>
-        </table>
-      </div>
-    </div>
-</form>
+        </x-panel.tabla>
+    </x-panel.tarjeta>
 </main>
 
 <script>
-  $(document).ready(function(){
-         $('#paginacion').DataTable();
-  });
+$(document).ready(function(){
+    $('#paginacion').DataTable();
+});
 </script>
-
 @endsection

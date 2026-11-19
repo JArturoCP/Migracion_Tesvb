@@ -1,5 +1,6 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 @section('title', 'Relación Personal Docente')
+@include('partials.panel.recursos_app')
 @section('content')
 
     <script>
@@ -8,44 +9,40 @@
   e.relatedTarget // previous active tab
 })
     </script>
-<main class="col-md-12">
+<main class="tw-pantalla tw:space-y-6">
 
    <?php $jefe_division=session()->has('jefe_division')?session()->has('jefe_division'):false;
  $directivo=session()->has('directivo')?session()->has('directivo'):false; ?>
 
-<div class="row">
-	<div class="col-md-5 col-md-offset-3">
-		<div class="panel panel-info">
-	  		<div class="panel-heading">
-	    		<h3 class="panel-title text-center">Relación de Personal Docente</h3>
-	  		</div>
-        @if($directivo==1)
-	  					<div class="panel-body">        
-               <div class="col-md-6 col-md-offset-3">
-                <div class="dropdown">
-                   <select name="selectCarrera" id="selectCarrera" class="form-control">
-                                  <option disabled selected>Selecciona carrera...</option>
-                                @foreach($carreras as $carrera)
-                                    @if($carrera->id_carrera==$id_carrera)
-                                        <option value="{{$carrera->id_carrera}}" selected="selected">{{$carrera->nombre}}</option>
-                                    @else
-                                        <option value="{{$carrera->id_carrera}}" >{{$carrera->nombre}}</option>
-                                    @endif                              
-                                @endforeach
-                                <option value="00" >Agrega Reticula</option>
-                                </select>
-              </div>
-                </div> 
-              </div>
-@endif
+    <x-panel.encabezado titulo="Relación de Personal Docente" />
+
+    @if($directivo==1)
+        <x-panel.tarjeta class="tw:max-w-xl">
+            <div class="dropdown">
+               <x-panel.select etiqueta="Carrera" name="selectCarrera" id="selectCarrera">
+                              <option disabled selected>Selecciona carrera...</option>
+                            @foreach($carreras as $carrera)
+                                @if($carrera->id_carrera==$id_carrera)
+                                    <option value="{{$carrera->id_carrera}}" selected="selected">{{$carrera->nombre}}</option>
+                                @else
+                                    <option value="{{$carrera->id_carrera}}" >{{$carrera->nombre}}</option>
+                                @endif                              
+                            @endforeach
+                            <option value="00" >Agrega Reticula</option>
+               </x-panel.select>
             </div>
-                          <div class="alert alert-danger" role="alert" id="notifi_bloqueo" style="display:none">
-  Menú bloqueado hasta agregar factibilidad de incrementar hrs (si/no)
-</div>
-        </div>
+        </x-panel.tarjeta>
+    @endif
+
+    <div class="alert alert-danger" role="alert" id="notifi_bloqueo" style="display:none">
+        Menú bloqueado hasta agregar factibilidad de incrementar hrs (si/no)
+    </div>
+
 @if(isset($ver))
-<div class="col-md-11 tabla-grande table-responsive">
-<table class="table table-bordered tabla-grande3">
+<x-panel.tarjeta sin-relleno class="tabla-grande">
+  <div class="tw:max-w-full tw:overflow-x-auto">
+<table class="tw-tabla tw-tabla-bordes tw-tabla-compacta tabla-grande3">
+<thead>
 <tr>
         <th rowspan="3">NO CONTROL</th>
         <th>PERIODO ESCOlAR: {{ $periodo }}</th>
@@ -73,11 +70,13 @@
         <th>T</th>
         <th>P</th>
     </tr>
+</thead>
+<tbody>
     @foreach($docentes as $docente)
       @foreach($docente["materias"] as $mates)
   <tr>
     <td>{{ $docente["clave"] }}</td>
-    <td>{{ $docente["nombre"] }}</td>
+    <td class="tw:font-medium tw:text-gray-800 tw:dark:text-white/90">{{ $docente["nombre"] }}</td>
     <td class="text-center">{{ $docente["nombramiento"] }}</td>
     <td>{{ $docente["fecha_ingreso"] }}</td>
     <td>{{ $docente["codigo"] }}</td>
@@ -85,7 +84,7 @@
     <td>{{ $mates["t_lic"] }}</td>
     <td>0</td>
     <td>
-        <select name="selectCaso" id="{{ $docente["id_horario"] }}" class="selectCaso_{{ $docente["id_horario"] }}{{ $mates["id_materia"] }}">
+        <select name="selectCaso" id="{{ $docente["id_horario"] }}" class="tw:rounded tw:border tw:border-gray-300 tw:px-2 tw:py-1 tw:text-xs selectCaso_{{ $docente["id_horario"] }}{{ $mates["id_materia"] }}">
           <option disabled selected>Caso..</option>
           @if($docente["caso"]=="0")
             <option value="SI">SI</option>
@@ -122,7 +121,7 @@
   </tr>
     @endforeach
   @endforeach
-<tr>
+<tr class="tw:font-semibold tw:bg-gray-50 tw:dark:bg-white/5">
   <td colspan="2">TOTALES</td>
   <td></td>
   <td></td>
@@ -137,26 +136,20 @@
   <td colspan="2">{{ $t_hrs }}</td>
   <td></td>
   <td></td>
-
+  <td></td>
 </tr>
+</tbody>
 </table> 
 </div>  
+</x-panel.tarjeta>
 @endif                  	
-	</div>
-  
-  <!--<div class="col-md-3 col-md-offset-5 ml">
-         <button type="button" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-print" aria-hidden="true"></span> Imprimir</button>
-  </div>-->
-
-  </div>		
 </main>
 
 <script>
-
   $(document).ready(function() {
 
     $("#selectCarrera").on('change',function(e){
-      var id_carrera= $("#selectCarrera").val();
+      var id_carrera= $("#selectCarrera").val();
       window.location.href='/relacion/ver/'+id_carrera ;
     });
 

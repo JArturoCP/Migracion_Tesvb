@@ -1,5 +1,6 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 @section('title', 'Distribucion de Hrs.')
+@include('partials.panel.recursos_app', ['blockui' => true])
 @section('content')
 
     <script>
@@ -8,52 +9,51 @@
   e.relatedTarget // previous active tab
 })
     </script>
-<main class="col-md-12">
+<main class="tw-pantalla tw:space-y-6">
      <?php $jefe_division=session()->has('jefe_division')?session()->has('jefe_division'):false;
  $directivo=session()->has('directivo')?session()->has('directivo'):false; ?>
 
-<div class="row">
-	<div class="col-md-5 col-md-offset-3">
-		<div class="panel panel-info">
-	  		<div class="panel-heading">
-	    		<h3 class="panel-title text-center">Distribución de Horas frente a Grupo</h3>
-          <input id="no_alumnos" type="hidden" value="" />
-	  		</div>
-        @if($directivo==1)
-	  					<div class="panel-body">
-                <div class="col-md-6 col-md-offset-3">
-                <div class="dropdown">
-                   <select name="selectCarrera" id="selectCarrera" class="form-control">
-                                  <option disabled selected>Selecciona carrera...</option>
-                                @foreach($carreras as $carrera)
-                                  @if($carrera->id_carrera==$id_carrera)
-                                    <option value="{{$carrera->id_carrera}}" selected="selected">{{$carrera->nombre}}</option>
-                                  @else
-                                    <option value="{{$carrera->id_carrera}}" >{{$carrera->nombre}}</option>
-                                  @endif                                                  
-                                @endforeach
-                                <option value="00" >Agrega Reticula</option>
-                                </select>
-              </div>
-                </div>                     
-	  					</div>
-        @endif
-		</div>
-              <div class="alert alert-danger" role="alert" id="notifi_bloqueo" style="display:none">
-  Menú bloqueado hasta agregar cantidad de alumnos por materia
-</div>	
-	</div>
+    <x-panel.encabezado titulo="Distribución de Horas frente a Grupo" />
+    <input id="no_alumnos" type="hidden" value="" />
+
+    @if($directivo==1)
+        <x-panel.tarjeta class="tw:max-w-xl">
+            <div class="dropdown">
+               <x-panel.select etiqueta="Carrera" name="selectCarrera" id="selectCarrera">
+                              <option disabled selected>Selecciona carrera...</option>
+                            @foreach($carreras as $carrera)
+                              @if($carrera->id_carrera==$id_carrera)
+                                <option value="{{$carrera->id_carrera}}" selected="selected">{{$carrera->nombre}}</option>
+                              @else
+                                <option value="{{$carrera->id_carrera}}" >{{$carrera->nombre}}</option>
+                              @endif                                                  
+                            @endforeach
+                            <option value="00" >Agrega Reticula</option>
+               </x-panel.select>
+            </div>
+        </x-panel.tarjeta>
+    @endif
+
+    <div class="alert alert-danger" role="alert" id="notifi_bloqueo" style="display:none">
+      Menú bloqueado hasta agregar cantidad de alumnos por materia
+    </div>
+
 @if(isset($ver))
-<div class="col-md-11 tabla-grande">
-  <table class="table table-bordered table-hover tabla-grande3 ">
+<x-panel.tarjeta sin-relleno class="tabla-grande">
+  <x-slot:acciones>
+      <x-panel.badge tono="gris">Cantidad Total de Alumnos: {{ $t_alum }}</x-panel.badge>
+  </x-slot:acciones>
+  <div class="tw:max-w-full tw:overflow-x-auto">
+  <table class="tw-tabla tw-tabla-bordes tw-tabla-compacta tabla-grande3">
+  <thead>
   <tr>
     <th rowspan="2">SEMESTRE</th>
     <th>PERIODO ESCOlAR: {{ $periodo }}</th>
     <th rowspan="2">HRS SEMESTRALES POR MATERIA</th>
     <th rowspan="2">NO. GRUPOS POR MATERIAS</th>
     <th rowspan="2">CANTIDAD TOTAL DE ALUMNOS POR MATERIA</th>
-    <th rowspan="2">CUANDO EN LOS GUPOS EXISTAN ALUMNOS DE OTRAS CARRERAS INDICAR EL NOMBRE DE ESTAS PARA EVITAR QUE LOS GRUPOS SE DUPLIQUEN</th>
-    <th rowspan="2">INDICAR EL NUMERO DEL PROFESOR QUE IMPARTE LA MATERIA SEGUN GRUPOS QUE ATIENDA. EL NUMERO DE PROFESOR DEBERA CONICIDIR CON EL ASIGNADO EN LA RELACION DE PERSONAL DOCENTE (FORMATO 03,04,05 ó 06)</th>
+    <th rowspan="2" class="tw:min-w-56 tw:whitespace-normal">CUANDO EN LOS GUPOS EXISTAN ALUMNOS DE OTRAS CARRERAS INDICAR EL NOMBRE DE ESTAS PARA EVITAR QUE LOS GRUPOS SE DUPLIQUEN</th>
+    <th rowspan="2" class="tw:min-w-56 tw:whitespace-normal">INDICAR EL NUMERO DEL PROFESOR QUE IMPARTE LA MATERIA SEGUN GRUPOS QUE ATIENDA. EL NUMERO DE PROFESOR DEBERA CONICIDIR CON EL ASIGNADO EN LA RELACION DE PERSONAL DOCENTE (FORMATO 03,04,05 ó 06)</th>
     <th colspan="2">TOTAL DE HORAS CUBIERTAS CON CATEGORIA</th>
     <th colspan="3">DISTRIBUCION CANTIDAD DE HORAS QUE SE NECESITAN DEBIDO A QUE SON IMPARTIDAS POR</th>
   </tr>
@@ -65,16 +65,18 @@
     <th>ATM</th>
     <th>HONORARIOS</th>
   </tr>
+  </thead>
+  <tbody>
   @foreach($materiass as $materia)
   <?php $first=false; ?>
   <tr>
     <td>{{ $materia ["id_semestre"] }}</td>
-    <td>{{ $materia ["nombre_materia"] }}</td>
+    <td class="tw:font-medium tw:text-gray-800 tw:dark:text-white/90">{{ $materia ["nombre_materia"] }}</td>
     <td>{{ $materia ["horas_totales"] }}</td>
     <td>{{ $materia ["no_grupos"] }}</td>
-    <td class="text_actualiza" id="{{ $materia ["id_distribucion"] }}">
+    <td class="text_actualiza tw:cursor-pointer hover:tw:bg-gray-50 tw:dark:hover:bg-white/5" id="{{ $materia ["id_distribucion"] }}">
         <div id="almacena{{ $materia ["id_distribucion"] }}">{{ $materia ["cantidad"] }}</div>
-        <input style="display:none" type="number" value="" placeholder="{{ $materia ["cantidad"] }}" id="no_alu{{ $materia ["id_distribucion"] }}"/>
+        <input style="display:none" type="number" class="tw:rounded tw:border tw:border-gray-300 tw:px-2 tw:py-1 tw:w-20" value="" placeholder="{{ $materia ["cantidad"] }}" id="no_alu{{ $materia ["id_distribucion"] }}"/>
     </td>
     <td>0</td> <!-- alumnos de otras carreras -->
     <td>{{ $materia["clave"] }} <br></td>
@@ -87,7 +89,7 @@
 @endforeach
   <tr>
     <td>9</td>
-    <td>RESIDENCIA PROFESIONAL</td>
+    <td class="tw:font-medium tw:text-gray-800 tw:dark:text-white/90">RESIDENCIA PROFESIONAL</td>
     <td>{{ $resi_hrs }}</td>
     <td>{{ "N.A" }}</td>
     <td>0</td>
@@ -103,7 +105,7 @@
     <td>0</td>
     <td>0</td>
   </tr>
-  <tr>
+  <tr class="tw:font-semibold tw:bg-gray-50 tw:dark:bg-white/5">
     <td colspan="2" class="text-center">TOTALES</td>
     <td>{{ $total_matr }}</td>
     <td></td>
@@ -116,18 +118,12 @@
     <td></td>
     <td></td>
   </tr>
-</table> 
-
-      <div class="col-md-3 col-md-offset-5">
-<h4>Cantidad Total de Alumnos:<br>{{ $t_alum }}</h4>
+  </tbody>
+  </table> 
   </div>
-  <!--<div class="col-md-3 col-md-offset-5 ml">
-         <button type="button" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-print" aria-hidden="true"></span> Imprimir</button>
-  </div>-->
-</div>
+</x-panel.tarjeta>
 @endif
-
-  </div>		
+		
 </main>
 <script>
 function bloqueo()
@@ -143,7 +139,7 @@ function bloqueo()
 $(".link").tooltip({html:true});
 
     $("#selectCarrera").on('change',function(e){
-      var id_carrera= $("#selectCarrera").val();
+      var id_carrera= $("#selectCarrera").val();
       window.location.href='/distribucion/'+id_carrera ;
     });
 
@@ -187,6 +183,4 @@ $(".link").tooltip({html:true});
 @endif
 </script>
 
-
 @endsection
-
