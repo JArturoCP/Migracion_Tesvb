@@ -62,3 +62,25 @@ Total: **6 vistas** (5 pantallas + 1 parcial) con 4 modales y 5 formularios: men
 
 - `tests/Feature/Panel/ComplementariasAlumnoVistasTest.php`: cada rama con datos sintéticos contra la versión anterior (menos de 40 horas, 40 horas, actividad repetida, edición, evidencias faltantes 0/2/3, Liberación y Créditos).
 - `tests/Integracion/ComplementariasAlumnoTest.php`: las 4 opciones del menú y la edición con `alumno02` y `alumno01` contra MySQL (transacción revertida).
+
+## 4. Revisión de pantallas faltantes (2026-11-18)
+
+**`evidencia_alumnos`:** no existe ninguna vista con ese nombre (`resources/views/**/evidencia_alumnos*.blade.php` no da resultados, ni hay referencias en controladores, rutas o vistas, ni aparece en el historial de git). La pantalla de evidencias del alumno es `actividades_complementarias.alumnos.carga_evidencias_alumnos` (`GET /evidencias_alumnos`, `EvidenciasAlumnosController@index`, menú Complementarias › Evidencias), ya migrada en `64a7658`. Las otras vistas con "evidencia" en el nombre son de otros módulos o roles: `actividades_complementarias.profesor.evaluacion_evidencias` (docente con actividad, la incluye `profesor.index`), `tutorias/profesor/evidencias`, `incidencias/*`, `auditorias/*`.
+
+**Búsqueda completa** (todas las vistas de `actividades_complementarias`, los 20 controladores que las usan o leen tablas `actcomple_*`, sus rutas, `return view`, `@include`, `redirect`, y los enlaces y formularios de las pantallas migradas):
+
+| Lo que sale de las pantallas del alumno | Destino | ¿Vista? |
+|---|---|---|
+| `POST /consulta_actividades` (`#form_confirma`) | `@store` → `redirect('/consulta_actividades')` | No (vuelve a Registrar) |
+| `DELETE /consulta_actividades_elimina/{id}` (`#form_delete`) | `Consulta_modificar_ActividadController@eliminar_registro` → redirect | No |
+| `PUT /consulta_actividades/{id}` (`#modificar_actalu`) | `@update` → redirect | No |
+| `DELETE /consulta_actividades/{id}` (resource) | `@destroy` → redirect | No |
+| `GET /consulta_actividades/create`, `/{id}` (resource) | `@create`, `@show` vacíos | No (respuesta vacía, igual que antes) |
+| `POST /evidencias_alumnos` (`#agrega_evidencia{i}`) | `@store` → `redirect('/evidencias_alumnos')` | No |
+| `GET /ArchivosDocentes/{rubrica}` | archivo del docente | No |
+| `GET /carga_evidencia/{arreglo}` | `EvidenciasAlumnosController@cargar_evidencias` → `abort(501)` | No (ninguna pantalla la enlaza) |
+| create/show/edit de `/evidencias_alumnos`, `/liberacion_alumno`, `/creditos` | métodos vacíos | No |
+
+Todas las vistas de la carpeta tienen dueño identificado: las 5 del alumno (4 pantallas migradas + parcial de edición), `alumnos.mensajes` (compartida: alumno sin actividad aprobada, jefe de división, docente con y sin actividad desde `HomeController`), y las de `jefatura`, `profesor` y `subdireccion` (otros roles; las constancias `/Constancia/{id}` y `/constancias_todas` solo las enlaza `jefatura.imprimir_constancias`).
+
+**Resultado:** no falta ninguna pantalla del alumno. La única que no se rediseñó es `alumnos.mensajes`, por ser compartida con otros roles (§2).
