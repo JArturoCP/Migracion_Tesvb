@@ -1,5 +1,5 @@
 {{--
-    Botón "Cambiar periodo" del header (mismo estilo que el botón de modo oscuro de TailAdmin).
+    Botón "Cambiar periodo" del header (marcado en partials/panel/boton_periodo, compartido con el periodo de inglés).
     Abre el modal de partials/panel/periodos.blade.php (evento "abrir-periodos"; enlaces GET /periodo/{id}).
 
     Se muestra con EXACTAMENTE las mismas condiciones que los 4 íconos de calendario (#periodo) de
@@ -34,24 +34,12 @@
 ?>
 @if($mostrar_periodo)
     <?php
-        // "AGOSTO 2026-ENERO 2027" → "AGO 2026 – ENE 2027"
-        $meses = ['ENERO' => 'ENE', 'FEBRERO' => 'FEB', 'MARZO' => 'MAR', 'ABRIL' => 'ABR', 'MAYO' => 'MAY', 'JUNIO' => 'JUN',
-            'JULIO' => 'JUL', 'AGOSTO' => 'AGO', 'SEPTIEMBRE' => 'SEP', 'OCTUBRE' => 'OCT', 'NOVIEMBRE' => 'NOV', 'DICIEMBRE' => 'DIC'];
-        $periodo_corto = trim(preg_replace('/\s*-\s*/', ' – ', strtr(mb_strtoupper((string) Session::get('nombre_periodo')), $meses)));
+        // Si en la misma pantalla está el botón del periodo de inglés (partials/panel/periodo_ingles_header),
+        // los dos se ven igual y solo los distingue el tooltip.
+        $hay_periodo_ingles = session()->has('profesor_ingles') || ! empty($moduloIngles);
     ?>
-    <button
-        type="button"
-        @click="$dispatch('abrir-periodos')"
-        title="Cambiar periodo"
-        aria-label="Cambiar periodo{{ $periodo_corto !== '' ? ' (actual: ' . $periodo_corto . ')' : '' }}"
-        class="tw:relative tw:inline-flex tw:h-11 tw:min-w-11 tw:shrink-0 tw:items-center tw:justify-center tw:gap-2 tw:rounded-[10px] tw:border tw:border-gray-300 tw:bg-transparent tw:px-3 tw:text-gray-700 tw:shadow-theme-xs tw:transition-all tw:select-none tw:hover:bg-gray-50 tw:hover:text-gray-800 tw:focus-visible:ring-3 tw:focus-visible:ring-gray-300/50 tw:focus-visible:outline-hidden tw:active:translate-y-px tw:dark:border-gray-700 tw:dark:bg-gray-800 tw:dark:text-gray-300 tw:dark:hover:bg-gray-700/50 tw:dark:hover:text-white"
-        data-panel-periodo
-    >
-        <svg class="tw:size-5 tw:shrink-0" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M8 2.75v2m8-2v2M3.75 9.25h16.5M5.25 4.75h13.5a1.5 1.5 0 011.5 1.5v12.5a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5V6.25a1.5 1.5 0 011.5-1.5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-        </svg>
-        @if($periodo_corto !== '')
-            <span class="tw:hidden tw:text-sm tw:font-medium tw:whitespace-nowrap tw:xl:inline">{{ $periodo_corto }}</span>
-        @endif
-    </button>
+    @include('partials.panel.boton_periodo', [
+        'titulo' => $hay_periodo_ingles ? 'Periodo escolar' : 'Cambiar periodo',
+        'nombrePeriodo' => Session::get('nombre_periodo'),
+    ])
 @endif

@@ -2611,22 +2611,39 @@
     </div>
 </aside>
 
-{{-- [menu_admin L2507-2531] Modal "Modificar periodo" (perfil de inglés): mismo formulario POST con CSRF.
-     El original lo abría con jQuery al hacer clic en .periodo_ingles (GET /profesores_ingles/periodos/{id});
-     ahora lo hace resources/js/panel/modal_periodo_ingles.js. --}}
-<div class="tw-marco" x-data="{ abierto: false }" @abrir-modal-periodo-ingles.window="abierto = true" @keydown.escape.window="abierto = false">
+{{-- [menu_admin L2507-2531] Modal "Modificar periodo" (perfil de inglés): mismo formulario POST con CSRF y mismos
+     ids (#modal_modificar_periodo, #contenedor_modificar_periodo). El original lo abría con jQuery al hacer clic
+     en .periodo_ingles (GET /profesores_ingles/periodos/{id}); ahora lo hace resources/js/panel/modal_periodo_ingles.js.
+     Mismo diseño y comportamiento que el modal del periodo escolar (partials/panel/periodos, selectorPeriodo):
+     muestra el anterior, el actual y el siguiente, con flechas. La lista (ingles/periodos_ingles) llega por AJAX. --}}
+<div class="tw-marco" x-data="selectorPeriodo({{ (int) Session::get('periodo_ingles') }})" @abrir-modal-periodo-ingles.window="abrir()" @keydown.escape.window="cerrar()">
     <div x-cloak x-show.important="abierto" x-transition.opacity class="tw:fixed tw:inset-0 tw:z-99999 tw:flex tw:items-center tw:justify-center tw:overflow-y-auto tw:p-5" id="modal_modificar_periodo" role="dialog" aria-modal="true" aria-labelledby="myModalLabel">
-        <div class="tw:fixed tw:inset-0 tw:h-full tw:w-full tw:bg-gray-400/50 tw:backdrop-blur-[32px]" @click="abierto = false"></div>
-        <div class="tw:relative tw:w-full tw:max-w-lg tw:rounded-3xl tw:bg-white tw:p-6 tw:dark:bg-gray-900 tw:lg:p-8">
+        <div class="tw:fixed tw:inset-0 tw:h-full tw:w-full tw:bg-gray-400/50 tw:backdrop-blur-[32px]" @click="cerrar()"></div>
+        <div class="tw:relative tw:w-full tw:max-w-md tw:rounded-3xl tw:bg-white tw:p-6 tw:dark:bg-gray-900 tw:lg:p-8" @click.outside="cerrar()">
             <form class="tw:form" action="" role="form" method="POST">
                 {{ csrf_field() }}
-                <div class="tw:mb-4 tw:flex tw:items-center tw:justify-between">
-                    <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="myModalLabel">Modificar periodo</h4>
-                    <button type="button" @click="abierto = false" aria-label="Cerrar" class="tw:text-2xl tw:leading-none tw:text-gray-500 tw:hover:text-gray-800 tw:dark:text-gray-400">&times;</button>
+                <div class="tw:mb-5 tw:flex tw:items-center tw:justify-between tw:gap-3">
+                    <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="myModalLabel">Selecciona Periodo</h4>
+                    <div class="tw:flex tw:items-center tw:gap-1">
+                        <button type="button" @click="arriba()" aria-label="Periodos anteriores"
+                            class="tw:inline-flex tw:size-9 tw:items-center tw:justify-center tw:rounded-lg tw:border tw:border-gray-300 tw:text-gray-600 tw:hover:bg-gray-50 tw:dark:border-gray-700 tw:dark:text-gray-400 tw:dark:hover:bg-white/5">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" class="tw:rotate-180" aria-hidden="true"><path d="M4.792 7.396L10 12.604l5.208-5.208" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                        </button>
+                        <button type="button" @click="abajo()" aria-label="Periodos siguientes"
+                            class="tw:inline-flex tw:size-9 tw:items-center tw:justify-center tw:rounded-lg tw:border tw:border-gray-300 tw:text-gray-600 tw:hover:bg-gray-50 tw:dark:border-gray-700 tw:dark:text-gray-400 tw:dark:hover:bg-white/5">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.792 7.396L10 12.604l5.208-5.208" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                        </button>
+                    </div>
                 </div>
                 <div id="contenedor_modificar_periodo">
 
 
+                </div>
+                <div class="tw:mt-6 tw:flex tw:justify-end">
+                    <button type="button" @click="cerrar()"
+                        class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:border tw:border-gray-300 tw:bg-white tw:px-4 tw:py-2.5 tw:text-sm tw:font-medium tw:text-gray-700 tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:border-gray-700 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:hover:bg-white/3">
+                        Cancelar
+                    </button>
                 </div>
             </form>
         </div>

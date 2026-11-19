@@ -81,9 +81,10 @@ it('el botón Periodo de Inglés conserva la clase, el id y la ruta del modal de
     $menu = EscenariosPanel::menuIngles();
 
     expect($menu)->toContain('class="periodo_ingles" href="#" id="15"')
-        ->and($header)->toMatch('#<a\s+href="\#"\s+class="periodo_ingles [^"]*"\s+id="15"#')
-        ->toContain('Inglés')
+        ->and($header)->toMatch('#<button[^>]*id="15"[^>]*title="Periodo de inglés"[^>]*class="periodo_ingles [^"]*"#')
         ->toContain('FEB – JUL 2028')
+        ->not->toContain('>Inglés<')
+        ->not->toContain('Periodo de Ingles')
         ->and(file_get_contents(resource_path('js/panel/modal_periodo_ingles.js')))
         ->toContain("'/profesores_ingles/periodos/' + disparador.id")
         ->and(EscenariosPanel::sidebarNuevo())->toContain('id="contenedor_modificar_periodo"');
@@ -101,7 +102,46 @@ it('la lista de periodos de inglés conserva datos y enlaces', function () {
     $viejo = view('antes::ingles.periodos_ingles', $datos)->render();
 
     expect(EscenariosPanel::enlaces($nuevo))->toBe(EscenariosPanel::enlaces($viejo))
+        ->and($nuevo)->toContain('x-show.important="visible(14)"')
+        ->and(strpos($nuevo, 'AGOSTO 2027-ENERO 2028'))->toBeLessThan(strpos($nuevo, 'FEBRERO-JULIO 2028'))
         ->and($nuevo)->toContain('/recargar/periodos_ingles/14')
         ->toContain('INGLÉS FEBRERO-JULIO 2028')
         ->toContain('INGLÉS AGOSTO 2027-ENERO 2028');
+});
+
+it("el botón del periodo de inglés usa el mismo diseño que el del periodo escolar y solo cambia el tooltip", function () {
+    $this->actingAs(EscenariosPanel::preparar("alumno", ["semestre" => 3]));
+    session(["nombre_periodo" => "AGOSTO 2026-ENERO 2027", "nombre_periodo_ingles" => "INGLÉS AGOSTO 2026-ENERO 2027"]);
+    View::share("moduloIngles", true);
+    $header = EscenariosPanel::headerNuevo();
+
+    preg_match_all("#<button[^>]*title=\"Periodo (escolar|de inglés)\"[^>]*>(.*?)</button>#s", $header, $botones);
+    expect($botones[1])->toBe(["de inglés", "escolar"]);
+    $clases = array_map(fn ($b) => preg_match("#class=\"(?:periodo_ingles )?([^\"]*)\"#", $b, $m) ? $m[1] : null, $botones[0]);
+    expect($clases[0])->toBe($clases[1])
+        ->and($botones[2][0])->toBe($botones[2][1])
+        ->and($botones[2][0])->toContain("AGO 2026 – ENE 2027");
+});
+
+it("fuera de inglés el botón escolar conserva su tooltip y el profesor solo tiene el de inglés", function () {
+    $this->actingAs(EscenariosPanel::preparar("directivo", []));
+    expect(EscenariosPanel::headerNuevo())->toContain("title=\"Cambiar periodo\"")->not->toContain("periodo_ingles");
+    EscenariosPanel::vaciar();
+
+    $this->actingAs(EscenariosPanel::preparar("ingles", []));
+    $header = EscenariosPanel::headerNuevo();
+    expect(substr_count($header, "title=\"Periodo de inglés\""))->toBe(1)
+        ->and(EscenariosPanel::botonesPeriodo($header))->toBe(0);
+});
+
+it("el modal de periodos de inglés tiene el diseño del modal escolar y conserva ids y formulario", function () {
+    $this->actingAs(EscenariosPanel::preparar("ingles", []));
+    session(["periodo_ingles" => 15]);
+    $sidebar = EscenariosPanel::sidebarNuevo();
+
+    expect($sidebar)->toContain("x-data=\"selectorPeriodo(15)\" @abrir-modal-periodo-ingles.window=\"abrir()\"")
+        ->toContain("id=\"modal_modificar_periodo\"")
+        ->toContain("id=\"contenedor_modificar_periodo\"")
+        ->toContain("Selecciona Periodo");
+    expect(EscenariosPanel::enlaces($sidebar))->toContain("POST ");
 });
