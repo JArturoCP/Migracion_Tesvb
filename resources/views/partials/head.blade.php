@@ -21,7 +21,11 @@
               Portal del Tecnológico de Estudios Superiores de Valle de Bravo
             </div>
             <div class="col-xs-3 col-sm-3 col-md-2">  
-              <label  href="{{ URL::asset ('assets/img/tes.png') }}" target="_blank"><img id="logo3" src="{{ URL::asset ('assets/img/tes.png') }}" /></label>
+              @hasSection('login_home_link')
+                  <a class="tesvb-login__home-link" href="{{ url('/') }}" aria-label="TESVB — Ir al inicio"><img id="logo3" src="{{ URL::asset ('assets/img/tes.png') }}" alt="Tecnológico de Estudios Superiores de Valle de Bravo" /></a>
+              @else
+                  <label  href="{{ URL::asset ('assets/img/tes.png') }}" target="_blank"><img id="logo3" src="{{ URL::asset ('assets/img/tes.png') }}" alt="Tecnológico de Estudios Superiores de Valle de Bravo" /></label>
+              @endif
             </div>
           </div>
              
