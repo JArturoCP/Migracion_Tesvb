@@ -693,10 +693,7 @@
                     @if($unidad==19)
                     
                         <li>
-                        <li><a href="{{url('/ingles/')}}" class="tw:group tw:menu-item tw:menu-item-inactive" data-panel-enlace>
-@include('partials.panel.iconos.paginas')
-<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Inglés</span>
-</a></li>
+@include('partials.panel.menu_ingles')
                         </li>
 
                     @endif
@@ -1948,10 +1945,7 @@
                     </li>
 
                         <li>
-                        <li><a href="{{url('/ingles/')}}" class="tw:group tw:menu-item tw:menu-item-inactive" data-panel-enlace>
-@include('partials.panel.iconos.paginas')
-<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Inglés</span>
-</a></li>
+@include('partials.panel.menu_ingles')
                         </li>
 
                         <li>
@@ -2171,10 +2165,7 @@
                     @if($profesor_ingles==true)
                     
                         <li>
-                        <li><a href="{{url('/ingles/')}}" class="tw:group tw:menu-item tw:menu-item-inactive" data-panel-enlace>
-@include('partials.panel.iconos.paginas')
-<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Inglés</span>
-</a></li>
+@include('partials.panel.menu_ingles')
                         </li>
                     
                     @endif

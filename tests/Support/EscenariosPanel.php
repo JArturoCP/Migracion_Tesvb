@@ -293,6 +293,9 @@ class EscenariosPanel
             'p1' => DB::table('gnral_periodos')->where('id_periodo', 9)->first(),
             'p2' => DB::table('gnral_periodos')->where('id_periodo', 10)->first(),
             'men' => 'MENSAJE GLOBAL DE PRUEBA',
+            // HomeController L72-74: periodo de inglés vigente, para todos los usuarios
+            'periodo_ingles' => 12,
+            'nombre_periodo_ingles' => 'INGLÉS AGOSTO 2026-ENERO 2027',
         ];
 
         if ($rol === 'alumno') {
@@ -308,7 +311,8 @@ class EscenariosPanel
                 }
             }
         } elseif ($rol === 'ingles') {
-            $sesion += ['profesor_ingles' => true, 'tipo_persona' => 3, 'nombre_ingles' => 'PROFESOR DE INGLÉS', 'nombre_periodo_ingles' => 'INGLÉS 2026'];
+            // HomeController L692-701 (con ficha en in_profesores_ingles)
+            $sesion += ['profesor_ingles' => true, 'tipo_persona' => 3, 'nombre_ingles' => 'PROFESOR DE INGLÉS', 'id_usuario' => $usuario->id, 'id_profesor_ingles' => 1];
         } else {
             // Personal (tipo_usuario = 2)
             DB::table('gnral_personales')->insert([
@@ -405,6 +409,19 @@ class EscenariosPanel
             View::flushState();
 
             return Blade::render("@include('partials.menu_admin')@yield('menu')");
+        });
+    }
+
+    /**
+     * Renderiza el menú propio del módulo de inglés (ingles/inicio_ingles/menu_ingles), que se veía dentro
+     * de las pantallas de inglés (layout_ingles) a las que lleva la entrada "Ingles" del menú viejo.
+     */
+    public static function menuIngles(): string
+    {
+        return self::conSesionIntacta(function () {
+            View::flushState();
+
+            return Blade::render("@include('ingles.inicio_ingles.menu_ingles')@yield('menu_ingles')");
         });
     }
 

@@ -46,7 +46,12 @@ it('con sesión muestra Inglés dentro del marco con los mismos recursos y conte
         ->toContain('x-ignore')
         ->toContain('CONTENIDO DEL MODULO')
         ->toContain('var scripts_ingles = 1;')
-        ->not->toContain('Cambiar entre modo claro y oscuro');
+        ->not->toContain('Cambiar entre modo claro y oscuro')
+        // el menú de inglés no se repite dentro del marco: sus opciones están en el sidebar y el periodo en el header
+        ->not->toContain('id="myNavbar"')
+        ->toContain('Inicio de Inglés')
+        ->toContain('data-panel-ingles-periodo');
+    expect($viejo)->toContain('id="myNavbar"');
 
     // todos los CSS y JS del <head> original siguen cargándose
     preg_match('#<head>(.*?)</head>#s', $viejo, $cabeza);

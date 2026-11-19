@@ -12,6 +12,12 @@
  * Por eso se comparan: sidebar = menú viejo sin /logout; y en el header: POST /logout y el botón
  * de periodo exactamente cuando el menú viejo mostraba al menos un ícono de periodo.
  *
+ * Menú de inglés: quien tiene la entrada "Ingles" (M026 unidad 19, M227 alumno, M252 profesor de inglés)
+ * veía además, dentro de las pantallas de inglés, el menú propio del módulo (ingles/inicio_ingles/menu_ingles).
+ * Sus opciones están ahora en el submenú "Inglés" del sidebar, así que el menú viejo se compara junto con
+ * ellas, excepto: "Salir" (header), "Regresar" (/ → "Inicio" del sidebar) y el formulario vacío de su modal
+ * "Modificar periodo" (es el mismo modal que ya está en el sidebar).
+ *
  * Si falla después de editar uno de los dos archivos, falta repetir el cambio en el otro
  * (ver docs/panel.md, "Mantenimiento doble").
  */
@@ -49,6 +55,16 @@ it('el sidebar y el header nuevos tienen exactamente los mismos enlaces que el m
         ->and(array_values(array_filter($enlacesHeader, $esLogout)))->toBe(['POST http://localhost/logout'], 'El header debe tener el formulario POST /logout')
         ->and($header)->toContain('name="_token"');
     $enlacesViejo = array_values(array_filter($enlacesViejoCompletos, fn ($e) => ! $esLogout($e)));
+
+    // Opciones del menú de inglés (ver arriba), solo para quien tiene la entrada "Ingles".
+    if (preg_grep('#^GET \S*/ingles/?$#', $enlacesViejo)) {
+        foreach (EscenariosPanel::enlaces(EscenariosPanel::menuIngles()) as $enlace) {
+            if (! $esLogout($enlace) && $enlace !== 'GET http://localhost' && $enlace !== 'POST ') {
+                $enlacesViejo[] = $enlace;
+            }
+        }
+        sort($enlacesViejo);
+    }
 
     // Cambio de periodo: un solo botón en el header, con las mismas condiciones; ninguno en el sidebar.
     expect(EscenariosPanel::botonesPeriodo($nuevo))->toBe(0, 'El sidebar ya no debe tener el botón de periodo')
