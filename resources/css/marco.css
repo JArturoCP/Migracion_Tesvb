@@ -1,0 +1,734 @@
+/**
+ * Marco TESVB — sidebar y header del panel nuevo (Tailwind CSS v4) para /inicio y para las
+ * pantallas de los módulos, que siguen usando Bootstrap 3/4 y jQuery.
+ *
+ * Basado en TailAdmin Free 2.5.1 (src/css/style.css):
+ *   MIT License — Copyright (c) 2023 TailAdmin — https://tailadmin.com
+ *   Permission is hereby granted, free of charge, to any person obtaining a copy of this
+ *   software and associated documentation files (the "Software"), to deal in the Software
+ *   without restriction, including without limitation the rights to use, copy, modify, merge,
+ *   publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons
+ *   to whom the Software is furnished to do so, subject to the following conditions: the above
+ *   copyright notice and this permission notice shall be included in all copies or substantial
+ *   portions of the Software. THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND.
+ *
+ * Para convivir con Bootstrap sin chocar:
+ *   1. Prefijo: todas las clases de Tailwind se escriben "tw:flex", "tw:hidden"… (prefix(tw)).
+ *   2. Sin preflight global: el reinicio de estilos solo aplica dentro de .tw-marco (sidebar,
+ *      header, modales y pie del marco), con especificidad 0 (:where) y !important, para ganarle
+ *      a los estilos globales de Bootstrap (a, ul, h3, button, label…) sin ganarle a las clases tw:.
+ *   3. Utilidades fuera de capas y con !important: el CSS sin capa (Bootstrap) siempre le gana al
+ *      que está en @layer, sin importar la especificidad. Por eso en las vistas se usa
+ *      x-show.important (Alpine) para poder ocultar elementos con clases de display.
+ *   4. Medidas en px: Bootstrap 3 fija html { font-size: 10px }, y las medidas en rem de Tailwind
+ *      saldrían 37.5 % más chicas. Las media queries no se ven afectadas (usan el tamaño inicial).
+ *   5. Sin el plugin global de formularios: @tailwindcss/forms solo con la estrategia "class".
+ */
+
+@import "@fontsource-variable/outfit";
+
+@import "tailwindcss/theme.css" prefix(tw);
+@import "tailwindcss/utilities.css" source(none) prefix(tw) important;
+@import "tw-animate-css";
+/* Pantallas migradas al panel (layouts/panel): base sin Bootstrap y componentes. */
+@import "./panel/modulo.css";
+@import "./panel/componentes.css";
+@import "./panel/librerias.css";
+@import "./panel/oscuro.css";
+@plugin "@tailwindcss/forms" {
+    strategy: "class";
+}
+
+@source "../views/components/panel";
+/* Vistas de módulos migradas al panel (se escanean solo las clases tw:; el resto no genera CSS). */
+@source "../views/tutorias/alumnos";
+@source "../views/tutorias/actividades_alumno";
+@source "../views/tutorias/calendario_eventos";
+@source "../views/tutorias/eva_tutorias";
+@source "../views/tutorias/partials";
+@source "../views/evaluacion_docente";
+@source "../views/generales";
+@source "../views/formatos";
+@source "../views/horarios";
+@source "../views/plantilla";
+@source "../views/reticulas";
+@source "../views/docentes";
+@source "../views/personal.blade.php";
+@source "../views/editar_personal.blade.php";
+@source "../views/layouts/panel.blade.php";
+@source "../views/home.blade.php";
+@source "../views/layouts/marco.blade.php";
+@source "../views/partials/panel";
+@source "../views/ingles/periodos_ingles.blade.php";
+@source "../views/ingles/inicio_ingles";
+@source "../views/ingles/profesores_ingles";
+@source "../views/ingles/partials/modificar_profesor.blade.php";
+@source "../views/actividades_complementarias/alumnos";
+@source "../views/actividades_complementarias/partials_actividades/alumno";
+@source "../views/panel";
+@source "../js/panel";
+
+@custom-variant dark (&:is(.dark *));
+@theme {
+  --font-*: initial;
+  --font-outfit: "Outfit Variable", Outfit, sans-serif;
+
+  --breakpoint-*: initial;
+  --breakpoint-2xsm: 375px;
+  --breakpoint-xsm: 425px;
+  --breakpoint-3xl: 2000px;
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
+
+  --text-heading-one: 64px;
+  --text-heading-one--line-height: 80px;
+  --text-heading-two: 56px;
+  --text-heading-two--line-height: 72px;
+  --text-heading-three: 48px;
+  --text-heading-three--line-height: 60px;
+  --text-heading-four: 40px;
+  --text-heading-four--line-height: 48px;
+  --text-heading-five: 32px;
+  --text-heading-five--line-height: 40px;
+  --text-heading-six: 24px;
+  --text-heading-six--line-height: 32px;
+
+  --text-title-lg: 20px;
+  --text-title-lg--line-height: 30px;
+  --text-title-sm: 18px;
+  --text-title-sm--line-height: 28px;
+
+  --color-current: currentColor;
+  --color-transparent: transparent;
+  --color-white: #ffffff;
+  --color-black: #101828;
+
+  --color-brand-50: rgba(236, 243, 255, 1);
+  --color-brand-100: rgba(221, 233, 255, 1);
+  --color-brand-200: rgba(194, 214, 255, 1);
+  --color-brand-300: rgba(156, 185, 255, 1);
+  --color-brand-400: rgba(117, 146, 255, 1);
+  --color-brand-500: rgba(70, 95, 255, 1);
+  --color-brand-600: rgba(54, 65, 245, 1);
+  --color-brand-700: rgba(42, 49, 216, 1);
+  --color-brand-800: rgba(37, 45, 174, 1);
+  --color-brand-900: rgba(38, 46, 137, 1);
+  --color-brand-950: rgba(22, 25, 80, 1);
+
+  --shadow-theme-md:
+    0px 4px 8px -2px rgba(16, 24, 40, 0.1),
+    0px 2px 4px -2px rgba(16, 24, 40, 0.06);
+  --shadow-theme-lg:
+    0px 12px 16px -4px rgba(16, 24, 40, 0.08),
+    0px 4px 6px -2px rgba(16, 24, 40, 0.03);
+  --shadow-theme-sm:
+    0px 1px 3px 0px rgba(16, 24, 40, 0.1),
+    0px 1px 2px 0px rgba(16, 24, 40, 0.06);
+  --shadow-theme-xs: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+  --shadow-theme-xl:
+    0px 20px 24px -4px rgba(16, 24, 40, 0.08),
+    0px 8px 8px -4px rgba(16, 24, 40, 0.03);
+  --shadow-datepicker: -5px 0 0 #262d3c, 5px 0 0 #262d3c;
+  --shadow-focus-ring: 0px 0px 0px 4px rgba(70, 95, 255, 0.12);
+  --shadow-slider-navigation:
+    0px 1px 2px 0px rgba(16, 24, 40, 0.1), 0px 1px 3px 0px rgba(16, 24, 40, 0.1);
+  --shadow-tooltip:
+    0px 4px 6px -2px rgba(16, 24, 40, 0.05),
+    -8px 0px 20px 8px rgba(16, 24, 40, 0.05);
+
+  --drop-shadow-4xl:
+    0 35px 35px rgba(0, 0, 0, 0.25), 0 45px 65px rgba(0, 0, 0, 0.15);
+
+  --z-index-1: 1;
+  --z-index-9: 9;
+  --z-index-99: 99;
+  --z-index-999: 999;
+  --z-index-9999: 9999;
+  --z-index-99999: 99999;
+  --z-index-999999: 999999;
+  /* Medidas en px (ver punto 4 de la cabecera). */
+  --spacing: 4px;
+  --text-xs: 12px;
+  --text-xs--line-height: 16px;
+  --text-sm: 14px;
+  --text-sm--line-height: 20px;
+  --text-base: 16px;
+  --text-base--line-height: 24px;
+  --text-lg: 18px;
+  --text-lg--line-height: 28px;
+  --text-xl: 20px;
+  --text-xl--line-height: 28px;
+  --text-2xl: 24px;
+  --text-2xl--line-height: 32px;
+  --text-3xl: 30px;
+  --text-3xl--line-height: 36px;
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-2xl: 16px;
+  --radius-3xl: 24px;
+  --container-xs: 320px;
+  --container-sm: 384px;
+  --container-md: 448px;
+  --container-lg: 512px;
+  --container-xl: 576px;
+  --container-2xl: 672px;
+  --container-3xl: 768px;
+  --blur-xs: 4px;
+  --blur-sm: 8px;
+}
+
+[x-cloak] {
+  display: none !important;
+}
+
+/* Raíz del marco: fuente y tamaño propios, sin heredar los de Bootstrap. */
+.tw-marco {
+  font-family: var(--tw-font-outfit) !important;
+  font-size: 16px !important;
+  line-height: 1.5 !important;
+  font-weight: 400 !important;
+  color: var(--tw-color-gray-700);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Reinicio de estilos (preflight de Tailwind) solo dentro del marco. */
+:where(.tw-marco),
+:where(.tw-marco) *,
+:where(.tw-marco) ::after,
+:where(.tw-marco) ::before,
+:where(.tw-marco) ::backdrop,
+:where(.tw-marco) ::file-selector-button {
+
+  box-sizing: border-box !important; 
+  margin: 0 !important; 
+  padding: 0 !important; 
+  border: 0 solid !important; 
+
+}
+:where(.tw-marco) {
+
+  line-height: 1.5 !important; 
+  -webkit-text-size-adjust: 100% !important; 
+  tab-size: 4 !important; 
+  font-family: --theme(
+    --default-font-family,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    'Helvetica Neue',
+    'Noto Sans',
+    Arial,
+    sans-serif,
+    'Apple Color Emoji',
+    'Segoe UI Emoji',
+    'Segoe UI Symbol',
+    'Noto Color Emoji'
+  ) !important; 
+  font-feature-settings: --theme(--default-font-feature-settings, normal) !important; 
+  font-variation-settings: --theme(--default-font-variation-settings, normal) !important; 
+  -webkit-tap-highlight-color: transparent !important; 
+
+}
+:where(.tw-marco) hr {
+
+  height: 0 !important; 
+  color: inherit !important; 
+  border-top-width: 1px !important; 
+
+}
+:where(.tw-marco) abbr:where([title]) {
+
+  -webkit-text-decoration: underline dotted !important;
+  text-decoration: underline dotted !important;
+
+}
+:where(.tw-marco) h1,
+:where(.tw-marco) h2,
+:where(.tw-marco) h3,
+:where(.tw-marco) h4,
+:where(.tw-marco) h5,
+:where(.tw-marco) h6 {
+
+  font-size: inherit !important;
+  font-weight: inherit !important;
+
+}
+:where(.tw-marco) a {
+
+  color: inherit !important;
+  -webkit-text-decoration: inherit !important;
+  text-decoration: inherit !important;
+
+}
+:where(.tw-marco) b,
+:where(.tw-marco) strong {
+
+  font-weight: bolder !important;
+
+}
+:where(.tw-marco) code,
+:where(.tw-marco) kbd,
+:where(.tw-marco) samp,
+:where(.tw-marco) pre {
+
+  font-family: --theme(
+    --default-mono-font-family,
+    ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    Monaco,
+    Consolas,
+    'Liberation Mono',
+    'Courier New',
+    monospace
+  ) !important; 
+  font-feature-settings: --theme(--default-mono-font-feature-settings, normal) !important; 
+  font-variation-settings: --theme(--default-mono-font-variation-settings, normal) !important; 
+  font-size: 1em !important; 
+
+}
+:where(.tw-marco) small {
+
+  font-size: 80% !important;
+
+}
+:where(.tw-marco) sub,
+:where(.tw-marco) sup {
+
+  font-size: 75% !important;
+  line-height: 0 !important;
+  position: relative !important;
+  vertical-align: baseline !important;
+
+}
+:where(.tw-marco) sub {
+
+  bottom: -0.25em !important;
+
+}
+:where(.tw-marco) sup {
+
+  top: -0.5em !important;
+
+}
+:where(.tw-marco) table {
+
+  text-indent: 0 !important; 
+  border-color: inherit !important; 
+  border-collapse: collapse !important; 
+
+}
+:where(.tw-marco) :-moz-focusring:where(:not(iframe)) {
+
+  outline: auto !important;
+
+}
+:where(.tw-marco) progress {
+
+  vertical-align: baseline !important;
+
+}
+:where(.tw-marco) summary {
+
+  display: list-item !important;
+
+}
+:where(.tw-marco) ol,
+:where(.tw-marco) ul,
+:where(.tw-marco) menu {
+
+  list-style: none !important;
+
+}
+:where(.tw-marco) img,
+:where(.tw-marco) svg,
+:where(.tw-marco) video,
+:where(.tw-marco) canvas,
+:where(.tw-marco) audio,
+:where(.tw-marco) iframe,
+:where(.tw-marco) embed,
+:where(.tw-marco) object {
+
+  display: block !important; 
+  vertical-align: middle !important; 
+
+}
+:where(.tw-marco) img,
+:where(.tw-marco) video {
+
+  max-width: 100% !important;
+  height: auto !important;
+
+}
+:where(.tw-marco) button,
+:where(.tw-marco) input,
+:where(.tw-marco) select,
+:where(.tw-marco) optgroup,
+:where(.tw-marco) textarea,
+:where(.tw-marco) ::file-selector-button {
+
+  font: inherit !important; 
+  font-feature-settings: inherit !important; 
+  font-variation-settings: inherit !important; 
+  letter-spacing: inherit !important; 
+  color: inherit !important; 
+  border-radius: 0 !important; 
+  background-color: transparent !important; 
+  opacity: 1 !important; 
+
+}
+:where(.tw-marco) :where(select:is([multiple],
+:where(.tw-marco) [size])) optgroup {
+
+  font-weight: bolder !important;
+
+}
+:where(.tw-marco) :where(select:is([multiple],
+:where(.tw-marco) [size])) optgroup option {
+
+  padding-inline-start: 20px !important;
+
+}
+:where(.tw-marco) ::file-selector-button {
+
+  margin-inline-end: 4px !important;
+
+}
+:where(.tw-marco) ::placeholder {
+
+  opacity: 1 !important;
+
+}
+@supports (not (-webkit-appearance: -apple-pay-button))  or
+  (contain-intrinsic-size: 1px) {
+:where(.tw-marco) ::placeholder {
+
+    color: color-mix(in oklab, currentcolor 50%, transparent) !important;
+  
+}
+}
+:where(.tw-marco) textarea {
+
+  resize: vertical !important;
+
+}
+:where(.tw-marco) ::-webkit-search-decoration {
+
+  -webkit-appearance: none !important;
+
+}
+:where(.tw-marco) ::-webkit-date-and-time-value {
+
+  min-height: 1lh !important; 
+  text-align: inherit !important; 
+
+}
+:where(.tw-marco) ::-webkit-datetime-edit {
+
+  display: inline-flex !important;
+
+}
+:where(.tw-marco) ::-webkit-datetime-edit-fields-wrapper {
+
+  padding: 0 !important;
+
+}
+:where(.tw-marco) ::-webkit-datetime-edit,
+:where(.tw-marco) ::-webkit-datetime-edit-year-field,
+:where(.tw-marco) ::-webkit-datetime-edit-month-field,
+:where(.tw-marco) ::-webkit-datetime-edit-day-field,
+:where(.tw-marco) ::-webkit-datetime-edit-hour-field,
+:where(.tw-marco) ::-webkit-datetime-edit-minute-field,
+:where(.tw-marco) ::-webkit-datetime-edit-second-field,
+:where(.tw-marco) ::-webkit-datetime-edit-millisecond-field,
+:where(.tw-marco) ::-webkit-datetime-edit-meridiem-field {
+
+  padding-block: 0 !important;
+
+}
+:where(.tw-marco) ::-webkit-calendar-picker-indicator {
+
+  line-height: 1 !important;
+
+}
+:where(.tw-marco) :-moz-ui-invalid {
+
+  box-shadow: none !important;
+
+}
+:where(.tw-marco) button,
+:where(.tw-marco) input:where([type='button'],
+:where(.tw-marco) [type='reset'],
+:where(.tw-marco) [type='submit']),
+:where(.tw-marco) ::file-selector-button {
+
+  appearance: button !important;
+
+}
+:where(.tw-marco) ::-webkit-inner-spin-button,
+:where(.tw-marco) ::-webkit-outer-spin-button {
+
+  height: auto !important;
+
+}
+:where(.tw-marco) [hidden]:where(:not([hidden='until-found'])) {
+
+  display: none !important;
+
+}
+
+/* Bordes y cursor como la plantilla (src/css/style.css @layer base), solo dentro del marco. */
+:where(.tw-marco),
+:where(.tw-marco) *,
+:where(.tw-marco) ::after,
+:where(.tw-marco) ::before {
+  border-color: var(--tw-color-gray-200, currentColor) !important;
+}
+:where(.tw-marco) button:not(:disabled),
+:where(.tw-marco) [role="button"]:not(:disabled) {
+  cursor: pointer !important;
+}
+/* assets/css/estilos.css fija header { height: 100px } en las pantallas de Tutorías. */
+header.tw-marco {
+  height: auto !important;
+}
+@utility menu-item {
+  @apply tw:relative tw:flex tw:items-center tw:gap-3 tw:rounded-lg tw:px-3 tw:py-2 tw:text-sm tw:font-medium;
+}
+
+@utility menu-item-active {
+  @apply tw:bg-brand-50 tw:text-brand-500 tw:dark:bg-brand-500/[0.12] tw:dark:text-brand-400;
+}
+
+@utility menu-item-inactive {
+  @apply tw:text-gray-700 tw:hover:bg-gray-100 tw:hover:text-gray-700 tw:dark:text-gray-300 tw:dark:hover:bg-white/5 tw:dark:hover:text-gray-300;
+}
+
+@utility menu-item-icon-active {
+  @apply tw:text-brand-500 tw:dark:text-brand-400;
+}
+
+@utility menu-item-icon-inactive {
+  @apply tw:text-gray-500 tw:group-hover:text-gray-700 tw:dark:text-gray-400 tw:dark:group-hover:text-gray-300;
+}
+
+@utility menu-item-arrow {
+  @apply tw:absolute tw:top-1/2 tw:right-2.5 tw:-translate-y-1/2 tw:transition-transform tw:duration-200 tw:rtl:right-auto tw:rtl:left-2.5;
+}
+
+@utility menu-item-arrow-active {
+  @apply tw:rotate-180 tw:stroke-brand-500 tw:dark:stroke-brand-400;
+}
+
+@utility menu-item-arrow-inactive {
+  @apply tw:stroke-gray-500 tw:group-hover:stroke-gray-700 tw:dark:stroke-gray-400 tw:dark:group-hover:stroke-gray-300;
+}
+
+@utility menu-dropdown-item {
+  @apply tw:relative tw:flex tw:items-center tw:gap-3 tw:rounded-lg tw:px-3 tw:py-2.5 tw:text-sm tw:font-medium;
+}
+
+@utility menu-dropdown-item-active {
+  @apply tw:bg-brand-50 tw:text-brand-500 tw:dark:bg-brand-500/[0.12] tw:dark:text-brand-400;
+}
+
+@utility menu-dropdown-item-inactive {
+  @apply tw:text-gray-700 tw:hover:bg-gray-100 tw:dark:text-gray-300 tw:dark:hover:bg-white/5;
+}
+
+@utility menu-dropdown-badge {
+  @apply tw:block tw:rounded-full tw:px-2.5 tw:py-0.5 tw:text-xs tw:font-medium tw:text-green-600 tw:uppercase tw:dark:text-green-500;
+}
+
+@utility menu-dropdown-badge-active {
+  @apply tw:bg-green-100 tw:dark:bg-green-500/20;
+}
+
+@utility menu-dropdown-badge-inactive {
+  @apply tw:bg-green-50 tw:group-hover:bg-green-100 tw:dark:bg-green-500/15 tw:dark:group-hover:bg-green-500/20;
+}
+
+@utility menu-dropdown-badge-pro {
+  @apply tw:block tw:rounded-full tw:px-2.5 tw:py-0.5 tw:text-xs tw:font-medium tw:text-brand-600 tw:uppercase tw:dark:text-brand-500;
+}
+
+@utility menu-dropdown-badge-pro-active {
+  @apply tw:bg-brand-100 tw:dark:bg-brand-500/20;
+}
+
+@utility menu-dropdown-badge-pro-inactive {
+  @apply tw:bg-brand-50 tw:group-hover:bg-brand-100 tw:dark:bg-brand-500/15 tw:dark:group-hover:bg-brand-500/20;
+}
+
+@utility docs-menu-item {
+  @apply tw:block tw:rounded-lg tw:px-3 tw:py-1.5 tw:text-sm tw:transition-colors tw:duration-150;
+}
+
+@utility docs-menu-item-active {
+  @apply tw:bg-brand-50 tw:text-brand-500 tw:dark:bg-brand-500/[0.12] tw:dark:text-brand-400;
+}
+
+@utility docs-menu-item-inactive {
+  @apply tw:text-gray-500 tw:hover:bg-gray-100 tw:hover:text-gray-800 tw:dark:text-gray-400 tw:dark:hover:bg-white/5 tw:dark:hover:text-white;
+}
+
+@utility docs-border-item {
+  @apply tw:-ml-[1.5px] tw:block tw:border-l tw:pl-4 tw:text-sm tw:font-normal tw:transition-colors tw:duration-200 tw:rtl:-mr-[1.5px] tw:rtl:ml-0 tw:rtl:border-r tw:rtl:border-l-0 tw:rtl:pr-4 tw:rtl:pl-0;
+}
+
+@utility docs-border-item-active {
+  @apply tw:border-brand-500 tw:text-brand-500;
+}
+
+@utility docs-border-item-inactive {
+  @apply tw:border-transparent tw:text-gray-500 tw:hover:border-gray-800 tw:hover:text-gray-800 tw:dark:text-gray-400 tw:dark:hover:border-gray-400 tw:dark:hover:text-gray-200;
+}
+
+@utility nav-icon-item {
+  @apply tw:flex tw:size-10 tw:items-center tw:justify-center tw:rounded-full;
+}
+
+@utility nav-icon-item-active {
+  @apply tw:border tw:border-gray-200 tw:bg-white tw:text-brand-500 tw:dark:border-gray-800 tw:dark:bg-gray-900;
+}
+
+@utility nav-icon-item-inactive {
+  @apply tw:border tw:border-transparent tw:text-gray-500 tw:hover:border-gray-200 tw:hover:bg-white tw:hover:text-brand-500 tw:dark:text-gray-400 tw:dark:hover:border-gray-800 tw:dark:hover:bg-gray-900 tw:dark:hover:text-brand-500;
+}
+
+@utility no-scrollbar {
+  /* Chrome, Safari and Opera */
+  &::-webkit-scrollbar {
+    display: none !important;
+  }
+  -ms-overflow-style: none !important; /* IE and Edge */
+  scrollbar-width: none !important; /* Firefox */
+}
+
+@utility custom-scrollbar {
+  &::-webkit-scrollbar {
+    @apply tw:size-1.5;
+  }
+
+  &::-webkit-scrollbar-track {
+    @apply tw:rounded-full tw:bg-transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    @apply tw:rounded-full tw:bg-gray-200 tw:hover:bg-gray-300;
+  }
+
+  scrollbar-width: thin;
+  scrollbar-color: var(--tw-color-gray-200, #e5e7eb) transparent;
+}
+
+.dark .tw\:custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #344054;
+}
+
+.dark .tw\:custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: #475467;
+}
+
+.dark.tw\:custom-scrollbar,
+.dark .tw\:custom-scrollbar {
+  scrollbar-color: #344054 transparent;
+}
+
+
+@media (min-width: 1280px) {
+  .tw\:sidebar:not(.tw\:sidebar-static):hover {
+    width: 290px;
+  }
+
+  .tw\:sidebar:not(.tw\:sidebar-static):hover .tw\:logo {
+    display: block;
+  }
+  .tw\:sidebar:not(.tw\:sidebar-static):hover .tw\:logo-icon {
+    display: none;
+  }
+  .tw\:sidebar:not(.tw\:sidebar-static):hover .tw\:sidebar-header {
+    justify-content: space-between;
+  }
+  .tw\:sidebar:not(.tw\:sidebar-static):hover .tw\:menu-group-title {
+    display: block;
+  }
+  .tw\:sidebar:not(.tw\:sidebar-static):hover .tw\:menu-group-icon {
+    display: none;
+  }
+  .tw\:sidebar:not(.tw\:sidebar-static):hover .tw\:menu-item-text {
+    display: inline;
+  }
+  .tw\:sidebar:not(.tw\:sidebar-static):hover .tw\:menu-item-arrow {
+    display: block;
+  }
+  .tw\:sidebar:not(.tw\:sidebar-static):hover .tw\:menu-dropdown {
+    display: flex;
+  }
+
+  aside.tw\:sidebar,
+  .tw\:sidebar,
+  .tw\:sidebar-static {
+    --tw-translate-x: 0 !important;
+    translate: 0 0 !important;
+  }
+}
+
+
+/* Estilos de ApexCharts (copiados de TailAdmin, src/css/style.css "third-party libraries CSS"). */
+
+.apexcharts-text,
+.apexcharts-datalabel,
+.apexcharts-data-labels text {
+  @apply tw:fill-gray-700 tw:dark:fill-gray-400;
+}
+
+.apexcharts-tooltip.apexcharts-theme-light {
+  @apply tw:gap-1 tw:rounded-lg tw:border-gray-200 tw:p-3 tw:shadow-theme-sm tw:dark:border-gray-800 tw:dark:bg-gray-900;
+}
+
+.apexcharts-tooltip-arrow {
+  @apply tw:border-gray-200 tw:dark:border-gray-800 tw:dark:bg-gray-900;
+}
+
+.apexcharts-tooltip-marker {
+  @apply tw:mr-1.5 tw:h-1.5 tw:w-1.5;
+}
+.apexcharts-canvas,
+.apexcharts-canvas * {
+  direction: ltr !important;
+}
+
+.apexcharts-legend-text {
+  @apply tw:pl-5 tw:text-gray-700 tw:dark:text-gray-400;
+}
+.apexcharts-tooltip-series-group {
+  @apply tw:p-0;
+}
+.apexcharts-tooltip-y-group {
+  @apply tw:p-0;
+}
+.apexcharts-tooltip-title {
+  @apply tw:mb-0 tw:border-b-0 tw:bg-transparent tw:p-0 tw:text-[10px] tw:leading-4 tw:text-gray-800 tw:dark:text-white/90;
+}
+.apexcharts-tooltip-text {
+  @apply tw:text-xs tw:text-gray-700 tw:dark:text-white/90;
+}
+.apexcharts-tooltip-text-y-value {
+  @apply tw:font-medium;
+}
+
+.apexcharts-gridline {
+  @apply tw:stroke-gray-100 tw:dark:stroke-gray-800;
+}
+.chartDarkStyle .apexcharts-datalabels-group .apexcharts-text {
+  @apply tw:fill-gray-800 tw:font-semibold tw:dark:fill-white/90;
+}
+

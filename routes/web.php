@@ -18,6 +18,7 @@ Route::get('/n', 'HomeController@n');
     return Response::json($docentes);
 });*/
 Route::middleware('auth')->group(function () {
+    Route::get('/alumno/horario', 'HorarioEstudianteController@index')->name('alumno.horario');
     Route::resource('/inicio', 'HomeController2');
     /*
     |--------------------------------------------------------------------------

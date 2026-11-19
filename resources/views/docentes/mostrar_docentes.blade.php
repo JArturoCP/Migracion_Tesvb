@@ -1,8 +1,9 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 @section('title', 'Docentes')
+@include('partials.panel.recursos_app', ['validacion' => true, 'datatables' => true, 'blockui' => true])
 @section('content')
     
-<main class="col-md-12">
+<main class="tw:w-full tw:lg:w-full tw:px-2">
 
    <?php $jefe_division=session()->has('jefe_division')?session()->has('jefe_division'):false;
  $directivo=session()->has('directivo')?session()->has('directivo'):false;
@@ -10,17 +11,14 @@
     $jefe_personal=session()->has('personal')?session()->has('personal'):false;?>
 
 
-<div class="row">
-        <div class="col-md-5 col-md-offset-4">
-    <div class="panel panel-info">
-        <div class="panel-heading">
-          <h3 class="panel-title text-center">PERSONAL DEL TESVB</h3>
-        </div>
-    </div>  
+<div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+        <div class="tw:w-full tw:px-2">
+    <x-panel.encabezado titulo="PERSONAL DEL TESVB" />  
   </div>
 
-  <div class="col-md-11 cont table-responsive">
-    <table id="paginar_table" class="table table-bordered">
+  <div class="cont tw:w-full tw:px-2">
+    <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:bg-white tw:dark:bg-white/3 tw:dark:border-gray-800">
+<table id="paginar_table" class="tw-tabla tw-tabla-bordes">
 
             <thead>
               <tr>
@@ -65,17 +63,17 @@
                     <tr>
                       {{--  @if($jefe_personal!=null)
                         <td>
-                            <a class="eliminar_personal" data-id="{{ $docente->id_personal}}"><span class="glyphicon glyphicon-trash em2" aria-hidden="true"></span></a>
+                            <a class="eliminar_personal tw:inline-flex tw:size-8 tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:text-red-500 tw:hover:bg-red-50" data-id="{{ $docente->id_personal}}"><span class="fa fa-trash em2" aria-hidden="true"></span></a>
                         </td>
                         @endif
                         --}}
-                                    <td class="text-center">
+                                    <td class="tw:text-center">
                   @if($docente->horas_maxima==0 &&$docente->id_cargo==0 || $docente->horas_maxima==0)
                   {{ "INCOMPLETO" }}<br>
-                  <a class="edita" id="{{ $docente->id_personal }}"><span class="glyphicon glyphicon-cog em2" aria-hidden="true"></span></a>
+                  <a class="edita tw:inline-flex tw:size-8 tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:text-brand-500 tw:hover:bg-brand-50" id="{{ $docente->id_personal }}"><span class="fa fa-cog em2" aria-hidden="true"></span></a>
                   @else
                   {{ "COMPLETO" }}<br>
-                  <a class="edita" id="{{ $docente->id_personal }}"><span class="glyphicon glyphicon-cog em2" aria-hidden="true"></span></a>
+                  <a class="edita tw:inline-flex tw:size-8 tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:text-brand-500 tw:hover:bg-brand-50" id="{{ $docente->id_personal }}"><span class="fa fa-cog em2" aria-hidden="true"></span></a>
                   @endif
                 </td>  
                 <td>{{ $docente->clave}}</td>              
@@ -113,31 +111,32 @@
                 <td>{{ $docente["rfc"] }}</td>
                 <td>{{ $docente["fch_recontratacion"] }}</td>
                 <td>
-                  <div class="row">
-                  <div class="col-md-12">
+                  <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                  <div class="tw:w-full tw:lg:w-full tw:px-2">
                     @foreach($docente["materias"] as $materia)
-                    <div class="col-md-9">
+                    <div class="tw:w-full tw:lg:w-9/12 tw:px-2">
                       <p>{{ $materia["nombre_materia"]}}</p>                   
                     </div>
-                    <div class="col-md-3">
-                      <a class="elimina" id="{{ $materia["id_materia_perfil"] }}"><span class="glyphicon glyphicon-trash em2" aria-hidden="true"></span></a>                    
+                    <div class="tw:w-full tw:lg:w-3/12 tw:px-2">
+                      <a class="elimina tw:inline-flex tw:size-8 tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:text-red-500 tw:hover:bg-red-50" id="{{ $materia["id_materia_perfil"] }}"><span class="fa fa-trash em2" aria-hidden="true"></span></a>                    
                     </div> 
                     @endforeach           
                   </div> 
                   </div>  
                 </td>
-                <td class="text-center">
-                    <a class="agrega" id="{{ $docente ["id_personal"] }}" ><span class="glyphicon glyphicon-tags em2" aria-hidden="true"></span></a>
+                <td class="tw:text-center">
+                    <a class="agrega" id="{{ $docente ["id_personal"] }}" ><span class="fa fa-tags em2" aria-hidden="true"></span></a>
                 </td>
               </tr>
             @endforeach
           @endif
             </tbody>
-          </table> 
+          </table>
+</div> 
   </div>
   <!--@if($jefe_division!=null)
         <div>
-        <a href="/docentes/create" data-toggle="tooltip" data-placement="left" title="AGREGAR DOCENTE" class="btn btn-success btn-lg flotante"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+        <a href="/docentes/create" data-toggle="tooltip" data-placement="left" title="AGREGAR DOCENTE" class="flotante tw:fixed tw:right-6 tw:bottom-6 tw:z-40 tw:inline-flex tw:size-14 tw:items-center tw:justify-center tw:rounded-full tw:bg-brand-500 tw:text-xl tw:text-white tw:shadow-theme-lg tw:hover:bg-brand-600"><span class="fa fa-plus" aria-hidden="true"></span>
             </a>
         </div>
   @endif-->
@@ -145,76 +144,71 @@
 </main>
 
 <!-- Modal para ver materias -->
-<form id="form_ver_materias" class="form" role="form" method="POST">
-<div class="modal fade bs-example-modal-lg" id="modal_materias" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-        <div class="modal-header bg-info">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title" id="myModalLabel">MATERIAS</h4>
+<form id="form_ver_materias" class="" role="form" method="POST">
+<x-panel.modal id="modal_materias" tamano="lg" sin-relleno clase-cerrar="close" aria-labelledby="myModalLabel">
+        <div class="tw:px-6 tw:pt-6 tw:pr-14">
+          
+          <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="myModalLabel">MATERIAS</h4>
         </div>
-        <div class="modal-body">
+        <div class="tw-modal-cuerpo">
           {{ csrf_field() }}
           <input type="hidden" id="prof" name="prof" value="">
           <input type="hidden" id="materias" name="materias" value="">
-          <div class="row">
+          <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
               <div id="contenedor_materias">
 
               </div>
           </div>
         </div>
-                      <div class="modal-footer">
-              <button type="button" class="btn btn-primary acepta">Agregar</button>
+                      <div class="tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+              <button type="button" class="acepta tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm">Agregar</button>
           </div>
-    </div>
-  </div>
-</div>
+    
+  
+</x-panel.modal>
 </form>
 
 <!-- MODAL PARA EDITAR DOCENTES-->
 
-  <div class="modal fade" id="modal_editar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header bg-info">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Datos Académicos</h4>
+  <x-panel.modal id="modal_editar" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="myModalLabel">
+      <div class="tw:px-6 tw:pt-6 tw:pr-14">
+        
+        <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="myModalLabel">Datos Académicos</h4>
       </div>
-      <div class="modal-body">
+      <div class="tw-modal-cuerpo">
 
         <div id="contenedor_editar">
 
         </div>    
       </div> <!-- modal body  -->
 
-      <div class="modal-footer">
-        <input id="modifica_docente" type="button" class="btn btn-primary" value="Guardar" />
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+      <div class="tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+        <input id="modifica_docente" type="button" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" value="Guardar" />
+        <button type="button" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:dark:bg-white/3 tw:dark:text-gray-300" data-dismiss="modal">Cancelar</button>
       </div>
 
-    </div>
-  </div>
-</div>
+    
+  
+</x-panel.modal>
 
 <!-- MODAL PARA ELIMINAR -->
-<div id="modal_elimina" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-  <div class="modal-dialog modal-sm" role="document">
-    <div class="modal-content">
-      <div class="modal-body">
-<form action="" method="POST" role="form" id="form_delete">
+<x-panel.modal id="modal_elimina" tamano="sm" sin-relleno aria-labelledby="mySmallModalLabel">
+      <form action="" method="POST" role="form" id="form_delete">
+<div class="tw-modal-cuerpo tw:pt-12">
+
  {{method_field('DELETE') }}
   {{ csrf_field() }}
         ¿Realmente deseas eliminar éste elemento?
       </div>
-            <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-        <input id="confirma_elimina" type="button" class="btn btn-danger" value="Aceptar"></input>
+            <div class="tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+        <button type="button" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:dark:bg-white/3 tw:dark:text-gray-300" data-dismiss="modal">Cancelar</button>
+        <input id="confirma_elimina" type="button" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-red-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-red-700 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" value="Aceptar"></input>
       </div>
 </form>
-      </div>
-    </div>
-  </div>
-</div>
+      
+    
+  </x-panel.modal>
+{{-- (se quitó un </div> sobrante del original que cerraba el área de contenido) --}}
 <form action="" method="POST" role="form" id="form_eliminar">
     {{method_field('DELETE') }}
     {{ csrf_field() }}
