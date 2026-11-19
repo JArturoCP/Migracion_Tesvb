@@ -995,7 +995,7 @@ AND hp.id_horario_profesor = h.id_horario_profesor
 and p.id_personal=h.id_personal
 AND gp.id_periodo= ?
 AND gc.id_carrera= ?
-AND rp.id_cargo = ?
+AND rp.id_cargo IN ' . \App\Gnral_Cargos::IDS_EQUIVALENTES_SQL . '
 AND gf.id_perfil=p.id_perfil
 AND h.id_periodo_carrera=gpc.id_periodo_carrera
 AND gpc.id_carrera=gc.id_carrera AND
@@ -1010,7 +1010,7 @@ AND ec.id_horario_profesor = h.id_horario_profesor
 and p.id_personal=h.id_personal
 AND gp.id_periodo= ?
 AND gc.id_carrera= ?
-AND hec.id_cargo = ?
+AND hec.id_cargo IN ' . \App\Gnral_Cargos::IDS_EQUIVALENTES_SQL . '
 AND gf.id_perfil=p.id_perfil
 AND h.id_periodo_carrera=gpc.id_periodo_carrera
 AND gpc.id_carrera=gc.id_carrera AND

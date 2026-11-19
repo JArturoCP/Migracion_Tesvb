@@ -1,0 +1,53 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        $sqlMode = DB::scalar('SELECT @@SESSION.sql_mode');
+        DB::statement('SET SESSION sql_mode = ?', [implode(',', array_diff(explode(',', $sqlMode), ['NO_ZERO_DATE', 'NO_ZERO_IN_DATE']))]);
+
+        try {
+            Schema::create('ri_valoracion_efectos', function (Blueprint $table) {
+                $table->engine('InnoDB');
+                $table->charset('latin1');
+                $table->collation('latin1_swedish_ci');
+
+                $table->integer('id_val_efecto', true);
+                $table->integer('id_reg_riesgo')->nullable();
+                $table->text('efecto')->nullable();
+                $table->integer('grado_impacto')->nullable();
+                $table->integer('probabilidad')->nullable();
+                $table->string('cuadrante', 11)->nullable();
+                $table->integer('ocurrencia_final');
+                $table->integer('impacto_final');
+                $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
+                $table->timestamp('created_at')->default('0000-00-00 00:00:00');
+
+                $table->primary(['id_val_efecto']);
+            });
+
+            Schema::table('ri_valoracion_efectos', function (Blueprint $table) {
+                $table->foreign(['id_reg_riesgo'], 'fk_ri_valoracion_efectos_id_reg_riesgo')->references(['id_reg_riesgo'])->on('ri_registro_riesgo')->onDelete('restrict')->onUpdate('cascade');
+            });
+        } finally {
+            DB::statement('SET SESSION sql_mode = ?', [$sqlMode]);
+        }
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('ri_valoracion_efectos');
+    }
+};
