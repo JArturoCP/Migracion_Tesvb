@@ -11,6 +11,10 @@
         <testsuite name="Feature">
             <directory>tests/Feature</directory>
         </testsuite>
+        <!-- Contra la MySQL local de .env, dentro de una transacción que se revierte; se omite si no está disponible. -->
+        <testsuite name="Integracion">
+            <directory>tests/Integracion</directory>
+        </testsuite>
     </testsuites>
     <source>
         <include>

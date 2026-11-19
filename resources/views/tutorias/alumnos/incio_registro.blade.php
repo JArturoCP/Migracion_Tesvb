@@ -1,14 +1,18 @@
-@extends('tutorias.app_tutorias')
+@extends('layouts.panel')
+@section('title', 'Expediente')
+@include('tutorias.partials.recursos_panel')
 @section('content')
-    <div class="row">
-        <div class="col-md-4 offset-4 ">
-            <form id="form_registrar" action="{{url("/tutorias/registrar_inicio_expediente")}}" class="form" role="form" method="POST">
+    @include('tutorias.alumnos.partial.navegacion_panel', ['titulo' => 'Expediente', 'activa' => '/tutorias/inicioalu'])
 
-                {{ csrf_field() }}
-            </form>
-            <button type="button" class="btn btn-primary " id="registro">Iniciar registro de expediente</button>
+    <x-panel.tarjeta class="tw:mx-auto tw:max-w-xl" titulo="Expediente de Tutorías" subtitulo="Para comenzar, inicia el registro de tu expediente.">
+        <form id="form_registrar" action="{{url("/tutorias/registrar_inicio_expediente")}}" class="" role="form" method="POST">
+
+            {{ csrf_field() }}
+        </form>
+        <div class="tw:flex tw:justify-center">
+            <x-panel.boton id="registro" tamano="lg">Iniciar registro de expediente</x-panel.boton>
         </div>
-    </div>
+    </x-panel.tarjeta>
     <script type="text/javascript">
         $(document).ready(function()
         {

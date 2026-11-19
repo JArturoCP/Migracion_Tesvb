@@ -24,7 +24,7 @@ class DocentesPlantillaVerController extends Controller
         $id_carrera=0;
         $id_cargo=0;
         $carreras = DB::select('select *from gnral_carreras order by nombre');
-        $cargos = DB::select('select *from gnral_cargos order by cargo');
+        $cargos = Gnral_Cargos::opcionesPlantilla();
         return view('plantilla.plantilla',compact('carreras','cargos','id_carrera','id_cargo'));
     }
 
@@ -247,10 +247,14 @@ class DocentesPlantillaVerController extends Controller
     public function show($id_carrera,$id_cargo)
 
     {
+        $id_cargo = DB::table('gnral_cargos')
+            ->whereRaw('id_cargo IN '.Gnral_Cargos::IDS_EQUIVALENTES_SQL, [$id_cargo])
+            ->min('id_cargo');
+        abort_if($id_cargo === null, 404);
         $id_periodo=Session::get('periodotrabaja');
         Session::put('carrera_admin',$id_carrera);
         $carreras = DB::select('select *from gnral_carreras order by nombre');
-        $cargos = DB::select('select *from gnral_cargos order by cargo');
+        $cargos = Gnral_Cargos::opcionesPlantilla();
 
         if($id_carrera==0)
         {
@@ -270,7 +274,7 @@ AND hp.id_horario_profesor = h.id_horario_profesor
 and p.id_personal=h.id_personal
 AND gp.id_periodo= ?
 AND gc.id_carrera= ?
-AND rp.id_cargo = ?
+AND rp.id_cargo IN ' . \App\Gnral_Cargos::IDS_EQUIVALENTES_SQL . '
 AND gf.id_perfil=p.id_perfil
 AND h.id_periodo_carrera=gpc.id_periodo_carrera
 AND gpc.id_carrera=gc.id_carrera AND
@@ -285,7 +289,7 @@ AND ec.id_horario_profesor = h.id_horario_profesor
 and p.id_personal=h.id_personal
 AND gp.id_periodo= ?
 AND gc.id_carrera= ?
-AND hec.id_cargo = ?
+AND hec.id_cargo IN ' . \App\Gnral_Cargos::IDS_EQUIVALENTES_SQL . '
 AND gf.id_perfil=p.id_perfil
 AND h.id_periodo_carrera=gpc.id_periodo_carrera
 AND gpc.id_carrera=gc.id_carrera AND
@@ -335,7 +339,7 @@ gnral_periodo_carreras,gnral_periodos, gnral_carreras,hrs_rhps
                                 gnral_materias_perfiles.id_personal= ? AND
                                 gnral_carreras.id_carrera= ? AND
                                 gnral_periodos.id_periodo= ? AND
-                                hrs_rhps.id_cargo= ? AND
+                                hrs_rhps.id_cargo IN ' . \App\Gnral_Cargos::IDS_EQUIVALENTES_SQL . ' AND
                                 gnral_materias_perfiles.id_materia=gnral_materias.id_materia AND
                                 gnral_horas_profesores.id_materia_perfil=gnral_materias_perfiles.id_materia_perfil AND
                                 gnral_horas_profesores.id_horario_profesor=gnral_horarios.id_horario_profesor AND
@@ -353,7 +357,7 @@ gnral_periodo_carreras,gnral_periodos, gnral_carreras,hrs_rhps
                                 gnral_carreras.id_carrera= ? AND
                                 gnral_periodos.id_periodo= ? AND
                                 gnral_horarios.id_personal= ? AND
-                                hrs_horario_extra_clase.id_cargo= ? AND
+                                hrs_horario_extra_clase.id_cargo IN ' . \App\Gnral_Cargos::IDS_EQUIVALENTES_SQL . ' AND
                                 gnral_horarios.id_periodo_carrera=gnral_periodo_carreras.id_periodo_carrera AND
                                 gnral_periodo_carreras.id_periodo=gnral_periodos.id_periodo AND
                                 gnral_periodo_carreras.id_carrera=gnral_carreras.id_carrera AND
@@ -509,7 +513,7 @@ AND hp.id_horario_profesor = h.id_horario_profesor
 and p.id_personal=h.id_personal
 AND gp.id_periodo= ?
 AND gc.id_carrera= ?
-AND rp.id_cargo = ?
+AND rp.id_cargo IN ' . \App\Gnral_Cargos::IDS_EQUIVALENTES_SQL . '
 AND gf.id_perfil=p.id_perfil
 AND h.id_periodo_carrera=gpc.id_periodo_carrera
 AND gpc.id_carrera=gc.id_carrera AND
@@ -524,7 +528,7 @@ AND ec.id_horario_profesor = h.id_horario_profesor
 and p.id_personal=h.id_personal
 AND gp.id_periodo= ?
 AND gc.id_carrera= ?
-AND hec.id_cargo = ?
+AND hec.id_cargo IN ' . \App\Gnral_Cargos::IDS_EQUIVALENTES_SQL . '
 AND gf.id_perfil=p.id_perfil
 AND h.id_periodo_carrera=gpc.id_periodo_carrera
 AND gpc.id_carrera=gc.id_carrera AND

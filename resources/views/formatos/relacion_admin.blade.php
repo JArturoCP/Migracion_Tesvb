@@ -1,5 +1,6 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 @section('title', 'Relación Personal Docente')
+@include('partials.panel.recursos_app')
 @section('content')
 
     <script>
@@ -8,41 +9,37 @@
   e.relatedTarget // previous active tab
 })
     </script>
-<main class="col-md-12">
+<main class="tw-pantalla tw:space-y-6">
 
    <?php $jefe_division=session()->has('jefe_division')?session()->has('jefe_division'):false;
  $directivo=session()->has('directivo')?session()->has('directivo'):false; ?>
 
-<div class="row">
-	<div class="col-md-5 col-md-offset-3">
-		<div class="panel panel-info">
-	  		<div class="panel-heading">
-	    		<h3 class="panel-title text-center">Relación de Personal Docente</h3>
-	  		</div>
+    <x-panel.encabezado titulo="Relación de Personal Docente" />
+
         @if($directivo==1)
-	  					<div class="panel-body">        
-               <div class="col-md-6 col-md-offset-3">
+            <x-panel.tarjeta class="tw:max-w-xl">
                 <div class="dropdown">
-                   <select name="selectCarrera" id="selectCarrera" class="form-control">
+                   <x-panel.select etiqueta="Carrera" name="selectCarrera" id="selectCarrera">
                                   <option disabled selected>Selecciona carrera...</option>
                                 @foreach($carreras as $carrera)
                                     @if($carrera->id_carrera==$id_carrera)
                                         <option value="{{$carrera->id_carrera}}" selected="selected">{{$carrera->nombre}}</option>
                                     @else
                                         <option value="{{$carrera->id_carrera}}" >{{$carrera->nombre}}</option>
-                                    @endif                              
+                                    @endif
                                 @endforeach
                                 <option value="00" >Agrega Reticula</option>
-                                </select>
-              </div>
-                </div> 
-              </div>
+                   </x-panel.select>
+                </div>
+            </x-panel.tarjeta>
 @endif
-            </div>
-        </div>
 @if(isset($ver))
-<div class="col-md-11 tabla-grande table-responsive">
-<table class="table table-bordered tabla-grande3">
+<x-panel.tarjeta sin-relleno class="tabla-grande">
+  <x-slot:acciones>
+      <x-panel.boton tamano="sm" class="regis ml" href="/excel_relacion" target="_blank"><span class="fa fa-external-link"  aria-hidden="true"></span>Exportar Excel</x-panel.boton>
+  </x-slot:acciones>
+  <div class="tw:max-w-full tw:overflow-x-auto">
+<table class="tw-tabla tw-tabla-bordes tw-tabla-compacta tw-tabla-encabezado tabla-grande3">
 <tr>
         <td rowspan="2">NO CONTROL</td>
         <td>PERIODO ESCOlAR: {{ $periodo }}</td>
@@ -75,7 +72,7 @@
   <tr>
     <td>{{ $docente["clave"] }}</td>
     <td>{{ $docente["nombre"] }}</td>
-    <td class="text-center">{{ $docente["nombramiento"] }}</td>
+    <td class="tw:text-center">{{ $docente["nombramiento"] }}</td>
     <td>{{ $docente["fecha_ingreso"] }}</td>
     <td>{{ $docente["hrs_max"] }}</td>
     <td>{{ $mates["t_lic"] }}</td>
@@ -93,7 +90,7 @@
     @endforeach
   @endforeach
 <tr>
-  <td colspan="2">TOTALES</td>
+  <td colspan="2" class="tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">TOTALES</td>
   <td></td>
   <td></td>
   <td></td>
@@ -110,19 +107,15 @@
 
 </tr>
 
-</table> 
-</div>
-       <div class="col-md-2 col-md-offset-4 regis ml">
-        <a href="/excel_relacion" class="btn btn-primary" target="_blank"><span class="glyphicon glyphicon-export"  aria-hidden="true"></span>Exportar Excel</a>
-          </div> 
-@endif                  	
-	</div>
+</table>
+  </div>
+</x-panel.tarjeta>
+@endif
 
   <!--<div class="col-md-3 col-md-offset-5 ml">
          <button type="button" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-print" aria-hidden="true"></span> Imprimir</button>
   </div>-->
 
-  </div>		
 </main>
 
 <script>
@@ -130,11 +123,11 @@
   $(document).ready(function() {
 
     $("#selectCarrera").on('change',function(e){
-      var id_carrera= $("#selectCarrera").val();
+      var id_carrera= $("#selectCarrera").val();
       window.location.href='/relacion/ver/'+id_carrera ;
 
     });
 });
-  
+
 </script>
 @endsection

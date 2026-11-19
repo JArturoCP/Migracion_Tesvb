@@ -1,3 +1,15 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* Estilos de las vistas de Breeze (layouts/guest y componentes). Sintaxis de Tailwind CSS v4. */
+@import "tailwindcss" source(none);
+@plugin "@tailwindcss/forms";
+
+@source "../views/layouts/guest.blade.php";
+@source "../views/layouts/navigation.blade.php";
+@source "../views/components";
+@source "../views/auth";
+@source "../views/profile";
+@source "../views/dashboard.blade.php";
+@source "../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views";
+
+@theme {
+    --font-sans: Figtree, ui-sans-serif, system-ui, sans-serif;
+}

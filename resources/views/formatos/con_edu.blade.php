@@ -1,16 +1,21 @@
 
-@extends('layouts.app')
+@extends('layouts.panel')
 @section('title', 'Concentrado Estruct. Académica')
+@include('partials.panel.recursos_app')
 @section('content')
-<main class="col-md-12">
-<div class="row">
-	<div class="col-md-11 tabla-grande">
-		<div class="panel panel-info">
-	  		<div class="panel-heading">
-	    		<h3 class="panel-title text-center">Concentrado Estructura Educativa</h3>
-	  		</div>
-	  					<div class="panel-body">
-                    <table class="table table-bordered tabla-grande3">
+<main class="tw-pantalla">
+    <x-panel.encabezado titulo="Concentrado Estructura Educativa">
+        <x-slot:extra>
+            <x-panel.badge>PERIODO ESCOlAR: {{ $periodo }}</x-panel.badge>
+        </x-slot:extra>
+    </x-panel.encabezado>
+
+    <x-panel.tarjeta sin-relleno class="tabla-grande">
+        <x-slot:acciones>
+            <x-panel.boton tamano="sm" href="/excel_concentrado" target="_blank"><span class="fa fa-external-link"  aria-hidden="true"></span>Exportar Excel</x-panel.boton>
+        </x-slot:acciones>
+        <div class="tw:max-w-full tw:overflow-x-auto">
+                    <table class="tw-tabla tw-tabla-bordes tw-tabla-compacta tabla-grande3">
   <tr>
     <th rowspan="2">NUMERO</th>
     <th>PERIODO ESCOlAR: {{ $periodo }}</th>
@@ -35,8 +40,8 @@
  @foreach($carrera["semanas"] as $semana)
   <tr>
     <td>{{ $contador }}</td>
-    <td>{{ $carrera ["nombre_carrera"] }}</td>
-    <td>{{ $semana ["hrs_semanas"] }}</td>  
+    <td class="tw:font-medium tw:text-gray-800 tw:dark:text-white/90">{{ $carrera ["nombre_carrera"] }}</td>
+    <td>{{ $semana ["hrs_semanas"] }}</td>
       <td>{{ $carrera ["g_carreras"] }}</td>
       <td>{{ $carrera["total_alumnos"] }}</td>
       <td>0</td>
@@ -50,8 +55,8 @@
   </tr>
   @endforeach
 @endforeach
-<tr>
-  <td colspan="2" class="text-center">TOTALES:</td>
+<tr class="tw:font-semibold">
+  <td colspan="2" class="tw:text-center tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">TOTALES:</td>
   <td>{{ $t_sem }}</td>
   <td>{{ $total_g }}</td>
   <td></td>
@@ -63,21 +68,14 @@
   <td></td>
   <td></td>
 </tr>
-</table>                 
-	  					</div>
-		</div>	
-	</div>
-  
-     <div class="col-md-2 col-md-offset-4 regis">
-        <a href="/excel_concentrado" class="btn btn-primary" target="_blank"><span class="glyphicon glyphicon-export"  aria-hidden="true"></span>Exportar Excel</a>
-          </div> <br>
+</table>
+        </div>
+    </x-panel.tarjeta>
 
 <!--<div class="col-md-2 regis">
   <a href="/pdf_estructura" class="btn btn-primary crear" target="_blank"><span class="glyphicon glyphicon-print"  aria-hidden="true"></span> Imprimir PDF</a>
                         </div>-->
 
-
-  </div>		
 </main>
 
 @endsection

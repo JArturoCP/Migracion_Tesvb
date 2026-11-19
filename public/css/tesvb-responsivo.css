@@ -28,13 +28,29 @@ body .badge {
        se desplazan con ella en lugar de quedar fuera de la pantalla. */
     position: relative;
 }
-.table-responsive > table.table {
+
+.table-responsive>table.table {
     margin-bottom: 0;
 }
 
 /* Bootstrap 4 (filas flex): una columna o fila anidada no se encoge por debajo del ancho de su contenido
    (por ejemplo una tabla), y empujaba la página. Con min-width: 0 la tabla se desplaza dentro de su
    contenedor. En Bootstrap 3 (columnas con float) no tiene efecto. */
-.row > * {
+.row>* {
     min-width: 0;
+}
+
+/* Blindaje de pie de página: nunca sobreponerse a tablas o contenido */
+footer,
+.footer,
+.colorfooter,
+.footer-responsive {
+    position: relative !important;
+    bottom: auto !important;
+    clear: both !important;
+    float: none !important;
+    width: 100% !important;
+    display: block !important;
+    margin-top: 50px !important;
+    z-index: 10 !important;
 }
