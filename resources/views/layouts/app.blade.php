@@ -53,6 +53,8 @@
         href="{{ asset('css/tesvb-typography.css') }}?v={{ filemtime(public_path('css/tesvb-typography.css')) }}"
     >
 
+    @stack('styles')
+
     <script type="application/javascript" src="/js/jquery-ui.js"></script>
     <script type="application/javascript" src="/js/tooltip.js"></script>
 
@@ -93,7 +95,7 @@
 
 </head>
 
-<body>
+<body class="@yield('body_class')">
 
 @section('header')
     @include('partials.head')
