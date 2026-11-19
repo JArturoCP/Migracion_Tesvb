@@ -1840,6 +1840,9 @@
 
                     <!--MENU ALUMNO-->
                     @if($palumno==true)
+                    <ul class="nav navbar-nav navbar-left alumno">
+                        <li><a href="{{ route('alumno.horario') }}">Mi horario</a></li>
+                    </ul>
                     <?php $tipo_p = Session::get('tipo_persona'); ?>
 
 
