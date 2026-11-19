@@ -1,77 +1,49 @@
 @section('editar_actalu')
+{{--
+    Modificar actividad del alumno (/consulta_actividades/{id}/edit, ConsultaRegActividadesController@edit): modal
+    #modal_edit_actalu que se abre al cargar. Mismo formulario #modificar_actalu (POST con _method PUT a
+    /consulta_actividades/{id}, @csrf, actividad_alumnos, horas_alumnoo, profesoredit; novalidate) y mismo script.
+    En el original el <form> no se cierra: el botón "Modificar" del pie le pertenece; aquí el <form> envuelve
+    cuerpo y pie. Versión anterior: tests/Fixtures/vistas_antes.
+--}}
 
-<main class="col-md-12">
-  <div class="row">
-    <div class="col-md-12 col-md-offset-1">
-      <div class="modal fade" id="modal_edit_actalu" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-       <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-          <div class="modal-header bg-info">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-              <h3 class="modal-title text-center" id="myModalLabel">Modificar Actividad</h3>
-          </div>
-            <div class="modal-body">
-              <div class="panel panel-info">
-                <div class="panel-body">
-
+<div>
+      <x-panel.modal id="modal_edit_actalu" tamano="lg" sin-relleno clase-cerrar="close" aria-labelledby="myModalLabel">
                   <form class="form-horizontal" id="modificar_actalu" role="form" method="POST" action="/consulta_actividades/{{ $editar_actalu->id_registro_alumno}}" novalidate>
                     <input type="hidden" name="_method" value="PUT" />
                       {{csrf_field()}}
-
-                            <div class="col-md-12">
-                              <div class="col-md-6">
-                                 <div class="form-group">
-                                   <label >Actividad</label>
-                                     <div class="dropdown">
-                                      <select class="form-control" name="actividad_alumnos" id="actividad_alumnos">
-                                        <option disabled selected hidden>Selecciona Opción...</option>
-                                          @foreach($docente_actividad as $docente_actividad)
-                                            @if($editar_actalu->id_docente_actividad==$docente_actividad->id_docente_actividad)
-                                              <option selected="selected" value="{{$docente_actividad->id_actividad_comple}}" data-horas="{{$docente_actividad->horas}}" data-docente="{{$docente_actividad->titulo}}  {{$docente_actividad->nombre}}" data-profesoresedit="{{$docente_actividad->nombre}}">{{$docente_actividad->descripcion}}</option>
-                                            @else
-                                              <option value="{{$docente_actividad->id_actividad_comple}}" data-horas="{{$docente_actividad->horas}}" data-docente="{{$docente_actividad->titulo}}  {{$docente_actividad->nombre}}" data-profesoresedit="{{$docente_actividad->nombre}}">{{$docente_actividad->descripcion}}</option>
-                                            @endif
-                                          @endforeach
-                                      </select>
-                                    </div>
-                                  </div>
-                              </div>
-
-                              <div class="col-md-5 col-md-offset-1">
-                                <div class="form-group">
-                                  <label >Número de Horas</label>
-                                    <input class="form-control" id="horas_alumno" type="text" placeholder="Horas" name="horas_alumno" disabled>
-                                    <input class="form-control" id="horas_alumnoo" type="hidden" placeholder="Horas" name="horas_alumnoo">
-
-                                </div>
-                              </div>
-                            </div>
-                            
-                            <div class="col-md-12">
-                                <div class="col-md-9">
-                                  <div class="form-group">
-                                    <label >Encargado</label>
-                                      <input class="form-control" id="docente" type="text" placeholder="Encargado" name="docente" disabled>
-                                       <input id="profesoredit" type="hidden"  value="" name="profesoredit">
-                                    </div>
-                                </div>
-                              </div>
-
-                            </div>     
-                          </div>
+                    <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                      <h3 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="myModalLabel">Modificar Actividad</h3>
+                    </div>
+                    <div class="tw-modal-cuerpo">
+                      <div class="tw:grid tw:grid-cols-1 tw:gap-5 tw:md:grid-cols-2">
+                        <x-panel.select etiqueta="Actividad" name="actividad_alumnos" id="actividad_alumnos">
+                          <option disabled selected hidden>Selecciona Opción...</option>
+                            @foreach($docente_actividad as $docente_actividad)
+                              @if($editar_actalu->id_docente_actividad==$docente_actividad->id_docente_actividad)
+                                <option selected="selected" value="{{$docente_actividad->id_actividad_comple}}" data-horas="{{$docente_actividad->horas}}" data-docente="{{$docente_actividad->titulo}}  {{$docente_actividad->nombre}}" data-profesoresedit="{{$docente_actividad->nombre}}">{{$docente_actividad->descripcion}}</option>
+                              @else
+                                <option value="{{$docente_actividad->id_actividad_comple}}" data-horas="{{$docente_actividad->horas}}" data-docente="{{$docente_actividad->titulo}}  {{$docente_actividad->nombre}}" data-profesoresedit="{{$docente_actividad->nombre}}">{{$docente_actividad->descripcion}}</option>
+                              @endif
+                            @endforeach
+                        </x-panel.select>
+                        <div>
+                          <x-panel.input etiqueta="Número de Horas" id="horas_alumno" type="text" placeholder="Horas" name="horas_alumno" disabled />
+                          <input id="horas_alumnoo" type="hidden" placeholder="Horas" name="horas_alumnoo">
                         </div>
-                       <div class="modal-footer" >
-                        <button type="submit" class="btn btn-primary" href="!#" id="modifica_actalu">Modificar</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <div class="tw:md:col-span-2">
+                          <x-panel.input etiqueta="Encargado" id="docente" type="text" placeholder="Encargado" name="docente" disabled />
+                          <input id="profesoredit" type="hidden"  value="" name="profesoredit">
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </div>  
-            </div>
-        </div>
-</main>
+                    <x-panel.modal-pie>
+                      <x-panel.boton type="submit" id="modifica_actalu">Modificar</x-panel.boton>
+                      <x-panel.boton variante="secundario" data-dismiss="modal">Cancelar</x-panel.boton>
+                    </x-panel.modal-pie>
+                  </form>
+      </x-panel.modal>
+</div>
 
 
 <script>
@@ -82,10 +54,10 @@
    $('#actividad_alumnos').on('change',function(){
 
        var selected = $(this).find('option:selected');
-       var horas = selected.data('horas'); 
-       var titulo = selected.data('docente'); 
+       var horas = selected.data('horas');
+       var titulo = selected.data('docente');
        var nom_docenteedit=selected.data('profesoresedit');
-      
+
        $("#docente").val(titulo);
        $("#horas_alumno").val(horas + " Horas");
         $("#horas_alumnoo").val(horas);

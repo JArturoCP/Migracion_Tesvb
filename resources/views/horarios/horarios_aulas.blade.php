@@ -1,5 +1,6 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 @section('title', 'Horarios Aulas')
+@include('partials.panel.recursos_app')
 @section('content')
 
     <script>
@@ -9,48 +10,39 @@
 })
     </script>
 
-<main class="col-md-12">
-<div class="row">
-	<div class="col-md-7 col-md-offset-3">
-		<div class="panel panel-info">
-	  		<div class="panel-heading">
-	    		<h3 class="panel-title text-center">HORARIOS AULAS</h3>
-	  		</div>
-		</div>	
-	</div> 
-</div>	
-<div clas="row">
-     <div class="list-group col-md-3 cont">
+<main class="tw-pantalla">
+    <x-panel.encabezado titulo="HORARIOS AULAS" />
+
+<div class="tw:grid tw:grid-cols-1 tw:gap-6 tw:lg:grid-cols-3">
+     {{-- Carreras: pestañas verticales (data-toggle="tab"; las activa el puente del panel). --}}
+     <div class="list-group cont tw-lista-pestanas tw:self-start tw:overflow-hidden tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white tw:dark:bg-white/3 tw:dark:border-gray-800" role="tablist">
   @foreach($carreras as $carrera)
     <!--@if($carrera ["id_carrera"]==$id_carrera)
         <a href="#{{ $carrera ["id_carrera"] }}" role="tab" data-toggle="tab" class="list-group-item active">{{ $carrera ["nombre_carrera"]}}</a>
        @else
      @endif-->
-        <a href="#{{ $carrera ["id_carrera"] }}" role="tab" data-toggle="tab" class="list-group-item">{{ $carrera ["nombre_carrera"]}}</a>  
-  @endforeach   
-    </div> 
-        <div class="tab-content">
+        <a href="#{{ $carrera ["id_carrera"] }}" role="tab" data-toggle="tab" class="list-group-item">{{ $carrera ["nombre_carrera"]}}</a>
+  @endforeach
+    </div>
+        <div class="tab-content tw:lg:col-span-2">
             @foreach($carreras as $carrera)
           <div role="tabpanel" class="tab-pane fade" id="{{ $carrera ["id_carrera"] }}">
-            <div class="col-md-5 col-md-offset-1">
-                  <h5 class="col-md-offset-2"><strong>{{ $carrera ["nombre_carrera"] }}</strong></h5>
-                    
-                      <table class="table table-bordered ml">
+              <x-panel.tarjeta :titulo="$carrera['nombre_carrera']" subtitulo="Aulas" sin-relleno class="tw:max-w-xl">
+                      <x-panel.tabla class="ml" compacta>
                           <tbody>
-                            @foreach($carrera["aulas"] as $aula) 
+                            @foreach($carrera["aulas"] as $aula)
                             <tr>
-                                <td>{{ $aula ["nombre_aula"] }}</td>
-                                <td>
-                                    <a href="/horarios_aulas/{{ $carrera ["id_carrera"] }}/{{ $aula ["id_aula"] }}"><span class="glyphicon glyphicon-list-alt em" aria-hidden="true"></span></a>
+                                <td class="tw:font-medium tw:text-gray-800 tw:dark:text-white/90">{{ $aula ["nombre_aula"] }}</td>
+                                <td class="tw:text-right">
+                                    <a href="/horarios_aulas/{{ $carrera ["id_carrera"] }}/{{ $aula ["id_aula"] }}" class="tw:inline-flex tw:size-9 tw:items-center tw:justify-center tw:rounded-lg tw:text-brand-500 tw:ring-1 tw:ring-brand-200 tw:hover:bg-brand-50" title="Ver horario"><span class="fa fa-list-alt em" aria-hidden="true"></span></a>
                                 </td>
                             </tr>
                             @endforeach
                           </tbody>
-                        </table>
-                        
-            </div>
+                      </x-panel.tabla>
+              </x-panel.tarjeta>
           </div>
-                  
+
   @endforeach
         </div>
 </div>
@@ -82,5 +74,3 @@
 </script>
 
 @endsection
-
-

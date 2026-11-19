@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\View\Composers\InglesInicioComposer;
+use App\View\Composers\PanelInicioComposer;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Maatwebsite\Excel\Excel;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
@@ -21,6 +24,11 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registrarExcelV2();
+
+        // Datos del dashboard de /inicio por perfil (solo lectura, con caché).
+        View::composer('panel.inicio', PanelInicioComposer::class);
+        // Métricas del profesor de inglés en /ingles (solo lectura, con caché).
+        View::composer('ingles.inicio_ingles.inicio_ingles', InglesInicioComposer::class);
     }
 
     /**
