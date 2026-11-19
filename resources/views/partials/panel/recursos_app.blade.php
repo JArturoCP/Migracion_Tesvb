@@ -7,7 +7,8 @@
       - con $validacion: jQuery Validate (/js/validate.min.js);
       - con $datatables: DataTables 1.13.6 local (npm, public/vendor/datatables), FixedHeader,
         accent-neutralise y tesvb-datatables (textos en español y formato común);
-      - con $blockui: jquery.blockUI; con $graficas: Highcharts y su módulo de exportación.
+      - con $blockui: jquery.blockUI; con $graficas: Highcharts y su módulo de exportación;
+      - con $datepicker: bootstrap-datepicker (plugin de jQuery, con su CSS "standalone" y el idioma es), como layout_ingles.
     Ojo: si el script de la pantalla llama a un plugin (aunque sea fuera de $(document).ready), hay que
     cargarlo; si no, el error detiene todo el script.
     Uso: @include('partials.panel.recursos_app', ['datatables' => true, 'validacion' => true])
@@ -28,6 +29,11 @@
         <script src="/js/accent-neutralise.js"></script>
         <script src="/js/dataTables.fixedHeader.min.js"></script>
         <script src="{{ asset('js/tesvb-datatables.js') }}?v={{ filemtime(public_path('js/tesvb-datatables.js')) }}"></script>
+    @endif
+    @if ($datepicker ?? false)
+        <link rel="stylesheet" href="{{asset('datepicker/css/bootstrap-datepicker.standalone.css')}}">
+        <script src="{{asset('datepicker/js/bootstrap-datepicker.js')}}"></script>
+        <script src="{{asset('datepicker/locales/bootstrap-datepicker.es.min.js')}}"></script>
     @endif
     @if ($blockui ?? false)
         <script src="/js/jquery.blockUI.js"></script>
