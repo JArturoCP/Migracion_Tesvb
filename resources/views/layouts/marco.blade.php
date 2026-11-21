@@ -19,6 +19,7 @@
     @include('partials.panel.modo_oscuro')
     @include($cabeza)
 
+    @include('layouts.tipografia')
     @vite(['resources/css/marco.css', 'resources/js/panel.js'])
 </head>
 <body x-data="{ page: 'modulo', darkMode: false, sidebarToggle: false }"

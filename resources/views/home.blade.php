@@ -14,6 +14,7 @@
     <link rel="icon" href="{{ asset('favicon.ico') }}">
     <script>window.location.replace('/inicio');</script>
 
+    @include('layouts.tipografia')
     @vite(['resources/css/marco.css'])
 </head>
 <body class="tw-modulo tw:bg-gray-50">
