@@ -8,7 +8,7 @@
 
     <x-panel.tarjeta sin-relleno>
         <x-slot:acciones>
-            <x-panel.boton data-target="#planea_doc" data-toggle="modal" tipo="primario" tamano="sm">
+            <x-panel.boton data-target="#planea_doc" data-toggle="modal" variante="primario" tamano="sm">
                 <span class="fa fa-plus" aria-hidden="true"></span> Agregar Planeación
             </x-panel.boton>
         </x-slot:acciones>
@@ -68,92 +68,56 @@
     @show
 @endif
 
-<!-- Modal PARA AGREGAR NUEVA ACTIVIDAD -->
-<form method="POST" role="form" class="form" id="agregar_planeacion" enctype="multipart/form-data">
-    {{csrf_field()}}
-    <div class="modal fade" id="planea_doc" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header bg-info">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <h3 class="modal-title text-center" id="myModalLabel">Planeación de actividad</h3>
-                </div>
-                <div class="modal-body">
-                    <div class="tw:grid tw:grid-cols-1 tw:gap-4 tw:md:grid-cols-2">
-                        <div class="tw:min-w-0">
-                            <div class="form-group">
-                                <label for="actividad_docen">Actividad</label>
-                                <select class="form-control" name="actividad_docen" id="actividad_docen">
-                                    <option disabled selected hidden>Selecciona Opción...</option>
-                                    @foreach($actividad_docen as $actividad_docen)
-                                        <option value="{{$actividad_docen->id_actividad_comple}}" data-horas="{{$actividad_docen->horas}}">{{$actividad_docen->descripcion}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
+<x-panel.modal id="planea_doc" tamano="lg" sin-relleno aria-labelledby="myModalLabel">
+    <x-slot:encabezado>
+        <h3 id="myModalLabel" class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">Planeación de actividad</h3>
+    </x-slot:encabezado>
 
-                        <div class="tw:min-w-0">
-                            <div class="form-group">
-                                <label for="horas_docente">Número de Horas</label>
-                                <input class="form-control" name="horas_docente" type="text" id="horas_docente" value="" placeholder="Horas" disabled>
-                            </div>      
-                        </div>
+    <form method="POST" role="form" id="agregar_planeacion" enctype="multipart/form-data"
+          class="tw:[&_label.error]:mt-1.5 tw:[&_label.error]:block tw:[&_label.error]:text-sm tw:[&_label.error]:text-red-600 tw:dark:[&_label.error]:text-red-400">
+        {{csrf_field()}}
+        <input name="fecha" type="hidden" id="fecha" value="{{ date('Y/m/d') }}">
+        <div class="tw-modal-cuerpo">
+            <div class="tw:grid tw:grid-cols-1 tw:gap-4 tw:md:grid-cols-2">
+                <x-panel.select etiqueta="Actividad" name="actividad_docen" id="actividad_docen">
+                    <option disabled selected hidden>Selecciona Opción...</option>
+                    @foreach($actividad_docen as $actividad_docen)
+                        <option value="{{$actividad_docen->id_actividad_comple}}" data-horas="{{$actividad_docen->horas}}">{{$actividad_docen->descripcion}}</option>
+                    @endforeach
+                </x-panel.select>
 
-                        <div class="tw:min-w-0">
-                            <div class="form-group">
-                                <label for="evidencias_doc">Número de evidencias</label>
-                                <input class="form-control" name="evidencias_doc" id="evidencias_doc" type="text" placeholder="Evidencias">
-                            </div>
-                        </div>
-
-                        <div class="tw:min-w-0">
-                            <div class="form-group">
-                                <label for="archivo">Rúbrica de evaluación (.pdf)</label>
-                                <input type="file" name="urlImg" id="archivo" accept=".pdf" required class="form-control">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-primary" id="registra">Guardar</button>
-                </div>
+                <x-panel.input etiqueta="Número de Horas" name="horas_docente" id="horas_docente" type="text" value="" placeholder="Horas" disabled />
+                <x-panel.input etiqueta="Número de evidencias" name="evidencias_doc" id="evidencias_doc" type="text" placeholder="Evidencias" />
+                <x-panel.input etiqueta="Rúbrica de evaluación (.pdf)" type="file" name="urlImg" id="archivo" accept=".pdf" required />
             </div>
         </div>
-    </div>
-    <input name="fecha" type="text" id="fecha" value="<?php echo date("Y/m/d"); ?>" style="visibility:hidden"/>
-</form>
+        <x-panel.modal-pie>
+            <x-panel.boton variante="secundario" data-dismiss="modal">Cancelar</x-panel.boton>
+            <x-panel.boton type="submit" id="registra">Guardar</x-panel.boton>
+        </x-panel.modal-pie>
+    </form>
+</x-panel.modal>
 
-<!--MODAL PARA ELIMINAR REGISTRO DEL PROFESOR-->
-<div id="modal_elimina" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-  <div class="modal-dialog modal-sm" role="document">
-    <div class="modal-content">
-      <div class="modal-body">
-        <form action="" method="POST" role="form" id="form_delete">
-            {{method_field('DELETE') }}
-            {{ csrf_field() }}
-            ¿Realmente deseas eliminar éste elemento?
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-        <input id="confirma_elimina" type="button" class="btn btn-danger" value="Aceptar"></input>
-      </div>
-        </form>
-    </div>
-  </div>
-</div>
+<x-panel.modal id="modal_elimina" tamano="sm" titulo="Eliminar planeación" sin-relleno aria-label="Eliminar planeación">
+    <form action="" method="POST" role="form" id="form_delete">
+        {{method_field('DELETE')}}
+        {{csrf_field()}}
+        <div class="tw-modal-cuerpo">
+            <p class="tw:text-sm tw:text-gray-700 tw:dark:text-gray-300">¿Realmente deseas eliminar este elemento?</p>
+        </div>
+        <x-panel.modal-pie>
+            <x-panel.boton variante="secundario" data-dismiss="modal">Cancelar</x-panel.boton>
+            <x-panel.boton id="confirma_elimina" variante="peligro">Aceptar</x-panel.boton>
+        </x-panel.modal-pie>
+    </form>
+</x-panel.modal>
 
-<div id="mensaje_actividad" class="modal fade" tabindex="-1" role="dialog">
-  <div class="modal-dialog modal-sm" role="document">
-    <div class="modal-content">
-      <div class="modal-body text-warning">
-        <p style="font-weight: bold; color:#BA0000; text-align:center;">LA ACTIVIDAD QUE INTENTA REGISTRAR YA EXISTE</p>
-      </div>
-    </div>
-  </div>
-</div>
+<x-panel.modal id="mensaje_actividad" tamano="sm" titulo="Actividad duplicada" aria-label="Actividad duplicada">
+    <p class="tw:text-sm tw:font-medium tw:text-red-700 tw:dark:text-red-400" role="alert">
+        LA ACTIVIDAD QUE INTENTA REGISTRAR YA EXISTE
+    </p>
+</x-panel.modal>
+
 
 <?php
   $direccion=Session::get('ip');
@@ -176,6 +140,13 @@ $(document).ready(function(){
     });
 
     $("#agregar_planeacion").validate({
+        errorPlacement: function(error, element){
+            if (element.is('#actividad_docen')) {
+                error.insertAfter(element.parent());
+            } else {
+                error.insertAfter(element);
+            }
+        },
         rules:{
             evidencias_doc: {
                 required:true,

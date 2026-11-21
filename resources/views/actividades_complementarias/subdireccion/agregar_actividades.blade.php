@@ -8,7 +8,7 @@
 
     <x-panel.tarjeta sin-relleno>
         <x-slot:acciones>
-            <x-panel.boton data-target="#agrega_actsub" data-toggle="modal" tipo="primario" tamano="sm">
+            <x-panel.boton data-target="#agrega_actsub" data-toggle="modal" variante="primario" tamano="sm">
                 <span class="fa fa-plus" aria-hidden="true"></span> Registrar Actividad
             </x-panel.boton>
         </x-slot:acciones>
@@ -50,145 +50,96 @@
     </x-panel.tarjeta>
 
 @if(isset($edit))
-    @section('editar_actividad')
     @include('actividades_complementarias.partials_actividades.subdireccion.editar_actividad')
-    @show
 @endif
 
-<!-- Modal PARA AGREGAR NUEVA ACTIVIDAD -->
-<form method="POST" role="form" class="form" id="agregar_actividad" action="/nueva_actividad">
-    {{csrf_field()}}
-    <div class="modal fade" id="agrega_actsub" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header bg-info">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <h3 class="modal-title text-center" id="myModalLabel">Registro de Actividad</h3>
-                </div>
-                
-                <div class="modal-body">
-                    <div class="tw:grid tw:grid-cols-1 tw:gap-4 tw:md:grid-cols-2">
-                        <div class="tw:min-w-0">
-                            <div class="form-group">
-                                <label for="actividad_sub">Nombre de Actividad</label>
-                                <input class="form-control" id="actividad_sub" type="text" name="actividad_sub" placeholder="Actividad">
-                                @if($errors->has('actividad'))
-                                    <span class="text-danger">{{$errors->first('actividad')}}</span>
-                                @endif
-                            </div>      
-                        </div>
+<x-panel.modal id="agrega_actsub" tamano="lg" sin-relleno aria-labelledby="myModalLabel">
+    <x-slot:encabezado>
+        <h3 id="myModalLabel" class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">Registro de Actividad</h3>
+    </x-slot:encabezado>
 
-                        <div class="tw:min-w-0">
-                            <div class="form-group">
-                                <div class="tw:flex tw:items-center tw:justify-between">
-                                    <label for="categoria_sub">Categoría</label>
-                                    <button type="button" class="tw:text-xs tw:font-medium tw:text-brand-600 hover:tw:underline" data-target="#agrega_cat" data-toggle="modal">
-                                        + Nueva Categoría
-                                    </button>
-                                </div>
-                                <select class="form-control" name="categoria_sub" id="categoria_sub">
-                                    <option disabled selected hidden>Selecciona Opción...</option>
-                                    @if($errors->has('categoriaa'))
-                                        <span class="text-danger">{{$errors->first('categoriaa')}}</span>
-                                    @endif
-                                    @foreach($categorias as $categoria)
-                                        <option value="{{$categoria->id_categoria}}">{{$categoria->descripcion_cat}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
+    <form method="POST" role="form" id="agregar_actividad" action="/nueva_actividad"
+          class="tw:[&_label.error]:mt-1.5 tw:[&_label.error]:block tw:[&_label.error]:text-sm tw:[&_label.error]:text-red-600 tw:dark:[&_label.error]:text-red-400">
+        {{csrf_field()}}
+        <div class="tw-modal-cuerpo">
+            <div class="tw:grid tw:gap-4 tw:md:grid-cols-2">
+                <x-panel.input etiqueta="Nombre de Actividad" id="actividad_sub" type="text" name="actividad_sub" placeholder="Actividad"
+                               :error="$errors->first('actividad_sub')" />
 
-                        <div class="tw:min-w-0">
-                            <div class="form-group">
-                                <label for="horas_sub">Número de Horas</label>
-                                <select class="form-control" name="horas_sub" id="horas_sub">
-                                    <option disabled selected hidden>Selecciona Opción...</option>
-                                    <option value="20">20</option>
-                                    <option value="40">40</option>
-                                    @if($errors->has('hora'))
-                                        <span class="text-danger">{{$errors->first('hora')}}</span>
-                                    @endif
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="tw:min-w-0">
-                            <div class="form-group">
-                                <label for="jefatura_sub">Departamento Encargado</label>
-                                <select class="form-control" name="jefatura_sub" id="jefatura_sub">
-                                    <option disabled selected hidden>Selecciona Opción...</option>
-                                    @if($errors->has('jefaturas'))
-                                        <span class="text-danger">{{$errors->first('jefaturas')}}</span>
-                                    @endif
-                                    @foreach($jefaturascar as $jefatura)
-                                        <option value="{{$jefatura->id_jefatura}}">{{$jefatura->nom_jefatura}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
+                <div>
+                    <div class="tw:flex tw:flex-wrap tw:items-baseline tw:justify-between tw:gap-x-2">
+                        <x-panel.etiqueta for="categoria_sub">Categoría</x-panel.etiqueta>
+                        <x-panel.boton variante="contorno-primario" tamano="sm" class="tw:mb-1.5 tw:px-2 tw:py-1 tw:text-xs"
+                                       data-target="#agrega_cat" data-toggle="modal">+ Nueva Categoría</x-panel.boton>
                     </div>
+                    <x-panel.select name="categoria_sub" id="categoria_sub" :error="$errors->first('categoria_sub')">
+                        <option disabled selected hidden>Selecciona Opción...</option>
+                        @foreach($categorias as $categoria)
+                            <option value="{{$categoria->id_categoria}}">{{$categoria->descripcion_cat}}</option>
+                        @endforeach
+                    </x-panel.select>
                 </div>
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-primary" id="registra">Registrar</button>
-                </div>
+                <x-panel.select etiqueta="Número de Horas" name="horas_sub" id="horas_sub" :error="$errors->first('horas_sub')">
+                    <option disabled selected hidden>Selecciona Opción...</option>
+                    <option value="20">20</option>
+                    <option value="40">40</option>
+                </x-panel.select>
+
+                <x-panel.select etiqueta="Departamento Encargado" name="jefatura_sub" id="jefatura_sub" :error="$errors->first('jefatura_sub')">
+                    <option disabled selected hidden>Selecciona Opción...</option>
+                    @foreach($jefaturascar as $jefatura)
+                        <option value="{{$jefatura->id_jefatura}}">{{$jefatura->nom_jefatura}}</option>
+                    @endforeach
+                </x-panel.select>
             </div>
         </div>
-    </div>
-</form>
 
-<!--MODAL PARA AGREGAR CATEGORIAS-->
-<form role="form" class="form" id="agregar_categoria">
-    {{csrf_field()}}
-    <div class="modal fade" id="agrega_cat" tabindex="-1" role="dialog" aria-labelledby="myModalLabelCat" aria-hidden="true">
-        <div class="modal-dialog modal-md" role="document">
-            <div class="modal-content">
-                <div class="modal-header bg-info">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <h3 class="modal-title text-center" id="myModalLabelCat">Nueva Categoría</h3>
-                </div>
-                
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="categorias">Nombre de Categoría</label>
-                        <input class="form-control" id="categorias" type="text" name="categorias" placeholder="Categoría">
-                        @if($errors->has('actividad'))
-                            <span class="text-danger">{{$errors->first('actividad')}}</span>
-                        @endif
-                    </div>      
-                </div>
-                <div class="modal-footer">
-                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar"/>
-                    <input type="button" class="btn btn-primary" id="categoria" value="Agregar"/>
-                </div>
-            </div>
+        <x-panel.modal-pie>
+            <x-panel.boton variante="secundario" data-dismiss="modal">Cancelar</x-panel.boton>
+            <x-panel.boton type="submit" id="registra">Registrar</x-panel.boton>
+        </x-panel.modal-pie>
+    </form>
+</x-panel.modal>
+
+<x-panel.modal id="agrega_cat" sin-relleno aria-labelledby="myModalLabelCat">
+    <x-slot:encabezado>
+        <h3 id="myModalLabelCat" class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">Nueva Categoría</h3>
+    </x-slot:encabezado>
+
+    <form role="form" id="agregar_categoria" class="tw:[&_label.error]:mt-1.5 tw:[&_label.error]:block tw:[&_label.error]:text-sm tw:[&_label.error]:text-red-600 tw:dark:[&_label.error]:text-red-400">
+        {{csrf_field()}}
+        <div class="tw-modal-cuerpo">
+            <x-panel.input etiqueta="Nombre de Categoría" id="categorias" type="text" name="categorias"
+                           placeholder="Categoría" :error="$errors->first('categorias')" />
         </div>
-    </div>
-</form>
 
-<!-- MODAL PARA ELIMINAR -->
-<div id="modal_elimina" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-  <div class="modal-dialog modal-sm" role="document">
-    <div class="modal-content">
-      <div class="modal-body">
-        <form action="" method="POST" role="form" id="form_delete">
-            {{method_field('DELETE') }}
-            {{ csrf_field() }}
-            ¿Realmente deseas eliminar éste elemento?
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-        <input id="confirma_elimina" type="button" class="btn btn-danger" value="Aceptar"></input>
-      </div>
-        </form>
-    </div>
-  </div>
-</div>
+        <x-panel.modal-pie>
+            <x-panel.boton variante="secundario" data-dismiss="modal">Cancelar</x-panel.boton>
+            <x-panel.boton id="categoria" value="Agregar">Agregar</x-panel.boton>
+        </x-panel.modal-pie>
+    </form>
+</x-panel.modal>
+
+<x-panel.modal id="modal_elimina" tamano="sm" sin-relleno aria-labelledby="mySmallModalLabel">
+    <x-slot:encabezado>
+        <h3 id="mySmallModalLabel" class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">Eliminar actividad</h3>
+    </x-slot:encabezado>
+
+    <form action="" method="POST" role="form" id="form_delete">
+        {{method_field('DELETE')}}
+        {{csrf_field()}}
+        <div class="tw-modal-cuerpo">
+            <p class="tw:text-sm tw:text-gray-700 tw:dark:text-gray-300">¿Realmente deseas eliminar este elemento?</p>
+        </div>
+
+        <x-panel.modal-pie>
+            <x-panel.boton variante="secundario" data-dismiss="modal">Cancelar</x-panel.boton>
+            <x-panel.boton id="confirma_elimina" variante="peligro" value="Aceptar">Aceptar</x-panel.boton>
+        </x-panel.modal-pie>
+    </form>
+</x-panel.modal>
+
 
 </main>
 
@@ -205,6 +156,9 @@ $(document).ready(function(){
     });
 
     $("#agregar_actividad").validate({
+        errorPlacement: function(error, element){
+            error.insertAfter(element.is('select') ? element.parent() : element);
+        },
         rules:{
             actividad_sub: {
                 required: true,
@@ -238,6 +192,10 @@ $(document).ready(function(){
         $("#form_delete").attr("action","/nueva_actividad/"+id_sit);
         $("#form_delete").submit();
     });
+
+    @if(!isset($edit) && $errors->hasAny(['actividad_sub', 'categoria_sub', 'horas_sub', 'jefatura_sub']))
+        $('#agrega_actsub').modal('show');
+    @endif
 
     $('#paginacion').DataTable();
 });
