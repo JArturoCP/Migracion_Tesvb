@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\Panel\DatosEstudiante;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
@@ -17,13 +18,24 @@ class HomeController2 extends Controller
      */
     public function index()
     {
+        $usuario = Auth::user();
+        $estudiante = null;
+
+        if (in_array($usuario?->tipo_usuario, [1, '1'], true)) {
+            $datos = app(DatosEstudiante::class);
+            $ficha = $datos->ficha($usuario);
+
+            if ($ficha === null) {
+                return view('panel.dashboard.estudiante.inicio', ['estudiante' => null]);
+            }
+
+            $estudiante = $datos->presentacion($usuario, $ficha);
+        }
+
         $adeudo=0;
         $departamento_carrera="";
-        $palumno = session()->has('palumno') ? session()->has('palumno') : false;
-        if($palumno == true){
-            $id_usuario = Session::get('usuario_alumno');
-            $id_alu = DB::selectOne('SELECT id_alumno from gnral_alumnos where id_usuario = ?', [$id_usuario]);
-            $id_alu=$id_alu->id_alumno;
+        if ($estudiante && $estudiante['contexto']) {
+            $id_alu = $ficha->id_alumno;
 
             $adeudo_departamento=DB::selectOne('SELECT COUNT(id_adeudo_departamento)adeudo
                         FROM adeudo_departamento WHERE id_alumno = ? ', [$id_alu]);
@@ -150,7 +162,38 @@ class HomeController2 extends Controller
             $estado_residencia=0;
         }
 
-        //dd($departamento_carrera);
+        if ($estudiante) {
+            $novedades = [];
+            $aviso = $estudiante['contexto'] ? session('men') : null;
+            if (is_string($aviso) && trim($aviso) !== '') {
+                $novedades[] = ['tipo' => 'Aviso institucional', 'titulo' => trim($aviso)];
+            }
+            foreach ($departamento_carrera ?: [] as $departamento) {
+                $novedades[] = [
+                    'tipo' => 'Pendiente',
+                    'titulo' => 'Adeudo · '.$departamento['nombre'],
+                    'detalle' => $departamento['comentario'],
+                ];
+            }
+
+            $encuestas = [
+                [$estado_inscripcion, 'Encuesta de inscripción', 'encuesta_incripcion'],
+                [$estado_reinscripcion, 'Encuesta de reinscripción', 'encuesta_reincripcion'],
+                [$estado_servicio, 'Encuesta de servicio social', 'encuesta_servicio_social'],
+                [$estado_residencia, 'Encuesta de residencia profesional', 'encuesta_residencia'],
+            ];
+            foreach ($encuestas as [$pendiente, $titulo, $ruta]) {
+                if ($pendiente) {
+                    $novedades[] = [
+                        'tipo' => 'Pendiente',
+                        'titulo' => $titulo,
+                        'url' => url('/encuestas_satisfaccion/'.$ruta.'/'),
+                    ];
+                }
+            }
+
+            return view('panel.dashboard.estudiante.inicio', compact('estudiante', 'novedades'));
+        }
 
         $datosTutorReprobacion = $this->obtenerResumenTutorReprobacionPrincipal();
         $es_tutor_reprobacion = $datosTutorReprobacion['es_tutor'];

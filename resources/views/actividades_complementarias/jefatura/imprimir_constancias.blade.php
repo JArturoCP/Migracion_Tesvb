@@ -18,7 +18,7 @@
                 </li>
                 <li role="presentation">
                     <a href="#dos" aria-controls="dos" role="tab" data-toggle="tab" class="tw:inline-block tw:rounded-t-lg tw:border-b-2 tw:border-transparent tw:px-4 tw:py-2 tw:text-sm tw:font-medium tw:text-gray-500 tw:hover:text-gray-700 tw:dark:text-gray-400">No Aprobados</a>
-                </li>  
+                </li>
             </ul>
         </div>
 
@@ -61,13 +61,13 @@
                             <td>{{$liberacion_evaluacion_si->titulo}} {{$liberacion_evaluacion_si->docente}}</td>
                             <td>{{$liberacion_evaluacion_si->creditos}}</td>
                             <td>{{$liberacion_evaluacion_si->promedio}}</td>
-                            <td class="tw:text-center">  
+                            <td class="tw:text-center">
                                 <input class="checkbox tw:size-4 tw:rounded tw:border-gray-300 tw:text-brand-600 tw:focus:ring-brand-500" name="orderbox[]" type="checkbox" value="1" id="liberacion_jefe" data-cuenta="{{$liberacion_evaluacion_si->id_registro_alumno}}">
                             </td>
                         </tr>
                         @endforeach
                     </tbody>
-                </x-panel.tabla>      
+                </x-panel.tabla>
             </div>
 
             <div role="tabpanel" class="tab-pane" id="cuatro">
@@ -147,7 +147,7 @@
                             @endif
                         @endforeach
                     </tbody>
-                </x-panel.tabla>    
+                </x-panel.tabla>
             </div>
         </div>
     </x-panel.tarjeta>
@@ -186,15 +186,15 @@ $(document).ready(function(){
 
         $('input[name="orderbox[]"]:checked').each(function(){
             checkboxValues[checkboxValues.length]=$(this).val();
-            cuenta[cuenta.length]=$(this).data('cuenta'); 
+            cuenta[cuenta.length]=$(this).data('cuenta');
         });
-            
+
         var $marcados=$('input[name="orderbox[]"]:checked');
         var numero=$marcados.length;
         if(numero==0)
         {
             $('#mensaje_actividad').modal('show');
-            setTimeout(myFunction, 2000); 
+            setTimeout(myFunction, 2000);
 
             function myFunction(){
                 $('#mensaje_actividad').modal('hide');
@@ -217,8 +217,8 @@ $(document).ready(function(){
     });
 
     $('#paginacion').DataTable();
-    $('#pag').DataTable();  
-    $('#pagi').DataTable();    
+    $('#pag').DataTable();
+    $('#pagi').DataTable();
 });
 </script>
 @endsection

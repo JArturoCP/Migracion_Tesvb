@@ -31,11 +31,11 @@
                     <td>{{$eevaluacion->carrera}}</td>
                     <td>{{$eevaluacion->actividad}}</td>
                     <td>{{$eevaluacion->horas}}</td>
-                    <td>{{$eevaluacion->evidencias}}</td>                 
+                    <td>{{$eevaluacion->evidencias}}</td>
                     <td>
                         <a href="{{url("/ArchivosDocentes",$eevaluacion->rubrica)}}" target="_blank" class="tw:inline-flex tw:size-8 tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:text-brand-500 tw:hover:bg-brand-50" title="Ver rúbrica">
                             <span class="fa fa-file-text em" aria-hidden="true"></span>
-                        </a> 
+                        </a>
                         {{$eevaluacion->rubrica}}
                     </td>
                     <td>{{$eevaluacion->promedio}}</td>
@@ -50,7 +50,7 @@
                         @endif
                     </td>
                 </tr>
-                @endforeach 
+                @endforeach
             </tbody>
         </x-panel.tabla>
     </x-panel.tarjeta>

@@ -3,14 +3,6 @@
     "file": "assets/module.esm-BK6u66ms.js",
     "name": "module.esm"
   },
-  "node_modules/@fontsource-variable/outfit/files/outfit-latin-ext-wght-normal.woff2": {
-    "file": "assets/outfit-latin-ext-wght-normal-DdQaqQDo.woff2",
-    "src": "node_modules/@fontsource-variable/outfit/files/outfit-latin-ext-wght-normal.woff2"
-  },
-  "node_modules/@fontsource-variable/outfit/files/outfit-latin-wght-normal.woff2": {
-    "file": "assets/outfit-latin-wght-normal-Bc-8i84L.woff2",
-    "src": "node_modules/@fontsource-variable/outfit/files/outfit-latin-wght-normal.woff2"
-  },
   "node_modules/apexcharts/dist/apexcharts.esm.js": {
     "file": "assets/apexcharts.esm-yWY8cQCZ.js",
     "name": "apexcharts.esm",
@@ -18,7 +10,7 @@
     "isDynamicEntry": true
   },
   "resources/css/app.css": {
-    "file": "assets/app-COJFmU4i.css",
+    "file": "assets/app-C49zCs4n.css",
     "src": "resources/css/app.css",
     "isEntry": true,
     "name": "app",
@@ -27,7 +19,7 @@
     ]
   },
   "resources/css/marco.css": {
-    "file": "assets/marco-DTqQmhV1.css",
+    "file": "assets/marco-6omHuIWm.css",
     "src": "resources/css/marco.css",
     "isEntry": true,
     "name": "marco",
@@ -45,7 +37,7 @@
     ]
   },
   "resources/js/panel.js": {
-    "file": "assets/panel-DhfqyIU1.js",
+    "file": "assets/panel-CUKV9wYg.js",
     "name": "panel",
     "src": "resources/js/panel.js",
     "isEntry": true,
