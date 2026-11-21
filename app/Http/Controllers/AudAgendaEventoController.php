@@ -251,7 +251,7 @@ class AudAgendaEventoController extends Controller
         if (!Session::get('procesos-evento'))
             Session::put('procesos-evento',AudAgendaEvento::where('id_agenda',$id)->get()->pluck('id_auditoria_proceso')->toArray());
         $auditoria_id=$id;
-        return view('auditorias.edita_procesos_evento',compact('datos','auditoria_id','procesosE','procesos','id'));
+        return $this->show($id)->with(['datos' => $datos, 'auditoria_id' => $auditoria_id, 'procesosE' => $procesosE, 'procesos' => $procesos, 'id' => $id, 'ver' => 'procesos_evento']);
     }
 
     /**

@@ -27,7 +27,7 @@ class Examen_GnralCController extends Controller
             ->where('id_carrera', '!=', 16)
             ->get();
 
-        return view('examen_gnral_con.admin.examenes.create', compact('carreras'));
+        return $this->index()->with(['carreras' => $carreras, 'ver' => 'create']);
     }
 
     // GUARDAR
@@ -61,7 +61,7 @@ class Examen_GnralCController extends Controller
             ->get();
 
 
-        return view('examen_gnral_con.admin.examenes.edit', compact('examen','carreras'));
+        return $this->index()->with(['examen' => $examen, 'carreras' => $carreras, 'ver' => 'edit']);
     }
 
     // ACTUALIZAR
@@ -234,7 +234,7 @@ class Examen_GnralCController extends Controller
     $pregunta = DB::table('egel_preguntas')->where('id_pregunta', $id_pregunta)->first();
     $modulos = DB::table('egel_modulos')->get(); // Para seleccionar el módulo al editar
 
-    return view('examen_gnral_con.admin.examenes.edit_pregunta', compact('pregunta', 'modulos'));
+    return $this->preguntas($pregunta->id_examen_egel)->with(['pregunta' => $pregunta, 'modulos_pregunta' => $modulos, 'ver' => 'pregunta']);
 }
 
 public function updatePregunta(Request $request, $id_pregunta)
@@ -268,7 +268,7 @@ public function editRespuesta($id_respuesta)
         ->where('r.id_respuesta', $id_respuesta)
         ->first();
 
-    return view('examen_gnral_con.admin.examenes.edit_respuesta', compact('respuesta'));
+    return $this->preguntas($respuesta->id_examen_egel)->with(['respuesta' => $respuesta, 'ver' => 'respuesta']);
 }
 
 // Actualizar respuesta

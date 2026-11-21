@@ -104,4 +104,16 @@
 
 </div>
 
+@if(isset($ver) && $ver == 'create')
+      @section('modal_examen_create')
+      @include('examen_egel.admin.examenes.create')
+      @show
+@endif
+
+@if(isset($ver) && $ver == 'edit')
+      @section('modal_examen_edit')
+      @include('examen_egel.admin.examenes.edit')
+      @show
+@endif
+
 @endsection

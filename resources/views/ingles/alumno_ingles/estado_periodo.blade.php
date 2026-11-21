@@ -1,28 +1,34 @@
 @extends('ingles.inicio_ingles.layout_ingles')
 @section('title', 'Revisión de Carga academica ingles')
 @section('content')
-    <main class="col-md-12">
-        <div class="row">
-            <div class="col-md-6 col-md-offset-3">
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title text-center">Carga Academica Ingles</h3>
-                    </div>
-                </div>
-            </div>
-        </div>
 
+<main>
+<!-- Modal de estado de periodo -->
+<div class="modal fade" id="modal_estado_periodo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-info">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title text-center" id="myModalLabel">Carga Academica Ingles</h4>
+      </div>
+      <div class="modal-body">
+        <div class="alert alert-danger text-center">Verifica si el periodo que seleccionaste es correcto.</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
+      </div>
+    </div>
+  </div>
+</div>
+</main>
 
-        <div class="row">
+<script>
+  $(document).ready(function(){
 
-            <div class="col-md-6 col-md-offset-3">
-                <div class="panel panel-danger">
-                    <div class="panel-heading">
-                        <h3 class="panel-title text-center">Verifica si el periodo que seleccionaste es correcto.</h3>
-                    </div>
-                </div>
-            </div>
-        </div>
+    $("#modal_estado_periodo").modal("show");
 
-    </main>
+  });
+
+</script>
+
 @endsection

@@ -4,6 +4,7 @@
     evidencia faltante). Cada formulario #agrega_evidencia{i} conserva method POST, enctype multipart/form-data,
     @csrf, urlImg[] (#archivo{i}), el botón submit name="id_registro" (.registra, id del registro) y
     registro_alumno. Mismo script (límite de 2 MB y blockUI al subir). Versión anterior: tests/Fixtures/vistas_antes.
+    La nota y la tabla se muestran en un modal que se abre al cargar la página (formato de modal_horas).
 --}}
 @extends('layouts.panel')
 @section('title', 'EvidenciasAlumnos')
@@ -15,6 +16,12 @@
   <x-panel.encabezado titulo="Evidencias" :migas="['Complementarias' => url('/consulta_actividades/')]" />
 @if($existe_id == 1)
 @else
+<!-- Modal para cargar evidencias -->
+<x-panel.modal id="modal_evidencias" tamano="xl" sin-relleno clase-cerrar="close" aria-labelledby="myModalLabel"><div id="modal_evidencias_contenido">
+      <div class="tw:px-6 tw:pt-6 tw:pr-14">
+        <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="myModalLabel">Evidencias</h4>
+      </div>
+      <div class="tw-modal-cuerpo">
   <x-panel.alerta tipo="advertencia" titulo="NOTA:" class="tw:mb-6">
     LAS EVIDENCIAS SE SUBEN AL SISTEMA UNA POR UNA.<br>
     PASOS HA SEGUIR:<br>
@@ -24,7 +31,6 @@
     Esperar que el sistema registre tu evidencia y después subir la siguiente evidencia si se requiere.
   </x-panel.alerta>
 
-  <x-panel.tarjeta titulo="Evidencias" sin-relleno>
     <x-panel.tabla class="tabla-grande2">
       <thead>
         <tr>
@@ -65,7 +71,11 @@
          @endforeach
       </tbody>
     </x-panel.tabla>
-  </x-panel.tarjeta>
+      </div>
+      <div class="tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+          <button type="button" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" data-dismiss="modal">Aceptar</button>
+      </div>
+</div></x-panel.modal>
 @endif
 
 </main>
@@ -81,6 +91,8 @@ function bloqueo()
   $(document).ready(function(){
 
   @if($existe_id==0)
+    $("#modal_evidencias").modal("show");
+
     @for ($i = 0; $i < ($alumnos->no_evidencias); $i++)
 
                 $('#archivo{{$i}}').bind('change', function() {
