@@ -1,106 +1,50 @@
-@section('editar_actividad')
+<x-panel.modal id="modal_edit_activad" tamano="lg" sin-relleno aria-labelledby="titulo_editar_actividad">
+    <x-slot:encabezado>
+        <h3 id="titulo_editar_actividad" class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">Modificación de Actividad</h3>
+    </x-slot:encabezado>
 
-<main class="col-md-12">
-  <div class="row">
-    <div class="col-md-12 col-md-offset-1">
-      <div class="modal fade" id="modal_edit_activad" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-       <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-          <div class="modal-header bg-info">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-              <h3 class="modal-title text-center" id="myModalLabel">Modificación de Actividad</h3>
-          </div>
-            <div class="modal-body">
-              <div class="panel panel-info">
-                <div class="panel-body">
+    <form id="modificar_actividad" role="form" method="POST" action="/nueva_actividad/{{ $actividad->id_actividad_comple}}" novalidate
+          class="tw:[&_label.error]:mt-1.5 tw:[&_label.error]:block tw:[&_label.error]:text-sm tw:[&_label.error]:text-red-600 tw:dark:[&_label.error]:text-red-400">
+        {{method_field('PUT')}}
+        {{csrf_field()}}
+        <div class="tw-modal-cuerpo">
+            <div class="tw:grid tw:gap-4 tw:md:grid-cols-2">
+                <x-panel.input etiqueta="Nombre de Actividad" id="editar_actividad_sub" type="text" name="actividad_sub"
+                               value="{{$actividad->descripcion}}" :error="$errors->first('actividad_sub')" />
 
-                  <form class="form-horizontal" id="modificar_actividad" role="form" method="POST" action="/nueva_actividad/{{ $actividad->id_actividad_comple}}" novalidate>
-                    <input type="hidden" name="_method" value="PUT" />
-                      {{csrf_field()}} 
+                <x-panel.select etiqueta="Categoría" id="editar_categoria_sub" name="categoria_sub" :error="$errors->first('categoria_sub')">
+                    <option disabled selected hidden>Selecciona Opción...</option>
+                    @foreach($categorias as $categoria)
+                        <option value="{{$categoria->id_categoria}}" @selected($actividad->id_categoria == $categoria->id_categoria)>{{$categoria->descripcion_cat}}</option>
+                    @endforeach
+                </x-panel.select>
 
-                        <div class="col-md-12" >
-                          <div class="col-md-5" >
-                            <div class="form-group">
-                              <label >Nombre de Actividad</label>
-                                <input class="form-control" id="" type="text" value="{{$actividad->descripcion}}" name="actividad_sub">
-                            </div>      
-                          </div>
+                <x-panel.select etiqueta="Número de Horas" id="editar_horas_sub" name="horas_sub" :error="$errors->first('horas_sub')">
+                    <option disabled selected hidden>Selecciona Opción...</option>
+                    @if($actividad->horas == 20)
+                        <option value="20" selected>20</option>
+                        <option value="40">40</option>
+                    @else
+                        <option value="40" selected>40</option>
+                        <option value="20">20</option>
+                    @endif
+                </x-panel.select>
 
-                          <div class="col-md-6 col-md-offset-1">
-                            <div class="form-group">
-                              <label >Categoría</label>
-                                <div class="dropdown">
-                                  <select class="form-control" name="categoria_sub">
-                                    <option disabled selected hidden> Selecciona Opción...</option>
-                                      @foreach($categorias as $categoria)
-                                        @if($actividad->id_categoria==$categoria->id_categoria)
-                                          <option value="{{$categoria->id_categoria}}" selected="selected">{{$categoria->descripcion_cat}}</option>
-                                          @else
-                                          <option value="{{$categoria->id_categoria}}">{{$categoria->descripcion_cat}}</option>
-                                          @endif
-                                      @endforeach
-                                  </select>
-                                </div>
-                            </div>
-                          </div>
-                        </div>
-
-
-                        <div class="col-md-12" >
-                          <div class="col-md-5">
-                            <div class="form-group">
-                              <label >Número de Horas</label>
-                                <div class="dropdown">
-                                  <select class="form-control" name="horas_sub">
-                                    <option disabled selected hidden>Selecciona Opción...</option>
-                                      @if($actividad->horas==20)
-                                        <option value="20" selected="selected">20</option>
-                                        <option value="40">40</option> 
-                                      @else
-                                        <option value="40" selected="selected">40</option> 
-                                        <option value="20">20</option>
-                                      @endif  
-                                  </select>
-                              </div>
-                            </div>
-                          </div>
-
-
-                          <div class="col-md-6 col-md-offset-1">
-                            <div class="form-group">
-                              <label >Departamento Encargado</label>
-                                <div class="dropdown">
-                                  <select class="form-control" name="jefatura_sub">
-                                    <option disabled selected hidden>Selecciona Opción...</option>
-                                      @foreach($jefaturascar as $jefatura)
-                                        @if($actividad->id_jefatura==$jefatura->id_jefatura)
-                                           <option value="{{$jefatura->id_jefatura}}" selected="selected">{{$jefatura->nom_jefatura}}</option>
-                                        @else
-                                           <option value="{{$jefatura->id_jefatura}}">{{$jefatura->nom_jefatura}}</option>
-                                        @endif
-                                      @endforeach
-                                  </select>
-                                </div>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="modal-footer" >
-                          <button type="submit" class="btn btn-primary" href="" id="modificaact_sub">Guardar</button>
-                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                        </div>
-                  </form>
-                </div>
-              </div>
+                <x-panel.select etiqueta="Departamento Encargado" id="editar_jefatura_sub" name="jefatura_sub" :error="$errors->first('jefatura_sub')">
+                    <option disabled selected hidden>Selecciona Opción...</option>
+                    @foreach($jefaturascar as $jefatura)
+                        <option value="{{$jefatura->id_jefatura}}" @selected($actividad->id_jefatura == $jefatura->id_jefatura)>{{$jefatura->nom_jefatura}}</option>
+                    @endforeach
+                </x-panel.select>
             </div>
-          </div>
         </div>
-      </div>
-    </div>
-  </div>
-</main>
+
+        <x-panel.modal-pie>
+            <x-panel.boton variante="secundario" data-dismiss="modal">Cancelar</x-panel.boton>
+            <x-panel.boton type="submit" id="modificaact_sub">Guardar</x-panel.boton>
+        </x-panel.modal-pie>
+    </form>
+</x-panel.modal>
 
 
 <script>
@@ -115,6 +59,9 @@
         });
 
           $("#modificar_actividad").validate({
+            errorPlacement: function(error, element){
+              error.insertAfter(element.is('select') ? element.parent() : element);
+            },
             rules:{
               actividad_sub:
               {
@@ -132,4 +79,3 @@
 
   });   
 </script>
-@endsection

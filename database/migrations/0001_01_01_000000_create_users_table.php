@@ -16,7 +16,7 @@ return new class extends Migration
             $table->charset('utf8mb3');
             $table->collation('utf8mb3_unicode_ci');
 
-            $table->integer('id', true, true);
+            $table->increments('id');
             $table->string('email', 255);
             $table->string('password', 255);
             $table->boolean('activated')->default(0);
@@ -28,7 +28,6 @@ return new class extends Migration
             $table->text('name')->nullable();
             $table->timestamp('deleted_at')->nullable();
 
-            $table->primary(['id']);
             $table->index(['email'], 'idx_ar_users_email');
         });
 

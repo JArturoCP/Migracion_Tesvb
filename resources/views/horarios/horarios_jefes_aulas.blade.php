@@ -1,50 +1,36 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 @section('title', 'Horarios Aulas')
+@include('partials.panel.recursos_app')
 @section('content')
 
+<main class="tw-pantalla tw:space-y-6">
+    <x-panel.encabezado titulo="HORARIOS AULAS" />
 
-<main class="col-md-12">
-<div class="row">
-  <div class="col-md-5 col-md-offset-3">
-    <div class="panel panel-info">
-        <div class="panel-heading">
-          <h3 class="panel-title text-center">HORARIOS AULAS</h3>
+    <x-panel.tarjeta class="tw:mx-auto tw:max-w-xl">
+        <div class="dropdown">
+            <x-panel.select etiqueta="Aula" name="selectAula" id="selectAula">
+                <option disabled selected>Selecciona aula...</option>
+                @foreach($aulas as $aula)
+                    <option value="{{$aula->id_aula}}">{{ $aula->nombre }}</option>
+                @endforeach
+            </x-panel.select>
         </div>
-              <div class="panel-body">
-                            <div class="dropdown col-md-7 col-md-offset-3">
-                                <select name="selectAula" id="selectAula" class="form-control">
-                                  <option disabled selected>Selecciona...</option>
-                                @foreach($aulas as $aula)
-                                  <option value="{{$aula->id_aula}}">{{ $aula->nombre }}</option>
-                                @endforeach
-                                </select>
-                            </div>
-                </div>
-    </div>  
-  </div>
-</div>
+    </x-panel.tarjeta>
 
 @if(isset($ver))
-      @section('horario_aula')
-      @include('horarios.partialsh.partial_ver_aulas_jefes')
-      @show
+    @section('horario_aula')
+    @include('horarios.partialsh.partial_ver_aulas_jefes')
+    @show
 @endif
 
 </main>
 
 <script>
-  $(document).ready(function() {
-
-$("#selectAula").on('change',function(e){
-  var aula=$("#selectAula").val();
-
-window.location.href='/horarios_aulas/jefes/'+aula;
+$(document).ready(function() {
+    $("#selectAula").on('change',function(e){
+        var aula=$("#selectAula").val();
+        window.location.href='/horarios_aulas/jefes/'+aula;
+    });
 });
-
-});
-
 </script>
-
 @endsection
-
-
