@@ -43,6 +43,46 @@ it('mantiene el formulario principal y renderiza los diálogos del panel', funct
     expect(BalanceHtml::errores($html))->toBe([]);
 })->with('formularios_panel');
 
+it('enlaza cada paso con su sección y conserva el formulario de guardado', function (string $vista, string $id, string $formulario, array $datos) {
+    $html = view($vista, $datos)->render();
+    $dom = new DOMDocument();
+    @$dom->loadHTML($html);
+    $xpath = new DOMXPath($dom);
+
+    for ($paso = 0; $paso < 3; $paso++) {
+        $seccion = "$id-paso-$paso";
+        expect($xpath->query("//button[@data-stepper-ir and @aria-controls='$seccion']")->length)->toBe(1)
+            ->and($xpath->query("//section[@id='$seccion' and @data-stepper-seccion]")->length)->toBe(1);
+    }
+
+    expect($xpath->query("//form[@id='$formulario' and @data-stepper-formulario and @method='POST']")->length)->toBe(1)
+        ->and($xpath->query("//button[@type='submit' and (@form='$formulario' or ancestor::form[@id='$formulario'])]")->length)->toBe(1);
+})->with([
+    'comisión' => ['comision_oficio.solicitud_oficio', 'comision', 'form_solicitud_oficio', [
+        'estados_alu' => [], 'lugares' => [], 'estados_segundo' => [], 'estados_tercero' => [],
+    ]],
+    'incidencias' => ['incidencias.agregar', 'incidencia', 'form_guardar_solicitud', [
+        'articulos' => [], 'estado_profesor' => 1, 'array_carreras' => [],
+    ]],
+    'titulación' => function () {
+        $registro = new class
+        {
+            public function __get(string $nombre): string
+            {
+                return str_contains($nombre, 'fecha') ? '2025-06-01' : '1';
+            }
+        };
+
+        return ['titulacion.jefe_titulacion.formulario_datos_titulado.reg_datos_alumno', 'titulacion', 'form_guardar_datos_alumno', [
+            'estado_reg_datos' => 0, 'id_alumno' => 1, 'edad' => 23, 'fecha_nacimiento' => '19/01/2002',
+            'registro_datos' => $registro, 'clave_carrera' => $registro, 'genero' => $registro, 'sexo' => $registro,
+            'descuentos_alumn' => $registro, 'datos_alumnos' => $registro, 'reg_fecha_titulacion' => $registro,
+            'titulo_obtenido' => $registro, 'titulos_disponibles' => [], 'tipos_decisiones' => [],
+            'fundamentos_legal_s_s' => [], 'autorizaciones_reconocimiento' => [],
+        ]];
+    },
+]);
+
 it('separa la edición de la escuela del formulario de Datos del alumno', function () {
     $this->actingAs(EscenariosPanel::preparar('alumno', ['semestre' => 3]));
     $datosVacios = fn (array $valores) => new class($valores) {

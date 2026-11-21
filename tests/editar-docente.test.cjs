@@ -3,6 +3,7 @@ const assert = require('node:assert/strict');
 const vm = require('node:vm');
 const fs = require('node:fs');
 const source = fs.readFileSync('public/js/docentes/editar.js', 'utf8');
+const panelSource = fs.readFileSync('public/js/panel/formularios.js', 'utf8');
 
 function setup() {
     const fields = new Map();
@@ -10,26 +11,33 @@ function setup() {
     const alerts = [];
     let calls = 0;
     const button = { innerHTML: 'Guardar cambios', disabled: false };
+    const elements = ['nombre_docente', 'correo'].map(name => ({
+        name, type: name === 'correo' ? 'email' : 'text',
+        value: name === 'correo' ? 'prueba@example.com' : '1',
+        required: true, willValidate: true, validity: {valid: true},
+        labels: [{textContent: name === 'correo' ? 'Correo' : 'Nombre'}],
+        hasAttribute: () => false, getAttribute: () => null, setAttribute() {},
+        closest: () => null, getClientRects: () => [], insertAdjacentElement() {},
+    }));
+    elements.forEach(field => fields.set(field.name, field));
+    elements.namedItem = name => fields.get(name);
     const form = {
         action: '/docente/7',
-        elements: { namedItem(name) {
-            if (!fields.has(name)) fields.set(name, {
-                value: name === 'correo' ? 'prueba@example.com' : '1',
-                setAttribute() {}, removeAttribute() {}, insertAdjacentElement() {}, focus() {},
-            });
-            return fields.get(name);
-        } },
+        elements,
         querySelectorAll: () => [], setAttribute() {}, removeAttribute() {},
     };
     const document = {
         getElementById: id => id === 'form_docente_edita' ? form : button,
         createElement: () => ({setAttribute() {}}),
+        querySelectorAll: () => [],
+        addEventListener() {},
     };
     function $(value) {
         if (typeof value === 'function') return value();
         return {
             on(event, handler) { submit = handler; },
             serialize: () => '_method=PUT&_token=test',
+            triggerHandler() {},
             closest: () => ({addClass() {}, removeClass() {}}),
         };
     }
@@ -43,7 +51,9 @@ function setup() {
         return request;
     };
     const Swal = { fire(options) { alerts.push(options); return Promise.resolve(); } };
-    vm.runInNewContext(source, { document, window: {jQuery: $, Swal} });
+    const context = vm.createContext({document, window: {jQuery: $, Swal}});
+    vm.runInContext(panelSource, context);
+    vm.runInContext(source, context);
     return { fields, alerts, button, form, submit: () => submit({preventDefault() {}}),
         get calls() { return calls; }, get request() { return request; } };
 }

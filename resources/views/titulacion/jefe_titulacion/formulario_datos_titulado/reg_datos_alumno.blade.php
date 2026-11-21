@@ -1,5 +1,8 @@
 @extends('layouts.app')
 @section('title', 'Titulación')
+@push('styles')
+    @vite('resources/css/marco.css')
+@endpush
 @section('content')
     <div class="row">
         <div class="col-md-10 col-xs-10 col-md-offset-1">
@@ -26,9 +29,13 @@
 
     @if($estado_reg_datos == 0)
 
-        <form id="form_guardar_datos_alumno" class="form" action="{{url("/titulacion/registrar_formulario_datos/dato_alumno/$id_alumno")}}" role="form" method="POST" >
+    <div data-stepper-secciones  class="tw:space-y-5" data-stepper-errores="{{ json_encode($errors->messages()) }}">
+        <x-panel.stepper id="titulacion" :pasos="['Identificación', 'Antecedentes escolares', 'Datos de titulación']" externo />
+        <form data-stepper-formulario id="form_guardar_datos_alumno" class="form" action="{{url("/titulacion/registrar_formulario_datos/dato_alumno/$id_alumno")}}" role="form" method="POST" >
             {{ csrf_field() }}
 
+    <section id="titulacion-paso-0" data-stepper-seccion  class="tw:space-y-4 tw:motion-safe:animate-in tw:motion-safe:fade-in tw:motion-safe:duration-200">
+        <h4 data-stepper-titulo tabindex="-1" class="tw:text-sm tw:font-semibold tw:text-gray-800">Identificación</h4>
             <div class="row">
                 <div class="col-md-3 col-md-offset-1">
                     <div class="form-group">
@@ -80,7 +87,7 @@
                 <div class="col-md-3">
                     <div class="dropdown">
                         <label for="id_nacionalidad">Nacionalidad del estudiante</label>
-                        <input class="form-control required" id="id_nacionalidad" name="id_nacionalidad"  type="hidden"  value="{{ $registro_datos->id_nacionalidad }}"  required />
+                        <input class="form-control required" id="id_nacionalidad" name="id_nacionalidad" data-stepper-requerido="Verifica la nacionalidad del estudiante."  type="hidden"  value="{{ $registro_datos->id_nacionalidad }}"  required />
                         <input class="form-control required" id="nacionalidad" name="nacionalidad" onkeyup="javascript:this.value=this.value.toUpperCase();" readonly value="{{ $registro_datos->nacionalidad }}"  required />
 
                     </div>
@@ -135,11 +142,14 @@
                     </div>
                 </div>
             </div>
+    </section>
+    <section id="titulacion-paso-1" data-stepper-seccion  class="tw:space-y-4 tw:motion-safe:animate-in tw:motion-safe:fade-in tw:motion-safe:duration-200">
+        <h4 data-stepper-titulo tabindex="-1" class="tw:text-sm tw:font-semibold tw:text-gray-800">Antecedentes escolares</h4>
             <div class="row">
                 <div class="col-md-9 col-md-offset-1">
                     <div class="dropdown">
                         <label for="id_preparatoria">Preparatoria</label>
-                        <input class="form-control required" id="id_preparatoria" name="id_preparatoria"  type="hidden"  value="{{ $descuentos_alumn->id_preparatoria }}"  required />
+                        <input class="form-control required" id="id_preparatoria" name="id_preparatoria" data-stepper-requerido="Verifica el registro de la preparatoria."  type="hidden"  value="{{ $descuentos_alumn->id_preparatoria }}"  required />
                         <input class="form-control required" id="preparatoria" name="preparatoria" onkeyup="javascript:this.value=this.value.toUpperCase();" readonly value="{{ $descuentos_alumn->preparatoria }} ( Entidad federativa: {{ $descuentos_alumn->nom_entidad }} )"  required />
 
                     </div>
@@ -151,7 +161,7 @@
                     <div class="form-group">
                         <?php  $fecha_ingreso_preparatoria=date("d-m-Y",strtotime($registro_datos->fecha_ingreso_preparatoria)) ?>
                         <label for="id_preparatoria">Fecha de ingreso a la preparatoria</label>
-                        <input class="form-control datepicker fecha_inicio_prep"   type="text"  id="fecha_inicio_preparatoria" name="fecha_inicio_preparatoria" data-date-format="dd/mm/yyyy" placeholder="DD/MM/YYYY" readonly value="{{ $fecha_ingreso_preparatoria }}" required>
+                        <input class="form-control datepicker fecha_inicio_prep"   type="text"  id="fecha_inicio_preparatoria" name="fecha_inicio_preparatoria" data-stepper-requerido="Ingresa la fecha de ingreso a la preparatoria." data-date-format="dd/mm/yyyy" placeholder="DD/MM/YYYY" readonly value="{{ $fecha_ingreso_preparatoria }}" required>
                     </div>
                 </div>
                 <div class="col-md-3 ">
@@ -159,17 +169,20 @@
                         <?php  $fecha_egreso_preparatoria=date("d-m-Y",strtotime($registro_datos->fecha_egreso_preparatoria)) ?>
 
                         <label for="id_preparatoria">Fecha de egreso a la preparatoria</label>
-                        <input class="form-control datepicker fecha_final_prep"   type="text"  id="fecha_final_preparatoria" name="fecha_final_preparatoria" data-date-format="dd/mm/yyyy" placeholder="DD/MM/YYYY" readonly value="{{ $fecha_egreso_preparatoria }}" required >
+                        <input class="form-control datepicker fecha_final_prep"   type="text"  id="fecha_final_preparatoria" name="fecha_final_preparatoria" data-stepper-requerido="Ingresa la fecha de egreso de la preparatoria." data-date-format="dd/mm/yyyy" placeholder="DD/MM/YYYY" readonly value="{{ $fecha_egreso_preparatoria }}" required >
                     </div>
                 </div>
 
             </div>
+    </section>
+    <section id="titulacion-paso-2" data-stepper-seccion  class="tw:space-y-4 tw:motion-safe:animate-in tw:motion-safe:fade-in tw:motion-safe:duration-200">
+        <h4 data-stepper-titulo tabindex="-1" class="tw:text-sm tw:font-semibold tw:text-gray-800">Datos de titulación</h4>
             <div class="row">
 
                 <div class="col-md-3 col-md-offset-1 ">
                     <div class="dropdown">
                         <label for="id_numero_titulacion">Seleccionar folio de titulación</label>
-                        <select class="form-control" id="id_numero_titulacion" name="id_numero_titulacion" required>
+                        <select class="form-control" id="id_numero_titulacion" name="id_numero_titulacion" data-stepper-requerido="Selecciona el folio de titulación." required>
                             <option disabled selected hidden>Selecciona una opción</option>
                             @foreach($titulos_disponibles as $titulo)
                                 <option value="{{$titulo->id_numero_titulo}}"> {{$titulo->abreviatura_folio_titulo}}</option>
@@ -180,13 +193,13 @@
                 <div class="col-md-3 ">
                     <div class="form-group">
                         <label for="numero_foja_titulo">Número de la foja del título</label>
-                        <input class="form-control " id="numero_foja_titulo" name="numero_foja_titulo" type="number"  value="{{ $datos_alumnos->numero_foja_titulo }}" required />
+                        <input class="form-control " id="numero_foja_titulo" name="numero_foja_titulo" data-stepper-requerido="Ingresa el número de foja del título." type="number"  value="{{ $datos_alumnos->numero_foja_titulo }}" required />
                     </div>
                 </div>
                 <div class="col-md-3 ">
                     <div class="form-group">
                         <label for="numero_libro_titulo">Número del libro del título</label>
-                        <input class="form-control " id="numero_libro_titulo" name="numero_libro_titulo"   type="number"  value="{{ $datos_alumnos->numero_libro_titulo }}"  required/>
+                        <input class="form-control " id="numero_libro_titulo" name="numero_libro_titulo" data-stepper-requerido="Ingresa el número de libro del título."   type="number"  value="{{ $datos_alumnos->numero_libro_titulo }}"  required/>
                     </div>
                 </div>
             </div>
@@ -217,7 +230,7 @@
                 <div class="col-md-3 col-md-offset-1">
                     <div class="dropdown">
                         <label for="id_decision">Decisión del jurado</label>
-                        <select class="form-control" id="id_decision" name="id_decision" required>
+                        <select class="form-control" id="id_decision" name="id_decision" data-stepper-requerido="Selecciona la decisión del jurado." required>
                             <option disabled selected hidden>Selecciona una opción</option>
                             @foreach($tipos_decisiones as $tipos_decisiones)
                                 <option value="{{$tipos_decisiones->id_decision}}"> {{$tipos_decisiones->decision}}</option>
@@ -230,7 +243,7 @@
                         <?php  $fecha_ingreso_tesvb=date("d-m-Y",strtotime($registro_datos->fecha_ingreso_tesvb)) ?>
 
                         <label for="fecha_ingreso_tesvb">Fecha de ingreso al TESVB</label>
-                        <input class="form-control datepicker fecha_ingreso_tec"   type="text"  id="fecha_ingreso_tesvb" name="fecha_ingreso_tesvb" data-date-format="dd/mm/yyyy" placeholder="DD/MM/YYYY" value="{{ $fecha_ingreso_tesvb }}" readonly required>
+                        <input class="form-control datepicker fecha_ingreso_tec"   type="text"  id="fecha_ingreso_tesvb" name="fecha_ingreso_tesvb" data-stepper-requerido="Ingresa la fecha de ingreso al TESVB." data-date-format="dd/mm/yyyy" placeholder="DD/MM/YYYY" value="{{ $fecha_ingreso_tesvb }}" readonly required>
                     </div>
                 </div>
                 <div class="col-md-3 ">
@@ -238,7 +251,7 @@
                         <?php  $fecha_egreso_tesvb=date("d-m-Y",strtotime($registro_datos->fecha_egreso_tesvb)) ?>
 
                         <label for="fecha_ingreso_tesvb">Fecha de egreso aL TESVB</label>
-                        <input class="form-control datepicker fecha_egreso_tec"   type="text"  id="fecha_egreso_tesvb" name="fecha_egreso_tesvb" data-date-format="dd/mm/yyyy" placeholder="DD/MM/YYYY"  value="{{ $fecha_egreso_tesvb }}" readonly required >
+                        <input class="form-control datepicker fecha_egreso_tec"   type="text"  id="fecha_egreso_tesvb" name="fecha_egreso_tesvb" data-stepper-requerido="Ingresa la fecha de egreso del TESVB." data-date-format="dd/mm/yyyy" placeholder="DD/MM/YYYY"  value="{{ $fecha_egreso_tesvb }}" readonly required >
                     </div>
                 </div>
             </div>
@@ -246,7 +259,7 @@
                 <div class="col-md-3 col-md-offset-1">
                     <div class="dropdown">
                         <label for="id_fundamento_legal">Selecciona fundamento legal del servicio social</label>
-                        <select class="form-control" id="id_fundamento_legal" name="id_fundamento_legal" required>
+                        <select class="form-control" id="id_fundamento_legal" name="id_fundamento_legal" data-stepper-requerido="Selecciona el fundamento legal." required>
                             <option disabled selected hidden>Selecciona una opción</option>
                             @foreach($fundamentos_legal_s_s as $fundamento)
                                 <option value="{{$fundamento->id_fundamento_legal}}"> {{$fundamento->fundamento_legal}}</option>
@@ -257,7 +270,7 @@
                 <div class="col-md-3 ">
                     <div class="dropdown">
                         <label for="id_autorizacion_reconocimiento">Selecciona autorización de reconocimiento</label>
-                        <select class="form-control" id="id_autorizacion_reconocimiento" name="id_autorizacion_reconocimiento" required >
+                        <select class="form-control" id="id_autorizacion_reconocimiento" name="id_autorizacion_reconocimiento" data-stepper-requerido="Selecciona la autorización de reconocimiento." required >
                             <option disabled selected hidden>Selecciona una opción</option>
                             @foreach($autorizaciones_reconocimiento as $autorizacion)
                                 <option value="{{$autorizacion->id_autorizacion_reconocimiento}}"> {{$autorizacion->autorizacion_reconocimiento}}</option>
@@ -267,16 +280,19 @@
                 </div>
             </div>
 
+    </section>
         </form>
         <div class="row">
 
             <div class="col-md-3 col-md-offset-5">
                 <p></p>
-                <button type="button" id="guardar_datos" class="btn btn-primary btn-lg"  >Guardar datos</button>
+                <button type="submit" form="form_guardar_datos_alumno" id="guardar_datos" class="btn btn-primary btn-lg"  >Guardar datos</button>
                 <p><br></p>
             </div>
         </div>
 
+        <x-panel.stepper-navegacion />
+    </div>
     @elseif($estado_reg_datos == 1)
             @if($estado_folio_titulo == 0)
                 <div class="row">
@@ -296,6 +312,8 @@
                     </div>
                 </div>
             @else
+    <div data-stepper-secciones data-stepper-inicio="2" class="tw:space-y-5" data-stepper-errores="{{ json_encode($errors->messages()) }}">
+        <x-panel.stepper id="titulacion" :pasos="['Identificación', 'Antecedentes escolares', 'Datos de titulación']" externo />
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
 
@@ -303,6 +321,8 @@
                 <div class="panel panel-info">
                     <div class="panel-body">
 
+    <section id="titulacion-paso-0" data-stepper-seccion data-stepper-guardado class="tw:space-y-4 tw:motion-safe:animate-in tw:motion-safe:fade-in tw:motion-safe:duration-200">
+        <h4 data-stepper-titulo tabindex="-1" class="tw:text-sm tw:font-semibold tw:text-gray-800">Identificación</h4>
                         <div class="row">
                             <div class="col-md-4">
                                 <label for="numero_cuenta" style="color: #1f6fb2">Número de cuenta</label>
@@ -412,6 +432,9 @@
 
                             </div>
                         </div>
+    </section>
+    <section id="titulacion-paso-1" data-stepper-seccion data-stepper-guardado class="tw:space-y-4 tw:motion-safe:animate-in tw:motion-safe:fade-in tw:motion-safe:duration-200">
+        <h4 data-stepper-titulo tabindex="-1" class="tw:text-sm tw:font-semibold tw:text-gray-800">Antecedentes escolares</h4>
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
@@ -426,6 +449,9 @@
                                 </div>
                             </div>
                         </div>
+    </section>
+    <section id="titulacion-paso-2" data-stepper-seccion @if($oficio_recursos && $acta_titulacion?->id_autorizar && ($estado_mencion_honorifica != 1 || $datos_mencion_honorifica)) data-stepper-guardado @endif class="tw:space-y-4 tw:motion-safe:animate-in tw:motion-safe:fade-in tw:motion-safe:duration-200">
+        <h4 data-stepper-titulo tabindex="-1" class="tw:text-sm tw:font-semibold tw:text-gray-800">Datos de titulación</h4>
                         <div class="row">
 
                             <div class="col-md-4 ">
@@ -500,6 +526,7 @@
                                     <h4> {{ $datos_alumnos->autorizacion_reconocimiento }}</h4>
                                 </div>
                             </div>
+    </section>
 
                         </div>
                         <div class="row">
@@ -521,6 +548,12 @@
         </div>
 
 
+    <section data-stepper-detalle="2" class="tw:space-y-4" aria-label="Documentos de titulación">
+        <span class="tw:inline-flex tw:rounded-full tw:bg-gray-100 tw:px-3 tw:py-1 tw:text-sm tw:text-gray-700">Oficio de recursos · {{ $oficio_recursos ? 'Guardado' : 'Pendiente' }}</span>
+        <span class="tw:inline-flex tw:rounded-full tw:bg-gray-100 tw:px-3 tw:py-1 tw:text-sm tw:text-gray-700">Acta de titulación · {{ $acta_titulacion?->id_autorizar ? 'Guardado' : 'Pendiente' }}</span>
+        @if($estado_mencion_honorifica == 1)
+        <span class="tw:inline-flex tw:rounded-full tw:bg-gray-100 tw:px-3 tw:py-1 tw:text-sm tw:text-gray-700">Mención honorífica · {{ $datos_mencion_honorifica ? 'Guardado' : 'Pendiente' }}</span>
+        @endif
         @if($oficio_recursos == null)
             <div class="row">
                 <div class="col-md-10 col-md-offset-1">
@@ -528,26 +561,26 @@
                         <div class="panel-body">
                             <h4 style="text-align: center">Registrar datos del oficio de recursos</h4>
                             <div class="row">
-                                <form id="form_guardar_oficio_recursos" class="form" action="{{url("/titulacion/registrar_oficio_recursos/$id_alumno")}}" role="form" method="POST" >
+                                <form data-stepper-formulario id="form_guardar_oficio_recursos" class="form" action="{{url("/titulacion/registrar_oficio_recursos/$id_alumno")}}" role="form" method="POST" >
                                     {{ csrf_field() }}
                                     <div class="col-md-4  col-md-offset-1">
                                         <div class="form-group">
                                             <label for="fecha_oficio_recurso">Fecha de registro del oficio de recurso</label>
-                                            <input class="form-control datepicker "   type="text"  id="fecha_oficio_recurso" name="fecha_oficio_recurso" data-date-format="dd/mm/yyyy" placeholder="DD/MM/YYYY" value="{{ $reg_fecha_titulacion->fecha_titulacion }}" readonly required>
+                                            <input class="form-control datepicker "   type="text"  id="fecha_oficio_recurso" name="fecha_oficio_recurso" data-stepper-requerido="Ingresa la fecha del oficio de recursos." data-date-format="dd/mm/yyyy" placeholder="DD/MM/YYYY" value="{{ $reg_fecha_titulacion->fecha_titulacion }}" readonly required>
 
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="numero_oficio_recurso">Número del oficio de recurso</label>
-                                            <input class="form-control required" id="numero_oficio_recurso" name="numero_oficio_recurso" onkeyup="javascript:this.value=this.value.toUpperCase();"  value="" />
+                                            <input class="form-control required" id="numero_oficio_recurso" name="numero_oficio_recurso" data-stepper-requerido="Ingresa el número del oficio de recursos." onkeyup="javascript:this.value=this.value.toUpperCase();"  value="" />
                                         </div>
                                     </div>
                                 </form>
                                 <div class="col-md-2">
                                     <p></p>
                                     <p></p>
-                                    <button type="button " class="btn btn-primary btn-lg" id="guardar_oficio_recursos" >Guardar</button>
+                                    <button type="submit" form="form_guardar_oficio_recursos" class="btn btn-primary btn-lg" id="guardar_oficio_recursos" >Guardar</button>
 
                                 </div>
                             </div>
@@ -604,7 +637,7 @@
                         <div class="panel panel-info">
                             <div class="panel-body">
                                 <h4 style="text-align: center">Registrar datos de la acta de titulacion</h4>
-                                <form id="form_guardar_datos_acta_titulacion" class="form" action="{{url("/titulacion/registrar_datos_acta_titulacion/$id_alumno")}}" role="form" method="POST" >
+                                <form data-stepper-formulario id="form_guardar_datos_acta_titulacion" class="form" action="{{url("/titulacion/registrar_datos_acta_titulacion/$id_alumno")}}" role="form" method="POST" >
                                     {{ csrf_field() }}
                                     <div class="row">
                                         <div class="col-md-3  col-md-offset-1">
@@ -612,20 +645,20 @@
                                                 <label for="numero_acta_titulación">Número de la acta de titulación</label>
                                                 <input class="form-control"   type="hidden"  id="id_acta_titulacion" name="id_acta_titulacion"  value="{{ $acta_titulacion->id_acta_titulacion }}"  required>
 
-                                                <input class="form-control"   type="text"  id="numero_acta_titulacion" readonly name="numero_acta_titulacion"  value="{{ $acta_titulacion->numero_acta_titulacion }}"  required>
+                                                <input class="form-control"   type="text"  id="numero_acta_titulacion" readonly name="numero_acta_titulacion" data-stepper-requerido="Ingresa el número del acta."  value="{{ $acta_titulacion->numero_acta_titulacion }}"  required>
 
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label for="numero_libro_acta_titulacion	">Número del libro de actas de titulación</label>
-                                                <input class="form-control required" id="numero_libro_acta_titulacion" readonly name="numero_libro_acta_titulacion" value="{{ $acta_titulacion->numero_libro_acta_titulacion }}"  type="text"   value="" />
+                                                <input class="form-control required" id="numero_libro_acta_titulacion" readonly name="numero_libro_acta_titulacion" data-stepper-requerido="Ingresa el número del libro de actas." value="{{ $acta_titulacion->numero_libro_acta_titulacion }}"  type="text"   value="" />
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label for="foja_acta_titulacion">Número de foja de la acta de titulación</label>
-                                                <input class="form-control"   type="text"  id="foja_acta_titulacion" readonly name="foja_acta_titulacion" value="{{ $acta_titulacion->foja_acta_titulacion }}"    required>
+                                                <input class="form-control"   type="text"  id="foja_acta_titulacion" readonly name="foja_acta_titulacion" data-stepper-requerido="Ingresa la foja del acta." value="{{ $acta_titulacion->foja_acta_titulacion }}"    required>
 
                                             </div>
                                         </div>
@@ -635,13 +668,13 @@
                                         <div class="col-md-4 col-md-offset-1">
                                             <div class="form-group">
                                                 <label for="hora_conformidad_acta">Hora de conformidad de la acta  de titulación</label>
-                                                <input id="hora_conformidad_acta" class="form-control time" type="time" name="hora_conformidad_acta"  />
+                                                <input id="hora_conformidad_acta" class="form-control time" type="time" name="hora_conformidad_acta" data-stepper-requerido="Ingresa la hora de conformidad."  />
                                             </div>
                                         </div>
                                         <div class="col-md-4  col-md-offset-1">
                                             <div class="form-group">
                                                 <label for="fecha_conformidad_acta">Fecha de conformidad de la acta  de titulación</label>
-                                                <input class="form-control datepicker "   type="text"  id="fecha_conformidad_acta" name="fecha_conformidad_acta" value="{{ $reg_fecha_titulacion->fecha_titulacion }}" readonly data-date-format="dd/mm/yyyy" placeholder="DD/MM/YYYY" required>
+                                                <input class="form-control datepicker "   type="text"  id="fecha_conformidad_acta" name="fecha_conformidad_acta" data-stepper-requerido="Ingresa la fecha de conformidad." value="{{ $reg_fecha_titulacion->fecha_titulacion }}" readonly data-date-format="dd/mm/yyyy" placeholder="DD/MM/YYYY" required>
 
                                             </div>
                                         </div>
@@ -650,13 +683,13 @@
                                         <div class="col-md-4 col-md-offset-1">
                                             <div class="form-group">
                                                 <label for="hora_levantamiento_acta">Hora de levantamiento de la acta  de titulación</label>
-                                                <input id="hora_levantamiento_acta" class="form-control time" type="time" name="hora_levantamiento_acta"  />
+                                                <input id="hora_levantamiento_acta" class="form-control time" type="time" name="hora_levantamiento_acta" data-stepper-requerido="Ingresa la hora de levantamiento."  />
                                             </div>
                                         </div>
                                         <div class="col-md-4  col-md-offset-1">
                                             <div class="form-group">
                                                 <label for="fecha_levantamiento_acta">Fecha de levantamiento de la acta  de titulación</label>
-                                                <input class="form-control datepicker "   type="text"  id="fecha_levantamiento_acta" name="fecha_levantamiento_acta" value="{{ $reg_fecha_titulacion->fecha_titulacion }}" readonly data-date-format="dd/mm/yyyy" placeholder="DD/MM/YYYY" required>
+                                                <input class="form-control datepicker "   type="text"  id="fecha_levantamiento_acta" name="fecha_levantamiento_acta" data-stepper-requerido="Ingresa la fecha de levantamiento." value="{{ $reg_fecha_titulacion->fecha_titulacion }}" readonly data-date-format="dd/mm/yyyy" placeholder="DD/MM/YYYY" required>
 
                                             </div>
                                         </div>
@@ -666,7 +699,7 @@
                                     <div class="col-md-2 col-md-offset-5">
                                         <p></p>
                                         <p></p>
-                                        <button type="button " class="btn btn-primary btn-lg" id="guardar_acta_titulacion" >Guardar</button>
+                                        <button type="submit" form="form_guardar_datos_acta_titulacion" class="btn btn-primary btn-lg" id="guardar_acta_titulacion" >Guardar</button>
 
                                     </div>
                                 </div>
@@ -845,20 +878,20 @@
                                 <div class="panel panel-info">
                                     <div class="panel-body">
                                         <h4 style="text-align: center">Registrar datos de la  mención honorifica</h4>
-                                        <form id="form_guardar_datos_mencion" class="form" action="{{url("/titulacion/registrar_datos_mencion/$id_alumno")}}" role="form" method="POST" >
+                                        <form data-stepper-formulario id="form_guardar_datos_mencion" class="form" action="{{url("/titulacion/registrar_datos_mencion/$id_alumno")}}" role="form" method="POST" >
                                             {{ csrf_field() }}
                                             <div class="row">
                                                 <div class="col-md-4  col-md-offset-1">
                                                     <div class="form-group">
                                                         <label for="numero_acta_titulación">Número de registro de la mencion honorifica</label>
-                                                        <input class="form-control"   type="int"  id="numero_registro" name="no_registro"  value="{{  $numero_mencion_honorifica }}"  required>
+                                                        <input class="form-control"   type="int"  id="numero_registro" name="no_registro" data-stepper-requerido="Ingresa el número de registro de la mención."  value="{{  $numero_mencion_honorifica }}"  required>
 
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                     <div class="form-group">
                                                         <label for="libro_registro ">Número de libro de registro</label>
-                                                        <input class="form-control"   type="number"  id="libro_registro" name="libro_registro" value="{{ $libro_mencion_honorifica }}"   required>
+                                                        <input class="form-control"   type="number"  id="libro_registro" name="libro_registro" data-stepper-requerido="Ingresa el libro de registro de la mención." value="{{ $libro_mencion_honorifica }}"   required>
 
                                                     </div>
                                                 </div>
@@ -877,7 +910,7 @@
                                             <div class="col-md-2 col-md-offset-5">
                                                 <p></p>
                                                 <p></p>
-                                                <button type="button " class="btn btn-primary btn-lg" id="guardar_mencion_honorifica" >Guardar</button>
+                                                <button type="submit" form="form_guardar_datos_mencion" class="btn btn-primary btn-lg" id="guardar_mencion_honorifica" >Guardar</button>
 
                                             </div>
                                         </div>
@@ -900,6 +933,9 @@
             @endif
 
             @endif
+    </section>
+        <x-panel.stepper-navegacion />
+    </div>
             <div class="modal fade" id="modal_modificar_oficio_recursos" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -1022,6 +1058,8 @@ Full screen Modal
 
 
     @endif
+    @include('partials.panel.stepper-secciones')
+
     <script type="text/javascript">
         $(document).ready( function() {
             $('#guardar_mod_rec').click(function (){
@@ -1077,240 +1115,6 @@ Full screen Modal
 
             });
 
-            $('#guardar_datos').click(function (){
-
-                var id_nacionalidad = $("#id_nacionalidad").val();
-                if(id_nacionalidad != null){
-                    var id_preparatoria = $("#id_preparatoria").val();
-                    if(id_preparatoria != null){
-                        var fecha_inicio_preparatoria = $("#fecha_inicio_preparatoria").val();
-                        if(fecha_inicio_preparatoria != ''){
-                            var fecha_final_preparatoria = $("#fecha_final_preparatoria").val();
-                            if(fecha_final_preparatoria != ''){
-                                    var id_numero_titulacion = $("#id_numero_titulacion").val();
-                                    if(id_numero_titulacion != null){
-                                        var id_decision = $("#id_decision").val();
-                                        if(id_decision != null){
-                                            var fecha_ingreso_tesvb = $("#fecha_ingreso_tesvb").val();
-                                            if(fecha_ingreso_tesvb != ''){
-                                                var fecha_egreso_tesvb = $("#fecha_egreso_tesvb").val();
-                                                if(fecha_egreso_tesvb != ''){
-                                                    var id_fundamento_legal = $("#id_fundamento_legal").val();
-                                                    if(id_fundamento_legal != null){
-                                                        var id_autorizacion_reconocimiento = $("#id_autorizacion_reconocimiento").val();
-                                                        if(id_autorizacion_reconocimiento != null){
-
-                                                            var fecha_egreso_tesvb = $("#fecha_egreso_tesvb").val();
-                                                            if(fecha_egreso_tesvb != ''){
-                                                                var numero_foja_titulo = $("#numero_foja_titulo").val();
-                                                                if(numero_foja_titulo != ''){
-                                                                    var numero_libro_titulo = $("#numero_libro_titulo").val();
-                                                                    if(numero_libro_titulo != '') {
-                                                                        $("#form_guardar_datos_alumno").submit();
-                                                                        $("#guardar_datos").attr("disabled", true);
-                                                                        swal({
-                                                                            type: "success",
-                                                                            title: "Registro exitoso",
-                                                                            showConfirmButton: false,
-                                                                            timer: 1500
-                                                                        });
-                                                                    }else{
-                                                                        swal({
-                                                                            position: "top",
-                                                                            type: "warning",
-                                                                            title: "Ingresa número de libro de título",
-                                                                            showConfirmButton: false,
-                                                                            timer: 3500
-                                                                        });
-                                                                    }
-                                                                }else{
-                                                                    swal({
-                                                                        position: "top",
-                                                                        type: "warning",
-                                                                        title: "Ingresa número de la foja de título",
-                                                                        showConfirmButton: false,
-                                                                        timer: 3500
-                                                                    });
-                                                                }
-
-
-                                                            }else{
-                                                                swal({
-                                                                    position: "top",
-                                                                    type: "warning",
-                                                                    title: "Selecciona autorización de reconocimiento",
-                                                                    showConfirmButton: false,
-                                                                    timer: 3500
-                                                                });
-                                                            }
-
-                                                        }else{
-                                                            swal({
-                                                                position: "top",
-                                                                type: "warning",
-                                                                title: "Selecciona autorización de reconocimiento",
-                                                                showConfirmButton: false,
-                                                                timer: 3500
-                                                            });
-                                                        }
-                                                    }else{
-                                                        swal({
-                                                            position: "top",
-                                                            type: "warning",
-                                                            title: "Selecciona fundamento legal del servicio social",
-                                                            showConfirmButton: false,
-                                                            timer: 3500
-                                                        });
-                                                    }
-                                                }else{
-                                                    swal({
-                                                        position: "top",
-                                                        type: "warning",
-                                                        title: "Selecciona fecha de egreso al tesvb",
-                                                        showConfirmButton: false,
-                                                        timer: 3500
-                                                    });
-                                                }
-                                            }else{
-                                                swal({
-                                                    position: "top",
-                                                    type: "warning",
-                                                    title: "Selecciona fecha de ingreso al tesvb",
-                                                    showConfirmButton: false,
-                                                    timer: 3500
-                                                });
-                                            }
-                                        }else{
-                                            swal({
-                                                position: "top",
-                                                type: "warning",
-                                                title: "Selecciona decisión del jurado",
-                                                showConfirmButton: false,
-                                                timer: 3500
-                                            });
-                                        }
-                                    }else{
-                                        swal({
-                                            position: "top",
-                                            type: "warning",
-                                            title: "Selecciona folio de titulación",
-                                            showConfirmButton: false,
-                                            timer: 3500
-                                        });
-                                    }
-
-
-                            }else{
-                                swal({
-                                    position: "top",
-                                    type: "warning",
-                                    title: "Selecciona fecha de egreso a la preparatoria",
-                                    showConfirmButton: false,
-                                    timer: 3500
-                                });
-                            }
-                        }else{
-                            swal({
-                                position: "top",
-                                type: "warning",
-                                title: "Selecciona fecha de ingreso a la preparatoria",
-                                showConfirmButton: false,
-                                timer: 3500
-                            });
-                        }
-                    }else{
-                        swal({
-                            position: "top",
-                            type: "warning",
-                            title: "Selecciona preparatoria que curso el estudiante.",
-                            showConfirmButton: false,
-                            timer: 3500
-                        });
-                    }
-                }else{
-                    swal({
-                        position: "top",
-                        type: "warning",
-                        title: "Selecciona la nacionalidad del estudiante.",
-                        showConfirmButton: false,
-                        timer: 3500
-                    });
-                }
-            });
-
-
-            $('#guardar_mencion_honorifica').click(function (){
-                var numero_registro = $("#numero_registro").val();
-
-                if(numero_registro != ''){
-                    var libro_registro = $("#libro_registro").val();
-
-                    if(libro_registro != ''){
-                        $("#guardar_mencion_honorifica").attr("disabled", true);
-                    $("#form_guardar_datos_mencion").submit();
-
-                    swal({
-                        type: "success",
-                        title: "Registro exitoso",
-                        showConfirmButton: false,
-                        timer: 1500
-                    });
-                    }else{
-                        swal({
-                            position: "top",
-                            type: "warning",
-                            title: "Ingresa número del libro de registro.",
-                            showConfirmButton: false,
-                            timer: 3500
-                        });
-                    }
-
-                }else{
-                    swal({
-                        position: "top",
-                        type: "warning",
-                        title: "Ingresa número de registro de la mencion honorifica.",
-                        showConfirmButton: false,
-                        timer: 3500
-                    });
-                }
-
-            });
-            $("#guardar_oficio_recursos").click(function (){
-                var fecha_oficio_recurso = $("#fecha_oficio_recurso").val();
-
-                if( fecha_oficio_recurso != ''){
-                    var numero_oficio_recurso = $("#numero_oficio_recurso").val();
-                    if(numero_oficio_recurso != ''){
-                        $("#form_guardar_oficio_recursos").submit();
-                        $("#guardar_oficio_recursos").attr("disabled", true);
-                        swal({
-                            type: "success",
-                            title: "Registro exitoso",
-                            showConfirmButton: false,
-                            timer: 1500
-                        });
-
-                    }else{
-                        swal({
-                            position: "top",
-                            type: "warning",
-                            title: "Ingresa número de registro del oficio de recursos.",
-                            showConfirmButton: false,
-                            timer: 3500
-                        });
-                    }
-                }else{
-                    swal({
-                        position: "top",
-                        type: "warning",
-                        title: "Ingresa fecha de registro del oficio de recursos.",
-                        showConfirmButton: false,
-                        timer: 3500
-                    });
-                }
-
-            });
             $("#editar_oficio_recursos").click(function (){
 
                 var id_alumno={{ $id_alumno }};
@@ -1334,102 +1138,6 @@ Full screen Modal
                     $("#modal_modificar_acta_titulacion").modal('show');
 
                 });
-            });
-            $("#guardar_acta_titulacion").click(function (){
-                var numero_acta_titulación = $("#numero_acta_titulación").val();
-
-                if(numero_acta_titulación != ''){
-
-                    var numero_libro_acta_titulacion = $("#numero_libro_acta_titulacion").val();
-                    if(numero_libro_acta_titulacion != ''){
-                        var foja_acta_titulacion = $("#foja_acta_titulacion").val();
-                        if(foja_acta_titulacion != ''){
-                            var hora_conformidad_acta = $("#hora_conformidad_acta").val();
-                            if(hora_conformidad_acta != ''){
-                                var fecha_conformidad_acta = $("#fecha_conformidad_acta").val();
-                                if(fecha_conformidad_acta != ''){
-                                    var hora_levantamiento_acta = $("#hora_levantamiento_acta").val();
-                                    if(hora_levantamiento_acta != ''){
-                                        var fecha_levantamiento_acta = $("#fecha_levantamiento_acta").val();
-                                        if(fecha_levantamiento_acta != ''){
-
-                                            $("#form_guardar_datos_acta_titulacion").submit();
-                                            $("#guardar_acta_titulacion").attr("disabled", true);
-                                            swal({
-                                                type: "success",
-                                                title: "Registro exitoso",
-                                                showConfirmButton: false,
-                                                timer: 1500
-                                            });
-                                        }
-                                        else{
-                                            swal({
-                                                position: "top",
-                                                type: "warning",
-                                                title: "Selecciona la fecha de levantamiento de la acta  de titulación.",
-                                                showConfirmButton: false,
-                                                timer: 3500
-                                            });
-                                        }
-                                    }
-                                    else{
-                                        swal({
-                                            position: "top",
-                                            type: "warning",
-                                            title: "Selecciona la hora de levantamiento de la acta  de titulación.",
-                                            showConfirmButton: false,
-                                            timer: 3500
-                                        });
-                                    }
-                                }
-                                else{
-                                    swal({
-                                        position: "top",
-                                        type: "warning",
-                                        title: "Selecciona la fecha de conformidad de la acta  de titulación.",
-                                        showConfirmButton: false,
-                                        timer: 3500
-                                    });
-                                }
-                            }
-                            else{
-                                swal({
-                                    position: "top",
-                                    type: "warning",
-                                    title: "Selecciona la hora de conformidad de la acta  de titulación.",
-                                    showConfirmButton: false,
-                                    timer: 3500
-                                });
-                            }
-                        }
-                        else{
-                            swal({
-                                position: "top",
-                                type: "warning",
-                                title: "Ingresa número de foja de la acta de titulación.",
-                                showConfirmButton: false,
-                                timer: 3500
-                            });
-                        }
-                    }
-                    else{
-                        swal({
-                            position: "top",
-                            type: "warning",
-                            title: "Ingresa número del libro de actas de titulación.",
-                            showConfirmButton: false,
-                            timer: 3500
-                        });
-                    }
-                }else{
-                    swal({
-                        position: "top",
-                        type: "warning",
-                        title: "Ingresa número de la acta de titulación.",
-                        showConfirmButton: false,
-                        timer: 3500
-                    });
-                }
             });
             $("#guardar_mod_acta").click(function (){
                 var numero_acta_ti = $("#numero_acta_ti").val();

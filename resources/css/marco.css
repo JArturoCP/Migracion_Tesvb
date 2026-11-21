@@ -54,6 +54,9 @@
 @source "../views/plantilla";
 @source "../views/reticulas";
 @source "../views/docentes";
+@source "../views/comision_oficio/solicitud_oficio.blade.php";
+@source "../views/incidencias/agregar.blade.php";
+@source "../views/titulacion/jefe_titulacion/formulario_datos_titulado/reg_datos_alumno.blade.php";
 @source "../views/personal.blade.php";
 @source "../views/editar_personal.blade.php";
 @source "../views/layouts/panel.blade.php";
