@@ -22,7 +22,7 @@
     $profesor_ingles_menu = session()->has('profesor_ingles') ? session()->has('profesor_ingles') : false;
 ?>
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'ingles' ? '' : 'ingles')" class="tw:group tw:menu-item" :class="selected === 'ingles' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'ingles' ? '' : 'ingles')" class="tw:group tw:menu-item" :class="selected === 'ingles' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="ingles">
 @include('partials.panel.iconos.paginas', ['clave' => 'ingles'])
 <span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Inglés</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'ingles'])
@@ -33,7 +33,7 @@
                                 {{-- menu_ingles L57-71 --}}
                                 @if($profesor_ingles_menu==true)
                                 <?php $id_usuario = Session::get('id_usuario');?>
-                                <li x-data="{ abierto: false }">
+                                <li x-data="{ abierto: $el.hasAttribute('data-panel-rama-activa') }">
                                     <a href="#" @click.prevent="abierto = !abierto" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-modulo>
 <span>Datos P.</span>
 @include('partials.panel.iconos.flecha_subgrupo')
@@ -48,7 +48,7 @@
                                 {{-- menu_ingles L72-167 --}}
                                 @if($unidad_ingles==19 )
                                 <li><a href="{{url('/armar_plantilla/profesore_ingles')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Facilitadores de ingles</a></li>
-                                <li x-data="{ abierto: false }">
+                                <li x-data="{ abierto: $el.hasAttribute('data-panel-rama-activa') }">
                                     <a href="#" @click.prevent="abierto = !abierto" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-modulo>
 <span>Horarios</span>
 @include('partials.panel.iconos.flecha_subgrupo')
@@ -66,7 +66,7 @@
                                 <li><a href="{{url('/ingles_horarios/mostrar_grupo')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Grupos</a></li>
                                 <li><a href="{{url('/ingles/mostrar_periodos')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Periodos intersemestrales</a></li>
                                 <li><a href="{{url('/ingles/autorizacion_cargas/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Cargas academicas</a></li>
-                                <li x-data="{ abierto: false }">
+                                <li x-data="{ abierto: $el.hasAttribute('data-panel-rama-activa') }">
                                     <a href="#" @click.prevent="abierto = !abierto" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-modulo>
 <span>Calificaciones</span>
 @include('partials.panel.iconos.flecha_subgrupo')
@@ -80,7 +80,7 @@
                                     </ul>
 </div>
                                 </li>
-                                <li x-data="{ abierto: false }">
+                                <li x-data="{ abierto: $el.hasAttribute('data-panel-rama-activa') }">
                                     <a href="#" @click.prevent="abierto = !abierto" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-modulo>
 <span>Validación de Vouchers</span>
 @include('partials.panel.iconos.flecha_subgrupo')
@@ -95,7 +95,7 @@
                                     </ul>
 </div>
                                 </li>
-                                <li x-data="{ abierto: false }">
+                                <li x-data="{ abierto: $el.hasAttribute('data-panel-rama-activa') }">
                                     <a href="#" @click.prevent="abierto = !abierto" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-modulo>
 <span>Desactivar grupos</span>
 @include('partials.panel.iconos.flecha_subgrupo')
@@ -106,7 +106,7 @@
                                     </ul>
 </div>
                                 </li>
-                                <li x-data="{ abierto: false }">
+                                <li x-data="{ abierto: $el.hasAttribute('data-panel-rama-activa') }">
                                     <a href="#" @click.prevent="abierto = !abierto" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-modulo>
 <span>Desempeño Academico</span>
 @include('partials.panel.iconos.flecha_subgrupo')
@@ -114,7 +114,7 @@
                                     <div x-cloak x-show.important="$store.buscador.activo || abierto" x-collapse>
 <ul class="tw:mt-1 tw:flex tw:flex-col tw:gap-1 tw:border-l tw:border-gray-200 tw:pl-3 tw:dark:border-gray-800">
                                         <li><a href="{{ url('/ingles/desempeno_academico/niveles') }}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Programas Academicos</a></li>
-                                        <li x-data="{ abierto: false }">
+                                        <li x-data="{ abierto: $el.hasAttribute('data-panel-rama-activa') }">
                                             <a href="#" @click.prevent="abierto = !abierto" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-modulo>
 <span>Estadísticas</span>
 @include('partials.panel.iconos.flecha_subgrupo')
@@ -132,7 +132,7 @@
                                 @endif
                                 {{-- menu_ingles L168-187 --}}
                                 @if($palumno_ingles==true)
-                                <li x-data="{ abierto: false }">
+                                <li x-data="{ abierto: $el.hasAttribute('data-panel-rama-activa') }">
                                     <a href="#" @click.prevent="abierto = !abierto" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-modulo>
 <span>Carga academica de ingles</span>
 @include('partials.panel.iconos.flecha_subgrupo')

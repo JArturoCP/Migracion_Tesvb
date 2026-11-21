@@ -5,9 +5,11 @@ import registrarBuscador from './panel/buscador';
 import selectorPeriodo from './panel/periodos';
 import registrarModalPeriodoIngles from './panel/modal_periodo_ingles';
 import iniciarGraficas from './panel/graficas';
+import sidebar from './panel/sidebar';
 
 Alpine.data('dropdown', dropdown);
 Alpine.data('selectorPeriodo', selectorPeriodo);
+Alpine.data('sidebar', sidebar);
 registrarBuscador(Alpine);
 registrarModalPeriodoIngles();
 
