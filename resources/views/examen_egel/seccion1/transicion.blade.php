@@ -1,44 +1,32 @@
-@extends('layouts.app')
-
+@extends('layouts.panel')
+@section('title', 'Área concluida')
+@include('partials.panel.recursos_app')
 @section('content')
 
-<div class="container text-center" style="margin-top: 50px; max-width: 700px;">
+<main class="tw-pantalla tw:mx-auto tw:max-w-2xl">
+    <x-panel.encabezado titulo="Área concluida" :migas="['Examen EGEL' => url('/examen_egel/dashboard')]" />
 
-    <div class="panel panel-success">
+    <x-panel.tarjeta class="tw:text-center">
 
-        <div class="panel-heading">
-            <h3 style="margin: 0;">
-                <i class="glyphicon glyphicon-ok-circle"></i>
-                Área concluida
-            </h3>
-        </div>
+        <span class="fa fa-check-circle-o tw:text-5xl tw:text-green-500" aria-hidden="true"></span>
 
-        <div class="panel-body" style="padding: 30px;">
+        <x-panel.alerta tipo="exito" class="tw:mt-4 tw:text-left">
+            Has concluido el área: <strong>{{ $moduloActual->nombre }}</strong>
+        </x-panel.alerta>
 
-            <div class="alert alert-success">
-                <h4 style="margin: 0;">
-                    Has concluido el área: <strong>{{ $moduloActual->nombre }}</strong>
-                </h4>
-            </div>
+        <h4 class="tw:mt-6 tw:mb-5 tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">
+            Prepárate para comenzar la siguiente área
+        </h4>
 
-            <hr>
+        <x-panel.boton tamano="lg" href="{{ route('egel.seccion.pregunta', [
+                'id_seccion' => $id_seccion,
+                'page' => $nextPage
+            ]) }}">
+            <span class="fa fa-arrow-right" aria-hidden="true"></span>
+            Comenzar siguiente área
+        </x-panel.boton>
 
-            <h4 style="margin-bottom: 20px;">
-                Prepárate para comenzar la siguiente área
-            </h4>
-
-            <a href="{{ route('egel.seccion.pregunta', [
-        'id_seccion' => $id_seccion,
-        'page' => $nextPage
-    ]) }}"
-   class="btn btn-primary btn-lg">
-    <i class="glyphicon glyphicon-arrow-right"></i>
-    Comenzar siguiente área
-</a>
-
-        </div>
-    </div>
-
-</div>
+    </x-panel.tarjeta>
+</main>
 
 @endsection

@@ -1,21 +1,21 @@
 {
+  "../../../node_modules/@fontsource-variable/outfit/files/outfit-latin-ext-wght-normal.woff2": {
+    "file": "assets/outfit-latin-ext-wght-normal-DdQaqQDo.woff2",
+    "src": "../../../node_modules/@fontsource-variable/outfit/files/outfit-latin-ext-wght-normal.woff2"
+  },
+  "../../../node_modules/@fontsource-variable/outfit/files/outfit-latin-wght-normal.woff2": {
+    "file": "assets/outfit-latin-wght-normal-Bc-8i84L.woff2",
+    "src": "../../../node_modules/@fontsource-variable/outfit/files/outfit-latin-wght-normal.woff2"
+  },
+  "../../../node_modules/apexcharts/dist/apexcharts.esm.js": {
+    "file": "assets/apexcharts.esm-yWY8cQCZ.js",
+    "name": "apexcharts.esm",
+    "src": "../../../node_modules/apexcharts/dist/apexcharts.esm.js",
+    "isDynamicEntry": true
+  },
   "_module.esm-BK6u66ms.js": {
     "file": "assets/module.esm-BK6u66ms.js",
     "name": "module.esm"
-  },
-  "node_modules/@fontsource-variable/outfit/files/outfit-latin-ext-wght-normal.woff2": {
-    "file": "assets/outfit-latin-ext-wght-normal-DdQaqQDo.woff2",
-    "src": "node_modules/@fontsource-variable/outfit/files/outfit-latin-ext-wght-normal.woff2"
-  },
-  "node_modules/@fontsource-variable/outfit/files/outfit-latin-wght-normal.woff2": {
-    "file": "assets/outfit-latin-wght-normal-Bc-8i84L.woff2",
-    "src": "node_modules/@fontsource-variable/outfit/files/outfit-latin-wght-normal.woff2"
-  },
-  "node_modules/apexcharts/dist/apexcharts.esm.js": {
-    "file": "assets/apexcharts.esm-yWY8cQCZ.js",
-    "name": "apexcharts.esm",
-    "src": "node_modules/apexcharts/dist/apexcharts.esm.js",
-    "isDynamicEntry": true
   },
   "resources/css/app.css": {
     "file": "assets/app-COJFmU4i.css",
@@ -27,7 +27,7 @@
     ]
   },
   "resources/css/marco.css": {
-    "file": "assets/marco-B1AjWmMY.css",
+    "file": "assets/marco-BfmN2ZoL.css",
     "src": "resources/css/marco.css",
     "isEntry": true,
     "name": "marco",
@@ -53,7 +53,7 @@
       "_module.esm-BK6u66ms.js"
     ],
     "dynamicImports": [
-      "node_modules/apexcharts/dist/apexcharts.esm.js"
+      "../../../node_modules/apexcharts/dist/apexcharts.esm.js"
     ]
   }
 }

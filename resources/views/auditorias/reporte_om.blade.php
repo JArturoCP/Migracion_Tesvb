@@ -1,6 +1,7 @@
-@extends('layouts.app')
-
+@extends('layouts.panel')
+@include('partials.panel.recursos_app')
 @section('content')
+<div class="tw-pantalla">
     @php
         $modoConsulta = isset($modoConsulta) ? $modoConsulta : (request()->get('modo_consulta') == 1);
         $urlRegresar = isset($urlRegresar) && $urlRegresar
@@ -144,27 +145,27 @@
         }
     </style>
 
-    <div class="container om-wrapper">
+    <div class="om-wrapper tw:w-full">
         <div class="om-status-box">
             @if(session('success'))
-                <div class="alert alert-success">
+                <div class="tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-green-200 tw:bg-green-50 tw:text-green-800">
                     {{ session('success') }}
                 </div>
             @endif
 
             @if(session('error'))
-                <div class="alert alert-danger">
+                <div class="tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-red-200 tw:bg-red-50 tw:text-red-700">
                     {{ session('error') }}
                 </div>
             @endif
 
             @if($modoConsulta)
-                <div class="alert alert-info">
+                <div class="tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-sky-200 tw:bg-sky-50 tw:text-sky-800">
                     <strong>Vista de consulta.</strong>
                     Este reporte se abrió desde Seguimiento de auditorías; no se permiten cambios desde esta pantalla.
                 </div>
             @elseif($reporteCerrado)
-                <div class="alert alert-success">
+                <div class="tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-green-200 tw:bg-green-50 tw:text-green-800">
                     <strong>OM cerrada.</strong>
                     Todas las acciones cuentan con evidencia autorizada.
                     @if(!empty($accion->cerrado_at))
@@ -172,17 +173,17 @@
                     @endif
                 </div>
             @elseif($puedeCerrarOm)
-                <div class="alert alert-success">
+                <div class="tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-green-200 tw:bg-green-50 tw:text-green-800">
                     <strong>Lista para cierre.</strong>
                     Todas las acciones de la OM tienen evidencia PDF autorizada.
                 </div>
             @elseif($planes->count() > 0)
-                <div class="alert alert-warning">
+                <div class="tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-amber-200 tw:bg-amber-50 tw:text-amber-800">
                     <strong>OM pendiente de cierre.</strong>
                     Aún hay acciones sin evidencia PDF autorizada.
                 </div>
             @else
-                <div class="alert alert-info">
+                <div class="tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-sky-200 tw:bg-sky-50 tw:text-sky-800">
                     <strong>Sin acciones registradas.</strong>
                     No se puede cerrar la OM hasta que exista al menos una acción registrada.
                 </div>
@@ -190,12 +191,12 @@
         </div>
 
         <div class="om-actions-bar">
-            <a href="{{ $urlRegresar }}" class="btn btn-default">
+            <a href="{{ $urlRegresar }}" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm">
                 Regresar
             </a>
 
             @if(!$modoConsulta)
-                <button type="button" class="btn btn-primary" onclick="window.print()">
+                <button type="button" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" onclick="window.print()">
                     Imprimir
                 </button>
 
@@ -206,7 +207,7 @@
                         @csrf
 
                         <button type="submit"
-                                class="btn btn-success"
+                                class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-green-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-green-700 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm"
                                 onclick="return TNotify.confirmAction(event, this, '¿Confirmas que todas las acciones y evidencias de esta OM están completas y deseas cerrarla?')">
                             Cerrar OM
                         </button>
@@ -222,7 +223,8 @@
             </div>
 
             <div class="om-card-body">
-                <table class="om-info-table">
+                <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:bg-white">
+<table class="om-info-table">
                     <tr>
                         <th>Clasificación</th>
                         <td>Oportunidad de Mejora</td>
@@ -248,7 +250,7 @@
                                 @elseif(!empty($accion->observaciones))
                                     {!! nl2br(e($accion->observaciones)) !!}
                                 @else
-                                    <span class="text-muted">Sin reporte registrado.</span>
+                                    <span class="tw:text-gray-500">Sin reporte registrado.</span>
                                 @endif
                             </div>
                         </td>
@@ -266,6 +268,7 @@
                         <td>{{ $accion->observaciones_lider ?? 'Sin observaciones.' }}</td>
                     </tr>
                 </table>
+</div>
             </div>
         </div>
 
@@ -276,12 +279,13 @@
 
             <div class="om-card-body">
                 @if($planes->isEmpty())
-                    <div class="alert alert-info">
+                    <div class="tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-sky-200 tw:bg-sky-50 tw:text-sky-800">
                         No hay acciones registradas para esta Oportunidad de Mejora.
                     </div>
                 @else
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-striped om-table">
+                    <div class="tw:max-w-full tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200">
+                        <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:bg-white">
+<table class="om-table tw-tabla tw-tabla-bordes tw-tabla-rayas">
                             <thead>
                             <tr>
                                 <th style="width: 45px;">#</th>
@@ -303,7 +307,7 @@
                                 @endphp
 
                                 <tr>
-                                    <td class="text-center">{{ $index + 1 }}</td>
+                                    <td class="tw:text-center">{{ $index + 1 }}</td>
                                     <td>{{ $plan->acciones ?? 'Sin descripción' }}</td>
                                     <td>{{ $plan->responsable_implantar ?? 'No disponible' }}</td>
                                     <td>{{ $plan->fecha_implantar_accion ?? 'No disponible' }}</td>
@@ -314,30 +318,31 @@
                                         @if($url)
                                             <a href="{{ $url }}"
                                                target="_blank"
-                                               class="btn btn-xs btn-info om-evidence-link">
+                                               class="om-evidence-link tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:gap-1 tw:px-2 tw:py-1 tw:text-xs tw:bg-sky-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-sky-600">
                                                 {{ $nombreEvidencia($plan) }}
                                             </a>
                                         @else
-                                            <span class="text-muted">Sin PDF cargado</span>
+                                            <span class="tw:text-gray-500">Sin PDF cargado</span>
                                         @endif
                                     </td>
-                                    <td class="text-center">
+                                    <td class="tw:text-center">
                                         @if(!empty($plan->path_evidencia) && (int) $plan->estado === 1)
-                                            <span class="label label-success">Autorizada</span>
+                                            <span class="tw:inline-flex tw:items-center tw:rounded-full tw:px-2.5 tw:py-0.5 tw:text-xs tw:font-medium tw:bg-green-50 tw:text-green-700">Autorizada</span>
                                         @elseif(!empty($plan->path_evidencia))
-                                            <span class="label label-warning">Pendiente de autorización</span>
+                                            <span class="tw:inline-flex tw:items-center tw:rounded-full tw:px-2.5 tw:py-0.5 tw:text-xs tw:font-medium tw:bg-amber-50 tw:text-amber-700">Pendiente de autorización</span>
                                         @else
-                                            <span class="label label-default">Sin evidencia</span>
+                                            <span class="tw:inline-flex tw:items-center tw:rounded-full tw:px-2.5 tw:py-0.5 tw:text-xs tw:font-medium tw:bg-gray-100 tw:text-gray-700">Sin evidencia</span>
                                         @endif
                                     </td>
                                 </tr>
                             @endforeach
                             </tbody>
                         </table>
+</div>
                     </div>
                 @endif
             </div>
         </div>
     </div>
+</div>
 @endsection
-

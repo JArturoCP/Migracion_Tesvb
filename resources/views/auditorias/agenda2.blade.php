@@ -1,57 +1,55 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 @section('title', 'Agenda del Plan')
+@include('partials.panel.recursos_app')
 @section('content')
     @if(\Illuminate\Support\Facades\Session::get('errors'))
 
         {{dd("ok")}}
-        <div class="alert alert-danger" role="alert">
+        <div class="tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-red-200 tw:bg-red-50 tw:text-red-700" role="alert">
             @foreach(\Illuminate\Support\Facades\Session::get('errors')->all() as $error)
                 <li>{{$error}}</li>
             @endforeach
         </div>
         @if(\Illuminate\Support\Facades\Session::forget('errors'))@endif
     @endif
-    <main class="col-md-12">
-        <div class="row">
-            <div class="col-md-6 col-md-offset-3">
+    <main class="tw-pantalla tw:w-full tw:lg:w-full tw:px-2">
+        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+            <div class="tw:w-full tw:lg:w-6/12 tw:lg:ml-[25%] tw:px-2">
                 @if (session()->has('flash_notification.message'))
-                    <div class="alert alert-{{ session('flash_notification.level') }}">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                        {!! session('flash_notification.message') !!}
-                    </div>
+                    <x-panel.alerta class="tw:mb-4" :tipo="['success' => 'exito', 'danger' => 'error', 'warning' => 'advertencia'][session('flash_notification.level')] ?? 'info'">{!! session('flash_notification.message') !!}</x-panel.alerta>
                 @endif
             </div>
         </div>
-        <div class="col-md-10 col-md-offset-1">
-            <p>
-                <span class="glyphicon glyphicon-arrow-right"></span>
-                <a href="{{url('/auditorias/programas')}}">Programas de auditoría</a>
-                <span class="glyphicon glyphicon-chevron-right"></span>
-                <a href="{{url('/auditorias/programas')}}/{{\Illuminate\Support\Facades\Session::get('id_programa')}}">Detalles del programa</a>
-                <span class="glyphicon glyphicon-chevron-right"></span>
-                <a href="{{url('/auditorias/programas')}}/{{\Illuminate\Support\Facades\Session::get('id_programa')}}/edit">Planes del programa</a>
-                <span class="glyphicon glyphicon-chevron-right"></span>
-                <a href="{{url('/auditorias/planes')}}/{{$auditoria->id_auditoria}}">Detalles del plan</a>
-                <span class="glyphicon glyphicon-chevron-right"></span>
-                <span>Agenda del plan</span>
-            </p>
-            <div class="panel panel-info">
-                <div class="panel-heading">
+        <div class="tw:w-full tw:lg:w-10/12 tw:lg:ml-[8.3333%] tw:px-2">
+            <nav aria-label="Ruta de navegación" class="tw:mb-5 tw:flex tw:flex-wrap tw:items-center tw:gap-x-2 tw:gap-y-1 tw:text-sm tw:text-gray-500">
+                <span class="fa fa-arrow-right tw:text-brand-500"></span>
+                <a class="tw:text-gray-500 tw:hover:text-brand-500 tw:dark:text-gray-400" href="{{url('/auditorias/programas')}}">Programas de auditoría</a>
+                <span class="fa fa-chevron-right tw:text-[10px] tw:text-gray-400"></span>
+                <a class="tw:text-gray-500 tw:hover:text-brand-500 tw:dark:text-gray-400" href="{{url('/auditorias/programas')}}/{{\Illuminate\Support\Facades\Session::get('id_programa')}}">Detalles del programa</a>
+                <span class="fa fa-chevron-right tw:text-[10px] tw:text-gray-400"></span>
+                <a class="tw:text-gray-500 tw:hover:text-brand-500 tw:dark:text-gray-400" href="{{url('/auditorias/programas')}}/{{\Illuminate\Support\Facades\Session::get('id_programa')}}/edit">Planes del programa</a>
+                <span class="fa fa-chevron-right tw:text-[10px] tw:text-gray-400"></span>
+                <a class="tw:text-gray-500 tw:hover:text-brand-500 tw:dark:text-gray-400" href="{{url('/auditorias/planes')}}/{{$auditoria->id_auditoria}}">Detalles del plan</a>
+                <span class="fa fa-chevron-right tw:text-[10px] tw:text-gray-400"></span>
+                <span class="tw:text-gray-800 tw:dark:text-white/90">Agenda del plan</span>
+            </nav>
+            <div class="panel tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
+                <div class="panel-heading tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4">
                     @if($porcentaje>=100)
-                        {{--<a href="{{url('auditorias/printPlan')}}/{{$auditoria->id_auditoria}}" class="pull-right"><span class="glyphicon glyphicon-print"></span></a>--}}
-                        <a href="#" class="btn_export" data-id="{{$auditoria->id_auditoria}}"><span class="pull-right glyphicon glyphicon-download-alt" data-toggle="tooltip" title="Exportar Programa">&nbsp</span></a>
+                        {{--<a href="{{url('auditorias/printPlan')}}/{{$auditoria->id_auditoria}}" class="pull-right tw:float-right"><span class="fa fa-print"></span></a>--}}
+                        <a href="#" class="btn_export" data-id="{{$auditoria->id_auditoria}}"><span class="pull-right fa fa-download tw:float-right" data-toggle="tooltip" title="Exportar Programa">&nbsp</span></a>
 
                     @endif
                     @foreach($auditorias as $auditoria_n)
                         @if($auditoria_n->id_auditoria==$auditoria->id_auditoria)
-                            <h3 class="panel-title text-center">Agenda del plan {{\Carbon\Carbon::parse($auditoria_n->fecha_i)->format('Y')}}-{{$loop->iteration}}</h3>
+                            <h3 class="tw:text-base tw:font-medium tw:text-gray-800 tw:text-center">Agenda del plan {{\Carbon\Carbon::parse($auditoria_n->fecha_i)->format('Y')}}-{{$loop->iteration}}</h3>
                         @endif
                     @endforeach
                 </div>
-                <div class="panel-body">
+                <div class="tw:p-5 tw:sm:p-6">
                     @if($porcentaje>0)
-                        <div class="progress" id="porcentaje">
-                            <div class="progress-bar" role="progressbar" aria-valuenow="{{$porcentaje}}" aria-valuemin="0" aria-valuemax="100" style="width: {{$porcentaje}}%;">
+                        <div class="tw:mb-3 tw:flex tw:h-5 tw:w-full tw:overflow-hidden tw:rounded-full tw:bg-gray-200" id="porcentaje">
+                            <div class="tw:flex tw:h-full tw:items-center tw:justify-center tw:bg-brand-500 tw:text-xs tw:font-medium tw:text-white" role="progressbar" aria-valuenow="{{$porcentaje}}" aria-valuemin="0" aria-valuemax="100" style="width: {{$porcentaje}}%;">
 {{--                                Agendado el {{$porcentaje}}% de los procesos del plan--}}
                                 Agendados  {{sizeof($procesosT).'/'.$procesosAsignados->count()}} procesos del plan
                             </div>
@@ -59,30 +57,31 @@
                     @endif
                     <div class="horarios">
                         <div id="exTab2" class="">
-                            <ul class="nav nav-tabs">
+                            <ul class="tw-pestanas tw:mb-6 tw:flex tw:flex-wrap tw:gap-2 tw:border-b tw:border-gray-200">
                                 @foreach($fechas as $dia)
                                     <li class="{{$dia==Session::get('dia')?'active':''}} elemento" data-item="{{$dia}}"><a href="#{{$dia}}" class="tab" data-fecha="{{$dia}}" data-toggle="tab" aria-expanded="{{$dia==Session::get('dateUsed')?'true':'false'}}">{{\Carbon\Carbon::parse($dia)->locale('es')->translatedFormat('d-m-Y')}}</a></li>
                                 @endforeach
                             </ul>
-                            <div class="tab-content ">
+                            <div class="tab-content">
                                 @foreach($fechas as $dia)
                                     <div class="tab-pane {{$dia==Session::get('dia')?'active':''}}"  id="{{$dia}}">
-                                        <div class="agenda-general panel panel-success">
-                                            <div class="panel-heading">
+                                        <div class="agenda-general panel panel-success tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white tw:[&.panel-success]:border-green-300">
+                                            <div class="panel-heading tw:rounded-t-2xl tw:in-[.panel-success]:border-green-200 tw:in-[.panel-success]:bg-green-50 tw:in-[.panel-success]:text-green-800 tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4">
                                                 @if($esLider)
-                                                <a href="#!" class="pull-right btn-add-agenda" data-fecha="{{$dia}}" data-toggle="tooltip" title="Agregar evento"><span class="glyphicon glyphicon-plus"></span></a>
+                                                <a href="#!" class="pull-right btn-add-agenda tw:float-right" data-fecha="{{$dia}}" data-toggle="tooltip" title="Agregar evento"><span class="fa fa-plus"></span></a>
                                                 @endif
-                                                <h3 class="panel-title text-center">Agenda del día {{\Carbon\Carbon::parse($dia)->locale('es')->translatedFormat('d-m-Y')}}</h3>
+                                                <h3 class="tw:text-base tw:font-medium tw:text-gray-800 tw:text-center">Agenda del día {{\Carbon\Carbon::parse($dia)->locale('es')->translatedFormat('d-m-Y')}}</h3>
                                             </div>
-                                            <div class="panel-body">
-                                                <table class="table table-striped table-bordered table-condensed">
-                                                    <thead class="row">
-                                                    <th class="col-md-1 text-center">Hora de inicio</th>
-                                                    <th class="col-md-1 text-center">Hora de termino</th>
-                                                    <th class="col-md-4 text-center">Procesos</th>
-                                                    <th class="col-md-1 text-center">Responsable</th>
-                                                    <th class="col-md-4 text-center">Areas</th>
-                                                    <th class="col-md-1 text-center">Acciones</th>
+                                            <div class="tw:p-5 tw:sm:p-6">
+                                                <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:bg-white">
+<table class="tw-tabla tw-tabla-rayas tw-tabla-bordes tw-tabla-compacta">
+                                                    <thead class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                                    <th class="tw:lg:w-1/12 tw:text-center">Hora de inicio</th>
+                                                    <th class="tw:lg:w-1/12 tw:text-center">Hora de termino</th>
+                                                    <th class="tw:lg:w-4/12 tw:text-center">Procesos</th>
+                                                    <th class="tw:lg:w-1/12 tw:text-center">Responsable</th>
+                                                    <th class="tw:lg:w-4/12 tw:text-center">Areas</th>
+                                                    <th class="tw:lg:w-1/12 tw:text-center">Acciones</th>
                                                     </thead>
                                                     <tbody>
                                                         @foreach($agendaFinal as $agenda)
@@ -98,7 +97,7 @@
                                                                             @if(strlen($agenda['criterios']))
                                                                             <p>{{$agenda['criterios']}}</p>
                                                                             @endif
-                                                                            <div class="container-fluid">
+                                                                            <div class="tw:w-full">
                                                                                 @if(is_array($agenda['procesos']))
                                                                                     @foreach($agenda['procesos'] as $proceso)
                                                                                         <li>{{$proceso}}</li>
@@ -118,27 +117,27 @@
                                                                                     @endif
                                                                             </td>
                                                                             <td>
-                                                                                <div class="container-fluid">
+                                                                                <div class="tw:w-full">
                                                                                     @foreach($agenda['areas'] as $area)
                                                                                         <li>{{$area}}</li>
                                                                                     @endforeach
                                                                                 </div>
                                                                             </td>
 
-                                                                        <td class="text-center">
+                                                                        <td class="tw:text-center">
                                                                             @if($agenda['tipo']==1 and ($esLider || in_array(Session::get('id_perso'),$agenda['id_auditores'])))
-                                                                                <a href="{{(sizeof($agenda['id_personal_lider'])>0||in_array(Session::get('id_perso'),$agenda['id_auditores']))?url('/auditorias/hoja_trabajo/').'/'.$agenda['id_agenda']:url('/auditorias/hoja_trabajo/').'/'.$agenda['id_agenda']}}" data-toggle="tooltip" title="{{(sizeof($agenda['id_personal_lider'])>0||in_array(Session::get('id_perso'),$agenda['id_auditores']))?'Hoja':'Ver hoja'}} de trabajo"><span class="glyphicon {{(sizeof($agenda['id_personal_lider'])>0||in_array(Session::get('id_perso'),$agenda['id_auditores']))?'glyphicon-copy':' glyphicon-file '}} pull-left text-success"></span></a>
-                                                                                {{-- <a href="{{url('/auditorias/editar_evento').'/'.$agenda['id_agenda']}}/{{$agenda['tipo']}}" class="edit-event" data-id="{{$agenda['id_agenda']}}" data-toggle="tooltip" title="Editar evento"><span class="glyphicon glyphicon-cog"></span></a>--}}
+                                                                                <a href="{{(sizeof($agenda['id_personal_lider'])>0||in_array(Session::get('id_perso'),$agenda['id_auditores']))?url('/auditorias/hoja_trabajo/').'/'.$agenda['id_agenda']:url('/auditorias/hoja_trabajo/').'/'.$agenda['id_agenda']}}" data-toggle="tooltip" title="{{(sizeof($agenda['id_personal_lider'])>0||in_array(Session::get('id_perso'),$agenda['id_auditores']))?'Hoja':'Ver hoja'}} de trabajo"><span class="fa fa-files-o {{(sizeof($agenda['id_personal_lider'])>0||in_array(Session::get('id_perso'),$agenda['id_auditores']))?'glyphicon-copy':' glyphicon-file '}} tw:float-left tw:text-green-600"></span></a>
+                                                                                {{-- <a href="{{url('/auditorias/editar_evento').'/'.$agenda['id_agenda']}}/{{$agenda['tipo']}}" class="edit-event" data-id="{{$agenda['id_agenda']}}" data-toggle="tooltip" title="Editar evento"><span class="fa fa-cog"></span></a>--}}
                                                                             @endif
                                                                             @if($esLider)
 
-                                                                                <a href="#" class="delete-event" data-id="{{$agenda['id_agenda']}}" data-type="{{$agenda['tipo']}}" data-toggle="tooltip" title="Eliminar evento"><span class="glyphicon glyphicon-trash pull-right text-danger"></span></a>
+                                                                                <a href="#" class="delete-event" data-id="{{$agenda['id_agenda']}}" data-type="{{$agenda['tipo']}}" data-toggle="tooltip" title="Eliminar evento"><span class="fa fa-trash pull-right tw:float-right tw:text-red-600"></span></a>
                                                                             @endif
 
                                                                         </td>
                                                                         {{--
                                                                         @elseif(in_array(Session::get('id_perso'),$agenda['id_auditores']))
-                                                                            <a href="{{url('/auditorias/hoja_trabajo/').'/'.$agenda['id_agenda']}}" data-toggle="tooltip" title="Hoja de trabajo"><span class="glyphicon glyphicon-copy"></span></a>
+                                                                            <a href="{{url('/auditorias/hoja_trabajo/').'/'.$agenda['id_agenda']}}" data-toggle="tooltip" title="Hoja de trabajo"><span class="fa fa-files-o"></span></a>
                                                                         @endif
                                                                     </td>--}}
                                                                     </tr>
@@ -155,7 +154,7 @@
                                                                 <td>{{$agenda->hora_f}}</td>
                                                                 <td>
                                                                     <p>{{$agenda->criterios}}</p>
-                                                                    <div class="container-fluid">
+                                                                    <div class="tw:w-full">
                                                                         @foreach($agenda->procesos as $proceso)
                                                                             <li>{{$proceso}}</li>
                                                                         @endforeach
@@ -167,7 +166,7 @@
                                                                     @endforeach
                                                                 </td>
                                                                 <td>
-                                                                    <div class="container-fluid">
+                                                                    <div class="tw:w-full">
 
                                                                         @if(is_array($agenda->areas))
                                                                             @foreach($agenda->areas as $area)
@@ -178,13 +177,13 @@
                                                                         @endif
                                                                     </div>
                                                                 </td>
-                                                                <td class="text-center">
+                                                                <td class="tw:text-center">
                                                                     @if($esLider)
-                                                                        <a href="{{sizeof($agenda->id_personal_lider)>0?url('/auditorias/hoja_trabajo/').'/'.$agenda->id_agenda:url('/auditorias/ver_hoja').'/'.$agenda->id_agenda}}" data-toggle="tooltip" title="{{sizeof($agenda->id_personal_lider)>0?'Hoja':'Ver hoja'}} de trabajo"><span class="glyphicon {{sizeof($agenda->id_personal_lider)>0?'glyphicon-paperclip':' glyphicon glyphicon-eye-open '}} pull-left text-success"></span></a>
-                                                                        <a href="{{url('/auditorias/editar_evento').'/'.$agenda->id_agenda}}/1" class="edit-event" data-id="{{$agenda->id_agenda}}" data-toggle="tooltip" title="Editar evento"><span class="glyphicon glyphicon-cog"></span></a>
-                                                                        <a href="#" class="delete-event" data-id="{{$agenda->id_agenda}}" data-toggle="tooltip" title="Eliminar evento"><span class="glyphicon glyphicon-trash pull-right text-danger"></span></a>
+                                                                        <a href="{{sizeof($agenda->id_personal_lider)>0?url('/auditorias/hoja_trabajo/').'/'.$agenda->id_agenda:url('/auditorias/ver_hoja').'/'.$agenda->id_agenda}}" data-toggle="tooltip" title="{{sizeof($agenda->id_personal_lider)>0?'Hoja':'Ver hoja'}} de trabajo"><span class="fa fa-paperclip {{sizeof($agenda->id_personal_lider)>0?'glyphicon-paperclip':' glyphicon glyphicon-eye-open '}} tw:float-left tw:text-green-600"></span></a>
+                                                                        <a href="{{url('/auditorias/editar_evento').'/'.$agenda->id_agenda}}/1" class="edit-event" data-id="{{$agenda->id_agenda}}" data-toggle="tooltip" title="Editar evento"><span class="fa fa-cog"></span></a>
+                                                                        <a href="#" class="delete-event" data-id="{{$agenda->id_agenda}}" data-toggle="tooltip" title="Eliminar evento"><span class="fa fa-trash pull-right tw:float-right tw:text-red-600"></span></a>
                                                                     @elseif(in_array(Session::get('id_perso'),$agenda->id_auditores))
-                                                                        <a href="{{url('/auditorias/hoja_trabajo/').'/'.$agenda->id_agenda}}" data-toggle="tooltip" title="Hoja de trabajo"><span class="glyphicon glyphicon-paperclip"></span></a>
+                                                                        <a href="{{url('/auditorias/hoja_trabajo/').'/'.$agenda->id_agenda}}" data-toggle="tooltip" title="Hoja de trabajo"><span class="fa fa-paperclip"></span></a>
                                                                     @endif
                                                                 </td>
                                                             </tr>
@@ -193,6 +192,7 @@
                                                     @endforeach
                                                     </tbody>--}}
                                                 </table>
+</div>
                                             </div>
                                         </div>
                                     </div>
@@ -205,49 +205,49 @@
         </div>
     </main>
 
-    <div class="modal fade" id="modal_add_evento" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-        <div class="modal-dialog modal-lg" role="document">
+    <x-panel.modal id="modal_add_evento" tamano="lg" sin-relleno clase-cerrar="close" aria-labelledby="exampleModalLabel">
+        
             <form data-panel-envio id="form-add-evento" action="{{url('auditorias/agenda')}}" method="POST">
                 @csrf
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="exampleModalLabel">Agregar evento a la agenda</h4>
+                
+                    <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                        
+                        <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="exampleModalLabel">Agregar evento a la agenda</h4>
                     </div>
-                    <div class="modal-body">
+                    <div class="tw-modal-cuerpo">
                         <input type="text" name="id_auditoria" value="{{$auditoria->id_auditoria}}" hidden>
                         <input type="text" name="fecha" id="fecha_agenda" hidden>
-                        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                            <div class="panel panel-default procesos">
-                                <div class="panel-heading" role="tab" id="headingProcesos" data-toggle="collapse" data-parent="#accordion" href="#collapseProcesos" aria-expanded="false" aria-controls="collapseProcesos">
-                                    <strong class="pull-right procesos">0 Seleccionados</strong>
-                                    <h4 class="panel-title" role="button">
+                        <div class="" id="accordion" role="tablist" aria-multiselectable="true">
+                            <div class="panel panel-default procesos tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white tw:[&.panel-success]:border-green-300">
+                                <div class="panel-heading tw:rounded-t-2xl tw:in-[.panel-success]:border-green-200 tw:in-[.panel-success]:bg-green-50 tw:in-[.panel-success]:text-green-800 tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4" role="tab" id="headingProcesos" data-toggle="collapse" data-parent="#accordion" href="#collapseProcesos" aria-expanded="false" aria-controls="collapseProcesos">
+                                    <strong class="pull-right procesos tw:float-right">0 Seleccionados</strong>
+                                    <h4 class="tw:text-base tw:font-medium tw:text-gray-800" role="button">
                                         Proceso(s) a auditar / Actividad
                                     </h4>
                                 </div>
-                                <div id="collapseProcesos" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingProcesos">
-                                    <div class="panel-body">
+                                <div id="collapseProcesos" class="collapse" role="tabpanel" aria-labelledby="headingProcesos">
+                                    <div class="tw:p-5 tw:sm:p-6">
                                         <label for="">Actividades para la Agenda</label>
-                                        <div class="row">
+                                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
                                             @foreach($actividades as $actividad)
-                                                <div class="col-md-4">
-                                                    <label class="checkbox-inline">
+                                                <div class="tw:w-full tw:lg:w-4/12 tw:px-2">
+                                                    <label class="tw:mr-4 tw:inline-flex tw:cursor-pointer tw:items-center tw:gap-2 tw:text-sm tw:text-gray-700">
                                                         <input class="actividad" type="checkbox" data-id="{{$actividad->id_actividad}}" data-name="actividad" data-back="proceso">
                                                         {{\App\audParseCase::parseProceso($actividad->descripcion)}}
                                                     </label>
                                                 </div>
                                                 @if($loop->iteration%3==0)
                                         </div>
-                                        <div class="row">
+                                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
                                             @endif
                                             @endforeach
                                         </div>
                                         <hr>
                                         <label for="">Procesos </label>
-                                        <div class="row">
+                                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
                                             @foreach($procesosAsignados as $proceso)
-                                                <div class="col-md-4">
-                                                    <label class="checkbox-inline {{in_array($proceso->id_auditoria_proceso,$procesosT)?'bg-success text-success':''}}">
+                                                <div class="tw:w-full tw:lg:w-4/12 tw:px-2">
+                                                    <label class="{{in_array($proceso->id_auditoria_proceso,$procesosT)?'bg-success text-success':''}} tw:mr-4 tw:inline-flex tw:cursor-pointer tw:items-center tw:gap-2 tw:text-sm tw:text-gray-700">
                                                         <input class="proceso" type="checkbox" data-id="{{$proceso->id_auditoria_proceso}}" data-name="proceso" data-back="actividad" data-proceso="{{$proceso->id_proceso}}" data-unidades="{{$proceso->unidades}}">
                                                         <strong>{{$proceso->clave.' '}}</strong>
                                                         {{\App\audParseCase::parseProceso($proceso->des_proceso)}}
@@ -255,7 +255,7 @@
                                                 </div>
                                                 @if($loop->iteration%3==0)
                                         </div>
-                                        <div class="row">
+                                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
                                             @endif
                                             @endforeach
                                         </div>
@@ -263,20 +263,20 @@
                                 </div>
                             </div>
 
-                            <div class="panel panel-default areas">
-                                <div class="panel-heading" role="tab" id="headingArea" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                    <strong class="pull-right areas"></strong>
-                                    <h4 class="panel-title" role="button">
+                            <div class="panel panel-default areas tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white tw:[&.panel-success]:border-green-300">
+                                <div class="panel-heading tw:rounded-t-2xl tw:in-[.panel-success]:border-green-200 tw:in-[.panel-success]:bg-green-50 tw:in-[.panel-success]:text-green-800 tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4" role="tab" id="headingArea" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                    <strong class="pull-right areas tw:float-right"></strong>
+                                    <h4 class="tw:text-base tw:font-medium tw:text-gray-800" role="button">
                                         Área
                                     </h4>
                                 </div>
-                                <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingArea">
-                                    <div class="panel-body">
+                                <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingArea">
+                                    <div class="tw:p-5 tw:sm:p-6">
                                         <label for="">Grupos Administrativos</label>
-                                        <div class="row">
+                                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
                                             @foreach($generalAreas as $area)
-                                                <div class="col-md-4">
-                                                    <label class="checkbox-inline">
+                                                <div class="tw:w-full tw:lg:w-4/12 tw:px-2">
+                                                    <label class="tw:mr-4 tw:inline-flex tw:cursor-pointer tw:items-center tw:gap-2 tw:text-sm tw:text-gray-700">
                                                         <input class="areaG" type="checkbox" data-id="{{$area->id_area_general}}" data-name="areaG" data-back="area">
                                                         {{$area->descripcion}}
                                                     </label>
@@ -285,38 +285,38 @@
                                         </div>
                                         <hr>
                                         <label for="">Areas</label>
-                                        <div class="row">
+                                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
                                             @foreach($areasT as $area)
-                                                <div class="col-md-4">
-                                                    <label class="checkbox-inline">
+                                                <div class="tw:w-full tw:lg:w-4/12 tw:px-2">
+                                                    <label class="tw:mr-4 tw:inline-flex tw:cursor-pointer tw:items-center tw:gap-2 tw:text-sm tw:text-gray-700">
                                                         <input class="area" type="checkbox" data-id="{{$area->id_unidad_admin}}" id="id_unidad_admin{{$area->id_unidad_admin}}" data-name="area" data-back="areaG">
                                                         {{\App\audParseCase::parseNombre($area->nom_departamento)}}
                                                     </label>
                                                 </div>
                                                 @if($loop->iteration%3==0)
                                         </div>
-                                        <div class="row">
+                                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
                                             @endif
                                             @endforeach
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="panel panel-default responsables">
-                                <div class="panel-heading" role="tab" id="headingThree" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                    <strong class="pull-right responsables">0 Seleccionados</strong>
-                                    <h4 class="panel-title" role="button">
+                            <div class="panel panel-default responsables tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white tw:[&.panel-success]:border-green-300">
+                                <div class="panel-heading tw:rounded-t-2xl tw:in-[.panel-success]:border-green-200 tw:in-[.panel-success]:bg-green-50 tw:in-[.panel-success]:text-green-800 tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4" role="tab" id="headingThree" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                    <strong class="pull-right responsables tw:float-right">0 Seleccionados</strong>
+                                    <h4 class="tw:text-base tw:font-medium tw:text-gray-800" role="button">
                                         Responsable
                                     </h4>
                                 </div>
-                                <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
-                                    <div class="panel-body">
+                                <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree">
+                                    <div class="tw:p-5 tw:sm:p-6">
 
                                         <label for="">Grupos de personas</label>
-                                        <div class="row">
+                                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
                                             @foreach($generalPersonales as $personal)
-                                                <div class="col-md-4">
-                                                    <label class="checkbox-inline">
+                                                <div class="tw:w-full tw:lg:w-4/12 tw:px-2">
+                                                    <label class="tw:mr-4 tw:inline-flex tw:cursor-pointer tw:items-center tw:gap-2 tw:text-sm tw:text-gray-700">
                                                         <input class="responsableG" type="checkbox" data-id="{{$personal->id_personal_general}}" data-name="responsableG" data-back="responsable">
                                                         {{$personal->descripcion}}
                                                     </label>
@@ -326,10 +326,10 @@
                                         <hr>
                                         <label for="">Auditores</label>
                                         @php $equipo=1; $entrenamiento=1; @endphp
-                                        <div class="row">
+                                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
                                             @foreach($auditoresT as $auditor)
-                                                <div class="col-md-6">
-                                                    <label class="checkbox-inline">
+                                                <div class="tw:w-full tw:lg:w-6/12 tw:px-2">
+                                                    <label class="tw:mr-4 tw:inline-flex tw:cursor-pointer tw:items-center tw:gap-2 tw:text-sm tw:text-gray-700">
                                                         <input class="responsable" type="checkbox" data-id="{{$auditor->id_auditor_auditoria}}" data-name="responsable" data-back="responsableG">
                                                         @if($auditor->id_categoria==1)
                                                             <strong>Auditor Líder</strong>
@@ -345,7 +345,7 @@
                                                 </div>
                                                 @if($loop->iteration%2==0)
                                         </div>
-                                        <div class="row">
+                                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
                                             @endif
                                             @endforeach
                                         </div>
@@ -353,57 +353,55 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-10">
+                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                            <div class="tw:w-full tw:lg:w-10/12 tw:px-2">
                                 <label for="">Puntos de la norma a auditar</label>
-                                <textarea class="form-control" name="criterios" id="area_criterios" rows="2" ></textarea>
+                                <textarea class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500" name="criterios" id="area_criterios" rows="2" ></textarea>
                             </div>
-                            <div class="col-md-2">
+                            <div class="tw:w-full tw:lg:w-2/12 tw:px-2">
                                 <br><br><br>
-                                <botton class="btn btn-success pull-right programar" data-fecha="{{$dia}}">Ver disponibilidad</botton>
+                                <botton class="pull-right programar tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-green-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-green-700 tw:float-right tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" data-fecha="{{$dia}}">Ver disponibilidad</botton>
                             </div>
                         </div>
-                        <div class="row horas"></div>
+                        <div class="horas tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4"></div>
                         <input type="text" name="procesos" id="procesos" hidden>
                         <input type="text" name="area" id="area" hidden>
                         <input type="text" name="responsable" id="responsable" hidden>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <input type="submit" class="btn btn-primary guarda_evento hidden" value="Agendar"/>
+                    <div class="tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                        <button type="button" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" data-dismiss="modal">Cancelar</button>
+                        <input type="submit" class="guarda_evento hidden tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" value="Agendar"/>
                     </div>
-                </div>
+                
             </form>
-        </div>
-    </div>
+        
+    </x-panel.modal>
 
 
-    <form data-panel-envio  method="POST" role="form" id="form_delete_evento">
+    <form data-panel-envio method="POST" role="form" id="form_delete_evento">
         {{ method_field('DELETE') }}
         {{ csrf_field() }}
         <input type="text" value="" id="tipo" name="tipo" hidden>
     </form>
 
 
-    <div class="modal fade" id="modal_export_programa" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="exampleModalLabel">Exportar programa de auditoría</h4>
+    <x-panel.modal id="modal_export_programa" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="exampleModalLabel">
+                <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                    
+                    <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800" id="exampleModalLabel">Exportar programa de auditoría</h4>
                 </div>
-                <div class="modal-body">
-                    <div class="form-group persona-aprueba">
+                <div class="tw-modal-cuerpo">
+                    <div class="persona-aprueba tw:mb-4">
                         <label>Persona que aprueba el programa</label>
-                        <div class="radio">
-                            <div class="row">
-                                <div class="col-md-6">
+                        <div class="tw:flex tw:items-center tw:gap-2">
+                            <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                <div class="tw:w-full tw:lg:w-6/12 tw:px-2">
                                     <label>
                                         <input class="aprueba_formato" type="radio" name="aprueba_formato" id="formato1" value="1">
                                         Coordinadora del SGOE
                                     </label>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="tw:w-full tw:lg:w-6/12 tw:px-2">
                                     <label>
                                         <input class="aprueba_formato" type="radio" name="aprueba_formato" id="formato2" value="2">
                                         Director General
@@ -413,13 +411,13 @@
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                    <input type="button" class="btn btn-primary btn-exportar" value="Exportar"/>
+                <div class="tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                    <button type="button" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" data-dismiss="modal">Cancelar</button>
+                    <input type="button" class="btn-exportar tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" value="Exportar"/>
                 </div>
-            </div>
-        </div>
-    </div>
+            
+        
+    </x-panel.modal>
 
     <script>
         $(document).ready(function () {
@@ -672,12 +670,9 @@
 
 
 
-@if(isset($ver) && $ver == 'procesos_agenda')
-      @section('modal_procesos_agenda')
-      @include('auditorias.edita_procesos_agenda')
-      @show
+@if(($ver ?? null) === 'procesos_agenda')
+    @include('auditorias.edita_procesos_agenda')
 @endif
 
 @include('partials.panel.validacion_envio')
 @endsection
-

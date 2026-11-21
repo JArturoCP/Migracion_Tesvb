@@ -1,38 +1,31 @@
-@extends('layouts.app')
-
+@extends('layouts.panel')
+@section('title', 'Sección finalizada')
+@include('partials.panel.recursos_app')
 @section('content')
 
-<div class="container" style="margin-top: 60px; max-width: 600px;">
+<main class="tw-pantalla tw:mx-auto tw:max-w-xl">
+    <x-panel.encabezado titulo="Sección {{ $id_seccion }} finalizada" :migas="['Examen EGEL' => url('/examen_egel/dashboard')]" />
 
-    <div class="panel panel-success text-center">
-        
-        <div class="panel-heading">
-            <h3 style="margin: 0;">
-                <i class="glyphicon glyphicon-ok-circle"></i>
-                Sección {{ $id_seccion }} finalizada
-            </h3>
-        </div>
+    <x-panel.tarjeta class="tw:text-center">
 
-        <div class="panel-body" style="padding: 30px;">
+        <span class="fa fa-check-circle-o tw:text-5xl tw:text-green-500" aria-hidden="true"></span>
 
-            <h4 class="text-success" style="margin-bottom: 20px;">
-                Has completado correctamente la sección del examen.
-            </h4>
+        <h4 class="tw:mt-4 tw:text-lg tw:font-semibold tw:text-green-700 tw:dark:text-green-500">
+            Has completado correctamente la sección del examen.
+        </h4>
 
-            <p style="font-size: 15px;">
-                Tus respuestas han sido registradas correctamente.
-            </p>
+        <p class="tw:mt-2 tw:text-sm tw:text-gray-500 tw:dark:text-gray-400">
+            Tus respuestas han sido registradas correctamente.
+        </p>
 
-            <hr>
-
-            <a href="{{ url('/examen_egel/dashboard') }}" class="btn btn-primary btn-lg">
-                <i class="glyphicon glyphicon-home"></i>
+        <div class="tw:mt-6">
+            <x-panel.boton tamano="lg" href="{{ url('/examen_egel/dashboard') }}">
+                <span class="fa fa-home" aria-hidden="true"></span>
                 Regresar al menú principal
-            </a>
-
+            </x-panel.boton>
         </div>
-    </div>
 
-</div>
+    </x-panel.tarjeta>
+</main>
 
 @endsection

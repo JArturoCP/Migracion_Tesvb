@@ -1,18 +1,20 @@
-@extends('layouts.app')
-
+@extends('layouts.panel')
+@include('partials.panel.recursos_app')
 @section('content')
-    <div class="container">
-        <div class="panel panel-info">
-            <div class="panel-heading">
-                <h2 class="panel-title text-center">Seguimiento Auditorías Anteriores</h2>
+<div class="tw-pantalla">
+    <div class="tw:w-full">
+        <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
+            <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4">
+                <h2 class="tw:text-base tw:font-medium tw:text-gray-800 tw:text-center">Seguimiento Auditorías Anteriores</h2>
             </div>
         </div>
 
         @if($acciones->isEmpty())
-            <div class="alert alert-info">No hay acciones en seguimiento para mostrar.</div>
+            <div class="tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-sky-200 tw:bg-sky-50 tw:text-sky-800">No hay acciones en seguimiento para mostrar.</div>
         @else
-            <table class="table table-bordered table-striped">
-                <thead class="thead-dark">
+            <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:bg-white">
+<table class="tw-tabla tw-tabla-bordes tw-tabla-rayas">
+                <thead>
                 <tr>
                     <th>Clave</th>
                     <th>Punto / Proceso</th>
@@ -36,11 +38,11 @@
                         <td>{{ $accion->observaciones ?? 'Sin registro' }}</td>
                         <td>
                             @if($accion->analisis)
-                                <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#modalAnalisis{{ $accion->id_responsable }}" title="Ver análisis">
-                                    <i class="glyphicon glyphicon-eye-open"></i>
+                                <button class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-green-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-green-700 tw:gap-1.5 tw:px-3 tw:py-1.5 tw:text-sm" data-toggle="modal" data-target="#modalAnalisis{{ $accion->id_responsable }}" title="Ver análisis">
+                                    <i class="fa fa-eye"></i>
                                 </button>
                             @else
-                                <span class="text-muted">Sin registro</span>
+                                <span class="tw:text-gray-500">Sin registro</span>
                             @endif
                         </td>
                         <td>{{ $accion->causa_raiz ?? 'Sin corrección' }}</td>
@@ -53,7 +55,7 @@
                         </td>
                         <td>{{ $accion->auditor_nombre ?? 'Sin registro' }}
                             @if($esLider)
-                                <button class="btn btn-warning btn-xs"
+                                <button class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-amber-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-amber-600 tw:gap-1 tw:px-2 tw:py-1 tw:text-xs"
                                         data-toggle="modal"
                                         data-target="#modalEditarAuditor{{ $accion->id_agenda_auditor }}">
                                     Editar
@@ -90,7 +92,7 @@
                             {{ $estadoTexto }}
                         </td>
                         <td>
-                            <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalDetalle{{ $accion->id_responsable }}">
+                            <button class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-1.5 tw:px-3 tw:py-1.5 tw:text-sm" data-toggle="modal" data-target="#modalDetalle{{ $accion->id_responsable }}">
                                 Ver detalles
                             </button>
                         </td>
@@ -103,13 +105,14 @@
                                     <option value="4" {{ $accion->estado == 4 ? 'selected' : '' }}>Aceptar</option>
                                     <option value="5" {{ $accion->estado == 5 ? 'selected' : '' }}>Rechazar</option>
                                 </select>
-                                <button type="submit" class="btn btn-sm btn-success">Evaluar</button>
+                                <button type="submit" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:gap-1.5 tw:px-3 tw:py-1.5 tw:text-sm tw:bg-green-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-green-700">Evaluar</button>
                             </form>
                         </td>--}}
                     </tr>
                 @endforeach
                 </tbody>
             </table>
+</div>
 
             <!-- Movemos los modales fuera de la tabla -->
             @foreach($acciones as $accion)
@@ -125,20 +128,19 @@
                     $accionesOM          = $planAcciones->where('tipo', 3);
                 @endphp
 
-                <div class="modal fade" id="modalDetalle{{ $accion->id_responsable }}" tabindex="-1" role="dialog" aria-labelledby="modalLabel{{ $accion->id_responsable }}" aria-hidden="true">
-                    <div class="modal-dialog modal-lg" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="modalLabel{{ $accion->id_responsable }}">Actividades y Correcciones - Nota {{ $accion->clave_nota }}</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
+                <x-panel.modal id="modalDetalle{{ $accion->id_responsable }}" tamano="lg" sin-relleno clase-cerrar="close" aria-labelledby="modalLabel{{ $accion->id_responsable }}">
+                    
+                        
+                            <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                                <h5 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="modalLabel{{ $accion->id_responsable }}">Actividades y Correcciones - Nota {{ $accion->clave_nota }}</h5>
+                                
                             </div>
-                            <div class="modal-body">
+                            <div class="tw-modal-cuerpo">
                                 @if($planAcciones->isEmpty())
-                                    <div class="alert alert-info">No hay acciones ni correcciones registradas.</div>
+                                    <div class="tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-sky-200 tw:bg-sky-50 tw:text-sky-800">No hay acciones ni correcciones registradas.</div>
                                 @else
-                                    <table class="table table-sm table-bordered">
+                                    <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:bg-white">
+<table class="tw-tabla tw-tabla-compacta tw-tabla-bordes">
                                         <thead>
                                         <tr>
                                             <th>Acción / Corrección</th>
@@ -153,7 +155,7 @@
                                         <tbody>
                                         {{-- ACCIONES CORRECTIVAS (tipo 1) --}}
                                         @if($accionesCorrectivas->count() > 0)
-                                            <tr class="table-primary">
+                                            <tr class="tw:bg-brand-50">
                                                 <td colspan="7"><strong style="color:blue;">Acciones Correctivas NC</strong></td>
                                             </tr>
 
@@ -177,7 +179,7 @@
                                         @endif
                                         {{-- CORRECCIONES (tipo 2) --}}
                                         @if($correcciones->count() > 0)
-                                            <tr class="table-warning">
+                                            <tr class="tw:bg-amber-50">
                                                 <td colspan="7"><strong style="color:blue;">Correcciones NC</strong></td>
                                             </tr>
 
@@ -201,7 +203,7 @@
                                         @endif
                                         {{-- ACCIONES DE OPORTUNIDAD DE MEJORA (tipo 3) --}}
                                         @if($accionesOM->count() > 0)
-                                            <tr class="table-success">
+                                            <tr class="tw:bg-green-50">
                                                 <td colspan="7"><strong style="color:blue;">Acciones Correctivas OM</strong></td>
                                             </tr>
 
@@ -226,54 +228,53 @@
                                         {{-- SI NO EXISTE NINGÚN TIPO DE REGISTRO --}}
                                         @if($accionesCorrectivas->count() == 0 && $correcciones->count() == 0 && $accionesOM->count() == 0)
                                             <tr>
-                                                <td colspan="7" class="text-center text-muted">No hay acciones registradas.</td>
+                                                <td colspan="7" class="tw:text-center tw:text-gray-500">No hay acciones registradas.</td>
                                             </tr>
                                         @endif
 
                                         </tbody>
                                     </table>
+</div>
                                 @endif
                             </div>
-                        </div>
-                    </div>
-                </div>
+                        
+                    
+                </x-panel.modal>
             @endforeach
 
             @foreach($acciones as $accion)
                 @if($accion->analisis)
-                    <div class="modal fade" id="modalAnalisis{{ $accion->id_responsable }}" tabindex="-1" role="dialog" aria-labelledby="labelAnalisis{{ $accion->id_responsable }}" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="labelAnalisis{{ $accion->id_responsable }}">Análisis de Datos</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
+                    <x-panel.modal id="modalAnalisis{{ $accion->id_responsable }}" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="labelAnalisis{{ $accion->id_responsable }}">
+                        
+                            
+                                <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                                    <h5 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="labelAnalisis{{ $accion->id_responsable }}">Análisis de Datos</h5>
+                                    
                                 </div>
-                                <div class="modal-body">
+                                <div class="tw-modal-cuerpo">
                                     <p>{!! nl2br(e($accion->analisis)) !!}</p>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
+                            
+                        
+                    </x-panel.modal>
                 @endif
 
                     @if($esLider)
-                        <div class="modal fade" id="modalEditarAuditor{{ $accion->id_agenda_auditor }}" tabindex="-1">
-                            <div class="modal-dialog">
+                        <x-panel.modal id="modalEditarAuditor{{ $accion->id_agenda_auditor }}" tamano="md" sin-relleno clase-cerrar="close">
+                            
                                 <form method="POST" action="{{ route('auditorias.actualizar_responsable') }}">
                                     @csrf
                                     <input type="hidden" name="id_agenda_auditor" value="{{ $accion->id_agenda_auditor }}">
 
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h4 class="modal-title">Editar Auditor Responsable</h4>
-                                            <button type="button" class="close" data-dismiss="modal">×</button>
+                                    
+                                        <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                                            <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">Editar Auditor Responsable</h4>
+                                            
                                         </div>
 
-                                        <div class="modal-body">
+                                        <div class="tw-modal-cuerpo">
                                             <label>Seleccionar auditor:</label>
-                                            <select name="nuevo_responsable" class="form-control select2" required>
+                                            <select name="nuevo_responsable" class="select2 tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" required>
                                                 <option value="">-- Seleccione --</option>
                                                 @foreach($accion->auditores_permitidos as $aud)
                                                     <option value="{{ $aud->id_personal }}"
@@ -284,17 +285,18 @@
                                             </select>
                                         </div>
 
-                                        <div class="modal-footer">
-                                            <button class="btn btn-success">Guardar Cambios</button>
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                        <div class="tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                                            <button class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-green-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-green-700 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm">Guardar Cambios</button>
+                                            <button type="button" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" data-dismiss="modal">Cerrar</button>
                                         </div>
-                                    </div>
+                                    
                                 </form>
-                            </div>
-                        </div>
+                            
+                        </x-panel.modal>
                     @endif
             @endforeach
 
         @endif
     </div>
+</div>
 @endsection
