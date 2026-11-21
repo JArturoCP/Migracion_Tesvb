@@ -12,7 +12,7 @@
         <h4 class="modal-title text-center" id="myModalLabel">SUBIR OFICIO FIRMADO</h4>
       </div>
       <div class="modal-body">
-        <form id="form_enviar_oficio" action="{{url('/incidencias/guardar_oficio/'.$oficio->id_solicitud)}}" role="form" method="POST" enctype="multipart/form-data">
+        <form data-panel-envio id="form_enviar_oficio" action="{{url('/incidencias/guardar_oficio/'.$oficio->id_solicitud)}}" role="form" method="POST" enctype="multipart/form-data">
           {{ csrf_field() }}
           <div class="form-group">
             <label>Instrucciones: </label><br>
@@ -20,13 +20,13 @@
           </div>
           <div class="form-group">
             <label for="archivo_subir">Archivo a subir:</label>
-            <input class="form-control" id="arch_solicitud" name="arch_solicitud" type="file" accept="application/pdf" required/>
+            <input class="form-control" id="arch_solicitud" name="arch_solicitud" data-panel-etiqueta="el archivo PDF" data-panel-archivo="pdf" type="file" accept="application/pdf" required/>
           </div>
         </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-        <button id="enviar_oficio" type="button" class="btn btn-success">Guardar oficio</button>
+        <button id="enviar_oficio" type="submit" form="form_enviar_oficio" class="btn btn-success">Guardar oficio</button>
       </div>
     </div>
   </div>
@@ -34,34 +34,10 @@
 </main>
 
 <script>
-  $(document).ready(function(){
-
+$(function () {
     $("#modal_cargar_oficio").modal("show");
-
-  });
-
-  $("#enviar_oficio").click(function(){
-    var arch_oficio = $('#arch_solicitud').val();
-    if(arch_oficio == ''){
-      swal({
-        position: "top",
-        type: "error",
-        title: "Selecciona oficio que desea subir",
-        showConfirmButton: false,
-        timer: 3500
-      });
-    } else{
-      $("#form_enviar_oficio").submit();
-      $("#enviar_oficio").attr("disableb", true);
-      swal({
-        position: "top",
-        type: "success",
-        title: "Registro exitoso",
-        showConfirmButton: false,
-        timer: 3500
-      });
-    }
-  });
+});
 </script>
 
+@include('partials.panel.validacion_envio')
 @endsection

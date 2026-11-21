@@ -208,7 +208,7 @@ class Resi_departamento_autorizar_anteproyectoController extends Controller
     }
     public function registrar_correo_documentacion(Request $request){
         $this->validate($request,[
-            'correo_electronico_doc' => 'required',
+            'correo_electronico_doc' => 'required|email',
         ]);
         $correo_electronico_doc = $request->input("correo_electronico_doc");
         $id_usuario = Session::get('usuario_alumno');

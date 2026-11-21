@@ -38,17 +38,29 @@
                     @foreach ($pasosAlumno as $idPaso => [$nombrePaso, $tituloPaso])
                         <li role="presentation" @class(['active' => $loop->first])>
                             <a id="paso-alumno-{{ $idPaso }}" href="#{{ $idPaso }}" role="tab" data-toggle="tab"
-                                aria-controls="{{ $idPaso }}" aria-selected="{{ $loop->first ? 'true' : 'false' }}" tabindex="{{ $loop->first ? 0 : -1 }}"
+                                aria-controls="{{ $idPaso }}" aria-describedby="estado-paso-{{ $idPaso }}" aria-selected="{{ $loop->first ? 'true' : 'false' }}" tabindex="{{ $loop->first ? 0 : -1 }}"
+                                data-estado="{{ $loop->first ? 'completado' : 'pendiente' }}"
                                 class="tw:group tw:flex tw:min-h-16 tw:min-w-0 tw:flex-col tw:items-center tw:justify-start tw:gap-1 tw:rounded-lg tw:px-0.5 tw:py-2 tw:text-center tw:text-[0.65rem] tw:leading-tight tw:text-gray-600 tw:hover:bg-gray-50 tw:focus-visible:outline-2 tw:focus-visible:outline-brand-500 tw:aria-selected:bg-brand-50 tw:aria-selected:font-semibold tw:aria-selected:text-brand-700 tw:sm:min-h-12 tw:sm:flex-row tw:sm:justify-center tw:sm:gap-2 tw:sm:px-2 tw:sm:text-sm tw:dark:text-gray-300 tw:dark:hover:bg-white/5 tw:dark:aria-selected:bg-brand-500/10 tw:dark:aria-selected:text-brand-300">
                                 <span aria-hidden="true" class="tw:inline-flex tw:size-6 tw:shrink-0 tw:items-center tw:justify-center tw:rounded-full tw:bg-gray-100 tw:text-xs tw:font-semibold tw:group-aria-selected:bg-brand-500 tw:group-aria-selected:text-white tw:dark:bg-gray-800">{{ $loop->iteration }}</span>
-                                <span data-alumno-etiqueta class="tw:wrap-break-word">{{ $nombrePaso }}</span>
+                                <span class="tw:flex tw:min-w-0 tw:items-center tw:justify-center tw:gap-1">
+                                    <span data-alumno-etiqueta class="tw:wrap-break-word">{{ $nombrePaso }}</span>
+                                    <svg aria-hidden="true" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="tw:hidden tw:size-3.5 tw:shrink-0 tw:text-amber-700 tw:group-data-[estado=error]:inline-block tw:dark:text-amber-400">
+                                        <path d="M8.8 3.7 2.2 15.2a1.4 1.4 0 0 0 1.2 2.1h13.2a1.4 1.4 0 0 0 1.2-2.1L11.2 3.7a1.4 1.4 0 0 0-2.4 0Z"/><path d="M10 7.5v3.6m0 2.9h.01"/>
+                                    </svg>
+                                    <svg aria-hidden="true" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="tw:hidden tw:size-3.5 tw:shrink-0 tw:text-green-700 tw:group-data-[estado=completado]:inline-block tw:dark:text-green-400">
+                                        <path d="m4.5 10.5 3.5 3.5 7.5-8"/>
+                                    </svg>
+                                </span>
+                                <span id="estado-paso-{{ $idPaso }}" data-alumno-estado class="tw:sr-only">{{ $loop->first ? 'Completado' : 'Pendiente' }}</span>
                             </a>
                         </li>
                     @endforeach
                 </ol>
             </x-panel.tarjeta>
 
-            <form method="POST" action="{{ url('/datos_alumno') }}" id="formgeneral">
+            <form method="POST" action="{{ url('/datos_alumno') }}" id="formgeneral" data-panel-seguimiento="alumno"
+                class="tw:[&_[aria-invalid=true]]:border-amber-500"
+                data-alumno-errores="{{ json_encode($errors->getBag('default')->messages()) }}">
                 @csrf
                 <x-panel.tarjeta>
                     <div class="tab-content">
@@ -1045,6 +1057,10 @@
 
         var d = new Date();
 
+        function avisarCampoAlumno(input, mensaje) {
+            $(input.form).triggerHandler('alumno:campo', [input.name, mensaje]);
+        }
+
         function validarcurp(input) {
             var curp = input.value.toUpperCase(),
                 resultado = document.getElementById("result"),
@@ -1058,6 +1074,7 @@
             }
 
             resultado.innerText = "Formato: " + valido;
+            avisarCampoAlumno(input, valido === 'Válido' ? null : 'Revisa el formato de la CURP.');
         }
         function validarInput(input) {
             var curp = input.value.toUpperCase(),
@@ -1072,6 +1089,7 @@
             }
 
             resultado.innerText = "Formato: " + valido;
+            avisarCampoAlumno(input, valido === 'Válido' ? null : 'Revisa el formato de la CURP.');
         }
 
         function curpValida(curp) {
@@ -1115,11 +1133,13 @@
 
                 $("#seguro_s").css("display", "inline");
                 $("#seguro_social").val('');
+                avisarCampoAlumno(document.getElementById('seguro_social'), null);
             });
             $("#seguro_social").change(function(e) {
 
                 var seguro=$("#seguro").val();
                 var seguro_social=$("#seguro_social").val();
+                avisarCampoAlumno(this, null);
 
                 if(seguro == 1){
                     if(seguro_social.length == 11) {
@@ -1128,6 +1148,7 @@
                     else
                     {
                         $("#seguro_social").val('');
+                        avisarCampoAlumno(this, "El número de seguro social del IMSS es de 11 digitos");
                         swal({
                             position: "top",
                             type: "error",
@@ -1145,6 +1166,7 @@
                     else
                     {
                         $("#seguro_social").val('');
+                        avisarCampoAlumno(this, "El número de seguro social del ISSSTE es de 11 digitos");
                         swal({
                             position: "top",
                             type: "error",
@@ -1162,6 +1184,7 @@
                     else
                     {
                         $("#seguro_social").val('');
+                        avisarCampoAlumno(this, "El número de seguro social del ISEMMYM es de 7 a 9  digitos");
                         swal({
                             position: "top",
                             type: "error",
@@ -1179,6 +1202,7 @@
                     else
                     {
                         $("#seguro_social").val('');
+                        avisarCampoAlumno(this, "El número de seguro social del seguro popular ahora INSABI  es de 10 a 11 digitos");
                         swal({
                             position: "top",
                             type: "error",
@@ -1196,6 +1220,7 @@
                     else
                     {
                         $("#seguro_social").val('');
+                        avisarCampoAlumno(this, "El número de seguro social del ISSFAM   es de 8 digitos");
                         swal({
                             position: "top",
                             type: "error",
@@ -1249,25 +1274,21 @@
                         '                          ');
                 }
             });
-            $("#cuenta").change(function(e) {
-                console.log(e);
-                var cuenta = e.target.value;
-                $.get("/cuenta_alumno/"+cuenta,function(response,state){
-                       // TNotify.alert(response[0].numero);
-                         if(response == 1)
-                         {
-                             $("#cuenta").val('');
-                             swal({
-                                 position: "top",
-                                 type: "error",
-                                 title: "El número de cuenta ya está registrado...",
-                                 showConfirmButton: false,
-                                 timer: 3500
-                             });
-                         }
-
+            $("#cuenta").change(function () {
+                const input = this;
+                const cuenta = input.value;
+                if (!cuenta) { return; }
+                $.get("/cuenta_alumno/" + encodeURIComponent(cuenta), function (response) {
+                    if (input.value !== cuenta) { return; }
+                    if (response == 1) {
+                        const mensaje = "El número de cuenta ya está registrado.";
+                        input.value = '';
+                        avisarCampoAlumno(input, mensaje);
+                        PanelFormularios.alerta('warning', 'Revisa el número de cuenta', mensaje);
+                    } else {
+                        avisarCampoAlumno(input, null);
+                    }
                 });
-
             });
             $("#formgeneral").validate({
                 ignore:[],
@@ -1347,7 +1368,7 @@
                     PanelFormularios.errores(this, errores);
                 },
                 showErrors: function () {
-                    // Los mensajes se muestran al enviar y se limpian al editar cada campo.
+                    // El stepper muestra los errores de las secciones revisadas.
                 },
                 submitHandler: function (form) {
                     PanelFormularios.enviar(form, document.getElementById('guardar'));

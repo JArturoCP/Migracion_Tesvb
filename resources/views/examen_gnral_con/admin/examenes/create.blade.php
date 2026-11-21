@@ -5,7 +5,7 @@
 <div class="modal fade" id="modal_examen_create" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <form action="{{ route('admin.examen_general.store') }}" method="POST">
+      <form data-panel-envio action="{{ route('admin.examen_general.store') }}" method="POST">
         @csrf
         <div class="modal-header bg-info">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -15,7 +15,7 @@
 
           <div class="form-group">
             <label><i class="glyphicon glyphicon-education"></i> Carrera</label>
-            <select name="id_carrera" class="form-control" required>
+            <select name="id_carrera" data-panel-etiqueta="la carrera" class="form-control" required>
               @foreach($carreras as $c)
                 <option value="{{ $c->id_carrera }}">{{ $c->nombre }}</option>
               @endforeach
@@ -24,7 +24,7 @@
 
           <div class="form-group">
             <label><i class="glyphicon glyphicon-pencil"></i> Nombre del examen</label>
-            <input type="text" name="nombre" class="form-control" placeholder="Ej. Examen Final Matemáticas" required>
+            <input type="text" name="nombre" data-panel-etiqueta="el nombre del examen" maxlength="255" class="form-control" placeholder="Ej. Examen Final Matemáticas" required>
           </div>
 
         </div>
@@ -47,4 +47,5 @@
 
 </script>
 
+@include('partials.panel.validacion_envio')
 @endsection

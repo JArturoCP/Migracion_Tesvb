@@ -12,7 +12,7 @@
         <h4 class="modal-title text-center" id="myModalLabel">SUBIR EVIDENCIAS DE CONOCIMIENTO QUE NO REQUIERE AUTORIZACIÓN DE JEFE INMEDIATO</h4>
       </div>
       <div class="modal-body">
-        <form id="form_enviar_evidencia" action="{{url('/incidencias/guardar_evidencia',$evidencia->id_evid)}}" role="form" method="POST" enctype="multipart/form-data">
+        <form data-panel-envio id="form_enviar_evidencia" action="{{url('/incidencias/guardar_evidencia',$evidencia->id_evid)}}" role="form" method="POST" enctype="multipart/form-data">
           {{ csrf_field() }}
           <div class="form-group">
             <label>Instrucciones: </label><br>
@@ -20,8 +20,8 @@
           </div>
           <div class="form-group">
             <label for="Tipo_evi">Tipo de evidencia </label>
-            <select class="form-control" placeholder="Seleciona una opción" id="id_tipo_evid" name="id_tipo_evid" required>
-              <option disabled selected hidden> Selecciona una opción </option>
+            <select class="form-control" placeholder="Seleciona una opción" id="id_tipo_evid" name="id_tipo_evid" data-panel-etiqueta="el tipo de evidencia" required>
+              <option value="" disabled selected hidden> Selecciona una opción </option>
               @foreach($tipo_evidencia as $tipo_evidencia)
                 <option value="{{$tipo_evidencia->id_tipo_evid}}" data-evid="{{$tipo_evidencia->nombre_evidencia}}"> {{$tipo_evidencia->nombre_evidencia}} </option>
               @endforeach
@@ -29,13 +29,13 @@
           </div>
           <div class="form-group">
             <label for="archivo_subir">Archivo a subir:</label>
-            <input class="form-control" id="arch_evidencia" name="arch_evidencia" type="file" accept="application/pdf" required/>
+            <input class="form-control" id="arch_evidencia" name="arch_evidencia" data-panel-etiqueta="el archivo PDF" data-panel-archivo="pdf" type="file" accept="application/pdf" required/>
           </div>
         </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-        <button id="enviar_evidencia" type="button" class="btn btn-success">Guardar Evidencia</button>
+        <button id="enviar_evidencia" type="submit" form="form_enviar_evidencia" class="btn btn-success">Guardar Evidencia</button>
       </div>
     </div>
   </div>
@@ -43,46 +43,10 @@
 </main>
 
 <script>
-  $(document).ready(function(){
-
+$(function () {
     $("#modal_cargar_evidencia").modal("show");
-
-  });
-
-  $("#enviar_evidencia").click(function(){
-    var id_tipo_evid= $('#id_tipo_evid').val();
-    if(id_tipo_evid == null)
-    {
-      swal({
-        position: "top",
-        type: "error",
-        title: "Selecciona tipo de evidencia",
-        showConfirmButton: false,
-        timer: 3500
-      });
-    }else{
-      var arch_evidencia = $('#arch_evidencia').val();
-      if(arch_evidencia == ''){
-        swal({
-          position: "top",
-          type: "error",
-          title: "Selecciona evidencia que desea subir",
-          showConfirmButton: false,
-          timer: 3500
-        });
-      } else{
-        $("#form_enviar_evidencia").submit();
-        $("#enviar_evidencia").attr("disableb", true);
-        swal({
-          position: "top",
-          type: "success",
-          title: "Registro exitoso",
-          showConfirmButton: false,
-          timer: 3500
-        });
-      }
-    }
-  });
+});
 </script>
 
+@include('partials.panel.validacion_envio')
 @endsection

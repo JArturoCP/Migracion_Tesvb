@@ -263,9 +263,13 @@ class AudAgendaEventoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
-        Session::forget('procesos-evento');
-        Session::put('procesos-evento',json_decode($request->get('data')));
+        $data = $request->validate(['data' => 'required|json']);
+        $procesos = json_decode($data['data'], true);
+        validator(['procesos' => $procesos], [
+            'procesos' => 'required|array|min:1',
+            'procesos.*' => 'integer|min:1',
+        ])->validate();
+        Session::put('procesos-evento', $procesos);
 
         return redirect('auditorias/evento/'.$id);
     }
@@ -586,8 +590,7 @@ class AudAgendaEventoController extends Controller
             'fin' => 'required'
         ]);
         if($validator->fails()){
-            Session::put('errors',$validator->errors());
-            return back();
+            return back()->withErrors($validator)->withInput();
         }
         AudAgenda::findOrFail($id)->update(array(
             'hora_i' => $request->get('inicio'),

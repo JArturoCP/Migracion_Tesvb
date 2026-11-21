@@ -7,7 +7,7 @@
 <div class="modal fade" id="modal_verificacion_user" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <form class="form-horizontal" action="{{url("/centro_computo/verificar_usuario")}}" role="form" method="POST" enctype="multipart/form-data">
+      <form data-panel-envio class="form-horizontal" action="{{url("/centro_computo/verificar_usuario")}}" role="form" method="POST" enctype="multipart/form-data">
         {{ csrf_field() }}
         <div class="modal-header bg-info">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -17,7 +17,7 @@
           <div class="form-group">
             <label for="password" class="col-md-4 control-label">ingresa contraseña</label>
             <div class="col-md-6">
-              <input id="password" type="password" class="form-control" name="password" required>
+              <input id="password" type="password" class="form-control" name="password" data-panel-etiqueta="la contraseña" required>
             </div>
           </div>
         </div>
@@ -40,4 +40,5 @@
 
 </script>
 
+@include('partials.panel.validacion_envio')
 @endsection

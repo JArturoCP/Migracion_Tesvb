@@ -12,7 +12,7 @@
         <h4 class="modal-title text-center" id="myModalLabel">Solicitud del Estimulo al Desempeño Escolar</h4>
       </div>
       <div class="modal-body">
-        <form id="form_enviar_encuesta" class="form" action="{{url("/beca_estimulo/vulnerabilidad_registrar")}}" role="form" method="POST" >
+        <form data-panel-envio id="form_enviar_encuesta" class="form" action="{{url("/beca_estimulo/vulnerabilidad_registrar")}}" role="form" method="POST" >
           {{ csrf_field() }}
           <p>
             <b> QUE ES UN ESTUDIANTE VULNERABLE:</b> Un estudiante que presenta alguna de las siguientes condiciones a lo largo de su trayectoria escolar que le impida continuar en su preparación profesional.<br>
@@ -27,49 +27,26 @@
           <p style="background: red">Nota: También igual checa los demás requisitos que debes cumplir para el Estímulo al Desempeño Escolar en la convocatoria.</p>
           <div style="background: #6cb2eb; padding: 10px;">
             <p><b>Selecciona una respuesta por favor, para verificar si eres estudiante vulnerable:<br></b></p>
-            <label class="radio-inline"><input type="radio" name="pregunta1" id="pregunta1" value="1">Eres madre de familia</label>
-            <label class="radio-inline"><input type="radio" name="pregunta1" id="pregunta1" value="2">Tienes alguna discapacidad</label>
-            <label class="radio-inline"><input type="radio" name="pregunta1" id="pregunta1" value="3">Ninguna de las anteriores</label>
+            <label class="radio-inline"><input type="radio" name="pregunta1" data-panel-etiqueta="una respuesta" required id="pregunta1" value="1">Eres madre de familia</label>
+            <label class="radio-inline"><input type="radio" name="pregunta1" data-panel-etiqueta="una respuesta" required id="pregunta1" value="2">Tienes alguna discapacidad</label>
+            <label class="radio-inline"><input type="radio" name="pregunta1" data-panel-etiqueta="una respuesta" required id="pregunta1" value="3">Ninguna de las anteriores</label>
           </div>
         </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-primary contestar">Enviar respuesta</button>
+        <button type="submit" form="form_enviar_encuesta" class="btn btn-primary contestar">Enviar respuesta</button>
       </div>
     </div>
   </div>
 </div>
 </main>
 
-<script type="text/javascript">
-  $(document).ready(function() {
-
+<script>
+$(function () {
     $("#modal_vulnerabilidad").modal("show");
-
-    $(".contestar").click(function () {
-      var pregunta1 = $("input[type='radio'][name='pregunta1']:checked").val();
-      if(pregunta1 != undefined){
-        $(".contestar").attr("disabled", true);
-        $("#form_enviar_encuesta").submit();
-        swal({
-          position: "top",
-          type: "success",
-          title: "Se envio correctamente su encuesta.",
-          showConfirmButton: false,
-          timer: 3500
-        });
-      }else{
-        swal({
-          position: "top",
-          type: "warning",
-          title: "selecciona una respuesta",
-          showConfirmButton: false,
-          timer: 3500
-        });
-      }
-    });
-  });
+});
 </script>
 
+@include('partials.panel.validacion_envio')
 @endsection

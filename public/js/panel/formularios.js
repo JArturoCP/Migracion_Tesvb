@@ -20,16 +20,11 @@
     }
 
     let consecutivo = 0;
-    function errores(form, lista) {
-        form.querySelectorAll('[data-panel-error]').forEach(limpiarCampo);
-        const mensajes = [];
-        let primero;
-        for (const [nombre, detalle] of Object.entries(lista)) {
-            const mensaje = Array.isArray(detalle) ? detalle.join(' ') : String(detalle);
-            mensajes.push(mensaje);
-            const campo = Array.from(form.elements).find(el => (el.name === nombre || el.id === nombre) && !el.disabled && el.type !== 'hidden');
-            if (!campo) { continue; }
-            primero ||= campo;
+    function marcarCampo(form, nombre, mensaje) {
+        const nombreLista = nombre.replace(/\.\d+$/, '') + '[]';
+        const campo = Array.from(form.elements).find(el => (el.name === nombre || el.name === nombreLista || el.id === nombre) && !el.disabled && el.type !== 'hidden');
+        if (campo) {
+            if (campo.hasAttribute?.('data-panel-error')) { limpiarCampo(campo); }
             const aviso = document.createElement('span');
             aviso.id = 'panel-error-campo-' + (++consecutivo);
             aviso.className = 'tw:mt-1 tw:block tw:text-xs tw:text-red-600 tw:dark:text-red-400';
@@ -39,6 +34,24 @@
             campo.setAttribute('aria-invalid', 'true');
             campo.setAttribute('aria-describedby', [campo.getAttribute('aria-describedby'), aviso.id].filter(Boolean).join(' '));
         }
+        return campo;
+    }
+
+    function notificar(form, evento, ...args) {
+        if (form.dataset?.panelSeguimiento) { $(form).triggerHandler(evento, args); }
+    }
+
+    function errores(form, lista, origen = 'cliente') {
+        form.querySelectorAll('[data-panel-error]').forEach(limpiarCampo);
+        const mensajes = [];
+        let primero;
+        for (const [nombre, detalle] of Object.entries(lista)) {
+            const mensaje = Array.isArray(detalle) ? detalle.join(' ') : String(detalle);
+            mensajes.push(mensaje);
+            const campo = marcarCampo(form, nombre, mensaje);
+            primero ||= campo;
+        }
+        notificar(form, 'panel:errores', lista, origen);
 
         const pestana = primero?.closest('.tab-pane');
         if (pestana) {
@@ -55,7 +68,10 @@
         for (const campo of form.elements) {
             const nombre = campo.name || campo.id;
             if (!nombre || !campo.willValidate) { continue; }
-            const vacio = campo.required && ['text', 'email', 'tel', 'textarea'].includes(campo.type) && !campo.value.trim();
+            const vacio = campo.required && (
+                (['text', 'email', 'tel', 'textarea'].includes(campo.type) && !campo.value.trim()) ||
+                (campo.type === 'select-one' && campo.selectedOptions[0]?.disabled)
+            );
             const etiqueta = campo.dataset?.panelEtiqueta || campo.labels?.[0]?.textContent.trim() || 'este campo';
             if (campo.type === 'file' && campo.files?.length && campo.dataset?.panelArchivo) {
                 const extensiones = campo.dataset.panelArchivo.split(',');
@@ -81,7 +97,7 @@
     function fallo(form, xhr, mensaje) {
         const lista = xhr.responseJSON?.errors;
         if (xhr.status === 422 && lista && Object.keys(lista).length) {
-            return errores(form, lista);
+            return errores(form, lista, 'servidor');
         }
         const porEstado = {
             401: 'La sesión terminó. Inicia sesión de nuevo para continuar.',
@@ -98,6 +114,7 @@
         const leyenda = boton?.textContent;
         if (boton) { boton.disabled = true; boton.textContent = 'Guardando…'; }
         form.setAttribute('aria-busy', 'true');
+        notificar(form, 'panel:enviando');
 
         function liberar() {
             form.removeAttribute('aria-busy');
@@ -111,6 +128,7 @@
                 alerta('error', 'Respuesta inesperada', 'Verifica los datos antes de volver a enviar.').then(liberar);
                 return;
             }
+            notificar(form, 'panel:guardado');
             alerta('success', 'Cambios guardados', respuesta.message).then(() => {
                 if (respuesta.redirect) { window.location.assign(respuesta.redirect); }
                 else { liberar(); }
@@ -124,7 +142,7 @@
         const formulariosNativos = Array.from(document.querySelectorAll('[data-panel-envio]'));
         formulariosNativos.forEach((form, i) => {
             form.noValidate = true;
-            const clave = form.id || form.getAttribute('action') || 'formulario-' + i;
+            const clave = form.dataset.panelEnvio || form.id || form.getAttribute('action') || 'formulario-' + i;
             form.dataset.panelClave = clave;
             if (form.method.toLowerCase() === 'post') {
                 const marcador = document.createElement('input');
@@ -140,6 +158,7 @@
                     return;
                 }
                 form.setAttribute('aria-busy', 'true');
+                $(form).triggerHandler('panel:enviando');
                 const boton = event.originalEvent?.submitter;
                 if (boton) {
                     // Mantiene el nombre y valor del botón en el POST nativo.
@@ -150,6 +169,7 @@
                 }
             });
         });
+        const anterior = window.PanelEnvioAnterior;
         if (formulariosNativos.length) {
             window.addEventListener('pageshow', () => formulariosNativos.forEach(form => {
                 form.removeAttribute('aria-busy');
@@ -158,7 +178,6 @@
                     delete boton.dataset.panelBloqueado;
                 });
             }));
-            const anterior = window.PanelEnvioAnterior;
             const form = anterior?.clave && formulariosNativos.find(el => el.dataset.panelClave === anterior.clave);
             if (form && Object.keys(anterior.errores).length) {
                 for (const campo of form.elements) {
@@ -171,14 +190,15 @@
                     }
                 }
                 const modal = form.closest('[data-panel-modal], .modal');
-                if (modal) {
+                if (modal && !$(modal).hasClass('in') && !$(modal).hasClass('show')) {
                     $(modal).one('shown.bs.modal', () => errores(form, anterior.errores)).modal('show');
                 } else {
                     errores(form, anterior.errores);
                 }
-            } else if (anterior?.exito) {
-                alerta('success', 'Cambios guardados', anterior.exito);
             }
+        }
+        if (anterior?.exito && !Object.keys(anterior.errores).length) {
+            alerta('success', 'Cambios guardados', anterior.exito);
         }
         document.querySelectorAll('[data-panel-guardar]').forEach(form => {
             form.noValidate = true;
@@ -193,10 +213,10 @@
         document.querySelectorAll('[data-panel-validar]').forEach(form => { form.noValidate = true; });
         for (const evento of ['input', 'change']) {
             document.addEventListener(evento, event => {
-                if (event.target instanceof HTMLElement) { limpiarCampo(event.target); }
+                if (event.target instanceof HTMLElement && !event.target.form?.dataset?.panelSeguimiento) { limpiarCampo(event.target); }
             });
         }
     });
 
-    window.PanelFormularios = { alerta, errores, validar, fallo, enviar };
+    window.PanelFormularios = { alerta, errores, validar, fallo, enviar, marcarCampo, limpiarCampo };
 })(window.jQuery, window.Swal);

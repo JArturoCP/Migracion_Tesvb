@@ -203,10 +203,13 @@ class AudValidarAgendaController extends Controller
      */
     public function edit($id)
     {
-        //
-
-        Session::forget('procesos-agenda');
-        Session::put('procesos-agenda',json_decode(request()->query('data')));
+        $data = request()->validate(['data' => 'required|json']);
+        $procesos = json_decode($data['data'], true);
+        validator(['procesos' => $procesos], [
+            'procesos' => 'required|array|min:1',
+            'procesos.*' => 'integer|min:1',
+        ])->validate();
+        Session::put('procesos-agenda', $procesos);
 
         return redirect('auditorias/agenda/'.$id);
     }

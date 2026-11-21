@@ -5,7 +5,7 @@
 <div class="modal fade bs-example-modal-lg" id="modal_editar_respuesta" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
-      <form action="{{ route('admin.respuesta.update', $respuesta->id_respuesta) }}" method="POST" class="form-horizontal">
+      <form data-panel-envio action="{{ route('admin.examen_general.respuesta.update', $respuesta->id_respuesta) }}" method="POST" class="form-horizontal">
         @csrf
         <div class="modal-header bg-info">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -18,14 +18,14 @@
           <div class="form-group">
             <label class="col-sm-2 control-label"><span class="glyphicon glyphicon-pencil"></span> Respuesta</label>
             <div class="col-sm-10">
-              <input type="text" name="respuesta" class="form-control" value="{{ $respuesta->respuesta }}" placeholder="Escribe la respuesta aquí">
+              <input type="text" name="respuesta" data-panel-etiqueta="el texto de la respuesta" required class="form-control" value="{{ $respuesta->respuesta }}" placeholder="Escribe la respuesta aquí">
             </div>
           </div>
 
           <div class="form-group">
             <label class="col-sm-2 control-label"><span class="glyphicon glyphicon-ok-circle"></span> ¿Es correcta?</label>
             <div class="col-sm-10">
-              <select name="es_correcta" class="form-control">
+              <select name="es_correcta" data-panel-etiqueta="si la respuesta es correcta" required class="form-control">
                 <option value="1" {{ $respuesta->es_correcta == 1 ? 'selected' : '' }}>Sí</option>
                 <option value="0" {{ $respuesta->es_correcta == 0 ? 'selected' : '' }}>No</option>
               </select>
@@ -52,4 +52,5 @@
 
 </script>
 
+@include('partials.panel.validacion_envio')
 @endsection

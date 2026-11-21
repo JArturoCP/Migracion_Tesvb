@@ -5,7 +5,7 @@
 <div class="modal fade bs-example-modal-lg" id="modal_editar_pregunta" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
-      <form action="{{ route('admin.examen_general.pregunta.update', $pregunta->id_pregunta) }}" method="POST" class="form-horizontal">
+      <form data-panel-envio action="{{ route('admin.examen_general.pregunta.update', $pregunta->id_pregunta) }}" method="POST" class="form-horizontal">
         @csrf
         <div class="modal-header bg-info">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -18,14 +18,14 @@
           <div class="form-group">
             <label class="col-sm-2 control-label"><span class="glyphicon glyphicon-pencil"></span> Pregunta</label>
             <div class="col-sm-10">
-              <textarea name="pregunta" class="form-control" rows="4" placeholder="Escribe la pregunta aquí" style="resize:none;">{{ $pregunta->pregunta }}</textarea>
+              <textarea name="pregunta" data-panel-etiqueta="el texto de la pregunta" required class="form-control" rows="4" placeholder="Escribe la pregunta aquí" style="resize:none;">{{ $pregunta->pregunta }}</textarea>
             </div>
           </div>
 
           <div class="form-group">
             <label class="col-sm-2 control-label"><span class="glyphicon glyphicon-book"></span> Módulo</label>
             <div class="col-sm-10">
-              <select name="id_modulo" class="form-control">
+              <select name="id_modulo" data-panel-etiqueta="el módulo" required class="form-control">
                 @foreach($modulos_pregunta as $m)
                   <option value="{{ $m->id_modulo }}" {{ $m->id_modulo == $pregunta->id_modulo ? 'selected' : '' }}>{{ $m->nombre }}</option>
                 @endforeach
@@ -36,7 +36,7 @@
           <div class="form-group">
             <label class="col-sm-2 control-label"><span class="glyphicon glyphicon-sort-by-order"></span> Número</label>
             <div class="col-sm-10">
-              <input type="number" name="numero_pregunta" class="form-control" value="{{ $pregunta->numero_pregunta }}">
+              <input type="number" name="numero_pregunta" data-panel-etiqueta="el número de pregunta" min="1" required class="form-control" value="{{ $pregunta->numero_pregunta }}">
             </div>
           </div>
 
@@ -60,4 +60,5 @@
 
 </script>
 
+@include('partials.panel.validacion_envio')
 @endsection

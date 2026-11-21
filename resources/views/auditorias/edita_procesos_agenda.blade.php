@@ -34,7 +34,7 @@
   </div>
 </div>
 
-<form action="{{url('auditorias/validar')}}/{{$auditoria_id}}/edit" method="get" id="form_procesos_agenda">
+<form data-panel-envio action="{{url('auditorias/validar')}}/{{$auditoria_id}}/edit" method="get" id="form_procesos_agenda">
   <input type="text" name="data" id="data_procesos_agenda" hidden>
 </form>
 </main>
@@ -52,6 +52,8 @@
       if (agregar.length>0){
         $('#data_procesos_agenda').val(JSON.stringify(agregar));
         $('#form_procesos_agenda').submit();
+      } else {
+        PanelFormularios.alerta('warning', 'Revisa la selección', 'Selecciona al menos un proceso.');
       }
     });
 
@@ -59,4 +61,5 @@
 
 </script>
 
+@include('partials.panel.validacion_envio')
 @endsection

@@ -31,6 +31,15 @@ class Egel_ExamenController extends Controller
     // GUARDAR
     public function store(Request $request)
     {
+        $request->validate([
+            'id_carrera' => 'required|integer|exists:gnral_carreras,id_carrera',
+            'nombre' => 'required|string|max:255',
+            'id_periodo_examen' => 'nullable|integer|exists:egel_periodo_examen,id_periodo_examen',
+        ], [
+            'id_carrera.required' => 'Selecciona la carrera.',
+            'nombre.required' => 'Escribe el nombre del examen.',
+        ]);
+
         DB::table('egel_examenes')->insert([
             'id_carrera' => $request->id_carrera,
             'nombre' => $request->nombre,
@@ -60,6 +69,15 @@ class Egel_ExamenController extends Controller
     // ACTUALIZAR
     public function update(Request $request, $id_examen_egel)
     {
+        $request->validate([
+            'id_carrera' => 'required|integer|exists:gnral_carreras,id_carrera',
+            'nombre' => 'required|string|max:255',
+            'id_periodo_examen' => 'nullable|integer|exists:egel_periodo_examen,id_periodo_examen',
+        ], [
+            'id_carrera.required' => 'Selecciona la carrera.',
+            'nombre.required' => 'Escribe el nombre del examen.',
+        ]);
+
         DB::table('egel_examenes')
             ->where('id_examen_egel',$id_examen_egel)
             ->update([
@@ -228,6 +246,16 @@ class Egel_ExamenController extends Controller
 
 public function updatePregunta(Request $request, $id_pregunta)
 {
+        $request->validate([
+            'pregunta' => 'required|string',
+            'id_modulo' => 'required|integer|exists:egel_modulos,id_modulo',
+            'numero_pregunta' => 'required|integer|min:1',
+            'id_examen_egel' => 'required|integer|exists:egel_examenes,id_examen_egel',
+        ], [
+            'pregunta.required' => 'Escribe el texto de la pregunta.',
+            'numero_pregunta.min' => 'El número de pregunta debe ser mayor que cero.',
+        ]);
+
     DB::table('egel_preguntas')
         ->where('id_pregunta', $id_pregunta)
         ->update([
@@ -263,6 +291,14 @@ public function editRespuesta($id_respuesta)
 // Actualizar respuesta
 public function updateRespuesta(Request $request, $id_respuesta)
 {
+        $request->validate([
+            'respuesta' => 'required|string',
+            'es_correcta' => 'required|in:0,1',
+            'id_examen_egel' => 'required|integer|exists:egel_examenes,id_examen_egel',
+        ], [
+            'respuesta.required' => 'Escribe el texto de la respuesta.',
+        ]);
+
     DB::table('egel_respuestas')
         ->where('id_respuesta', $id_respuesta)
         ->update([

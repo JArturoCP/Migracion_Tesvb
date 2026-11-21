@@ -9,6 +9,12 @@ use Session;
 class Beca_vulnerabilidadController extends Controller
 {
     public function index(Request $request){
+        $request->validate([
+            'pregunta1' => 'required|in:1,2,3',
+        ], [
+            'pregunta1.required' => 'Selecciona una respuesta.',
+        ]);
+
         //1 es vulnerable madre de familia
         //2 es vulnerable con discapacidad
         //no es vulnerable

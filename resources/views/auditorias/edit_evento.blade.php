@@ -42,7 +42,7 @@
                     <h3 class="panel-title text-center">Editar evento</h3>
                 </div>
                 <div class="panel-body">
-                    <form action="{{url('auditorias/actualizaEvento')}}/{{$agendaT[0]->id_agenda}}" method="POST" id="reprogramar">
+                    <form data-panel-envio action="{{url('auditorias/actualizaEvento')}}/{{$agendaT[0]->id_agenda}}" method="POST" id="reprogramar">
                         @csrf
                             <div class="modal-body">
                                 <input type="text" name="id_auditoria" value="" hidden>
@@ -223,7 +223,7 @@
             </div>
         </div>
     </main>
-    <form  method="POST" role="form" id="form_delete_auditor">
+    <form data-panel-envio  method="POST" role="form" id="form_delete_auditor">
         {{ method_field('DELETE') }}
         {{ csrf_field() }}
     </form>
@@ -293,7 +293,7 @@
 
                 Swal.fire({
                     title: 'Cargando',
-                    onBeforeOpen: () => {
+                    didOpen: () => {
                         Swal.showLoading();
                         $.ajax({
                             type: 'get',
@@ -314,7 +314,7 @@
                                     $('.inicio').change(function () {
                                         Swal.fire({
                                             title: 'Cargando',
-                                            onBeforeOpen: () => {
+                                            didOpen: () => {
                                                 Swal.showLoading()
                                                 $.ajax({
                                                     type: 'get',
@@ -384,4 +384,5 @@
       @show
 @endif
 
+@include('partials.panel.validacion_envio')
 @endsection

@@ -207,7 +207,7 @@
 
     <div class="modal fade" id="modal_add_evento" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
         <div class="modal-dialog modal-lg" role="document">
-            <form id="form-add-evento" action="{{url('auditorias/agenda')}}" method="POST">
+            <form data-panel-envio id="form-add-evento" action="{{url('auditorias/agenda')}}" method="POST">
                 @csrf
                 <div class="modal-content">
                     <div class="modal-header">
@@ -378,7 +378,7 @@
     </div>
 
 
-    <form  method="POST" role="form" id="form_delete_evento">
+    <form data-panel-envio  method="POST" role="form" id="form_delete_evento">
         {{ method_field('DELETE') }}
         {{ csrf_field() }}
         <input type="text" value="" id="tipo" name="tipo" hidden>
@@ -502,7 +502,7 @@
 
                     Swal.fire({
                         title: 'Cargando',
-                        onBeforeOpen: () => {
+                        didOpen: () => {
                             Swal.showLoading();
                             $.ajax({
                                 type: 'get',
@@ -522,7 +522,7 @@
                                         $('.inicio').change(function () {
                                             Swal.fire({
                                                 title: 'Cargando',
-                                                onBeforeOpen: () => {
+                                                didOpen: () => {
                                                     Swal.showLoading()
                                                     $.ajax({
                                                         type: 'get',
@@ -678,5 +678,6 @@
       @show
 @endif
 
+@include('partials.panel.validacion_envio')
 @endsection
 

@@ -34,7 +34,7 @@
   </div>
 </div>
 
-<form action="{{url('auditorias/evento')}}/{{$id}}" method="POST" id="form_procesos_evento">
+<form data-panel-envio action="{{url('auditorias/evento')}}/{{$id}}" method="POST" id="form_procesos_evento">
   @csrf
   @method('PUT')
   <input type="text" name="data" id="data_procesos_evento" hidden>
@@ -54,6 +54,8 @@
       if (agregar.length>0){
         $('#data_procesos_evento').val(JSON.stringify(agregar));
         $('#form_procesos_evento').submit();
+      } else {
+        PanelFormularios.alerta('warning', 'Revisa la selección', 'Selecciona al menos un proceso.');
       }
     });
 
@@ -61,4 +63,5 @@
 
 </script>
 
+@include('partials.panel.validacion_envio')
 @endsection

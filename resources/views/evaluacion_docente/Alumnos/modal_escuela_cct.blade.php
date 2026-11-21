@@ -1,6 +1,6 @@
 <x-panel.modal id="editar_escuela_cct" titulo="Modificar escuela de procedencia" tamano="xl" sin-relleno aria-label="Modificar escuela de procedencia"
     class="tw:[&_.tw-modal-caja]:motion-safe:animate-in tw:[&_.tw-modal-caja]:motion-safe:fade-in-0 tw:[&_.tw-modal-caja]:motion-safe:zoom-in-95 tw:[&_.tw-modal-caja]:motion-safe:duration-200">
-    <form id="form_escuela_cct_modal" method="POST" action="{{ url('/datos_alumnos/guardar_mod_cct/'.$datos->id_alumno) }}">
+    <form id="form_escuela_cct_modal" method="POST" action="{{ url('/datos_alumnos/guardar_mod_cct/'.$datos->id_alumno) }}" data-panel-seguimiento="alumno">
         @csrf
         <input type="hidden" name="id_escuela" id="seleccion_escuela_cct">
         <div class="tw-modal-cuerpo tw:max-h-[64dvh] tw:space-y-4 tw:overflow-y-auto">
@@ -170,6 +170,7 @@ $(function () {
                 $(this).text(escuela[this.dataset.escuelaCampo] ?? '');
             });
             $('#resultado_escuela_cct').text('Escuela de procedencia actualizada.');
+            form.triggerHandler('panel:guardado');
             guardando = false;
             modal.modal('hide');
             PanelFormularios.alerta('success', 'Escuela guardada', 'La escuela de procedencia se actualizó.');

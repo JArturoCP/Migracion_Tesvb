@@ -316,7 +316,7 @@ class Tu_Eva_TutorController extends Controller
     public function comentario(Request $request)
     {
         $this->validate($request,[
-            'comentario'
+            'comentario' => 'required|string',
         ]);
         //dd($request);
         $query2 = 'UPDATE tu_eva_autoevaluacion SET comentario = ? WHERE id_asigna_tutor  =  ? ';

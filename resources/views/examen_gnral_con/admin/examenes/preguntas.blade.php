@@ -184,4 +184,5 @@ document.addEventListener("DOMContentLoaded", function () {
       @show
 @endif
 
+@include('partials.panel.validacion_envio')
 @endsection

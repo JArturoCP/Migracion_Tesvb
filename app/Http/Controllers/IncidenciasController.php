@@ -142,6 +142,19 @@ class IncidenciasController extends Controller
         return redirect('/incidencias/editar_evidencia2/'.$maximo);
     }
     public function guardar_evidencia_fecha_solicita(Request $request,$id_tipo_evid,$tipo_fecha){
+        $request->validate([
+            'fecha_req1' => 'required|date_format:Y/m/d,Y-m-d',
+            'arch_evidencia' => 'required|file|mimes:pdf',
+        ], [
+            'fecha_req1.required' => 'Selecciona la fecha solicitada.',
+            'fecha_req1.date_format' => 'Selecciona una fecha válida.',
+            'arch_evidencia.mimes' => 'El archivo debe estar en formato PDF.',
+        ]);
+
+
+        if (in_array((int) $id_tipo_evid, [1, 3, 5, 6], true)) {
+            $request->validate(['no_folio' => 'required|string'], ['no_folio.required' => 'Ingresa el número de folio.']);
+        }
 
         //  dd($request);
         $maximo= DB::selectOne('select max(id_evid) maximo FROM inc_evidencias');
@@ -427,6 +440,13 @@ return view('incidencias.validar_oficios', compact('solicitudes','id_personal'))
 
     public function guardar_evidencia(Request $request, $id_evid)
 {
+        $request->validate([
+            'id_tipo_evid' => 'required|integer',
+            'arch_evidencia' => 'required|file|mimes:pdf',
+        ], [
+            'arch_evidencia.mimes' => 'El archivo debe estar en formato PDF.',
+        ]);
+
     $file=$request->file('arch_evidencia');
     $id_tipo_evid=$request->input('id_tipo_evid');
     $name="evidencia_incidencia_".$id_evid.".".$file->getClientOriginalExtension();
@@ -1245,6 +1265,12 @@ public function vista2oficio($id_solicitud)
 
 public function guardar_oficio(Request $request, $id_oficio)
 {
+        $request->validate([
+            'arch_solicitud' => 'required|file|mimes:pdf',
+        ], [
+            'arch_solicitud.mimes' => 'El oficio debe estar en formato PDF.',
+        ]);
+
     $file=$request->file('arch_solicitud');
     $name="evidencia_oficio_".$id_oficio.".".$file->getClientOriginalExtension();
     $file->move(public_path().'/incidencias_oficios/', $name);

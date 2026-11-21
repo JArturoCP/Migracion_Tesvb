@@ -58,9 +58,9 @@
             <td>
               <div class="tw:flex tw:flex-col tw:gap-3">
               @for ($i=0; $i < $alumnos->faltan ; $i++)
-              <form method="POST" role="form" class="form tw:flex tw:flex-wrap tw:items-center tw:gap-2" id="agrega_evidencia{{$i}}" enctype="multipart/form-data">
+              <form data-panel-envio="evidencia-{{ $alumnos->id_registro_alumno }}-{{ $i }}" method="POST" role="form" class="form tw:flex tw:flex-wrap tw:items-center tw:gap-2" id="agrega_evidencia{{$i}}" enctype="multipart/form-data">
                   {{csrf_field()}}
-                <input type="file"  name="urlImg[]" id="archivo{{$i}}" accept="" class="tw:max-w-64 tw:rounded-lg tw:border tw:border-gray-300 tw:text-sm tw:text-gray-500 tw:file:mr-3 tw:file:border-0 tw:file:border-r tw:file:border-solid tw:file:border-gray-200 tw:file:bg-gray-50 tw:file:px-3 tw:file:py-2 tw:file:text-sm tw:file:text-gray-700 tw:dark:border-gray-700 tw:dark:text-gray-400 tw:dark:file:border-gray-800 tw:dark:file:bg-white/3 tw:dark:file:text-gray-300">
+                <input type="file"  name="urlImg[]" data-panel-etiqueta="el archivo de evidencia" required data-panel-max-bytes="2097152" id="archivo{{$i}}" accept="" class="tw:max-w-64 tw:rounded-lg tw:border tw:border-gray-300 tw:text-sm tw:text-gray-500 tw:file:mr-3 tw:file:border-0 tw:file:border-r tw:file:border-solid tw:file:border-gray-200 tw:file:bg-gray-50 tw:file:px-3 tw:file:py-2 tw:file:text-sm tw:file:text-gray-700 tw:dark:border-gray-700 tw:dark:text-gray-400 tw:dark:file:border-gray-800 tw:dark:file:bg-white/3 tw:dark:file:text-gray-300">
                 <x-panel.boton variante="exito" tamano="sm" name="id_registro" type="submit" class="registra" id="{{$alumnos->id_registro_alumno}}"><i class="fa fa-upload" aria-hidden="true"></i> SUBIR EVIDENCIA</x-panel.boton>
                 <input style="display:none" id="registro_alumno" value="{{$alumnos->id_registro_alumno}}" name="registro_alumno">
               </form>
@@ -93,26 +93,7 @@ function bloqueo()
   @if($existe_id==0)
     $("#modal_evidencias").modal("show");
 
-    @for ($i = 0; $i < ($alumnos->no_evidencias); $i++)
-
-                $('#archivo{{$i}}').bind('change', function() {
-                  if(this.files[0].size > 2097152)
-                  {
-                  TNotify.alert("No superar los 2MB");
-                  this.value="";
-
-                  };
-              });
-
-//bloqueo();
-    @endfor
-
-      $('.registra').click(function(){
-        var uno=$(this).attr('id');
-         //TNotify.alert(uno);
-        bloqueo();
-      });
-
+    $('[data-panel-envio]').on('panel:enviando', bloqueo);
 @endif
 
 
@@ -121,4 +102,5 @@ function bloqueo()
 
 </script>
 
+@include('partials.panel.validacion_envio')
 @endsection

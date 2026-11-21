@@ -29,13 +29,13 @@ class In_registrar_profesoresController extends Controller
     public function store(Request $request){
         // dd($request);
         $this->validate($request, [
-            'nombre_profesor' => 'required',
-            'ap_paterno' => 'required',
-            'ap_materno' => 'required',
-            'sexo' => 'required',
-            'nivel_ingles' => 'required',
-            'titulo' => 'required',
-            'fecha_termino' => 'required',
+            'nombre_profesor' => 'required|string|max:100',
+            'ap_paterno' => 'required|string|max:100',
+            'ap_materno' => 'required|string|max:100',
+            'sexo' => 'required|integer|exists:in_sexo,id_sexo',
+            'nivel_ingles' => 'required|integer|exists:in_nivel_ingles,id_nivel_ingles',
+            'titulo' => 'required|integer|exists:in_titulo,id_titulo',
+            'fecha_termino' => 'required|date_format:Y/m/d,Y-m-d',
 
         ]);
         $usuario = Session::get('usuario_alumno');
