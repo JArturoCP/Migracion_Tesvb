@@ -1,7 +1,8 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 @section('title', 'No conformidad y Acción Correctiva')
+@include('partials.panel.recursos_app')
 @section('content')
-    <main class="col-md-12">
+    <main class="tw-pantalla tw:w-full tw:lg:w-full tw:px-2">
 
         <form action="{{url("auditorias/notas_auditorias",$asignacion)}}" method="POST" enctype="multipart/form-data" id="save_accion">
             @csrf
@@ -9,52 +10,45 @@
 
             @foreach($datos_nota as $datos)
                 <input type="hidden" name="clasificacion" value="{{$datos->id_clasificacion}}">
-                <div class="row">
-                    <div class="col-md-6 col-md-offset-1">
+                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                    <div class="tw:w-full tw:lg:w-6/12 tw:lg:ml-[8.3333%] tw:px-2">
                         @if (session()->has('flash_notification.message'))
-                            <div class="alert alert-{{ session('flash_notification.level') }}">
-                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                                {!! session('flash_notification.message') !!}
-                            </div>
+                            <x-panel.alerta class="tw:mb-4" :tipo="['success' => 'exito', 'danger' => 'error', 'warning' => 'advertencia'][session('flash_notification.level')] ?? 'info'">{!! session('flash_notification.message') !!}</x-panel.alerta>
                         @endif
                     </div>
                 </div>
-                <div class="col-md-10 col-md-offset-1">
-                    <p>
-                        <span class="glyphicon glyphicon-arrow-right"></span>
-                        <a href="{{url('/auditorias/notas_auditorias')}}">Notas Auditorías</a>
-                        <span class="glyphicon glyphicon-chevron-right"></span>
-                        <span>No Conformidad y Acción Correctiva</span>
-                    </p>
-                    <div class="panel panel-info">
-                        <div class="panel-heading">
-                            <h3 class="panel-title text-center">No Conformidad y Acción Correctiva</h3>
-                        </div>
-                    </div>
+                <div class="tw:w-full tw:lg:w-10/12 tw:lg:ml-[8.3333%] tw:px-2">
+                    <nav aria-label="Ruta de navegación" class="tw:mb-5 tw:flex tw:flex-wrap tw:items-center tw:gap-x-2 tw:gap-y-1 tw:text-sm tw:text-gray-500">
+                        <span class="fa fa-arrow-right tw:text-brand-500"></span>
+                        <a class="tw:text-gray-500 tw:hover:text-brand-500 tw:dark:text-gray-400" href="{{url('/auditorias/notas_auditorias')}}">Notas Auditorías</a>
+                        <span class="fa fa-chevron-right tw:text-[10px] tw:text-gray-400"></span>
+                        <span class="tw:text-gray-800 tw:dark:text-white/90">No Conformidad y Acción Correctiva</span>
+                    </nav>
+                    <x-panel.encabezado titulo="No Conformidad y Acción Correctiva" />
                 </div>
-                <div class="col-md-10 col-md-offset-1">
-                    <div class="panel panel-info">
+                <div class="tw:w-full tw:lg:w-10/12 tw:lg:ml-[8.3333%] tw:px-2">
+                    <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
                         @foreach($datos_nota as $datos)
-                            <div class="container-fluid">
+                            <div class="tw:w-full">
                                 <!-- Sección de origen -->
-                                <div class="row mb-4">
-                                    <div class="col-md-12">
-                                        <div class="card">
-                                            <div class="card-body">
-                                                <h5 class="card-title">{{$datos->id_clasificacion==1?"La No Conformidad":"La oportunidad de mejora"}} proviene de: Auditoría Interna</h5>
+                                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4 tw:mb-6">
+                                    <div class="tw:w-full tw:lg:w-full tw:px-2">
+                                        <div class="tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
+                                            <div class="tw:p-5 tw:sm:p-6">
+                                                <h5 class="tw:text-base tw:font-medium tw:text-gray-800">{{$datos->id_clasificacion==1?"La No Conformidad":"La oportunidad de mejora"}} proviene de: Auditoría Interna</h5>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <!-- Sección de solicitud -->
-                                <div class="row mb-4">
-                                    <div class="col-md-12">
-                                        <div class="card">
-                                            <div class="card-header bg-light">
+                                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4 tw:mb-6">
+                                    <div class="tw:w-full tw:lg:w-full tw:px-2">
+                                        <div class="tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
+                                            <div class="tw:border-b tw:border-gray-100 tw:px-5 tw:py-4 tw:bg-gray-50">
                                                 <strong>SOLICITUD:</strong>
                                             </div>
-                                            <div class="card-body">
-                                                <p class="card-text">{{$datos->resultado}}</p>
+                                            <div class="tw:p-5 tw:sm:p-6">
+                                                <p class="tw:mb-2">{{$datos->resultado}}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -62,73 +56,73 @@
 
                                 @endforeach
                                 <!-- Sección de análisis -->
-                                <div class="row mb-4">
-                                    <div class="col-md-12">
-                                        <div class="card">
-                                            <div class="card-body">
-                                                <label class="form-label"><strong>Análisis de Datos (Técnica estadística utilizada):</strong></label>
+                                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4 tw:mb-6">
+                                    <div class="tw:w-full tw:lg:w-full tw:px-2">
+                                        <div class="tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
+                                            <div class="tw:p-5 tw:sm:p-6">
+                                                <label class="tw:mb-1.5 tw:block tw:text-sm tw:font-medium tw:text-gray-700 tw:dark:text-gray-400"><strong>Análisis de Datos (Técnica estadística utilizada):</strong></label>
                                                 @if($asignacion->estado == 7)
-                                                    <textarea class="form-control" rows="5" name="analisis" id="analisis">{{ old('analisis', $asignacion->analisis) }}</textarea>
+                                                    <textarea class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500" rows="5" name="analisis" id="analisis">{{ old('analisis', $asignacion->analisis) }}</textarea>
                                                 @else
-                                                    <textarea class="form-control" rows="5" name="analisis" id="analisis"></textarea>
+                                                    <textarea class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500" rows="5" name="analisis" id="analisis"></textarea>
                                                 @endif
 
-                                                <div class="form-check mt-3">
-                                                    <input class="form-check-input" type="checkbox" name="viable" id="active_viable" {{$datos->id_clasificacion==1?"checked disabled":""}}>
-                                                    <label class="form-check-label" for="active_viable">Viable</label>
+                                                <div class="tw:flex tw:items-center tw:gap-2 tw:mt-4">
+                                                    <input class="tw:size-4 tw:shrink-0 tw:cursor-pointer tw:accent-brand-500" type="checkbox" name="viable" id="active_viable" {{$datos->id_clasificacion==1?"checked disabled":""}}>
+                                                    <label class="tw:text-sm tw:text-gray-700" for="active_viable">Viable</label>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 @if($datos->id_clasificacion==1)
-                                    <div class="row" >
-                                        <div class="col-md-12" id="cont_radio_requiere_accion">
+                                    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4" >
+                                        <div class="tw:w-full tw:lg:w-full tw:px-2" id="cont_radio_requiere_accion">
                                             <label>Requiere Acción Correctiva</label><br>
 
                                             @if($asignacion->estado == 7)
-                                                <input class="form-check-input requiere_accion_correctiva" type="radio" name="requiere_accion" id="requiere_accion_si" value="1"
+                                                <input class="requiere_accion_correctiva tw:size-4 tw:shrink-0 tw:cursor-pointer tw:accent-brand-500" type="radio" name="requiere_accion" id="requiere_accion_si" value="1"
                                                         {{ old('requiere_accion', $asignacion->requiere_accion) == 1 ? 'checked' : '' }}>
                                             @else
-                                                <input class="form-check-input requiere_accion_correctiva" type="radio" name="requiere_accion" id="requiere_accion_si" value="1">
+                                                <input class="requiere_accion_correctiva tw:size-4 tw:shrink-0 tw:cursor-pointer tw:accent-brand-500" type="radio" name="requiere_accion" id="requiere_accion_si" value="1">
                                             @endif
-                                            <label class="form-check-label" for="requiere_accion_si">SI</label>
+                                            <label class="tw:text-sm tw:text-gray-700" for="requiere_accion_si">SI</label>
 
                                             @if($asignacion->estado == 7)
-                                                <input class="form-check-input requiere_accion_correctiva" type="radio" name="requiere_accion" id="requiere_accion_no" value="0"
+                                                <input class="requiere_accion_correctiva tw:size-4 tw:shrink-0 tw:cursor-pointer tw:accent-brand-500" type="radio" name="requiere_accion" id="requiere_accion_no" value="0"
                                                         {{ old('requiere_accion', $asignacion->requiere_accion) == 0 ? 'checked' : '' }}>
                                             @else
-                                                <input class="form-check-input requiere_accion_correctiva" type="radio" name="requiere_accion" id="requiere_accion_no" value="0">
+                                                <input class="requiere_accion_correctiva tw:size-4 tw:shrink-0 tw:cursor-pointer tw:accent-brand-500" type="radio" name="requiere_accion" id="requiere_accion_no" value="0">
                                             @endif
-                                            <label class="form-check-label" for="requiere_accion_no">NO</label>
+                                            <label class="tw:text-sm tw:text-gray-700" for="requiere_accion_no">NO</label>
                                         </div>
 
-                                        <div class="col-md-12" id="cont_radio_requiere_correccion">
+                                        <div class="tw:w-full tw:lg:w-full tw:px-2" id="cont_radio_requiere_correccion">
                                             <label>Requiere Corrección</label><br>
 
                                             @if($asignacion->estado == 7)
-                                                <input class="form-check-input requiere_correccion" type="radio" name="requiere_correccion" id="requiere_correccion_si" value="1"
+                                                <input class="requiere_correccion tw:size-4 tw:shrink-0 tw:cursor-pointer tw:accent-brand-500" type="radio" name="requiere_correccion" id="requiere_correccion_si" value="1"
                                                         {{ old('requiere_correccion', $asignacion->requiere_correccion) == 1 ? 'checked' : '' }}>
                                             @else
-                                                <input class="form-check-input requiere_correccion" type="radio" name="requiere_correccion" id="requiere_correccion_si" value="1">
+                                                <input class="requiere_correccion tw:size-4 tw:shrink-0 tw:cursor-pointer tw:accent-brand-500" type="radio" name="requiere_correccion" id="requiere_correccion_si" value="1">
                                             @endif
-                                            <label class="form-check-label" for="requiere_correccion_si">SI</label>
+                                            <label class="tw:text-sm tw:text-gray-700" for="requiere_correccion_si">SI</label>
 
                                             @if($asignacion->estado == 7)
-                                                <input class="form-check-input requiere_correccion" type="radio" name="requiere_correccion" id="requiere_correccion_no" value="0"
+                                                <input class="requiere_correccion tw:size-4 tw:shrink-0 tw:cursor-pointer tw:accent-brand-500" type="radio" name="requiere_correccion" id="requiere_correccion_no" value="0"
                                                         {{ old('requiere_correccion', $asignacion->requiere_correccion) == 0 ? 'checked' : '' }}>
                                             @else
-                                                <input class="form-check-input requiere_correccion" type="radio" name="requiere_correccion" id="requiere_correccion_no" value="0">
+                                                <input class="requiere_correccion tw:size-4 tw:shrink-0 tw:cursor-pointer tw:accent-brand-500" type="radio" name="requiere_correccion" id="requiere_correccion_no" value="0">
                                             @endif
-                                            <label class="form-check-label" for="requiere_correccion_no">NO</label>
+                                            <label class="tw:text-sm tw:text-gray-700" for="requiere_correccion_no">NO</label>
                                         </div>
                                     </div>
                                 @endif
 
                                 <div id="content_viable" {{--style="display:{{$datos->id_clasificacion==1?'block':'none'}};"--}}>
                                     @if($datos->id_clasificacion==1)
-                                        <div class="row" id="cont_valid_accion_correctiva" style="display:none;">
-                                            <div class="col-md-12" >
+                                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4" id="cont_valid_accion_correctiva" style="display:none;">
+                                            <div class="tw:w-full tw:lg:w-full tw:px-2" >
                                                 <label>
                                                     Acción Correctiva a Realizar :
                                                 </label>
@@ -139,8 +133,8 @@
                                                 @endif
                                             </div>
                                         </div>
-                                        <div class="row" id="cont_valid_reuiere_accion" style="display:none;">
-                                            <div class="col-md-12" >
+                                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4" id="cont_valid_reuiere_accion" style="display:none;">
+                                            <div class="tw:w-full tw:lg:w-full tw:px-2" >
                                                 <label>
                                                     Corrección a realizar :
                                                 </label>
@@ -180,28 +174,28 @@
                                             ->where('tipo', 3)
                                             ->get();
                                     @endphp
-                                    <div class="row" id="contenedor_plan_acciones" style="display:none;">
-                                        <div class="col-md-11  panel panel-success">
-                                            <div class="panel-heading ">
-                                                <h3 class="panel-title text-center">{{$datos->id_clasificacion==1?"Plan de la Acción Correctiva":"Plan de implementación"}}</h3>
+                                    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4" id="contenedor_plan_acciones" style="display:none;">
+                                        <div class="tw:w-full tw:lg:w-11/12 tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white tw:px-2">
+                                            <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4">
+                                                <h3 class="tw:text-base tw:font-medium tw:text-gray-800 tw:text-center">{{$datos->id_clasificacion==1?"Plan de la Acción Correctiva":"Plan de implementación"}}</h3>
                                             </div>
-                                            <div class="panel-body">
+                                            <div class="tw:p-5 tw:sm:p-6">
                                                 @if($accionesPlan->count() > 0)
                                                     @foreach($accionesPlan as $accionPlan)
-                                                        <div class="row item_accion_plan">
+                                                        <div class="item_accion_plan tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
                                                             <input type="hidden" name="id_plan_accion[]" value="{{$accionPlan->id_plan_acciones}}">
-                                                            <div class="col-md-3">
-                                                                <div class="form-group">
+                                                            <div class="tw:w-full tw:lg:w-3/12 tw:px-2">
+                                                                <div class="tw:mb-4">
                                                                     <label for="acciones">Acciones</label>
-                                                                    <textarea class="form-control" rows="5" name="acciones_plan[]" id="acciones">{{$accionPlan->acciones}}</textarea>
+                                                                    <textarea class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500" rows="5" name="acciones_plan[]" id="acciones">{{$accionPlan->acciones}}</textarea>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-md-3">
-                                                                <div class="form-group">
+                                                            <div class="tw:w-full tw:lg:w-3/12 tw:px-2">
+                                                                <div class="tw:mb-4">
                                                                     <label for="id_personal_implementar">
                                                                         Responsable de la actividad
                                                                     </label>
-                                                                    <select class="form-control" name="personal_implementar_plan[]" id="id_personal_implementar">
+                                                                    <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="personal_implementar_plan[]" id="id_personal_implementar">
                                                                         @foreach($personas as $responsable)
                                                                             <option value="{{$responsable->id_personal}}" {{ $accionPlan->id_responsable_implantar == $responsable->id_personal ? 'selected' : '' }}>
                                                                                 {{$responsable->nombre}}
@@ -210,11 +204,11 @@
                                                                     </select>
                                                                 </div>
                                                                 <br>
-                                                                <div class="form-group">
+                                                                <div class="tw:mb-4">
                                                                     <label for="id_personal_revisar">
                                                                         Responsable de revisar la eficacia de la actividad
                                                                     </label>
-                                                                    <select class="form-control" name="personal_revisar_plan[]" id="id_personal_revisar">
+                                                                    <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="personal_revisar_plan[]" id="id_personal_revisar">
                                                                         @foreach($personas as $responsable)
                                                                             <option value="{{$responsable->id_personal}}" {{$accionPlan->id_responsable_revisar == $responsable->id_personal ? 'selected' :''}}>
                                                                                 {{$responsable->nombre}}
@@ -223,22 +217,22 @@
                                                                     </select>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-md-3">
-                                                                <div class="form-group">
+                                                            <div class="tw:w-full tw:lg:w-3/12 tw:px-2">
+                                                                <div class="tw:mb-4">
                                                                     <label for="fecha_implementar">Fecha programada para terminar la actividad</label>
-                                                                    <input type="date" class="form-control" name="fecha_implementar_plan[]" value="{{ $accionPlan->fecha_implantar_accion }}">
+                                                                    <input type="date" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="fecha_implementar_plan[]" value="{{ $accionPlan->fecha_implantar_accion }}">
                                                                 </div>
-                                                                <div class="form-group">
+                                                                <div class="tw:mb-4">
                                                                     <label for="fecha_verificacion">
                                                                         Fecha programada de la verificación
                                                                     </label>
-                                                                    <input type="date" class="form-control" name="fecha_verificacion_plan[]" value="{{ $accionPlan->fecha_verificacion }}">
+                                                                    <input type="date" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="fecha_verificacion_plan[]" value="{{ $accionPlan->fecha_verificacion }}">
                                                                 </div>
                                                             </div>
-                                                            <div class="col-md-3">
-                                                                <div class="form-group">
+                                                            <div class="tw:w-full tw:lg:w-3/12 tw:px-2">
+                                                                <div class="tw:mb-4">
                                                                     <label>Medio verificación</label>
-                                                                    <select class="form-control" name="medio_verificacion_plan[]">
+                                                                    <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="medio_verificacion_plan[]">
                                                                         @foreach($evidenciaValida as $row)
                                                                             <option value="{{$row->id_evidencia}}" {{ $accionPlan->id_evidencia == $row->id_evidencia ? 'selected' : '' }}>
                                                                                 {{$row->descripcion}}
@@ -247,71 +241,71 @@
                                                                     </select>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-md-3">
-                                                                {{--<div class="form-group">
+                                                            <div class="tw:w-full tw:lg:w-3/12 tw:px-2">
+                                                                {{--<div class="tw:mb-4">
                                                                     <label for="evidencia_acciones">Cargar evidencia</label>
-                                                                    <input type="file" class="form-control" name="evidencia_acciones[]" id="evidencia_acciones" multiple accept=".pdf">
+                                                                    <input type="file" class="tw:h-11 tw:w-full tw:overflow-hidden tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:text-sm tw:text-gray-500 tw:shadow-theme-xs tw:file:mr-5 tw:file:border-0 tw:file:border-r tw:file:border-solid tw:file:border-gray-200 tw:file:bg-gray-50 tw:file:py-3 tw:file:pr-3 tw:file:pl-3.5 tw:file:text-sm tw:file:text-gray-700 tw:hover:file:bg-gray-100 tw:focus:outline-hidden" name="evidencia_acciones[]" id="evidencia_acciones" multiple accept=".pdf">
                                                                 </div>--}}
                                                             </div>
-                                                            <div class="col-md-3">
-                                                                {{--<a id="add_accion_plan_implementaction" class="btn btn-primary" href="#" data-toggle="tooltip" title="Agregar">
-                                                                    <span class="glyphicon glyphicon-plus"></span>
+                                                            <div class="tw:w-full tw:lg:w-3/12 tw:px-2">
+                                                                {{--<a id="add_accion_plan_implementaction" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" href="#" data-toggle="tooltip" title="Agregar">
+                                                                    <span class="fa fa-plus"></span>
                                                                 </a>--}}
-                                                                <a class="btn btn-danger btn-remove-accion-plan" href="#!" data-toggle="tooltip" title="Eliminar">
-                                                                    <span class="glyphicon glyphicon-trash"></span>
+                                                                <a class="btn-remove-accion-plan tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-red-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-red-700 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" href="#!" data-toggle="tooltip" title="Eliminar">
+                                                                    <span class="fa fa-trash"></span>
                                                                 </a>
                                                             </div>
                                                         </div>
                                                     @endforeach
                                                 @else
-                                                    <div class="row">
-                                                        <div class="col-md-3">
-                                                            <div class="form-group">
+                                                    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                                        <div class="tw:w-full tw:lg:w-3/12 tw:px-2">
+                                                            <div class="tw:mb-4">
                                                                 <label for="acciones">Acciones</label>
-                                                                <textarea class="form-control" rows="5" name="acciones_plan[]" id="acciones"></textarea>
+                                                                <textarea class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500" rows="5" name="acciones_plan[]" id="acciones"></textarea>
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-3">
-                                                            <div class="form-group">
+                                                        <div class="tw:w-full tw:lg:w-3/12 tw:px-2">
+                                                            <div class="tw:mb-4">
                                                                 <label for="id_personal_implementar">
                                                                     Responsable de la actividad
                                                                 </label>
-                                                                <select class="form-control" name="personal_implementar_plan[]" id="id_personal_implementar">
+                                                                <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="personal_implementar_plan[]" id="id_personal_implementar">
                                                                     @foreach($personas as $responsable)
                                                                         <option value="{{$responsable->id_personal}}" {{$responsable->id_personal == $responsable->id_personal ? 'selected' :''}}> {{$responsable->nombre}}</option>
                                                                     @endforeach
                                                                 </select>
                                                             </div>
                                                             <br>
-                                                            <div class="form-group">
+                                                            <div class="tw:mb-4">
                                                                 <label for="id_personal_revisar">
                                                                     Responsable de revisar la eficacia de la actividad
                                                                 </label>
-                                                                <select class="form-control" name="personal_revisar_plan[]" id="id_personal_revisar">
+                                                                <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="personal_revisar_plan[]" id="id_personal_revisar">
                                                                     @foreach($personas as $responsable)
                                                                         <option value="{{$responsable->id_personal}}" {{$responsable->id_personal == $responsable->id_personal ? 'selected' :''}}> {{$responsable->nombre}}</option>
                                                                     @endforeach
                                                                 </select>
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-3">
-                                                            <div class="form-group">
+                                                        <div class="tw:w-full tw:lg:w-3/12 tw:px-2">
+                                                            <div class="tw:mb-4">
                                                                 <label for="fecha_implementar">Fecha programada para terminar la actividad</label>
-                                                                <input type="date" class="form-control" name="fecha_implementar_plan[]">
+                                                                <input type="date" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="fecha_implementar_plan[]">
                                                             </div>
-                                                            <div class="form-group">
+                                                            <div class="tw:mb-4">
                                                                 <label for="fecha_verificacion">
                                                                     Fecha programada de la verificación
                                                                 </label>
-                                                                <input type="date" class="form-control" name="fecha_verificacion_plan[]">
+                                                                <input type="date" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="fecha_verificacion_plan[]">
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-3">
-                                                            <div class="form-group">
+                                                        <div class="tw:w-full tw:lg:w-3/12 tw:px-2">
+                                                            <div class="tw:mb-4">
                                                                 <label for="medio_verificacion_plan">
                                                                     Medio de verificación
                                                                 </label>
-                                                                <select class="form-control" name="medio_verificacion_plan[]" id="medio_verificacion_plan[]">
+                                                                <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="medio_verificacion_plan[]" id="medio_verificacion_plan[]">
                                                                     <option value="" disabled selected>Seleccionar evidencia</option>
                                                                     @foreach($evidenciaValida as $row)
                                                                         <option value="{{$row->id_evidencia}}">{{$row->descripcion}}</option>
@@ -320,22 +314,22 @@
 
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-3">
-                                                            {{--<div class="form-group">
+                                                        <div class="tw:w-full tw:lg:w-3/12 tw:px-2">
+                                                            {{--<div class="tw:mb-4">
                                                                 <label for="evidencia_acciones">Cargar evidencia</label>
-                                                                <input type="file" class="form-control" name="evidencia_acciones[]" id="evidencia_acciones" multiple accept=".pdf">
+                                                                <input type="file" class="tw:h-11 tw:w-full tw:overflow-hidden tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:text-sm tw:text-gray-500 tw:shadow-theme-xs tw:file:mr-5 tw:file:border-0 tw:file:border-r tw:file:border-solid tw:file:border-gray-200 tw:file:bg-gray-50 tw:file:py-3 tw:file:pr-3 tw:file:pl-3.5 tw:file:text-sm tw:file:text-gray-700 tw:hover:file:bg-gray-100 tw:focus:outline-hidden" name="evidencia_acciones[]" id="evidencia_acciones" multiple accept=".pdf">
                                                             </div>--}}
                                                         </div>
-                                                        <div class="col-md-3">
+                                                        <div class="tw:w-full tw:lg:w-3/12 tw:px-2">
 
-                                                            <a class="btn btn-danger" href="" data-toggle="tooltip" title="Eliminar">
-                                                                <span class="glyphicon glyphicon-trash"></span>
+                                                            <a class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-red-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-red-700 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" href="" data-toggle="tooltip" title="Eliminar">
+                                                                <span class="fa fa-trash"></span>
                                                             </a>
                                                         </div>
                                                     </div>
                                                 @endif
-                                                <a id="add_accion_plan_implementaction" class="btn btn-primary" href="#" data-toggle="tooltip" title="Agregar">
-                                                    <span class="glyphicon glyphicon-plus"></span>
+                                                <a id="add_accion_plan_implementaction" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" href="#" data-toggle="tooltip" title="Agregar">
+                                                    <span class="fa fa-plus"></span>
                                                 </a>
                                             </div>
                                         </div>
@@ -344,27 +338,27 @@
                                     <div id="cont_acciones_plan_implementacion"></div>
 
                                     {{--CONTENEDOR DE CORRECCIONES--}}
-                                    <div class="row" id="contenedor_plan_correcciones" style="display:none;">
-                                        <div class="col-md-11 panel panel-success">
-                                            <div class="panel-heading">
-                                                <h3 class="panel-title text-center">{{$datos->id_clasificacion==1?"Plan de corrección":""}}</h3>
+                                    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4" id="contenedor_plan_correcciones" style="display:none;">
+                                        <div class="tw:w-full tw:lg:w-11/12 tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white tw:px-2">
+                                            <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4">
+                                                <h3 class="tw:text-base tw:font-medium tw:text-gray-800 tw:text-center">{{$datos->id_clasificacion==1?"Plan de corrección":""}}</h3>
                                             </div>
-                                            <div class="panel-body">
+                                            <div class="tw:p-5 tw:sm:p-6">
                                                 @if($accionesCorreccion->count() > 0)
                                                     @foreach($accionesCorreccion as $accionCorreccion)
-                                                        <div class="row item_correccion">
+                                                        <div class="item_correccion tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
                                                             <input type="hidden" name="id_correccion_accion[]" value="{{$accionCorreccion->id_plan_acciones}}">
-                                                            <div class="col-md-3">
-                                                                <div class="form-group">
+                                                            <div class="tw:w-full tw:lg:w-3/12 tw:px-2">
+                                                                <div class="tw:mb-4">
                                                                     <label for="acciones">Acciones</label>
-                                                                    <textarea class="form-control" rows="5" id="acciones" name="acciones_correcciones[]">{{$accionCorreccion->acciones}}</textarea>
+                                                                    <textarea class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500" rows="5" id="acciones" name="acciones_correcciones[]">{{$accionCorreccion->acciones}}</textarea>
                                                                 </div>
                                                             </div>
 
-                                                            <div class="col-md-3">
-                                                                <div class="form-group">
+                                                            <div class="tw:w-full tw:lg:w-3/12 tw:px-2">
+                                                                <div class="tw:mb-4">
                                                                     <label for="id_responsable_implantar">Responsable de implantar</label>
-                                                                    <select class="form-control" name="personal_implementar_correccion[]">
+                                                                    <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="personal_implementar_correccion[]">
                                                                         @foreach($personas as $responsable)
                                                                             <option value="{{$responsable->id_personal}}" {{ $accionCorreccion->id_responsable_implantar == $responsable->id_personal ? 'selected' : '' }}>
                                                                                 {{$responsable->nombre}}
@@ -373,9 +367,9 @@
                                                                     </select>
                                                                 </div>
 
-                                                                <div class="form-group">
+                                                                <div class="tw:mb-4">
                                                                     <label for="personal_revisar_correccion">Responsable de revisar</label>
-                                                                    <select class="form-control" name="personal_revisar_correccion[]">
+                                                                    <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="personal_revisar_correccion[]">
                                                                         @foreach($personas as $responsable)
                                                                             <option value="{{$responsable->id_personal}}" {{$accionCorreccion->id_responsable_revisar == $responsable->id_personal ? 'selected' :''}}>
                                                                                 {{$responsable->nombre}}
@@ -385,22 +379,22 @@
                                                                 </div>
                                                             </div>
 
-                                                            <div class="col-md-3">
-                                                                <div class="form-group">
+                                                            <div class="tw:w-full tw:lg:w-3/12 tw:px-2">
+                                                                <div class="tw:mb-4">
                                                                     <label for="fecha_implementar">Fecha programada para implementar la acción</label>
-                                                                    <input type="date" class="form-control" name="fecha_implementar_correccion[]" value="{{ $accionCorreccion->fecha_implantar_accion }}">
+                                                                    <input type="date" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="fecha_implementar_correccion[]" value="{{ $accionCorreccion->fecha_implantar_accion }}">
                                                                 </div>
-                                                                <div class="form-group">
+                                                                <div class="tw:mb-4">
                                                                     <label for="fecha_verificacion">Fecha programada de la verificación</label>
-                                                                    <input type="date" name="fecha_verificacion_correccion[]" class="form-control" value="{{ $accionCorreccion->fecha_verificacion }}">
+                                                                    <input type="date" name="fecha_verificacion_correccion[]" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" value="{{ $accionCorreccion->fecha_verificacion }}">
                                                                 </div>
                                                             </div>
 
 
-                                                            <div class="col-md-3">
-                                                                <div class="form-group">
+                                                            <div class="tw:w-full tw:lg:w-3/12 tw:px-2">
+                                                                <div class="tw:mb-4">
                                                                     <label>Medio verificación</label>
-                                                                    <select class="form-control" name="medio_verificacion_correccion[]">
+                                                                    <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="medio_verificacion_correccion[]">
                                                                         @foreach($evidenciaValida as $row)
                                                                             <option value="{{$row->id_evidencia}}" {{ $accionCorreccion->id_evidencia == $row->id_evidencia ? 'selected' : '' }}>
                                                                                 {{$row->descripcion}}
@@ -409,46 +403,46 @@
                                                                     </select>
                                                                 </div>
                                                             </div>
-                                                            {{--<div class="col-md-3">
-                                                                <div class="form-group">
+                                                            {{--<div class="tw:w-full tw:lg:w-3/12 tw:px-2">
+                                                                <div class="tw:mb-4">
                                                                     <label for="evidencia_correcciones">Cargar evidencia</label>
-                                                                    <input type="file" class="form-control" name="evidencia_correcciones[]" id="evidencia_correcciones" multiple accept=".pdf">
+                                                                    <input type="file" class="tw:h-11 tw:w-full tw:overflow-hidden tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:text-sm tw:text-gray-500 tw:shadow-theme-xs tw:file:mr-5 tw:file:border-0 tw:file:border-r tw:file:border-solid tw:file:border-gray-200 tw:file:bg-gray-50 tw:file:py-3 tw:file:pr-3 tw:file:pl-3.5 tw:file:text-sm tw:file:text-gray-700 tw:hover:file:bg-gray-100 tw:focus:outline-hidden" name="evidencia_correcciones[]" id="evidencia_correcciones" multiple accept=".pdf">
                                                                 </div>
                                                             </div>--}}
 
-                                                            <div class="col-md-3">
-                                                                {{--<a class="btn btn-primary" href="#" id="add_accion_plan_correcciones" data-toggle="tooltip" title="Agregar">
-                                                                    <span class="glyphicon glyphicon-plus"></span>
+                                                            <div class="tw:w-full tw:lg:w-3/12 tw:px-2">
+                                                                {{--<a class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" href="#" id="add_accion_plan_correcciones" data-toggle="tooltip" title="Agregar">
+                                                                    <span class="fa fa-plus"></span>
                                                                 </a>--}}
-                                                                <a class="btn btn-danger btn-remove-correccion" href="" data-toggle="tooltip" title="Eliminar">
-                                                                    <span class="glyphicon glyphicon-trash"></span>
+                                                                <a class="btn-remove-correccion tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-red-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-red-700 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" href="" data-toggle="tooltip" title="Eliminar">
+                                                                    <span class="fa fa-trash"></span>
                                                                 </a>
                                                             </div>
 
                                                         </div>
                                                     @endforeach
                                                 @else
-                                                    <div class="row">
-                                                        <div class="col-md-3">
-                                                            <div class="form-group">
+                                                    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                                        <div class="tw:w-full tw:lg:w-3/12 tw:px-2">
+                                                            <div class="tw:mb-4">
                                                                 <label for="acciones">Acciones</label>
-                                                                <textarea class="form-control" rows="5" id="acciones" name="acciones_correcciones[]"></textarea>
+                                                                <textarea class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500" rows="5" id="acciones" name="acciones_correcciones[]"></textarea>
                                                             </div>
                                                         </div>
 
-                                                        <div class="col-md-3">
-                                                            <div class="form-group">
+                                                        <div class="tw:w-full tw:lg:w-3/12 tw:px-2">
+                                                            <div class="tw:mb-4">
                                                                 <label for="id_responsable_implantar">Responsable de implantar</label>
-                                                                <select class="form-control" name="personal_implementar_correccion[]">
+                                                                <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="personal_implementar_correccion[]">
                                                                     @foreach($personas as $responsable)
                                                                         <option value="{{$responsable->id_personal}}">{{$responsable->nombre}}</option>
                                                                     @endforeach
                                                                 </select>
                                                             </div>
 
-                                                            <div class="form-group">
+                                                            <div class="tw:mb-4">
                                                                 <label for="personal_revisar_correccion">Responsable de revisar</label>
-                                                                <select class="form-control" name="personal_revisar_correccion[]">
+                                                                <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="personal_revisar_correccion[]">
                                                                     @foreach($personas as $responsable)
                                                                         <option value="{{$responsable->id_personal}}">{{$responsable->nombre}}</option>
                                                                     @endforeach
@@ -456,46 +450,46 @@
                                                             </div>
                                                         </div>
 
-                                                        <div class="col-md-3">
-                                                            <div class="form-group">
+                                                        <div class="tw:w-full tw:lg:w-3/12 tw:px-2">
+                                                            <div class="tw:mb-4">
                                                                 <label for="fecha_implementar">Fecha programada para implementar la acción</label>
-                                                                <input type="date" class="form-control" name="fecha_implementar_correccion[]">
+                                                                <input type="date" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="fecha_implementar_correccion[]">
                                                             </div>
-                                                            <div class="form-group">
+                                                            <div class="tw:mb-4">
                                                                 <label for="fecha_verificacion">Fecha programada de la verificación</label>
-                                                                <input type="date" name="fecha_verificacion_correccion[]" class="form-control">
+                                                                <input type="date" name="fecha_verificacion_correccion[]" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11">
                                                             </div>
                                                         </div>
 
 
-                                                        <div class="col-md-3">
-                                                            <div class="form-group">
+                                                        <div class="tw:w-full tw:lg:w-3/12 tw:px-2">
+                                                            <div class="tw:mb-4">
                                                                 <label for="fecha_implementar">Medio de verificación</label>
-                                                                <select class="form-control"  name="medio_verificacion_correccion[]" id="medio_verificacion_correccion[]">
+                                                                <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"  name="medio_verificacion_correccion[]" id="medio_verificacion_correccion[]">
                                                                     @foreach($evidenciaValida as $row)
                                                                         <option value="{{$row->id_evidencia}}">{{$row->descripcion}}</option>
                                                                     @endforeach
                                                                 </select>
                                                             </div>
                                                         </div>
-                                                        {{--<div class="col-md-3">
-                                                            <div class="form-group">
+                                                        {{--<div class="tw:w-full tw:lg:w-3/12 tw:px-2">
+                                                            <div class="tw:mb-4">
                                                                 <label for="evidencia_correcciones">Cargar evidencia</label>
-                                                                <input type="file" class="form-control" name="evidencia_correcciones[]" id="evidencia_correcciones" multiple accept=".pdf">
+                                                                <input type="file" class="tw:h-11 tw:w-full tw:overflow-hidden tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:text-sm tw:text-gray-500 tw:shadow-theme-xs tw:file:mr-5 tw:file:border-0 tw:file:border-r tw:file:border-solid tw:file:border-gray-200 tw:file:bg-gray-50 tw:file:py-3 tw:file:pr-3 tw:file:pl-3.5 tw:file:text-sm tw:file:text-gray-700 tw:hover:file:bg-gray-100 tw:focus:outline-hidden" name="evidencia_correcciones[]" id="evidencia_correcciones" multiple accept=".pdf">
                                                             </div>
                                                         </div>--}}
 
-                                                        <div class="col-md-3">
+                                                        <div class="tw:w-full tw:lg:w-3/12 tw:px-2">
 
-                                                            <a class="btn btn-danger btn-remove-correccion" href="" data-toggle="tooltip" title="Eliminar">
-                                                                <span class="glyphicon glyphicon-trash"></span>
+                                                            <a class="btn-remove-correccion tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-red-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-red-700 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" href="" data-toggle="tooltip" title="Eliminar">
+                                                                <span class="fa fa-trash"></span>
                                                             </a>
                                                         </div>
 
                                                     </div>
                                                 @endif
-                                                <a class="btn btn-primary" href="#" id="add_accion_plan_correcciones" data-toggle="tooltip" title="Agregar">
-                                                    <span class="glyphicon glyphicon-plus"></span>
+                                                <a class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" href="#" id="add_accion_plan_correcciones" data-toggle="tooltip" title="Agregar">
+                                                    <span class="fa fa-plus"></span>
                                                 </a>
                                             </div>
                                         </div>
@@ -507,26 +501,26 @@
 
                                     @if($datos->id_clasificacion==2)
                                         <!-- CONTENEDOR PRINCIPAL -->
-                                        <div class="row" id="contenedor_oportunidades" style="display:none;">
-                                            <div class="col-md-11 panel panel-success">
-                                                <div class="panel-heading">
-                                                    <h3 class="panel-title text-center">Plan de implementación</h3>
+                                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4" id="contenedor_oportunidades" style="display:none;">
+                                            <div class="tw:w-full tw:lg:w-11/12 tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white tw:px-2">
+                                                <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4">
+                                                    <h3 class="tw:text-base tw:font-medium tw:text-gray-800 tw:text-center">Plan de implementación</h3>
                                                 </div>
-                                                <div class="panel-body">
+                                                <div class="tw:p-5 tw:sm:p-6">
                                                     @if($accionesOportunidad->count() > 0)
                                                         @foreach($accionesOportunidad as $accionOportunidad)
-                                                            <div class="row item_oportunidad">
+                                                            <div class="item_oportunidad tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
                                                                 <input type="hidden" name="id_oportunidad_accion[]" value="{{$accionOportunidad->id_plan_acciones}}">
-                                                                <div class="col-md-3">
-                                                                    <div class="form-group">
+                                                                <div class="tw:w-full tw:lg:w-3/12 tw:px-2">
+                                                                    <div class="tw:mb-4">
                                                                         <label for="acciones">Acciones</label>
-                                                                        <textarea class="form-control" rows="5" name="acciones_oportunidades[]">{{$accionOportunidad->acciones}}</textarea>
+                                                                        <textarea class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500" rows="5" name="acciones_oportunidades[]">{{$accionOportunidad->acciones}}</textarea>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-md-3">
-                                                                    <div class="form-group">
+                                                                <div class="tw:w-full tw:lg:w-3/12 tw:px-2">
+                                                                    <div class="tw:mb-4">
                                                                         <label for="id_personal_implementar">Responsable de la actividad</label>
-                                                                        <select class="form-control" name="personal_implementar_oportunidades[]">
+                                                                        <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="personal_implementar_oportunidades[]">
                                                                             @foreach($personas as $responsable)
                                                                                 <option value="{{$responsable->id_personal}}" {{ $accionOportunidad->id_responsable_implantar == $responsable->id_personal ? 'selected' : '' }}>
                                                                                     {{$responsable->nombre}}
@@ -535,9 +529,9 @@
                                                                         </select>
                                                                     </div>
                                                                     <br>
-                                                                    <div class="form-group">
+                                                                    <div class="tw:mb-4">
                                                                         <label for="id_personal_revisar">Responsable de revisar la eficacia de la actividad</label>
-                                                                        <select class="form-control" name="personal_revisar_oportunidades[]">
+                                                                        <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="personal_revisar_oportunidades[]">
                                                                             @foreach($personas as $responsable)
                                                                                 <option value="{{$responsable->id_personal}}" {{$accionOportunidad->id_responsable_revisar == $responsable->id_personal ? 'selected' :''}}>
                                                                                     {{$responsable->nombre}}
@@ -546,20 +540,20 @@
                                                                         </select>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-md-3">
-                                                                    <div class="form-group">
+                                                                <div class="tw:w-full tw:lg:w-3/12 tw:px-2">
+                                                                    <div class="tw:mb-4">
                                                                         <label for="fecha_implementar">Fecha programada para terminar la actividad</label>
-                                                                        <input type="date" class="form-control" name="fecha_implementar_oportunidades[]" value="{{ $accionOportunidad->fecha_implantar_accion }}">
+                                                                        <input type="date" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="fecha_implementar_oportunidades[]" value="{{ $accionOportunidad->fecha_implantar_accion }}">
                                                                     </div>
-                                                                    <div class="form-group">
+                                                                    <div class="tw:mb-4">
                                                                         <label for="fecha_verificacion">Fecha programada de la verificación</label>
-                                                                        <input type="date" class="form-control" name="fecha_verificacion_oportunidades[]" value="{{ $accionOportunidad->fecha_verificacion }}">
+                                                                        <input type="date" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="fecha_verificacion_oportunidades[]" value="{{ $accionOportunidad->fecha_verificacion }}">
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-md-3">
-                                                                    <div class="form-group">
+                                                                <div class="tw:w-full tw:lg:w-3/12 tw:px-2">
+                                                                    <div class="tw:mb-4">
                                                                         <label for="medio_verificacion">Medio de verificación</label>
-                                                                        <select class="form-control" name="medio_verificacion_oportunidades[]">
+                                                                        <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="medio_verificacion_oportunidades[]">
                                                                             @foreach($evidenciaValida as $row)
                                                                                 <option value="{{$row->id_evidencia}}" {{ $accionOportunidad->id_evidencia == $row->id_evidencia ? 'selected' : '' }}>
                                                                                     {{$row->descripcion}}
@@ -568,78 +562,78 @@
                                                                         </select>
                                                                     </div>
                                                                 </div>
-                                                                {{--<div class="col-md-3">
-                                                                    <div class="form-group">
+                                                                {{--<div class="tw:w-full tw:lg:w-3/12 tw:px-2">
+                                                                    <div class="tw:mb-4">
                                                                         <label for="evidencia_oportunidades">Cargar evidencia</label>
-                                                                        <input type="file" class="form-control" name="evidencia_oportunidades[]" id="evidencia_oportunidades" multiple accept=".pdf">
+                                                                        <input type="file" class="tw:h-11 tw:w-full tw:overflow-hidden tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:text-sm tw:text-gray-500 tw:shadow-theme-xs tw:file:mr-5 tw:file:border-0 tw:file:border-r tw:file:border-solid tw:file:border-gray-200 tw:file:bg-gray-50 tw:file:py-3 tw:file:pr-3 tw:file:pl-3.5 tw:file:text-sm tw:file:text-gray-700 tw:hover:file:bg-gray-100 tw:focus:outline-hidden" name="evidencia_oportunidades[]" id="evidencia_oportunidades" multiple accept=".pdf">
                                                                     </div>
                                                                 </div>--}}
-                                                                <a href="#!" class="btn btn-danger btn-remove-oportunidad" data-toggle="tooltip" title="Eliminar">
-                                                                    <span class="glyphicon glyphicon-trash"></span>
+                                                                <a href="#!" class="btn-remove-oportunidad tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-red-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-red-700 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" data-toggle="tooltip" title="Eliminar">
+                                                                    <span class="fa fa-trash"></span>
                                                                 </a>
                                                             </div>
                                                         @endforeach
                                                     @else
-                                                        <div class="row item_oportunidad">
-                                                            <div class="col-md-3">
-                                                                <div class="form-group">
+                                                        <div class="item_oportunidad tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                                            <div class="tw:w-full tw:lg:w-3/12 tw:px-2">
+                                                                <div class="tw:mb-4">
                                                                     <label for="acciones">Acciones</label>
-                                                                    <textarea class="form-control" rows="5" name="acciones_oportunidades[]"></textarea>
+                                                                    <textarea class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500" rows="5" name="acciones_oportunidades[]"></textarea>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-md-3">
-                                                                <div class="form-group">
+                                                            <div class="tw:w-full tw:lg:w-3/12 tw:px-2">
+                                                                <div class="tw:mb-4">
                                                                     <label for="id_personal_implementar">Responsable de la actividad</label>
-                                                                    <select class="form-control" name="personal_implementar_oportunidades[]">
+                                                                    <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="personal_implementar_oportunidades[]">
                                                                         @foreach($personas as $responsable)
                                                                             <option value="{{$responsable->id_personal}}">{{$responsable->nombre}}</option>
                                                                         @endforeach
                                                                     </select>
                                                                 </div>
                                                                 <br>
-                                                                <div class="form-group">
+                                                                <div class="tw:mb-4">
                                                                     <label for="id_personal_revisar">Responsable de revisar la eficacia de la actividad</label>
-                                                                    <select class="form-control" name="personal_revisar_oportunidades[]">
+                                                                    <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="personal_revisar_oportunidades[]">
                                                                         @foreach($personas as $responsable)
                                                                             <option value="{{$responsable->id_personal}}">{{$responsable->nombre}}</option>
                                                                         @endforeach
                                                                     </select>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-md-3">
-                                                                <div class="form-group">
+                                                            <div class="tw:w-full tw:lg:w-3/12 tw:px-2">
+                                                                <div class="tw:mb-4">
                                                                     <label for="fecha_implementar">Fecha programada para terminar la actividad</label>
-                                                                    <input type="date" class="form-control" name="fecha_implementar_oportunidades[]">
+                                                                    <input type="date" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="fecha_implementar_oportunidades[]">
                                                                 </div>
-                                                                <div class="form-group">
+                                                                <div class="tw:mb-4">
                                                                     <label for="fecha_verificacion">Fecha programada de la verificación</label>
-                                                                    <input type="date" class="form-control" name="fecha_verificacion_oportunidades[]">
+                                                                    <input type="date" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="fecha_verificacion_oportunidades[]">
                                                                 </div>
                                                             </div>
-                                                            <div class="col-md-3">
-                                                                <div class="form-group">
+                                                            <div class="tw:w-full tw:lg:w-3/12 tw:px-2">
+                                                                <div class="tw:mb-4">
                                                                     <label for="medio_verificacion">Medio de verificación</label>
-                                                                    <select class="form-control" name="medio_verificacion_oportunidades[]">
+                                                                    <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="medio_verificacion_oportunidades[]">
                                                                         @foreach($evidenciaValida as $row)
                                                                             <option value="{{$row->id_evidencia}}">{{$row->descripcion}}</option>
                                                                         @endforeach
                                                                     </select>
                                                                 </div>
                                                             </div>
-                                                            {{--<div class="col-md-3">
-                                                                <div class="form-group">
+                                                            {{--<div class="tw:w-full tw:lg:w-3/12 tw:px-2">
+                                                                <div class="tw:mb-4">
                                                                     <label for="evidencia_oportunidades">Cargar evidencia</label>
-                                                                    <input type="file" class="form-control" name="evidencia_oportunidades[]" id="evidencia_oportunidades" multiple accept=".pdf">
+                                                                    <input type="file" class="tw:h-11 tw:w-full tw:overflow-hidden tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:text-sm tw:text-gray-500 tw:shadow-theme-xs tw:file:mr-5 tw:file:border-0 tw:file:border-r tw:file:border-solid tw:file:border-gray-200 tw:file:bg-gray-50 tw:file:py-3 tw:file:pr-3 tw:file:pl-3.5 tw:file:text-sm tw:file:text-gray-700 tw:hover:file:bg-gray-100 tw:focus:outline-hidden" name="evidencia_oportunidades[]" id="evidencia_oportunidades" multiple accept=".pdf">
                                                                 </div>
                                                             </div>--}}
-                                                            <a href="#!" class="btn btn-danger btn-remove-oportunidad" data-toggle="tooltip" title="Eliminar">
-                                                                <span class="glyphicon glyphicon-trash"></span>
+                                                            <a href="#!" class="btn-remove-oportunidad tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-red-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-red-700 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" data-toggle="tooltip" title="Eliminar">
+                                                                <span class="fa fa-trash"></span>
                                                             </a>
                                                         </div>
                                                     @endif
-                                                    <div class="row">
-                                                        <a href="#!" id="add_accion_plan_oportunidades" class="btn btn-primary" data-toggle="tooltip" title="Agregar">
-                                                            <span class="glyphicon glyphicon-plus"></span>
+                                                    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                                        <a href="#!" id="add_accion_plan_oportunidades" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" data-toggle="tooltip" title="Agregar">
+                                                            <span class="fa fa-plus"></span>
                                                         </a>
                                                     </div>
                                                 </div>
@@ -650,89 +644,89 @@
                                     <!-- DIV PARA EL CONTENEDOR NUEVO QUE SE AGREGA -->
                                     <div id="cont_oportunidades_implementadas"></div>
 
-                                    <div class="row">
-                                        <div class="alert alert-info text-center">
+                                    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                        <div class="tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-sky-200 tw:bg-sky-50 tw:text-sky-800 tw:text-center">
                                             <h4>Actualización de riesgos y oportunidades</h4>
                                         </div>
-                                        <div class="col-md-12">
-                                            <div class="col-md-12">
-                                                <div class="form-check form-check-inline">
+                                        <div class="tw:w-full tw:lg:w-full tw:px-2">
+                                            <div class="tw:w-full tw:lg:w-full tw:px-2">
+                                                <div class="tw:flex tw:items-center tw:gap-2 tw:mr-4 tw:inline-flex">
                                                     @if($asignacion->estado == 7)
-                                                        <input class="form-check-input" type="radio" name="actulizacion_riesgos" id="actulizacion_riesgos_si" value="1"
+                                                        <input class="tw:size-4 tw:shrink-0 tw:cursor-pointer tw:accent-brand-500" type="radio" name="actulizacion_riesgos" id="actulizacion_riesgos_si" value="1"
                                                                 {{ old('actulizacion_riesgos', $asignacion->actualizacion_riesgos) == 1 ? 'checked' : '' }}>
                                                     @else
-                                                        <input class="form-check-input" type="radio" name="actulizacion_riesgos" id="actulizacion_riesgos_si" value="1">
+                                                        <input class="tw:size-4 tw:shrink-0 tw:cursor-pointer tw:accent-brand-500" type="radio" name="actulizacion_riesgos" id="actulizacion_riesgos_si" value="1">
                                                     @endif
-                                                    <label class="form-check-label" for="actulizacion_riesgos_si">
+                                                    <label class="tw:text-sm tw:text-gray-700" for="actulizacion_riesgos_si">
                                                         SI ¿Por qué?
                                                     </label>
                                                 </div>
-                                                <div class="form-check form-check-inline">
+                                                <div class="tw:flex tw:items-center tw:gap-2 tw:mr-4 tw:inline-flex">
                                                     @if($asignacion->estado == 7)
-                                                        <input class="form-check-input" type="radio" name="actulizacion_riesgos" id="actulizacion_riesgos_no" value="0"
+                                                        <input class="tw:size-4 tw:shrink-0 tw:cursor-pointer tw:accent-brand-500" type="radio" name="actulizacion_riesgos" id="actulizacion_riesgos_no" value="0"
                                                                 {{ old('actulizacion_riesgos', $asignacion->actualizacion_riesgos) == 0 ? 'checked' : '' }}>
                                                     @else
-                                                        <input class="form-check-input" type="radio" name="actulizacion_riesgos" id="actulizacion_riesgos_no" value="0">
+                                                        <input class="tw:size-4 tw:shrink-0 tw:cursor-pointer tw:accent-brand-500" type="radio" name="actulizacion_riesgos" id="actulizacion_riesgos_no" value="0">
                                                     @endif
-                                                    <label class="form-check-label" for="actulizacion_riesgos_no">
+                                                    <label class="tw:text-sm tw:text-gray-700" for="actulizacion_riesgos_no">
                                                         NO ¿Por qué?
                                                     </label>
                                                 </div>
                                             </div>
-                                            <div class="col-md-12 mt-3">
+                                            <div class="tw:w-full tw:lg:w-full tw:mt-4 tw:px-2">
                                                 @if($asignacion->estado == 7)
-                                                    <textarea class="form-control" name="motivo_actualizacion_riesgos" id="motivo_actualizacion_riesgos" rows="6">{{ old('motivo_actualizacion_riesgos', $asignacion->valor_actr) }}</textarea>
+                                                    <textarea class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500" name="motivo_actualizacion_riesgos" id="motivo_actualizacion_riesgos" rows="6">{{ old('motivo_actualizacion_riesgos', $asignacion->valor_actr) }}</textarea>
                                                 @else
-                                                    <textarea class="form-control" name="motivo_actualizacion_riesgos" id="motivo_actualizacion_riesgos" rows="6"></textarea>
+                                                    <textarea class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500" name="motivo_actualizacion_riesgos" id="motivo_actualizacion_riesgos" rows="6"></textarea>
                                                 @endif
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div class="row mt-4">
-                                        <div class="alert alert-info text-center">
+                                    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4 tw:mt-6">
+                                        <div class="tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-sky-200 tw:bg-sky-50 tw:text-sky-800 tw:text-center">
                                             <h4>Cambios al sistema de gestión para organizaciones educativas</h4>
                                         </div>
-                                        <div class="col-md-12">
-                                            <div class="col-md-12">
-                                                <div class="form-check form-check-inline">
+                                        <div class="tw:w-full tw:lg:w-full tw:px-2">
+                                            <div class="tw:w-full tw:lg:w-full tw:px-2">
+                                                <div class="tw:flex tw:items-center tw:gap-2 tw:mr-4 tw:inline-flex">
                                                     @if($asignacion->estado == 7)
-                                                        <input class="form-check-input" type="radio" name="cambios_sistemaOE" id="cambios_sistemaOE_si" value="1"
+                                                        <input class="tw:size-4 tw:shrink-0 tw:cursor-pointer tw:accent-brand-500" type="radio" name="cambios_sistemaOE" id="cambios_sistemaOE_si" value="1"
                                                                 {{ old('cambios_sistemaOE', $asignacion->cambios_sistema) == 1 ? 'checked' : '' }}>
                                                     @else
-                                                        <input class="form-check-input" type="radio" name="cambios_sistemaOE" id="cambios_sistemaOE_si" value="1">
+                                                        <input class="tw:size-4 tw:shrink-0 tw:cursor-pointer tw:accent-brand-500" type="radio" name="cambios_sistemaOE" id="cambios_sistemaOE_si" value="1">
                                                     @endif
-                                                    <label class="form-check-label" for="cambios_sistemaOE_si">
+                                                    <label class="tw:text-sm tw:text-gray-700" for="cambios_sistemaOE_si">
                                                         SI ¿Por qué?
                                                     </label>
                                                 </div>
-                                                <div class="form-check form-check-inline">
+                                                <div class="tw:flex tw:items-center tw:gap-2 tw:mr-4 tw:inline-flex">
                                                     @if($asignacion->estado == 7)
-                                                        <input class="form-check-input" type="radio" name="cambios_sistemaOE" id="cambios_sistemaOE_no" value="0"
+                                                        <input class="tw:size-4 tw:shrink-0 tw:cursor-pointer tw:accent-brand-500" type="radio" name="cambios_sistemaOE" id="cambios_sistemaOE_no" value="0"
                                                                 {{ old('cambios_sistemaOE', $asignacion->cambios_sistema) == 0 ? 'checked' : '' }}>
                                                     @else
-                                                        <input class="form-check-input" type="radio" name="cambios_sistemaOE" id="cambios_sistemaOE_no" value="0">
+                                                        <input class="tw:size-4 tw:shrink-0 tw:cursor-pointer tw:accent-brand-500" type="radio" name="cambios_sistemaOE" id="cambios_sistemaOE_no" value="0">
                                                     @endif
-                                                    <label class="form-check-label" for="cambios_sistemaOE_no">
+                                                    <label class="tw:text-sm tw:text-gray-700" for="cambios_sistemaOE_no">
                                                         NO ¿Por qué?
                                                     </label>
                                                 </div>
                                             </div>
-                                            <div class="col-md-12 mt-3">
+                                            <div class="tw:w-full tw:lg:w-full tw:mt-4 tw:px-2">
                                                 @if($asignacion->estado == 7)
-                                                    <textarea class="form-control" name="motivo_cambios_sistemaOE" id="motivo_cambios_sistemaOE" rows="6">{{ old('motivo_cambios_sistemaOE', $asignacion->valor_cambios) }}</textarea>
+                                                    <textarea class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500" name="motivo_cambios_sistemaOE" id="motivo_cambios_sistemaOE" rows="6">{{ old('motivo_cambios_sistemaOE', $asignacion->valor_cambios) }}</textarea>
                                                 @else
-                                                    <textarea class="form-control" name="motivo_cambios_sistemaOE" id="motivo_cambios_sistemaOE" rows="6"></textarea>
+                                                    <textarea class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500" name="motivo_cambios_sistemaOE" id="motivo_cambios_sistemaOE" rows="6"></textarea>
                                                 @endif
                                             </div>
                                         </div>
                                     </div>
 
                                     <!-- Botón Guardar Centrado -->
-                                    <div class="row mt-4">
-                                        <div class="col-md-12 text-center">
-                                            <button type="submit" class="btn btn-success btn-lg px-5">
-                                                <i class="fas fa-save me-2"></i>Enviar
+                                    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4 tw:mt-6">
+                                        <div class="tw:w-full tw:lg:w-full tw:text-center tw:px-2">
+                                            <button type="submit" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-green-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-green-700 tw:gap-2 tw:px-5 tw:py-3.5 tw:text-base tw:px-12">
+                                                <i class="fa fa-floppy-o tw:mr-2"></i>Enviar
                                             </button>
                                         </div>
                                     </div>
@@ -747,20 +741,20 @@
 
     {{--CONTENEDOR FAKE DEL PLAN DE ACCIONES CORRECTIVAS--}}
     <div id="cont_acciones_plan_implementacion_fake" style="display: none">
-        <div class="row" class="item_acciones_plan_implementacion">
+        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4" class="item_acciones_plan_implementacion">
             <input type="hidden" name="id_plan_accion[]" value="">
-            <div class="col-md-3">
-                <div class="form-group">
+            <div class="tw:w-full tw:lg:w-3/12 tw:px-2">
+                <div class="tw:mb-4">
                     <label for="acciones">Acciones</label>
-                    <textarea class="form-control" rows="5" id="acciones_plan" name="acciones_plan[]"></textarea>
+                    <textarea class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500" rows="5" id="acciones_plan" name="acciones_plan[]"></textarea>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="form-group">
+            <div class="tw:w-full tw:lg:w-3/12 tw:px-2">
+                <div class="tw:mb-4">
                     <label for="id_personal_implementar">
                         Responsable de la actividad
                     </label>
-                    <select class="form-control"  name="personal_implementar_plan[]">
+                    <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"  name="personal_implementar_plan[]">
                         @foreach($personas as $responsable)
                             <option value="{{$responsable->id_personal}}" {{$responsable->id_personal == $responsable->id_personal ? 'selected' :''}}> {{$responsable->nombre}}</option>
 
@@ -768,11 +762,11 @@
                     </select>
                 </div>
                 <br>
-                <div class="form-group">
+                <div class="tw:mb-4">
                     <label for="id_personal_revisar">
                         Responsable de revisar la eficacia de la actividad
                     </label>
-                    <select  class="form-control" name="personal_revisar_plan[]">
+                    <select  class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="personal_revisar_plan[]">
                         @foreach($personas as $responsable)
                             <option value="{{$responsable->id_personal}}" {{$responsable->id_personal == $responsable->id_personal ? 'selected' :''}}> {{$responsable->nombre}}</option>
                         @endforeach
@@ -780,25 +774,25 @@
                 </div>
 
             </div>
-            <div class="col-md-3">
-                <div class="form-group">
+            <div class="tw:w-full tw:lg:w-3/12 tw:px-2">
+                <div class="tw:mb-4">
                     <label for="fecha_implementar">Fecha programada para terminar la actividad</label>
-                    <input type="date" name="fecha_implementar_plan[]" class="form-control">
+                    <input type="date" name="fecha_implementar_plan[]" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11">
                 </div>
-                <div class="form-group">
+                <div class="tw:mb-4">
                     <label for="fecha_implementar">
                         Fecha programada de la verificación
                     </label>
-                    <input type="date" name="fecha_verificacion_plan[]" class="form-control">
+                    <input type="date" name="fecha_verificacion_plan[]" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11">
                 </div>
 
             </div>
-            <div class="col-md-3">
-                <div class="form-group">
+            <div class="tw:w-full tw:lg:w-3/12 tw:px-2">
+                <div class="tw:mb-4">
                     <label for="fecha_implementar">
                         Medio de verificación
                     </label>
-                    <select class="form-control"  name="medio_verificacion_plan[]" id="">
+                    <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"  name="medio_verificacion_plan[]" id="">
                         @foreach($evidenciaValida as $row)
                             <option value="{{$row->id_evidencia}}">{{$row->descripcion}}</option>
                         @endforeach
@@ -808,12 +802,12 @@
 
 
             </div>
-            <div class="col-md-3">
-                {{--<div class="form-group">
+            <div class="tw:w-full tw:lg:w-3/12 tw:px-2">
+                {{--<div class="tw:mb-4">
                     <label for="evidencia_acciones">Cargar evidencia</label>
-                    <input type="file" class="form-control" name="evidencia_acciones[]" id="evidencia_acciones" multiple accept=".pdf">
+                    <input type="file" class="tw:h-11 tw:w-full tw:overflow-hidden tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:text-sm tw:text-gray-500 tw:shadow-theme-xs tw:file:mr-5 tw:file:border-0 tw:file:border-r tw:file:border-solid tw:file:border-gray-200 tw:file:bg-gray-50 tw:file:py-3 tw:file:pr-3 tw:file:pl-3.5 tw:file:text-sm tw:file:text-gray-700 tw:hover:file:bg-gray-100 tw:focus:outline-hidden" name="evidencia_acciones[]" id="evidencia_acciones" multiple accept=".pdf">
                 </div>--}}
-                <a href="#!" id="" class="btn btn-danger" data-toggle="tooltip" title="Eliminar"><span class="glyphicon glyphicon-trash"></span>
+                <a href="#!" id="" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-red-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-red-700 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" data-toggle="tooltip" title="Eliminar"><span class="fa fa-trash"></span>
                 </a>
             </div>
         </div>
@@ -822,27 +816,27 @@
 
     {{--CONTENEDOR FAKE DEL PROGRAMA DE CORRECCIONES--}}
     <div id="contenedor_plan_correcciones_fake" style="display: none">
-        <div class="row item_correccion">
+        <div class="item_correccion tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
             <input type="hidden" name="id_correccion_accion[]" value="">
-            <div class="col-md-3">
-                <div class="form-group">
+            <div class="tw:w-full tw:lg:w-3/12 tw:px-2">
+                <div class="tw:mb-4">
                     <label for="acciones">Acciones</label>
-                    <textarea class="form-control" rows="5" name="acciones_correcciones[]"></textarea>
+                    <textarea class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500" rows="5" name="acciones_correcciones[]"></textarea>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="form-group">
+            <div class="tw:w-full tw:lg:w-3/12 tw:px-2">
+                <div class="tw:mb-4">
                     <label for="id_responsable_implantar">Responsable de implantar</label>
-                    <select class="form-control" name="personal_implementar_correccion[]">
+                    <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="personal_implementar_correccion[]">
                         @foreach($personas as $responsable)
                             <option value="{{$responsable->id_personal}}">{{$responsable->nombre}}</option>
                         @endforeach
                     </select>
                 </div>
 
-                <div class="form-group">
+                <div class="tw:mb-4">
                     <label for="personal_revisar_correccion">Responsable de revisar</label>
-                    <select class="form-control" name="personal_revisar_correccion[]">
+                    <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="personal_revisar_correccion[]">
                         @foreach($personas as $responsable)
                             <option value="{{$responsable->id_personal}}">{{$responsable->nombre}}</option>
                         @endforeach
@@ -850,37 +844,37 @@
                 </div>
             </div>
 
-            <div class="col-md-3">
-                <div class="form-group">
+            <div class="tw:w-full tw:lg:w-3/12 tw:px-2">
+                <div class="tw:mb-4">
                     <label for="fecha_implementar">Fecha programada para implementar la acción</label>
-                    <input type="date" name="fecha_implementar_correccion[]" class="form-control">
+                    <input type="date" name="fecha_implementar_correccion[]" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11">
                 </div>
-                <div class="form-group">
+                <div class="tw:mb-4">
                     <label for="fecha_verificacion">Fecha programada de la verificación</label>
-                    <input type="date" name="fecha_verificacion_correccion[]" class="form-control">
+                    <input type="date" name="fecha_verificacion_correccion[]" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11">
                 </div>
             </div>
 
-            <div class="col-md-3">
-                <div class="form-group">
+            <div class="tw:w-full tw:lg:w-3/12 tw:px-2">
+                <div class="tw:mb-4">
                     <label for="medio_verificacion_correccion">Medio de verificación</label>
-                    <select class="form-control" name="medio_verificacion_correccion[]">
+                    <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="medio_verificacion_correccion[]">
                         @foreach($evidenciaValida as $row)
                             <option value="{{$row->id_evidencia}}">{{$row->descripcion}}</option>
                         @endforeach
                     </select>
                 </div>
             </div>
-            {{--<div class="col-md-3">
-                <div class="form-group">
+            {{--<div class="tw:w-full tw:lg:w-3/12 tw:px-2">
+                <div class="tw:mb-4">
                     <label for="evidencia_correcciones">Cargar evidencia</label>
-                    <input type="file" class="form-control" name="evidencia_correcciones[]" id="evidencia_correcciones" multiple accept=".pdf">
+                    <input type="file" class="tw:h-11 tw:w-full tw:overflow-hidden tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:text-sm tw:text-gray-500 tw:shadow-theme-xs tw:file:mr-5 tw:file:border-0 tw:file:border-r tw:file:border-solid tw:file:border-gray-200 tw:file:bg-gray-50 tw:file:py-3 tw:file:pr-3 tw:file:pl-3.5 tw:file:text-sm tw:file:text-gray-700 tw:hover:file:bg-gray-100 tw:focus:outline-hidden" name="evidencia_correcciones[]" id="evidencia_correcciones" multiple accept=".pdf">
                 </div>
             </div>--}}
 
-            <div class="col-md-3">
-                <a href="#!" class="btn btn-danger btn-remove-correccion" data-toggle="tooltip" title="Eliminar">
-                    <span class="glyphicon glyphicon-trash"></span>
+            <div class="tw:w-full tw:lg:w-3/12 tw:px-2">
+                <a href="#!" class="btn-remove-correccion tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-red-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-red-700 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" data-toggle="tooltip" title="Eliminar">
+                    <span class="fa fa-trash"></span>
                 </a>
             </div>
         </div>
@@ -888,60 +882,60 @@
 
     <!-- CONTENEDOR FAKE DEL PLAN DE IMPLEMENTACIÓN (OPORTUNIDADES) -->
     <div id="contenedor_oportunidades_fake" style="display:none;">
-        <div class="row item_oportunidad">
+        <div class="item_oportunidad tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
             <input type="hidden" name="id_oportunidad_accion[]" value="">
-            <div class="col-md-3">
-                <div class="form-group">
+            <div class="tw:w-full tw:lg:w-3/12 tw:px-2">
+                <div class="tw:mb-4">
                     <label for="acciones">Acciones</label>
-                    <textarea class="form-control" rows="5" name="acciones_oportunidades[]"></textarea>
+                    <textarea class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500" rows="5" name="acciones_oportunidades[]"></textarea>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="form-group">
+            <div class="tw:w-full tw:lg:w-3/12 tw:px-2">
+                <div class="tw:mb-4">
                     <label for="id_personal_implementar">Responsable de la actividad</label>
-                    <select class="form-control" name="personal_implementar_oportunidades[]">
+                    <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="personal_implementar_oportunidades[]">
                         @foreach($personas as $responsable)
                             <option value="{{$responsable->id_personal}}">{{$responsable->nombre}}</option>
                         @endforeach
                     </select>
                 </div>
                 <br>
-                <div class="form-group">
+                <div class="tw:mb-4">
                     <label for="id_personal_revisar">Responsable de revisar la eficacia de la actividad</label>
-                    <select class="form-control" name="personal_revisar_oportunidades[]">
+                    <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="personal_revisar_oportunidades[]">
                         @foreach($personas as $responsable)
                             <option value="{{$responsable->id_personal}}">{{$responsable->nombre}}</option>
                         @endforeach
                     </select>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="form-group">
+            <div class="tw:w-full tw:lg:w-3/12 tw:px-2">
+                <div class="tw:mb-4">
                     <label for="fecha_implementar">Fecha programada para terminar la actividad</label>
-                    <input type="date" name="fecha_implementar_oportunidades[]" class="form-control">
+                    <input type="date" name="fecha_implementar_oportunidades[]" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11">
                 </div>
-                <div class="form-group">
+                <div class="tw:mb-4">
                     <label for="fecha_verificacion">Fecha programada de la verificación</label>
-                    <input type="date" name="fecha_verificacion_oportunidades[]" class="form-control">
+                    <input type="date" name="fecha_verificacion_oportunidades[]" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11">
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="form-group">
+            <div class="tw:w-full tw:lg:w-3/12 tw:px-2">
+                <div class="tw:mb-4">
                     <label for="medio_verificacion">Medio de verificación</label>
-                    <select class="form-control" name="medio_verificacion_oportunidades[]">
+                    <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="medio_verificacion_oportunidades[]">
                         @foreach($evidenciaValida as $row)
                             <option value="{{$row->id_evidencia}}">{{$row->descripcion}}</option>
                         @endforeach
                     </select>
                 </div>
             </div>
-            <div class="col-md-3">
-                {{--<div class="form-group">
+            <div class="tw:w-full tw:lg:w-3/12 tw:px-2">
+                {{--<div class="tw:mb-4">
                     <label for="evidencia_oportunidades">Cargar evidencia</label>
-                    <input type="file" class="form-control" name="evidencia_oportunidades[]" id="evidencia_oportunidades" multiple accept=".pdf">
+                    <input type="file" class="tw:h-11 tw:w-full tw:overflow-hidden tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:text-sm tw:text-gray-500 tw:shadow-theme-xs tw:file:mr-5 tw:file:border-0 tw:file:border-r tw:file:border-solid tw:file:border-gray-200 tw:file:bg-gray-50 tw:file:py-3 tw:file:pr-3 tw:file:pl-3.5 tw:file:text-sm tw:file:text-gray-700 tw:hover:file:bg-gray-100 tw:focus:outline-hidden" name="evidencia_oportunidades[]" id="evidencia_oportunidades" multiple accept=".pdf">
                 </div>--}}
-                <a href="#!" class="btn btn-danger btn-remove-oportunidad" data-toggle="tooltip" title="Eliminar">
-                    <span class="glyphicon glyphicon-trash"></span>
+                <a href="#!" class="btn-remove-oportunidad tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-red-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-red-700 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" data-toggle="tooltip" title="Eliminar">
+                    <span class="fa fa-trash"></span>
                 </a>
             </div>
         </div>

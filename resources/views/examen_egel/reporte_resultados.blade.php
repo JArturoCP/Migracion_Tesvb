@@ -1,111 +1,42 @@
-@extends('layouts.app')
-
+@extends('layouts.panel')
+@section('title', 'Reporte Final EGEL')
+@include('partials.panel.recursos_app')
 @section('content')
 
-<style>
-body {
-    background: #f4f6f9;
-}
-
-/* TÍTULO */
-.page-title {
-    font-weight: 700;
-    margin-bottom: 20px;
-}
-
-/* TARJETAS */
-.card-eval {
-    border: none;
-    border-radius: 16px;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
-    padding: 20px;
-    background: #fff;
-    margin-bottom: 20px;
-}
-
-/* BADGES */
-.badge-soft {
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-weight: 600;
-}
-
-/* TABLA */
-.table-custom {
-    border-radius: 12px;
-    overflow: hidden;
-    background: #fff;
-}
-
-.table-custom thead {
-    background: #343a40;
-    color: #fff;
-}
-
-.table-custom th, .table-custom td {
-    vertical-align: middle !important;
-}
-
-/* BOTÓN */
-.btn-imprimir {
-    border-radius: 30px;
-    padding: 12px 28px;
-    font-weight: 600;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-    transition: all 0.3s ease;
-}
-
-.btn-imprimir:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 18px rgba(0,0,0,0.25);
-}
-</style>
-
-<div class="container py-4">
-
-    {{-- TÍTULO --}}
-    <h2 class="text-center page-title">
-        📄 Reporte Final EGEL
-    </h2>
+<main class="tw-pantalla tw:space-y-6">
+    <x-panel.encabezado titulo="📄 Reporte Final EGEL" :migas="['Examen EGEL' => url('/examen_egel/dashboard')]" />
 
     {{-- INFO ALUMNO --}}
-    <div class="card-eval">
-        <p class="mb-1"><b>Estudiante:</b></p>
-        <h4>
+    <x-panel.tarjeta>
+        <p class="tw:text-sm tw:font-medium tw:text-gray-500 tw:dark:text-gray-400">Estudiante:</p>
+        <h4 class="tw:mt-1 tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">
             {{ $alumno->nombre }} {{ $alumno->apaterno }} {{ $alumno->amaterno }}
         </h4>
 
         @if($resultado)
-            <hr>
-            <div class="row text-center">
-                <div class="col-md-6">
-                    <p class="mb-1"><b>Calificación general</b></p>
-                    <span class="badge bg-primary badge-soft">
-                        {{ $resultado->calificacion_general }}%
-                    </span>
+            <div class="tw:mt-5 tw:grid tw:gap-4 tw:border-t tw:border-gray-100 tw:pt-5 tw:text-center tw:md:grid-cols-2 tw:dark:border-gray-800">
+                <div>
+                    <p class="tw:mb-1.5 tw:text-sm tw:font-medium tw:text-gray-500 tw:dark:text-gray-400">Calificación general</p>
+                    <x-panel.badge class="tw:px-3 tw:py-1.5">{{ $resultado->calificacion_general }}%</x-panel.badge>
                 </div>
 
-                <div class="col-md-6">
-                    <p class="mb-1"><b>Nivel</b></p>
-                    <span class="badge bg-success badge-soft">
-                        {{ $resultado->nivel }}
-                    </span>
+                <div>
+                    <p class="tw:mb-1.5 tw:text-sm tw:font-medium tw:text-gray-500 tw:dark:text-gray-400">Nivel</p>
+                    <x-panel.badge tono="exito" class="tw:px-3 tw:py-1.5">{{ $resultado->nivel }}</x-panel.badge>
                 </div>
             </div>
         @endif
-    </div>
+    </x-panel.tarjeta>
 
     {{-- RESULTADOS --}}
-    <div class="card-eval">
-        <h4 class="text-center mb-3">📊 Resultados por módulo</h4>
-
-        <table class="table table-custom table-hover text-center">
+    <x-panel.tarjeta titulo="📊 Resultados por módulo" sin-relleno>
+        <x-panel.tabla class="tw:text-center">
             <thead>
                 <tr>
-                    <th>Módulo</th>
-                    <th>Puntos obtenidos</th>
-                    <th>Total puntos</th>
-                    <th>%</th>
+                    <th class="tw:text-center">Módulo</th>
+                    <th class="tw:text-center">Puntos obtenidos</th>
+                    <th class="tw:text-center">Total puntos</th>
+                    <th class="tw:text-center">%</th>
                 </tr>
             </thead>
 
@@ -116,25 +47,20 @@ body {
                     <td>{{ number_format($m->puntos, 2) }}</td>
                     <td>{{ number_format($m->total_valor, 2) }}</td>
                     <td>
-                        <span class="badge bg-info text-dark">
-                            {{ $m->porcentaje }}%
-                        </span>
+                        <x-panel.badge tono="info">{{ $m->porcentaje }}%</x-panel.badge>
                     </td>
                 </tr>
             @endforeach
             </tbody>
-        </table>
-    </div>
+        </x-panel.tabla>
+    </x-panel.tarjeta>
 
     {{-- BOTÓN --}}
-    <div class="text-center">
-        <a href="{{ route('egel.pdf.oficial') }}"
-           target="_blank"
-           class="btn btn-danger btn-lg btn-imprimir">
-            Descargar Reporte Oficial
-        </a>
+    <div class="tw:text-center">
+        <x-panel.boton variante="peligro" tamano="lg" class="tw:rounded-full" href="{{ route('egel.pdf.oficial') }}" target="_blank">
+            <span class="fa fa-file-pdf-o" aria-hidden="true"></span> Descargar Reporte Oficial
+        </x-panel.boton>
     </div>
-<br>
-</div>
+</main>
 
 @endsection

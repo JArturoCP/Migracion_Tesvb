@@ -68,6 +68,9 @@
 @source "../views/actividades_complementarias/alumnos";
 @source "../views/actividades_complementarias/partials_actividades/alumno";
 @source "../views/panel";
+@source "../views/examen_egel";
+@source "../views/auditorias";
+@source "../views/vendor/pagination/panel.blade.php";
 @source "../js/panel";
 
 @custom-variant dark (&:is(.dark *));

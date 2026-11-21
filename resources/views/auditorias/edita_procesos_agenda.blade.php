@@ -1,65 +1,38 @@
-@section('modal_procesos_agenda')
-
-<main>
-<!-- Modal para editar procesos de la agenda -->
-<div class="modal fade bs-example-modal-lg" id="modal_procesos_agenda" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header bg-info">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title text-center" id="myModalLabel">Editar procesos de la agenda</h4>
-      </div>
-      <div class="modal-body">
-        <div class="row">
-          @foreach($procesos as $proceso)
-            <div class="col-md-6">
-              @if(\Illuminate\Support\Facades\Session::get('procesos-agenda'))
-                @if(in_array($proceso->id_auditoria_proceso,\Illuminate\Support\Facades\Session::get('procesos-agenda')))
-                  <label class="checkbox-inline"><input class="existentes" type="checkbox" data-id="{{$proceso->id_auditoria_proceso}}" checked>{{$proceso->clave.' '.\App\audParseCase::parseProceso($proceso->des_proceso)}}</label>
-                @else
-                  <label class="checkbox-inline"><input class="existentes" type="checkbox" data-id="{{$proceso->id_auditoria_proceso}}">{{$proceso->clave.' '.\App\audParseCase::parseProceso($proceso->des_proceso)}}</label>
-                @endif
-              @else
-                <label class="checkbox-inline"><input class="existentes" type="checkbox" data-id="{{$proceso->id_auditoria_proceso}}">{{$proceso->clave.' '.\App\audParseCase::parseProceso($proceso->des_proceso)}}</label>
-              @endif
-            </div>
-          @endforeach
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-success guardar_procesos">Guardar</button>
-      </div>
+{{-- Modal para editar procesos de la agenda: lo incluye auditorias/agenda2 cuando $ver == 'procesos_agenda'. --}}
+@php($procesosMarcados = \Illuminate\Support\Facades\Session::get('procesos-agenda') ?: [])
+<x-panel.modal id="modal_procesos_agenda" tamano="lg" clase-cerrar="close" titulo="Editar procesos de la agenda">
+    <div class="tw:grid tw:gap-3 tw:sm:grid-cols-2">
+        @foreach($procesos as $proceso)
+            <x-panel.checkbox class="existentes" data-id="{{$proceso->id_auditoria_proceso}}" :checked="in_array($proceso->id_auditoria_proceso, $procesosMarcados)">{{$proceso->clave.' '.\App\audParseCase::parseProceso($proceso->des_proceso)}}</x-panel.checkbox>
+        @endforeach
     </div>
-  </div>
-</div>
+    <x-slot:pie>
+        <x-panel.boton variante="secundario" data-dismiss="modal">Cancelar</x-panel.boton>
+        <x-panel.boton variante="exito" class="guardar_procesos">
+            <span class="fa fa-floppy-o" aria-hidden="true"></span> Guardar
+        </x-panel.boton>
+    </x-slot:pie>
+</x-panel.modal>
 
 <form data-panel-envio action="{{url('auditorias/validar')}}/{{$auditoria_id}}/edit" method="get" id="form_procesos_agenda">
-  <input type="text" name="data" id="data_procesos_agenda" hidden>
+    <input type="text" name="data" id="data_procesos_agenda" hidden>
 </form>
-</main>
 
 <script>
-  $(document).ready(function(){
+    $(document).ready(function () {
+        $("#modal_procesos_agenda").modal("show");
 
-    $("#modal_procesos_agenda").modal("show");
-
-    $('.guardar_procesos').click(function () {
-      var agregar=[];
-      $('#modal_procesos_agenda .existentes:checkbox:checked').each(function () {
-        agregar.push($(this).data('id'));
-      });
-      if (agregar.length>0){
-        $('#data_procesos_agenda').val(JSON.stringify(agregar));
-        $('#form_procesos_agenda').submit();
-      } else {
-        PanelFormularios.alerta('warning', 'Revisa la selección', 'Selecciona al menos un proceso.');
-      }
+        $('.guardar_procesos').click(function () {
+            var agregar = [];
+            $('#modal_procesos_agenda .existentes:checkbox:checked').each(function () {
+                agregar.push($(this).data('id'));
+            });
+            if (agregar.length > 0) {
+                $('#data_procesos_agenda').val(JSON.stringify(agregar));
+                $('#form_procesos_agenda').submit();
+            } else {
+                PanelFormularios.alerta('warning', 'Revisa la selección', 'Selecciona al menos un proceso.');
+            }
+        });
     });
-
-  });
-
 </script>
-
-@include('partials.panel.validacion_envio')
-@endsection

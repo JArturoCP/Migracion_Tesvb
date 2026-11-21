@@ -1,6 +1,7 @@
-@extends('layouts.app')
-
+@extends('layouts.panel')
+@include('partials.panel.recursos_app')
 @section('content')
+<div class="tw-pantalla">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <style>
@@ -66,27 +67,27 @@
     </style>
 
 
-    <div class="container-fluid seguimiento-container">
+    <div class="seguimiento-container tw:w-full">
         <h3 class="seguimiento-title">
             <i class="fa fa-search"></i>
             Seguimiento de auditorías
         </h3>
 
         @if(session('success'))
-            <div class="alert alert-success">{{ session('success') }}</div>
+            <div class="tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-green-200 tw:bg-green-50 tw:text-green-800">{{ session('success') }}</div>
         @endif
 
         @if(session('error'))
-            <div class="alert alert-danger">{{ session('error') }}</div>
+            <div class="tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-red-200 tw:bg-red-50 tw:text-red-700">{{ session('error') }}</div>
         @endif
 
         @if(!$puedeVerSeguimiento)
-            <div class="alert alert-warning">
+            <div class="tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-amber-200 tw:bg-amber-50 tw:text-amber-800">
                 No tiene auditorías asignadas para seguimiento.
             </div>
         @else
             @if($seguimientosAgrupados->isEmpty())
-                <div class="alert alert-info">
+                <div class="tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-sky-200 tw:bg-sky-50 tw:text-sky-800">
                     No existen notas o planes para seguimiento.
                 </div>
             @endif
@@ -132,8 +133,8 @@
 
                 <div class="auditor-panel" id="{{ $idPanelAuditor }}">
                     <div class="auditor-heading auditor-toggle">
-                        <div class="row">
-                            <div class="col-md-7">
+                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                            <div class="tw:w-full tw:lg:w-7/12 tw:px-2">
                                 <div class="auditor-nombre">
                                     <i class="fa fa-user"></i>
                                     Auditor registrado:
@@ -145,12 +146,12 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-5 text-right">
-                                <span class="badge badge-resumen">Auditorías: {{ $auditorias->count() }}</span>
-                                <span class="badge badge-resumen badge-resumen-verde">Notas: {{ $totalNotasAuditor }}</span>
-                                <span class="badge badge-resumen badge-resumen-rojo">NC: {{ $totalNCAuditor }}</span>
-                                <span class="badge badge-resumen">OM: {{ $totalOMAuditor }}</span>
-                                <span class="badge badge-resumen badge-resumen-amarillo">Acciones: {{ $totalAccionesAuditor }}</span>
+                            <div class="tw:w-full tw:lg:w-5/12 tw:text-right tw:px-2">
+                                <span class="badge-resumen tw:inline-flex tw:items-center tw:rounded-full tw:px-2.5 tw:py-0.5 tw:text-sm tw:font-medium">Auditorías: {{ $auditorias->count() }}</span>
+                                <span class="badge-resumen badge-resumen-verde tw:inline-flex tw:items-center tw:rounded-full tw:px-2.5 tw:py-0.5 tw:text-sm tw:font-medium">Notas: {{ $totalNotasAuditor }}</span>
+                                <span class="badge-resumen badge-resumen-rojo tw:inline-flex tw:items-center tw:rounded-full tw:px-2.5 tw:py-0.5 tw:text-sm tw:font-medium">NC: {{ $totalNCAuditor }}</span>
+                                <span class="badge-resumen tw:inline-flex tw:items-center tw:rounded-full tw:px-2.5 tw:py-0.5 tw:text-sm tw:font-medium">OM: {{ $totalOMAuditor }}</span>
+                                <span class="badge-resumen badge-resumen-amarillo tw:inline-flex tw:items-center tw:rounded-full tw:px-2.5 tw:py-0.5 tw:text-sm tw:font-medium">Acciones: {{ $totalAccionesAuditor }}</span>
                                 <span class="icono-auditor">▼</span>
                             </div>
                         </div>
@@ -163,19 +164,19 @@
 
                             <div class="auditoria-panel">
                                 <div class="auditoria-heading">
-                                    <div class="row">
-                                        <div class="col-md-8">
+                                    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                        <div class="tw:w-full tw:lg:w-8/12 tw:px-2">
                                             <i class="fa fa-folder-open"></i>
                                             Auditoría: {{ $numeroAuditoria }}
                                         </div>
 
-                                        <div class="col-md-4 text-right">
-                                            <span class="label label-primary">Notas: {{ $notas->count() }}</span>
+                                        <div class="tw:w-full tw:lg:w-4/12 tw:text-right tw:px-2">
+                                            <span class="tw:inline-flex tw:items-center tw:rounded-full tw:px-2.5 tw:py-0.5 tw:text-xs tw:font-medium tw:bg-brand-50 tw:text-brand-500">Notas: {{ $notas->count() }}</span>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="panel-body">
+                                <div class="tw:p-5 tw:sm:p-6">
                                     @foreach($notas as $bloque)
                                         @php
                                             $nota = $bloque['nota'];
@@ -192,10 +193,10 @@
 
                                         <div class="nota-card" id="{{ $idNotaCard }}">
                                             <div class="nota-header">
-                                                <div class="row">
-                                                    <div class="col-md-8">
+                                                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                                    <div class="tw:w-full tw:lg:w-8/12 tw:px-2">
                                                         <strong>{{ $nota->tipo_hallazgo }} {{ $nota->clave_nota }}</strong>
-                                                        <span class="label label-{{ $nota->tipo_hallazgo == 'NC' ? 'danger' : 'info' }}">{{ $nota->tipo_hallazgo }}</span>
+                                                        <span class="{{ ['success' => 'tw:bg-green-50 tw:text-green-700', 'info' => 'tw:bg-sky-50 tw:text-sky-600', 'warning' => 'tw:bg-amber-50 tw:text-amber-700', 'danger' => 'tw:bg-red-50 tw:text-red-600', 'primary' => 'tw:bg-brand-50 tw:text-brand-500'][$nota->tipo_hallazgo == 'NC' ? 'danger' : 'info'] ?? 'tw:bg-gray-100 tw:text-gray-700' }} tw:inline-flex tw:items-center tw:rounded-full tw:px-2.5 tw:py-0.5 tw:text-xs tw:font-medium">{{ $nota->tipo_hallazgo }}</span>
                                                     </div>
 
 
@@ -220,16 +221,16 @@
                                                 </div>
 
                                                 <div class="nota-responsable-box">
-                                                    <div class="row">
-                                                        <div class="col-md-8 responsable-actual">
+                                                    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                                        <div class="responsable-actual tw:w-full tw:lg:w-8/12 tw:px-2">
                                                             <strong>Responsable de seguimiento actual:</strong>
                                                             {{ $responsableSeguimientoNotaTexto }}
                                                         </div>
 
-                                                        <div class="col-md-4 text-right">
+                                                        <div class="tw:w-full tw:lg:w-4/12 tw:text-right tw:px-2">
                                                             @if($esLiderActivo && isset($nota->id_responsable) && (int) $nota->id_responsable > 0)
                                                                 <button type="button"
-                                                                        class="btn btn-warning btn-sm btn-toggle-cambio-responsable"
+                                                                        class="btn-toggle-cambio-responsable tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-amber-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-amber-600 tw:gap-1.5 tw:px-3 tw:py-1.5 tw:text-sm"
                                                                         data-target="#{{ $idFormCambioNota }}">
                                                                     <i class="fa fa-pencil"></i>
                                                                     Cambiar Responsable
@@ -256,11 +257,11 @@
                                                                        name="return_anchor"
                                                                        value="{{ $idNotaCard }}">
 
-                                                                <div class="row">
-                                                                    <div class="col-md-9">
+                                                                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                                                    <div class="tw:w-full tw:lg:w-9/12 tw:px-2">
                                                                         <label>Buscar nuevo responsable</label>
                                                                         <input type="text"
-                                                                               class="form-control input-sm buscador-personal-seguimiento"
+                                                                               class="buscador-personal-seguimiento tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"
                                                                                placeholder="Escriba el nombre del nuevo responsable"
                                                                                autocomplete="off">
 
@@ -285,10 +286,10 @@
                                                                         </div>
                                                                     </div>
 
-                                                                    <div class="col-md-3">
+                                                                    <div class="tw:w-full tw:lg:w-3/12 tw:px-2">
                                                                         <label>&nbsp;</label>
                                                                         <button type="submit"
-                                                                                class="btn btn-primary btn-sm btn-block btn-guardar-responsable"
+                                                                                class="btn-guardar-responsable tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-1.5 tw:px-3 tw:py-1.5 tw:text-sm tw:flex tw:w-full"
                                                                                 disabled>
                                                                             <i class="fa fa-save"></i>
                                                                             Guardar
@@ -301,7 +302,7 @@
                                                 </div>
 
                                                 @if($acciones->isEmpty())
-                                                    <div class="alert alert-warning" style="margin-bottom: 0;">
+                                                    <div class="tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-amber-200 tw:bg-amber-50 tw:text-amber-800" style="margin-bottom: 0;">
                                                         No se registraron acciones en el procedimiento de No Conformidades y Acciones Correctivas
                                                     </div>
 
@@ -322,14 +323,15 @@
                                                                value="{{ $idNotaCard }}">
 
                                                         <button type="submit"
-                                                                class="btn btn-{{ $integrarNotaInforme ? 'success' : 'danger' }} btn-xs btn-integrar-informe"
+                                                                class="{{ ['success' => 'tw:bg-green-600 tw:text-white tw:hover:bg-green-700', 'info' => 'tw:bg-sky-500 tw:text-white tw:hover:bg-sky-600', 'warning' => 'tw:bg-amber-500 tw:text-white tw:hover:bg-amber-600', 'danger' => 'tw:bg-red-600 tw:text-white tw:hover:bg-red-700', 'primary' => 'tw:bg-brand-500 tw:text-white tw:hover:bg-brand-600'][$integrarNotaInforme ? 'success' : 'danger'] ?? 'tw:bg-gray-500 tw:text-white' }} btn-integrar-informe tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:gap-1 tw:px-2 tw:py-1 tw:text-xs"
                                                                 title="{{ $integrarNotaInforme ? 'Presione para excluir la nota del informe.' : 'Presione para integrar la nota al informe.' }}">
                                                             <i class="fa {{ $integrarNotaInforme ? 'fa-check-circle' : 'fa-times-circle' }}"></i>
                                                             Integrar al informe: {{ $integrarNotaInforme ? 'Sí' : 'No' }}
                                                         </button>
                                                     </form>
                                                 @else
-                                                    <table class="table table-bordered table-condensed tabla-acciones">
+                                                    <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:bg-white">
+<table class="tabla-acciones tw-tabla tw-tabla-bordes tw-tabla-compacta">
                                                         <thead>
                                                         <tr>
                                                             <th>Acción del plan</th>
@@ -357,13 +359,13 @@
                                                                 <td>
                                                                     <div class="semaforo-fechas">
                                                                         <div class="semaforo-fecha-item">
-                                                                            <span class="label label-{{ $accion->semaforo_implantacion_clase ?? $accion->semaforo_clase }} label-semaforo">
+                                                                            <span class="{{ ['success' => 'tw:bg-green-50 tw:text-green-700', 'info' => 'tw:bg-sky-50 tw:text-sky-600', 'warning' => 'tw:bg-amber-50 tw:text-amber-700', 'danger' => 'tw:bg-red-50 tw:text-red-600', 'primary' => 'tw:bg-brand-50 tw:text-brand-500'][$accion->semaforo_implantacion_clase ?? $accion->semaforo_clase] ?? 'tw:bg-gray-100 tw:text-gray-700' }} label-semaforo tw:inline-flex tw:items-center tw:rounded-full tw:px-2.5 tw:py-0.5 tw:text-xs tw:font-medium">
                                                                                 {{ $accion->semaforo_implantacion_texto ?? ('Implantación: ' . $accion->semaforo_texto) }}
                                                                             </span>
                                                                         </div>
 
                                                                         <div class="semaforo-fecha-item">
-                                                                            <span class="label label-{{ $accion->semaforo_verificacion_clase ?? $accion->semaforo_clase }} label-semaforo">
+                                                                            <span class="{{ ['success' => 'tw:bg-green-50 tw:text-green-700', 'info' => 'tw:bg-sky-50 tw:text-sky-600', 'warning' => 'tw:bg-amber-50 tw:text-amber-700', 'danger' => 'tw:bg-red-50 tw:text-red-600', 'primary' => 'tw:bg-brand-50 tw:text-brand-500'][$accion->semaforo_verificacion_clase ?? $accion->semaforo_clase] ?? 'tw:bg-gray-100 tw:text-gray-700' }} label-semaforo tw:inline-flex tw:items-center tw:rounded-full tw:px-2.5 tw:py-0.5 tw:text-xs tw:font-medium">
                                                                                 {{ $accion->semaforo_verificacion_texto ?? ('Verificación: ' . $accion->semaforo_texto) }}
                                                                             </span>
                                                                         </div>
@@ -391,7 +393,7 @@
                                                                     @if($rutaDetalleReporte)
                                                                         <a href="{{ $rutaDetalleReporte }}"
                                                                            data-retorno-panel="{{ $idNotaCard }}"
-                                                                           class="btn btn-default btn-xs btn-ver-detalle-semaforo">
+                                                                           class="btn-ver-detalle-semaforo tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:gap-1 tw:px-2 tw:py-1 tw:text-xs">
                                                                             <i class="fa fa-eye"></i>
                                                                             Ver detalle
                                                                         </a>
@@ -414,16 +416,16 @@
                                                                                name="return_anchor"
                                                                                value="{{ $idAccionSeguimiento }}">
 
-                                                                        <select name="estado_cumplimiento" class="form-control input-sm" required>
+                                                                        <select name="estado_cumplimiento" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" required>
                                                                             <option value="0" {{ (int) $accion->estado_cumplimiento === 0 ? 'selected' : '' }}>Sin revisar</option>
                                                                             <option value="1" {{ (int) $accion->estado_cumplimiento === 1 ? 'selected' : '' }}>Concluido</option>
                                                                             <option value="2" {{ (int) $accion->estado_cumplimiento === 2 ? 'selected' : '' }}>En proceso</option>
                                                                             <option value="3" {{ (int) $accion->estado_cumplimiento === 3 ? 'selected' : '' }}>Sin cumplimiento</option>
                                                                         </select>
 
-                                                                        <textarea name="nota_seguimiento" class="form-control input-sm" rows="2" placeholder="Nota de seguimiento" style="margin-top: 5px;">{{ $accion->nota_seguimiento }}</textarea>
+                                                                        <textarea name="nota_seguimiento" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500" rows="2" placeholder="Nota de seguimiento" style="margin-top: 5px;">{{ $accion->nota_seguimiento }}</textarea>
 
-                                                                        <button type="submit" class="btn btn-success btn-xs" style="margin-top: 5px;">
+                                                                        <button type="submit" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-green-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-green-700 tw:gap-1 tw:px-2 tw:py-1 tw:text-xs" style="margin-top: 5px;">
                                                                             <i class="fa fa-save"></i> Guardar
                                                                         </button>
                                                                     </form>
@@ -445,7 +447,7 @@
                                                                                value="{{ $idAccionSeguimiento }}">
 
                                                                         <button type="submit"
-                                                                                class="btn btn-{{ $integrarInforme ? 'success' : 'danger' }} btn-xs btn-integrar-informe"
+                                                                                class="{{ ['success' => 'tw:bg-green-600 tw:text-white tw:hover:bg-green-700', 'info' => 'tw:bg-sky-500 tw:text-white tw:hover:bg-sky-600', 'warning' => 'tw:bg-amber-500 tw:text-white tw:hover:bg-amber-600', 'danger' => 'tw:bg-red-600 tw:text-white tw:hover:bg-red-700', 'primary' => 'tw:bg-brand-500 tw:text-white tw:hover:bg-brand-600'][$integrarInforme ? 'success' : 'danger'] ?? 'tw:bg-gray-500 tw:text-white' }} btn-integrar-informe tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:gap-1 tw:px-2 tw:py-1 tw:text-xs"
                                                                                 title="{{ $integrarInforme ? 'La acción aparecerá en el informe. Presione para excluirla.' : 'La acción no aparecerá en el informe. Presione para integrarla.' }}">
                                                                             <i class="fa {{ $integrarInforme ? 'fa-check-circle' : 'fa-times-circle' }}"></i>
                                                                             Integrar al informe:
@@ -457,6 +459,7 @@
                                                         @endforeach
                                                         </tbody>
                                                     </table>
+</div>
                                                 @endif
                                             </div>
                                         </div>
@@ -589,4 +592,5 @@
             abrirPanelRetorno();
         });
     </script>
+</div>
 @endsection

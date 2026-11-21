@@ -1,78 +1,77 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 @section('title', 'Hoja de trabajo')
+@include('partials.panel.recursos_app')
 @section('content')
 @if(\Illuminate\Support\Facades\Session::get('errors'))
-<div class="alert alert-danger" role="alert">
+<div class="tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-red-200 tw:bg-red-50 tw:text-red-700" role="alert">
     @foreach(\Illuminate\Support\Facades\Session::get('errors')->all() as $error)
     <li>{{$error}}</li>
     @endforeach
 </div>
 @if(\Illuminate\Support\Facades\Session::forget('errors'))@endif
 @endif
-<main class="col-md-12">
-    <div class="row">
-        <div class="col-md-6 col-md-offset-3">
+<main class="tw-pantalla tw:w-full tw:lg:w-full tw:px-2">
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+        <div class="tw:w-full tw:lg:w-6/12 tw:lg:ml-[25%] tw:px-2">
             @if (session()->has('flash_notification.message'))
-            <div class="alert alert-{{ session('flash_notification.level') }}">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                {!! session('flash_notification.message') !!}
-            </div>
+            <x-panel.alerta class="tw:mb-4" :tipo="['success' => 'exito', 'danger' => 'error', 'warning' => 'advertencia'][session('flash_notification.level')] ?? 'info'">{!! session('flash_notification.message') !!}</x-panel.alerta>
             @endif
         </div>
     </div>
-    <div class="col-md-10 col-md-offset-1">
-        <p>
-            <span class="glyphicon glyphicon-arrow-right"></span>
-            <a href="{{url('/auditorias/programas')}}">Programas de auditoría</a>
-            <span class="glyphicon glyphicon-chevron-right"></span>
-            <a href="{{url('/auditorias/programas')}}/{{\Illuminate\Support\Facades\Session::get('id_programa')}}">Detalles del programa</a>
-            <span class="glyphicon glyphicon-chevron-right"></span>
-            <a href="{{url('/auditorias/programas')}}/{{\Illuminate\Support\Facades\Session::get('id_programa')}}/edit">Planes del programa</a>
-            <span class="glyphicon glyphicon-chevron-right"></span>
-            <a href="{{url('/auditorias/planes')}}/{{$agenda->id_auditoria}}">Detalles del plan</a>
-            <span class="glyphicon glyphicon-chevron-right"></span>
-            <a href="{{url('/auditorias/agenda')}}/{{$agenda->id_auditoria}}">Agenda del plan</a>
-            <span class="glyphicon glyphicon-chevron-right"></span>
-            <span>Hoja de trabajo</span>
-        </p>
-        <div class="panel panel-info">
-            <div class="panel-heading">
-                <h3 class="panel-title text-center">Hoja de trabajo</h3>
+    <div class="tw:w-full tw:lg:w-10/12 tw:lg:ml-[8.3333%] tw:px-2">
+        <nav aria-label="Ruta de navegación" class="tw:mb-5 tw:flex tw:flex-wrap tw:items-center tw:gap-x-2 tw:gap-y-1 tw:text-sm tw:text-gray-500">
+            <span class="fa fa-arrow-right tw:text-brand-500"></span>
+            <a class="tw:text-gray-500 tw:hover:text-brand-500 tw:dark:text-gray-400" href="{{url('/auditorias/programas')}}">Programas de auditoría</a>
+            <span class="fa fa-chevron-right tw:text-[10px] tw:text-gray-400"></span>
+            <a class="tw:text-gray-500 tw:hover:text-brand-500 tw:dark:text-gray-400" href="{{url('/auditorias/programas')}}/{{\Illuminate\Support\Facades\Session::get('id_programa')}}">Detalles del programa</a>
+            <span class="fa fa-chevron-right tw:text-[10px] tw:text-gray-400"></span>
+            <a class="tw:text-gray-500 tw:hover:text-brand-500 tw:dark:text-gray-400" href="{{url('/auditorias/programas')}}/{{\Illuminate\Support\Facades\Session::get('id_programa')}}/edit">Planes del programa</a>
+            <span class="fa fa-chevron-right tw:text-[10px] tw:text-gray-400"></span>
+            <a class="tw:text-gray-500 tw:hover:text-brand-500 tw:dark:text-gray-400" href="{{url('/auditorias/planes')}}/{{$agenda->id_auditoria}}">Detalles del plan</a>
+            <span class="fa fa-chevron-right tw:text-[10px] tw:text-gray-400"></span>
+            <a class="tw:text-gray-500 tw:hover:text-brand-500 tw:dark:text-gray-400" href="{{url('/auditorias/agenda')}}/{{$agenda->id_auditoria}}">Agenda del plan</a>
+            <span class="fa fa-chevron-right tw:text-[10px] tw:text-gray-400"></span>
+            <span class="tw:text-gray-800 tw:dark:text-white/90">Hoja de trabajo</span>
+        </nav>
+        <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
+            <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4">
+                <h3 class="tw:text-base tw:font-medium tw:text-gray-800 tw:text-center">Hoja de trabajo</h3>
             </div>
-            <div class="panel-body">
+            <div class="tw:p-5 tw:sm:p-6">
 
                 @if($reporte->count()>0)
-                    <div class="row">
-                        <div class="col-md-8 form-group">
+                    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                        <div class="tw:w-full tw:lg:w-8/12 tw:mb-4 tw:px-2">
                             <strong>Área:</strong>
                             {{\App\audParseCase::parseNombre($reporte->nom_departamento)}}
                         </div>
-                        <div class="col-md-4">
+                        <div class="tw:w-full tw:lg:w-4/12 tw:px-2">
                             <strong>Auditoria:</strong>
                             {{\Carbon\Carbon::parse($agenda->fecha)->locale('es')->translatedFormat('Y').'-'.$noAud}}
                         </div>
-                        <div class="col-md-8">
+                        <div class="tw:w-full tw:lg:w-8/12 tw:px-2">
                             <strong>Auditado:</strong>
                             {{\App\audParseCase::parseAbr($reporte->titulo).' '.\App\audParseCase::parseNombre($reporte->nombre)}}
                         </div>
-                        <div class="col-md-4">
+                        <div class="tw:w-full tw:lg:w-4/12 tw:px-2">
                             <strong>Fecha:</strong>
                             {{\Carbon\Carbon::parse($agenda->fecha)->locale('es')->translatedFormat('d-m-Y')}}
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-12">
+                    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                        <div class="tw:w-full tw:lg:w-full tw:px-2">
                             <br>
-                            <h3 class="panel-title text-center ">Reporte Agenda </h3>
+                            <h3 class="tw:text-base tw:font-medium tw:text-gray-800 tw:text-center">Reporte Agenda </h3>
                             <br>
-                            <table class="table table-striped table-bordered table-condensed">
+                            <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:bg-white">
+<table class="tw-tabla tw-tabla-rayas tw-tabla-bordes tw-tabla-compacta">
                                 <thead>
                                 <tr class="">
-                                    <th class="text-center" style="width:20px !important;">Criterio <br>de la norma</th>
-                                    <th class="text-center">Hallazgos</th>
-                                    <th class="text-center">Evaluación</th>
-                                    <th class="text-center">Resultado</th>
-                                    <th class="text-center">Acciones</th>
+                                    <th class="tw:text-center" style="width:20px !important;">Criterio <br>de la norma</th>
+                                    <th class="tw:text-center">Hallazgos</th>
+                                    <th class="tw:text-center">Evaluación</th>
+                                    <th class="tw:text-center">Resultado</th>
+                                    <th class="tw:text-center">Acciones</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -95,16 +94,16 @@
                                         <td>
                                             <textarea  rows="8" disabled="disabled" id="resultado{{$nota->id_notas}}" class="notas{{$nota->id_notas}}">{{$nota->resultado}}</textarea>
                                         </td>
-                                        <td class="col-md-2 text-center">
+                                        <td class="tw:lg:w-2/12 tw:text-center">
 
                                             @if($esLider)
 
-                                                <a href="#!" id="autorizar-event{{$nota->id_notas}}" class="autorizar-event btn btn-{{($nota->autorizacion==null||$nota->autorizacion==0)?"danger":"success"}} m-md-2" data-id="{{$nota->id_notas}}" data-value="{{($nota->autorizacion==null||$nota->autorizacion==0)?"true":"false"}}" data-type="{{$agenda['tipo']}}" data-toggle="tooltip" title="{{($nota->autorizacion==null||$nota->autorizacion==0)?"Autorizar evaluación":"Cancelar autorización"}}"><span class="glyphicon glyphicon-star pull-right "></span></a>
+                                                <a href="#!" id="autorizar-event{{$nota->id_notas}}" class="autorizar-event {{ ['success' => 'tw:bg-green-600 tw:text-white tw:hover:bg-green-700', 'info' => 'tw:bg-sky-500 tw:text-white tw:hover:bg-sky-600', 'warning' => 'tw:bg-amber-500 tw:text-white tw:hover:bg-amber-600', 'danger' => 'tw:bg-red-600 tw:text-white tw:hover:bg-red-700', 'primary' => 'tw:bg-brand-500 tw:text-white tw:hover:bg-brand-600'][($nota->autorizacion==null||$nota->autorizacion==0)?"danger":"success"] ?? 'tw:bg-gray-500 tw:text-white' }} tw:md:m-2 tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" data-id="{{$nota->id_notas}}" data-value="{{($nota->autorizacion==null||$nota->autorizacion==0)?"true":"false"}}" data-type="{{$agenda['tipo']}}" data-toggle="tooltip" title="{{($nota->autorizacion==null||$nota->autorizacion==0)?"Autorizar evaluación":"Cancelar autorización"}}"><span class="fa fa-star tw:float-right"></span></a>
                                             @endif
                                             @if(($nota->autorizacion==null||$nota->autorizacion==0)||$esLider)
-                                            <a href="#!" id="editar{{$nota->id_notas}}" class="editar_nota btn btn-primary m-md-2" data-id="{{$nota->id_notas}}" data-toggle="tooltip" title="Editar evento"><span class="glyphicon glyphicon-pencil pull-right "></span></a>
+                                            <a href="#!" id="editar{{$nota->id_notas}}" class="editar_nota tw:md:m-2 tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" data-id="{{$nota->id_notas}}" data-toggle="tooltip" title="Editar evento"><span class="fa fa-pencil tw:float-right"></span></a>
                                             @endif
-                                                <a href="#!" id="guardar{{$nota->id_notas}}" class="guardar_nota btn btn-success m-md-2" data-id="{{$nota->id_notas}}" data-toggle="tooltip" title="Guardar nota" style="display:none"><span class="glyphicon glyphicon-floppy-save pull-left "></span></a>
+                                                <a href="#!" id="guardar{{$nota->id_notas}}" class="guardar_nota tw:md:m-2 tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-green-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-green-700 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" data-id="{{$nota->id_notas}}" data-toggle="tooltip" title="Guardar nota" style="display:none"><span class="fa fa-floppy-o tw:float-left"></span></a>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -127,12 +126,12 @@
                                         <textarea rows="8" disabled="disabled" id="resultadoNueva" class="notasNueva"></textarea>
                                     </td>
                                     <td >
-                                        <div class="row">
-                                            <div class="col-md-1">
-                                                <a href="#!" id="editarNueva" class="editar_nota btn btn-primary" data-id="Nueva" data-toggle="tooltip" title="Agregar evento"><span class="glyphicon glyphicon-plus pull-right"></span></a>
+                                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                            <div class="tw:w-full tw:lg:w-1/12 tw:px-2">
+                                                <a href="#!" id="editarNueva" class="editar_nota tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" data-id="Nueva" data-toggle="tooltip" title="Agregar evento"><span class="fa fa-plus tw:float-right"></span></a>
                                             </div>
-                                            <div class="col-md-1">
-                                                <a href="#!" id="guardarNueva" class="guardar_nota btn btn-success" data-id="Nueva" data-toggle="tooltip" title="Guardar nota" style="display:none"><span class="glyphicon glyphicon-floppy-save pull-left"></span></a>
+                                            <div class="tw:w-full tw:lg:w-1/12 tw:px-2">
+                                                <a href="#!" id="guardarNueva" class="guardar_nota tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-green-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-green-700 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" data-id="Nueva" data-toggle="tooltip" title="Guardar nota" style="display:none"><span class="fa fa-floppy-o tw:float-left"></span></a>
                                             </div>
                                         </div>
 
@@ -140,30 +139,31 @@
                                 </tr>
                                 </tbody>
                             </table>
+</div>
                         </div>
                     </div>
                 @else
                     <form action="{{url('auditorias/hoja_trabajo')}}" method="POST">
                         @csrf
                         <input type="text" name="id_agenda" value="{{$agenda->id_agenda}}" hidden>
-                        <div class="row">
-                            <div class="col-md-6 form-group">
+                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                            <div class="tw:w-full tw:lg:w-6/12 tw:mb-4 tw:px-2">
                                 <strong>Área:</strong>
-                                <select name="id_area" id="id_area" class="form-control">
+                                <select name="id_area" id="id_area" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11">
                                     <option selected disabled="true" value="">Selecciona...</option>
                                     @foreach($areas as $area)
                                         <option value="{{$area->id_area}}">{{\App\audParseCase::parseNombre($area->nom_departamento)}}</option>
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="col-md-6">
+                            <div class="tw:w-full tw:lg:w-6/12 tw:px-2">
                                 <strong>Auditado:</strong>
-                                <input type="text" class="form-control" value="" id="auditado" disabled>
+                                <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" value="" id="auditado" disabled>
                                 <input type="text" value="" name="id_auditado" id="id_auditado" hidden>
                             </div>
                         </div>
                         <br>
-                        <input type="submit" class="btn btn-primary pull-right" value="Guardar"/>
+                        <input type="submit" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:float-right tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" value="Guardar"/>
                     </form>
                 @endif
             </div>
