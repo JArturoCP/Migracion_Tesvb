@@ -172,4 +172,16 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 </script>
 
+@if(isset($ver) && $ver == 'pregunta')
+      @section('modal_editar_pregunta')
+      @include('examen_gnral_con.admin.examenes.edit_pregunta')
+      @show
+@endif
+
+@if(isset($ver) && $ver == 'respuesta')
+      @section('modal_editar_respuesta')
+      @include('examen_gnral_con.admin.examenes.edit_respuesta')
+      @show
+@endif
+
 @endsection

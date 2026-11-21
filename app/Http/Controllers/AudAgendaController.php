@@ -798,7 +798,7 @@ class AudAgendaController extends Controller
             ->orderBy('ri_proceso.des_proceso','ASC')
             ->get();
         $auditoria_id=$id;
-        return view('auditorias.edita_procesos_agenda',compact('datos','procesos','auditoria_id'));
+        return $this->show($id)->with(['datos' => $datos, 'procesos' => $procesos, 'auditoria_id' => $auditoria_id, 'ver' => 'procesos_agenda']);
     }
 
     /**

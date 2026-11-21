@@ -2,22 +2,30 @@
 @section('title', 'Centro de Computo')
 @section('content')
 
-    <main class="col-md-12">
+<main>
+<!-- Modal de notificación -->
+<div class="modal fade" id="modal_notificacion" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-danger">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title text-center" id="myModalLabel">Contraseña incorrecta</h4>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
+      </div>
+    </div>
+  </div>
+</div>
+</main>
 
+<script>
+  $(document).ready(function(){
 
-        <div class="row">
-            <div class="col-md-4 col-md-offset-4">
-                <div class="panel panel-danger">
-                    <div class="panel-heading">
-                        <h3 class="panel-title text-center">Contraseña incorrecta
-                        </h3>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <p><br></p>
-        </div>
+    $("#modal_notificacion").modal("show");
 
-    </main>
+  });
+
+</script>
+
 @endsection

@@ -2,49 +2,42 @@
 @section('title', 'Centro de Computo')
 @section('content')
 
-    <main class="col-md-12">
-
-
-        <div class="row">
-            <div class="col-md-4 col-md-offset-4">
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title text-center">Verificación de usuario
-                        </h3>
-                    </div>
-                </div>
-            </div>
+<main>
+<!-- Modal de verificación de usuario -->
+<div class="modal fade" id="modal_verificacion_user" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <form class="form-horizontal" action="{{url("/centro_computo/verificar_usuario")}}" role="form" method="POST" enctype="multipart/form-data">
+        {{ csrf_field() }}
+        <div class="modal-header bg-info">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title text-center" id="myModalLabel">Verificación de usuario</h4>
         </div>
-        <form class="form"  action="{{url("/centro_computo/verificar_usuario")}}" role="form" method="POST" enctype="multipart/form-data" >
-            {{ csrf_field() }}
-            <div class="row">
-                <p><br></p>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="password" class="col-md-4 control-label">ingresa contraseña</label>
+            <div class="col-md-6">
+              <input id="password" type="password" class="form-control" name="password" required>
             </div>
-            <div class="row">
-                <div class="col-md-4 col-md-offset-4">
-                    <div class="panel panel-info">
-                        <div class="panel-body">
-                            <div class="form-group">
-                                <label for="password-confirm" class="col-md-4 control-label">ingresa contraseña</label>
-
-                                <div class="col-md-6">
-                                    <input id="password" type="password" class="form-control" name="password" required>
-                                </div>
-                            </div>
-                            <p><br></p>
-                            <div class="row">
-                                <div class="col-md-1 col-md-offset-5">
-                                    <button  type="submit" class="btn btn-primary" >Guardar</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </form>
-        <div class="row">
-            <p><br></p>
+          </div>
         </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+</main>
 
-    </main>
+<script>
+  $(document).ready(function(){
+
+    $("#modal_verificacion_user").modal("show");
+
+  });
+
+</script>
+
 @endsection

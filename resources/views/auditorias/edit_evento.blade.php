@@ -378,4 +378,10 @@
         })
     </script>
 
+@if(isset($ver) && $ver == 'procesos_evento')
+      @section('modal_procesos_evento')
+      @include('auditorias.edita_procesos_evento')
+      @show
+@endif
+
 @endsection

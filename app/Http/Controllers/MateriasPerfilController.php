@@ -85,45 +85,29 @@ class MateriasPerfilController extends Controller
         }
     public function agrega_materias(Request $request)
     {
-        //$lugar=Session::get('lugar');
-        $id_carrera=Session::get('carrera');
-        $materias_doc=DB::select('select gnral_materias_perfiles.id_materia_perfil, gnral_materias.id_materia, gnral_materias.nombre
-            FROM gnral_materias_perfiles, gnral_reticulas, gnral_materias
-            WHERE gnral_materias_perfiles.id_materia = gnral_materias.id_materia
-            AND gnral_materias.id_reticula = gnral_reticulas.id_reticula
-            AND gnral_reticulas.id_carrera = ?
-            AND gnral_materias_perfiles.id_personal = ? AND
-            gnral_materias_perfiles.mostrar=1', [$id_carrera, $request->get('prof')]);
-
-        $arr_mate=(explode(',', $request->get('materias')));
-        $ciclo=count($arr_mate);
-
-        for ($i=0; $i < $ciclo; $i++)
-        {
-            $mate_prof = DB::selectOne('select gnral_materias_perfiles.id_materia_perfil from
-                gnral_materias_perfiles WHERE gnral_materias_perfiles.id_personal= ?
-                AND gnral_materias_perfiles.id_materia= ? ', [$request->get('prof'), $arr_mate[$i]]);
-            if ($mate_prof==null)
-            {
-                $materias = array(
-                    'id_personal' => $request->get('prof'),
-                    'id_materia' => $arr_mate[$i],
-                    'mostrar' => 1
-                    );
-               $agrega_materia=Gnral_Materias_Perfiles::create($materias);
-            }
-            else
-            {
-                $mate_prof1=($mate_prof->id_materia_perfil);
-                $materias = array(
-                    'id_personal' => $request->get('prof'),
-                    'id_materia' => $arr_mate[$i],
-                    'mostrar' => 1
-                    );
-                Gnral_Materias_Perfiles::find($mate_prof1)->update($materias);
-            }
+        $datos = $request->validate([
+            'prof' => 'required|integer|exists:gnral_personales,id_personal',
+            'materias' => ['required', 'string', 'regex:/^\d+(,\d+)*$/D'],
+        ], ['materias.required' => 'Selecciona al menos una materia.', 'materias.regex' => 'La selección de materias no es válida.']);
+        $materias = array_unique(explode(',', $datos['materias']));
+        if (DB::table('gnral_materias')->whereIn('id_materia', $materias)->count() !== count($materias)) {
+            throw \Illuminate\Validation\ValidationException::withMessages(['materias' => 'Una materia seleccionada ya no está disponible.']);
         }
 
+        DB::transaction(function () use ($datos, $materias) {
+            foreach ($materias as $materia) {
+                Gnral_Materias_Perfiles::updateOrCreate(
+                    ['id_personal' => $datos['prof'], 'id_materia' => $materia],
+                    ['mostrar' => 1]
+                );
+            }
+        });
+        if ($request->expectsJson()) {
+            return response()->json([
+                'message' => 'Materias guardadas correctamente.',
+                'redirect' => url('/plantilla/docentes'),
+            ]);
+        }
     }
 
     public function create()

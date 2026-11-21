@@ -24,6 +24,16 @@ class EscenariosPanel
     public static function crearEsquema(): void
     {
         $tablas = [
+            'users' => function (Blueprint $t) {
+                $t->id();
+                $t->string('name');
+                $t->string('email')->unique();
+                $t->timestamp('email_verified_at')->nullable();
+                $t->string('password');
+                $t->rememberToken();
+                $t->softDeletes();
+                $t->timestamps();
+            },
             'gnral_personales' => function (Blueprint $t) {
                 $t->increments('id_personal');
                 $t->string('nombre')->nullable();

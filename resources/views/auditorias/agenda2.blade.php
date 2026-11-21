@@ -672,5 +672,11 @@
 
 
 
+@if(isset($ver) && $ver == 'procesos_agenda')
+      @section('modal_procesos_agenda')
+      @include('auditorias.edita_procesos_agenda')
+      @show
+@endif
+
 @endsection
 

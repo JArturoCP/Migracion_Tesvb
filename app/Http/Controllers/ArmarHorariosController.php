@@ -381,10 +381,16 @@ class ArmarHorariosController extends Controller
     public function agrega_actividad($tipo,$id,$nombre)
     {
         $id_carrera=Session::get('carrera');
+        validator(['nombre_act' => trim($nombre)], ['nombre_act' => 'required|string|max:100'])->validate();
+        if (!$id_carrera || !in_array([$tipo, $id], [['1', '20005'], ['2', '20006']], true)) {
+            throw \Illuminate\Validation\ValidationException::withMessages([
+                'nombre_act' => 'Selecciona una actividad válida para la carrera activa.',
+            ]);
+        }
 
          $actividad = array(
         'id_hrs_actividad_extra' => $id,
-        'actividad' => $nombre,
+        'actividad' => trim($nombre),
         'id_carrera' => $id_carrera
         );
 
@@ -405,7 +411,7 @@ class ArmarHorariosController extends Controller
          }
          else
          {
-            return compact('act_vincu');
+            return ['act_vincu' => $act_vincu, 'agregada' => $agrega_act->getKey()];
          }
     }
 ////////////
