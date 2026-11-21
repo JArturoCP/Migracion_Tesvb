@@ -41,7 +41,7 @@
                     <td>{{$eevaluacion->promedio}}</td>
                     <td class="tw:text-center">
                         @if($eevaluacion->promedio == 0)
-                            <x-panel.boton tamano="sm" tipo="primario" href="{{url("/consulta_general/".$eevaluacion->id_registro_alumno."/edit")}}">
+                            <x-panel.boton tamano="sm" tipo="primario" :href="url('/consulta_general/'.$eevaluacion->id_registro_alumno.'/edit')">
                                 Evaluar
                             </x-panel.boton>
                         @endif
