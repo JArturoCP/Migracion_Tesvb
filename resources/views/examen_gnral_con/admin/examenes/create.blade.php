@@ -1,80 +1,51 @@
-@extends('layouts.app')
+@section('modal_examen_create')
 
-@section('content')
+<main>
+<!-- Modal para crear examen -->
+<div class="modal fade" id="modal_examen_create" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <form data-panel-envio action="{{ route('admin.examen_general.store') }}" method="POST">
+        @csrf
+        <div class="modal-header bg-info">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel"><i class="glyphicon glyphicon-education"></i> NUEVO EXAMEN</h4>
+        </div>
+        <div class="modal-body">
 
-<div class="container" style="margin-top: 50px;">
+          <div class="form-group">
+            <label><i class="glyphicon glyphicon-education"></i> Carrera</label>
+            <select name="id_carrera" data-panel-etiqueta="la carrera" class="form-control" required>
+              @foreach($carreras as $c)
+                <option value="{{ $c->id_carrera }}">{{ $c->nombre }}</option>
+              @endforeach
+            </select>
+          </div>
 
-    <div class="row">
-        <div class="col-md-6 col-md-offset-3">
-
-            <div class="panel panel-primary" style="border-radius: 6px; overflow: hidden;">
-
-                <div class="panel-heading text-center" style="background: #337ab7; color: #fff;">
-                    <h4 style="margin: 5px 0;">
-                        <i class="glyphicon glyphicon-education"></i>
-                        Nuevo Examen
-                    </h4>
-                    <small style="opacity: 0.9;">Registro de examen académico</small>
-                </div>
-
-                <div class="panel-body" style="background: #f9f9f9;">
-
-                    <form action="{{ route('admin.examen_general.store') }}" method="POST">
-                        @csrf
-
-                        <div class="form-group">
-                            <label style="color:#333;">
-                                <i class="glyphicon glyphicon-list-alt"></i> Nombre de la Carrera
-                            </label>
-
-                            <select name="id_carrera" class="form-control" required>
-                                <option value="">-- Selecciona una carrera --</option>
-
-                                @foreach($carreras as $c)
-                                    <option value="{{ $c->id_carrera }}">
-                                        {{ $c->nombre }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label style="color:#333;">
-                                <i class="glyphicon glyphicon-pencil"></i> Nombre del examen
-                            </label>
-
-                            <input type="text"
-                                   name="nombre"
-                                   class="form-control"
-                                   placeholder="Ej. Examen Final Matemáticas"
-                                   required>
-                        </div>
-
-                        <hr>
-
-                        <div class="row">
-                            <div class="col-xs-6">
-                                <a href="{{ url()->previous() }}" class="btn btn-default btn-block">
-                                    <i class="glyphicon glyphicon-arrow-left"></i> Cancelar
-                                </a>
-                            </div>
-
-                            <div class="col-xs-6">
-                                <button type="submit" class="btn btn-success btn-block">
-                                    <i class="glyphicon glyphicon-floppy-disk"></i> Guardar
-                                </button>
-                            </div>
-                        </div>
-
-                    </form>
-
-                </div>
-
-            </div>
+          <div class="form-group">
+            <label><i class="glyphicon glyphicon-pencil"></i> Nombre del examen</label>
+            <input type="text" name="nombre" data-panel-etiqueta="el nombre del examen" maxlength="255" class="form-control" placeholder="Ej. Examen Final Matemáticas" required>
+          </div>
 
         </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal"><i class="glyphicon glyphicon-arrow-left"></i> Cancelar</button>
+          <button type="submit" class="btn btn-success"><i class="glyphicon glyphicon-floppy-disk"></i> Guardar</button>
+        </div>
+      </form>
     </div>
-
+  </div>
 </div>
+</main>
 
+<script>
+  $(document).ready(function(){
+
+    $("#modal_examen_create").modal("show");
+
+  });
+
+</script>
+
+@include('partials.panel.validacion_envio')
 @endsection

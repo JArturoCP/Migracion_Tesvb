@@ -833,7 +833,7 @@ Route::middleware('auth')->group(function () {
 
 
     Route::post("auditorias/validar_programa/{id}", "AudProgramasController@statePrograma");
-//Route::resource('auditorias/validar','AudValidarAgendaController');
+    Route::get('auditorias/validar/{id}/edit', 'AudValidarAgendaController@edit')->whereNumber('id');
     Route::resource('auditorias/evento', 'AudAgendaEventoController')->only(['index', 'create', 'store', 'show', 'edit', 'update']);
     Route::resource('auditorias/procesos', 'AudProcesosController');
     Route::post("auditorias/procesos_unidad", 'AudProcesosController@addUnidad');

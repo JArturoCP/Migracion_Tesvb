@@ -322,6 +322,12 @@ gnral_materias.creditos,eva_status_materia.nombre_status from
 
     }
     public function verificar_usuario(Request $request){
+        $request->validate([
+            'password' => 'required|string',
+        ], [
+            'password.required' => 'Ingresa la contraseña.',
+        ]);
+
         $password = $request->input("password");
 
         $computo=DB::selectOne('SELECT * FROM `computo_user` WHERE `id_user_computo` =1');

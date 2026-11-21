@@ -1,6 +1,7 @@
-@extends('layouts.app')
-
+@extends('layouts.panel')
+@include('partials.panel.recursos_app')
 @section('content')
+<div class="tw-pantalla">
     @php
         $modoConsulta = isset($modoConsulta) ? $modoConsulta : (request()->get('modo_consulta') == 1);
         $urlRegresar = isset($urlRegresar) && $urlRegresar
@@ -290,36 +291,36 @@
         }
     </style>
 
-    <div class="container">
+    <div class="tw:w-full">
 
         <div class="f28-status">
             @if($modoConsulta)
-                <div class="alert alert-info">
+                <div class="tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-sky-200 tw:bg-sky-50 tw:text-sky-800">
                     <strong>Vista de consulta.</strong>
                     Este reporte se abrió desde Seguimiento de auditorías; no se permiten cambios desde esta pantalla.
                 </div>
             @elseif($reporteCerrado)
-                <div class="alert alert-success">
+                <div class="tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-green-200 tw:bg-green-50 tw:text-green-800">
                     <strong>Reporte cerrado.</strong>
                     Las evidencias fueron autorizadas.
                 </div>
             @elseif($puedeCerrarReporte)
-                <div class="alert alert-success">
+                <div class="tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-green-200 tw:bg-green-50 tw:text-green-800">
                     <strong>Evidencias autorizadas.</strong>
                     Este reporte ya puede cerrarse.
                 </div>
             @elseif($todasEvidencias->count() > 0)
-                <div class="alert alert-info">
+                <div class="tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-sky-200 tw:bg-sky-50 tw:text-sky-800">
                     <strong>Reporte con evidencias autorizadas.</strong>
                     Se muestran únicamente las evidencias aprobadas.
                 </div>
             @elseif($estadoCierre === 1)
-                <div class="alert alert-info">
+                <div class="tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-sky-200 tw:bg-sky-50 tw:text-sky-800">
                     <strong>Reporte validado.</strong>
                     Pendiente de evidencias autorizadas.
                 </div>
             @else
-                <div class="alert alert-default" style="border: 1px solid #ddd;">
+                <div class="tw:mb-4 tw:border-gray-200 tw:bg-gray-50 tw:text-gray-700 tw:rounded-xl tw:border tw:p-4 tw:text-sm" style="border: 1px solid #ddd;">
                     <strong>Reporte abierto.</strong>
                     Aún no se ha cerrado el proceso.
                 </div>
@@ -327,14 +328,14 @@
         </div>
 
         <div class="f28-actions">
-            <a href="{{ $urlRegresar }}" class="btn btn-default">
+            <a href="{{ $urlRegresar }}" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm">
                 Regresar
             </a>
 
             @if(!$modoConsulta)
                 @if(\Illuminate\Support\Facades\Route::has('auditorias.lider_acciones.reporte_nc_pdf'))
                     <a href="{{ route('auditorias.lider_acciones.reporte_nc_pdf', $accion->id_responsable) }}"
-                       class="btn btn-danger">
+                       class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-red-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-red-700 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm">
                         Descargar PDF
                     </a>
                 @endif
@@ -346,14 +347,14 @@
                         @csrf
 
                         <button type="submit"
-                                class="btn btn-success"
+                                class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-green-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-green-700 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm"
                                 onclick="return TNotify.confirmAction(event, this, '¿Confirmas que las evidencias son correctas y deseas cerrar esta No Conformidad?')">
                             Cerrar NC
                         </button>
                     </form>
                 @endif
 
-                <button type="button" class="btn btn-primary" id="btnImprimirF28">
+                <button type="button" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" id="btnImprimirF28">
                     Imprimir
                 </button>
             @endif
@@ -362,7 +363,8 @@
         <div class="f28-wrapper">
             <div class="f28-page">
 
-                <table class="f28-header">
+                <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:bg-white">
+<table class="f28-header">
                     <tr>
                         <td class="f28-logo">
                             <img src="{{ asset('img/logos/tesvb.png') }}" alt="Logo TESVB">
@@ -382,12 +384,14 @@
                         </td>
                     </tr>
                 </table>
+</div>
 
                 <div class="f28-subtitle">
                     No conformidad y acciones correctivas
                 </div>
 
-                <table class="f28-table">
+                <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:bg-white">
+<table class="f28-table">
                     <tr>
                         <td style="width: 33%;">
                             <strong>SGOE (1):</strong>
@@ -420,8 +424,10 @@
                         </td>
                     </tr>
                 </table>
+</div>
 
-                <table class="f28-table">
+                <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:bg-white">
+<table class="f28-table">
                     <tr>
                         <th colspan="3">
                             La No Conformidad Proviene de: (4)
@@ -463,8 +469,10 @@
                         </td>
                     </tr>
                 </table>
+</div>
 
-                <table class="f28-table">
+                <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:bg-white">
+<table class="f28-table">
                     <tr>
                         <td colspan="2" class="f28-section-title">
                             SOLICITUD:
@@ -491,8 +499,10 @@
                         </td>
                     </tr>
                 </table>
+</div>
 
-                <table class="f28-table">
+                <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:bg-white">
+<table class="f28-table">
                     <tr>
                         <td colspan="4" class="f28-section-title">
                             REPORTE:
@@ -525,8 +535,10 @@
                         </td>
                     </tr>
                 </table>
+</div>
 
-                <table class="f28-table">
+                <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:bg-white">
+<table class="f28-table">
                     <tr>
                         <td colspan="2" class="f28-section-title">
                             ANÁLISIS DE DATOS:
@@ -564,8 +576,10 @@
                         </td>
                     </tr>
                 </table>
+</div>
 
-                <table class="f28-table">
+                <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:bg-white">
+<table class="f28-table">
                     <tr>
                         <td colspan="5" class="f28-section-title">
                             PLAN ACCIONES CORRECTIVAS
@@ -607,8 +621,10 @@
                         </tr>
                     @endforelse
                 </table>
+</div>
 
-                <table class="f28-table">
+                <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:bg-white">
+<table class="f28-table">
                     <tr>
                         <td class="f28-section-title">
                             EVIDENCIAS DE LAS ACCIONES CORRECTIVAS REALIZADAS: (15)
@@ -655,7 +671,7 @@
                                             {{ $evidenciaNombre($evidencia) }}
                                         </a>
                                     @else
-                                        <div class="text-muted">
+                                        <div class="tw:text-gray-500">
                                             PDF no disponible.
                                         </div>
                                     @endif
@@ -709,7 +725,7 @@
                                             {{ $evidenciaNombre($evidencia) }}
                                         </a>
                                     @else
-                                        <div class="text-muted">
+                                        <div class="tw:text-gray-500">
                                             PDF no disponible.
                                         </div>
                                     @endif
@@ -768,7 +784,7 @@
                                             {{ $evidenciaNombre($evidencia) }}
                                         </a>
                                     @else
-                                        <div class="text-muted">
+                                        <div class="tw:text-gray-500">
                                             PDF no disponible.
                                         </div>
                                     @endif
@@ -781,8 +797,10 @@
                         </td>
                     </tr>
                 </table>
+</div>
 
-                <table class="f28-table">
+                <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:bg-white">
+<table class="f28-table">
                     <tr>
                         <td colspan="2" class="f28-section-title">
                             ACTUALIZACIÓN DE RIESGOS Y OPORTUNIDADES: (18)
@@ -825,8 +843,10 @@
                         </td>
                     </tr>
                 </table>
+</div>
 
-                <table class="f28-table">
+                <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:bg-white">
+<table class="f28-table">
                     <tr>
                         <td class="f28-section-title">
                             DEFINIÓ LA ACCIÓN CORRECTIVA O CORRECCIÓN: (20)
@@ -840,6 +860,7 @@
                         </td>
                     </tr>
                 </table>
+</div>
 
                 <div class="f28-code-footer">
                     F28-PSGOE-05 &nbsp;&nbsp; V.1 &nbsp;&nbsp; 24/01/2024
@@ -927,4 +948,5 @@
                 });
         }
     </script>
+</div>
 @endsection

@@ -1,49 +1,34 @@
-@extends('layouts.app')
-
-@section('content')
-
-<div class="container" style="margin-top: 40px; max-width: 600px;">
-
-    <div class="panel panel-primary">
-        <div class="panel-heading text-center">
-            <h4><strong>Nuevo Examen</strong></h4>
+{{-- Modal para crear examen: lo incluye examenes/index cuando $ver == 'create'. --}}
+<x-panel.modal id="modal_examen_create" sin-relleno clase-cerrar="close" aria-labelledby="modal_examen_create_titulo">
+    <form data-panel-envio action="{{ route('admin.examen.store') }}" method="POST">
+        @csrf
+        <div class="tw:px-6 tw:pt-6 tw:pr-14">
+            <h4 id="modal_examen_create_titulo" class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">
+                <span class="fa fa-graduation-cap tw:text-brand-500" aria-hidden="true"></span> Nuevo examen
+            </h4>
         </div>
+        <div class="tw-modal-cuerpo tw:space-y-5">
+            <x-panel.select etiqueta="Carrera" name="id_carrera" id="id_carrera" data-panel-etiqueta="la carrera" required>
+                @foreach($carreras as $c)
+                    <option value="{{ $c->id_carrera }}">{{ $c->nombre }}</option>
+                @endforeach
+            </x-panel.select>
 
-        <div class="panel-body">
-
-            <form action="{{ route('admin.examen.store') }}" method="POST">
-                @csrf
-
-                <div class="form-group">
-                    <label><i class="glyphicon glyphicon-education"></i> Carrera</label>
-                    <select name="id_carrera" class="form-control">
-                        @foreach($carreras as $c)
-                            <option value="{{ $c->id_carrera }}">{{ $c->nombre }}</option>
-                        @endforeach
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label><i class="glyphicon glyphicon-pencil"></i> Nombre del examen</label>
-                    <input type="text" name="nombre" class="form-control" placeholder="Ej. Examen Final Matemáticas" required>
-                </div>
-
-                <hr>
-
-                <div class="text-center">
-                    <button type="submit" class="btn btn-success">
-                        <i class="glyphicon glyphicon-floppy-disk"></i> Guardar
-                    </button>
-                    <a href="{{ url()->previous() }}" class="btn btn-default">
-                        <i class="glyphicon glyphicon-arrow-left"></i> Cancelar
-                    </a>
-                </div>
-
-            </form>
-
+            <x-panel.input etiqueta="Nombre del examen" type="text" name="nombre" id="nombre" data-panel-etiqueta="el nombre del examen" maxlength="255" placeholder="Ej. Examen Final Matemáticas" required />
         </div>
-    </div>
+        <x-panel.modal-pie>
+            <x-panel.boton variante="secundario" data-dismiss="modal">
+                <span class="fa fa-arrow-left" aria-hidden="true"></span> Cancelar
+            </x-panel.boton>
+            <x-panel.boton type="submit" variante="exito">
+                <span class="fa fa-floppy-o" aria-hidden="true"></span> Guardar
+            </x-panel.boton>
+        </x-panel.modal-pie>
+    </form>
+</x-panel.modal>
 
-</div>
-
-@endsection
+<script>
+    $(document).ready(function () {
+        $("#modal_examen_create").modal("show");
+    });
+</script>

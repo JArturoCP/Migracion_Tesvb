@@ -1,5 +1,6 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 @section('title', 'Horarios Grupos')
+@include('partials.panel.recursos_app')
 @section('content')
 
     <script>
@@ -9,48 +10,34 @@
 })
     </script>
 
-<main class="col-md-12">
-<div class="row">
-  <div class="col-md-5 col-md-offset-3">
-    <div class="panel panel-info">
-        <div class="panel-heading">
-          <h3 class="panel-title text-center">HORARIOS GRUPOS</h3>
-        </div>
-              <div class="panel-body">
-                            <div class="dropdown col-md-7 col-md-offset-3">
-                                <select name="selectGrupo" id="selectGrupo" class="form-control">
-                                  <option disabled selected>Selecciona...</option>
-                                @foreach($grupos as $grupo)
-                                  <option value="{{$grupo->id_semestre}}" name="{{$grupo->grupo}}">{{$grupo->id_semestre}}0{{$grupo->grupo}}</option>
-                                @endforeach
-                                </select>
-                            </div>
-                </div>
-    </div>  
-  </div>
-</div>
+<main class="tw-pantalla tw:space-y-6">
+    <x-panel.encabezado titulo="HORARIOS GRUPOS" />
 
+    <x-panel.tarjeta class="tw:mx-auto tw:max-w-xl">
+        <div class="dropdown">
+            <x-panel.select etiqueta="Grupo" name="selectGrupo" id="selectGrupo">
+                <option disabled selected>Selecciona grupo...</option>
+                @foreach($grupos as $grupo)
+                    <option value="{{$grupo->id_semestre}}" name="{{$grupo->grupo}}">{{$grupo->id_semestre}}0{{$grupo->grupo}}</option>
+                @endforeach
+            </x-panel.select>
+        </div>
+    </x-panel.tarjeta>
 
 @if(isset($ver))
-      @section('horario_grupo')
-      @include('horarios.partialsh.partial_ver_grupos_jefes')
-      @show
+    @section('horario_grupo')
+    @include('horarios.partialsh.partial_ver_grupos_jefes')
+    @show
 @endif
 
 </main>
 <script>
 $(document).ready(function(){
-
-$("#selectGrupo").on('change',function(e){
-  var semestre=$("#selectGrupo").val();
-  var grupo=$("#selectGrupo option:selected").attr('name');
-
-window.location.href='/horarios_grupos/jefes/'+semestre+'/'+grupo;
+    $("#selectGrupo").on('change',function(e){
+        var semestre=$("#selectGrupo").val();
+        var grupo=$("#selectGrupo option:selected").attr('name');
+        window.location.href='/horarios_grupos/jefes/'+semestre+'/'+grupo;
+    });
 });
-
-  });
-
 </script>
 @endsection
-
-

@@ -49,11 +49,13 @@ class DocentesPlantillaController extends Controller
         $id_carrera = Session::get('id_carrera');
         $id_periodo_carrera=DB::selectOne('select id_periodo_carrera from gnral_periodo_carreras where id_periodo= ? AND
             id_carrera= ?', [$id_periodo, $id_carrera]);
-        $id_periodo_carrera=($id_periodo_carrera->id_periodo_carrera);
-
-            $this->validate($request,[
-            'docente' => 'required'
-        ]);
+        if (!$id_periodo_carrera) {
+            throw \Illuminate\Validation\ValidationException::withMessages([
+                'docente' => 'Selecciona una carrera con un periodo escolar registrado.',
+            ]);
+        }
+        $id_periodo_carrera = $id_periodo_carrera->id_periodo_carrera;
+        $request->validate(['docente' => 'required|integer|exists:gnral_personales,id_personal']);
 
         $docentes = array(
             'id_periodo_carrera' => $id_periodo_carrera,
@@ -68,13 +70,15 @@ class DocentesPlantillaController extends Controller
         $comprobar = isset($comprobar->id_horario_profesor)?$comprobar->id_horario_profesor:0;
         if($comprobar==0)
         {
-            $agrega_docente=Horarios::create($docentes);
-            return redirect('/plantilla/docentes');
+            Horarios::create($docentes);
         }
-        else
-        {
-            return redirect('/plantilla/docentes');
+        if ($request->expectsJson()) {
+            return response()->json([
+                'message' => $comprobar ? 'Este docente ya está en la plantilla.' : 'Docente agregado a la plantilla.',
+                'redirect' => url('/plantilla/docentes'),
+            ]);
         }
+        return redirect('/plantilla/docentes');
     }
 
     public function show($id)
@@ -92,19 +96,27 @@ class DocentesPlantillaController extends Controller
         //
     }
 
-    public function destroy($id_docente)
+    public function destroy(Request $request, $id_docente)
     {
         $id_periodo = Session::get('periodotrabaja');
         $id_carrera = Session::get('id_carrera');
         $id_periodo_carrera=DB::selectOne('select id_periodo_carrera from gnral_periodo_carreras where id_periodo= ? AND
             id_carrera= ?', [$id_periodo, $id_carrera]);
+        abort_unless($id_periodo_carrera, 404);
         $id_periodo_carrera=($id_periodo_carrera->id_periodo_carrera);
 
         $comprobar = DB::selectOne('select id_horario_profesor from gnral_horarios WHERE
             id_personal= ? AND id_periodo_carrera = ?', [$id_docente, $id_periodo_carrera]);
+        abort_unless($comprobar, 404);
         $comprobar = ($comprobar->id_horario_profesor);
 
         Horarios::destroy($comprobar);
+        if ($request->expectsJson()) {
+            return response()->json([
+                'message' => 'Docente retirado de la plantilla.',
+                'redirect' => url('/plantilla/docentes'),
+            ]);
+        }
         return redirect('/plantilla/docentes');
     }
 }

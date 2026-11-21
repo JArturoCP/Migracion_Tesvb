@@ -1,63 +1,40 @@
 @section('editar_planeacion')
 
-<main class="col-md-12">
-  <div class="row">
-    <div class="col-md-12 ">
-      <div class="modal fade" id="modal_edit_planeacion" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-       <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-          <div class="modal-header bg-info">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-              <h3 class="modal-title text-center" id="myModalLabel">Modificación de Planeación</h3>
-          </div>
-            <div class="modal-body">
-              <div class="panel panel-info">
-                <div class="panel-body">
+<x-panel.modal id="modal_edit_planeacion" tamano="lg" sin-relleno aria-label="Modificación de Planeación">
+    <x-slot:encabezado>
+        <h3 id="myModalLabel" class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">Modificación de Planeación</h3>
+    </x-slot:encabezado>
 
-                  <form class="form-horizontal" id="modificar_planeacion" role="form" method="POST" action="/planeacion_actividad/{{ $planeacion->id_reg_coordinador}}" enctype="multipart/form-data">
-                    <input type="hidden" name="_method" value="PUT" />
-                      {{csrf_field()}} 
+    <form id="modificar_planeacion" role="form" method="POST" action="/planeacion_actividad/{{ $planeacion->id_reg_coordinador}}" enctype="multipart/form-data"
+          class="tw:[&_label.error]:mt-1.5 tw:[&_label.error]:block tw:[&_label.error]:text-sm tw:[&_label.error]:text-red-600 tw:dark:[&_label.error]:text-red-400">
+        <input type="hidden" name="_method" value="PUT">
+        {{csrf_field()}}
+        <input name="fecha" type="hidden" id="fecha" value="{{ date('Y/m/d') }}">
+        <input type="hidden" name="oculto" id="oculto" value="">
 
-                          <div class="col-md-12">
-                            <div class="col-md-6">
-                              <div class="form-group">
-                                <label >Número de evidencias</label>
-                                  <input class="form-control" name="evidencias_doc" type="text" value="{{$planeacion->no_evidencias}}"  placeholder="Evidencias">
-                              </div>
-                            </div>
-                            <div class="col-md-6">
-                                  <label >Desea cambiar el archivo</label>
-                                  <input value="{{$planeacion->rubrica}}" class="form-control col-md-12" type="text" size="1" id="nombre" name="nombre")></input>
-                                  <p id="demo"></p>
-                              <input type="checkbox" name="mayor_edad" value="1" id="si"> Sí
-                                <div class="form-group" id="formulariomayores" style="display: none;">
-                                  <label >Rúbrica de evaluación</label>
-                                  <input type="file"  name="urlImg" id="urlImg"  accept=".pdf" required >
-                                  <input type="text"  name="oculto" id="oculto"  value="" style="visibility:hidden">
-                              </div>
-                            </div>
-                          </div> 
-                        </div>
-                      </div>
+        <div class="tw-modal-cuerpo">
+            <div class="tw:grid tw:grid-cols-1 tw:gap-4 tw:md:grid-cols-2">
+                <x-panel.input etiqueta="Número de evidencias" id="editar_evidencias_doc" name="evidencias_doc" type="text"
+                               value="{{$planeacion->no_evidencias}}" placeholder="Evidencias" />
+
+                <div class="tw:space-y-3">
+                    <x-panel.input etiqueta="Archivo actual" value="{{$planeacion->rubrica}}" type="text" id="nombre" name="nombre" />
+                    <p id="demo"></p>
+                    <x-panel.checkbox name="mayor_edad" value="1" id="si">Deseo cambiar el archivo</x-panel.checkbox>
+
+                    <div id="formulariomayores" style="display: none;">
+                        <x-panel.input etiqueta="Rúbrica de evaluación (.pdf)" type="file" name="urlImg" id="urlImg" accept=".pdf" required />
                     </div>
-
-                        <div class="modal-footer" >
-                          <button type="submit" class="btn btn-primary" href="!#" id="modifica_planeacion">Guardar</button>
-                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                        </div>
-                      </div>
-                     </div>
-                   </div>
-                <input name="fecha" type="text" id="fecha"  value="<?php echo date("Y/m/d"); ?>" style="visibility:hidden"/>
-              </form>
-          </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  </div>
-</main>
+
+        <x-panel.modal-pie>
+            <x-panel.boton variante="secundario" data-dismiss="modal">Cancelar</x-panel.boton>
+            <x-panel.boton type="submit" id="modifica_planeacion">Guardar</x-panel.boton>
+        </x-panel.modal-pie>
+    </form>
+</x-panel.modal>
 
 
 <script>

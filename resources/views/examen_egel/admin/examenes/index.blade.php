@@ -1,107 +1,81 @@
-@extends('layouts.app')
-
+@extends('layouts.panel')
+@section('title', 'Exámenes EGEL')
+@include('partials.panel.recursos_app')
 @section('content')
 
-<div class="container" style="margin-top:30px;">
+<main class="tw-pantalla">
+    <x-panel.encabezado titulo="Exámenes EGEL" :migas="['Examen EGEL' => route('admin.dashboard')]" />
 
-    <!-- Encabezado -->
-    <div class="row">
-        <div class="col-md-6">
-            <h3 class="text-primary">
-                <span class="glyphicon glyphicon-book"></span>
-                Exámenes EGEL
-            </h3>
-        </div>
+    <x-panel.tarjeta titulo="Listado de exámenes" sin-relleno>
+        <x-slot:acciones>
+            <x-panel.boton variante="secundario" href="{{ route('admin.dashboard') }}">
+                <span class="fa fa-arrow-left" aria-hidden="true"></span> Regresar
+            </x-panel.boton>
+            <x-panel.boton href="{{ route('admin.examen.create') }}">
+                <span class="fa fa-plus" aria-hidden="true"></span> Nuevo Examen
+            </x-panel.boton>
+        </x-slot:acciones>
 
-        <div class="col-md-6 text-right">
-            <a href="{{ route('admin.examen.create') }}" 
-               class="btn btn-primary">
-                <span class="glyphicon glyphicon-plus"></span>
-                Nuevo Examen
-            </a>
-        </div>
+        <x-panel.tabla class="tw:text-center">
 
-        <div class="col-md-6 text-right">
-            <a href="{{ route('admin.dashboard') }}" class="btn btn-default pull-right">
-                <span class="glyphicon glyphicon-arrow-left"></span> Regresar
-            </a>
-        </div>    
+            <thead>
+                <tr>
+                    <th class="tw:text-center">No.</th>
+                    <th class="tw:text-center">Carrera</th>
+                    <th class="tw:text-center">Nombre</th>
+                    <th class="tw:w-[220px] tw:text-center">Acciones</th>
+                </tr>
+            </thead>
 
-    </div>
+            <tbody>
+                @foreach($examenes as $e)
+                <tr>
+                    <td><strong>{{ $e->id_examen_egel }}</strong></td>
 
-    <hr>
+                    <td>
+                        <x-panel.badge tono="info">{{ $e->carrera }}</x-panel.badge>
+                    </td>
 
-    <!-- Panel -->
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <strong>Listado de exámenes</strong>
-        </div>
+                    <td>{{ $e->nombre }}</td>
 
-        <div class="panel-body">
+                    <td>
+                        <div class="tw:inline-flex tw:gap-1">
+                            <a href="{{ route('admin.examen.edit',$e->id_examen_egel) }}"
+                               class="tw:inline-flex tw:size-8 tw:items-center tw:justify-center tw:rounded-lg tw:text-amber-500 tw:hover:bg-amber-50 tw:dark:hover:bg-amber-500/15" title="Editar examen" aria-label="Editar examen">
+                                <span class="fa fa-pencil" aria-hidden="true"></span>
+                            </a>
 
-            <div class="table-responsive">
-                <table class="table table-bordered table-hover table-striped text-center">
+                            <a href="{{ route('admin.examen.delete',$e->id_examen_egel) }}"
+                               class="tw:inline-flex tw:size-8 tw:items-center tw:justify-center tw:rounded-lg tw:text-red-500 tw:hover:bg-red-50 tw:dark:hover:bg-red-500/15" title="Eliminar examen" aria-label="Eliminar examen"
+                               onclick="return TNotify.confirmAction(event, this, '¿Seguro que deseas eliminar este examen?')">
+                                <span class="fa fa-trash" aria-hidden="true"></span>
+                            </a>
 
-                    <thead style="background-color:#2c3e50; color:white;">
-                        <tr>
-                            <th class="text-center">No.</th>
-                            <th class="text-center">Carrera</th>
-                            <th class="text-center">Nombre</th>
-                            <th class="text-center" width="280">Acciones</th>
-                        </tr>
-                    </thead>
+                            <a href="{{ route('admin.examen.rapido', $e->id_examen_egel) }}"
+                               class="tw:inline-flex tw:size-8 tw:items-center tw:justify-center tw:rounded-lg tw:text-green-600 tw:hover:bg-green-50 tw:dark:hover:bg-green-500/15" title="Carga rápida" aria-label="Carga rápida">
+                                <span class="fa fa-bolt" aria-hidden="true"></span>
+                            </a>
 
-                    <tbody>
-                        @foreach($examenes as $e)
-                        <tr>
+                            <a href="{{ route('admin.examen.preguntas', $e->id_examen_egel) }}"
+                               class="tw:inline-flex tw:size-8 tw:items-center tw:justify-center tw:rounded-lg tw:text-brand-500 tw:hover:bg-brand-50 tw:dark:hover:bg-brand-500/15" title="Ver preguntas" aria-label="Ver preguntas">
+                                <span class="fa fa-list-alt" aria-hidden="true"></span>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
 
-                            <td><strong>{{ $e->id_examen_egel }}</strong></td>
+        </x-panel.tabla>
+    </x-panel.tarjeta>
+</main>
 
-                            <td>
-                                <span class="label label-info">
-                                    {{ $e->carrera }}
-                                </span>
-                            </td>
+@if(($ver ?? null) === 'create')
+    @include('examen_egel.admin.examenes.create')
+@endif
+@if(($ver ?? null) === 'edit')
+    @include('examen_egel.admin.examenes.edit')
+@endif
 
-                            <td>{{ $e->nombre }}</td>
-
-                            <td>
-                                <div class="btn-group">
-
-                                    <a href="{{ route('admin.examen.edit',$e->id_examen_egel) }}" 
-                                       class="btn btn-warning btn-sm">
-                                        <span class="glyphicon glyphicon-pencil"></span>
-                                    </a>
-
-                                    <a href="{{ route('admin.examen.delete',$e->id_examen_egel) }}" 
-                                       class="btn btn-danger btn-sm"
-                                       onclick="return TNotify.confirmAction(event, this, '¿Seguro que deseas eliminar este examen?')">
-                                        <span class="glyphicon glyphicon-trash"></span>
-                                    </a>
-
-                                    <a href="{{ route('admin.examen.rapido', $e->id_examen_egel) }}" 
-                                       class="btn btn-success btn-sm">
-                                        <span class="glyphicon glyphicon-flash"></span>
-                                    </a>
-
-                                    <!-- NUEVO BOTÓN -->
-                                    <a href="{{ route('admin.examen.preguntas', $e->id_examen_egel) }}" 
-                                    class="btn btn-info btn-sm" title="Ver preguntas">
-                                        <span class="glyphicon glyphicon-list-alt"></span>
-                                    </a>
-                                </div>
-                            </td>
-
-                        </tr>
-                        @endforeach
-                    </tbody>
-
-                </table>
-            </div>
-
-        </div>
-    </div>
-
-</div>
-
+@include('partials.panel.validacion_envio')
 @endsection

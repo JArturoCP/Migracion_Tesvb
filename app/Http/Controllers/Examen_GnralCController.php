@@ -27,12 +27,21 @@ class Examen_GnralCController extends Controller
             ->where('id_carrera', '!=', 16)
             ->get();
 
-        return view('examen_gnral_con.admin.examenes.create', compact('carreras'));
+        return $this->index()->with(['carreras' => $carreras, 'ver' => 'create']);
     }
 
     // GUARDAR
     public function store(Request $request)
     {
+        $request->validate([
+            'id_carrera' => 'required|integer|exists:gnral_carreras,id_carrera',
+            'nombre' => 'required|string|max:255',
+            'id_periodo_examen' => 'nullable|integer|exists:egel_periodo_examen,id_periodo_examen',
+        ], [
+            'id_carrera.required' => 'Selecciona la carrera.',
+            'nombre.required' => 'Escribe el nombre del examen.',
+        ]);
+
         DB::table('egel_examenes')->insert([
             'id_carrera' => $request->id_carrera,
             'nombre' => $request->nombre,
@@ -61,12 +70,21 @@ class Examen_GnralCController extends Controller
             ->get();
 
 
-        return view('examen_gnral_con.admin.examenes.edit', compact('examen','carreras'));
+        return $this->index()->with(['examen' => $examen, 'carreras' => $carreras, 'ver' => 'edit']);
     }
 
     // ACTUALIZAR
     public function update(Request $request, $id_examen_egel)
     {
+        $request->validate([
+            'id_carrera' => 'required|integer|exists:gnral_carreras,id_carrera',
+            'nombre' => 'required|string|max:255',
+            'id_periodo_examen' => 'nullable|integer|exists:egel_periodo_examen,id_periodo_examen',
+        ], [
+            'id_carrera.required' => 'Selecciona la carrera.',
+            'nombre.required' => 'Escribe el nombre del examen.',
+        ]);
+
         DB::table('egel_examenes')
             ->where('id_examen_egel',$id_examen_egel)
             ->update([
@@ -234,11 +252,21 @@ class Examen_GnralCController extends Controller
     $pregunta = DB::table('egel_preguntas')->where('id_pregunta', $id_pregunta)->first();
     $modulos = DB::table('egel_modulos')->get(); // Para seleccionar el módulo al editar
 
-    return view('examen_gnral_con.admin.examenes.edit_pregunta', compact('pregunta', 'modulos'));
+    return $this->preguntas($pregunta->id_examen_egel)->with(['pregunta' => $pregunta, 'modulos_pregunta' => $modulos, 'ver' => 'pregunta']);
 }
 
 public function updatePregunta(Request $request, $id_pregunta)
 {
+        $request->validate([
+            'pregunta' => 'required|string',
+            'id_modulo' => 'required|integer|exists:egel_modulos,id_modulo',
+            'numero_pregunta' => 'required|integer|min:1',
+            'id_examen_egel' => 'required|integer|exists:egel_examenes,id_examen_egel',
+        ], [
+            'pregunta.required' => 'Escribe el texto de la pregunta.',
+            'numero_pregunta.min' => 'El número de pregunta debe ser mayor que cero.',
+        ]);
+
     DB::table('egel_preguntas')
         ->where('id_pregunta', $id_pregunta)
         ->update([
@@ -268,12 +296,20 @@ public function editRespuesta($id_respuesta)
         ->where('r.id_respuesta', $id_respuesta)
         ->first();
 
-    return view('examen_gnral_con.admin.examenes.edit_respuesta', compact('respuesta'));
+    return $this->preguntas($respuesta->id_examen_egel)->with(['respuesta' => $respuesta, 'ver' => 'respuesta']);
 }
 
 // Actualizar respuesta
 public function updateRespuesta(Request $request, $id_respuesta)
 {
+        $request->validate([
+            'respuesta' => 'required|string',
+            'es_correcta' => 'required|in:0,1',
+            'id_examen_egel' => 'required|integer|exists:egel_examenes,id_examen_egel',
+        ], [
+            'respuesta.required' => 'Escribe el texto de la respuesta.',
+        ]);
+
     DB::table('egel_respuestas')
         ->where('id_respuesta', $id_respuesta)
         ->update([

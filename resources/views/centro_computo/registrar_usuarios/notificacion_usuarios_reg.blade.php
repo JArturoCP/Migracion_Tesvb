@@ -2,21 +2,30 @@
 @section('title', 'Centro de Computo')
 @section('content')
 
-    <main class="col-md-12">
+<main>
+<!-- Modal de notificación -->
+<div class="modal fade" id="modal_notificacion" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-success">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title text-center" id="myModalLabel">Usuarios registrados correctamente</h4>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
+      </div>
+    </div>
+  </div>
+</div>
+</main>
 
+<script>
+  $(document).ready(function(){
 
-        <div class="row">
-            <div class="col-md-6 col-md-offset-3">
-                <div class="panel panel-success">
-                    <div class="panel-heading">
-                        <h3 class="panel-title text-center">Usuarios registrados correctamente
-                        </h3>
-                    </div>
-                </div>
-            </div>
-        </div>
+    $("#modal_notificacion").modal("show");
 
+  });
 
+</script>
 
-    </main>
 @endsection

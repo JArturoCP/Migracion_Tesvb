@@ -88,6 +88,14 @@ return view('actividades_complementarias.alumnos.carga_evidencias_alumnos',compa
 
     public function store(Request $request)
     {
+        $request->validate([
+            'urlImg' => 'required|array|size:1',
+            'urlImg.*' => 'required|file|max:2048',
+        ], [
+            'urlImg.required' => 'Selecciona un archivo de evidencia.',
+            'urlImg.*.max' => 'El archivo no debe superar 2 MB.',
+        ]);
+
         $usuario = Session::get('usuario');
         $resta=Session::get('ciclos');
 

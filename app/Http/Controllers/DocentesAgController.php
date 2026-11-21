@@ -74,54 +74,34 @@ class DocentesAgController extends Controller
 
     public function store(Request $request)
     {
-        // dd($request);
-        $clave2 = $request->get('clave_docente');
-        $menos = strlen($clave2);
-
-        if ($menos < 8) {
-            $cadena1 = 0;
-            $cadena = 0;
-            for ($i = 0; $i < 8 - $menos; $i++) {
-                $cadena1 .= 0;
-            }
-            $cadena .= $cadena1 . $request->get('clave_docente');
-            $clave = $cadena;
-        } else {
-            $clave = $request->get('clave_docente');
-        }
-
-        $jefe_division = session()->has('jefe_division') ? session()->has('jefe_division') : false;
-        if ($jefe_division == false) {
-            $usuario = Session::get('usuario_alumno');
-            $correo = DB::selectOne('select email from users where id= ?', [$usuario]);
-            $correo = ($correo->email);
-        } else {
-            $correo = $request->get('correo');
-        }
-
-        $id_abreviacion = $request->get('abrevia');
-
-        $this->validate($request, [
-            'nombre_docente' => 'required',
-            'clave_docente' => 'required',
-            'rfc' => 'required',
-            'esc_p' => 'required',
-            'dir' => 'required',
-            'selectPerfil' => 'required',
-            'selectSituacion' => 'required',
-            'o_nac' => 'required',
-            'f_nac' => 'required',
-            'f_ingreso' => 'required',
-            'selectNombra' => 'required',
-            'f_contrata' => 'required',
-            'selectEsc' => 'required',
-            'telefono' => 'required',
-            'celular' => 'required',
-            'cedula' => 'required',
-            'selectSexo' => 'required',
-            'abrevia' => 'required',
-            'numero_empleado' => 'required'
+        $jefe_division = $request->session()->has('jefe_division');
+        $request->validate([
+            'nombre_docente' => 'required|string|max:60',
+            'clave_docente' => 'required|string|max:8',
+            'rfc' => 'required|string|max:13',
+            'esc_p' => 'required|string',
+            'dir' => 'required|string|max:100',
+            'selectPerfil' => 'required|integer|exists:gnral_perfiles,id_perfil',
+            'selectSituacion' => 'required|integer|exists:hrs_situaciones,id_situacion',
+            'o_nac' => 'required|string|max:30',
+            'f_nac' => 'required|date|before:today|max:10',
+            'f_ingreso' => 'required|date|max:10',
+            'selectNombra' => 'required|in:T,D',
+            'f_contrata' => 'required|date|max:10',
+            'selectEsc' => 'required|string|max:15',
+            'telefono' => 'required|string|max:20',
+            'celular' => 'required|string|max:20',
+            'cedula' => 'required|integer|min:0|max:2147483647',
+            'selectSexo' => 'required|in:M,F',
+            'abrevia' => 'required|integer|exists:abreviaciones,id_abreviacion',
+            'numero_empleado' => 'required|string|max:100',
+            'correo' => $jefe_division ? 'required|email|max:40' : 'nullable',
         ]);
+
+        $usuario = $jefe_division ? null : $request->user()->id;
+        $correo = $jefe_division ? $request->input('correo') : $request->user()->email;
+        $clave = str_pad($request->input('clave_docente'), 8, '0', STR_PAD_LEFT);
+        $id_abreviacion = $request->input('abrevia');
         $personales = array(
             'nombre' => mb_strtoupper($request->get('nombre_docente'), 'utf-8'),
             'clave' => $clave,
@@ -149,39 +129,22 @@ class DocentesAgController extends Controller
             'id_departamento' => 0
         );
 
-        $cadena = "";
-        $cadena .= $clave;
-        $cadena1 = "";
-        $cadena1 .= $request->get('rfc');
+        DB::transaction(function () use ($personales, $usuario, $id_abreviacion) {
+            $docente = Gnral_Personales::create($personales);
+            Abreviaciones_prof::updateOrCreate(
+                ['id_personal' => $docente->getKey()],
+                ['id_abreviacion' => $id_abreviacion]
+            );
+            if ($usuario !== null) {
+                DB::table('users')->where('id', $usuario)->update(['info_ok' => 2]);
+            }
+        });
 
-        $agrega_docente = Gnral_Personales::create($personales);
-
-        if ($jefe_division == false) {
-            $actualiza = DB::update('update users set info_ok=2 where id= ? ', [$usuario]);
-            $personal = DB::selectOne('select gnral_personales.id_personal from gnral_personales where tipo_usuario= ?', [$usuario]);
-            $personal = ($personal->id_personal);
-        } else {
-            $personal = DB::selectOne('select id_personal from gnral_personales where
-                        rfc= ? and clave= ?', [$cadena1, $cadena]);
-            $personal = ($personal->id_personal);
-        }
-
-        $checa = DB::selectOne('select count(id_abreviacion_prof)contar from abreviaciones_prof where
-            id_personal= ?', [$personal]);
-//si ya existe un docente en la tabla abreviaciones_prof se actualizará con el nuevo
-
-        if ($checa->contar == 0) {
-            $abreviacion = array(
-                'id_abreviacion' => $id_abreviacion,
-                'id_personal' => $personal);
-
-            $agrega_abrev = Abreviaciones_prof::create($abreviacion);
-        } else {
-            $abreviacion = array(
-                'id_abreviacion' => $id_abreviacion,
-                'id_personal' => $personal);
-
-            Abreviaciones_prof::find($checa->id_abreviacion_prof)->update($abreviacion);
+        if ($request->expectsJson()) {
+            return response()->json([
+                'message' => 'Docente registrado correctamente.',
+                'redirect' => url('/home'),
+            ], 201);
         }
 
         return redirect('/home');

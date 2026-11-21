@@ -2,36 +2,49 @@
 @section('title', 'Inicio')
 @section('content')
 
-    <main>
-        <div>
+<main>
+<!-- Modal de mensaje de carga académica -->
+<div class="modal fade" id="modal_mensaje_carga" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-info">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title text-center" id="myModalLabel">Carga académica</h4>
+      </div>
+      <div class="modal-body">
+        @if($color==1)
+          <div class="alert alert-danger text-center">{{$mensage_carga}}</div>
+        @else
+          <div class="alert alert-success text-center">{{$mensage_carga}}</div>
+        @endif
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
+      </div>
+    </div>
+  </div>
+</div>
+</main>
+<?php
+$direccion=Session::get('ip');
+?>
 
-            @if($color==1)
-                <div class="col-md-4 col-md-offset-5">
-                    <label class=" alert alert-danger"  data-toggle="tab" >{{$mensage_carga}}</label>
-                </div>
-            @else
-                <div class="col-md-4 col-md-offset-5">
-                    <label class=" alert alert-success"  data-toggle="tab" >{{$mensage_carga}}</label>
-                </div>
-            @endif
-        </div>
-    </main>
-    <?php
-    $direccion=Session::get('ip');
-    ?>
+<script>
+  $(document).ready(function(){
 
-    <script>
+    $("#modal_mensaje_carga").modal("show");
 
-            @if(isset($mensage_carga))
-            var direccion="{{$direccion}}";
-            //TNotify.alert(direccion);
-            setTimeout(myFunction, 1000);
+  });
 
-            function myFunction(){
-            window.location.href="/home/";
-            }
-            @endif
+  @if(isset($mensage_carga))
+  var direccion="{{$direccion}}";
+  setTimeout(myFunction, 1000);
 
-    </script>
+  function myFunction(){
+    window.location.href="/home/";
+  }
+  @endif
+
+</script>
 
 @endsection

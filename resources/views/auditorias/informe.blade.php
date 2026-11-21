@@ -1,4 +1,5 @@
-@extends('layouts.app')
+@extends('layouts.panel')
+@include('partials.panel.recursos_app', ['datepicker' => true])
 @foreach($auditorias as $auditoria)
     @if($auditoria->id_auditoria==$auditoria_id)
         @section('title', 'Detalle auditoria '.\Carbon\Carbon::parse($auditoria->fecha_i)->format('Y').'-'.$loop->iteration)
@@ -94,76 +95,73 @@
             margin-bottom: 0;
         }
     </style>
-    <main class="col-md-12">
-        <div class="row">
-            <div class="col-md-10 col-md-offset-1">
-                <p>
-                    <span class="glyphicon glyphicon-arrow-right"></span>
-                    <a href="{{url('/auditorias/programas')}}">Programas de auditoría</a>
-                    <span class="glyphicon glyphicon-chevron-right"></span>
-                    <a href="{{url('/auditorias/programas')}}/{{\Illuminate\Support\Facades\Session::get('id_programa')}}">Detalles del programa</a>
-                    <span class="glyphicon glyphicon-chevron-right"></span>
-                    <a href="{{url('/auditorias/programas')}}/{{\Illuminate\Support\Facades\Session::get('id_programa')}}/edit">Planes del programa</a>
-                    <span class="glyphicon glyphicon-chevron-right"></span>
-                    <a href="{{url('/auditorias/planes')}}/{{$auditoria_id}}">Detalles del plan</a>
-                    <span class="glyphicon glyphicon-chevron-right"></span>
-                    <span>Informe de la auditoria</span>
-                </p>
+    <main class="tw-pantalla tw:w-full tw:lg:w-full tw:px-2">
+        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+            <div class="tw:w-full tw:lg:w-10/12 tw:lg:ml-[8.3333%] tw:px-2">
+                <nav aria-label="Ruta de navegación" class="tw:mb-5 tw:flex tw:flex-wrap tw:items-center tw:gap-x-2 tw:gap-y-1 tw:text-sm tw:text-gray-500">
+                    <span class="fa fa-arrow-right tw:text-brand-500"></span>
+                    <a class="tw:text-gray-500 tw:hover:text-brand-500 tw:dark:text-gray-400" href="{{url('/auditorias/programas')}}">Programas de auditoría</a>
+                    <span class="fa fa-chevron-right tw:text-[10px] tw:text-gray-400"></span>
+                    <a class="tw:text-gray-500 tw:hover:text-brand-500 tw:dark:text-gray-400" href="{{url('/auditorias/programas')}}/{{\Illuminate\Support\Facades\Session::get('id_programa')}}">Detalles del programa</a>
+                    <span class="fa fa-chevron-right tw:text-[10px] tw:text-gray-400"></span>
+                    <a class="tw:text-gray-500 tw:hover:text-brand-500 tw:dark:text-gray-400" href="{{url('/auditorias/programas')}}/{{\Illuminate\Support\Facades\Session::get('id_programa')}}/edit">Planes del programa</a>
+                    <span class="fa fa-chevron-right tw:text-[10px] tw:text-gray-400"></span>
+                    <a class="tw:text-gray-500 tw:hover:text-brand-500 tw:dark:text-gray-400" href="{{url('/auditorias/planes')}}/{{$auditoria_id}}">Detalles del plan</a>
+                    <span class="fa fa-chevron-right tw:text-[10px] tw:text-gray-400"></span>
+                    <span class="tw:text-gray-800 tw:dark:text-white/90">Informe de la auditoria</span>
+                </nav>
                 @if (session()->has('flash_notification.message'))
-                    <div class="alert alert-{{ session('flash_notification.level') }}">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                        {!! session('flash_notification.message') !!}
-                    </div>
+                    <x-panel.alerta class="tw:mb-4" :tipo="['success' => 'exito', 'danger' => 'error', 'warning' => 'advertencia'][session('flash_notification.level')] ?? 'info'">{!! session('flash_notification.message') !!}</x-panel.alerta>
                 @endif
                 @foreach($auditorias as $auditoria)
                     @if($auditoria->id_auditoria==$auditoria_id)
-                        <div class="panel panel-info">
-                            <div class="panel-heading text-center">
+                        <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
+                            <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4 tw:text-center">
                                 Informe de la auditoría {{\Carbon\Carbon::parse($auditoria->fecha_i)->format('Y').'-'.$loop->iteration}}
                                 @if($auditoria->objetivo AND $auditoria->alcance AND $auditoria->criterio)
-                                    <a href="#" data-id="{{$auditoria->id_auditoria}}" class="pull-right btn_export"  style="margin-left: 1.5em;" data-all="{{$auditoria}}"><span class="glyphicon glyphicon-print" data-toggle="tooltip" title="Imprimir informe de auditoria"></span></a>
+                                    <a href="#" data-id="{{$auditoria->id_auditoria}}" class="btn_export tw:float-right"  style="margin-left: 1.5em;" data-all="{{$auditoria}}"><span class="fa fa-print" data-toggle="tooltip" title="Imprimir informe de auditoria"></span></a>
                                 @endif
                             </div>
-                            <div class="panel-body">
-                                <div class="row">
-                                    <div class="col-md-6">Número de auditoría: <strong> {{\Carbon\Carbon::parse($auditoria->fecha_i)->format('Y').'-'.$loop->iteration}} </strong></div>
-                                    <div class="col-md-6">Fechas de la auditoría: Del <strong>{{Carbon::parse($auditoria->fecha_i)->format('d/m/Y')}}</strong> al <strong>{{Carbon::parse($auditoria->fecha_f)->format('d/m/Y')}}</strong></div>
+                            <div class="tw:p-5 tw:sm:p-6">
+                                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                    <div class="tw:w-full tw:lg:w-6/12 tw:px-2">Número de auditoría: <strong> {{\Carbon\Carbon::parse($auditoria->fecha_i)->format('Y').'-'.$loop->iteration}} </strong></div>
+                                    <div class="tw:w-full tw:lg:w-6/12 tw:px-2">Fechas de la auditoría: Del <strong>{{Carbon::parse($auditoria->fecha_i)->format('d/m/Y')}}</strong> al <strong>{{Carbon::parse($auditoria->fecha_f)->format('d/m/Y')}}</strong></div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-12 text-center">
+                                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                    <div class="tw:w-full tw:lg:w-full tw:text-center tw:px-2">
                                         <h4>Norma de Referencia:</h4>
                                         <h4>{{$auditoria->criterio}}</h4>
                                     </div>
                                 </div>
 
-                                <div class="row">
-                                    <div class="col-md-12">
+                                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                    <div class="tw:w-full tw:lg:w-full tw:px-2">
                                         <label>Objetivo</label>
 
                                         <p>{{$auditoria->objetivo}}</p>
                                     </div>
-                                    <div class="col-md-12">
+                                    <div class="tw:w-full tw:lg:w-full tw:px-2">
                                         <label>Alcance</label>
                                         <p>{{$auditoria->alcance}}</p>
                                         {{--                                        <p>{{count($procesosE)." procesos"}}</p>--}}
                                     </div>
                                 </div>
                                 <hr>
-                                {{--<a href="#" class="pull-right btn_add_auditores" data-id="{{$auditoria->id_auditoria}}" data-toggle="modal" data-target="#modal_add_auditores"><span class="glyphicon glyphicon-plus" data-toggle="tooltip" title="Agregar Auditores"></span></a>--}}
-                                <div class="row">
-                                    <div class="col-md-6">
+                                {{--<a href="#" class="btn_add_auditores tw:float-right" data-id="{{$auditoria->id_auditoria}}" data-toggle="modal" data-target="#modal_add_auditores"><span class="fa fa-plus" data-toggle="tooltip" title="Agregar Auditores"></span></a>--}}
+                                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                    <div class="tw:w-full tw:lg:w-6/12 tw:px-2">
                                         <label>Auditor Líder:</label>
                                         @if($lider->isEmpty())
-                                            {{--                                        <a href="#" class="btn-add-lider" data-id="{{$auditoria->id_auditoria}}" data-toggle="modal" data-target="#modal_edit_lider"><span class="glyphicon glyphicon-plus" data-toggle="tooltip" title="Agregar lider"></span></a>--}}
-                                            <div class="alert alert-danger" role="alert">No se ha agregado un lider</div>
+                                            {{--                                        <a href="#" class="btn-add-lider" data-id="{{$auditoria->id_auditoria}}" data-toggle="modal" data-target="#modal_edit_lider"><span class="fa fa-plus" data-toggle="tooltip" title="Agregar lider"></span></a>--}}
+                                            <div class="tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-red-200 tw:bg-red-50 tw:text-red-700" role="alert">No se ha agregado un lider</div>
                                         @else
                                             @foreach($lider as $auditores)
                                                 @foreach($auditores->getAbr->getAbreviatura as $auditor)
-                                                    <li class="list-group-item">
-                                                        <div class="row">
-                                                            <span class="col-md-10">{{\App\audParseCase::parseAbr($auditor->titulo).' '.\App\audParseCase::parseNombre($auditores->getName->nombre)}}</span>
-                                                            {{--<a href="#" class="btn-edit-lider col-md-1" data-id="{{$auditor->id_asigna_audi}}" data-toggle="modal" data-target="#modal_edit_lider"><span class="glyphicon glyphicon-cog" data-toggle="tooltip" title="Editar lider"></span></a>--}}
-                                                            {{--                                                        <a href="#" class="pull-right btn_delete_auditor col-md-1" data-id="{{$auditor->id_auditor_auditoria}}"><span aria-hidden="true" class="glyphicon glyphicon-trash" data-toggle="tooltip" title="Eliminar lider"></span></a>--}}
+                                                    <li class="tw:block tw:px-4 tw:py-3">
+                                                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                                            <span class="tw:w-full tw:lg:w-10/12 tw:px-2">{{\App\audParseCase::parseAbr($auditor->titulo).' '.\App\audParseCase::parseNombre($auditores->getName->nombre)}}</span>
+                                                            {{--<a href="#" class="btn-edit-lider tw:w-full tw:lg:w-1/12 tw:px-2" data-id="{{$auditor->id_asigna_audi}}" data-toggle="modal" data-target="#modal_edit_lider"><span class="fa fa-cog" data-toggle="tooltip" title="Editar lider"></span></a>--}}
+                                                            {{--                                                        <a href="#" class="btn_delete_auditor tw:w-full tw:float-right tw:lg:w-1/12 tw:px-2" data-id="{{$auditor->id_auditor_auditoria}}"><span aria-hidden="true" class="fa fa-trash" data-toggle="tooltip" title="Eliminar lider"></span></a>--}}
                                                         </div>
                                                     </li>
                                                 @endforeach
@@ -173,37 +171,37 @@
 
                                 </div>
 
-                                <div class="row">
-                                    <div class="col-md-6">
+                                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                    <div class="tw:w-full tw:lg:w-6/12 tw:px-2">
                                         <label>Equipo de auditores:</label>
-                                        {{--                                    <a href="#" class="btn-add-aquipo" data-id="{{$auditoria->id_auditoria}}" data-toggle="modal" data-target="#modal_edit_equipo"><span class="glyphicon glyphicon-plus" data-toggle="tooltip" title="Agregar auditor"></span></a>--}}
+                                        {{--                                    <a href="#" class="btn-add-aquipo" data-id="{{$auditoria->id_auditoria}}" data-toggle="modal" data-target="#modal_edit_equipo"><span class="fa fa-plus" data-toggle="tooltip" title="Agregar auditor"></span></a>--}}
                                         @if($equipo=$auditoria->getAuditores($auditoria->id_auditoria, 2) AND sizeof($equipo)<1)
-                                            <div class="alert alert-danger" role="alert">No se han agregado auditores al equipo</div>
+                                            <div class="tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-red-200 tw:bg-red-50 tw:text-red-700" role="alert">No se han agregado auditores al equipo</div>
                                         @else
-                                            <ul class="list-group">
+                                            <ul class="tw:divide-y tw:divide-gray-100 tw:rounded-lg tw:border tw:border-gray-200">
                                                 @foreach($equipo as $auditor)
-                                                    <li class="list-group-item">
-                                                        <div class="row">
-                                                            <span class="col-md-10"><label>Auditor {{$loop->iteration}}:</label>{{' '.\App\audParseCase::parseAbr($auditor->titulo).' '.\App\audParseCase::parseNombre($auditor->nombre)}}</span>
+                                                    <li class="tw:block tw:px-4 tw:py-3">
+                                                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                                            <span class="tw:w-full tw:lg:w-10/12 tw:px-2"><label>Auditor {{$loop->iteration}}:</label>{{' '.\App\audParseCase::parseAbr($auditor->titulo).' '.\App\audParseCase::parseNombre($auditor->nombre)}}</span>
                                                         </div>
                                                     </li>
                                                 @endforeach
                                             </ul>
                                         @endif
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="tw:w-full tw:lg:w-6/12 tw:px-2">
                                         <label>Auditores en entrenamiento:</label>
-                                        {{--                                    <a href="#" class="btn-add-entrenado" data-id="{{$auditoria->id_auditoria}}" data-toggle="modal" data-target="#modal_edit_entrenado"><span class="glyphicon glyphicon-plus" data-toggle="tooltip" title="Agregar auditor"></span></a>--}}
+                                        {{--                                    <a href="#" class="btn-add-entrenado" data-id="{{$auditoria->id_auditoria}}" data-toggle="modal" data-target="#modal_edit_entrenado"><span class="fa fa-plus" data-toggle="tooltip" title="Agregar auditor"></span></a>--}}
 
 
                                         @if(count($entrenados=$auditoria->getAuditores($auditoria->id_auditoria, 3))==0)
-                                            <div class="alert alert-danger" role="alert">No se cuenta con auditores en entrenamiento</div>
+                                            <div class="tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-red-200 tw:bg-red-50 tw:text-red-700" role="alert">No se cuenta con auditores en entrenamiento</div>
                                         @else
-                                            <ul class="list-group">
+                                            <ul class="tw:divide-y tw:divide-gray-100 tw:rounded-lg tw:border tw:border-gray-200">
                                                 @foreach($entrenados as $auditor)
-                                                    <li class="list-group-item">
-                                                        <div class="row">
-                                                            <span class="col-md-10"><label>AE {{$loop->iteration}}:</label>{{' '.\App\audParseCase::parseAbr($auditor->titulo).' '.\App\audParseCase::parseNombre($auditor->nombre)}}</span>
+                                                    <li class="tw:block tw:px-4 tw:py-3">
+                                                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                                            <span class="tw:w-full tw:lg:w-10/12 tw:px-2"><label>AE {{$loop->iteration}}:</label>{{' '.\App\audParseCase::parseAbr($auditor->titulo).' '.\App\audParseCase::parseNombre($auditor->nombre)}}</span>
                                                         </div>
                                                     </li>
                                                 @endforeach
@@ -212,8 +210,8 @@
                                     </div>
 
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-12">
+                                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                    <div class="tw:w-full tw:lg:w-full tw:px-2">
                                         @php $asistentes=""; @endphp
                                         @foreach($personas as $persona)
                                             @php
@@ -225,7 +223,7 @@
                                             @endphp
                                         @endforeach
                                         <h4>RESUMEN:</h4>
-                                        <a href="#" data-id="resumenInforme"  data-field="resumen" class="btnInforme btn btn-primary">Guardar Resumen</a><br><br>
+                                        <a href="#" data-id="resumenInforme"  data-field="resumen" class="btnInforme tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm">Guardar Resumen</a><br><br>
                                         <p>
                                             <textarea name="" id="resumenInforme" cols="80" rows="10">{{$informe->resumen}}
                                                 @if (strlen($informe->resumen)<=800)
@@ -237,17 +235,17 @@
 
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-12">
+                                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                    <div class="tw:w-full tw:lg:w-full tw:px-2">
                                         <h4>OBSERVACIONES</h4>
-                                        <a href="#" data-id="cierreInforme"  data-field="cierre" class="btnInforme btn btn-primary">Guardar Observaciones</a><br><br>
+                                        <a href="#" data-id="cierreInforme"  data-field="cierre" class="btnInforme tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm">Guardar Observaciones</a><br><br>
                                         <p>
                                             <textarea name="" id="cierreInforme" cols="80" rows="10">{{$informe->cierre}}</textarea>
                                         </p>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-12">
+                                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                    <div class="tw:w-full tw:lg:w-full tw:px-2">
                                         <h4>Reporte de no conformidades levantadas:</h4>
                                         @if(count($noConformidad)>0)
                                             @foreach($noConformidad as $registro)
@@ -259,8 +257,8 @@
                                     </div>
                                 </div>
 
-                                <div class="row">
-                                    <div class="col-md-12">
+                                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                    <div class="tw:w-full tw:lg:w-full tw:px-2">
                                         <h4>Fortalezas del sistema:</h4>
                                         @if(count($fortalezas)>0)
                                             @foreach($fortalezas as $registro)
@@ -272,8 +270,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-12">
+                            <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                <div class="tw:w-full tw:lg:w-full tw:px-2">
                                     <h4>Oportunidades:</h4>
                                     @if(count($oportunidades)>0)
                                         @foreach($oportunidades as $registro)
@@ -284,12 +282,12 @@
                                     @endif
                                 </div>
                             </div>
-                            <div class="row" id="seguimiento-acciones-informe">
-                                <div class="col-md-12">
+                            <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4" id="seguimiento-acciones-informe">
+                                <div class="tw:w-full tw:lg:w-full tw:px-2">
                                     <div class="informe-section-card">
                                         <div class="informe-section-header">
                                             <h4>
-                                                <span class="glyphicon glyphicon-tasks"></span>
+                                                <span class="fa fa-tasks"></span>
                                                 Seguimiento de acciones
                                             </h4>
                                         </div>
@@ -300,7 +298,8 @@
                                             @endphp
 
                                             @if($seguimientoAcciones->count() > 0)
-                                                <table class="table table-bordered table-condensed tabla-seguimiento-informe">
+                                                <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:bg-white">
+<table class="tabla-seguimiento-informe tw-tabla tw-tabla-bordes tw-tabla-compacta">
                                                     <thead>
                                                     <tr class="info">
                                                         <th>Clave</th>
@@ -385,7 +384,7 @@
                                                             </td>
 
                                                             <td>
-                                                                    <span class="label label-{{ $estadoClase }} label-cumplimiento-informe">
+                                                                    <span class="{{ ['success' => 'tw:bg-green-50 tw:text-green-700', 'info' => 'tw:bg-sky-50 tw:text-sky-600', 'warning' => 'tw:bg-amber-50 tw:text-amber-700', 'danger' => 'tw:bg-red-50 tw:text-red-600', 'primary' => 'tw:bg-brand-50 tw:text-brand-500'][$estadoClase] ?? 'tw:bg-gray-100 tw:text-gray-700' }} label-cumplimiento-informe tw:inline-flex tw:items-center tw:rounded-full tw:px-2.5 tw:py-0.5 tw:text-xs tw:font-medium">
                                                                         {{ $estadoTexto }}
                                                                     </span>
                                                             </td>
@@ -397,8 +396,9 @@
                                                     @endforeach
                                                     </tbody>
                                                 </table>
+</div>
                                             @else
-                                                <div class="alert alert-info mensaje-sin-seguimiento">
+                                                <div class="mensaje-sin-seguimiento tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-sky-200 tw:bg-sky-50 tw:text-sky-800">
                                                     No se registraron acciones en el procedimiento de No Conformidades y Acciones Correctivas
                                                 </div>
                                             @endif
@@ -406,10 +406,10 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-12">
+                            <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                <div class="tw:w-full tw:lg:w-full tw:px-2">
                                     <h4>Conclusiones:</h4>
-                                    <a href="#" data-id="conclusionesInforme"  data-field="conclusiones" class="btnInforme btn btn-primary">Guardar</a><br><br>
+                                    <a href="#" data-id="conclusionesInforme"  data-field="conclusiones" class="btnInforme tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm">Guardar</a><br><br>
                                     <p>
                                         <textarea name="" id="conclusionesInforme" cols="80" rows="10">{{$informe->conclusiones}}</textarea>
                                     </p>
@@ -420,7 +420,7 @@
             @endif
             @endforeach
         </div>
-        </div>
+        {{-- (se quitó un </div> sobrante del original, que cerraba el área de contenido) --}}
     </main>
 
     <form  method="POST" role="form" id="form_informe" action="{{url('auditorias/informe/'.$informe->id_informe)}}">
@@ -431,25 +431,23 @@
 
     </form>
 
-    <div class="modal fade" id="modal_export_programa" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="exampleModalLabel">Exportar programa de auditoría</h4>
+    <x-panel.modal id="modal_export_programa" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="exampleModalLabel">
+                <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                    
+                    <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800" id="exampleModalLabel">Exportar programa de auditoría</h4>
                 </div>
-                <div class="modal-body">
-                    <div class="form-group persona-aprueba">
+                <div class="tw-modal-cuerpo">
+                    <div class="persona-aprueba tw:mb-4">
                         <label>Persona que aprueba el programa</label>
-                        <div class="radio">
-                            <div class="row">
-                                <div class="col-md-6">
+                        <div class="tw:flex tw:items-center tw:gap-2">
+                            <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                <div class="tw:w-full tw:lg:w-6/12 tw:px-2">
                                     <label>
                                         <input class="aprueba_formato" type="radio" name="aprueba_formato" id="formato1" value="1">
                                         Coordinadora del SGOE
                                     </label>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="tw:w-full tw:lg:w-6/12 tw:px-2">
                                     <label>
                                         <input class="aprueba_formato" type="radio" name="aprueba_formato" id="formato2" value="2">
                                         Director General
@@ -459,70 +457,68 @@
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                    <input type="button" class="btn btn-primary btn-exportar" value="Exportar"/>
+                <div class="tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                    <button type="button" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" data-dismiss="modal">Cancelar</button>
+                    <input type="button" class="btn-exportar tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" value="Exportar"/>
                 </div>
-            </div>
-        </div>
-    </div>
+            
+        
+    </x-panel.modal>
 
     @foreach($auditorias as $auditoria)
         @if($auditoria->id_auditoria==$auditoria_id)
 
-            <form id="form_edit_aud" class="form" role="form" method="POST" action="{{url('auditorias/planes')}}/{{$auditoria->id_auditoria}}">
-                <div class="modal fade" id="modal_edit_aud" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title" id="exampleModalLabel">Editar plan de auditorias</h4>
+            <form id="form_edit_aud" class="" role="form" method="POST" action="{{url('auditorias/planes')}}/{{$auditoria->id_auditoria}}">
+                <x-panel.modal id="modal_edit_aud" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="exampleModalLabel">
+                            <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                                
+                                <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800" id="exampleModalLabel">Editar plan de auditorias</h4>
                             </div>
-                            <div class="modal-body">
+                            <div class="tw-modal-cuerpo">
 
                                 @csrf
                                 @method("PUT")
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
+                                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                    <div class="tw:w-full tw:lg:w-full tw:px-2">
+                                        <div class="tw:mb-4">
                                             <label for="">Periodo</label>
-                                            <div class="input-group input-daterange">
-                                                <input type="text" class="form-control periodo" placeholder="Fecha de inicio" name="fecha_i" value="{{Carbon::parse($auditoria->fecha_i)->format('d-m-Y')}}">
-                                                <div class="input-group-addon">a</div>
-                                                <input type="text" class="form-control periodo" placeholder="Fecha de término" name="fecha_f" id="f_fin" value="{{Carbon::parse($auditoria->fecha_f)->format('d-m-Y')}}">
+                                            <div class="input-daterange tw:flex tw:w-full tw:items-stretch">
+                                                <input type="text" class="periodo tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" placeholder="Fecha de inicio" name="fecha_i" value="{{Carbon::parse($auditoria->fecha_i)->format('d-m-Y')}}">
+                                                <div class="tw:inline-flex tw:items-center tw:border tw:border-gray-300 tw:bg-gray-50 tw:px-3 tw:text-sm tw:text-gray-600">a</div>
+                                                <input type="text" class="periodo tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" placeholder="Fecha de término" name="fecha_f" id="f_fin" value="{{Carbon::parse($auditoria->fecha_f)->format('d-m-Y')}}">
                                             </div>
                                         </div>
                                         {{--                                <label for="fecha_i">Fecha de inicio</label>--}}
                                         {{--                                <input id="fecha_i" name="fecha_i" type="date">--}}
                                         {{--                            </div>--}}
-                                        {{--                            <div class="col-md-6">--}}
+                                        {{--                            <div class="tw:w-full tw:lg:w-6/12 tw:px-2">--}}
                                         {{--                                <label for="fecha_f">Fecha de termino</label>--}}
                                         {{--                                <input id="fecha_f" name="fecha_f" type="date">--}}
                                     </div>
-                                    <div class="col-md-12">
-                                        <div class="form-group">
+                                    <div class="tw:w-full tw:lg:w-full tw:px-2">
+                                        <div class="tw:mb-4">
                                             <label for="objetivo">Objetivo</label>
-                                            <textarea class="form-control" id="objetivo" name="objetivo" placeholder="Objetivo del plan de auditoria">{{$auditoria->objetivo}}</textarea>
+                                            <textarea class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500" id="objetivo" name="objetivo" placeholder="Objetivo del plan de auditoria">{{$auditoria->objetivo}}</textarea>
                                         </div>
-                                        <div class="form-group">
+                                        <div class="tw:mb-4">
                                             <label for="alcance">Alcance</label>
-                                            <textarea class="form-control" id="alcance" name="alcance" placeholder="Alcance del plan de auditoria">{{$auditoria->alcance!=""?$auditoria->alcance:\App\audParseCase::parseProceso(implode(", ",$procesosE->pluck('des_proceso')->toArray()))}}</textarea>
+                                            <textarea class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500" id="alcance" name="alcance" placeholder="Alcance del plan de auditoria">{{$auditoria->alcance!=""?$auditoria->alcance:\App\audParseCase::parseProceso(implode(", ",$procesosE->pluck('des_proceso')->toArray()))}}</textarea>
                                         </div>
-                                        <div class="form-group">
+                                        <div class="tw:mb-4">
                                             <label for="criterios">Criterios</label>
-                                            <textarea class="form-control" id="criterios" name="criterios" placeholder="Criterios del plan de auditoria">{{$auditoria->criterio}}</textarea>
+                                            <textarea class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500" id="criterios" name="criterios" placeholder="Criterios del plan de auditoria">{{$auditoria->criterio}}</textarea>
                                         </div>
                                     </div>
                                 </div>
 
                             </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                                <input type="submit" class="btn btn-primary" value="Guardar"/>
+                            <div class="tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                                <button type="button" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" data-dismiss="modal">Cancelar</button>
+                                <input type="submit" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" value="Guardar"/>
                             </div>
-                        </div>
-                    </div>
-                </div>
+                        
+                    
+                </x-panel.modal>
             </form>
         @endif
 

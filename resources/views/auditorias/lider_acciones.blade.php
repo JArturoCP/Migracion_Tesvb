@@ -1,6 +1,7 @@
-@extends('layouts.app')
-
+@extends('layouts.panel')
+@include('partials.panel.recursos_app')
 @section('content')
+<div class="tw-pantalla">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
         .lider-nc-container {
@@ -500,10 +501,10 @@
 
     </style>
 
-    <div class="container-fluid lider-nc-container">
-        <div class="panel panel-info">
-            <div class="panel-heading">
-                <h2 class="panel-title text-center">Acciones de Responsables</h2>
+    <div class="lider-nc-container tw:w-full">
+        <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
+            <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4">
+                <h2 class="tw:text-base tw:font-medium tw:text-gray-800 tw:text-center">Acciones de Responsables</h2>
             </div>
         </div>
         @php
@@ -517,52 +518,52 @@
         @endphp
 
         @if(session('success'))
-            <div class="alert alert-success">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <div class="tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-green-200 tw:bg-green-50 tw:text-green-800">
+                <button type="button" class="tw:text-2xl tw:leading-none tw:text-gray-400 tw:hover:text-gray-700" data-dismiss="alert" aria-hidden="true">&times;</button>
                 {{ session('success') }}
             </div>
         @endif
 
         @if(session('error'))
-            <div class="alert alert-danger">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <div class="tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-red-200 tw:bg-red-50 tw:text-red-700">
+                <button type="button" class="tw:text-2xl tw:leading-none tw:text-gray-400 tw:hover:text-gray-700" data-dismiss="alert" aria-hidden="true">&times;</button>
                 {{ session('error') }}
             </div>
         @endif
 
         @if(session('warning'))
-            <div class="alert alert-warning">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <div class="tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-amber-200 tw:bg-amber-50 tw:text-amber-800">
+                <button type="button" class="tw:text-2xl tw:leading-none tw:text-gray-400 tw:hover:text-gray-700" data-dismiss="alert" aria-hidden="true">&times;</button>
                 {{ session('warning') }}
             </div>
         @endif
 
         @if($esLiderActivo)
-            <div class="panel panel-default panel-control-acciones {{ $moduloAccionesCerrado ? 'panel-cerrado' : 'panel-abierto' }}">
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-md-8">
+            <div class="panel-control-acciones {{ $moduloAccionesCerrado ? 'panel-cerrado' : 'panel-abierto' }} tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
+                <div class="tw:p-5 tw:sm:p-6">
+                    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                        <div class="tw:w-full tw:lg:w-8/12 tw:px-2">
                             <strong>Estado del módulo No conformidades y acciones correctivas:</strong>
                             @if($moduloAccionesCerrado)
-                                <span class="label label-danger">Cerrado</span>
+                                <span class="tw:inline-flex tw:items-center tw:rounded-full tw:px-2.5 tw:py-0.5 tw:text-xs tw:font-medium tw:bg-red-50 tw:text-red-600">Cerrado</span>
                                 <p style="margin-top: 8px; margin-bottom: 0;">
                                     {{ $mensajeCierreAcciones }}
                                 </p>
                             @else
-                                <span class="label label-success">Activo</span>
+                                <span class="tw:inline-flex tw:items-center tw:rounded-full tw:px-2.5 tw:py-0.5 tw:text-xs tw:font-medium tw:bg-green-50 tw:text-green-700">Activo</span>
                                 <p style="margin-top: 8px; margin-bottom: 0;">
                                     Los responsables pueden capturar y actualizar acciones correctivas.
                                 </p>
                             @endif
                         </div>
 
-                        <div class="col-md-4 text-right">
+                        <div class="tw:w-full tw:lg:w-4/12 tw:text-right tw:px-2">
                             @if($moduloAccionesCerrado)
                                 <form method="POST"
                                       action="{{ route('auditorias.lider_acciones.reactivar_acciones_correctivas') }}"
                                       onsubmit="return TNotify.confirmAction(event, this, '¿Deseas reactivar el sistema de acciones correctivas?');">
                                     @csrf
-                                    <button type="submit" class="btn btn-success">
+                                    <button type="submit" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-green-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-green-700 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm">
                                         <i class="fa fa-unlock"></i>
                                         Reactivar sistema
                                     </button>
@@ -572,7 +573,7 @@
                                       action="{{ route('auditorias.lider_acciones.cerrar_acciones_correctivas') }}"
                                       onsubmit="return TNotify.confirmAction(event, this, '¿Deseas cerrar el sistema de acciones correctivas para los responsables?');">
                                     @csrf
-                                    <button type="submit" class="btn btn-danger">
+                                    <button type="submit" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-red-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-red-700 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm">
                                         <i class="fa fa-lock"></i>
                                         Cerrar sistema
                                     </button>
@@ -585,13 +586,13 @@
         @endif
 
         @if(!$esLiderActivo)
-            <div class="alert alert-info text-center mt-4">
+            <div class="tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-sky-200 tw:bg-sky-50 tw:text-sky-800 tw:text-center tw:mt-6">
                 <h4>Hola, aún no estás asignado como líder.</h4>
                 <p>Una vez que se te asigne como líder de acciones, podrás ver aquí las actividades correspondientes.</p>
             </div>
 
         @elseif($accionesAgrupadas->isEmpty() && $sinAtenderAgrupadas->isEmpty())
-            <div class="alert alert-warning text-center">
+            <div class="tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-amber-200 tw:bg-amber-50 tw:text-amber-800 tw:text-center">
                 No hay no conformidades u oportunidades de mejora asignadas, sin atender o enviadas para revisión.
             </div>
 
@@ -631,24 +632,24 @@
                     $collapseId = 'auditoria-collapse-' . $loop->iteration;
                 @endphp
 
-                <div class="panel panel-primary auditoria-panel" style="margin-top: 18px;">
-                    <div class="panel-heading auditoria-heading"
+                <div class="auditoria-panel tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white" style="margin-top: 18px;">
+                    <div class="auditoria-heading tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4"
                          role="button"
                          data-toggle="collapse"
                          data-target="#{{ $collapseId }}"
                          aria-expanded="false"
                          aria-controls="{{ $collapseId }}">
-                        <h3 class="panel-title">
+                        <h3 class="tw:text-base tw:font-medium tw:text-gray-800">
                             <span class="auditoria-title-main">
                                 <span class="auditoria-titulo-principal">
                                     Auditoría: {{ $numeroAuditoria }}
                                 </span>
 
-                                <span class="badge auditoria-badge-pendiente">
+                                <span class="auditoria-badge-pendiente tw:inline-flex tw:items-center tw:rounded-full tw:px-2.5 tw:py-0.5 tw:text-sm tw:font-medium">
                                     Sin atender: {{ $totalSinAtender }}
                                 </span>
 
-                                <span class="badge auditoria-badge-seguimiento">
+                                <span class="auditoria-badge-seguimiento tw:inline-flex tw:items-center tw:rounded-full tw:px-2.5 tw:py-0.5 tw:text-sm tw:font-medium">
                                     En seguimiento: {{ $totalSeguimiento }}
                                 </span>
                             </span>
@@ -660,8 +661,8 @@
                         </h3>
                     </div>
 
-                    <div id="{{ $collapseId }}" class="panel-collapse collapse auditoria-collapse" role="tabpanel">
-                        <div class="panel-body">
+                    <div id="{{ $collapseId }}" class="collapse auditoria-collapse" role="tabpanel">
+                        <div class="tw:p-5 tw:sm:p-6">
 
                             <div class="seccion-auditoria seccion-sin-atender">
                                 <div class="seccion-auditoria-header">
@@ -676,7 +677,7 @@
 
                                 <div class="seccion-auditoria-body">
                                     @if($totalSinAtender === 0)
-                                        <div class="alert alert-success texto-seccion-vacia">
+                                        <div class="texto-seccion-vacia tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-green-200 tw:bg-green-50 tw:text-green-800">
                                             No hay NC u OM asignadas sin atender en esta auditoría.
                                         </div>
                                     @else
@@ -692,13 +693,14 @@
 
                                             @if($pendientesCategoria->count() > 0)
                                                 <h4 style="margin-top: 15px;">
-                                                    <span class="label label-{{ $labelClasePendiente }}">
+                                                    <span class="{{ ['success' => 'tw:bg-green-50 tw:text-green-700', 'info' => 'tw:bg-sky-50 tw:text-sky-600', 'warning' => 'tw:bg-amber-50 tw:text-amber-700', 'danger' => 'tw:bg-red-50 tw:text-red-600', 'primary' => 'tw:bg-brand-50 tw:text-brand-500'][$labelClasePendiente] ?? 'tw:bg-gray-100 tw:text-gray-700' }} tw:inline-flex tw:items-center tw:rounded-full tw:px-2.5 tw:py-0.5 tw:text-xs tw:font-medium">
                                                         {{ $categoriaPendiente }}
                                                     </span>
                                                     {{ $tituloPendiente }}
                                                 </h4>
 
-                                                <table class="table table-bordered table-condensed tabla-sin-atender">
+                                                <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:bg-white">
+<table class="tabla-sin-atender tw-tabla tw-tabla-bordes tw-tabla-compacta">
                                                     <thead>
                                                     <tr>
                                                         <th>Clave</th>
@@ -724,7 +726,7 @@
                                                                     @elseif(!empty($accion->observaciones_auditor))
                                                                         {!! nl2br(e($accion->observaciones_auditor)) !!}
                                                                     @else
-                                                                        <span class="text-muted">Sin reporte registrado</span>
+                                                                        <span class="tw:text-gray-500">Sin reporte registrado</span>
                                                                     @endif
                                                                 </div>
                                                             </td>
@@ -733,9 +735,9 @@
 
                                                             <td>
                                                                 @if((int) $accion->total_acciones_plan === 0)
-                                                                    <span class="label label-default">Sin plan</span>
+                                                                    <span class="tw:inline-flex tw:items-center tw:rounded-full tw:px-2.5 tw:py-0.5 tw:text-xs tw:font-medium tw:bg-gray-100 tw:text-gray-700">Sin plan</span>
                                                                 @else
-                                                                    <span class="label label-info">
+                                                                    <span class="tw:inline-flex tw:items-center tw:rounded-full tw:px-2.5 tw:py-0.5 tw:text-xs tw:font-medium tw:bg-sky-50 tw:text-sky-600">
                                                                         {{ $accion->total_acciones_plan }} acción(es)
                                                                     </span>
                                                                 @endif
@@ -756,6 +758,7 @@
                                                     @endforeach
                                                     </tbody>
                                                 </table>
+</div>
                                             @endif
                                         @endforeach
                                     @endif
@@ -775,7 +778,7 @@
 
                                 <div class="seccion-auditoria-body">
                                     @if($totalSeguimiento === 0)
-                                        <div class="alert alert-info texto-seccion-vacia">
+                                        <div class="texto-seccion-vacia tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-sky-200 tw:bg-sky-50 tw:text-sky-800">
                                             No hay NC u OM en seguimiento o atendidas en esta auditoría.
                                         </div>
                                     @else
@@ -790,21 +793,22 @@
 
                                             <h4 style="margin-top: 20px;">
                                                 @if($categoria == 'NC')
-                                                    <span class="label label-danger">NC</span>
+                                                    <span class="tw:inline-flex tw:items-center tw:rounded-full tw:px-2.5 tw:py-0.5 tw:text-xs tw:font-medium tw:bg-red-50 tw:text-red-600">NC</span>
                                                 @else
-                                                    <span class="label label-success">OM</span>
+                                                    <span class="tw:inline-flex tw:items-center tw:rounded-full tw:px-2.5 tw:py-0.5 tw:text-xs tw:font-medium tw:bg-green-50 tw:text-green-700">OM</span>
                                                 @endif
 
                                                 {{ $tituloCategoria }}
                                             </h4>
 
                                             @if($accionesCategoria->isEmpty())
-                                                <div class="alert alert-info">
+                                                <div class="tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-sky-200 tw:bg-sky-50 tw:text-sky-800">
                                                     No hay registros en esta categoría.
                                                 </div>
                                             @else
                                                 <div class="lider-table-wrapper">
-                                                    <table class="table table-bordered table-striped lider-acciones-table">
+                                                    <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:bg-white">
+<table class="lider-acciones-table tw-tabla tw-tabla-bordes tw-tabla-rayas">
                                                         <colgroup>
                                                             <col style="width: 3%;">
                                                             <col style="width: 6%;">
@@ -854,7 +858,7 @@
                                                                         @elseif(!empty($accion->observaciones_auditor))
                                                                             {!! nl2br(e($accion->observaciones_auditor)) !!}
                                                                         @else
-                                                                            <span class="text-muted">Sin reporte registrado</span>
+                                                                            <span class="tw:text-gray-500">Sin reporte registrado</span>
                                                                         @endif
                                                                     </div>
                                                                 </td>
@@ -864,26 +868,24 @@
                                                                 <td>{{ $accion->requiere_correccion ? 'Sí' : 'No' }}</td>
 
                                                                 <td>
-                                                                    <button class="btn btn-sm btn-success"
+                                                                    <button class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:gap-1.5 tw:px-3 tw:py-1.5 tw:text-sm tw:bg-green-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-green-700"
                                                                             data-toggle="modal"
                                                                             data-target="#modal{{ $accion->id_responsable }}">
                                                                         Ver más detalles
                                                                     </button>
 
-                                                                    <div class="modal fade" id="modal{{ $accion->id_responsable }}" tabindex="-1" role="dialog" aria-labelledby="modalLabel{{ $accion->id_responsable }}" aria-hidden="true">
-                                                                        <div class="modal-dialog modal-lg" role="document">
-                                                                            <div class="modal-content">
-                                                                                <div class="modal-header">
-                                                                                    <h5 class="modal-title" id="modalLabel{{ $accion->id_responsable }}">
+                                                                    <x-panel.modal id="modal{{ $accion->id_responsable }}" tamano="lg" sin-relleno clase-cerrar="close" aria-labelledby="modalLabel{{ $accion->id_responsable }}">
+                                                                        
+                                                                            
+                                                                                <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                                                                                    <h5 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="modalLabel{{ $accion->id_responsable }}">
                                                                                         Detalles de la Acción
                                                                                     </h5>
 
-                                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
-                                                                                        <span aria-hidden="true">&times;</span>
-                                                                                    </button>
+                                                                                    
                                                                                 </div>
 
-                                                                                <div class="modal-body">
+                                                                                <div class="tw-modal-cuerpo">
                                                                                     <p><strong>Análisis:</strong> {{ $accion->analisis ?? 'Sin Análisis' }}</p>
                                                                                     <p><strong>Acción correctiva a realizar:</strong> {{ $accion->accion_correctiva ?? 'Sin Acción correctiva' }}</p>
                                                                                     <p><strong>Corrección a realizar:</strong> {{ $accion->causa_raiz ?? 'Sin corrección' }}</p>
@@ -893,36 +895,36 @@
                                                                                     <p><strong>¿Por qué?:</strong> {{ $accion->valor_cambios ?? 'Sin Valor Cambios' }}</p>
                                                                                 </div>
 
-                                                                                <div class="modal-footer">
-                                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                                                                <div class="tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                                                                                    <button type="button" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" data-dismiss="modal">
                                                                                         Cerrar
                                                                                     </button>
                                                                                 </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
+                                                                            
+                                                                        
+                                                                    </x-panel.modal>
                                                                 </td>
 
                                                                 <td>
                                                                     @if((int) $accion->id_clasificacion === 1)
                                                                         @if((int) $accion->estado === 6)
                                                                             <a href="{{ route('auditorias.lider_acciones.reporte_nc', $accion->id_responsable) }}"
-                                                                               class="btn btn-info btn-sm">
+                                                                               class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-sky-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-sky-600 tw:gap-1.5 tw:px-3 tw:py-1.5 tw:text-sm">
                                                                                 Ver reporte NC
                                                                             </a>
                                                                         @else
-                                                                            <button type="button" class="btn btn-default btn-sm" disabled>
+                                                                            <button type="button" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:gap-1.5 tw:px-3 tw:py-1.5 tw:text-sm" disabled>
                                                                                 Pendiente de validación
                                                                             </button>
                                                                         @endif
                                                                     @else
                                                                         @if((int) $accion->estado === 6 && \Illuminate\Support\Facades\Route::has('auditorias.lider_acciones.reporte_om'))
                                                                             <a href="{{ route('auditorias.lider_acciones.reporte_om', $accion->id_responsable) }}"
-                                                                               class="btn btn-success btn-sm">
+                                                                               class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-green-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-green-700 tw:gap-1.5 tw:px-3 tw:py-1.5 tw:text-sm">
                                                                                 Ver reporte OM
                                                                             </a>
                                                                         @else
-                                                                            <button type="button" class="btn btn-default btn-sm" disabled>
+                                                                            <button type="button" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:gap-1.5 tw:px-3 tw:py-1.5 tw:text-sm" disabled>
                                                                                 Pendiente de validación
                                                                             </button>
                                                                         @endif
@@ -930,7 +932,7 @@
                                                                 </td>
 
                                                                 <td>
-                                                                    <button class="btn btn-warning btn-sm"
+                                                                    <button class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-amber-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-amber-600 tw:gap-1.5 tw:px-3 tw:py-1.5 tw:text-sm"
                                                                             data-toggle="modal"
                                                                             data-target="#modalDetalle{{ $accion->id_responsable }}">
                                                                         Ver Plan de Acciones
@@ -947,26 +949,24 @@
                                                                         $accionesOMPlan = $planAcciones->where('tipo', 3);
                                                                     @endphp
 
-                                                                    <div class="modal fade" id="modalDetalle{{ $accion->id_responsable }}" tabindex="-1" role="dialog" aria-labelledby="modalDetalleLabel{{ $accion->id_responsable }}" aria-hidden="true">
-                                                                        <div class="modal-dialog modal-lg" role="document">
-                                                                            <div class="modal-content">
-                                                                                <div class="modal-header">
-                                                                                    <h5 class="modal-title" id="modalDetalleLabel{{ $accion->id_responsable }}">
+                                                                    <x-panel.modal id="modalDetalle{{ $accion->id_responsable }}" tamano="lg" sin-relleno clase-cerrar="close" aria-labelledby="modalDetalleLabel{{ $accion->id_responsable }}">
+                                                                        
+                                                                            
+                                                                                <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                                                                                    <h5 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="modalDetalleLabel{{ $accion->id_responsable }}">
                                                                                         Actividades y Correcciones
                                                                                     </h5>
 
-                                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
-                                                                                        <span aria-hidden="true">&times;</span>
-                                                                                    </button>
+                                                                                    
                                                                                 </div>
 
-                                                                                <div class="modal-body">
+                                                                                <div class="tw-modal-cuerpo">
                                                                                     @if($planAcciones->isEmpty())
-                                                                                        <div class="alert alert-info">
+                                                                                        <div class="tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-sky-200 tw:bg-sky-50 tw:text-sky-800">
                                                                                             No hay acciones ni correcciones registradas.
                                                                                         </div>
                                                                                     @else
-                                                                                        <table class="table table-sm table-bordered">
+                                                                                        <table class="tw-tabla tw-tabla-compacta tw-tabla-bordes">
                                                                                             <thead>
                                                                                             <tr>
                                                                                                 <th>Acción / Corrección</th>
@@ -980,7 +980,7 @@
 
                                                                                             <tbody>
                                                                                             @if($accionesCorrectivas->count() > 0)
-                                                                                                <tr class="table-primary">
+                                                                                                <tr class="tw:bg-brand-50">
                                                                                                     <td colspan="6">
                                                                                                         <strong style="color:blue;">Acciones Correctivas NC</strong>
                                                                                                     </td>
@@ -1006,30 +1006,30 @@
                                                                                                                 @if(\Illuminate\Support\Facades\Route::has('aud_seguimiento.descargar'))
                                                                                                                     <a href="{{ route('aud_seguimiento.descargar', $plan->id_plan_acciones) }}"
                                                                                                                        target="_blank"
-                                                                                                                       class="btn btn-xs btn-info"
+                                                                                                                       class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:gap-1 tw:px-2 tw:py-1 tw:text-xs tw:bg-sky-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-sky-600"
                                                                                                                        style="margin-top: 4px;">
                                                                                                                         Ver PDF
                                                                                                                     </a>
                                                                                                                 @else
                                                                                                                     <a href="{{ asset('storage/' . ltrim($plan->path_evidencia, '/')) }}"
                                                                                                                        target="_blank"
-                                                                                                                       class="btn btn-xs btn-info"
+                                                                                                                       class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:gap-1 tw:px-2 tw:py-1 tw:text-xs tw:bg-sky-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-sky-600"
                                                                                                                        style="margin-top: 4px;">
                                                                                                                         Ver PDF
                                                                                                                     </a>
                                                                                                                 @endif
                                                                                                             @else
-                                                                                                                <div class="text-muted" style="margin-top: 4px;">Sin PDF cargado</div>
+                                                                                                                <div class="tw:text-gray-500" style="margin-top: 4px;">Sin PDF cargado</div>
                                                                                                             @endif
 
                                                                                                             @if(isset($plan->estado) && (int) $plan->estado === 1)
-                                                                                                                <span class="label label-success" style="display: inline-block; margin-top: 4px;">Autorizada</span>
+                                                                                                                <span class="tw:inline-flex tw:items-center tw:rounded-full tw:px-2.5 tw:py-0.5 tw:text-xs tw:font-medium tw:bg-green-50 tw:text-green-700" style="display: inline-block; margin-top: 4px;">Autorizada</span>
                                                                                                             @elseif(isset($plan->estado) && (int) $plan->estado === 2)
-                                                                                                                <span class="label label-warning" style="display: inline-block; margin-top: 4px;">En revisión</span>
+                                                                                                                <span class="tw:inline-flex tw:items-center tw:rounded-full tw:px-2.5 tw:py-0.5 tw:text-xs tw:font-medium tw:bg-amber-50 tw:text-amber-700" style="display: inline-block; margin-top: 4px;">En revisión</span>
                                                                                                             @elseif(isset($plan->estado) && (int) $plan->estado === 3)
-                                                                                                                <span class="label label-danger" style="display: inline-block; margin-top: 4px;">Rechazada</span>
+                                                                                                                <span class="tw:inline-flex tw:items-center tw:rounded-full tw:px-2.5 tw:py-0.5 tw:text-xs tw:font-medium tw:bg-red-50 tw:text-red-600" style="display: inline-block; margin-top: 4px;">Rechazada</span>
                                                                                                             @else
-                                                                                                                <span class="label label-default" style="display: inline-block; margin-top: 4px;">Pendiente</span>
+                                                                                                                <span class="tw:inline-flex tw:items-center tw:rounded-full tw:px-2.5 tw:py-0.5 tw:text-xs tw:font-medium tw:bg-gray-100 tw:text-gray-700" style="display: inline-block; margin-top: 4px;">Pendiente</span>
                                                                                                             @endif
                                                                                                         </td>
                                                                                                     </tr>
@@ -1037,7 +1037,7 @@
                                                                                             @endif
 
                                                                                             @if($correcciones->count() > 0)
-                                                                                                <tr class="table-warning">
+                                                                                                <tr class="tw:bg-amber-50">
                                                                                                     <td colspan="6">
                                                                                                         <strong style="color:blue;">Correcciones NC</strong>
                                                                                                     </td>
@@ -1063,30 +1063,30 @@
                                                                                                                 @if(\Illuminate\Support\Facades\Route::has('aud_seguimiento.descargar'))
                                                                                                                     <a href="{{ route('aud_seguimiento.descargar', $plan->id_plan_acciones) }}"
                                                                                                                        target="_blank"
-                                                                                                                       class="btn btn-xs btn-info"
+                                                                                                                       class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:gap-1 tw:px-2 tw:py-1 tw:text-xs tw:bg-sky-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-sky-600"
                                                                                                                        style="margin-top: 4px;">
                                                                                                                         Ver PDF
                                                                                                                     </a>
                                                                                                                 @else
                                                                                                                     <a href="{{ asset('storage/' . ltrim($plan->path_evidencia, '/')) }}"
                                                                                                                        target="_blank"
-                                                                                                                       class="btn btn-xs btn-info"
+                                                                                                                       class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:gap-1 tw:px-2 tw:py-1 tw:text-xs tw:bg-sky-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-sky-600"
                                                                                                                        style="margin-top: 4px;">
                                                                                                                         Ver PDF
                                                                                                                     </a>
                                                                                                                 @endif
                                                                                                             @else
-                                                                                                                <div class="text-muted" style="margin-top: 4px;">Sin PDF cargado</div>
+                                                                                                                <div class="tw:text-gray-500" style="margin-top: 4px;">Sin PDF cargado</div>
                                                                                                             @endif
 
                                                                                                             @if(isset($plan->estado) && (int) $plan->estado === 1)
-                                                                                                                <span class="label label-success" style="display: inline-block; margin-top: 4px;">Autorizada</span>
+                                                                                                                <span class="tw:inline-flex tw:items-center tw:rounded-full tw:px-2.5 tw:py-0.5 tw:text-xs tw:font-medium tw:bg-green-50 tw:text-green-700" style="display: inline-block; margin-top: 4px;">Autorizada</span>
                                                                                                             @elseif(isset($plan->estado) && (int) $plan->estado === 2)
-                                                                                                                <span class="label label-warning" style="display: inline-block; margin-top: 4px;">En revisión</span>
+                                                                                                                <span class="tw:inline-flex tw:items-center tw:rounded-full tw:px-2.5 tw:py-0.5 tw:text-xs tw:font-medium tw:bg-amber-50 tw:text-amber-700" style="display: inline-block; margin-top: 4px;">En revisión</span>
                                                                                                             @elseif(isset($plan->estado) && (int) $plan->estado === 3)
-                                                                                                                <span class="label label-danger" style="display: inline-block; margin-top: 4px;">Rechazada</span>
+                                                                                                                <span class="tw:inline-flex tw:items-center tw:rounded-full tw:px-2.5 tw:py-0.5 tw:text-xs tw:font-medium tw:bg-red-50 tw:text-red-600" style="display: inline-block; margin-top: 4px;">Rechazada</span>
                                                                                                             @else
-                                                                                                                <span class="label label-default" style="display: inline-block; margin-top: 4px;">Pendiente</span>
+                                                                                                                <span class="tw:inline-flex tw:items-center tw:rounded-full tw:px-2.5 tw:py-0.5 tw:text-xs tw:font-medium tw:bg-gray-100 tw:text-gray-700" style="display: inline-block; margin-top: 4px;">Pendiente</span>
                                                                                                             @endif
                                                                                                         </td>
                                                                                                     </tr>
@@ -1094,7 +1094,7 @@
                                                                                             @endif
 
                                                                                             @if($accionesOMPlan->count() > 0)
-                                                                                                <tr class="table-success">
+                                                                                                <tr class="tw:bg-green-50">
                                                                                                     <td colspan="6">
                                                                                                         <strong style="color:blue;">Acciones de oportunidad de mejora</strong>
                                                                                                     </td>
@@ -1120,30 +1120,30 @@
                                                                                                                 @if(\Illuminate\Support\Facades\Route::has('aud_seguimiento.descargar'))
                                                                                                                     <a href="{{ route('aud_seguimiento.descargar', $plan->id_plan_acciones) }}"
                                                                                                                        target="_blank"
-                                                                                                                       class="btn btn-xs btn-info"
+                                                                                                                       class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:gap-1 tw:px-2 tw:py-1 tw:text-xs tw:bg-sky-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-sky-600"
                                                                                                                        style="margin-top: 4px;">
                                                                                                                         Ver PDF
                                                                                                                     </a>
                                                                                                                 @else
                                                                                                                     <a href="{{ asset('storage/' . ltrim($plan->path_evidencia, '/')) }}"
                                                                                                                        target="_blank"
-                                                                                                                       class="btn btn-xs btn-info"
+                                                                                                                       class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:gap-1 tw:px-2 tw:py-1 tw:text-xs tw:bg-sky-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-sky-600"
                                                                                                                        style="margin-top: 4px;">
                                                                                                                         Ver PDF
                                                                                                                     </a>
                                                                                                                 @endif
                                                                                                             @else
-                                                                                                                <div class="text-muted" style="margin-top: 4px;">Sin PDF cargado</div>
+                                                                                                                <div class="tw:text-gray-500" style="margin-top: 4px;">Sin PDF cargado</div>
                                                                                                             @endif
 
                                                                                                             @if(isset($plan->estado) && (int) $plan->estado === 1)
-                                                                                                                <span class="label label-success" style="display: inline-block; margin-top: 4px;">Autorizada</span>
+                                                                                                                <span class="tw:inline-flex tw:items-center tw:rounded-full tw:px-2.5 tw:py-0.5 tw:text-xs tw:font-medium tw:bg-green-50 tw:text-green-700" style="display: inline-block; margin-top: 4px;">Autorizada</span>
                                                                                                             @elseif(isset($plan->estado) && (int) $plan->estado === 2)
-                                                                                                                <span class="label label-warning" style="display: inline-block; margin-top: 4px;">En revisión</span>
+                                                                                                                <span class="tw:inline-flex tw:items-center tw:rounded-full tw:px-2.5 tw:py-0.5 tw:text-xs tw:font-medium tw:bg-amber-50 tw:text-amber-700" style="display: inline-block; margin-top: 4px;">En revisión</span>
                                                                                                             @elseif(isset($plan->estado) && (int) $plan->estado === 3)
-                                                                                                                <span class="label label-danger" style="display: inline-block; margin-top: 4px;">Rechazada</span>
+                                                                                                                <span class="tw:inline-flex tw:items-center tw:rounded-full tw:px-2.5 tw:py-0.5 tw:text-xs tw:font-medium tw:bg-red-50 tw:text-red-600" style="display: inline-block; margin-top: 4px;">Rechazada</span>
                                                                                                             @else
-                                                                                                                <span class="label label-default" style="display: inline-block; margin-top: 4px;">Pendiente</span>
+                                                                                                                <span class="tw:inline-flex tw:items-center tw:rounded-full tw:px-2.5 tw:py-0.5 tw:text-xs tw:font-medium tw:bg-gray-100 tw:text-gray-700" style="display: inline-block; margin-top: 4px;">Pendiente</span>
                                                                                                             @endif
                                                                                                         </td>
                                                                                                     </tr>
@@ -1152,7 +1152,7 @@
 
                                                                                             @if($accionesCorrectivas->count() == 0 && $correcciones->count() == 0 && $accionesOMPlan->count() == 0)
                                                                                                 <tr>
-                                                                                                    <td colspan="6" class="text-center text-muted">
+                                                                                                    <td colspan="6" class="tw:text-center tw:text-gray-500">
                                                                                                         No hay acciones registradas.
                                                                                                     </td>
                                                                                                 </tr>
@@ -1161,9 +1161,9 @@
                                                                                         </table>
                                                                                     @endif
                                                                                 </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
+                                                                            
+                                                                        
+                                                                    </x-panel.modal>
                                                                 </td>
 
                                                                 <td>
@@ -1191,14 +1191,14 @@
                                                                             }
                                                                         }
                                                                     @endphp
-                                                                    <span class="label label-{{ $labelClass }}">{{ $estadoTexto }}</span>
+                                                                    <span class="{{ ['success' => 'tw:bg-green-50 tw:text-green-700', 'info' => 'tw:bg-sky-50 tw:text-sky-600', 'warning' => 'tw:bg-amber-50 tw:text-amber-700', 'danger' => 'tw:bg-red-50 tw:text-red-600', 'primary' => 'tw:bg-brand-50 tw:text-brand-500'][$labelClass] ?? 'tw:bg-gray-100 tw:text-gray-700' }} tw:inline-flex tw:items-center tw:rounded-full tw:px-2.5 tw:py-0.5 tw:text-xs tw:font-medium">{{ $estadoTexto }}</span>
 
                                                                     @if((int) $accion->estado === 6 && (!isset($accion->estado_cierre) || (int) $accion->estado_cierre !== 3))
                                                                         <form method="POST"
                                                                               action="{{ route('auditorias.lider_acciones.quitar_validacion', $accion->id_responsable) }}"
                                                                               onsubmit="return TNotify.confirmAction(event, this, '¿Deseas quitar la validación y regresar este registro a estado Sin revisar?');">
                                                                             @csrf
-                                                                            <button type="submit" class="btn btn-warning btn-xs btn-quitar-validacion">
+                                                                            <button type="submit" class="btn-quitar-validacion tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-amber-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-amber-600 tw:gap-1 tw:px-2 tw:py-1 tw:text-xs">
                                                                                 Quitar validación
                                                                             </button>
                                                                         </form>
@@ -1206,7 +1206,7 @@
 
                                                                     @if($accion->estado == 7)
                                                                         <div style="margin-top: 5px;">
-                                                                            <button class="btn btn-sm btn-danger"
+                                                                            <button class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:gap-1.5 tw:px-3 tw:py-1.5 tw:text-sm tw:bg-red-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-red-700"
                                                                                     title="Ver observaciones del líder"
                                                                                     data-toggle="modal"
                                                                                     data-target="#modalObsLider{{ $accion->id_responsable }}">
@@ -1214,31 +1214,29 @@
                                                                             </button>
                                                                         </div>
 
-                                                                        <div class="modal fade" id="modalObsLider{{ $accion->id_responsable }}" tabindex="-1" role="dialog" aria-labelledby="obsLabel{{ $accion->id_responsable }}" aria-hidden="true">
-                                                                            <div class="modal-dialog" role="document">
-                                                                                <div class="modal-content">
-                                                                                    <div class="modal-header bg-danger text-white">
-                                                                                        <h5 class="modal-title" id="obsLabel{{ $accion->id_responsable }}">
+                                                                        <x-panel.modal id="modalObsLider{{ $accion->id_responsable }}" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="obsLabel{{ $accion->id_responsable }}">
+                                                                            
+                                                                                
+                                                                                    <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                                                                                        <h5 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="obsLabel{{ $accion->id_responsable }}">
                                                                                             Observaciones del líder
                                                                                         </h5>
 
-                                                                                        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Cerrar">
-                                                                                            <span aria-hidden="true">&times;</span>
-                                                                                        </button>
+                                                                                        
                                                                                     </div>
 
-                                                                                    <div class="modal-body">
+                                                                                    <div class="tw-modal-cuerpo">
                                                                                         <p>{{ $accion->observaciones_lider ?? 'Sin observaciones.' }}</p>
                                                                                     </div>
 
-                                                                                    <div class="modal-footer">
-                                                                                        <button class="btn btn-secondary" data-dismiss="modal">
+                                                                                    <div class="tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                                                                                        <button class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" data-dismiss="modal">
                                                                                             Cerrar
                                                                                         </button>
                                                                                     </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
+                                                                                
+                                                                            
+                                                                        </x-panel.modal>
                                                                     @endif
                                                                 </td>
 
@@ -1249,7 +1247,7 @@
                                                                         @csrf
                                                                         @method('PUT')
 
-                                                                        <select class="form-control form-control-sm"
+                                                                        <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"
                                                                                 name="estado"
                                                                                 {{ in_array($accion->estado, [6, 7]) ? 'disabled' : '' }}
                                                                                 required>
@@ -1263,52 +1261,51 @@
                                                                                id="observaciones_lider_{{ $accion->id_responsable }}">
 
                                                                         <button type="button"
-                                                                                class="btn btn-primary btn-sm mt-1"
+                                                                                class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-1.5 tw:px-3 tw:py-1.5 tw:text-sm tw:mt-1"
                                                                                 onclick="evaluarAccion({{ $accion->id_responsable }})"
                                                                                 {{ in_array($accion->estado, [6, 7]) ? 'disabled' : '' }}>
                                                                             Guardar
                                                                         </button>
                                                                     </form>
 
-                                                                    <div class="modal fade" id="modalObservaciones{{ $accion->id_responsable }}" tabindex="-1" role="dialog" aria-labelledby="modalObsLabel{{ $accion->id_responsable }}" aria-hidden="true">
-                                                                        <div class="modal-dialog" role="document">
-                                                                            <div class="modal-content">
-                                                                                <div class="modal-header">
-                                                                                    <h5 class="modal-title" id="modalObsLabel{{ $accion->id_responsable }}">
+                                                                    <x-panel.modal id="modalObservaciones{{ $accion->id_responsable }}" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="modalObsLabel{{ $accion->id_responsable }}">
+                                                                        
+                                                                            
+                                                                                <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                                                                                    <h5 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="modalObsLabel{{ $accion->id_responsable }}">
                                                                                         Observaciones del Rechazo
                                                                                     </h5>
 
-                                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
-                                                                                        <span aria-hidden="true">&times;</span>
-                                                                                    </button>
+                                                                                    
                                                                                 </div>
 
-                                                                                <div class="modal-body">
+                                                                                <div class="tw-modal-cuerpo">
                                                             <textarea id="textareaObs{{ $accion->id_responsable }}"
-                                                                      class="form-control"
+                                                                      class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500"
                                                                       rows="4"
                                                                       placeholder="Escribe las observaciones..."></textarea>
                                                                                 </div>
 
-                                                                                <div class="modal-footer">
-                                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                                                                <div class="tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                                                                                    <button type="button" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" data-dismiss="modal">
                                                                                         Cancelar
                                                                                     </button>
 
                                                                                     <button type="button"
-                                                                                            class="btn btn-primary"
+                                                                                            class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm"
                                                                                             onclick="guardarObservaciones({{ $accion->id_responsable }})">
                                                                                         Guardar Observaciones
                                                                                     </button>
                                                                                 </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
+                                                                            
+                                                                        
+                                                                    </x-panel.modal>
                                                                 </td>
                                                             </tr>
                                                         @endforeach
                                                         </tbody>
                                                     </table>
+</div>
                                                 </div>
                                             @endif
                                         @endforeach
@@ -1387,4 +1384,5 @@
         }
     </script>--}}
 
+</div>
 @endsection

@@ -95,6 +95,7 @@ it('inicio_calificaciones conserva cada rama', function (int $cuenta) {
 
 it('Datos P. › Editar conserva el formulario y las opciones seleccionadas', function () {
     $this->actingAs(EscenariosPanel::preparar('ingles', []));
+    View::share('errors', new \Illuminate\Support\ViewErrorBag());
     $datos = [
         'datos_profesor' => (object) ['nombre' => 'DANIELA', 'apellido_paterno' => 'PÉREZ', 'apellido_materno' => 'LÓPEZ', 'id_sexo' => 2, 'id_nivel_ingles' => 1, 'id_tipo_titulo' => 3, 'fecha_emision_titulo' => '2025/06/01'],
         'sexos' => [(object) ['id_sexo' => 1, 'descripcion' => 'HOMBRE'], (object) ['id_sexo' => 2, 'descripcion' => 'MUJER']],
@@ -102,10 +103,16 @@ it('Datos P. › Editar conserva el formulario y las opciones seleccionadas', fu
         'titulos' => [(object) ['id_titulo' => 3, 'descripcion' => 'TOEFL'], (object) ['id_titulo' => 4, 'descripcion' => 'CAMBRIDGE']],
     ];
 
-    $html = compararVistaIngles('ingles.partials.modificar_profesor', $datos);
+    $html = view('ingles.partials.modificar_profesor', $datos)->render();
+    $antes = view('antes::ingles.partials.modificar_profesor', $datos)->render();
 
-    expect($html)->toMatch('#<option value="2" selected="selected"\s*>MUJER</option>#')
-        ->toMatch('#class="[^"]*datepicker fecha_termino[^"]*"#');
+    expect(CompararVistas::formulariosNavegador($html, 'data-panel-contenido', 'data-panel-pie'))
+        ->toBe(CompararVistas::formulariosNavegador($antes, 'class="tesvb-contenido"', '<footer'))
+        ->and(BalanceHtml::errores($html))->toBe([])
+        ->and($html)->toContain('data-target="#editar_facilitador"')
+        ->toMatch('#<option value="2" selected\s*>MUJER</option>#')
+        ->toMatch('#<input[^>]*type="date"[^>]*value="2025-06-01"#')
+        ->not->toContain('bootstrap-datepicker');
 });
 
 dataset('etapas_captura', function () {

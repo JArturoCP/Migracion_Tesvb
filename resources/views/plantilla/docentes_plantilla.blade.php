@@ -1,202 +1,148 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 @section('title', 'Docentes en Plantilla')
+@include('partials.panel.recursos_app', ['datatables' => true])
+@include('partials.panel.formularios')
+
 @section('content')
+<x-panel.encabezado titulo="Docentes en plantilla" />
+<div class="tw:grid tw:gap-5 tw:xl:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
+    <x-panel.tarjeta titulo="Profesores disponibles">
+        <x-panel.tabla id="paginar_table">
+            <thead><tr><th>Clave</th><th>Nombre</th><th>Perfil</th><th>Fecha de recontrato</th><th>A plantilla</th></tr></thead>
+            <tbody>
+                @foreach ($docentes as $docente)
+                    <tr>
+                        <td>{{ $docente->clave }}</td>
+                        <td>{{ $docente->nombre }}</td>
+                        <td>{{ $docente->descripcion }}</td>
+                        <td>{{ $docente->fch_recontratacion }}</td>
+                        <td><x-panel.boton tamano="sm" variante="contorno-primario" data-toggle="modal" data-target="#modal_agrega"
+                            :data-docente="$docente->id_personal" :data-nombre="$docente->nombre">Agregar</x-panel.boton></td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </x-panel.tabla>
+    </x-panel.tarjeta>
 
-<main class="col-md-12">
-<div class="row">
-  <div class="col-md-12">
-    <div class="col-md-6 col-md-offset-1">
-        <div class="panel panel-info">
-            <div class="panel-heading">
-              <h3 class="panel-title text-center">PROFESORES</h3>
-            </div>                                
-        </div>
-        <table id="paginar_table" class="table table-bordered ">
-                          <thead>
-                            <tr>
-                                <th>Clave</th>
-                                <th>Nombre</th>
-                                <th>Perfil</th>
-                                <th>Fecha/Recontrato</th>
-                                <th>A Plantilla</th>
-                            </tr>
-                          </thead>
-
-                          <tbody>
-                            @foreach($docentes as $docente)
-                              <tr>
-                              <td>{{ $docente->clave }}</td>
-                              <td>{{ $docente->nombre }}</td>
-                              <td>{{ $docente->descripcion }}</td>
-                              <td>{{ $docente->fch_recontratacion }}</td>
-                              <td class="text-center">
-                                <a class="agrega" id="{{ $docente->id_personal }}"><span class="glyphicon glyphicon-log-in em2" aria-hidden="true"></span></a>
-                              </td>
-                            </tr>  
-                            @endforeach                     
-                          </tbody>
-                        </table>
-    </div>
-          <div class="col-md-4">
-        <div class="panel panel-info">
-            <div class="panel-heading">
-              <h3 class="panel-title text-center">PROFESORES EN PLANTILLA</h3>
-            </div> 
-        </div>
-        <table class="table table-bordered">
-                          <thead>
-                            <tr>
-                                <th>Nombre</th>
-                                <th>Eliminar</th>
-                                <th>Materias/Perfil</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            @foreach($plantillas as $plantilla)
-                            <tr>
-                              <td>{{ $plantilla->nombre }}</td>
-                              <td class="text-center">
-                                <a class="elimina" id="{{ $plantilla->id_personal }}"><span class="glyphicon glyphicon-trash em2" aria-hidden="true"></span></a>
-                              </td>
-                              <td class="text-center">
-                               <a class="materias" id="{{ $plantilla->id_personal }}"><span class="glyphicon glyphicon-list-alt em2" aria-hidden="true"></span></a>
-                              </td>
-                            </tr>
-                            @endforeach
-                          </tbody>
-                        </table>
-      </div>
-  </div>
-</div>	
-
-<!-- MODAL PARA ELIMINAR -->
-<div id="modal_elimina" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-  <div class="modal-dialog modal-sm" role="document">
-    <div class="modal-content">
-      <div class="modal-body">
-<form action="" method="POST" role="form" id="form_delete">
- {{method_field('DELETE') }}
-  {{ csrf_field() }}
-        ¿Realmente deseas eliminar éste elemento?
-      </div>
-            <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-        <input id="confirma_elimina" type="button" class="btn btn-danger" value="Aceptar"></input>
-      </div>
-</form>
-      </div>
-    </div>
-  </div>
+    <x-panel.tarjeta titulo="Profesores en plantilla">
+        <x-panel.tabla>
+            <thead><tr><th>Nombre</th><th>Materias y perfil</th><th>Quitar</th></tr></thead>
+            <tbody>
+                @forelse ($plantillas as $plantilla)
+                    <tr>
+                        <td>{{ $plantilla->nombre }}</td>
+                        <td><x-panel.boton tamano="sm" variante="contorno-primario" data-toggle="modal" data-target="#modal_materias"
+                            :data-docente="$plantilla->id_personal">Materias</x-panel.boton></td>
+                        <td><x-panel.boton tamano="sm" variante="contorno-peligro" data-toggle="modal" data-target="#modal_elimina"
+                            :data-docente="$plantilla->id_personal" :data-nombre="$plantilla->nombre">Quitar</x-panel.boton></td>
+                    </tr>
+                @empty
+                    <tr><td colspan="3">Aún no hay docentes en la plantilla.</td></tr>
+                @endforelse
+            </tbody>
+        </x-panel.tabla>
+    </x-panel.tarjeta>
 </div>
 
-<!-- Modal para ver materias -->
-<form id="form_ver_materias" class="form" role="form" method="POST">
-<div class="modal fade bs-example-modal-lg" id="modal_materias" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-        <div class="modal-header bg-info">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title" id="myModalLabel">MATERIAS</h4>
+<x-panel.modal id="modal_agrega" titulo="Agregar docente a la plantilla" tamano="sm" sin-relleno aria-label="Agregar docente a la plantilla">
+    <form data-panel-guardar id="form_docente_crea" method="POST" action="{{ url('/plantilla/docentes') }}">
+        @csrf
+        <input type="hidden" id="docente" name="docente">
+        <div class="tw-modal-cuerpo">¿Agregar a <strong data-nombre-plantilla></strong> a la plantilla?</div>
+        <x-panel.modal-pie>
+            <x-panel.boton variante="secundario" data-dismiss="modal">Cancelar</x-panel.boton>
+            <x-panel.boton id="confirma_agrega" type="submit">Agregar</x-panel.boton>
+        </x-panel.modal-pie>
+    </form>
+</x-panel.modal>
+
+<x-panel.modal id="modal_elimina" titulo="Quitar docente de la plantilla" tamano="sm" sin-relleno aria-label="Quitar docente de la plantilla">
+    <form data-panel-guardar id="form_delete" method="POST">
+        @csrf
+        @method('DELETE')
+        <div class="tw-modal-cuerpo">¿Quitar a <strong data-nombre-plantilla></strong> de la plantilla?</div>
+        <x-panel.modal-pie>
+            <x-panel.boton variante="secundario" data-dismiss="modal">Cancelar</x-panel.boton>
+            <x-panel.boton id="confirma_elimina" type="submit" variante="peligro">Quitar</x-panel.boton>
+        </x-panel.modal-pie>
+    </form>
+</x-panel.modal>
+
+<x-panel.modal id="modal_materias" titulo="Materias del docente" tamano="xl" sin-relleno aria-label="Materias del docente">
+    <form id="form_ver_materias" method="POST" action="{{ url('/agrega/materias_perfil') }}">
+        @csrf
+        <input type="hidden" id="prof" name="prof">
+        <input type="hidden" id="materias" name="materias">
+        <div class="tw-modal-cuerpo tw:max-h-[60dvh] tw:overflow-y-auto">
+            <div id="estado_materias_plantilla" role="status" class="tw:mb-3 tw:text-sm"></div>
+            <div id="contenedor_materias"></div>
         </div>
-        <div class="modal-body">
-          {{ csrf_field() }}
-          <input type="hidden" id="prof" name="prof" value="">
-          <input type="hidden" id="materias" name="materias" value="">
-          <div class="row">
-              <div id="contenedor_materias">
+        <x-panel.modal-pie>
+            <x-panel.boton variante="secundario" data-dismiss="modal">Cerrar</x-panel.boton>
+            <x-panel.boton type="submit" id="guardar_materias_plantilla" disabled>Guardar materias</x-panel.boton>
+        </x-panel.modal-pie>
+    </form>
+</x-panel.modal>
+@endsection
 
-              </div>
-          </div>
-        </div>
-                      <div class="modal-footer">
-              <button type="button" class="btn btn-primary acepta">Agregar</button>
-          </div>
-    </div>
-  </div>
-</div>
-</form>
-
-<!-- MODAL PARA AGREGAR DOCENTES A PLANTILLA -->
-<div id="modal_agrega" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-  <div class="modal-dialog modal-sm" role="document">
-    <div class="modal-content">
-      <div class="modal-body">
-<form id="form_docente_crea" class="form" role="form" method="POST" >
-  {{ csrf_field() }}
-      <input type="hidden" id="docente" name="docente" value="" />
-        ¿Realmente deseas agregar a éste docente a plantilla?
-      </div>
-            <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-        <input id="confirma_agrega" type="button" class="btn btn-success" value="Aceptar"></input>
-      </div>
-</form>
-      </div>
-    </div>
-  </div>
-</div>
-
-</main>
-
+@push('scripts')
 <script>
-  $(document).ready(function() {
-  $('#paginar_table').DataTable();
-  
-        $(".materias").click(function(){
-            var idprof=$(this).attr('id');
-        $('#prof').val(idprof);
-          /*var arreglo_id=$(this).attr('id');
-          var arreglo=[];
-          arreglo[0]=arreglo_id;
-          arreglo[1]=1;
-          window.location.href='/docentes/materias/'+arreglo;
-          $("#contenedor_materias").empty();*/
-        $.get("/docentes/materias/"+idprof,function(request)
-          {
-            $("#contenedor_materias").html(request);
-        });
-        $('#modal_materias').modal('show');
+$(function () {
+    $('#paginar_table').DataTable();
+    const formMaterias = $('#form_ver_materias');
+    const botonMaterias = $('#guardar_materias_plantilla');
+    const estadoMaterias = $('#estado_materias_plantilla');
+    let cargaMaterias;
 
-        });
+    $('#modal_agrega, #modal_elimina').on('show.bs.modal', function (event) {
+        const { docente, nombre } = event.relatedTarget.dataset;
+        $(this).find('[data-nombre-plantilla]').text(nombre);
+        if (this.id === 'modal_agrega') {
+            $('#docente').val(docente);
+        } else {
+            $('#form_delete').attr('action', @json(url('/plantilla/docentes')) + '/' + docente);
+        }
+    });
 
+    $('#modal_materias').on('show.bs.modal', function (event) {
+        const docente = event.relatedTarget.dataset.docente;
+        $('#prof').val(docente);
+        botonMaterias.prop('disabled', true);
+        $('#contenedor_materias').empty();
+        estadoMaterias.text('Cargando materias…');
+        cargaMaterias = $.get(@json(url('/docentes/materias')) + '/' + docente)
+            .done(function (html) {
+                $('#contenedor_materias').html(html);
+                botonMaterias.prop('disabled', false);
+                estadoMaterias.empty();
+            })
+            .fail(function (xhr, estado) {
+                if (estado !== 'abort') {
+                    estadoMaterias.text('No se pudieron cargar las materias. Cierra y vuelve a abrir el formulario.');
+                    PanelFormularios.fallo(formMaterias[0], xhr, estadoMaterias.text());
+                }
+            });
+    }).on('hide.bs.modal', function (event) {
+        if (formMaterias.attr('aria-busy') === 'true') {
+            event.preventDefault();
+        } else if (cargaMaterias) {
+            cargaMaterias.abort();
+        }
+    });
 
-       $(".elimina").click(function(){
-            var id=$(this).attr('id');
-            $('#confirma_elimina').data('id',id);
-            $('#modal_elimina').modal('show');
-        });
-
-        $("#paginar_table").on('click','.agrega',function(){
-            var id=$(this).attr('id');
-            $('#docente').val(id);
-            $('#modal_agrega').modal('show');
-        });
-
-        $("#confirma_elimina").click(function(event){
-          var id_docente=($(this).data('id'));
-          $("#form_delete").attr("action","/plantilla/docentes/"+id_docente)      
-          $("#form_delete").submit();
-          });
-
-          $("#confirma_agrega").click(function(event){    
-            $("#form_docente_crea").submit();
-          });
-
-                      $(".acepta").click(function(){
-        var arreglo_materias=[];
-        $("input[name='materia[]']:checked").each(function(){
-          arreglo_materias[arreglo_materias.length]=$(this).val();        
-        });
-        $("#materias").val(arreglo_materias);
-
-      $.post("/agrega/materias_perfil", $("#form_ver_materias").serialize(),function(request)
-        {
-          window.location.href='/plantilla/docentes';
-          $('#modal_materias').modal('hide');
-        });
+    formMaterias.on('submit', function (event) {
+        event.preventDefault();
+        if (botonMaterias.prop('disabled')) { return; }
+        const materias = formMaterias.find('input[name="materia[]"]:checked').map(function () { return this.value; }).get();
+        if (!materias.length) {
+            estadoMaterias.text('Selecciona al menos una materia.');
+            PanelFormularios.errores(this, {'materia[]': estadoMaterias.text()});
+            return;
+        }
+        $('#materias').val(materias.join(','));
+        estadoMaterias.empty();
+        PanelFormularios.enviar(this, botonMaterias[0]);
     });
 });
-  
 </script>
-
-@endsection
+@endpush

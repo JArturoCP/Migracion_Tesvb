@@ -13,6 +13,13 @@ class Compu_reg_usuarioController extends Controller
     return view('centro_computo.registrar_usuarios.registrar_usuario');
     }
     public function registro_datos_estudiante_excel(Request $request){
+        $request->validate([
+            'excel_registro' => 'required|file|extensions:xlsx,xls,csv,ods,xlsm|mimes:xlsx,xls,csv,txt,ods,xlsm',
+        ], [
+            'excel_registro.mimes' => 'Selecciona un archivo de hoja de cálculo válido.',
+            'excel_registro.extensions' => 'Selecciona un archivo de hoja de cálculo válido.',
+        ]);
+
 
         $file = $request->file('excel_registro');
 

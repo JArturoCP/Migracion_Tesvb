@@ -1,5 +1,8 @@
 @extends('layouts.app')
 @section('title', 'Incidencias')
+@push('styles')
+    @vite('resources/css/marco.css')
+@endpush
 @section('content')
     
 <main class="col-md-12">
@@ -14,13 +17,17 @@
         </div>
   </div>
 <div>
-  <form id="form_guardar_solicitud" action="{{url('/incidencias/guardar_incidencia_solicitada')}}" method="POST" role="form" >
+    <div data-stepper-secciones  class="tw:space-y-5" data-stepper-errores="{{ json_encode($errors->messages()) }}">
+        <x-panel.stepper id="incidencia" :pasos="['Motivo y artículo', 'Fecha y horario', 'Responsable y datos adicionales']" externo />
+  <form data-stepper-formulario id="form_guardar_solicitud" action="{{url('/incidencias/guardar_incidencia_solicitada')}}" method="POST" role="form" >
   {{ csrf_field() }}
+    <section id="incidencia-paso-0" data-stepper-seccion  class="tw:space-y-4 tw:motion-safe:animate-in tw:motion-safe:fade-in tw:motion-safe:duration-200">
+        <h4 data-stepper-titulo tabindex="-1" class="tw:text-sm tw:font-semibold tw:text-gray-800">Motivo y artículo</h4>
              <div class="row">
                 <div class="col-md-8 col-md-offset-2">
                      <div class="form-group">
                          <label for="motivo_oficio">Motivo del oficio:</label>
-                         <textarea class="form-control" id="motivo_oficio" name="motivo_oficio" rows="3" placeholder="Ingresa el motivo del oficio (La primera letra debe de ser en minusculas, debes tambien utilizar letras mayusculas y minusculas), por ejemplo: entregar documentación" style=""></textarea>
+                         <textarea class="form-control" id="motivo_oficio" name="motivo_oficio" data-stepper-requerido="Ingresa el motivo del oficio." rows="3" placeholder="Ingresa el motivo del oficio (La primera letra debe de ser en minusculas, debes tambien utilizar letras mayusculas y minusculas), por ejemplo: entregar documentación" style=""></textarea>
                      </div>
                 </div>
              </div>
@@ -31,7 +38,7 @@
           <div class= "dropdown">
              <label for="Tipo_of">Tipo de articulo/clausula aplicada:</label>
              <input type="hidden" id="estado_profesor" name="estado_profesor" value="{{$estado_profesor}}">
-             <select class="form-control" placeholder="Seleciona una opción" id="id_articulo" name="id_articulo" required>
+             <select class="form-control" placeholder="Seleciona una opción" id="id_articulo" name="id_articulo" data-stepper-requerido="Selecciona el artículo." required>
                 <option disabled selected hidden> Selecciona una opción </option>
                 @foreach($articulos as $articulo)
                 <option value="{{$articulo->id_articulo}}" data-art="{{$articulo->nombre_articulo}}"> {{$articulo->nombre_articulo}} </option>
@@ -41,16 +48,21 @@
           </div>
       </div>
 
+      </div>
+    </section>
+    <section id="incidencia-paso-1" data-stepper-seccion  class="tw:space-y-4 tw:motion-safe:animate-in tw:motion-safe:fade-in tw:motion-safe:duration-200">
+        <h4 data-stepper-titulo tabindex="-1" class="tw:text-sm tw:font-semibold tw:text-gray-800">Fecha y horario</h4>
+      <div class="row">
                      <div style="display: none;" id="fecha_r1" class="col-md-2  col-md-offset-1 ">
                         <label for="fecha_requerida">Fecha requerida:</label>
                         <div class="form-group">
-                            <input class="form-control datepicker fecha_requerida1"   type="text"  id="fecha_req1" name="fecha_req1" data-date-format="yyyy/mm/dd" placeholder="DD/MM/AAAA" >
+                            <input class="form-control datepicker fecha_requerida1"   type="text"  id="fecha_req1" name="fecha_req1" data-stepper-requerido="Selecciona la fecha requerida." data-stepper-omitir data-date-format="yyyy/mm/dd" placeholder="DD/MM/AAAA" >
                         </div>
                      </div>
                       <div style="display: none;" id="fecha_r2" class="col-md-2  col-md-offset-1 ">
                           <label for="fecha_requerida">Fecha requerida:</label>
                           <div class="form-group">
-                              <input class="form-control datepicker fecha_requerida2"   type="text"  id="fecha_req2" name="fecha_req2" data-date-format="yyyy/mm/dd" placeholder="DD/MM/AAAA" >
+                              <input class="form-control datepicker fecha_requerida2"   type="text"  id="fecha_req2" name="fecha_req2" data-stepper-requerido="Selecciona la fecha requerida." data-stepper-omitir data-date-format="yyyy/mm/dd" placeholder="DD/MM/AAAA" >
                           </div>
                       </div>
   </div>
@@ -70,22 +82,6 @@
           </div>
 
       </div>
-      @if($estado_profesor==1)
-          <div class="row">
-                    <div class="col-md-3 col-md-offset-2" id="jefes" style="display:none;">
-                        <div class="dropdown">
-                            <label for="exampleInputEmail1">Dirigido a:</label>
-                            <select class="form-control" placeholder="Seleciona una opción" id="id_jefe" name="id_jefe" required>
-                              <option disabled selected hidden> Selecciona una opción </option>
-                                @foreach($array_carreras as $carrera)
-                              <option value="{{$carrera['id_personal']}}" data-art="{{$carrera['nombre']}}">{{$carrera['titulo']}} {{$carrera['nombre']}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-          </div>
-
-      @endif
 
             {{-----------ARTICULO 64°-----------}}
     <div style="display: none;" id="articulo_64">
@@ -94,13 +90,13 @@
                   <div class="col-md-2 col-md-offset-2">
                     <label for="horario entrada">Horario de entrada</label><br>
                      <div class="form-group">
-                             <input id="hora_e" class="form-control time" type="text" name="hora_e" placeholder="HORA" />
+                             <input id="hora_e" class="form-control time" type="text" name="hora_e" data-stepper-requerido="Selecciona el horario de entrada." data-stepper-omitir placeholder="HORA" />
                      </div>
                   </div>
                   <div class="col-md-2 col-md-offset-1">
                      <label for="hora salida tarde">Horario de llegada tarde</label><br>
                      <div class="form-group">
-                             <input id="hora_st" class="form-control time" type="text" name="hora_st" placeholder="HORA" />
+                             <input id="hora_st" class="form-control time" type="text" name="hora_st" data-stepper-requerido="Selecciona el horario de llegada." data-stepper-omitir placeholder="HORA" />
                      </div>     
                   </div>
             </div>
@@ -111,13 +107,13 @@
                   <div class="col-md-3 col-md-offset-2">
                       <label for="fecha_invac">Fecha de inicio vacaciones</label>
                      <div class="form-group">
-                         <input class="form-control datepicker fecha_invac"   type="text"  id="fecha_invac" name="fecha_invac" data-date-format="yyyy/mm/dd" placeholder="AAAA/MM/DD" >
+                         <input class="form-control datepicker fecha_invac"   type="text"  id="fecha_invac" name="fecha_invac" data-stepper-requerido="Selecciona la fecha de inicio de vacaciones." data-stepper-omitir data-date-format="yyyy/mm/dd" placeholder="AAAA/MM/DD" >
                      </div>
                   </div>
                   <div class="col-md-3 col-md-offset-1">
                      <label for="fecha_tervac">Fecha de termino de  vacaciones</label>
                      <div class="form-group">
-                         <input class="form-control datepicker fecha_tervac"   type="text"  id="fecha_tervac" name="fecha_tervac" data-date-format="yyyy/mm/dd" placeholder="AAAA/MM/DD" >
+                         <input class="form-control datepicker fecha_tervac"   type="text"  id="fecha_tervac" name="fecha_tervac" data-stepper-requerido="Selecciona la fecha de término de vacaciones." data-stepper-omitir data-date-format="yyyy/mm/dd" placeholder="AAAA/MM/DD" >
                      </div>
                   </div>               
             </div>
@@ -129,13 +125,13 @@
               <div class="col-md-3 col-md-offset-2">
                   <label for="fecha_invac">Fecha inicial</label>
                   <div class="form-group">
-                      <input class="form-control datepicker fecha_invac3"   type="text"  id="fecha_invac3" name="fecha_invac3" data-date-format="yyyy/mm/dd" placeholder="AAAA/MM/DD" >
+                      <input class="form-control datepicker fecha_invac3"   type="text"  id="fecha_invac3" name="fecha_invac3" data-stepper-requerido="Selecciona la fecha inicial." data-stepper-omitir data-date-format="yyyy/mm/dd" placeholder="AAAA/MM/DD" >
                   </div>
               </div>
               <div class="col-md-3 col-md-offset-1">
                   <label for="fecha_tervac">Fecha de termino</label>
                   <div class="form-group">
-                      <input class="form-control datepicker fecha_tervac3"   type="text"  id="fecha_tervac3" name="fecha_tervac3" data-date-format="yyyy/mm/dd" placeholder="AAAA/MM/DD" >
+                      <input class="form-control datepicker fecha_tervac3"   type="text"  id="fecha_tervac3" name="fecha_tervac3" data-stepper-requerido="Selecciona la fecha de término." data-stepper-omitir data-date-format="yyyy/mm/dd" placeholder="AAAA/MM/DD" >
                   </div>
               </div>
           </div>
@@ -146,13 +142,13 @@
               <div class="col-md-3 col-md-offset-2">
                   <label for="fecha_invac">Fecha de inicio vacaciones</label>
                   <div class="form-group">
-                      <input class="form-control datepicker fecha_invac2"   type="text"  id="fecha_invac2" name="fecha_invac2" data-date-format="yyyy/mm/dd" placeholder="AAAA/MM/DD" >
+                      <input class="form-control datepicker fecha_invac2"   type="text"  id="fecha_invac2" name="fecha_invac2" data-stepper-requerido="Selecciona la fecha de inicio de vacaciones." data-stepper-omitir data-date-format="yyyy/mm/dd" placeholder="AAAA/MM/DD" >
                   </div>
               </div>
               <div class="col-md-3 col-md-offset-1">
                   <label for="fecha_tervac">Fecha de termino de  vacaciones</label>
                   <div class="form-group">
-                      <input class="form-control datepicker fecha_tervac2"   type="text"  id="fecha_tervac2" name="fecha_tervac2" data-date-format="yyyy/mm/dd" placeholder="AAAA/MM/DD" >
+                      <input class="form-control datepicker fecha_tervac2"   type="text"  id="fecha_tervac2" name="fecha_tervac2" data-stepper-requerido="Selecciona la fecha de término de vacaciones." data-stepper-omitir data-date-format="yyyy/mm/dd" placeholder="AAAA/MM/DD" >
                   </div>
               </div>
           </div>
@@ -163,13 +159,13 @@
                   <div class="col-md-2 col-md-offset-2">
                      <label for="horario entrada">Horario de entrada</label><br>
                      <div class="form-group">
-                             <input id="hora_e1" class="form-control time" type="text" name="hora_e1" placeholder="HORA" />
+                             <input id="hora_e1" class="form-control time" type="text" name="hora_e1" data-stepper-requerido="Selecciona el horario de entrada." data-stepper-omitir placeholder="HORA" />
                      </div>
                   </div>
         <div class="col-md-2 col-md-offset-1">
             <label for="hora salida tarde">Horario de salida</label><br>
             <div class="form-group">
-                  <input id="hora_s1" class="form-control time" type="text" name="hora_s1" placeholder="HORA" />
+                  <input id="hora_s1" class="form-control time" type="text" name="hora_s1" data-stepper-requerido="Selecciona el horario de salida." data-stepper-omitir placeholder="HORA" />
             </div>
         </div>
       </div>
@@ -180,18 +176,37 @@
                 <div class="col-md-2 col-md-offset-2">
                      <label for="horario entrada">Horario de entrada</label><br>
                      <div class="form-group">
-                             <input id="hora_e2" class="form-control time" type="text" name="hora_e2" placeholder="HORA" />
+                             <input id="hora_e2" class="form-control time" type="text" name="hora_e2" data-stepper-requerido="Selecciona el horario de entrada." data-stepper-omitir placeholder="HORA" />
                      </div>
                 </div>
       <div class="col-md-2 col-md-offset-1">
             <label for="hora salida tarde">Horario de salida</label><br>
             <div class="form-group">
-                <input id="hora_s2" class="form-control time" type="text" name="hora_s2" placeholder="HORA" />
+                <input id="hora_s2" class="form-control time" type="text" name="hora_s2" data-stepper-requerido="Selecciona el horario de salida." data-stepper-omitir placeholder="HORA" />
             </div>
       </div>
     </div>
   </div>
 {{-------DESCRIPCIÓN CLAUSULA 44 DIAS ECONOMICOS SINDICATO------------}}
+    </section>
+    <section id="incidencia-paso-2" data-stepper-seccion  class="tw:space-y-4 tw:motion-safe:animate-in tw:motion-safe:fade-in tw:motion-safe:duration-200">
+        <h4 data-stepper-titulo tabindex="-1" class="tw:text-sm tw:font-semibold tw:text-gray-800">Responsable y datos adicionales</h4>
+      @if($estado_profesor==1)
+          <div class="row">
+                    <div class="col-md-3 col-md-offset-2" id="jefes" style="display:none;">
+                        <div class="dropdown">
+                            <label for="exampleInputEmail1">Dirigido a:</label>
+                            <select class="form-control" placeholder="Seleciona una opción" id="id_jefe" name="id_jefe" data-stepper-requerido="Selecciona el jefe de división." data-stepper-omitir required>
+                              <option disabled selected hidden> Selecciona una opción </option>
+                                @foreach($array_carreras as $carrera)
+                              <option value="{{$carrera['id_personal']}}" data-art="{{$carrera['nombre']}}">{{$carrera['titulo']}} {{$carrera['nombre']}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+          </div>
+
+      @endif
     <div style="display: none;" id="descripcionD_44">
       <div class="row">
         <div class="col-md-8 col-md-offset-2">
@@ -290,13 +305,16 @@
               </div>
           </div>
       </div>
+    </section>
     </form> 
 
           <div class="row" style="display: inline" id="solicitar">
             <div class="col-md-2 col-md-offset-6">
-                <button id="enviar_solicitud" type="button" class="btn btn-success btn-lg">Enviar</button>
+                <button id="enviar_solicitud" type="submit" form="form_guardar_solicitud" class="btn btn-success btn-lg">Enviar</button>
             </div>    
           </div>
+        <x-panel.stepper-navegacion />
+    </div>
 </div>
       <div class="modal fade" id="modal_mostrar2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog" role="document">
@@ -315,6 +333,8 @@
                 </div>
             </div>
         </div>
+    @include('partials.panel.stepper-secciones')
+
 <script>
    $(document).ready( function() {
        function contar_dias(id_articulo) {
@@ -351,6 +371,26 @@
    $("#id_articulo").change(function(){
 
     var id_articulo=$(this).val();
+    const fechasPorArticulo = {
+        1: ['fecha_req2'], 2: ['fecha_invac3', 'fecha_tervac3'], 4: ['fecha_req2'],
+        5: ['fecha_req1', 'hora_e', 'hora_st'], 6: ['fecha_req2'], 7: ['fecha_req1'],
+        8: ['fecha_invac', 'fecha_tervac'], 9: ['fecha_req2', 'hora_e2', 'hora_s2'],
+        10: ['fecha_req2', 'hora_e1', 'hora_s1'], 11: ['fecha_invac2', 'fecha_tervac2']
+    };
+    const requeridos = new Set(fechasPorArticulo[id_articulo] || []);
+    if ($('#estado_profesor').val() === '1' && fechasPorArticulo[id_articulo]) { requeridos.add('id_jefe'); }
+    $('#form_guardar_solicitud [data-stepper-requerido]').not('#motivo_oficio, #id_articulo').each(function () {
+        this.toggleAttribute('data-stepper-omitir', !requeridos.has(this.name));
+    });
+    $('#enviar_solicitud').prop('disabled', true);
+    this.removeAttribute('data-stepper-error');
+    $('#message, #message2').hide();
+    if (!Object.hasOwn(fechasPorArticulo, id_articulo)) {
+        this.dataset.stepperError = 'Selecciona un artículo disponible para esta solicitud.';
+        $('#form_guardar_solicitud').trigger('stepper:revisar');
+        return;
+    }
+
 
        let diass=contar_dias(id_articulo);
 
@@ -385,10 +425,12 @@
 
     $.get("/incidencias/solicitud/validar/"+id_articulo,function (data) {
           
+          if ($('#id_articulo').val() !== id_articulo) { return; }
           var dias_dis=data;
           
           if(dias_dis==0)
           {
+            $('#id_articulo').attr('data-stepper-error', 'El artículo seleccionado no tiene días disponibles.');
             
             $("#message").css("display", "block");
             $("#message2").css("display", "none");
@@ -401,9 +443,12 @@
             $("#message").css("display", "none");
             $("#enviar_solicitud").attr("disabled", false);
           }
-          
-        }); 
-    //TNotify.alert('hola');
+          $('#form_guardar_solicitud').trigger('stepper:revisar');
+        }).fail(function () {
+          if ($('#id_articulo').val() !== id_articulo) { return; }
+          $('#id_articulo').attr('data-stepper-error', 'No se pudo comprobar la disponibilidad. Vuelve a seleccionar el artículo.');
+          $('#form_guardar_solicitud').trigger('stepper:revisar');
+        });
      if(id_articulo == 5){
          $("#articulo_56").css("display", "none");
       $("#articulo_64").css("display", "block");
@@ -731,620 +776,6 @@
                $('.fecha_tervac3').datepicker('setStartDate', getDate(selected));
            });
 
-    //////Validacion llenado///
-
-    $("#enviar_solicitud").click(function(){
-        var motivo_oficio = $('#motivo_oficio').val();
-        if(motivo_oficio == ""){
-            swal
-            ({
-                position: "top",
-                type: "error",
-                title: "Ingresa el motivo de oficio",
-                showConfirmButton: false,
-                timer: 3500
-            });
-        }else{
-            var id_articulo = $('#id_articulo').val();
-            if(id_articulo == null)
-            {
-                swal
-                ({
-                    position: "top",
-                    type: "error",
-                    title: "Selecciona articulo",
-                    showConfirmButton: false,
-                    timer: 3500
-                });
-            }
-            else{
-
-
-
-                           if(id_articulo == 9 )
-                           {
-                               var fecha_req = $('#fecha_req2').val();
-                               if(fecha_req == ""){
-                                   swal
-                                   ({
-                                       position: "top",
-                                       type: "error",
-                                       title: "Selecciona fecha requerida",
-                                       showConfirmButton: false,
-                                       timer: 3500
-                                   });
-                               }else{
-                               var hora_e2 = $('#hora_e2').val();
-
-
-                               if(hora_e2 == ''){
-                                   swal({
-                                       position: "top",
-                                       type: "error",
-                                       title: "Selecciona el horario de entrada",
-                                       showConfirmButton: false,
-                                       timer: 3500
-                                   });
-                               }else{
-                                   var hora_s2 = $('#hora_s2').val();
-
-                                   if(hora_s2 == '' ){
-                                       swal({
-                                           position: "top",
-                                           type: "error",
-                                           title: "Selecciona el horario de salida",
-                                           showConfirmButton: false,
-                                           timer: 3500
-                                       });
-                                   }
-                                   else{
-                                       var id_estado_prof="<?php echo $estado_profesor;?>";
-                                       if(id_estado_prof == 1)
-                                       {
-                                           var id_jefe = $('#id_jefe').val();
-                                           if(id_jefe == null){
-                                               swal({
-                                                   position: "top",
-                                                   type: "error",
-                                                   title: "Selecciona jefe de división",
-                                                   showConfirmButton: false,
-                                                   timer: 3500
-                                               });
-
-                                           }else{
-                                               $("#form_guardar_solicitud").submit();
-                                               $("#enviar_solicitud").attr("disableb", true);
-                                               swal({
-                                                   position: "top",
-                                                   type: "success",
-                                                   title: "Registro exitoso",
-                                                   showConfirmButton: false,
-                                                   timer: 3500
-                                               });
-                                           }
-
-
-                                       }else {
-
-                                           $("#form_guardar_solicitud").submit();
-                                           $("#enviar_solicitud").attr("disableb", true);
-                                           swal({
-                                               position: "top",
-                                               type: "success",
-                                               title: "Registro exitoso",
-                                               showConfirmButton: false,
-                                               timer: 3500
-                                           });
-                                       }
-                                   }
-                               }
-
-                               }
-                           }
-                           else if( id_articulo == 7){
-                               var fecha_req = $('#fecha_req1').val();
-                               if(fecha_req == ""){
-                                   swal
-                                   ({
-                                       position: "top",
-                                       type: "error",
-                                       title: "Selecciona fecha requerida",
-                                       showConfirmButton: false,
-                                       timer: 3500
-                                   });
-                               }else {
-                                   var id_estado_prof = "<?php echo $estado_profesor;?>";
-                                   if (id_estado_prof == 1) {
-                                       var id_jefe = $('#id_jefe').val();
-                                       if (id_jefe == null) {
-                                           swal({
-                                               position: "top",
-                                               type: "error",
-                                               title: "Selecciona jefe de división",
-                                               showConfirmButton: false,
-                                               timer: 3500
-                                           });
-
-                                       } else {
-                                           $("#form_guardar_solicitud").submit();
-                                           $("#enviar_solicitud").attr("disableb", true);
-                                           swal({
-                                               position: "top",
-                                               type: "success",
-                                               title: "Registro exitoso",
-                                               showConfirmButton: false,
-                                               timer: 3500
-                                           });
-                                       }
-
-
-                                   } else {
-
-                                       $("#form_guardar_solicitud").submit();
-                                       $("#enviar_solicitud").attr("disableb", true);
-                                       swal({
-                                           position: "top",
-                                           type: "success",
-                                           title: "Registro exitoso",
-                                           showConfirmButton: false,
-                                           timer: 3500
-                                       });
-                                   }
-                               }
-                           }
-                           else if( id_articulo == 8){
-
-                                   var fecha_invac = $('#fecha_invac').val();
-                                   if (fecha_invac == '') {
-                                       swal({
-                                           position: "top",
-                                           type: "error",
-                                           title: "Selecciona fecha de inicio de vacaciones",
-                                           showConfirmButton: false,
-                                           timer: 3500
-                                       });
-                                   } else {
-                                       var fecha_tervac = $('#fecha_tervac').val();
-                                       if (fecha_tervac == "") {
-                                           swal({
-                                               position: "top",
-                                               type: "error",
-                                               title: "Selecciona fecha de termino de vacaciones",
-                                               showConfirmButton: false,
-                                               timer: 3500
-                                           });
-                                       } else {
-                                           var id_estado_prof = "<?php echo $estado_profesor;?>";
-                                           if (id_estado_prof == 1) {
-                                               var id_jefe = $('#id_jefe').val();
-                                               if (id_jefe == null) {
-                                                   swal({
-                                                       position: "top",
-                                                       type: "error",
-                                                       title: "Selecciona jefe de división",
-                                                       showConfirmButton: false,
-                                                       timer: 3500
-                                                   });
-
-                                               } else {
-                                                   $("#form_guardar_solicitud").submit();
-                                                   $("#enviar_solicitud").attr("disableb", true);
-                                                   swal({
-                                                       position: "top",
-                                                       type: "success",
-                                                       title: "Registro exitoso",
-                                                       showConfirmButton: false,
-                                                       timer: 3500
-                                                   });
-                                               }
-
-
-                                           } else {
-
-                                               $("#form_guardar_solicitud").submit();
-                                               $("#enviar_solicitud").attr("disableb", true);
-                                               swal({
-                                                   position: "top",
-                                                   type: "success",
-                                                   title: "Registro exitoso",
-                                                   showConfirmButton: false,
-                                                   timer: 3500
-                                               });
-                                           }
-
-                                       }
-
-                                   }
-
-///
-                           }
-                           else if( id_articulo == 10){
-                               var fecha_req = $('#fecha_req2').val();
-                               if(fecha_req == ""){
-                                   swal
-                                   ({
-                                       position: "top",
-                                       type: "error",
-                                       title: "Selecciona fecha requerida",
-                                       showConfirmButton: false,
-                                       timer: 3500
-                                   });
-                               }else {
-                                   var hora_e1 = $('#hora_e1').val();
-
-                                   if (hora_e1 == "") {
-                                       swal({
-                                           position: "top",
-                                           type: "error",
-                                           title: "Selecciona horario de entrada",
-                                           showConfirmButton: false,
-                                           timer: 3500
-                                       });
-                                   } else {
-                                       var hora_s1 = $('#hora_s1').val();
-                                       if (hora_s1 == "") {
-                                           swal({
-                                               position: "top",
-                                               type: "error",
-                                               title: "Selecciona horario de salida",
-                                               showConfirmButton: false,
-                                               timer: 3500
-                                           });
-                                       } else {
-                                           var id_estado_prof = "<?php echo $estado_profesor;?>";
-                                           if (id_estado_prof == 1) {
-                                               var id_jefe = $('#id_jefe').val();
-                                               if (id_jefe == null) {
-                                                   swal({
-                                                       position: "top",
-                                                       type: "error",
-                                                       title: "Selecciona jefe de división",
-                                                       showConfirmButton: false,
-                                                       timer: 3500
-                                                   });
-
-                                               } else {
-                                                   $("#form_guardar_solicitud").submit();
-                                                   $("#enviar_solicitud").attr("disableb", true);
-                                                   swal({
-                                                       position: "top",
-                                                       type: "success",
-                                                       title: "Registro exitoso",
-                                                       showConfirmButton: false,
-                                                       timer: 3500
-                                                   });
-                                               }
-
-
-                                           } else {
-
-                                               $("#form_guardar_solicitud").submit();
-                                               $("#enviar_solicitud").attr("disableb", true);
-                                               swal({
-                                                   position: "top",
-                                                   type: "success",
-                                                   title: "Registro exitoso",
-                                                   showConfirmButton: false,
-                                                   timer: 3500
-                                               });
-                                           }
-
-                                       }
-
-                                   }
-                               }
-
-                           }
-                           else if( id_articulo == 11){
-
-
-                               var fecha_invac2 = $('#fecha_invac2').val();
-
-                               if(fecha_invac2 == ''){
-                                   swal({
-                                       position: "top",
-                                       type: "error",
-                                       title: "Selecciona fecha de inicio de vacaciones",
-                                       showConfirmButton: false,
-                                       timer: 3500
-                                   });
-                               }else {
-                                   var fecha_tervac2 = $('#fecha_tervac2').val();
-                                   if (fecha_tervac2 == "") {
-                                       swal({
-                                           position: "top",
-                                           type: "error",
-                                           title: "Selecciona fecha de termino de vacaciones",
-                                           showConfirmButton: false,
-                                           timer: 3500
-                                       });
-                                   } else {
-                                       var id_estado_prof = "<?php echo $estado_profesor;?>";
-                                       if (id_estado_prof == 1) {
-                                           var id_jefe = $('#id_jefe').val();
-                                           if (id_jefe == null) {
-                                               swal({
-                                                   position: "top",
-                                                   type: "error",
-                                                   title: "Selecciona jefe de división",
-                                                   showConfirmButton: false,
-                                                   timer: 3500
-                                               });
-
-                                           } else {
-                                               $("#form_guardar_solicitud").submit();
-                                               $("#enviar_solicitud").attr("disableb", true);
-                                               swal({
-                                                   position: "top",
-                                                   type: "success",
-                                                   title: "Registro exitoso",
-                                                   showConfirmButton: false,
-                                                   timer: 3500
-                                               });
-                                           }
-
-
-                                       } else {
-
-                                           $("#form_guardar_solicitud").submit();
-                                           $("#enviar_solicitud").attr("disableb", true);
-                                           swal({
-                                               position: "top",
-                                               type: "success",
-                                               title: "Registro exitoso",
-                                               showConfirmButton: false,
-                                               timer: 3500
-                                           });
-                                       }
-
-                                   }
-                               }
-
-
-//////
-                           }
-
-                   else if( id_articulo == 5)
-                   {
-                       var fecha_req = $('#fecha_req1').val();
-                       if(fecha_req == ""){
-                           swal
-                           ({
-                               position: "top",
-                               type: "error",
-                               title: "Selecciona fecha requerida",
-                               showConfirmButton: false,
-                               timer: 3500
-                           });
-                       }else {
-                           var hora_e = $('#hora_e').val();
-
-
-                           if (hora_e == '') {
-                               swal({
-                                   position: "top",
-                                   type: "error",
-                                   title: "Selecciona el horario de entrada",
-                                   showConfirmButton: false,
-                                   timer: 3500
-                               });
-                           } else {
-                               var hora_st = $('#hora_st').val();
-
-                               if (hora_st == '') {
-                                   swal({
-                                       position: "top",
-                                       type: "error",
-                                       title: "Selecciona el horario de salida",
-                                       showConfirmButton: false,
-                                       timer: 3500
-                                   });
-                               } else {
-                                   var id_estado_prof = "<?php echo $estado_profesor;?>";
-                                   if (id_estado_prof == 1) {
-                                       var id_jefe = $('#id_jefe').val();
-                                       if (id_jefe == null) {
-                                           swal({
-                                               position: "top",
-                                               type: "error",
-                                               title: "Selecciona jefe de división",
-                                               showConfirmButton: false,
-                                               timer: 3500
-                                           });
-
-                                       } else {
-                                           $("#form_guardar_solicitud").submit();
-                                           $("#enviar_solicitud").attr("disableb", true);
-                                           swal({
-                                               position: "top",
-                                               type: "success",
-                                               title: "Registro exitoso",
-                                               showConfirmButton: false,
-                                               timer: 3500
-                                           });
-                                       }
-
-
-                                   } else {
-
-                                       $("#form_guardar_solicitud").submit();
-                                       $("#enviar_solicitud").attr("disableb", true);
-                                       swal({
-                                           position: "top",
-                                           type: "success",
-                                           title: "Registro exitoso",
-                                           showConfirmButton: false,
-                                           timer: 3500
-                                       });
-                                   }
-                               }
-                           }
-
-                       }
-                   }
-                           else if(id_articulo == 1 || id_articulo == 2 || id_articulo == 4 || id_articulo == 6){
-
-                               if(id_articulo == 2)
-                               {
-
-
-
-                                       var id_estado_prof="<?php echo $estado_profesor;?>";
-                                       if(id_estado_prof == 1)
-                                       {
-                                           var id_jefe = $('#id_jefe').val();
-                                           if(id_jefe == null){
-                                               swal({
-                                                   position: "top",
-                                                   type: "error",
-                                                   title: "Selecciona jefe de división",
-                                                   showConfirmButton: false,
-                                                   timer: 3500
-                                               });
-
-                                           }else{
-                                               //
-                                               var fecha_invac3 = $('#fecha_invac3').val();
-
-                                               if(fecha_invac3 == ''){
-                                                   swal({
-                                                       position: "top",
-                                                       type: "error",
-                                                       title: "Selecciona fecha de inicio",
-                                                       showConfirmButton: false,
-                                                       timer: 3500
-                                                   });
-                                               }else {
-                                                   var fecha_tervac3 = $('#fecha_tervac3').val();
-                                                   if (fecha_tervac3 == "") {
-                                                       swal({
-                                                           position: "top",
-                                                           type: "error",
-                                                           title: "Selecciona fecha de termino",
-                                                           showConfirmButton: false,
-                                                           timer: 3500
-                                                       });
-                                                   } else {
-
-                                                       $("#form_guardar_solicitud").submit();
-                                                       $("#enviar_solicitud").attr("disabled", true);
-                                                       swal({
-                                                           position: "top",
-                                                           type: "success",
-                                                           title: "Registro exitoso",
-                                                           showConfirmButton: false,
-                                                           timer: 3500
-                                                       });
-                                                   }
-                                               }
-
-                                                   //
-                                               }
-
-
-                                       }
-                                       else {
-                                           var fecha_invac3 = $('#fecha_invac3').val();
-
-                                           if(fecha_invac3 == ''){
-                                               swal({
-                                                   position: "top",
-                                                   type: "error",
-                                                   title: "Selecciona fecha de inicio",
-                                                   showConfirmButton: false,
-                                                   timer: 3500
-                                               });
-                                           }else {
-                                               var fecha_tervac3 = $('#fecha_tervac3').val();
-                                               if (fecha_tervac3 == "") {
-                                                   swal({
-                                                       position: "top",
-                                                       type: "error",
-                                                       title: "Selecciona fecha de termino",
-                                                       showConfirmButton: false,
-                                                       timer: 3500
-                                                   });
-                                               } else {
-
-                                                   ////
-                                                   $("#form_guardar_solicitud").submit();
-                                                   $("#enviar_solicitud").attr("disableb", true);
-                                                   swal({
-                                                       position: "top",
-                                                       type: "success",
-                                                       title: "Registro exitoso",
-                                                       showConfirmButton: false,
-                                                       timer: 3500
-                                                   });
-                                               }}
-
-                                           ///
-
-                                   }
-                                   //
-///
-                               }else{
-                                   var fecha_req = $('#fecha_req2').val();
-                                   if(fecha_req == ""){
-                                       swal
-                                       ({
-                                           position: "top",
-                                           type: "error",
-                                           title: "Selecciona fecha requerida",
-                                           showConfirmButton: false,
-                                           timer: 3500
-                                       });
-                                   }else {
-                                       var id_estado_prof = "<?php echo $estado_profesor;?>";
-                                       if (id_estado_prof == 1) {
-                                           var id_jefe = $('#id_jefe').val();
-                                           if (id_jefe == null) {
-                                               swal({
-                                                   position: "top",
-                                                   type: "error",
-                                                   title: "Selecciona jefe de división",
-                                                   showConfirmButton: false,
-                                                   timer: 3500
-                                               });
-
-                                           } else {
-                                               $("#form_guardar_solicitud").submit();
-                                               $("#enviar_solicitud").attr("disableb", true);
-                                               swal({
-                                                   position: "top",
-                                                   type: "success",
-                                                   title: "Registro exitoso",
-                                                   showConfirmButton: false,
-                                                   timer: 3500
-                                               });
-                                           }
-
-
-                                       } else {
-
-                                           $("#form_guardar_solicitud").submit();
-                                           $("#enviar_solicitud").attr("disableb", true);
-                                           swal({
-                                               position: "top",
-                                               type: "success",
-                                               title: "Registro exitoso",
-                                               showConfirmButton: false,
-                                               timer: 3500
-                                           });
-                                       }
-                                   }
-
-                               }
-
-                             }
-
-                       }
-            }
-
-
-  //////seccion de acticulo/////
-    });
-                
   });
 </script>
 </main>

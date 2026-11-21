@@ -1,72 +1,35 @@
-@extends('layouts.app')
-
-@section('content')
-
-<div class="container" style="margin-top: 30px;">
-
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-
-            <div class="panel panel-primary">
-                
-                <div class="panel-heading">
-                    <h3 class="panel-title">
-                        <i class="glyphicon glyphicon-pencil"></i> Editar Examen
-                    </h3>
-                </div>
-
-                <div class="panel-body">
-
-                    <form action="{{ route('admin.examen.update',$examen->id_examen_egel) }}" method="POST">
-                        @csrf
-
-                        <!-- Carrera -->
-                        <div class="form-group">
-                            <label><i class="glyphicon glyphicon-education"></i> Carrera</label>
-                            <select name="id_carrera" class="form-control">
-                                @foreach($carreras as $c)
-                                    <option value="{{ $c->id_carrera }}"
-                                        {{ $examen->id_carrera == $c->id_carrera ? 'selected' : '' }}>
-                                        {{ $c->nombre }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                        <!-- Nombre -->
-                        <div class="form-group">
-                            <label><i class="glyphicon glyphicon-file"></i> Nombre del examen</label>
-                            <input 
-                                type="text" 
-                                name="nombre" 
-                                value="{{ $examen->nombre }}" 
-                                class="form-control"
-                                placeholder="Ingrese el nombre del examen"
-                                required>
-                        </div>
-
-                        <hr>
-
-                        <!-- Botones -->
-                        <div class="text-right">
-                            <a href="{{ route('admin.examenes.index') }}" 
-                               class="btn btn-default">
-                                <i class="glyphicon glyphicon-arrow-left"></i> Cancelar
-                            </a>
-
-                            <button class="btn btn-primary">
-                                <i class="glyphicon glyphicon-floppy-disk"></i> Actualizar
-                            </button>
-                        </div>
-
-                    </form>
-
-                </div>
-            </div>
-
+{{-- Modal para editar examen: lo incluye examenes/index cuando $ver == 'edit'. --}}
+<x-panel.modal id="modal_examen_edit" sin-relleno clase-cerrar="close" aria-labelledby="modal_examen_edit_titulo">
+    <form data-panel-envio action="{{ route('admin.examen.update',$examen->id_examen_egel) }}" method="POST">
+        @csrf
+        <div class="tw:px-6 tw:pt-6 tw:pr-14">
+            <h4 id="modal_examen_edit_titulo" class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">
+                <span class="fa fa-pencil tw:text-brand-500" aria-hidden="true"></span> Editar examen
+            </h4>
         </div>
-    </div>
+        <div class="tw-modal-cuerpo tw:space-y-5">
+            <x-panel.select etiqueta="Carrera" name="id_carrera" id="id_carrera" data-panel-etiqueta="la carrera" required>
+                @foreach($carreras as $c)
+                    <option value="{{ $c->id_carrera }}" {{ $examen->id_carrera == $c->id_carrera ? 'selected' : '' }}>{{ $c->nombre }}</option>
+                @endforeach
+            </x-panel.select>
 
-</div>
+            <x-panel.input etiqueta="Nombre del examen" type="text" name="nombre" id="nombre" data-panel-etiqueta="el nombre del examen" maxlength="255"
+                value="{{ $examen->nombre }}" placeholder="Ingrese el nombre del examen" required />
+        </div>
+        <x-panel.modal-pie>
+            <x-panel.boton variante="secundario" data-dismiss="modal">
+                <span class="fa fa-arrow-left" aria-hidden="true"></span> Cancelar
+            </x-panel.boton>
+            <x-panel.boton type="submit">
+                <span class="fa fa-floppy-o" aria-hidden="true"></span> Actualizar
+            </x-panel.boton>
+        </x-panel.modal-pie>
+    </form>
+</x-panel.modal>
 
-@endsection
+<script>
+    $(document).ready(function () {
+        $("#modal_examen_edit").modal("show");
+    });
+</script>

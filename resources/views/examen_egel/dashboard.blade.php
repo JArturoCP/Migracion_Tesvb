@@ -1,9 +1,10 @@
-@extends('layouts.app')
-@section('title', 'Inicio')
+@extends('layouts.panel')
+@section('title', 'Examen EGEL')
+@include('partials.panel.recursos_app')
 @section('content')
 
 @php
-    
+
 
     $id_usuario = session('usuario_alumno');
     //dd(session()->all());
@@ -66,113 +67,60 @@ $alumno = DB::table('gnral_alumnos')
     }
 @endphp
 
-<style>
-    body { background-color: #f5f7fa; }
-
-    .main { padding: 40px 0; }
-
-    .exam-panel {
-        border: none;
-        border-radius: 10px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-        transition: all 0.3s ease;
-    }
-
-    .exam-panel:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-    }
-
-    .exam-title {
-        font-size: 18px;
-        font-weight: 600;
-        color: #337ab7;
-        margin-bottom: 10px;
-    }
-
-    .exam-section {
-        color: #5cb85c;
-        margin-bottom: 15px;
-    }
-
-    .btn-exam {
-        border-radius: 20px;
-        padding: 6px 18px;
-    }
-
-    .locked {
-        opacity: 0.7;
-    }
-
-    .resultado-box {
-        background: #fff;
-        border-radius: 12px;
-        padding: 30px;
-        text-align: center;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-        margin-bottom: 30px;
-    }
-</style>
-
-<div class="container main">
+<main class="tw-pantalla">
+    <x-panel.encabezado titulo="Examen EGEL" />
 
     {{-- ================= MENSAJE GLOBAL ================= --}}
     @if(!$enAplicacion)
-     <div class="alert text-center" 
-     style="background:crimson; color:white; padding:15px 20px; border-radius:10px; font-weight:600; box-shadow:0 4px 10px rgba(0,0,0,0.15);">
-    ⚠️ El examen no está disponible en este momento (fuera del periodo de aplicación).
-</div>
+        <x-panel.alerta tipo="error" class="tw:mb-5">
+            ⚠️ El examen no está disponible en este momento (fuera del periodo de aplicación).
+        </x-panel.alerta>
     @endif
 
 
-  {{-- ================= RESULTADOS ================= --}}
-@if($todasCompletadas)
-    <div class="row">
-        <div class="col-md-12">
+    {{-- ================= RESULTADOS ================= --}}
+    @if($todasCompletadas)
 
-            {{-- MENSAJE SI NO ESTÁ EN PERIODO DE PUBLICACIÓN --}}
-            @if(!$enPublicacion)
-                 <div class="alert text-center" 
-     style="background:crimson; color:white; padding:15px 20px; border-radius:10px; font-weight:600; box-shadow:0 4px 10px rgba(0,0,0,0.15);">
-                    ⚠️ Los resultados aún no están disponibles. Espere a que el periodo de publicación inicie.
+        {{-- MENSAJE SI NO ESTÁ EN PERIODO DE PUBLICACIÓN --}}
+        @if(!$enPublicacion)
+            <x-panel.alerta tipo="advertencia" class="tw:mb-5">
+                ⚠️ Los resultados aún no están disponibles. Espere a que el periodo de publicación inicie.
+            </x-panel.alerta>
+        @endif
+
+        {{-- RESULTADO --}}
+        @if($enPublicacion)
+            <x-panel.tarjeta class="tw:mb-6 tw:text-center">
+                <h3 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">📊 Resultado EGEL</h3>
+
+                @if($resultado)
+                    <p class="tw:my-4 tw:text-6xl tw:font-bold tw:text-brand-500">
+                        {{ $resultado->calificacion_general }}%
+                    </p>
+                    <p class="tw:text-lg tw:text-gray-700 tw:dark:text-gray-300">
+                        Nivel: <b>{{ $resultado->nivel }}</b>
+                    </p>
+                @else
+                    <p class="tw:mt-3 tw:text-gray-500 tw:dark:text-gray-400">Resultado en proceso de generación...</p>
+                @endif
+
+                <div class="tw:mt-5 tw:flex tw:flex-wrap tw:justify-center tw:gap-3">
+                    <x-panel.boton variante="info" tamano="lg" href="{{ route('egel.resultados.dashboard') }}">
+                        📈 Ver resultados detallados
+                    </x-panel.boton>
+
+                    <x-panel.boton variante="exito" tamano="lg" href="{{ route('egel.resultados.reporte') }}">
+                        📄 Reporte final
+                    </x-panel.boton>
                 </div>
-            @endif
+            </x-panel.tarjeta>
+        @endif
 
-            {{-- RESULTADO --}}
-            @if($enPublicacion)
-                <div class="resultado-box">
-                    <h3>📊 Resultado EGEL</h3>
-
-                    @if($resultado)
-                        <h1 style="font-size:60px;">
-                            {{ $resultado->calificacion_general }}%
-                        </h1>
-                        <h4>
-                            Nivel: <b>{{ $resultado->nivel }}</b>
-                        </h4>
-                    @else
-                        <p>Resultado en proceso de generación...</p>
-                    @endif
-
-                    <div style="margin-top:20px;">
-                        <a href="{{ route('egel.resultados.dashboard') }}" class="btn btn-info btn-lg">
-                            📈 Ver resultados detallados
-                        </a>
-
-                        <a href="{{ route('egel.resultados.reporte') }}" class="btn btn-success btn-lg">
-                            📄 Reporte final
-                        </a>
-                    </div>
-                </div>
-            @endif
-
-        </div>
-    </div>
-@endif
+    @endif
 
 
     {{-- ================= SECCIONES ================= --}}
-    <div class="row">
+    <div class="tw:grid tw:gap-5 tw:sm:grid-cols-2">
 
         @foreach($secciones as $index => $seccion)
 
@@ -187,57 +135,51 @@ $alumno = DB::table('gnral_alumnos')
                 }
             @endphp
 
-            <div class="col-sm-6">
-                <div class="panel panel-default exam-panel {{ $completada ? 'locked' : '' }}">
+            <x-panel.tarjeta class="tw:text-center tw:transition tw:hover:-translate-y-1 tw:hover:shadow-theme-md tw:motion-reduce:transition-none tw:motion-reduce:hover:translate-y-0 {{ $completada ? 'tw:opacity-70' : '' }}">
 
-                    <div class="panel-body text-center">
-
-                        <div class="exam-title">
-                            Examen General de Conocimientos<br>
-                            {{ $carrera->nombre ?? 'Carrera' }} EGEL
-                        </div>
-
-                        <div class="exam-section">
-                            Cuadernillo - Sección {{ $index + 1 }}
-                        </div>
-
-
-                        {{-- ================= BOTONES ================= --}}
-                        @if($completada)
-
-                            <button class="btn btn-default btn-exam" disabled>
-                                🔒 Sección finalizada
-                            </button>
-
-                        @elseif($bloqueada)
-
-                            <button class="btn btn-warning btn-exam" disabled>
-                                ⛔ Bloqueada
-                            </button>
-
-                        @elseif(!$enAplicacion)
-
-                            <button class="btn btn-default btn-exam" disabled>
-                                ⏳ Fuera de periodo
-                            </button>
-
-                        @else
-
-                            <a href="{{ route('egel.seccion', $seccion->id_seccion) }}"
-                               class="btn btn-primary btn-exam">
-                                📘 Iniciar Sección
-                            </a>
-
-                        @endif
-
-                    </div>
+                <div class="tw:mb-2.5 tw:text-lg tw:font-semibold tw:text-brand-500">
+                    Examen General de Conocimientos<br>
+                    {{ $carrera->nombre ?? 'Carrera' }} EGEL
                 </div>
-            </div>
+
+                <div class="tw:mb-4 tw:font-medium tw:text-green-600">
+                    Cuadernillo - Sección {{ $index + 1 }}
+                </div>
+
+
+                {{-- ================= BOTONES ================= --}}
+                @if($completada)
+
+                    <x-panel.boton variante="secundario" class="tw:rounded-full" disabled>
+                        🔒 Sección finalizada
+                    </x-panel.boton>
+
+                @elseif($bloqueada)
+
+                    <x-panel.boton variante="advertencia" class="tw:rounded-full" disabled>
+                        ⛔ Bloqueada
+                    </x-panel.boton>
+
+                @elseif(!$enAplicacion)
+
+                    <x-panel.boton variante="secundario" class="tw:rounded-full" disabled>
+                        ⏳ Fuera de periodo
+                    </x-panel.boton>
+
+                @else
+
+                    <x-panel.boton class="tw:rounded-full" href="{{ route('egel.seccion', $seccion->id_seccion) }}">
+                        📘 Iniciar Sección
+                    </x-panel.boton>
+
+                @endif
+
+            </x-panel.tarjeta>
 
         @endforeach
 
     </div>
-</div>
+</main>
 
 
 @endsection

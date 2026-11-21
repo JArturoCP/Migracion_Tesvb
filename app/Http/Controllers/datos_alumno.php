@@ -321,19 +321,18 @@ if ($periodo_inscrito == 0) {
         $direccion=($request->get('igual'));
         ////////reorganizar fecha
 
-        $fecha=($request->get('fecha_nac'));
-        $fecha= explode("/", $fecha);
-        $año=$fecha[2];
-        $mes=$fecha[1];
-        $dia=$fecha[0];
-        $fecha=$año."/".$mes."/".$dia;
-
-        $fechat=($request->get('fecha_nac_tutor'));
-        $fechat= explode("/", $fechat);
-        $añot=$fechat[2];
-        $mest=$fechat[1];
-        $diat=$fechat[0];
-        $fechat=$añot."/".$mest."/".$diat;
+        $fechas = $request->validate([
+            'fecha_nac' => 'required|date_format:Y-m-d,d/m/Y',
+            'fecha_nac_tutor' => 'required|date_format:Y-m-d,d/m/Y',
+            'correoalu' => 'required|email',
+        ], [
+            '*.date_format' => 'Ingresa una fecha de nacimiento válida.',
+        ]);
+        $normalizarFecha = fn (string $valor) => str_contains($valor, '/')
+            ? implode('-', array_reverse(explode('/', $valor)))
+            : $valor;
+        $fecha = $normalizarFecha($fechas['fecha_nac']);
+        $fechat = $normalizarFecha($fechas['fecha_nac_tutor']);
 
 
 ////////////////////////////////////////
@@ -512,9 +511,16 @@ if ($periodo_inscrito == 0) {
         $datos_u=array('info_ok'=>2);
         $usuario = Session::get('usuario_alumno');
 
-        Alumnos::find($id)->update($datos);
-        Tutor::find($id_tutor)->update($datos_t);
-        User::find($usuario)->update($datos_u);
+        $alumno = Alumnos::where('id_usuario', $request->user()->id)->findOrFail($id);
+        $tutor = Tutor::where('id_alumno', $alumno->id_alumno)->findOrFail($id_tutor);
+        DB::transaction(function () use ($alumno, $tutor, $usuario, $datos, $datos_t, $datos_u) {
+            $alumno->update($datos);
+            $tutor->update($datos_t);
+            User::findOrFail($usuario)->update($datos_u);
+        });
+        if ($request->expectsJson()) {
+            return response()->json(['message' => 'Datos del alumno guardados correctamente.']);
+        }
         $mensage_carga='DATOS GUARDADOS EXITOSAMENTE';
         $color=2;
         //return redirect('/home');
@@ -629,30 +635,42 @@ return view('servicios_escolares.partials.edit_escuela_procedencia',compact('esc
         //
     }
     public function guardar_cct(Request $request, $id_alumno){
-        $id_escuela =$request->get('id_escuela');
-
-        DB::table('gnral_alumnos')
-            ->where('id_alumno', $id_alumno)
-            ->update(['id_institucion' => $id_escuela]);
-
-        return back();
-
-
+        return $this->guardar_mod_cct($request, $id_alumno);
     }
-    public function modificar_cct($id_alumno){
-        $alumno=DB::selectOne('SELECT * FROM `gnral_alumnos` WHERE `id_alumno` = ?', [$id_alumno]);
+    public function modificar_cct(Request $request, $id_alumno){
+        $alumno = $this->alumnoParaModificarCct($request, $id_alumno);
         $escuelas=DB::select('SELECT * FROM `gnral_instituciones_edu` ORDER BY `cct` ASC');
 
+        if ($request->expectsJson()) {
+            return response()->json(['escuelas' => $escuelas, 'seleccion' => $alumno->id_institucion]);
+        }
         return view('evaluacion_docente.Alumnos.editar_cct',compact('alumno','escuelas','id_alumno'));
 
     }
     public function guardar_mod_cct(Request $request,$id_alumno){
-        $id_escuela =$request->get('id_escuela');
+        $this->alumnoParaModificarCct($request, $id_alumno);
+        $datos = $request->validate(['id_escuela' => 'required|integer|exists:gnral_instituciones_edu,id_institucion']);
 
         DB::table('gnral_alumnos')
             ->where('id_alumno', $id_alumno)
-            ->update(['id_institucion' => $id_escuela]);
+            ->update(['id_institucion' => $datos['id_escuela']]);
+        if ($request->expectsJson()) {
+            $escuela = DB::table('gnral_instituciones_edu')->where('id_institucion', $datos['id_escuela'])->first();
+            return response()->json((array) $escuela + [
+                'message' => 'Escuela de procedencia actualizada.',
+                'redirect' => url('/datos_alumno'),
+            ]);
+        }
         return redirect('/datos_alumno');
+    }
+
+    private function alumnoParaModificarCct(Request $request, $idAlumno): object
+    {
+        $alumno = DB::table('gnral_alumnos')->where('id_alumno', $idAlumno)
+            ->where('id_usuario', $request->user()->id)->first();
+        abort_unless($alumno, 404);
+
+        return $alumno;
     }
     public function  registros_cct(){
         $escuelas= DB::select('SELECT * FROM `gnral_instituciones_edu` ORDER BY `cct` ASC');

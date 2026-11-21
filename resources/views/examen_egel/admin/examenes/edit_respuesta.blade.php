@@ -1,108 +1,38 @@
-@extends('layouts.app')
-@section('title', 'Editar Respuesta')
-@section('content')
-
-<div class="container" style="margin-top:30px;">
-
-    <!-- HEADER -->
-    <div style="
-        background: linear-gradient(135deg,#2c3e50,#337ab7);
-        color:white;
-        padding:15px 18px;
-        border-radius:6px;
-        margin-bottom:15px;
-        box-shadow:0 2px 6px rgba(0,0,0,0.15);
-    ">
-        <h4 style="margin:0;">
-            <span class="glyphicon glyphicon-edit"></span>
-            Editar Respuesta
-        </h4>
-    </div>
-
-    <a href="{{ route('admin.examen.preguntas', $respuesta->id_examen_egel) }}"
-       class="btn btn-default"
-       style="margin-bottom:15px;">
-        <span class="glyphicon glyphicon-arrow-left"></span>
-        Regresar
-    </a>
-
-    <!-- PANEL -->
-    <div class="panel panel-primary" style="border-radius:6px; overflow:hidden;">
-
-        <div class="panel-heading" style="background:#34495e; border-color:#34495e;">
-            <strong>
-                Editar Respuesta de la Pregunta: {{ $respuesta->numero_pregunta }}
-            </strong>
+{{-- Modal para editar respuesta: lo incluye examenes/preguntas cuando $ver == 'respuesta'. --}}
+<x-panel.modal id="modal_editar_respuesta" tamano="lg" sin-relleno clase-cerrar="close" aria-labelledby="modal_editar_respuesta_titulo">
+    <form data-panel-envio action="{{ route('admin.respuesta.update', $respuesta->id_respuesta) }}" method="POST">
+        @csrf
+        <div class="tw:px-6 tw:pt-6 tw:pr-14">
+            <h4 id="modal_editar_respuesta_titulo" class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">
+                <span class="fa fa-pencil-square-o tw:text-brand-500" aria-hidden="true"></span> Editar respuesta de la pregunta {{ $respuesta->numero_pregunta }}
+            </h4>
         </div>
+        <div class="tw-modal-cuerpo">
+            <input type="hidden" name="id_examen_egel" value="{{ $respuesta->id_examen_egel }}">
 
-        <div class="panel-body" style="background:#f8f9fa;">
+            <div class="tw:grid tw:gap-5 tw:sm:grid-cols-[1fr_200px]">
+                <x-panel.input etiqueta="Respuesta" type="text" name="respuesta" id="respuesta" data-panel-etiqueta="el texto de la respuesta" required
+                    value="{{ $respuesta->respuesta }}" placeholder="Escribe la respuesta aquí" />
 
-            <form action="{{ route('admin.respuesta.update', $respuesta->id_respuesta) }}"
-                  method="POST"
-                  class="form-horizontal">
-
-                @csrf
-
-                <!-- ID EXAMEN -->
-                <input type="hidden" name="id_examen_egel" value="{{ $respuesta->id_examen_egel }}">
-
-                <!-- RESPUESTA -->
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">
-                        <span class="glyphicon glyphicon-pencil"></span>
-                        Respuesta
-                    </label>
-
-                    <div class="col-sm-10">
-                        <input type="text"
-                               name="respuesta"
-                               class="form-control"
-                               value="{{ $respuesta->respuesta }}"
-                               placeholder="Escribe la respuesta aquí">
-                    </div>
-                </div>
-
-                <!-- CORRECTA -->
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">
-                        <span class="glyphicon glyphicon-ok-circle"></span>
-                        ¿Es correcta?
-                    </label>
-
-                    <div class="col-sm-10">
-                        <select name="es_correcta" class="form-control">
-                            <option value="1" {{ $respuesta->es_correcta == 1 ? 'selected' : '' }}>
-                                Sí
-                            </option>
-                            <option value="0" {{ $respuesta->es_correcta == 0 ? 'selected' : '' }}>
-                                No
-                            </option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- BOTÓN -->
-                <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10 text-center">
-
-                        <button type="submit"
-                                class="btn btn-success btn-lg"
-                                style="border-radius:6px; padding:10px 25px;">
-
-                            <span class="glyphicon glyphicon-floppy-disk"></span>
-                            Actualizar Respuesta
-
-                        </button>
-
-                    </div>
-                </div>
-
-            </form>
-
+                <x-panel.select etiqueta="¿Es correcta?" name="es_correcta" id="es_correcta" data-panel-etiqueta="si la respuesta es correcta" required>
+                    <option value="1" {{ $respuesta->es_correcta == 1 ? 'selected' : '' }}>Sí</option>
+                    <option value="0" {{ $respuesta->es_correcta == 0 ? 'selected' : '' }}>No</option>
+                </x-panel.select>
+            </div>
         </div>
+        <x-panel.modal-pie>
+            <x-panel.boton variante="secundario" data-dismiss="modal">
+                <span class="fa fa-arrow-left" aria-hidden="true"></span> Regresar
+            </x-panel.boton>
+            <x-panel.boton type="submit" variante="exito">
+                <span class="fa fa-floppy-o" aria-hidden="true"></span> Actualizar respuesta
+            </x-panel.boton>
+        </x-panel.modal-pie>
+    </form>
+</x-panel.modal>
 
-    </div>
-
-</div>
-
-@endsection
+<script>
+    $(document).ready(function () {
+        $("#modal_editar_respuesta").modal("show");
+    });
+</script>

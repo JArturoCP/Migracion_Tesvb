@@ -1,291 +1,119 @@
-@extends('layouts.app')
-
+@extends('layouts.panel')
+@section('title', 'Periodos EGEL')
+@include('partials.panel.recursos_app')
 @section('content')
 
-<style>
-    body {
-        background: #f4f6f9;
-    }
-
-    .panel {
-        border-radius: 12px;
-        box-shadow: 0 6px 18px rgba(0,0,0,0.08);
-        border: none;
-    }
-
-    .panel-heading {
-        font-size: 16px;
-        font-weight: 600;
-        border-radius: 12px 12px 0 0;
-    }
-
-    .panel-primary .panel-heading {
-        background: linear-gradient(45deg, #337ab7, #5bc0de);
-        color: #fff;
-    }
-
-    .panel-success .panel-heading {
-        background: linear-gradient(45deg, #5cb85c, #4cae4c);
-        color: #fff;
-    }
-
-    .form-control {
-        border-radius: 8px;
-        box-shadow: none;
-        border: 1px solid #ddd;
-        transition: all 0.2s ease;
-    }
-
-    .form-control:focus {
-        border-color: #337ab7;
-        box-shadow: 0 0 6px rgba(51,122,183,0.3);
-    }
-
-    .btn-lg {
-        border-radius: 30px;
-        padding: 10px 22px;
-        transition: all 0.2s ease;
-    }
-
-    .btn-primary {
-        background: linear-gradient(45deg, #337ab7, #286090);
-        border: none;
-        color: #fff;
-    }
-
-    .btn-primary:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 12px rgba(0,0,0,0.2);
-    }
-
-    .btn-warning {
-        background: linear-gradient(45deg, #f0ad4e, #ec971f);
-        border: none;
-        color: #fff;
-    }
-
-    .btn-warning:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 12px rgba(0,0,0,0.2);
-    }
-
-    .btn-danger {
-        background: linear-gradient(45deg, #d9534f, #c9302c);
-        border: none;
-        color: #fff;
-    }
-
-    .btn-danger:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 12px rgba(0,0,0,0.2);
-    }
-
-    .btn-icon {
-        width: 42px;
-        height: 42px;
-        padding: 0;
-        border-radius: 50%;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 18px;
-        margin: 0 5px;
-    }
-
-    .btn-icon:hover {
-        opacity: 0.85;
-    }
-
-    form.inline-form {
-        display: inline-block;
-        margin: 0;
-    }
-</style>
-
-<div class="container" style="margin-top:30px;">
-
-    <!-- Encabezado -->
-    <div class="row">
-        <div class="col-md-6">
-            <h3 class="text-primary">
-                <span class="glyphicon glyphicon-calendar"></span>
-                Configuración de Periodos EGEL
-            </h3>
-        </div>
-
-        <div class="col-md-6 text-right">
-            <a href="{{ route('admin.dashboard') }}" class="btn btn-default btn-sm">
-                <span class="glyphicon glyphicon-arrow-left"></span> Regresar
-            </a>
-        </div>
-    </div>
-
-    <hr>
+<main class="tw-pantalla tw:space-y-6">
+    <x-panel.encabezado titulo="Configuración de Periodos EGEL" :migas="['Examen EGEL' => route('admin.dashboard')]">
+        <x-slot:extra>
+            <x-panel.boton variante="secundario" tamano="sm" href="{{ route('admin.dashboard') }}">
+                <span class="fa fa-arrow-left" aria-hidden="true"></span> Regresar
+            </x-panel.boton>
+        </x-slot:extra>
+    </x-panel.encabezado>
 
     <!-- Mensajes -->
     @if(session('success'))
-        <div class="alert alert-success text-center">
-            {{ session('success') }}
-        </div>
+        <x-panel.alerta tipo="exito">{{ session('success') }}</x-panel.alerta>
     @endif
 
     @if($errors->any())
-        <div class="alert alert-danger">
-            <ul style="margin-bottom:0;">
+        <x-panel.alerta tipo="error">
+            <ul class="tw:list-disc tw:pl-5">
                 @foreach($errors->all() as $error)
                     <li>{{ $error }}</li>
                 @endforeach
             </ul>
-        </div>
+        </x-panel.alerta>
     @endif
 
     <!-- FORMULARIO -->
-    <div class="panel panel-default">
-        <div class="panel-heading text-center"><strong>Definir nuevo periodo</strong></div>
-        <div class="panel-body">
-            <form action="{{ route('admin.periodos.guardar') }}" method="POST">
-                @csrf
-                <div class="form-group">
-                    <label>Nombre del periodo</label>
-                    <input type="text" name="periodo" class="form-control" required>
-                </div>
+    <x-panel.tarjeta titulo="Definir nuevo periodo">
+        <form action="{{ route('admin.periodos.guardar') }}" method="POST" class="tw:space-y-5">
+            @csrf
+            <x-panel.input etiqueta="Nombre del periodo" type="text" name="periodo" id="periodo" required />
 
-                <div class="row">
+            <div class="tw:grid tw:gap-5 tw:md:grid-cols-2">
 
-                    <div class="col-md-6">
-                        <div class="panel panel-primary">
-                            <div class="panel-heading text-center"><strong>Periodo de Aplicación</strong></div>
-                            <div class="panel-body">
-                                <div class="form-group">
-                                    <label>Inicio</label>
-                                    <input type="date" name="periodo_examen_inicio" class="form-control" required>
-                                </div>
-                                <div class="form-group">
-                                    <label>Fin</label>
-                                    <input type="date" name="periodo_examen_fin" class="form-control" required>
-                                </div>
-                            </div>
-                        </div>
+                <fieldset class="tw:rounded-xl tw:border tw:border-gray-200 tw:p-4 tw:dark:border-gray-800">
+                    <legend class="tw:flex tw:items-center tw:gap-2 tw:px-1 tw:text-sm tw:font-medium tw:text-brand-500">
+                        <span class="fa fa-pencil-square-o" aria-hidden="true"></span> Periodo de Aplicación
+                    </legend>
+                    <div class="tw:grid tw:gap-4 tw:sm:grid-cols-2">
+                        <x-panel.input etiqueta="Inicio" type="date" name="periodo_examen_inicio" id="periodo_examen_inicio" required />
+                        <x-panel.input etiqueta="Fin" type="date" name="periodo_examen_fin" id="periodo_examen_fin" required />
                     </div>
+                </fieldset>
 
-                    <div class="col-md-6">
-                        <div class="panel panel-success">
-                            <div class="panel-heading text-center"><strong>Publicación de Resultados</strong></div>
-                            <div class="panel-body">
-                                <div class="form-group">
-                                    <label>Inicio</label>
-                                    <input type="date" name="periodo_resultado_inicio" class="form-control" required>
-                                </div>
-                                <div class="form-group">
-                                    <label>Fin</label>
-                                    <input type="date" name="periodo_resultado_fin" class="form-control" required>
-                                </div>
-                            </div>
-                        </div>
+                <fieldset class="tw:rounded-xl tw:border tw:border-gray-200 tw:p-4 tw:dark:border-gray-800">
+                    <legend class="tw:flex tw:items-center tw:gap-2 tw:px-1 tw:text-sm tw:font-medium tw:text-green-600">
+                        <span class="fa fa-bullhorn" aria-hidden="true"></span> Publicación de Resultados
+                    </legend>
+                    <div class="tw:grid tw:gap-4 tw:sm:grid-cols-2">
+                        <x-panel.input etiqueta="Inicio" type="date" name="periodo_resultado_inicio" id="periodo_resultado_inicio" required />
+                        <x-panel.input etiqueta="Fin" type="date" name="periodo_resultado_fin" id="periodo_resultado_fin" required />
                     </div>
+                </fieldset>
 
-                </div>
+            </div>
 
-                <div class="text-center" style="margin-bottom:15px;">
-                    <button type="submit" class="btn btn-primary btn-lg">
-                        <span class="glyphicon glyphicon-floppy-disk"></span> Guardar
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <hr>
+            <div class="tw:flex tw:justify-end tw:border-t tw:border-gray-100 tw:pt-5 tw:dark:border-gray-800">
+                <x-panel.boton type="submit">
+                    <span class="fa fa-floppy-o" aria-hidden="true"></span> Guardar
+                </x-panel.boton>
+            </div>
+        </form>
+    </x-panel.tarjeta>
 
     <!-- HISTORIAL -->
-    <div class="row">
+    <div class="tw:grid tw:gap-6 tw:xl:grid-cols-2">
 
-        <!-- Periodos de aplicación -->
-        <div class="col-md-6">
-            <div class="panel panel-primary">
-                <div class="panel-heading text-center">Historial - Periodos de Aplicación</div>
-                <div class="panel-body">
-                    <table class="table table-bordered table-striped table-hover text-center">
-                        <thead>
-                            <tr>
-                                <th class="text-center">Periodo</th>
-                                <th class="text-center">Inicio</th>
-                                <th class="text-center">Fin</th>
-                                <th class="text-center">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($periodosExamen as $p)
-                                <tr>
-                                    <td>{{ $p->periodo }}</td>
-                                    <td>{{ $p->fecha_inicio }}</td>
-                                    <td>{{ $p->fecha_fin }}</td>
-                                    <td style="display:flex; justify-content:center; gap:10px;">
-                                        <a href="{{ route('admin.periodos.edit', $p->id_periodo_examen) }}"
-                                           class="btn btn-warning btn-lg" title="Editar"> <span class="glyphicon glyphicon-edit"></span></a>
+        @foreach([
+            ['titulo' => 'Historial - Periodos de Aplicación', 'periodos' => $periodosExamen],
+            ['titulo' => 'Historial - Resultados', 'periodos' => $periodosResultados],
+        ] as $historial)
+        <x-panel.tarjeta titulo="{{ $historial['titulo'] }}" sin-relleno>
+            <x-panel.tabla class="tw:text-center">
+                <thead>
+                    <tr>
+                        <th class="tw:text-center">Periodo</th>
+                        <th class="tw:text-center">Inicio</th>
+                        <th class="tw:text-center">Fin</th>
+                        <th class="tw:text-center">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($historial['periodos'] as $p)
+                        <tr>
+                            <td>{{ $p->periodo }}</td>
+                            <td>{{ $p->fecha_inicio }}</td>
+                            <td>{{ $p->fecha_fin }}</td>
+                            <td>
+                                <div class="tw:flex tw:justify-center tw:gap-1">
+                                    <a href="{{ route('admin.periodos.edit', $p->id_periodo_examen) }}"
+                                       class="tw:inline-flex tw:size-8 tw:items-center tw:justify-center tw:rounded-lg tw:text-brand-500 tw:hover:bg-brand-50 tw:dark:hover:bg-brand-500/15" title="Editar" aria-label="Editar periodo">
+                                        <span class="fa fa-pencil-square-o" aria-hidden="true"></span>
+                                    </a>
 
-                                        <form action="{{ route('admin.periodos.destroy', $p->id_periodo_examen) }}"
-                                              method="POST" class="inline-form">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button class="btn btn-danger btn-lg" title="Eliminar"
-                                                    onclick="return TNotify.confirmAction(event, this, '¿Deseas eliminar este periodo?')">
-                                                 <span class="glyphicon glyphicon-trash"></span>
-                                            </button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <!-- Periodos de resultados -->
-        <div class="col-md-6">
-            <div class="panel panel-success">
-                <div class="panel-heading text-center">Historial - Resultados</div>
-                <div class="panel-body">
-                    <table class="table table-bordered table-striped table-hover text-center">
-                        <thead>
-                            <tr>
-                                <th class="text-center">Periodo</th>
-                                <th class="text-center">Inicio</th>
-                                <th class="text-center">Fin</th>
-                                <th class="text-center">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($periodosResultados as $p)
-                                <tr>
-                                    <td>{{ $p->periodo }}</td>
-                                    <td>{{ $p->fecha_inicio }}</td>
-                                    <td>{{ $p->fecha_fin }}</td>
-                                    <td style="display:flex; justify-content:center; gap:10px;">
-                                        <a href="{{ route('admin.periodos.edit', $p->id_periodo_examen) }}"
-                                           class="btn btn-warning btn-lg" title="Editar"> <span class="glyphicon glyphicon-edit"></span></a>
-
-                                        <form action="{{ route('admin.periodos.destroy', $p->id_periodo_examen) }}"
-                                              method="POST" class="inline-form">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button class="btn btn-danger btn-lg" title="Eliminar"
-                                                    onclick="return TNotify.confirmAction(event, this, '¿Deseas eliminar este periodo?')">
-                                                 <span class="glyphicon glyphicon-trash"></span>
-                                            </button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+                                    <form action="{{ route('admin.periodos.destroy', $p->id_periodo_examen) }}"
+                                          method="POST" class="tw:inline-block">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="tw:inline-flex tw:size-8 tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:text-red-500 tw:hover:bg-red-50 tw:dark:hover:bg-red-500/15" title="Eliminar" aria-label="Eliminar periodo"
+                                                onclick="return TNotify.confirmAction(event, this, '¿Deseas eliminar este periodo?')">
+                                            <span class="fa fa-trash" aria-hidden="true"></span>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </x-panel.tabla>
+        </x-panel.tarjeta>
+        @endforeach
 
     </div>
-
-</div>
+</main>
 
 @endsection

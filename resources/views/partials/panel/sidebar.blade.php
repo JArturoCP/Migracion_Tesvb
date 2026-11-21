@@ -32,7 +32,7 @@
     @include('partials.panel.sidebar_encabezado')
 
     <div class="tw:no-scrollbar tw:flex tw:flex-1 tw:flex-col tw:overflow-y-auto tw:duration-300 tw:ease-linear">
-        <nav x-data="{ selected: $persist('').as('panel_menu_abierto') }" aria-label="Menú principal">
+        <nav x-data="sidebar" aria-label="Menú principal">
             <div>
                 <h3 class="tw:mb-4 tw:text-xs tw:leading-5 tw:text-gray-400 tw:uppercase">
                     <span class="tw:menu-group-title" :class="sidebarToggle ? 'tw:xl:hidden' : ''">MENÚ</span>
@@ -381,7 +381,7 @@
 {{-- [menu_admin L410-428] Cambio de carrera (misma condición y mismos enlaces). --}}
                     @if($cambio_c==1)
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'carrera' ? '' : 'carrera')" class="tw:group tw:menu-item" :class="selected === 'carrera' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'carrera' ? '' : 'carrera')" class="tw:group tw:menu-item" :class="selected === 'carrera' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="carrera">
 @include('partials.panel.iconos.elementos', ['clave' => 'carrera'])
 <span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Cambio de carrera</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'carrera'])
@@ -424,7 +424,7 @@
                                 ?>
                     
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm1' ? '' : 'm1')" class="tw:group tw:menu-item" :class="selected === 'm1' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm1' ? '' : 'm1')" class="tw:group tw:menu-item" :class="selected === 'm1' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m1">
 @include('partials.panel.iconos.graficas', ['clave' => 'm1'])
 <span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Complementarias</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm1'])
@@ -444,7 +444,7 @@
 </a></li>
 
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm2' ? '' : 'm2')" class="tw:group tw:menu-item" :class="selected === 'm2' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm2' ? '' : 'm2')" class="tw:group tw:menu-item" :class="selected === 'm2' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m2">
 @include('partials.panel.iconos.grupo', ['clave' => 'm2'])
 <span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Duales</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm2'])
@@ -460,7 +460,7 @@
                     @if($id_carrera == 2)
                     
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm3' ? '' : 'm3')" class="tw:group tw:menu-item" :class="selected === 'm3' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm3' ? '' : 'm3')" class="tw:group tw:menu-item" :class="selected === 'm3' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m3">
 @include('partials.panel.iconos.formularios', ['clave' => 'm3'])
 <span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Solicitudes</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm3'])
@@ -477,7 +477,7 @@
                     @if($id_unidad_admin != true)
                     
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm4' ? '' : 'm4')" class="tw:group tw:menu-item" :class="selected === 'm4' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm4' ? '' : 'm4')" class="tw:group tw:menu-item" :class="selected === 'm4' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m4">
 @include('partials.panel.iconos.graficas', ['clave' => 'm4'])
 <span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Evaluación Docente</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm4'])
@@ -498,7 +498,7 @@
 </a></li>
 
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm5' ? '' : 'm5')" class="tw:group tw:menu-item" :class="selected === 'm5' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm5' ? '' : 'm5')" class="tw:group tw:menu-item" :class="selected === 'm5' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m5">
 @include('partials.panel.iconos.grupo', ['clave' => 'm5'])
 <span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Residencia</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm5'])
@@ -562,7 +562,7 @@
                                 ?>
                     
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm6' ? '' : 'm6')" class="tw:group tw:menu-item" :class="selected === 'm6' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm6' ? '' : 'm6')" class="tw:group tw:menu-item" :class="selected === 'm6' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m6">
 @include('partials.panel.iconos.usuario', ['clave' => 'm6'])
 <span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Datos P.</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm6'])
@@ -579,7 +579,7 @@
                     @if($id_unidad_admin != true)
                     
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm7' ? '' : 'm7')" class="tw:group tw:menu-item" :class="selected === 'm7' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm7' ? '' : 'm7')" class="tw:group tw:menu-item" :class="selected === 'm7' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m7">
 @include('partials.panel.iconos.graficas', ['clave' => 'm7'])
 <span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Evaluación Docente</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm7'])
@@ -604,7 +604,7 @@
                     @if($id_unidad_admin != true)
                     
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm8' ? '' : 'm8')" class="tw:group tw:menu-item" :class="selected === 'm8' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm8' ? '' : 'm8')" class="tw:group tw:menu-item" :class="selected === 'm8' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m8">
 @include('partials.panel.iconos.grupo', ['clave' => 'm8'])
 <span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Residencia</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm8'])
@@ -657,7 +657,7 @@
                     true || $es_alumno_piase_menu == true)
                     
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm9' ? '' : 'm9')" class="tw:group tw:menu-item" :class="selected === 'm9' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm9' ? '' : 'm9')" class="tw:group tw:menu-item" :class="selected === 'm9' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m9">
 @include('partials.panel.iconos.grupo', ['clave' => 'm9'])
 <span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">PIASE</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm9'])
@@ -702,7 +702,7 @@
                     @if($jefe_computo==true)
 
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm10' ? '' : 'm10')" class="tw:group tw:menu-item" :class="selected === 'm10' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm10' ? '' : 'm10')" class="tw:group tw:menu-item" :class="selected === 'm10' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m10">
 @include('partials.panel.iconos.usuario', ['clave' => 'm10'])
 <span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Datos P.</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm10'])
@@ -722,7 +722,7 @@
                         </li>
 
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm11' ? '' : 'm11')" class="tw:group tw:menu-item" :class="selected === 'm11' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm11' ? '' : 'm11')" class="tw:group tw:menu-item" :class="selected === 'm11' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m11">
 @include('partials.panel.iconos.formularios', ['clave' => 'm11'])
 <span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Servicios Escolares</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm11'])
@@ -737,7 +737,7 @@
                         </li>
 
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm12' ? '' : 'm12')" class="tw:group tw:menu-item" :class="selected === 'm12' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm12' ? '' : 'm12')" class="tw:group tw:menu-item" :class="selected === 'm12' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m12">
 @include('partials.panel.iconos.paginas', ['clave' => 'm12'])
 <span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Envío Encuesta Sat.</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm12'])
@@ -762,7 +762,7 @@
                     --}}
                     
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm13' ? '' : 'm13')" class="tw:group tw:menu-item" :class="selected === 'm13' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm13' ? '' : 'm13')" class="tw:group tw:menu-item" :class="selected === 'm13' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m13">
 @include('partials.panel.iconos.elementos', ['clave' => 'm13'])
 <span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Herramientas</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm13'])
@@ -786,7 +786,7 @@
                     @if($jefe_personal==true)
 
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm14' ? '' : 'm14')" class="tw:group tw:menu-item" :class="selected === 'm14' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm14' ? '' : 'm14')" class="tw:group tw:menu-item" :class="selected === 'm14' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m14">
 @include('partials.panel.iconos.usuario', ['clave' => 'm14'])
 <span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Datos P.</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm14'])
@@ -799,7 +799,7 @@
                         </li>
 
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm15' ? '' : 'm15')" class="tw:group tw:menu-item" :class="selected === 'm15' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm15' ? '' : 'm15')" class="tw:group tw:menu-item" :class="selected === 'm15' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m15">
 @include('partials.panel.iconos.usuario', ['clave' => 'm15'])
 <span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Cargos del Personal</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm15'])
@@ -820,7 +820,7 @@
                         </li>
 
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm16' ? '' : 'm16')" class="tw:group tw:menu-item" :class="selected === 'm16' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm16' ? '' : 'm16')" class="tw:group tw:menu-item" :class="selected === 'm16' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m16">
 @include('partials.panel.iconos.tablas', ['clave' => 'm16'])
 <span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Plantilla Personal</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm16'])
@@ -838,7 +838,7 @@
                     @if($jefe_division==true)
                     
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm17' ? '' : 'm17')" class="tw:group tw:menu-item" :class="selected === 'm17' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm17' ? '' : 'm17')" class="tw:group tw:menu-item" :class="selected === 'm17' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m17">
 @include('partials.panel.iconos.usuario', ['clave' => 'm17'])
 <span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Datos P.</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm17'])
@@ -851,7 +851,7 @@
                         </li>
 
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm18' ? '' : 'm18')" class="tw:group tw:menu-item" :class="selected === 'm18' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm18' ? '' : 'm18')" class="tw:group tw:menu-item" :class="selected === 'm18' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m18">
 @include('partials.panel.iconos.graficas', ['clave' => 'm18'])
 <span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Complementarias</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm18'])
@@ -870,7 +870,7 @@
                     </li>
 
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm19' ? '' : 'm19')" class="tw:group tw:menu-item" :class="selected === 'm19' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm19' ? '' : 'm19')" class="tw:group tw:menu-item" :class="selected === 'm19' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m19">
 @include('partials.panel.iconos.graficas', ['clave' => 'm19'])
 <span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Evaluación</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm19'])
@@ -902,7 +902,7 @@
                         </li>-->
 
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm20' ? '' : 'm20')" class="tw:group tw:menu-item" :class="selected === 'm20' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm20' ? '' : 'm20')" class="tw:group tw:menu-item" :class="selected === 'm20' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m20">
 @include('partials.panel.iconos.tablas', ['clave' => 'm20'])
 <span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Formatos</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm20'])
@@ -916,7 +916,7 @@
 </div>
                         </li>
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm21' ? '' : 'm21')" class="tw:group tw:menu-item" :class="selected === 'm21' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm21' ? '' : 'm21')" class="tw:group tw:menu-item" :class="selected === 'm21' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m21">
 @include('partials.panel.iconos.tablas', ['clave' => 'm21'])
 <span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Plantilla</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm21'])
@@ -929,14 +929,14 @@
 </div>
                         </li>
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm22' ? '' : 'm22')" class="tw:group tw:menu-item" :class="selected === 'm22' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm22' ? '' : 'm22')" class="tw:group tw:menu-item" :class="selected === 'm22' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m22">
 @include('partials.panel.iconos.elementos', ['clave' => 'm22'])
 <span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Generales</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm22'])
 </a>
                             <div x-cloak x-show.important="$store.buscador.activo || selected === 'm22'" x-collapse>
 <ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
-                                <li x-data="{ abierto: false }">
+                                <li x-data="{ abierto: $el.hasAttribute('data-panel-rama-activa') }">
                                     <a href="#" @click.prevent="abierto = !abierto" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-modulo>
 <span>Académico</span>
 @include('partials.panel.iconos.flecha_subgrupo')
@@ -992,7 +992,7 @@
                         </li>
 
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm23' ? '' : 'm23')" class="tw:group tw:menu-item" :class="selected === 'm23' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm23' ? '' : 'm23')" class="tw:group tw:menu-item" :class="selected === 'm23' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m23">
 @include('partials.panel.iconos.grupo', ['clave' => 'm23'])
 <span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Residencia</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm23'])
@@ -1025,7 +1025,7 @@
                         @if($desa==true )
                         
                             <li>
-                                <a href="#" @click.prevent="selected = (selected === 'm24' ? '' : 'm24')" class="tw:group tw:menu-item" :class="selected === 'm24' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
+                                <a href="#" @click.prevent="selected = (selected === 'm24' ? '' : 'm24')" class="tw:group tw:menu-item" :class="selected === 'm24' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m24">
 @include('partials.panel.iconos.graficas', ['clave' => 'm24'])
 <span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Evaluación Docente</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm24'])
@@ -1048,7 +1048,7 @@
 
                             </li>
                             <li>
-                                <a href="#" @click.prevent="selected = (selected === 'm25' ? '' : 'm25')" class="tw:group tw:menu-item" :class="selected === 'm25' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
+                                <a href="#" @click.prevent="selected = (selected === 'm25' ? '' : 'm25')" class="tw:group tw:menu-item" :class="selected === 'm25' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m25">
 @include('partials.panel.iconos.calendario', ['clave' => 'm25'])
 <span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Horarios</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm25'])
@@ -1089,7 +1089,7 @@
                         @if($escolar==true || $directivo==true)
                         
                             <li>
-                                <a href="#" @click.prevent="selected = (selected === 'm26' ? '' : 'm26')" class="tw:group tw:menu-item" :class="selected === 'm26' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
+                                <a href="#" @click.prevent="selected = (selected === 'm26' ? '' : 'm26')" class="tw:group tw:menu-item" :class="selected === 'm26' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m26">
 @include('partials.panel.iconos.formularios', ['clave' => 'm26'])
 <span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Control Escolar</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm26'])
@@ -1179,7 +1179,7 @@
                             @endif
                             @if($unidad == 5 || $unidad == 26)
                             <li>
-                                <a href="#" @click.prevent="selected = (selected === 'm28' ? '' : 'm28')" class="tw:group tw:menu-item" :class="selected === 'm28' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
+                                <a href="#" @click.prevent="selected = (selected === 'm28' ? '' : 'm28')" class="tw:group tw:menu-item" :class="selected === 'm28' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m28">
 @include('partials.panel.iconos.tablas', ['clave' => 'm28'])
 <span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Reporte de profesores</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm28'])
@@ -1201,7 +1201,7 @@
                         @if($jefe_residencia == true)
                         
                             <li style="display: none">
-                                <a href="#" @click.prevent="selected = (selected === 'm29' ? '' : 'm29')" class="tw:group tw:menu-item" :class="selected === 'm29' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
+                                <a href="#" @click.prevent="selected = (selected === 'm29' ? '' : 'm29')" class="tw:group tw:menu-item" :class="selected === 'm29' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m29">
 @include('partials.panel.iconos.paginas', ['clave' => 'm29'])
 <span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Servicio social</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm29'])
@@ -1218,7 +1218,7 @@
 </div>
                             </li>
                             <li>
-                                <a href="#" @click.prevent="selected = (selected === 'm30' ? '' : 'm30')" class="tw:group tw:menu-item" :class="selected === 'm30' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
+                                <a href="#" @click.prevent="selected = (selected === 'm30' ? '' : 'm30')" class="tw:group tw:menu-item" :class="selected === 'm30' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m30">
 @include('partials.panel.iconos.grupo', ['clave' => 'm30'])
 <span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Seg. Anteproyecto</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm30'])
@@ -1238,7 +1238,7 @@
 </div>
                             </li>
                             <li>
-                                <a href="#" @click.prevent="selected = (selected === 'm31' ? '' : 'm31')" class="tw:group tw:menu-item" :class="selected === 'm31' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
+                                <a href="#" @click.prevent="selected = (selected === 'm31' ? '' : 'm31')" class="tw:group tw:menu-item" :class="selected === 'm31' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m31">
 @include('partials.panel.iconos.grupo', ['clave' => 'm31'])
 <span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Seg. Residencia</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm31'])
@@ -1255,7 +1255,7 @@
                             </li>
 
                             <li>
-                                <a href="#" @click.prevent="selected = (selected === 'm32' ? '' : 'm32')" class="tw:group tw:menu-item" :class="selected === 'm32' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
+                                <a href="#" @click.prevent="selected = (selected === 'm32' ? '' : 'm32')" class="tw:group tw:menu-item" :class="selected === 'm32' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m32">
 @include('partials.panel.iconos.paginas', ['clave' => 'm32'])
 <span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Seg. Servicio Social</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm32'])
@@ -1268,7 +1268,7 @@
                             </li>
 
                             <li>
-                                <a href="#" @click.prevent="selected = (selected === 'm33' ? '' : 'm33')" class="tw:group tw:menu-item" :class="selected === 'm33' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
+                                <a href="#" @click.prevent="selected = (selected === 'm33' ? '' : 'm33')" class="tw:group tw:menu-item" :class="selected === 'm33' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m33">
 @include('partials.panel.iconos.paginas', ['clave' => 'm33'])
 <span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Envío Encuestas Sat.</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm33'])
@@ -1290,7 +1290,7 @@
                         @if($departamento_titulacion==true)
                         
                             <li>
-                                <a href="#" @click.prevent="selected = (selected === 'm34' ? '' : 'm34')" class="tw:group tw:menu-item" :class="selected === 'm34' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
+                                <a href="#" @click.prevent="selected = (selected === 'm34' ? '' : 'm34')" class="tw:group tw:menu-item" :class="selected === 'm34' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m34">
 @include('partials.panel.iconos.usuario', ['clave' => 'm34'])
 <span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Datos P.</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm34'])
@@ -1303,7 +1303,7 @@
                             </li>
 
                             <li>
-                                <a href="#" @click.prevent="selected = (selected === 'm35' ? '' : 'm35')" class="tw:group tw:menu-item" :class="selected === 'm35' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
+                                <a href="#" @click.prevent="selected = (selected === 'm35' ? '' : 'm35')" class="tw:group tw:menu-item" :class="selected === 'm35' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m35">
 @include('partials.panel.iconos.paginas', ['clave' => 'm35'])
 <span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Titulación</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm35'])
@@ -1331,7 +1331,7 @@
                             </li>
 
                             <li>
-                                <a href="#" @click.prevent="selected = (selected === 'm36' ? '' : 'm36')" class="tw:group tw:menu-item" :class="selected === 'm36' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
+                                <a href="#" @click.prevent="selected = (selected === 'm36' ? '' : 'm36')" class="tw:group tw:menu-item" :class="selected === 'm36' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m36">
 @include('partials.panel.iconos.paginas', ['clave' => 'm36'])
 <span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Catálogos Titulación</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm36'])
@@ -1350,7 +1350,7 @@
                         @if($directivo==true || $consultas==true || $directivo==10)
                         
                             <li>
-                                <a href="#" @click.prevent="selected = (selected === 'm37' ? '' : 'm37')" class="tw:group tw:menu-item" :class="selected === 'm37' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
+                                <a href="#" @click.prevent="selected = (selected === 'm37' ? '' : 'm37')" class="tw:group tw:menu-item" :class="selected === 'm37' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m37">
 @include('partials.panel.iconos.usuario', ['clave' => 'm37'])
 <span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Datos P.</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm37'])
@@ -1363,7 +1363,7 @@
                             </li>
 
                             <li>
-                                <a href="#" @click.prevent="selected = (selected === 'm38' ? '' : 'm38')" class="tw:group tw:menu-item" :class="selected === 'm38' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
+                                <a href="#" @click.prevent="selected = (selected === 'm38' ? '' : 'm38')" class="tw:group tw:menu-item" :class="selected === 'm38' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m38">
 @include('partials.panel.iconos.graficas', ['clave' => 'm38'])
 <span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Complementarias</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm38'])
@@ -1388,7 +1388,7 @@
 </a></li>
 
                             <li>
-                                <a href="#" @click.prevent="selected = (selected === 'm39' ? '' : 'm39')" class="tw:group tw:menu-item" :class="selected === 'm39' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
+                                <a href="#" @click.prevent="selected = (selected === 'm39' ? '' : 'm39')" class="tw:group tw:menu-item" :class="selected === 'm39' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m39">
 @include('partials.panel.iconos.graficas', ['clave' => 'm39'])
 <span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Evaluación Doc.</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm39'])
@@ -1408,7 +1408,7 @@
 
                             {{--  --}}
                             <li>
-                                <a href="#" @click.prevent="selected = (selected === 'm40' ? '' : 'm40')" class="tw:group tw:menu-item" :class="selected === 'm40' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
+                                <a href="#" @click.prevent="selected = (selected === 'm40' ? '' : 'm40')" class="tw:group tw:menu-item" :class="selected === 'm40' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m40">
 @include('partials.panel.iconos.calendario', ['clave' => 'm40'])
 <span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Horarios</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm40'])
@@ -1424,7 +1424,7 @@
 </div>
                             </li>
                             <li>
-                                <a href="#" @click.prevent="selected = (selected === 'm41' ? '' : 'm41')" class="tw:group tw:menu-item" :class="selected === 'm41' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
+                                <a href="#" @click.prevent="selected = (selected === 'm41' ? '' : 'm41')" class="tw:group tw:menu-item" :class="selected === 'm41' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m41">
 @include('partials.panel.iconos.tablas', ['clave' => 'm41'])
 <span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Formatos</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm41'])
@@ -1440,7 +1440,7 @@
 </div>
                             </li>
                             <li>
-                                <a href="#" @click.prevent="selected = (selected === 'm42' ? '' : 'm42')" class="tw:group tw:menu-item" :class="selected === 'm42' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
+                                <a href="#" @click.prevent="selected = (selected === 'm42' ? '' : 'm42')" class="tw:group tw:menu-item" :class="selected === 'm42' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m42">
 @include('partials.panel.iconos.tablas', ['clave' => 'm42'])
 <span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Plantilla</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm42'])
@@ -1453,14 +1453,14 @@
 </div>
                             </li>
                             <li>
-                                <a href="#" @click.prevent="selected = (selected === 'm43' ? '' : 'm43')" class="tw:group tw:menu-item" :class="selected === 'm43' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
+                                <a href="#" @click.prevent="selected = (selected === 'm43' ? '' : 'm43')" class="tw:group tw:menu-item" :class="selected === 'm43' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m43">
 @include('partials.panel.iconos.elementos', ['clave' => 'm43'])
 <span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Generales</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm43'])
 </a>
                                 <div x-cloak x-show.important="$store.buscador.activo || selected === 'm43'" x-collapse>
 <ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
-                                    <li x-data="{ abierto: false }">
+                                    <li x-data="{ abierto: $el.hasAttribute('data-panel-rama-activa') }">
                                         <a href="#" @click.prevent="abierto = !abierto" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-modulo>
 <span>Académico</span>
 @include('partials.panel.iconos.flecha_subgrupo')
@@ -1496,7 +1496,7 @@
                         @if($id_unidad_admin||$directivo)
                         
                             <li>
-                                <a href="#" @click.prevent="selected = (selected === 'm44' ? '' : 'm44')" class="tw:group tw:menu-item" :class="selected === 'm44' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
+                                <a href="#" @click.prevent="selected = (selected === 'm44' ? '' : 'm44')" class="tw:group tw:menu-item" :class="selected === 'm44' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m44">
 @include('partials.panel.iconos.paginas', ['clave' => 'm44'])
 <span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Oficios Com.</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm44'])
@@ -1515,7 +1515,7 @@
                             </li>
 
                             <li>
-                                <a href="#" @click.prevent="selected = (selected === 'm45' ? '' : 'm45')" class="tw:group tw:menu-item" :class="selected === 'm45' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
+                                <a href="#" @click.prevent="selected = (selected === 'm45' ? '' : 'm45')" class="tw:group tw:menu-item" :class="selected === 'm45' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m45">
 @include('partials.panel.iconos.paginas', ['clave' => 'm45'])
 <span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Seg. de Oficios</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm45'])
@@ -1533,7 +1533,7 @@
                         @if( $id_per == 2630 )
 
                             <li>
-                                <a href="#" @click.prevent="selected = (selected === 'm46' ? '' : 'm46')" class="tw:group tw:menu-item" :class="selected === 'm46' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
+                                <a href="#" @click.prevent="selected = (selected === 'm46' ? '' : 'm46')" class="tw:group tw:menu-item" :class="selected === 'm46' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m46">
 @include('partials.panel.iconos.paginas', ['clave' => 'm46'])
 <span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Titulación</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm46'])
@@ -1552,7 +1552,7 @@
                         @if($encargado_ambiental == true)
 
                             <li>
-                                <a href="#" @click.prevent="selected = (selected === 'm47' ? '' : 'm47')" class="tw:group tw:menu-item" :class="selected === 'm47' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
+                                <a href="#" @click.prevent="selected = (selected === 'm47' ? '' : 'm47')" class="tw:group tw:menu-item" :class="selected === 'm47' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m47">
 @include('partials.panel.iconos.paginas', ['clave' => 'm47'])
 <span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Procedimiento Amb.</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm47'])
@@ -1610,7 +1610,7 @@
                     @if($id_unidad_admin == true || $id_per ===2630 || $id_per ===2662 || $escolar == true)
 
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm48' ? '' : 'm48')" class="tw:group tw:menu-item" :class="selected === 'm48' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm48' ? '' : 'm48')" class="tw:group tw:menu-item" :class="selected === 'm48' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m48">
 @include('partials.panel.iconos.formularios', ['clave' => 'm48'])
 <span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Adeudos de Estudiantes</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm48'])
@@ -1635,7 +1635,7 @@
                     @if($direccion_finanzas == true || $unidad == 24 || $unidad == 25)
                     
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm50' ? '' : 'm50')" class="tw:group tw:menu-item" :class="selected === 'm50' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm50' ? '' : 'm50')" class="tw:group tw:menu-item" :class="selected === 'm50' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m50">
 @include('partials.panel.iconos.caja', ['clave' => 'm50'])
 <span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Req. Anteproyecto</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm50'])
@@ -1656,7 +1656,7 @@
                     @if($direccion_finanzas == true || $unidad == 24 || $unidad == 25 || $unidad == 1 || $unidad == 2 )
                     
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm51' ? '' : 'm51')" class="tw:group tw:menu-item" :class="selected === 'm51' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm51' ? '' : 'm51')" class="tw:group tw:menu-item" :class="selected === 'm51' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m51">
 @include('partials.panel.iconos.paginas', ['clave' => 'm51'])
 <span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Catálogo de Requisiciones</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm51'])
@@ -1677,7 +1677,7 @@
                     @if($direccion_finanzas == true || $unidad == 24 || $unidad == 25)
                     
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm52' ? '' : 'm52')" class="tw:group tw:menu-item" :class="selected === 'm52' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm52' ? '' : 'm52')" class="tw:group tw:menu-item" :class="selected === 'm52' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m52">
 @include('partials.panel.iconos.graficas', ['clave' => 'm52'])
 <span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Presupuesto autorizado</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm52'])
@@ -1711,7 +1711,7 @@
                     @else
                     
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm53' ? '' : 'm53')" class="tw:group tw:menu-item" :class="selected === 'm53' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm53' ? '' : 'm53')" class="tw:group tw:menu-item" :class="selected === 'm53' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m53">
 @include('partials.panel.iconos.paginas', ['clave' => 'm53'])
 <span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Ipomex</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm53'])
@@ -1747,7 +1747,7 @@
                     @if($unidad == 26)
 
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm54' ? '' : 'm54')" class="tw:group tw:menu-item" :class="selected === 'm54' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm54' ? '' : 'm54')" class="tw:group tw:menu-item" :class="selected === 'm54' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m54">
 @include('partials.panel.iconos.formularios', ['clave' => 'm54'])
 <span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Solicitudes</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm54'])
@@ -1768,7 +1768,7 @@
                     @if($unidad == 17)
 
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm55' ? '' : 'm55')" class="tw:group tw:menu-item" :class="selected === 'm55' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm55' ? '' : 'm55')" class="tw:group tw:menu-item" :class="selected === 'm55' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m55">
 @include('partials.panel.iconos.paginas', ['clave' => 'm55'])
 <span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Evidencias Inf. Doc.</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm55'])
@@ -1818,14 +1818,14 @@
 
                     {{-- ul oculto (display:none) en el original --}}
                         <li style="display: none">
-                            <a href="#" @click.prevent="selected = (selected === 'm56' ? '' : 'm56')" class="tw:group tw:menu-item" :class="selected === 'm56' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm56' ? '' : 'm56')" class="tw:group tw:menu-item" :class="selected === 'm56' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m56">
 @include('partials.panel.iconos.paginas', ['clave' => 'm56'])
 <span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">P.A.AC</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm56'])
 </a>
                             <div x-cloak x-show.important="$store.buscador.activo || selected === 'm56'" x-collapse>
 <ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
-                                <li x-data="{ abierto: false }">
+                                <li x-data="{ abierto: $el.hasAttribute('data-panel-rama-activa') }">
                                     @if($unidad == 1)
                                     <a href="#" @click.prevent="abierto = !abierto" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-modulo>
 <span>Catálogo</span>
@@ -1843,7 +1843,7 @@
 </div>
                                     @endif
                                 </li>
-                                <li x-data="{ abierto: false }">
+                                <li x-data="{ abierto: $el.hasAttribute('data-panel-rama-activa') }">
                                     <a href="#" @click.prevent="abierto = !abierto" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-modulo>
 <span>OPCIONES DE P.A.AC</span>
 @include('partials.panel.iconos.flecha_subgrupo')
@@ -1863,7 +1863,7 @@
                         </li>{{-- Cierre que falta en el original (menu_admin L1804): el <li> de P.A.AC nunca se cerraba. --}}
 
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm57' ? '' : 'm57')" class="tw:group tw:menu-item" :class="selected === 'm57' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm57' ? '' : 'm57')" class="tw:group tw:menu-item" :class="selected === 'm57' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m57">
 @include('partials.panel.iconos.caja', ['clave' => 'm57'])
 <span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Req. de Mat. Anteproyecto</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm57'])
@@ -1878,7 +1878,7 @@
                         </li>
 
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm58' ? '' : 'm58')" class="tw:group tw:menu-item" :class="selected === 'm58' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm58' ? '' : 'm58')" class="tw:group tw:menu-item" :class="selected === 'm58' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m58">
 @include('partials.panel.iconos.graficas', ['clave' => 'm58'])
 <span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Solicitudes de req. del presupuesto autorizado</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm58'])
@@ -1905,7 +1905,7 @@
 
                         <li>
 
-                            <a href="#" @click.prevent="selected = (selected === 'm59' ? '' : 'm59')" class="tw:group tw:menu-item" :class="selected === 'm59' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm59' ? '' : 'm59')" class="tw:group tw:menu-item" :class="selected === 'm59' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m59">
 @include('partials.panel.iconos.graficas', ['clave' => 'm59'])
 <span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Complementarias</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm59'])
@@ -1921,7 +1921,7 @@
                         </li>
 
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm60' ? '' : 'm60')" class="tw:group tw:menu-item" :class="selected === 'm60' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm60' ? '' : 'm60')" class="tw:group tw:menu-item" :class="selected === 'm60' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m60">
 @include('partials.panel.iconos.usuario', ['clave' => 'm60'])
 <span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Datos Alumno(a)</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm60'])
@@ -1975,7 +1975,7 @@
                     @if($ver_eva==true)
 
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm61' ? '' : 'm61')" class="tw:group tw:menu-item" :class="selected === 'm61' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm61' ? '' : 'm61')" class="tw:group tw:menu-item" :class="selected === 'm61' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m61">
 @include('partials.panel.iconos.graficas', ['clave' => 'm61'])
 <span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Evaluación Docente</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm61'])
@@ -1996,7 +1996,7 @@
                         {{-- [menu_admin L1928-1937] Cambio de periodo (alumno): en el header, misma condición. --}}
 
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm63' ? '' : 'm63')" class="tw:group tw:menu-item" :class="selected === 'm63' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm63' ? '' : 'm63')" class="tw:group tw:menu-item" :class="selected === 'm63' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m63">
 @include('partials.panel.iconos.formularios', ['clave' => 'm63'])
 <span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Solicitudes</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm63'])
@@ -2028,7 +2028,7 @@
                         <?php $estado_reg_anteproyecto = Session::get('estado_reg_anteproyecto');?>
 
                             <li>
-                                <a href="#" @click.prevent="selected = (selected === 'm64' ? '' : 'm64')" class="tw:group tw:menu-item" :class="selected === 'm64' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
+                                <a href="#" @click.prevent="selected = (selected === 'm64' ? '' : 'm64')" class="tw:group tw:menu-item" :class="selected === 'm64' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m64">
 @include('partials.panel.iconos.grupo', ['clave' => 'm64'])
 <span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Datos Residencia Profesional</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm64'])
@@ -2086,7 +2086,7 @@
                         @if($seguimiento_alumno == true)
 
                             <li>
-                                <a href="#" @click.prevent="selected = (selected === 'm65' ? '' : 'm65')" class="tw:group tw:menu-item" :class="selected === 'm65' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
+                                <a href="#" @click.prevent="selected = (selected === 'm65' ? '' : 'm65')" class="tw:group tw:menu-item" :class="selected === 'm65' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m65">
 @include('partials.panel.iconos.grupo', ['clave' => 'm65'])
 <span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Seguimiento Residencia</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm65'])
@@ -2106,7 +2106,7 @@
                         {{-- ul oculto (display:none) en el original --}}
 
                             <li style="display: none">
-                                <a href="#" @click.prevent="selected = (selected === 'm66' ? '' : 'm66')" class="tw:group tw:menu-item" :class="selected === 'm66' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
+                                <a href="#" @click.prevent="selected = (selected === 'm66' ? '' : 'm66')" class="tw:group tw:menu-item" :class="selected === 'm66' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m66">
 @include('partials.panel.iconos.paginas', ['clave' => 'm66'])
 <span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Servicio Social</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm66'])
@@ -2129,7 +2129,7 @@
                         @if($reg_alum_ti == true)
 
                             <li>
-                                <a href="#" @click.prevent="selected = (selected === 'm67' ? '' : 'm67')" class="tw:group tw:menu-item" :class="selected === 'm67' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
+                                <a href="#" @click.prevent="selected = (selected === 'm67' ? '' : 'm67')" class="tw:group tw:menu-item" :class="selected === 'm67' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m67">
 @include('partials.panel.iconos.paginas', ['clave' => 'm67'])
 <span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Titulación</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm67'])
@@ -2181,7 +2181,7 @@
                     @if($personal_tesvb == true)
                     
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm68' ? '' : 'm68')" class="tw:group tw:menu-item" :class="selected === 'm68' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm68' ? '' : 'm68')" class="tw:group tw:menu-item" :class="selected === 'm68' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m68">
 @include('partials.panel.iconos.formularios', ['clave' => 'm68'])
 <span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Incidencias de Asistencia</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm68'])
@@ -2243,7 +2243,7 @@
                     </ul>--}}
                     
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm69' ? '' : 'm69')" class="tw:group tw:menu-item" :class="selected === 'm69' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm69' ? '' : 'm69')" class="tw:group tw:menu-item" :class="selected === 'm69' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m69">
 @include('partials.panel.iconos.graficas', ['clave' => 'm69'])
 <span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">SGOE</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm69'])
@@ -2255,7 +2255,7 @@
 
                                 @if($personal_tesvb == true && ($id_unidad_admin||$directivo))
                                 {{--OPCIÓN: Riesgos y Oportuni. --}}
-                                <li x-data="{ abierto: false }">
+                                <li x-data="{ abierto: $el.hasAttribute('data-panel-rama-activa') }">
                                     <a href="#" @click.prevent="abierto = !abierto" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-modulo>
 <span>Riesgos y Oportuni.</span>
 @include('partials.panel.iconos.flecha_subgrupo')
@@ -2264,7 +2264,7 @@
 <ul class="tw:mt-1 tw:flex tw:flex-col tw:gap-1 tw:border-l tw:border-gray-200 tw:pl-3 tw:dark:border-gray-800">
                                         <li><a href="{{url('/riesgos/proceso')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Registro Procesos</a></li>
 
-                                        <li x-data="{ abierto: false }">
+                                        <li x-data="{ abierto: $el.hasAttribute('data-panel-rama-activa') }">
                                             <a href="#" @click.prevent="abierto = !abierto" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-modulo>
 <span>Registro Catálogos Riesgos</span>
 @include('partials.panel.iconos.flecha_subgrupo')
@@ -2285,7 +2285,7 @@
 </div>
                                         </li>
 
-                                        <li x-data="{ abierto: false }">
+                                        <li x-data="{ abierto: $el.hasAttribute('data-panel-rama-activa') }">
                                             <a href="#" @click.prevent="abierto = !abierto" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-modulo>
 <span>Registro Catálogos Oportunidades</span>
 @include('partials.panel.iconos.flecha_subgrupo')
@@ -2320,7 +2320,7 @@
 
                                 {{-- 2. Auditorías: líder ve todo; auditor solo Programa de auditorías --}}
                                 @if($es_auditor_lider_sgoe_menu || $es_auditor_responsable_sgoe_menu)
-                                <li x-data="{ abierto: false }">
+                                <li x-data="{ abierto: $el.hasAttribute('data-panel-rama-activa') }">
                                     <a href="#" @click.prevent="abierto = !abierto" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-modulo>
 <span>Auditorías</span>
 @include('partials.panel.iconos.flecha_subgrupo')
@@ -2343,7 +2343,7 @@
 
                                 @if($personal_tesvb == true)
                                 {{-- Opción No conformidades --}}
-                                <li x-data="{ abierto: false }">
+                                <li x-data="{ abierto: $el.hasAttribute('data-panel-rama-activa') }">
                                     <a href="#" @click.prevent="abierto = !abierto" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-modulo>
 <span>No conformidades</span>
 @include('partials.panel.iconos.flecha_subgrupo')
@@ -2360,7 +2360,7 @@
 
                                 {{-- 4. Encuestas Satisfacción --}}
                                 @if($personal_tesvb == true && ($unidad == 2 || $unidad == 5))
-                                <li x-data="{ abierto: false }">
+                                <li x-data="{ abierto: $el.hasAttribute('data-panel-rama-activa') }">
                                     <a href="#" @click.prevent="abierto = !abierto" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-modulo>
 <span>Encuestas Satisfacción</span>
 @include('partials.panel.iconos.flecha_subgrupo')
@@ -2387,7 +2387,7 @@
 
                                 @if($personal_tesvb == true)
                                 {{-- 5. Encuestas --}}
-                                <li x-data="{ abierto: false }">
+                                <li x-data="{ abierto: $el.hasAttribute('data-panel-rama-activa') }">
                                     <a href="#" @click.prevent="abierto = !abierto" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-modulo>
 <span>Encuestas</span>
 @include('partials.panel.iconos.flecha_subgrupo')
@@ -2402,7 +2402,7 @@
 
                                 @if($personal_tesvb == true)
                                 {{-- 6. Seguimiento Acciones --}}
-                                <li x-data="{ abierto: false }">
+                                <li x-data="{ abierto: $el.hasAttribute('data-panel-rama-activa') }">
                                     <a href="#" @click.prevent="abierto = !abierto" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-modulo>
 <span>Seguimiento OM/NC/AC</span>
 @include('partials.panel.iconos.flecha_subgrupo')
@@ -2472,7 +2472,7 @@
                     @if($unidad == 25)
                     
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm70' ? '' : 'm70')" class="tw:group tw:menu-item" :class="selected === 'm70' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm70' ? '' : 'm70')" class="tw:group tw:menu-item" :class="selected === 'm70' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m70">
 @include('partials.panel.iconos.caja', ['clave' => 'm70'])
 <span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Inventario TESVB</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm70'])
@@ -2480,13 +2480,13 @@
                             <div x-cloak x-show.important="$store.buscador.activo || selected === 'm70'" x-collapse>
 <ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
                                 <li><a href="{{url('/SectorAux')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Sector Auxiliar</a></li>
-                                <li x-data="{ abierto: false }"><a href="#" @click.prevent="abierto = !abierto" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-modulo>
+                                <li x-data="{ abierto: $el.hasAttribute('data-panel-rama-activa') }"><a href="#" @click.prevent="abierto = !abierto" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-modulo>
 <span>Bienes</span>
 @include('partials.panel.iconos.flecha_subgrupo')
 </a>
                                     <div x-cloak x-show.important="$store.buscador.activo || abierto" x-collapse>
 <ul class="tw:mt-1 tw:flex tw:flex-col tw:gap-1 tw:border-l tw:border-gray-200 tw:pl-3 tw:dark:border-gray-800">
-                                        <li x-data="{ abierto: false }"><a href="#" @click.prevent="abierto = !abierto" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-modulo>
+                                        <li x-data="{ abierto: $el.hasAttribute('data-panel-rama-activa') }"><a href="#" @click.prevent="abierto = !abierto" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-modulo>
 <span>Gestionar atributos del Bien</span>
 @include('partials.panel.iconos.flecha_subgrupo')
 </a>
@@ -2503,7 +2503,7 @@
 </div>
                                 </li>
                                 <li><a href="{{url('/Categorias')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Categorías</a></li>
-                                <li x-data="{ abierto: false }"><a href="#" @click.prevent="abierto = !abierto" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-modulo>
+                                <li x-data="{ abierto: $el.hasAttribute('data-panel-rama-activa') }"><a href="#" @click.prevent="abierto = !abierto" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-modulo>
 <span>Resguardos</span>
 @include('partials.panel.iconos.flecha_subgrupo')
 </a>
@@ -2514,7 +2514,7 @@
                                     </ul>
 </div>
                                 </li>
-                                <li x-data="{ abierto: false }"><a href="#" @click.prevent="abierto = !abierto" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-modulo>
+                                <li x-data="{ abierto: $el.hasAttribute('data-panel-rama-activa') }"><a href="#" @click.prevent="abierto = !abierto" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-modulo>
 <span>Padrón de Bienes</span>
 @include('partials.panel.iconos.flecha_subgrupo')
 </a>
@@ -2525,7 +2525,7 @@
 </div>
                                 </li>
                                 <li><a href="{{url('/Areas')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Historial Departamentos</a></li>
-                                <li x-data="{ abierto: false }"><a href="#" @click.prevent="abierto = !abierto" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-modulo>
+                                <li x-data="{ abierto: $el.hasAttribute('data-panel-rama-activa') }"><a href="#" @click.prevent="abierto = !abierto" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-modulo>
 <span>Reportes</span>
 @include('partials.panel.iconos.flecha_subgrupo')
 </a>
@@ -2544,7 +2544,7 @@
                     @if($jefe_division==true)
                     
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm71' ? '' : 'm71')" class="tw:group tw:menu-item" :class="selected === 'm71' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm71' ? '' : 'm71')" class="tw:group tw:menu-item" :class="selected === 'm71' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m71">
 @include('partials.panel.iconos.grupo', ['clave' => 'm71'])
 <span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Duales</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm71'])
@@ -2560,7 +2560,7 @@
                         </li>
 
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm72' ? '' : 'm72')" class="tw:group tw:menu-item" :class="selected === 'm72' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm72' ? '' : 'm72')" class="tw:group tw:menu-item" :class="selected === 'm72' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m72">
 @include('partials.panel.iconos.paginas', ['clave' => 'm72'])
 <span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Seguimiento Inglés</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm72'])
@@ -2586,7 +2586,7 @@
                     @if($unidad == 6)
                     
                         <li>
-                            <a href="#" @click.prevent="selected = (selected === 'm73' ? '' : 'm73')" class="tw:group tw:menu-item" :class="selected === 'm73' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo>
+                            <a href="#" @click.prevent="selected = (selected === 'm73' ? '' : 'm73')" class="tw:group tw:menu-item" :class="selected === 'm73' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m73">
 @include('partials.panel.iconos.caja', ['clave' => 'm73'])
 <span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Materiales y solicitudes</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm73'])
