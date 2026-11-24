@@ -41,7 +41,7 @@
                     <td>{{$eevaluacion->promedio}}</td>
                     <td class="tw:text-center">
                         @if($eevaluacion->promedio == 0)
-                            <x-panel.boton tamano="sm" tipo="primario" href="{{url("/consulta_general/".$eevaluacion->id_registro_alumno."/edit")}}">
+                            <x-panel.boton tamano="sm" variante="primario" href="{{url("/consulta_general/".$eevaluacion->id_registro_alumno."/edit")}}">
                                 Evaluar
                             </x-panel.boton>
                         @endif
@@ -56,18 +56,12 @@
     </x-panel.tarjeta>
 
     @if(isset($evaluacionnn))
-        @section('evaluacionnn')
         @include('actividades_complementarias.profesor.evaluacion_evidencias')
-        @show
     @endif
 </main>
 
 <script>
 $(document).ready(function(){
-    $("#registra").click(function(event){
-        $("#evalua_doc").submit();
-    });
-
     $('#paginacion').DataTable();
 });
 </script>

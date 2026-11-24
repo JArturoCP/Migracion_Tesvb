@@ -9,15 +9,15 @@
     <x-panel.tarjeta sin-relleno>
         <!-- Nav tabs -->
         <div class="tw:border-b tw:border-gray-200 tw:px-6 tw:pt-4 tw:dark:border-gray-800">
-            <ul class="nav nav-tabs tw:flex tw:gap-2 tw:border-0" role="tablist">
+            <ul class="tw:flex tw:flex-wrap tw:gap-2" role="tablist">
                 <li role="presentation" class="active">
-                    <a href="#uno" aria-controls="home" role="tab" data-toggle="tab" class="tw:inline-block tw:rounded-t-lg tw:border-b-2 tw:border-brand-500 tw:px-4 tw:py-2 tw:text-sm tw:font-medium tw:text-brand-600 tw:dark:text-brand-400">No Liberados</a>
+                    <a href="#uno" aria-controls="uno" aria-selected="true" role="tab" data-toggle="tab" class="tw-pestana active">No Liberados</a>
                 </li>
                 <li role="presentation">
-                    <a href="#dos" aria-controls="dos" role="tab" data-toggle="tab" class="tw:inline-block tw:rounded-t-lg tw:border-b-2 tw:border-transparent tw:px-4 tw:py-2 tw:text-sm tw:font-medium tw:text-gray-500 tw:hover:text-gray-700 tw:dark:text-gray-400">Liberados</a>
+                    <a href="#dos" aria-controls="dos" aria-selected="false" role="tab" data-toggle="tab" class="tw-pestana">Liberados</a>
                 </li>  
                 <li role="presentation">
-                    <a href="#tres" aria-controls="tres" role="tab" data-toggle="tab" class="tw:inline-block tw:rounded-t-lg tw:border-b-2 tw:border-transparent tw:px-4 tw:py-2 tw:text-sm tw:font-medium tw:text-gray-500 tw:hover:text-gray-700 tw:dark:text-gray-400">Registrados</a>
+                    <a href="#tres" aria-controls="tres" aria-selected="false" role="tab" data-toggle="tab" class="tw-pestana">Registrados</a>
                 </li>  
             </ul>
         </div>
@@ -145,15 +145,9 @@
   $direccion=Session::get('ip');
 ?>
 
-<div id="mensaje_actividad" class="modal fade" tabindex="-1" role="dialog">
-  <div class="modal-dialog modal-sm" role="document">
-    <div class="modal-content">
-      <div class="modal-body text-warning">
-        <p style="font-weight: bold; color:#BA0000; text-align:center;">NO HAS SELECCIONADO DATOS A LIBERAR</p>
-      </div>
-    </div>
-  </div>
-</div>
+<x-panel.modal id="mensaje_actividad" titulo="Selecciona registros" tamano="sm" aria-label="Selecciona registros">
+    <p class="tw:text-sm tw:text-red-700 tw:dark:text-red-400" role="alert">NO HAS SELECCIONADO DATOS A LIBERAR</p>
+</x-panel.modal>
 
 </main>
 

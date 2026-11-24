@@ -8,7 +8,7 @@
 
     <x-panel.tarjeta sin-relleno>
         <x-slot:acciones>
-            <x-panel.boton data-target="#nuevo_docente" data-toggle="modal" tipo="primario" tamano="sm">
+            <x-panel.boton data-target="#nuevo_docente" data-toggle="modal" variante="primario" tamano="sm">
                 <span class="fa fa-plus" aria-hidden="true"></span> Asignar Docente
             </x-panel.boton>
         </x-slot:acciones>
@@ -48,146 +48,93 @@
     </x-panel.tarjeta>
 
 @if(isset($editar_docente))
-    @section('editar_docente')
     @include('actividades_complementarias.partials_actividades.jefatura.editar_docente')
-    @show
 @endif
 
-<!-- Modal PARA AGREGAR NUEVO DOCENTE -->
-<form method="POST" role="form" class="form" id="docente_actividad">
-    {{csrf_field()}}
-    <div class="modal fade" id="nuevo_docente" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header bg-info">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <h3 class="modal-title text-center" id="myModalLabel">Asignar Docente</h3>
-                </div>
-                <div class="modal-body">
-                    <div class="tw:grid tw:grid-cols-1 tw:gap-4 tw:md:grid-cols-2">
-                        <div class="tw:min-w-0">
-                            <div class="form-group">
-                                <label for="categoria_docente">Categoría</label>
-                                <select class="form-control" name="categoria_docente" id="categoria_docente">
-                                    <option disabled selected hidden>Selecciona Opción...</option>
-                                    @foreach($categorias as $categorias)
-                                        <option value="{{$categorias->id_categoria}}">{{$categorias->descripcion_cat}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
+<x-panel.modal id="nuevo_docente" titulo="Asignar docente" tamano="lg" sin-relleno aria-label="Asignar docente">
+    <form method="POST" action="{{ route('docente_actividad.store') }}" id="docente_actividad"
+          class="tw:[&_label.error]:text-sm tw:[&_label.error]:text-red-600">
+        @csrf
+        <div class="tw-modal-cuerpo tw:grid tw:grid-cols-1 tw:gap-4 tw:md:grid-cols-2">
+            <x-panel.select etiqueta="Categoría" name="categoria_docente" id="categoria_docente" required>
+                <option value="" disabled selected hidden>Selecciona opción</option>
+                @foreach ($categorias as $categoria)
+                    <option value="{{ $categoria->id_categoria }}">{{ $categoria->descripcion_cat }}</option>
+                @endforeach
+            </x-panel.select>
 
-                        <div class="tw:min-w-0">
-                            <div class="form-group">
-                                <label for="actividad_docente">Actividad</label>
-                                <select class="form-control" name="actividad_docente" id="actividad_docente">
-                                    <option disabled selected hidden>Selecciona Opción...</option>
-                                </select>
-                            </div>
-                        </div>
+            <x-panel.select etiqueta="Actividad" name="actividad_docente" id="actividad_docente" required>
+                <option value="" disabled selected hidden>Selecciona opción</option>
+            </x-panel.select>
 
-                        <div class="tw:min-w-0">
-                            <div class="form-group">
-                                <label for="horas_docente">Número de Horas</label>
-                                <input class="form-control" name="horas_docente" type="text" id="horas_docente" value="" placeholder="Horas" disabled>
-                            </div>
-                        </div>
+            <x-panel.input etiqueta="Número de horas" id="horas_docente" type="text" placeholder="Horas" disabled />
 
-                        <div class="tw:min-w-0">
-                            <div class="form-group">
-                                <label for="docente">Docente Asignado</label>
-                                <select class="form-control" name="docente">
-                                    <option disabled selected hidden>Selecciona Opción...</option>
-                                    @foreach($docentes as $docentes)
-                                        <option value="{{$docentes->id_personal}}">{{$docentes->titulo}} {{$docentes->nombre}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-primary" id="registra">Registrar</button>
-                </div>
-            </div>
+            <x-panel.select etiqueta="Docente asignado" name="docente" id="docente_asignado" required>
+                <option value="" disabled selected hidden>Selecciona opción</option>
+                @foreach ($docentes as $docenteAsignado)
+                    <option value="{{ $docenteAsignado->id_personal }}">{{ $docenteAsignado->titulo }} {{ $docenteAsignado->nombre }}</option>
+                @endforeach
+            </x-panel.select>
         </div>
-    </div>
-</form> 
 
-<!-- MODAL PARA ELIMINAR -->
-<div id="modal_elimina" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-  <div class="modal-dialog modal-sm" role="document">
-    <div class="modal-content">
-      <div class="modal-body">
-        <form action="" method="POST" role="form" id="form_delete">
-            {{method_field('DELETE') }}
-            {{ csrf_field() }}
-            ¿Realmente deseas eliminar éste elemento?
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-        <input id="confirma_elimina" type="button" class="btn btn-danger" value="Aceptar"></input>
-      </div>
-        </form>
-    </div>
-  </div>
-</div>
+        <x-panel.modal-pie>
+            <x-panel.boton variante="secundario" data-dismiss="modal">Cancelar</x-panel.boton>
+            <x-panel.boton type="submit">Registrar</x-panel.boton>
+        </x-panel.modal-pie>
+    </form>
+</x-panel.modal>
+
+<x-panel.modal id="modal_elimina" titulo="Eliminar asignación" tamano="sm" sin-relleno aria-label="Eliminar asignación">
+    <form method="POST" id="form_delete">
+        @csrf
+        @method('DELETE')
+        <div class="tw-modal-cuerpo">¿Realmente deseas eliminar esta asignación?</div>
+        <x-panel.modal-pie>
+            <x-panel.boton variante="secundario" data-dismiss="modal">Cancelar</x-panel.boton>
+            <x-panel.boton type="submit" variante="peligro">Eliminar</x-panel.boton>
+        </x-panel.modal-pie>
+    </form>
+</x-panel.modal>
 
 </main>
 
 <script>
-$(document).ready(function(){
-    var carrera={!!$carrera!!};
+    $(function () {
+        const carrera = @json($carrera);
+        const actividad = $('#actividad_docente');
+        const horas = $('#horas_docente');
+        const opcionInicial = actividad.find('option').clone();
+        let solicitud;
 
-    $(".elimina").click(function(){
-        var id=$(this).attr('id');
-        $('#confirma_elimina').data('id',id);
-        $('#modal_elimina').modal('show');
-    });
+        $('.elimina').on('click', function () {
+            $('#form_delete').attr('action', @json(url('/docente_actividad')) + '/' + this.id);
+            $('#modal_elimina').modal('show');
+        });
 
-    $("#registra").click(function(event){
-        $("#docente_actividad").submit();
-    });
+        $('#docente_actividad').validate();
 
-    $("#docente_actividad").validate({
-        rules:{
-            categoria_docente: "required",
-            actividad_docente:"required",
-            docente: "required",
-        },
-    });
+        $('#categoria_docente').on('change', function () {
+            solicitud?.abort();
+            actividad.empty().append(opcionInicial.clone()).val('');
+            horas.val('');
 
-    $('#categoria_docente').on('change', function(e) {
-        var id_actividad=e.target.value;
-
-        $.get('/docente_nueva_actividad?id_actividad=' +id_actividad,function(data){
-            $('#actividad_docente').empty();
-            $.each(data,function(docente_actividad,subCatObj){
-                if(subCatObj.estado==1 && subCatObj.id_jefatura==carrera)
-                {
-                    $('#actividad_docente').append(
-                        '<option value="'+subCatObj.id_actividad_comple+'" data-horas="'+subCatObj.horas+'">'+subCatObj.descripcion+ ' </option>'
-                    );
-                }         
+            solicitud = $.get(@json(url('/docente_nueva_actividad')), { id_actividad: this.value }, function (datos) {
+                for (const opcion of datos) {
+                    if (opcion.estado == 1 && opcion.id_jefatura == carrera) {
+                        actividad.append($('<option>', {
+                            value: opcion.id_actividad_comple,
+                            text: opcion.descripcion,
+                            'data-horas': opcion.horas,
+                        }));
+                    }
+                }
             });
         });
-    });
 
-    $('#actividad_docente').click(function(){
-        var selected = $(this).find('option:selected');
-        var extra = selected.data('horas'); 
-        document.getElementById("horas_docente").value = extra+" Horas";
+        actividad.on('change', function () {
+            horas.val(actividad.find(':selected').data('horas') ?? '');
+        });
     });
-
-    $("#confirma_elimina").click(function(event){
-        var id_sit=($(this).data('id'));
-        $("#form_delete").attr("action","/docente_actividad/"+id_sit);
-        $("#form_delete").submit();
-    });  
-});
 </script>
 
 @endsection
