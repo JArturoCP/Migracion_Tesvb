@@ -18,10 +18,12 @@
             ['telefono', 'Teléfono', 'tel'],
             ['celular', 'Celular', 'tel'],
         ],
-        'Formación y datos laborales' => [
+        'Formación' => [
             ['selectEsc', 'Escolaridad', 'select'],
             ['esc_p', 'Escuela de procedencia'],
             ['cedula', 'Cédula profesional', 'number'],
+        ],
+        'Datos laborales' => [
             ['clave_docente', 'Clave docente (ISSEMyM)', 'text', 8],
             ['numero_empleado', 'Número de empleado'],
             ['selectNombra', 'Nombramiento', 'select'],
@@ -49,11 +51,13 @@
 
 <x-panel.encabezado titulo="Alta de docente" />
 <x-panel.tarjeta titulo="Agregar personal">
-    <form data-panel-guardar id="form_docente_crea" method="POST" action="{{ url('/docentes/create') }}" class="tw:space-y-6">
+    <form data-panel-guardar data-panel-stepper data-panel-seguimiento="docente" id="form_docente_crea" method="POST"
+        data-stepper-errores="{{ json_encode($errors->messages()) }}" action="{{ url('/docentes/create') }}" class="tw:space-y-6">
         @csrf
+        <x-panel.stepper id="alta-docente" :pasos="array_keys($secciones)" />
         @foreach ($secciones as $titulo => $campos)
-            <fieldset class="tw:min-w-0">
-                <legend class="tw:mb-3 tw:text-sm tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">{{ $titulo }}</legend>
+            <fieldset id="alta-docente-paso-{{ $loop->index }}" data-stepper-seccion class="tw:min-w-0 tw:motion-safe:animate-in tw:motion-safe:fade-in tw:motion-safe:duration-200">
+                <legend tabindex="-1" class="tw:mb-3 tw:text-sm tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">{{ $titulo }}</legend>
                 <div class="tw:grid tw:gap-4 tw:sm:grid-cols-2 tw:lg:grid-cols-3">
                     @foreach ($campos as $campo)
                         @php
@@ -67,7 +71,7 @@
                         @endphp
                         @if ($tipo === 'select')
                             <div class="tw:min-w-0">
-                                <x-panel.select :id="$id" :name="$nombre" :etiqueta="$etiqueta" :error="$errors->first($nombre)" required>
+                                <x-panel.select :id="$id" :name="$nombre" :etiqueta="$etiqueta" class="tw:aria-invalid:border-red-500" required>
                                     <option value="">Selecciona una opción</option>
                                     @foreach ($opciones[$nombre] as $clave => $opcion)
                                         <option value="{{ $clave }}" @selected((string) $valor === (string) $clave)>{{ $opcion }}</option>
@@ -84,14 +88,15 @@
                                 :maxlength="$campo[3] ?? ['nombre_docente' => 60, 'o_nac' => 30, 'dir' => 100, 'correo' => 40, 'telefono' => 20, 'celular' => 20, 'numero_empleado' => 100][$nombre] ?? null" :disabled="$nombre === 'correo' && !$jefeDivision"
                                 :min="$nombre === 'f_nac' ? today()->subYears(90)->toDateString() : ($nombre === 'cedula' ? 0 : null)"
                                 :max="$nombre === 'f_nac' ? today()->subYears(18)->toDateString() : ($nombre === 'cedula' ? 2147483647 : null)"
-                                :error="$errors->first($nombre)" required />
+                                class="tw:aria-invalid:border-red-500" required />
                         @endif
                     @endforeach
                 </div>
             </fieldset>
         @endforeach
-        <div class="tw:flex tw:justify-end">
-            <x-panel.boton id="guarda_docente" type="submit">Agregar docente</x-panel.boton>
+        <div class="tw:flex tw:flex-wrap tw:justify-between tw:gap-3">
+            <x-panel.stepper-navegacion />
+            <x-panel.boton id="guarda_docente" type="submit" class="tw:ms-auto">Agregar docente</x-panel.boton>
         </div>
     </form>
 </x-panel.tarjeta>
@@ -166,7 +171,10 @@ $(function () {
                             }
                         }
                     });
-                    if (nuevoId) { select.value = nuevoId; }
+                    if (nuevoId) {
+                        select.value = nuevoId;
+                        select.dispatchEvent(new Event('change', {bubbles: true}));
+                    }
                 }).fail(function (xhr) {
                     error.textContent = 'No se pudo agregar la opción.';
                     PanelFormularios.fallo(formulario, xhr, error.textContent);

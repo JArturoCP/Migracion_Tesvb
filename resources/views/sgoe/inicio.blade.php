@@ -111,6 +111,7 @@
 
     <!-- Notificaciones TESVB (reemplazo de alert/confirm/prompt) -->
     <script src="{{ asset('js/tesvb-notify.js') }}?v={{ filemtime(public_path('js/tesvb-notify.js')) }}"></script>
+    @include('layouts.tipografia')
 </head>
 
 <body >

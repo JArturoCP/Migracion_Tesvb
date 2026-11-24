@@ -41,6 +41,10 @@
                 </svg>
             </button>
 
+            @if(!empty($estudiante))
+                @include('partials.panel.notificaciones_estudiante')
+            @endif
+
             {{-- Buscador (escritorio): filtra los enlaces del sidebar en el navegador --}}
             <div class="tw:hidden tw:xl:block">
                 @include('partials.panel.buscador')

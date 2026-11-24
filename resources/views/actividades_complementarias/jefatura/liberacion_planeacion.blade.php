@@ -33,7 +33,7 @@
                         </x-panel.boton>
                     </div>
                 </div>
-                   
+
                 <x-panel.tabla class="tabla-grande2">
                     <thead>
                         <tr>
@@ -61,7 +61,7 @@
                         </tr>
                         @endforeach
                     </tbody>
-                </x-panel.tabla> 
+                </x-panel.tabla>
             </div>
 
             <div role="tabpanel" class="tab-pane" id="cuatro">
@@ -88,7 +88,7 @@
                         </tr>
                         @endforeach
                     </tbody>
-                </x-panel.tabla>           
+                </x-panel.tabla>
             </div>
         </div>
     </x-panel.tarjeta>
@@ -121,15 +121,15 @@ $(document).ready(function(){
 
         $('input[name="orderbox[]"]:checked').each(function(){
             checkboxValues[checkboxValues.length]=$(this).val();
-            registro[registro.length]=$(this).data('registro'); 
+            registro[registro.length]=$(this).data('registro');
         });
-        
+
         var $marcados=$('input[name="orderbox[]"]:checked');
         var numero=$marcados.length;
         if(numero==0)
         {
             $('#mensaje_actividad').modal('show');
-            setTimeout(myFunction, 2000); 
+            setTimeout(myFunction, 2000);
 
             function myFunction(){
                 $('#mensaje_actividad').modal('hide');
@@ -159,9 +159,9 @@ $(document).ready(function(){
 
         $('input[name="orderboxx[]"]:checked').each(function(){
             checkboxValues[checkboxValues.length]=$(this).val();
-            registro[registro.length]=$(this).data('registroo'); 
+            registro[registro.length]=$(this).data('registroo');
         });
-        
+
         var $marcados=$('input[name="orderboxx[]"]:checked');
         var numero=$marcados.length;
 

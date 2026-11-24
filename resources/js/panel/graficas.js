@@ -5,7 +5,7 @@
 // ApexCharts se carga solo si la página tiene gráficas.
 
 const esOscuro = () => document.documentElement.classList.contains('dark') || document.body.classList.contains('dark');
-const fuente = 'Outfit Variable, Outfit, sans-serif';
+const fuente = 'var(--tesvb-font-family)';
 
 const opcionesBarras = ({ serie, categorias, valores }) => ({
     colors: ['#465FFF'],

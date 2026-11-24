@@ -9,16 +9,16 @@
     <x-panel.tarjeta sin-relleno>
         <!-- Nav tabs -->
         <div class="tw:border-b tw:border-gray-200 tw:px-6 tw:pt-4 tw:dark:border-gray-800">
-            <ul class="tw:flex tw:flex-wrap tw:gap-2" role="tablist">
+            <ul class="nav nav-tabs tw:flex tw:gap-2 tw:border-0" role="tablist">
                 <li role="presentation" class="active">
-                    <a href="#tres" aria-controls="tres" aria-selected="true" role="tab" data-toggle="tab" class="tw-pestana active">No Liberados</a>
+                    <a href="#tres" aria-controls="home" role="tab" data-toggle="tab" class="tw:inline-block tw:rounded-t-lg tw:border-b-2 tw:border-brand-500 tw:px-4 tw:py-2 tw:text-sm tw:font-medium tw:text-brand-600 tw:dark:text-brand-400">No Liberados</a>
                 </li>
                 <li role="presentation">
-                    <a href="#cuatro" aria-controls="cuatro" aria-selected="false" role="tab" data-toggle="tab" class="tw-pestana">Aprobados</a>
+                    <a href="#cuatro" aria-controls="cuatro" role="tab" data-toggle="tab" class="tw:inline-block tw:rounded-t-lg tw:border-b-2 tw:border-transparent tw:px-4 tw:py-2 tw:text-sm tw:font-medium tw:text-gray-500 tw:hover:text-gray-700 tw:dark:text-gray-400">Aprobados</a>
                 </li>
                 <li role="presentation">
-                    <a href="#dos" aria-controls="dos" aria-selected="false" role="tab" data-toggle="tab" class="tw-pestana">No Aprobados</a>
-                </li>  
+                    <a href="#dos" aria-controls="dos" role="tab" data-toggle="tab" class="tw:inline-block tw:rounded-t-lg tw:border-b-2 tw:border-transparent tw:px-4 tw:py-2 tw:text-sm tw:font-medium tw:text-gray-500 tw:hover:text-gray-700 tw:dark:text-gray-400">No Aprobados</a>
+                </li>
             </ul>
         </div>
 
@@ -61,13 +61,13 @@
                             <td>{{$liberacion_evaluacion_si->titulo}} {{$liberacion_evaluacion_si->docente}}</td>
                             <td>{{$liberacion_evaluacion_si->creditos}}</td>
                             <td>{{$liberacion_evaluacion_si->promedio}}</td>
-                            <td class="tw:text-center">  
+                            <td class="tw:text-center">
                                 <input class="checkbox tw:size-4 tw:rounded tw:border-gray-300 tw:text-brand-600 tw:focus:ring-brand-500" name="orderbox[]" type="checkbox" value="1" id="liberacion_jefe" data-cuenta="{{$liberacion_evaluacion_si->id_registro_alumno}}">
                             </td>
                         </tr>
                         @endforeach
                     </tbody>
-                </x-panel.tabla>      
+                </x-panel.tabla>
             </div>
 
             <div role="tabpanel" class="tab-pane" id="cuatro">
@@ -147,7 +147,7 @@
                             @endif
                         @endforeach
                     </tbody>
-                </x-panel.tabla>    
+                </x-panel.tabla>
             </div>
         </div>
     </x-panel.tarjeta>
@@ -156,9 +156,15 @@
   $direccion=Session::get('ip');
 ?>
 
-<x-panel.modal id="mensaje_actividad" titulo="Selecciona registros" tamano="sm" aria-label="Selecciona registros">
-    <p class="tw:text-sm tw:text-red-700 tw:dark:text-red-400" role="alert">NO HAS SELECCIONADO DATOS A IMPRIMIR</p>
-</x-panel.modal>
+<div id="mensaje_actividad" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-body text-warning">
+        <p style="font-weight: bold; color:#BA0000; text-align:center;">NO HAS SELECCIONADO DATOS A IMPRIMIR</p>
+      </div>
+    </div>
+  </div>
+</div>
 
 </main>
 
@@ -180,15 +186,15 @@ $(document).ready(function(){
 
         $('input[name="orderbox[]"]:checked').each(function(){
             checkboxValues[checkboxValues.length]=$(this).val();
-            cuenta[cuenta.length]=$(this).data('cuenta'); 
+            cuenta[cuenta.length]=$(this).data('cuenta');
         });
-            
+
         var $marcados=$('input[name="orderbox[]"]:checked');
         var numero=$marcados.length;
         if(numero==0)
         {
             $('#mensaje_actividad').modal('show');
-            setTimeout(myFunction, 2000); 
+            setTimeout(myFunction, 2000);
 
             function myFunction(){
                 $('#mensaje_actividad').modal('hide');
@@ -211,8 +217,8 @@ $(document).ready(function(){
     });
 
     $('#paginacion').DataTable();
-    $('#pag').DataTable();  
-    $('#pagi').DataTable();    
+    $('#pag').DataTable();
+    $('#pagi').DataTable();
 });
 </script>
 @endsection

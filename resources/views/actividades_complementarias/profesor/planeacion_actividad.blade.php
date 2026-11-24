@@ -23,7 +23,7 @@
                     <th class="tw:text-center">Editar</th>
                     <th class="tw:text-center">Eliminar</th>
                 </tr>
-            </thead> 
+            </thead>
             <tbody>
                 @foreach($docente_actividad as $docente)
                 <tr>
@@ -159,7 +159,7 @@ $(document).ready(function(){
 
     $('#actividad_docen').on('change',function(){
         var selected = $(this).find('option:selected');
-        var extra = selected.data('horas'); 
+        var extra = selected.data('horas');
         document.getElementById("horas_docente").value = extra+" Horas";
     });
 
@@ -167,12 +167,12 @@ $(document).ready(function(){
         var id_sit=($(this).data('id'));
         $("#form_delete").attr("action","/planeacion_actividad/"+id_sit);
         $("#form_delete").submit();
-    });   
+    });
 
     @if($condicion != 0)
         <?php Session::put('entra',0); ?>
         $('#mensaje_actividad').modal('show');
-        setTimeout(myFunction, 2000); 
+        setTimeout(myFunction, 2000);
 
         function myFunction(){
             window.location.href=direccion+"/planeacion_actividad/";

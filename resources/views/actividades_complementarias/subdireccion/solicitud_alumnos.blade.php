@@ -32,7 +32,7 @@
                         </x-panel.boton>
                     </div>
                 </div>
-                   
+
                 <x-panel.tabla id="paginacion" class="tabla-grande2">
                     <thead>
                         <tr>
@@ -60,13 +60,13 @@
                             <td>{{$liberacion_sub->horas}}</td>
                             <td>{{$liberacion_sub->creditos}}</td>
                             <td>{{$liberacion_sub->titulo}} {{$liberacion_sub->docente}}</td>
-                            <td class="tw:text-center">  
+                            <td class="tw:text-center">
                                 <input class="checkbox tw:size-4 tw:rounded tw:border-gray-300 tw:text-brand-600 tw:focus:ring-brand-500" name="orderbox[]" type="checkbox" value="1" id="liberacion_jefe" data-cuenta="{{$liberacion_sub->id_registro_alumno}}">
                             </td>
                         </tr>
                         @endforeach
                     </tbody>
-                </x-panel.tabla>     
+                </x-panel.tabla>
             </div>
 
             <div role="tabpanel" class="tab-pane" id="cuatro">
@@ -132,15 +132,15 @@ $(document).ready(function(){
 
         $('input[name="orderbox[]"]:checked').each(function(){
             checkboxValues[checkboxValues.length]=$(this).val();
-            cuenta[cuenta.length]=$(this).data('cuenta'); 
+            cuenta[cuenta.length]=$(this).data('cuenta');
         });
-            
+
         var $marcados=$('input[name="orderbox[]"]:checked');
         var numero=$marcados.length;
         if(numero==0)
         {
             $('#mensaje_actividad').modal('show');
-            setTimeout(myFunction, 2000); 
+            setTimeout(myFunction, 2000);
 
             function myFunction(){
                 $('#mensaje_actividad').modal('hide');
@@ -169,7 +169,7 @@ $(document).ready(function(){
 
         $('input[name="orderboxx[]"]:checked').each(function(){
             checkboxValues[checkboxValues.length]=$(this).val();
-            cuenta[cuenta.length]=$(this).data('cuentaa'); 
+            cuenta[cuenta.length]=$(this).data('cuentaa');
         });
         var $marcados=$('input[name="orderboxx[]"]:checked');
         var numero=$marcados.length;

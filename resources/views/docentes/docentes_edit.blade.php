@@ -1,6 +1,7 @@
 @extends('layouts.panel')
 @section('title', 'Datos personales')
 @include('partials.panel.recursos_app')
+@include('partials.panel.formularios')
 
 @section('content')
 @php
@@ -73,7 +74,8 @@
     <x-slot:encabezado>
         <h2 id="editar_docente_titulo" class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">Editar datos personales</h2>
     </x-slot:encabezado>
-    <form id="form_docente_edita" method="POST" action="{{ url('/docente/'.$docente_edit->id_personal) }}" novalidate>
+    <form data-panel-stepper data-panel-seguimiento="docente" id="form_docente_edita" method="POST" action="{{ url('/docente/'.$docente_edit->id_personal) }}"
+        data-stepper-errores="{{ json_encode($errors->messages()) }}" novalidate>
         @csrf
         @method('PUT')
         <div class="tw-modal-cuerpo tw:max-h-[60dvh] tw:space-y-6 tw:overflow-y-auto">
@@ -83,9 +85,10 @@
             @error('guardado')
                 <x-panel.alerta tipo="error">{{ $message }}</x-panel.alerta>
             @enderror
+            <x-panel.stepper id="edicion-docente" :pasos="array_keys($secciones)" />
             @foreach ($secciones as $titulo => $campos)
-                <fieldset class="tw:min-w-0">
-                    <legend class="tw:mb-3 tw:text-sm tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">{{ $titulo }}</legend>
+                <fieldset id="edicion-docente-paso-{{ $loop->index }}" data-stepper-seccion class="tw:min-w-0 tw:motion-safe:animate-in tw:motion-safe:fade-in tw:motion-safe:duration-200">
+                    <legend tabindex="-1" class="tw:mb-3 tw:text-sm tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">{{ $titulo }}</legend>
                     <div class="tw:grid tw:gap-4 tw:sm:grid-cols-2 tw:lg:grid-cols-3">
                         @foreach ($campos as $campo)
                             @php
@@ -98,7 +101,7 @@
                             @endphp
                             @if ($tipo === 'select')
                                 <div class="tw:min-w-0">
-                                    <x-panel.select :id="$nombre" :name="$nombre" :etiqueta="$etiqueta" required>
+                                    <x-panel.select :id="$nombre" :name="$nombre" :etiqueta="$etiqueta" class="tw:aria-invalid:border-red-500" required>
                                         <option value="">Selecciona una opción</option>
                                         @foreach ($opciones[$nombre] as $clave => $texto)
                                             <option value="{{ $clave }}" @selected(strcasecmp((string) $valor, (string) $clave) === 0)>{{ $texto }}</option>
@@ -112,7 +115,10 @@
                                 </div>
                             @else
                                 <x-panel.input :id="$nombre" :name="$nombre" :etiqueta="$etiqueta" :type="$tipo" :value="$valor"
-                                    :maxlength="$campo[4] ?? null" :max="$nombre === 'f_nac' ? today()->subDay()->toDateString() : null" required />
+                                    :maxlength="$campo[4] ?? null" :min="$nombre === 'cedula' ? 0 : null"
+                                    :max="match ($nombre) { 'f_nac' => today()->subDay()->toDateString(), 'cedula' => 2147483647, default => null }"
+                                    :pattern="$nombre === 'correo' ? '[^\s@]+@[^\s@]+\.[^\s@]+' : null"
+                                    class="tw:aria-invalid:border-red-500" required />
                             @endif
                         @endforeach
                     </div>
@@ -120,6 +126,7 @@
             @endforeach
         </div>
         <x-panel.modal-pie>
+            <x-panel.stepper-navegacion />
             <x-panel.boton variante="secundario" data-dismiss="modal">Cerrar</x-panel.boton>
             <x-panel.boton id="guarda_docente" type="submit">Guardar cambios</x-panel.boton>
         </x-panel.modal-pie>
@@ -156,8 +163,7 @@ window.docenteEdicion = {
     errors: @json($errors->getBag('default')->messages()),
     success: @json(session('docente_success')),
     advertenciaFecha: @json($ok === 'true'),
-    alertaClase: 'tw:z-[100001]',
-    errorClase: 'tw:mt-1 tw:block tw:text-xs tw:text-red-600 tw:dark:text-red-400'
+    alertaClase: 'tw:z-[100001]'
 };
 </script>
 <script src="{{ asset('js/docentes/editar.js') }}?v={{ filemtime(public_path('js/docentes/editar.js')) }}"></script>

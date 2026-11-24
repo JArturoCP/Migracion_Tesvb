@@ -63,7 +63,7 @@
         });
     }
 
-    function validar(form) {
+    function revisarCampos(form) {
         const lista = {};
         for (const campo of form.elements) {
             const nombre = campo.name || campo.id;
@@ -89,6 +89,11 @@
                 ? 'Completa ' + etiqueta + '.'
                 : etiqueta + ': ' + campo.validationMessage;
         }
+        return lista;
+    }
+
+    function validar(form) {
+        const lista = revisarCampos(form);
         if (!Object.keys(lista).length) { return true; }
         errores(form, lista);
         return false;
@@ -218,5 +223,5 @@
         }
     });
 
-    window.PanelFormularios = { alerta, errores, validar, fallo, enviar, marcarCampo, limpiarCampo };
+    window.PanelFormularios = { alerta, errores, revisarCampos, validar, fallo, enviar, marcarCampo, limpiarCampo };
 })(window.jQuery, window.Swal);
