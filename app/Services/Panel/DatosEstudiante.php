@@ -17,9 +17,13 @@ final class DatosEstudiante
     {
         try {
             $fichas = DB::table('gnral_alumnos')
-                ->where('id_usuario', $usuario->getAuthIdentifier())
+                ->leftJoin('gnral_carreras as carrera', 'carrera.id_carrera', '=', 'gnral_alumnos.id_carrera')
+                ->leftJoin('gnral_semestres as semestre', 'semestre.id_semestre', '=', 'gnral_alumnos.id_semestre')
+                ->where('gnral_alumnos.id_usuario', $usuario->getAuthIdentifier())
                 ->limit(2)
-                ->get(['id_alumno', 'cuenta', 'nombre', 'apaterno', 'amaterno']);
+                ->get(['gnral_alumnos.id_alumno', 'gnral_alumnos.cuenta', 'gnral_alumnos.nombre',
+                    'gnral_alumnos.apaterno', 'gnral_alumnos.amaterno', 'carrera.id_carrera',
+                    'carrera.nombre as carrera', 'semestre.descripcion as semestre']);
         } catch (QueryException $exception) {
             report($exception);
 
@@ -33,7 +37,8 @@ final class DatosEstudiante
 
     public function presentacion(Authenticatable $usuario, object $ficha): array
     {
-        $tema = $this->temas->para($usuario);
+        $carrera = is_string($ficha->carrera) ? trim($ficha->carrera) : '';
+        $tema = $this->temas->paraCarrera($ficha->id_carrera, $carrera);
         $mascota = $tema['matched'] ? $this->recurso($tema['image']) : null;
         $logo = $tema['matched'] ? $this->recurso($tema['logo'] ?? null) : null;
         $sesionEstudiantil = session()->has('palumno')
@@ -45,7 +50,8 @@ final class DatosEstudiante
 
         return [
             'nombre' => trim(implode(' ', array_filter([$ficha->nombre, $ficha->apaterno, $ficha->amaterno]))),
-            'carrera' => $tema['matched'] ? $tema['name'] : null,
+            'carrera' => $carrera !== '' ? $carrera : null,
+            'semestre' => $ficha->semestre,
             'acento' => $tema['primary'],
             'mascota' => $mascota,
             'logo' => $logo,

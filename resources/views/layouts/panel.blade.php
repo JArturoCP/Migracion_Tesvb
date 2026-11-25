@@ -29,6 +29,7 @@
 
     @include('layouts.tipografia')
     @vite(['resources/css/marco.css', 'resources/js/panel.js'])
+    @include('partials.panel.tema_estudiantil')
 </head>
 <body
     x-data="{ page: 'inicio', loaded: true, darkMode: false, stickyMenu: false, sidebarToggle: false, scrollTop: false }"
@@ -46,7 +47,7 @@
             <main id="main-content">
                 @include('partials.panel.header')
 
-                <div class="tw:mx-auto tw:max-w-(--tw-breakpoint-2xl) tw:p-4 tw:pb-20 tw:md:p-6 tw:md:pb-6" data-panel-contenido>
+                <div class="tw:mx-auto tw:max-w-(--tw-breakpoint-2xl) tw:p-4 tw:pb-20 tw:md:p-6 tw:md:pb-6" data-panel-contenido data-tema-estudiantil="tailadmin">
                     @yield('content')
                 </div>
             </main>
