@@ -40,6 +40,8 @@
 @source "../views/components/panel";
 @source "../../public/js/panel/formularios.js";
 /* Vistas de módulos migradas al panel (se escanean solo las clases tw:; el resto no genera CSS). */
+@source "../views/ambiental/encargado_amb/activo_periodo.blade.php";
+@source "../views/ambiental/encargado_amb/desactivo_periodo.blade.php";
 @source "../views/tutorias/alumnos";
 @source "../views/tutorias/actividades_alumno";
 @source "../views/tutorias/calendario_eventos";

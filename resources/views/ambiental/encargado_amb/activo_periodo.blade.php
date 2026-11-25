@@ -1,38 +1,34 @@
-@extends('layouts.app')
-@section('title', 'Ambiental')
+@extends('layouts.panel')
+@section('title', 'Envío de documentación')
+
 @section('content')
+    <x-panel.encabezado titulo="ENVÍO DE DOCUMENTACIÓN" :migas="['Procedimiento Ambiental' => '#procedimientos']" />
 
-    <main class="col-md-12">
+    <div class="tw:space-y-6">
+        <x-panel.tarjeta titulo="Periodo ambiental activo">
+            <p class="tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-white/90">
+                {{ $periodo[0]->nombre_periodo_amb }}
+            </p>
+        </x-panel.tarjeta>
 
-
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title text-center">Enviar documentación del procedimiento del Periodo: {{ $periodo[0]->nombre_periodo_amb }}</h3>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-            <div class="row">
-                <div class="col-md-6 col-md-offset-3">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <ul class="nav nav-pills nav-stacked" style="background-color:white;border: 2px solid black; border-radius: 7px; padding-right: 0px">
-
-                            @foreach($procedimientos as $procedimiento)
-                            <li style="margin-top: 0px"><a style="border-bottom: 2px solid black;" data-toggle="pill" href="#" onclick="window.location='{{ url('/ambiental/ver_estado_documentacion/'.$procedimiento->id_encargado ) }}'" >   {{$procedimiento->nom_procedimiento}}</a></li>
-                            @endforeach
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-    </main>
-
-
-
+        <x-panel.tarjeta id="procedimientos" titulo="Procedimientos asignados">
+            @if ($procedimientos->isEmpty())
+                <x-panel.vacio titulo="Sin procedimientos asignados" />
+            @else
+                <ul class="tw:grid tw:gap-4 tw:sm:grid-cols-2 tw:xl:grid-cols-3">
+                    @foreach ($procedimientos as $procedimiento)
+                        <li class="tw:min-w-0">
+                            <x-panel.boton
+                                variante="secundario"
+                                :href="url('/ambiental/ver_estado_documentacion/'.$procedimiento->id_encargado)"
+                                class="tw:h-full tw:w-full tw:text-center tw:wrap-break-word"
+                            >
+                                {{ $procedimiento->nom_procedimiento }}
+                            </x-panel.boton>
+                        </li>
+                    @endforeach
+                </ul>
+            @endif
+        </x-panel.tarjeta>
+    </div>
 @endsection
