@@ -139,7 +139,7 @@
                             <div class="col-md-10 col-md-offset-1">
                                 <div class="form-group">
                                     <label for="dependencia">Fecha que solicita el servicio</label>
-                                    <input class="form-control datepicker fecha_s"   type="text"  id="fecha_s" name="fecha_s" data-date-format="yyyy/mm/dd" placeholder="yyyy/mm/dd" >
+                                    <input class="form-control datepicker fecha_s"   type="text"  id="fecha_s" name="fecha_s" data-flatpickr-date="Y/m/d" data-date-format="yyyy/mm/dd" placeholder="yyyy/mm/dd" >
                                 </div>
                             </div>
                         </div>
@@ -235,12 +235,6 @@
             });
 
 
-            $('#fecha_s').datepicker({
-
-                autoclose: true,
-                //startDate: '+0d',
-                language: 'es'
-            });
 
             $("#table_enviado").on('click','.enviar_encuesta',function(){
                 var id=$(this).data('id');

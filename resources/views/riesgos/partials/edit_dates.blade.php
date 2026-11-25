@@ -15,12 +15,7 @@
                     <div class="form-group">
                         <input type="hidden" id="id_date_riesgo" value="">
                         <label for="fecha_final_edit_ri" class="col-form-label">Fecha Final</label>
-                        <div class="input-group date" id="date_picker_group" data-provide="datepicker">
-                            <input type="text" class="form-control" id="fecha_final_edit_ri" name="fecha_final_edit_ri"  />
-                            <div class="input-group-addon">
-                                <span class="glyphicon glyphicon-th"></span>
-                            </div>
-                        </div>
+                        <input type="text" class="form-control" id="fecha_final_edit_ri" name="fecha_final_edit_ri" data-flatpickr-date data-flatpickr-min-days="1" />
                     </div>
                 </div>
                 <div class="modal-footer">

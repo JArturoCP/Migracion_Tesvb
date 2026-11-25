@@ -47,5 +47,14 @@
     "dynamicImports": [
       "node_modules/apexcharts/dist/apexcharts.esm.js"
     ]
+  },
+  "resources/js/fechas.js": {
+    "file": "assets/fechas-D14RjBEC.js",
+    "name": "fechas",
+    "src": "resources/js/fechas.js",
+    "isEntry": true,
+    "css": [
+      "assets/fechas-BMepuMQp.css"
+    ]
   }
 }

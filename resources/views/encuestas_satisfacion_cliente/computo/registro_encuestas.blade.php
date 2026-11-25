@@ -92,12 +92,6 @@
 
             } );
 
-            $('#fecha_s').datepicker({
-
-                autoclose: true,
-                //startDate: '+0d',
-                language: 'es'
-            });
 
             $("#table_enviado").on('click','.contestar',function(){
                 var id=$(this).data('id');

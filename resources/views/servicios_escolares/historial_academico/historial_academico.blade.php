@@ -314,8 +314,8 @@
                         </div>
                         <div class="row" >
                             <div class="col-md-8 col-md-offset-2">
-                                <label>Fecha de termino</label>
-                                <input class="form-control datepicker"  type="text"  id="fecha_residencia" name="fecha_residencia"  placeholder="dd/MM/YYYY" required>
+                                <label>Fecha de término</label>
+                                <input class="form-control datepicker"  type="text"  id="fecha_residencia" name="fecha_residencia" data-flatpickr-date="d/m/Y"  placeholder="dd/MM/YYYY" required>
                             </div>
                         </div>
                     </div>
@@ -346,8 +346,8 @@
                         </div>
                         <div class="row" >
                             <div class="col-md-8 col-md-offset-2">
-                                <label>Fecha de termino</label>
-                                <input class="form-control datepicker"  type="text"  id="fecha_servicio" name="fecha_servicio"  placeholder="dd/MM/YYYY" required>
+                                <label>Fecha de término</label>
+                                <input class="form-control datepicker"  type="text"  id="fecha_servicio" name="fecha_servicio" data-flatpickr-date="d/m/Y"  placeholder="dd/MM/YYYY" required>
                             </div>
                         </div>
                     </div>
@@ -583,18 +583,6 @@
             $(".calificar_actividades").click(function(event) {
 
                 $('#modal_calificar_actividades').modal('show');
-            });
-            $('#fecha_servicio').datepicker({
-                pickTime: false,
-                autoclose: true,
-                language: 'es',
-                startDate: +0,
-            });
-            $('#fecha_residencia').datepicker({
-                pickTime: false,
-                autoclose: true,
-                language: 'es',
-                startDate: +0,
             });
             $(".quitar").click(function(event) {
 

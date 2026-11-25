@@ -73,7 +73,7 @@
             <div class="col-md-4">
               <div class="form-group">
                 <label for="fecha_termino">Fecha emision de Constancia o Certificado</label>
-                <input class="form-control datepicker fecha_termino" type="text" id="fecha_termino" name="fecha_termino" data-panel-etiqueta="la fecha de emisión" data-date-format="yyyy/mm/dd" placeholder="AAAA/MM/DD" required>
+                <input class="form-control datepicker fecha_termino" type="text" id="fecha_termino" name="fecha_termino" data-flatpickr-date="Y/m/d" data-flatpickr-min-days="0" data-panel-etiqueta="la fecha de emisión" data-date-format="yyyy/mm/dd" placeholder="AAAA/MM/DD" required>
               </div>
             </div>
           </div>
@@ -93,12 +93,6 @@
 
     $("#modal_agregar_facilitador").modal("show");
 
-    $('.fecha_termino').datepicker({
-      pickTime: false,
-      autoclose: true,
-      language: 'es',
-      startDate: '+0d',
-    });
 
   });
 </script>

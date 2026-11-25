@@ -1,0 +1,212 @@
+.tesvb-fecha-original {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    overflow: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+.tesvb-fecha-control {
+    position: relative;
+    display: inline-grid;
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 100%;
+    vertical-align: middle;
+}
+
+.tesvb-fecha-ancho {
+    width: 100%;
+}
+
+.tesvb-fecha-visible {
+    min-width: 0;
+    padding-inline-end: 2.75rem !important;
+}
+
+.tesvb-fecha {
+    position: absolute;
+    inset-inline-end: 0;
+    inset-block: 0;
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    border: 0;
+    border-radius: .5rem;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+}
+
+.tesvb-fecha::before {
+    content: "";
+    width: 1rem;
+    height: .95rem;
+    border: 2px solid currentColor;
+    border-top-width: 4px;
+    border-radius: .2rem;
+}
+
+.tesvb-fecha:disabled {
+    cursor: default;
+}
+
+
+/* Los popups también pueden vivir en body o en la raíz de un modal. */
+.tesvb-fecha-control,
+.tesvb-calendario {
+    --fecha-fondo: var(--tw-color-white, Canvas);
+    --fecha-encabezado: var(--tw-color-gray-50, var(--fecha-fondo));
+    --fecha-texto: var(--tw-color-gray-900, CanvasText);
+    --fecha-secundario: var(--tw-color-gray-600, CanvasText);
+    --fecha-borde: var(--tw-color-gray-300, ButtonBorder);
+    --fecha-inactivo: var(--tw-color-gray-500, GrayText);
+    --fecha-acento: var(--calendario-acento, var(--color-brand-600, var(--tw-color-brand-600, var(--tw-color-brand-500, Highlight))));
+    --fecha-foco: var(--tw-color-brand-600, Highlight);
+    --fecha-error: var(--tw-color-error-600, var(--tw-color-red-600, currentColor));
+    --fecha-hover: color-mix(in srgb, var(--fecha-acento) 12%, var(--fecha-fondo));
+    --fecha-rango: color-mix(in srgb, var(--fecha-acento) 20%, var(--fecha-fondo));
+}
+
+.dark .tesvb-calendario,
+.dark .tw-modulo .tesvb-fecha-control {
+    color-scheme: dark;
+    --fecha-fondo: var(--tw-color-gray-900, Canvas);
+    --fecha-encabezado: var(--tw-color-gray-800, var(--fecha-fondo));
+    --fecha-texto: var(--tw-color-gray-100, CanvasText);
+    --fecha-secundario: var(--tw-color-gray-300, CanvasText);
+    --fecha-borde: var(--tw-color-gray-600, ButtonBorder);
+    --fecha-inactivo: var(--tw-color-gray-400, GrayText);
+    --fecha-foco: var(--tw-color-brand-400, Highlight);
+    --fecha-error: var(--tw-color-error-400, var(--tw-color-red-400, currentColor));
+}
+
+.tesvb-fecha-control .tesvb-fecha-visible {
+    background-color: var(--fecha-fondo);
+    color: var(--fecha-texto);
+    border-color: var(--fecha-borde);
+}
+
+.tesvb-fecha-visible::placeholder { color: var(--fecha-secundario); }
+.tesvb-fecha-control .tesvb-fecha-visible:disabled {
+    background-color: var(--fecha-encabezado);
+    color: var(--fecha-inactivo);
+}
+.tesvb-fecha-control .tesvb-fecha-visible:user-invalid,
+.tesvb-fecha-control .tesvb-fecha-visible[aria-invalid="true"] {
+    border-color: var(--fecha-error);
+}
+
+.tesvb-fecha-control .tesvb-fecha { color: var(--fecha-secundario); }
+.tesvb-fecha-control .tesvb-fecha:disabled { color: var(--fecha-inactivo); }
+.tesvb-fecha-control .tesvb-fecha:hover:not(:disabled) { background: var(--fecha-hover); }
+
+.flatpickr-calendar.tesvb-calendario {
+    position: fixed;
+    z-index: 1090;
+    max-width: calc(100vw - 8px);
+    overflow: auto;
+    max-height: calc(100dvh - 8px);
+    font-family: inherit;
+    border-radius: .75rem;
+    background: var(--fecha-fondo);
+    color: var(--fecha-texto);
+    box-shadow: 0 0 0 1px var(--fecha-borde),
+        var(--tw-shadow-theme-lg, 0 6px 20px rgb(0 0 0 / .2));
+}
+
+.tesvb-calendario .flatpickr-months,
+.tesvb-calendario .flatpickr-weekdays {
+    background: var(--fecha-encabezado);
+}
+
+.tesvb-calendario :is(.flatpickr-month, .flatpickr-prev-month, .flatpickr-next-month, .flatpickr-day, .flatpickr-time input, .flatpickr-time .flatpickr-am-pm, .flatpickr-time .flatpickr-time-separator) {
+    color: var(--fecha-texto);
+}
+
+.tesvb-calendario span.flatpickr-weekday,
+.tesvb-calendario :is(.prevMonthDay, .nextMonthDay) {
+    color: var(--fecha-secundario);
+}
+
+.tesvb-calendario .flatpickr-months :is(.flatpickr-prev-month, .flatpickr-next-month) svg {
+    fill: currentColor;
+}
+
+.tesvb-calendario .flatpickr-current-month .flatpickr-monthDropdown-months,
+.tesvb-calendario .flatpickr-current-month .flatpickr-monthDropdown-months option {
+    background: var(--fecha-encabezado);
+    color: var(--fecha-texto);
+}
+
+.tesvb-calendario :is(.flatpickr-prev-month, .flatpickr-next-month, .numInputWrapper, .flatpickr-monthDropdown-months):hover,
+.tesvb-calendario .flatpickr-time :is(input, .flatpickr-am-pm):is(:hover, :focus) {
+    background: var(--fecha-hover);
+}
+
+.tesvb-calendario .numInputWrapper span.arrowUp::after { border-bottom-color: var(--fecha-secundario); }
+.tesvb-calendario .numInputWrapper span.arrowDown::after { border-top-color: var(--fecha-secundario); }
+.tesvb-calendario .numInputWrapper span:hover { background: var(--fecha-hover); }
+.tesvb-calendario .flatpickr-current-month input.cur-year:disabled { color: var(--fecha-inactivo); }
+.tesvb-calendario.hasTime .flatpickr-time { border-top-color: var(--fecha-borde); }
+.tesvb-calendario .flatpickr-weekwrapper .flatpickr-weeks { box-shadow: 1px 0 var(--fecha-borde); }
+
+.tesvb-calendario .flatpickr-day.today { border-color: var(--fecha-foco); }
+
+.tesvb-calendario .flatpickr-day:is(:hover, :focus, .inRange):not(.flatpickr-disabled, .selected, .startRange, .endRange) {
+    color: var(--fecha-texto);
+    background: var(--fecha-hover);
+    border-color: transparent;
+}
+
+.tesvb-calendario .flatpickr-day.today:is(:hover, :focus):not(.flatpickr-disabled, .selected, .startRange, .endRange) {
+    border-color: var(--fecha-foco);
+}
+
+.tesvb-calendario .flatpickr-day.inRange:not(.flatpickr-disabled) {
+    background: var(--fecha-rango);
+    border-color: var(--fecha-rango);
+    box-shadow: -5px 0 var(--fecha-rango), 5px 0 var(--fecha-rango);
+}
+
+.tesvb-calendario .flatpickr-day:is(.selected, .startRange, .endRange) {
+    background: var(--fecha-acento);
+    border-color: var(--fecha-acento);
+    color: var(--tw-color-white, white);
+}
+
+@supports (color: contrast-color(red)) {
+    .tesvb-calendario .flatpickr-day:is(.selected, .startRange, .endRange) {
+        color: contrast-color(var(--fecha-acento));
+    }
+}
+
+.tesvb-calendario .flatpickr-day.startRange + .flatpickr-day.endRange {
+    box-shadow: -10px 0 var(--fecha-acento);
+}
+
+.tesvb-calendario .flatpickr-day:is(.flatpickr-disabled, .notAllowed) {
+    color: var(--fecha-inactivo);
+    background: transparent;
+    border-color: transparent;
+    text-decoration: line-through;
+}
+
+.tesvb-calendario :is(.flatpickr-day, .numInput, .flatpickr-monthDropdown-months, .flatpickr-am-pm):focus-visible,
+.tesvb-fecha-control :focus-visible {
+    outline: 2px solid var(--fecha-foco);
+    outline-offset: -2px;
+}
+
+.tesvb-calendario .flatpickr-day:is(.selected, .startRange, .endRange):focus-visible {
+    outline-color: currentColor;
+}
+
+@media (forced-colors: active) {
+    .tesvb-calendario .flatpickr-day:is(.selected, .startRange, .endRange) {
+        forced-color-adjust: none;
+        background: Highlight;
+        border-color: Highlight;
+        color: HighlightText;
+    }
+}

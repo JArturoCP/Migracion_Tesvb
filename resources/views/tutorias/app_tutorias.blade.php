@@ -13,6 +13,7 @@
 <head>
 @include('tutorias.partials.cabeza')
     @include('layouts.tipografia')
+@include('partials.panel.fechas')
 </head>
 <body>
 @include('tutorias.partials.encabezado')

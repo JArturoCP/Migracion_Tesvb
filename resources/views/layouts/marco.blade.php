@@ -21,6 +21,7 @@
 
     @include('layouts.tipografia')
     @vite(['resources/css/marco.css', 'resources/js/panel.js'])
+@include('partials.panel.fechas')
     @include('partials.panel.tema_estudiantil')
 </head>
 <body x-data="{ page: 'modulo', darkMode: false, sidebarToggle: false }"

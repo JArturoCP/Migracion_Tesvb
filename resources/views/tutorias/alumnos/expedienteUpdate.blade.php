@@ -56,7 +56,8 @@
                                         </div>
                                         <div class="tw:w-full tw:md:w-4/12 tw:px-2">
                                             <label for="fn">Fecha de nacimiento </label>
-                                            <input type="date" v-model="alu.generales.fecha_nacimientos" id="fn" name="fecha_nacimiento" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" placeholder="Fecha de Nacimiento" required disabled>
+                                            <input type="date" v-model="alu.generales.fecha_nacimientos" id="fn" aria-describedby="fn-estado" name="fecha_nacimiento" data-no-flatpickr class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" disabled>
+                                            <small id="fn-estado" class="tw:block tw:text-xs tw:text-gray-600 tw:dark:text-gray-300">Bloqueado</small>
                                         </div>
                                     </div>
                                     <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">

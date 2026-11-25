@@ -131,7 +131,7 @@
                         <div class="row" >
                             <div class="col-md-8 col-md-offset-2">
                                 <label>Fecha de termino</label>
-                                <input class="form-control datepicker"  type="text"  id="fecha_residencia" name="fecha_residencia"  placeholder="dd/MM/YYYY" required>
+                                <input class="form-control datepicker"  type="text"  id="fecha_residencia" name="fecha_residencia" data-flatpickr-date="d/m/Y"  placeholder="dd/MM/YYYY" required>
                             </div>
                         </div>
                     </div>
@@ -240,12 +240,6 @@
                 $('#modal_acta_materias').modal('show');
             });
 
-            $('#fecha_residencia').datepicker({
-                pickTime: false,
-                autoclose: true,
-                language: 'es',
-                startDate: +0,
-            });
 
         });
 
