@@ -37,8 +37,29 @@ class PDFCargaAcademicaControl extends FPDF
 class pdf_carga_academica_control extends Controller
 {
     public function index($id){
-        //dd($id);
-            $periodo=Session::get('periodo_actual');
+        $usuario = auth()->user();
+        abort_unless($usuario && (int) $usuario->tipo_usuario === 2 && DB::table('gnral_personales')
+            ->where('tipo_usuario', $usuario->id)
+            ->whereIn('id_departamento', [1, 5])
+            ->exists(), 403);
+
+        $periodo = Session::get('periodo_actual');
+        abort_unless($periodo, 422, 'No hay un ciclo escolar activo.');
+        abort_unless(ctype_digit((string) $id) && (int) $id > 0, 404);
+
+        $validacion = DB::table('eva_validacion_de_cargas')
+            ->where('id_alumno', $id)
+            ->where('id_periodo', $periodo)
+            ->first(['estado_validacion']);
+        abort_if($validacion === null, 404, 'No se encontró la carga académica.');
+        abort_unless(in_array((string) $validacion->estado_validacion, ['2', '8', '9'], true), 403);
+
+        $datosalumno = DB::table('gnral_alumnos')->where('id_alumno', $id)->first();
+        abort_if($datosalumno === null, 404, 'No se encontró al estudiante.');
+        $id_usuario = $datosalumno->id_alumno;
+        $carreralumno = DB::table('gnral_carreras')->where('id_carrera', $datosalumno->id_carrera)->first(['nombre']);
+        $periodoc = DB::table('gnral_periodos')->where('id_periodo', $periodo)->first(['periodo']);
+        abort_if($carreralumno === null || $periodoc === null, 404, 'No se encontró el programa académico o el ciclo escolar.');
 
             $pdf=new PDFCargaAcademicaControl($orientation='L',$unit='mm',$format='Letter');
             #Establecemos los márgenes izquierda, arriba y derecha:
@@ -60,17 +81,6 @@ class pdf_carga_academica_control extends Controller
             $pdf->SetDrawColor(0,0,0);
             $pdf->SetLineWidth(0.5);
             $pdf->SetFillColor(166,166,166);
-        $validaciones=DB::select('SELECT eva_validacion_de_cargas.estado_validacion, eva_validacion_de_cargas.id_alumno
-                                    FROM eva_validacion_de_cargas
-                                    WHERE eva_validacion_de_cargas.id_alumno= ?
-                                    AND eva_validacion_de_cargas.id_periodo= ?', [$id, $periodo]);
-        //dd($validaciones);
-        $id_usuario=($validaciones[0]->id_alumno);
-            $datosalumno=DB::selectOne('SELECT * FROM `gnral_alumnos` WHERE id_alumno= ?', [$id_usuario]);
-            $id_usuario=$datosalumno->id_alumno;
-            $datosalumno=DB::selectOne('SELECT * FROM `gnral_alumnos` WHERE id_alumno= ?', [$id_usuario]);
-            $carreralumno=DB::selectOne('SELECT gnral_carreras.nombre FROM gnral_carreras WHERE id_carrera= ?', [$datosalumno->id_carrera]);
-            $periodoc=DB::selectOne('SELECT gnral_periodos.periodo FROM gnral_periodos WHERE id_periodo= ?', [$periodo]);
             $pdf->Cell(31,5,"CICLO ESCOLAR",1,'R',1,true);
             $pdf->SetFont('Arial','',9);
             $pdf->Cell(60,5,$periodoc->periodo,1);
