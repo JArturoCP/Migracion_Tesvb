@@ -1,17 +1,24 @@
-<section class="tw:flex tw:min-w-0 tw:items-center tw:justify-between tw:gap-5 tw:rounded-2xl tw:border tw:border-gray-200 tw:border-t-4 tw:bg-white tw:p-5 tw:sm:p-7 tw:dark:border-gray-700 tw:dark:bg-gray-800"
-    style="border-top-color: {{ $estudiante['acento'] }}">
-    <div class="tw:min-w-0">
-        <p class="tw:text-sm tw:font-semibold tw:text-gray-600 tw:dark:text-gray-300">Portal estudiantil TESVB</p>
-        <h1 class="tw:mt-2 tw:text-2xl tw:font-semibold tw:wrap-anywhere tw:text-gray-900 tw:sm:text-3xl tw:dark:text-white">
-            {{ $estudiante['nombre'] ? 'Hola, '.$estudiante['nombre'] : 'Te damos la bienvenida' }}
-        </h1>
-        @include('panel.dashboard.estudiante.identidad')
-        <p class="tw:mt-4 tw:inline-block tw:rounded-lg tw:bg-gray-100 tw:px-3 tw:py-2 tw:text-sm tw:text-gray-700 tw:dark:bg-gray-700 tw:dark:text-gray-100">
-            {{ $estudiante['periodo'] ? 'Período escolar · '.$estudiante['periodo'] : 'Período escolar no disponible' }}
-        </p>
-    </div>
+<section class="td-hero{{ $estudiante['logo'] ? ' td-hero--logo' : '' }}" aria-labelledby="estudiante-saludo">
+    <svg class="td-hero-waves" aria-hidden="true" focusable="false" viewBox="0 0 1100 300" preserveAspectRatio="none">
+        <path fill="currentColor" opacity=".08" d="M0 270C210 305 315 170 510 171c220 1 318 111 590-104v233H0Z"/>
+        <path fill="currentColor" opacity=".07" d="M326 300c157-118 308-52 458-110C919 137 967 82 1100 29v271Z"/>
+        <path fill="none" stroke="currentColor" stroke-opacity=".18" d="M0 267C210 302 315 165 510 166c220 1 318 111 590-104"/>
+    </svg>
     @if($estudiante['mascota'])
-        <img src="{{ $estudiante['mascota'] }}" alt="" width="160" height="160"
-            class="tw:hidden tw:size-28 tw:shrink-0 tw:object-contain tw:sm:block tw:lg:size-40">
+        <img src="{{ $estudiante['mascota'] }}" class="td-mascot" alt="" width="320" height="320" decoding="async">
+    @endif
+    <div class="td-hero-copy">
+        <p class="td-label">Portal estudiantil TESVB</p>
+        <h1 id="estudiante-saludo">{{ $estudiante['nombre'] ? 'Hola, '.$estudiante['nombre'] : 'Te damos la bienvenida' }}</h1>
+        @include('panel.dashboard.estudiante.identidad')
+        <dl class="td-meta">
+            @if($estudiante['semestre'])
+                <div><dt>Semestre registrado</dt><dd>{{ $estudiante['semestre'] }}</dd></div>
+            @endif
+            <div><dt>Periodo seleccionado</dt><dd>{{ $estudiante['periodo'] ?? 'No disponible' }}</dd></div>
+        </dl>
+    </div>
+    @if($estudiante['logo'])
+        <img src="{{ $estudiante['logo'] }}" class="td-logo" alt="" width="132" height="132" decoding="async">
     @endif
 </section>

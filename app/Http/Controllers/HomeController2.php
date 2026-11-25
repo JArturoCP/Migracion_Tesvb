@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\Panel\DatosEstudiante;
+use App\Services\Panel\ProgresoAcademico;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
@@ -192,7 +193,9 @@ class HomeController2 extends Controller
                 }
             }
 
-            return view('panel.dashboard.estudiante.inicio', compact('estudiante', 'novedades'));
+            $progreso = app(ProgresoAcademico::class)->paraFichaVerificada((int) $ficha->id_alumno);
+
+            return view('panel.dashboard.estudiante.inicio', compact('estudiante', 'novedades', 'progreso'));
         }
 
         $datosTutorReprobacion = $this->obtenerResumenTutorReprobacionPrincipal();
