@@ -1,96 +1,63 @@
-@extends('layouts.app')
-@section('title', 'Solicitudes de requisiciones')
+@extends('layouts.panel')
+@section('title', 'Requisiciones del presupuesto autorizado')
+
 @section('content')
-    <div class="row">
-        <div class="col-md-8  col-md-offset-2">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h3 class="panel-title text-center">Registrar documentación a las solicitudes de requisiciones del presupuesto autorizado</h3>
-                </div>
-            </div>
-        </div>
-    </div>
-    @foreach($solicitudes as $solicitud)
-        <div class="row">
-            <div class="col-md-8  col-md-offset-2">
-                <div class="panel panel-primary">
-                    <div class="panel-body">
-                        <p style=""><span class="glyphicon glyphicon-file" style="font-size: 30px;"></span> Solicitud: <b>{{ $solicitud->descripcion_solicitud }}</b></p>
-                        <p style="">Proyecto: <b>{{ $solicitud->nombre_proyecto }}</b></p>
-                        <p style="">Meta: <b>{{ $solicitud->meta }}</b></p>
-                        <p style="">Mes: <b>{{ $solicitud->mes }}</b></p>
-                        @if($solicitud->id_estado_enviado == 1 )
-                            <div class="row">
-                                <div class="col-md-8 col-md-offset-2">
-                                    <p style="text-align: center;">
-                                    <div class="panel panel-warning">
-                                        <div class="panel-heading" style="text-align: center;">
-                                           Registrar la documentación correspondiente
-                                        </div>
-                                    </div>
+    <x-panel.encabezado
+        titulo="REQUISICIONES DEL PRESUPUESTO AUTORIZADO"
+        pagina-actual="Registrar requisiciones"
+        :migas="['Solicitudes del presupuesto autorizado' => url('/presupuesto_autorizado/agregar_req_solicitud_autorizadas')]"
+    />
 
-                                </div>
+    <x-panel.tarjeta
+        titulo="Solicitudes de requisiciones autorizadas"
+        subtitulo="Registrar documentación a las solicitudes de requisiciones del presupuesto autorizado"
+    >
+        <div class="tw:space-y-4">
+            @forelse ($solicitudes as $solicitud)
+                <x-panel.tarjeta>
+                    <div class="tw:space-y-4">
+                        <dl class="tw:space-y-2 tw:wrap-break-word">
+                            <div>
+                                <dt class="tw:inline tw:font-semibold">Solicitud:</dt>
+                                <dd class="tw:inline">{{ $solicitud->descripcion_solicitud }}</dd>
                             </div>
-                        <p style="text-align: center"><button type="button" class="btn btn-primary center" onclick="window.location=('{{url('/presupuesto_autorizado/registrar_documentacion_solicitud/'.$solicitud->id_solicitud)}}')">Registrar datos en la solicitud</button></p>
-                       @elseif($solicitud->id_estado_enviado == 3)
-                            <div class="row">
-                                <div class="col-md-8 col-md-offset-2">
-                                    <p style="text-align: center;">
-                                    <div class="panel panel-danger">
-                                        <div class="panel-heading" style="text-align: center;">
-                                            Comentario: {{ $solicitud->comentario_solicitud }}
-                                        </div>
-                                    </div>
-
-                                </div>
+                            <div>
+                                <dt class="tw:inline tw:font-semibold">Proyecto:</dt>
+                                <dd class="tw:inline">{{ $solicitud->nombre_proyecto }}</dd>
                             </div>
-                            <p style="text-align: center"><button type="button" class="btn btn-primary center" onclick="window.location=('{{url('/presupuesto_autorizado/registrar_documentacion_solicitud/'.$solicitud->id_solicitud)}}')">Modificar datos en la solicitud</button></p>
-
-                        @elseif($solicitud->id_estado_enviado == 2)
-
-                            <div class="row">
-                                <div class="col-md-6 col-md-offset-2">
-                                    <p style="text-align: center;">
-                                    <div class="panel panel-success">
-                                        <div class="panel-heading" style="text-align: center;">
-                                            Se envio correctamente la solicitud
-                                        </div>
-                                    </div>
-
-                                </div>
+                            <div>
+                                <dt class="tw:inline tw:font-semibold">Meta:</dt>
+                                <dd class="tw:inline">{{ $solicitud->meta }}</dd>
                             </div>
-                        @elseif($solicitud->id_estado_enviado == 4)
-                            <div class="row">
-                                <div class="col-md-8 col-md-offset-2">
-                                    <p style="text-align: center;">
-                                    <div class="panel panel-success">
-                                        <div class="panel-heading" style="text-align: center;">
-                                      Solicitud autorizada
-                                        </div>
-                                    </div>
-
-                                </div>
+                            <div>
+                                <dt class="tw:inline tw:font-semibold">Mes:</dt>
+                                <dd class="tw:inline">{{ $solicitud->mes }}</dd>
                             </div>
-                            <p style="text-align: center"><button type="button" class="btn btn-primary center" onclick="window.location=('{{url('/presupuesto_autorizado/ver_documentacion_solicitud_aut/'.$solicitud->id_solicitud)}}')">Ver datos de la solicitud</button></p>
+                        </dl>
 
+                        @if ($solicitud->id_estado_enviado == 1)
+                            <x-panel.alerta tipo="advertencia">Registrar la documentación correspondiente</x-panel.alerta>
+                            <x-panel.boton :href="url('/presupuesto_autorizado/registrar_documentacion_solicitud/'.$solicitud->id_solicitud)">
+                                Registrar datos en la solicitud
+                            </x-panel.boton>
+                        @elseif ($solicitud->id_estado_enviado == 3)
+                            <x-panel.alerta tipo="error" titulo="Comentario">{{ $solicitud->comentario_solicitud }}</x-panel.alerta>
+                            <x-panel.boton :href="url('/presupuesto_autorizado/registrar_documentacion_solicitud/'.$solicitud->id_solicitud)">
+                                Modificar datos en la solicitud
+                            </x-panel.boton>
+                        @elseif ($solicitud->id_estado_enviado == 2)
+                            <x-panel.alerta tipo="exito">Se envió correctamente la solicitud</x-panel.alerta>
+                        @elseif ($solicitud->id_estado_enviado == 4)
+                            <x-panel.alerta tipo="exito">Solicitud autorizada</x-panel.alerta>
+                            <x-panel.boton :href="url('/presupuesto_autorizado/ver_documentacion_solicitud_aut/'.$solicitud->id_solicitud)">
+                                Ver datos de la solicitud
+                            </x-panel.boton>
                         @endif
                     </div>
-                </div>
-
-            </div>
+                </x-panel.tarjeta>
+            @empty
+                <x-panel.vacio titulo="Sin solicitudes de requisiciones para mostrar" />
+            @endforelse
         </div>
-    @endforeach
-
-
-
-                                <script type="text/javascript">
-                                    $(document).ready( function() {
-                                        $("#guardar_envio").click(function (){
-                                            $("#form_envio").submit();
-                                            $("#guardar_envio").attr("disabled", true);
-                                        });
-                                    });
-                                </script>
-
-
+    </x-panel.tarjeta>
 @endsection

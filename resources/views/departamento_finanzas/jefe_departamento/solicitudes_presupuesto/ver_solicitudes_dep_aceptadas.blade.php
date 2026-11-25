@@ -1,42 +1,45 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 @section('title', 'Solicitudes autorizadas liberadas')
+
 @section('content')
-    <div class="row">
-        <div class="col-md-8  col-md-offset-2">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h3 class="panel-title text-center">Solicitudes de requisiciones del presupuesto autorizado ya liberadas</h3>
-                </div>
-            </div>
-        </div>
-    </div>
-    @foreach($solicitudes as $solicitud)
-        <div class="row">
-            <div class="col-md-8  col-md-offset-2">
-                <div class="panel panel-primary">
-                    <div class="panel-body">
-                        <p style=""><span class="glyphicon glyphicon-file" style="font-size: 30px;"></span> Solicitud: <b>{{ $solicitud->descripcion_solicitud }}</b></p>
-                        <p style="">Proyecto: <b>{{ $solicitud->nombre_proyecto }}</b></p>
-                        <p style="">Meta: <b>{{ $solicitud->meta }}</b></p>
-                        <p style="">Mes: <b>{{ $solicitud->mes }}</b></p>
-                            <p style="text-align: center"><button type="button" class="btn btn-primary center" onclick="window.location=('{{url('/presupuesto_autorizado/ver_docu_solicitud_aut_departamento/'.$solicitud->id_solicitud)}}')">Ver datos de la solicitud</button></p>
+    <x-panel.encabezado
+        titulo="SOLICITUDES AUTORIZADAS LIBERADAS"
+        pagina-actual="Solicitudes autorizadas liberadas"
+        :migas="['Solicitudes del presupuesto autorizado' => url('/presupuesto_autorizado/agregar_req_solicitud_autorizadas')]"
+    />
+
+    <x-panel.tarjeta titulo="Solicitudes de requisiciones liberadas">
+        <div class="tw:space-y-4">
+            @forelse ($solicitudes as $solicitud)
+                <x-panel.tarjeta>
+                    <div class="tw:space-y-4">
+                        <dl class="tw:space-y-2 tw:wrap-break-word">
+                            <div>
+                                <dt class="tw:inline tw:font-semibold">Solicitud:</dt>
+                                <dd class="tw:inline">{{ $solicitud->descripcion_solicitud }}</dd>
+                            </div>
+                            <div>
+                                <dt class="tw:inline tw:font-semibold">Proyecto:</dt>
+                                <dd class="tw:inline">{{ $solicitud->nombre_proyecto }}</dd>
+                            </div>
+                            <div>
+                                <dt class="tw:inline tw:font-semibold">Meta:</dt>
+                                <dd class="tw:inline">{{ $solicitud->meta }}</dd>
+                            </div>
+                            <div>
+                                <dt class="tw:inline tw:font-semibold">Mes:</dt>
+                                <dd class="tw:inline">{{ $solicitud->mes }}</dd>
+                            </div>
+                        </dl>
+
+                        <x-panel.boton :href="url('/presupuesto_autorizado/ver_docu_solicitud_aut_departamento/'.$solicitud->id_solicitud)">
+                            Ver datos de la solicitud
+                        </x-panel.boton>
                     </div>
-                </div>
-
-            </div>
+                </x-panel.tarjeta>
+            @empty
+                <x-panel.vacio titulo="No hay solicitudes autorizadas liberadas para mostrar." />
+            @endforelse
         </div>
-    @endforeach
-
-
-
-    <script type="text/javascript">
-        $(document).ready( function() {
-            $("#guardar_envio").click(function (){
-                $("#form_envio").submit();
-                $("#guardar_envio").attr("disabled", true);
-            });
-        });
-    </script>
-
-
+    </x-panel.tarjeta>
 @endsection
