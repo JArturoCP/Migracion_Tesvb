@@ -39,6 +39,9 @@
                 </h3>
 
                 <ul class="tw:mb-6 tw:flex tw:flex-col tw:gap-1" data-panel-menu>
+@if(!empty($vistaPreviaDashboard))
+    @include('partials.panel.sidebar-preview')
+@else
 {{-- [menu_admin L2-290] Banderas, variables y consultas: copia literal. --}}
 <?php
     //   $permiso_noregis=Session::get('personal_noregis');
@@ -2605,12 +2608,14 @@
 
 {{-- [menu_admin L2532-2620] JS jQuery de submenús y tooltips: lo sustituye Alpine. Las funciones AJAX de oficios
      (cargar / cargarpersonal) no se copian porque en el original nunca se llaman (setInterval comentado). --}}
+@endif
                 </ul>
             </div>
         </nav>
     </div>
 </aside>
 
+@empty($vistaPreviaDashboard)
 {{-- [menu_admin L2507-2531] Modal "Modificar periodo" (perfil de inglés): mismo formulario POST con CSRF y mismos
      ids (#modal_modificar_periodo, #contenedor_modificar_periodo). El original lo abría con jQuery al hacer clic
      en .periodo_ingles (GET /profesores_ingles/periodos/{id}); ahora lo hace resources/js/panel/modal_periodo_ingles.js.
@@ -2649,3 +2654,4 @@
         </div>
     </div>
 </div>
+@endempty

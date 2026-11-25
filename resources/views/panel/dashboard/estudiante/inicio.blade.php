@@ -7,6 +7,9 @@
 @endpush
 
 @section('content')
+    @if(!empty($vistaPreviaDashboard))
+        @include('panel.dashboard.estudiante.selector-preview')
+    @endif
     <div data-panel-estudiante style="--td-accent: var(--tema-visual-color, #153653)">
         <div class="td-backdrop" aria-hidden="true">
             <svg focusable="false" viewBox="0 0 1100 680" preserveAspectRatio="none">

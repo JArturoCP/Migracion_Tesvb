@@ -15,6 +15,10 @@ return Application::configure(basePath: dirname(__DIR__))
                     ->group(base_path('routes/api.php'));
             }
 
+            if (app()->environment('local') && config('app.debug') && config('dev_preview.enabled')) {
+                Route::group([], base_path('routes/dev-preview.php'));
+            }
+
             Route::middleware('web')
                 ->namespace('App\Http\Controllers')
                 ->group(base_path('routes/web.php'));

@@ -1,6 +1,6 @@
 {{-- Encabezado del sidebar (TailAdmin sidebar-header). Logos configurables en config/tesvb.php. --}}
 <div class="tw:sidebar-header tw:flex tw:items-center tw:justify-center tw:gap-2 tw:pt-8 tw:pb-8">
-    <a href="{{ url('/inicio') }}" class="tw:flex tw:items-center tw:justify-center" data-panel-propio>
+    <a href="{{ !empty($vistaPreviaDashboard) ? '#main-content' : url('/inicio') }}" class="tw:flex tw:items-center tw:justify-center" data-panel-propio>
         <span class="tw:sr-only">Inicio</span>
         {{-- Logo completo: la superficie neutra conserva el contraste de la leyenda negra en modo oscuro. --}}
         <span class="tw:logo" :class="sidebarToggle ? 'tw:xl:hidden' : ''">

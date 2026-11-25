@@ -18,7 +18,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    @empty($vistaPreviaDashboard)
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+    @endempty
     <title>@yield('title') · TESVB</title>
     <link rel="icon" href="{{ asset('favicon.ico') }}">
 
@@ -60,7 +62,7 @@
     </div>
 
     {{-- Modal de cambio de periodo: misma condición que layouts/app.blade.php (@section part_modal_periodos). --}}
-    @if (!Auth::guest())
+    @if (empty($vistaPreviaDashboard) && !Auth::guest())
         @include('partials.panel.periodos')
     @endif
 

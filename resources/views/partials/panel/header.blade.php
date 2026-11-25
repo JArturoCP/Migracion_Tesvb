@@ -23,7 +23,7 @@
             </button>
 
             {{-- Logo en móvil --}}
-            <a href="{{ url('/inicio') }}" class="tw:xl:hidden">
+            <a href="{{ !empty($vistaPreviaDashboard) ? '#main-content' : url('/inicio') }}" class="tw:xl:hidden">
                 <span class="tw:inline-block tw:rounded-md tw:dark:bg-white tw:dark:p-1">
                     <img class="tw:h-8 tw:w-auto" src="{{ asset(config('tesvb.logo')) }}" alt="TESVB">
                 </span>
@@ -41,13 +41,15 @@
                 </svg>
             </button>
 
-            @if(!empty($estudiante))
+            @if(empty($vistaPreviaDashboard) && !empty($estudiante))
                 @include('partials.panel.notificaciones_estudiante')
             @endif
 
             {{-- Buscador (escritorio): filtra los enlaces del sidebar en el navegador --}}
             <div class="tw:hidden tw:xl:block">
-                @include('partials.panel.buscador')
+                @empty($vistaPreviaDashboard)
+                    @include('partials.panel.buscador')
+                @endempty
             </div>
         </div>
 
@@ -57,13 +59,19 @@
             :class="isApplicationMenuOpen ? 'tw:flex' : 'tw:hidden'"
         >
             <div class="tw:flex tw:items-center tw:gap-2 tw:2xsm:gap-3">
-                @include('partials.panel.periodo_ingles_header')
-                @include('partials.panel.periodo_header')
+                @empty($vistaPreviaDashboard)
+                    @include('partials.panel.periodo_ingles_header')
+                    @include('partials.panel.periodo_header')
+                @endempty
                 {{-- Modo oscuro: siempre, en el mismo lugar (en el marco solo cambia el sidebar y el header). --}}
                 @include('partials.panel.tema')
             </div>
 
-            @include('partials.panel.usuario')
+            @empty($vistaPreviaDashboard)
+                @include('partials.panel.usuario')
+            @else
+                <span class="tw:text-sm tw:text-gray-700 tw:dark:text-gray-300">Cuenta de muestra</span>
+            @endempty
         </div>
     </div>
 </header>
