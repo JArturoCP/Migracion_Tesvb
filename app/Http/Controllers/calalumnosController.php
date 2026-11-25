@@ -2,23 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Session;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 
 class calalumnosController extends Controller
 {
     public function index()
     {
-        $periodo=Session::get('periodo_actual');
-        $carrera = Session::get('carrera');
-        $mayor_unidades=0;
-        $esc_alumno=false;
-        $id_usuario = Session::get('usuario_alumno');
-        $datosalumno=DB::selectOne('select * FROM `gnral_alumnos` WHERE id_usuario= ?', [$id_usuario]);
-        $alumno=$datosalumno->id_alumno;
+        $periodo = filter_var(Session::get('periodo_actual'), FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
+        abort_unless($periodo && DB::table('gnral_periodos')->where('id_periodo', $periodo)->exists(), 403, 'Selecciona un periodo escolar válido.');
+
+        $idUsuario = Auth::id();
+        abort_unless($idUsuario !== null, 403);
+        $alumno = DB::table('gnral_alumnos')->where('id_usuario', $idUsuario)->value('id_alumno');
+        abort_if($alumno === null, 403, 'No se encontró una ficha académica para tu cuenta.');
+
+        $mayor_unidades = 0;
+        $materiasConInconsistencias = 0;
 
         $docentes=DB::select('select  gnral_materias.id_materia,gnral_materias.nombre as materias,gnral_materias.unidades,gnral_materias.id_materia,eva_tipo_curso.nombre_curso,
 eva_carga_academica.id_carga_academica,eva_carga_academica.grupo,gnral_materias.id_semestre,
@@ -51,15 +55,24 @@ gnral_materias.creditos,eva_status_materia.nombre_status from
             $dat_materia["unidades"]=$dat_alumno->unidades;
             $mayor_unidades= $mayor_unidades > $dat_alumno->unidades ? $mayor_unidades : $dat_alumno->unidades;
             $array_calificaciones=array();
-            $calificaciones=DB::select('SELECT * FROM cal_evaluaciones
-                      WHERE id_carga_academica= ?
-                      ORDER BY cal_evaluaciones.id_unidad', [$dat_alumno->id_carga_academica]);
-            $calificaciones != null ? $unidades_evaluadas=0 : $unidades_evaluadas=1;
-            foreach ($calificaciones as $calificacion)
-            {
-                $dat_calificaciones['id_evaluacion']=$calificacion->id_evaluacion;
-                $dat_calificaciones['calificacion']=$calificacion->calificacion;
-                $dat_calificaciones['id_unidad']=$calificacion->id_unidad;
+            $calificaciones = DB::table('cal_evaluaciones as evaluacion')
+                ->leftJoin('cal_unidades as unidad', 'unidad.id_unidad', '=', 'evaluacion.id_unidad')
+                ->where('evaluacion.id_carga_academica', $dat_alumno->id_carga_academica)
+                ->orderBy('evaluacion.id_unidad')
+                ->get(['evaluacion.calificacion', 'evaluacion.esc', 'unidad.abreviacion']);
+            $unidades_evaluadas = $calificaciones->isEmpty() ? 1 : 0;
+            $inconsistente = false;
+            foreach ($calificaciones as $calificacion) {
+                // El catálogo distingue el ordinal (U1, U2, etc.) del identificador.
+                $unidadReconocida = preg_match('/^U([1-9][0-9]*)$/i', trim($calificacion->abreviacion ?? ''), $partes);
+                $ordinal = $unidadReconocida ? (int) $partes[1] : 0;
+                if ($ordinal < 1 || $ordinal > $dat_alumno->unidades) {
+                    $inconsistente = true;
+                } else {
+                    $array_calificaciones[$ordinal][] = $calificacion->calificacion;
+                    $inconsistente = $inconsistente || count($array_calificaciones[$ordinal]) > 1;
+                }
+                $inconsistente = $inconsistente || $calificacion->calificacion === null;
                 if ($calificacion->calificacion<70 || $calificacion->esc==1)
                 {
                     $esc_alumno=true;
@@ -70,8 +83,15 @@ gnral_materias.creditos,eva_status_materia.nombre_status from
                 }
                 $unidades_evaluadas++;
                 $suma_unidades+=$calificacion->calificacion>=70 ? $calificacion->calificacion : 0;
-                array_push($array_calificaciones,$dat_calificaciones);
             }
+            $dat_materia['inconsistente'] = $inconsistente;
+            $dat_materia['registradas'] = $calificaciones->count();
+            $dat_materia['servicio_social'] = $dat_alumno->id_materia == 2258;
+            $dat_materia['servicio_registrado'] = false;
+            if ($inconsistente) {
+                $materiasConInconsistencias++;
+            }
+
             if($dat_alumno->id_materia == 2258){
                 $estado_servicio=DB::selectOne('SELECT count(id_servicio_social)contar from cal_servicio_social where id_alumno = ?', [$alumno]);
                 if($estado_servicio->contar == 0){
@@ -83,6 +103,7 @@ gnral_materias.creditos,eva_status_materia.nombre_status from
                     $servicio=DB::selectOne('SELECT *from cal_servicio_social where id_alumno = ?', [$alumno]);
                   //  dd($servicio);
                     $dat_materia['promedio'] = $servicio->calificacion;
+                    $dat_materia['servicio_registrado'] = $servicio->calificacion !== null;
                     $dat_materia['esc_alumno']=false;
                     $dat_materia["calificaciones"]=$array_calificaciones;
                 }
@@ -165,6 +186,12 @@ from eva_validacion_de_cargas, eva_carga_academica where eva_validacion_de_carga
 
          }
         //dd($array_materias);
-        return view('evaluacion_docente.Alumnos.calificaciones',compact('cal_residencia','proceso','estado_residencia','docentes','mayor_unidades','array_materias','profesores','estado_validacion_carga'));
+        if ($materiasConInconsistencias > 0) {
+            Log::warning('Calificaciones estudiantiles: evaluaciones requieren verificación.', [
+                'materias_afectadas' => $materiasConInconsistencias,
+            ]);
+        }
+
+        return view('evaluacion_docente.Alumnos.calificaciones',compact('cal_residencia','proceso','estado_residencia','docentes','mayor_unidades','array_materias','profesores','estado_validacion_carga','materiasConInconsistencias'));
     }
 }
