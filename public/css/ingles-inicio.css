@@ -1,0 +1,182 @@
+.ingles-estudiante {
+    --ingles-superficie: #fff;
+    --ingles-banner: #f7f9fd;
+    --ingles-borde: #d9e1ee;
+    --ingles-texto: #101c38;
+    --ingles-secundario: #46536b;
+    --ingles-acento: var(--tema-visual-link, #2345a5);
+    --ingles-suave: var(--tema-visual-soft, #eaf0fe);
+    --ingles-foco: var(--tema-visual-focus, #2345a5);
+    --ingles-sombra: 0 5px 18px rgb(26 53 106 / 6%);
+    container-type: inline-size;
+    display: grid;
+    gap: clamp(1.25rem, 2vw, 2rem);
+    color: var(--ingles-texto);
+    overflow-wrap: anywhere;
+}
+
+.dark .ingles-estudiante {
+    --ingles-superficie: #192333;
+    --ingles-banner: #141e30;
+    --ingles-borde: #344158;
+    --ingles-texto: #f1f5ff;
+    --ingles-secundario: #c1cce0;
+    --ingles-acento: var(--tema-visual-link, #bdcfff);
+    --ingles-suave: var(--tema-visual-soft, #27395b);
+    --ingles-foco: var(--tema-visual-focus, #bdcfff);
+    --ingles-sombra: 0 5px 18px rgb(0 0 0 / 15%);
+}
+
+.ingles-estudiante :is(.ingles-estudiante__banner, .ingles-estudiante__aviso, .ingles-estudiante__acceso) {
+    border: 1px solid var(--ingles-borde);
+    box-shadow: var(--ingles-sombra);
+}
+
+.ingles-estudiante__banner {
+    display: grid;
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    border-radius: 1.25rem;
+    background: var(--ingles-banner);
+}
+
+.ingles-estudiante__arte {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3 / 1;
+    object-fit: cover;
+    object-position: center 58%;
+    mask-image: linear-gradient(transparent, #000 45%);
+    order: 1;
+}
+
+.ingles-estudiante__bienvenida {
+    align-self: center;
+    padding: clamp(1.125rem, 3.25cqi, 2.75rem);
+}
+
+.ingles-estudiante__portal {
+    color: var(--ingles-secundario);
+    font-size: clamp(1rem, 2cqi, 1.25rem);
+}
+
+.ingles-estudiante__bienvenida h1 {
+    margin: .5rem 0 1rem;
+    font-size: clamp(1.75rem, 4.15cqi, 3rem);
+    font-weight: 700;
+    line-height: 1.12;
+    text-wrap: balance;
+}
+
+.ingles-estudiante__periodo {
+    display: inline-flex;
+    align-items: center;
+    gap: .625rem;
+    border-radius: 1rem;
+    padding: .5rem .875rem;
+    background: var(--ingles-suave);
+    color: var(--ingles-acento);
+    font-weight: 600;
+    line-height: 1.35;
+}
+
+.ingles-estudiante svg {
+    flex: none;
+    width: 1.25rem;
+    height: 1.25rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.75;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.ingles-estudiante__aviso {
+    padding: .95rem clamp(1rem, 2cqi, 1.5rem);
+    border-radius: 1rem;
+    background: var(--ingles-superficie);
+    color: var(--ingles-secundario);
+}
+
+.ingles-estudiante h2 {
+    margin-bottom: .875rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.ingles-estudiante__cuadricula {
+    display: grid;
+    gap: clamp(.75rem, 1.8cqi, 1.25rem);
+    padding: 0;
+    list-style: none;
+}
+
+.ingles-estudiante__acceso {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: clamp(.625rem, 1.8cqi, 1.25rem);
+    height: 100%;
+    padding: .875rem clamp(.75rem, 2cqi, 1.5rem);
+    border-radius: 1rem;
+    background: var(--ingles-superficie);
+    color: var(--ingles-texto);
+    font-size: clamp(1rem, 1.8cqi, 1.25rem);
+    font-weight: 600;
+    line-height: 1.3;
+    text-decoration: none;
+}
+
+.ingles-estudiante__acceso:is(:hover, :focus-visible) {
+    border-color: var(--ingles-foco);
+    background: var(--ingles-suave);
+    color: var(--ingles-acento);
+}
+
+.ingles-estudiante__acceso:focus-visible {
+    outline: 2px solid var(--ingles-foco);
+    outline-offset: 2px;
+}
+
+.ingles-estudiante__icono {
+    display: grid;
+    place-items: center;
+    width: clamp(2.5rem, 6cqi, 4rem);
+    aspect-ratio: 1;
+    border-radius: .875rem;
+    background: var(--ingles-suave);
+    color: var(--ingles-acento);
+}
+
+.ingles-estudiante__icono svg {
+    width: clamp(1.375rem, 2.8cqi, 2rem);
+    height: auto;
+}
+
+.ingles-estudiante__flecha {
+    color: var(--ingles-acento);
+}
+
+@container (min-width: 37rem) {
+    .ingles-estudiante__banner {
+        min-height: clamp(14rem, 22cqi, 20rem);
+        grid-template-columns: minmax(0, 57%) 1fr;
+    }
+
+    .ingles-estudiante__arte {
+        position: absolute;
+        z-index: -1;
+        inset: 0 0 0 auto;
+        width: 74%;
+        height: 100%;
+        aspect-ratio: auto;
+        object-position: 72% center;
+        mask-image: linear-gradient(to right, transparent, transparent 34%, #000 53%);
+    }
+
+    .ingles-estudiante__cuadricula {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
