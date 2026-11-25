@@ -210,3 +210,47 @@ it('renderiza los diez identificadores de carrera ficticios', function (int $car
         ->get('/calificaciones')->assertOk()->assertSee('100.00');
 })->with(range(1, 10));
 
+it('reserva la boleta de inglés al titular y a su coordinación', function () {
+    $alumno = $this->idAlumnoCalificaciones;
+    DB::table('gnral_alumnos')->where('id_alumno', $alumno)->update([
+        'nombre' => 'Estudiante', 'apaterno' => 'Ficticio', 'amaterno' => 'Prueba', 'cuenta' => 'FICTICIA', 'folio' => '123',
+    ]);
+    DB::table('gnral_carreras')->insert(['id_carrera' => 1, 'nombre' => 'Carrera ficticia']);
+    DB::table('in_periodos')->insert(['id_periodo_ingles' => 12, 'periodo_ingles' => 'Periodo ficticio']);
+    DB::table('in_niveles_ingles')->insert(['id_niveles_ingles' => 1, 'descripcion' => 'Nivel ficticio']);
+    DB::table('in_carga_academica_ingles')->insert([
+        'id_carga_ingles' => 1, 'id_alumno' => $alumno, 'id_periodo_ingles' => 12,
+        'id_nivel' => 1, 'id_grupo' => 1, 'estado_nivel' => 1,
+    ]);
+    $url = "/ingles/imprimir_calificacion_ingles_alumno/$alumno";
+    $this->actingAs($this->alumnoCalificaciones)->get($url)->assertOk()->assertHeader('Content-Type', 'application/pdf');
+    $otro = User::factory()->create();
+    $otro->tipo_usuario = 1;
+    $this->actingAs($otro)->withSession(['id_unidad_admin' => 19])->get($url)->assertForbidden();
+    $otro->tipo_usuario = 2;
+    $this->withSession(['id_unidad_admin' => 1])->get($url)->assertForbidden();
+    $this->withSession(['id_unidad_admin' => 19])->get($url)->assertForbidden();
+    DB::table('gnral_personales')->insert(['id_personal' => 801, 'tipo_usuario' => $otro->id]);
+    DB::table('gnral_unidad_personal')->insert(['id_personal' => 801, 'id_unidad_admin' => 19]);
+    $this->get($url)->assertOk()->assertHeader('Content-Type', 'application/pdf');
+});
+
+it('requiere el rol de control escolar para consultar un historial y controla fichas inexistentes', function () {
+    $url = '/servicios_escolares/historial_academico/pdf_historial_academico/999999/1/1/1';
+    $this->actingAs($this->alumnoCalificaciones)->withSession(['escolar' => true])->get($url)->assertForbidden();
+    $personal = User::factory()->create();
+    $personal->tipo_usuario = 2;
+    $this->actingAs($personal)->withSession(['escolar' => false])->get($url)->assertForbidden();
+    $this->withSession(['escolar' => true])->get($url)->assertForbidden();
+    DB::table('gnral_personales')->insert(['id_personal' => 803, 'tipo_usuario' => $personal->id, 'id_departamento' => 5]);
+    $this->get($url)->assertNotFound();
+
+    $alumno = $this->idAlumnoCalificaciones;
+    DB::table('gnral_alumnos')->where('id_alumno', $alumno)->update([
+        'nombre' => 'Estudiante', 'apaterno' => 'Ficticio', 'amaterno' => 'Prueba', 'cuenta' => 'FICTICIA', 'folio' => '123',
+    ]);
+    DB::table('gnral_carreras')->insert(['id_carrera' => 1, 'nombre' => 'Carrera ficticia']);
+    $this->withSession(['periodotrabaja' => 21])
+        ->get("/servicios_escolares/historial_academico/pdf_historial_academico/$alumno/Plan/Especialidad/1")
+        ->assertOk()->assertHeader('Content-Type', 'application/pdf');
+});

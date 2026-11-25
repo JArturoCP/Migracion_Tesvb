@@ -16,7 +16,7 @@ class PDF_In_pdf_boletaController extends FPDF
         $this->SetFont('Arial','',8);
         $this->Ln(0);
 
-        $this->Image('img/ingles/coordinacion_ingles.png',75,6,135);
+        $this->Image(public_path('img/ingles/coordinacion_ingles.png'),75,6,135);
 
         $this->Ln(35);
 
@@ -36,10 +36,26 @@ class In_pdf_boletaController extends Controller
 {
     public function index ($id_alumno)
     {
+        $usuario = auth()->user();
+        abort_unless($usuario, 403);
+
+        if ((int) $usuario->tipo_usuario === 1) {
+            abort_unless(DB::table('gnral_alumnos')
+                ->where('id_alumno', $id_alumno)
+                ->where('id_usuario', $usuario->id)
+                ->exists(), 403);
+        } else {
+            abort_unless((int) $usuario->tipo_usuario === 2 && DB::table('gnral_personales as personal')
+                ->join('gnral_unidad_personal as unidad', 'unidad.id_personal', '=', 'personal.id_personal')
+                ->where('personal.tipo_usuario', $usuario->id)
+                ->where('unidad.id_unidad_admin', 19)
+                ->exists(), 403);
+        }
+
         $periodo_ingles=Session::get('periodo_ingles');
         $resultado_promedio = 0;
         $alumno = DB::selectOne('SELECT * FROM `gnral_alumnos` WHERE id_alumno = ?', [$id_alumno]);
-        //dd($alumno);
+        abort_if($alumno === null, 404);
         $nombre_carrera = DB::selectOne('SELECT * FROM `gnral_carreras` WHERE gnral_carreras.id_carrera = ?', [$alumno->id_carrera]);
         $periodo = DB::selectOne('SELECT * FROM in_periodos WHERE id_periodo_ingles= ?', [$periodo_ingles]);
         $today = date("d-m-Y");
@@ -58,6 +74,8 @@ class In_pdf_boletaController extends Controller
                 where in_carga_academica_ingles.estado_nivel=eva_tipo_curso.id_tipo_curso
                 and in_carga_academica_ingles.id_alumno= ?
                 and in_carga_academica_ingles.id_periodo_ingles= ?', [$alumno->id_alumno, $periodo_ingles]) ;
+
+        abort_unless($nombre_carrera && $periodo && $nivel && $tipo_curso, 404);
 
         $pdf=new PDF_In_pdf_boletaController($orientation='L',$unit='mm',$format='Letter');
         #Establecemos los márgenes izquierda, arriba y derecha:
@@ -150,8 +168,10 @@ class In_pdf_boletaController extends Controller
         $pdf->Text(15,180,utf8_decode('¡¡¡Este documento tiene validez unicamente para trámites dentro de la Coordinación de Lenguas Extranjeras'));
         $pdf->Text(75,185,utf8_decode('del Tecnológico De Estudios Superiores de Valle de Bravo!!!'));
 
-        $pdf->Output();
-
-        exit();
+        return response($pdf->Output('S'), 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'inline',
+            'Cache-Control' => 'private, no-store',
+        ]);
     }
 }

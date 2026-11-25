@@ -13,7 +13,7 @@ class PDF_Cal_pdf_historial_academicoController extends FPDF
     //CABECERA DE LA PAGINA
     function Header()
     {
-        $this->Image('img/tes.png', 85, 5, 40);
+        $this->Image(public_path('img/tes.png'), 85, 5, 40);
         $this->SetXY(0,20);
         $this->SetFont('Arial','B',8);
         $this->Ln(2);
@@ -38,10 +38,17 @@ class Cal_pdf_historial_academicoController extends Controller
 {
     public function pdf_academico($id_alumno,$plan,$especialidad,$calificada){
 
+        $usuario = auth()->user();
+        abort_unless($usuario && (int) $usuario->tipo_usuario === 2 && DB::table('gnral_personales')
+            ->where('tipo_usuario', $usuario->id)
+            ->whereIn('id_departamento', [1, 5])
+            ->exists(), 403);
+
         $materias = [];
         $residencia_agregada = false;
 
         $alumno=DB::selectOne('SELECT gnral_alumnos.*, gnral_carreras.nombre carrera FROM gnral_carreras,gnral_alumnos WHERE gnral_alumnos.id_carrera=gnral_carreras.id_carrera  AND gnral_alumnos.id_alumno= ?', [$id_alumno]);
+        abort_if($alumno === null, 404);
         $nombre=mb_strtoupper($alumno->apaterno,'utf-8')." ".mb_strtoupper($alumno->amaterno,'utf-8')." ".mb_strtoupper($alumno->nombre,'utf-8');
         $no_cuenta=mb_strtoupper($alumno->cuenta);
         $carrera=mb_strtoupper($alumno->carrera);
@@ -607,7 +614,10 @@ for ($i = 0; $i < $num_filas; $i++) {
         $pdf->Cell(12, 3, utf8_decode(''), 0, 0, 'C');
         $pdf->Cell(8, 3, utf8_decode('ACA'), 1, 0, 'L');
         $pdf->Cell(55, 3, utf8_decode('Actividad Complementaria Acreditada'), 1, 1, 'L');
-        $pdf->Output();
-        exit();
+        return response($pdf->Output('S'), 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'inline',
+            'Cache-Control' => 'private, no-store',
+        ]);
     }
 }
