@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\EdadAlumno;
+
 use App\Tutorias_Exp_antecedentes_academico;
 use App\Tutorias_Exp_area_psicopedagogica;
 use App\Tutorias_Exp_bachillerato;
@@ -108,10 +110,10 @@ class Tutorias_PanelAlumnoController extends Controller
 */
 
 public function datosAlu(Request $request){
-$data['datos_alumn'] = Alumnos::where('id_alumno',Session::get('id_alumno'))->get();
-
-// Obtener el alumno
-$datos = $data['datos_alumn']->first();
+$datos = Alumnos::where('id_usuario', $request->user()->id)->findOrFail($request->session()->get('id_alumno'));
+$data['datos_alumn'] = collect([$datos]);
+$datos->fecha_nac = EdadAlumno::fecha($datos->fecha_nac);
+$data['edad_calculada'] = EdadAlumno::calcular($datos->fecha_nac);
 
 // Semestre registrado actualmente en BD
 $sem = $datos->id_semestre;

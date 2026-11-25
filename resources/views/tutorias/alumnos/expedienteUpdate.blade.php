@@ -1,12 +1,13 @@
 @extends('layouts.panel')
 @section('title', 'Editar expediente')
 @include('tutorias.partials.recursos_panel')
+@include('partials.panel.estados_datos_alumno')
 @section('content')
     @include('tutorias.alumnos.partial.navegacion_panel', ['titulo' => 'Editar expediente', 'activa' => '/tutorias/inicioalu'])
 
     {{-- #update: aquí monta Vue (mismos v-model, @click y validaciones). x-ignore: Alpine no procesa la plantilla Vue. --}}
     <x-panel.tarjeta class="tw-pantalla">
-<div id="update" x-ignore>
+<div id="update" data-datos-estudiante x-ignore>
         <div class="tw:w-full tw:px-2">
             <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
                 <div class="tw:w-full tw:px-2">
@@ -15,12 +16,12 @@
                         :secciones="['exp-generales', 'exp-antecedentes', 'exp-familiares', 'exp-habitos', 'exp-formacion', 'exp-area']" externo />
                     <nav data-tutoria-tabs>
                         <div class="tw-pestanas tw:mb-6 tw:flex tw:flex-wrap tw:gap-2 tw:border-b tw:border-gray-200 tw:dark:border-gray-800" id="nav-tab" role="tablist">
-                            <a class="active tw-pestana" id="exp-generales-tab" data-toggle="tab" href="#exp-generales" role="tab" aria-controls="exp-generales" aria-selected="true">Datos Generales</a>
-                            <a class="tw-pestana" id="exp-antecedentes-tab" data-toggle="tab" href="#exp-antecedentes" role="tab" aria-controls="exp-antecedentes" aria-selected="false">Antecedentes Académicos</a>
-                            <a class="tw-pestana" id="exp-familiares-tab" data-toggle="tab" href="#exp-familiares" role="tab" aria-controls="exp-familiares" aria-selected="false">Datos Familiares</a>
-                            <a class="tw-pestana" id="exp-habitos-tab" data-toggle="tab" href="#exp-habitos" role="tab" aria-controls="exp-habitos" aria-selected="false">Hábitos de Estudio</a>
-                            <a class="tw-pestana" id="formacion-tab" data-toggle="tab" href="#exp-formacion" role="tab" aria-controls="exp-formacion" aria-selected="false">Formación Integral/Salud</a>
-                            <a class="tw-pestana" id="exp-area-tab" data-toggle="tab" href="#exp-area" role="tab" aria-controls="exp-area" aria-selected="false">Área Psicopedagógica</a>
+                            <a class="active tw-pestana" id="exp-generales-tab" data-toggle="tab" href="#exp-generales" role="tab" aria-controls="exp-generales" aria-selected="true">Datos generales</a>
+                            <a class="tw-pestana" id="exp-antecedentes-tab" data-toggle="tab" href="#exp-antecedentes" role="tab" aria-controls="exp-antecedentes" aria-selected="false">Antecedentes académicos</a>
+                            <a class="tw-pestana" id="exp-familiares-tab" data-toggle="tab" href="#exp-familiares" role="tab" aria-controls="exp-familiares" aria-selected="false">Datos familiares</a>
+                            <a class="tw-pestana" id="exp-habitos-tab" data-toggle="tab" href="#exp-habitos" role="tab" aria-controls="exp-habitos" aria-selected="false">Hábitos de estudio</a>
+                            <a class="tw-pestana" id="formacion-tab" data-toggle="tab" href="#exp-formacion" role="tab" aria-controls="exp-formacion" aria-selected="false">Formación integral y salud</a>
+                            <a class="tw-pestana" id="exp-area-tab" data-toggle="tab" href="#exp-area" role="tab" aria-controls="exp-area" aria-selected="false">Área psicopedagógica</a>
                         </div>
                     </nav>
                 </div>
@@ -33,14 +34,16 @@
                             <div class="" >
                                 <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4 tw:pt-4 tw:pr-4 tw:pl-4">
                                     <div class="tw:w-full tw:content-center tw:px-2">
-                                        <h4 class="tw:text-center tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-brand-200 tw:bg-brand-50 tw:text-brand-700 tw:pt-6"><b>Datos Generales</b></h4>
+                                        <h4 class="tw:text-center tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-brand-200 tw:bg-brand-50 tw:text-brand-700 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:pt-6"><b>Datos generales</b></h4>
                                     </div>
                                 </div>
                                 <div class="tw:p-5 tw:sm:p-6">
+                                    <p class="tw:mb-4 tw:text-sm tw:text-gray-600 tw:dark:text-gray-300">Los campos marcados como «Solo lectura» o «Bloqueado» son de consulta.</p>
                                     <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
                                         <div class="tw:w-full tw:md:w-4/12 tw:px-2">
                                             <label for="nombre">Estudiante </label>
-                                            <input type="text" id="nombre" name="nombre" v-model="alu.generales.nombre" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" placeholder="Nombre" required disabled>
+                                            <input type="text" id="nombre" aria-describedby="nombre-estado" name="nombre" v-model="alu.generales.nombre" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" placeholder="Nombre" required disabled>
+                                            <small id="nombre-estado" class="tw:block tw:text-xs tw:text-gray-600 tw:dark:text-gray-300">Bloqueado</small>
                                         </div>
                                         <div class="tw:w-full tw:md:w-4/12 tw:px-2">
                                             <label for="sexo">Sexo *</label>
@@ -49,7 +52,7 @@
                                                 <option value="M">Masculino</option>
                                                 <option value="F">Femenino</option>
                                             </select>
-                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600" v-if='alu.generales.sexo==null || alu.generales.sexo==" "'>Elija un sexo</small>
+                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600 tw:dark:text-red-400" v-if='alu.generales.sexo==null || alu.generales.sexo==" "'>Elija un sexo</small>
                                         </div>
                                         <div class="tw:w-full tw:md:w-4/12 tw:px-2">
                                             <label for="fn">Fecha de nacimiento </label>
@@ -59,7 +62,8 @@
                                     <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
                                         <div class="tw:w-full tw:md:w-4/12 tw:px-2">
                                             <label for="edad">Edad</label>
-                                            <input type="number" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" v-model="alu.generales.edad" id="edad" name="edad" placeholder="Edad">
+                                            <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" v-bind:value="alu.generales.edad" id="edad" name="edad" readonly placeholder="No disponible" aria-describedby="edad-ayuda">
+                                            <small id="edad-ayuda" v-text="alu.generales.edad === null ? 'No disponible sin una fecha de nacimiento válida.' : 'Calculada automáticamente'" class="tw:block tw:text-xs tw:text-gray-600 tw:dark:text-gray-300">Calculada automáticamente</small>
                                         </div>
                                         <div class="tw:w-full tw:md:w-4/12 tw:px-2">
                                             <label for="ln">Lugar de nacimiento</label>
@@ -68,7 +72,7 @@
                                         <div class="tw:w-full tw:md:w-4/12 tw:px-2">
                                             <label for="direccion">Dirección *</label>
                                             <input type="text" v-model="alu.generales.direccion" data-tutoria-campo="generales.direccion"  id="direccion" name="direccion" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700"  placeholder="Dirección" required>
-                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600" v-if='alu.generales.direccion==null || alu.generales.direccion=="" '>Colocar una dirección</small>
+                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600 tw:dark:text-red-400" v-if='alu.generales.direccion==null || alu.generales.direccion=="" '>Colocar una dirección</small>
                                         </div>
                                     </div>
                                     <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
@@ -78,58 +82,62 @@
                                                 <option value="null" selected >Elija el estado civil</option>
                                                 <option v-bind:value="es.id_estado_civil" v-for="es in estadociv">@{{es.desc_ec}}</option>
                                             </select>
-                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600" v-if='alu.generales.id_estado_civil==null || alu.generales.id_estado_civil=="null"'>Elija una opción</small>
+                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600 tw:dark:text-red-400" v-if='alu.generales.id_estado_civil==null || alu.generales.id_estado_civil=="null"'>Selecciona una opción</small>
                                         </div>
                                         <div class="tw:w-full tw:md:w-4/12 tw:px-2">
-                                            <label for="estado">No. Hijos *</label>
+                                            <label for="nh">Número de hijos *</label>
                                             <select id="nh" name="no_hijos" v-model="alu.generales.no_hijos" data-tutoria-campo="generales.no_hijos" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" required>
-                                                <option value="null" selected>Elija una opción</option>
+                                                <option value="null" selected>Selecciona una opción</option>
                                                 <option value="1">0</option>
                                                 <option value="2">1</option>
                                                 <option value="3">2</option>
                                                 <option value="4">3</option>
                                                 <option value="5">4 o más</option>
                                             </select>
-                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600" v-if='alu.generales.no_hijos=="null" || alu.generales.no_hijos==null '>Colocar un número de hijos</small>
+                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600 tw:dark:text-red-400" v-if='alu.generales.no_hijos=="null" || alu.generales.no_hijos==null '>Colocar un número de hijos</small>
                                         </div>
                                         <div class="tw:w-full tw:md:w-4/12 tw:px-2">
-                                            <label for="correo">e-mail </label>
-                                            <input type="text" v-model="alu.generales.correo"  id="correo" name="correo" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" placeholder="Correo" required disabled>
+                                            <label for="correo">Correo electrónico</label>
+                                            <input type="text" v-model="alu.generales.correo"  id="correo" aria-describedby="correo-estado" name="correo" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" placeholder="Correo" required disabled>
+                                            <small id="correo-estado" class="tw:block tw:text-xs tw:text-gray-600 tw:dark:text-gray-300">Bloqueado</small>
                                         </div>
                                     </div>
                                     <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
                                         <div class="tw:w-full tw:md:w-4/12 tw:px-2">
-                                            <label for="tel-casa">Tel. Casa</label>
-                                            <input type="tel" title="Sólo números, máximo 10 dígitos." pattern="[0-9]{10}"  v-model="alu.generales.tel_casa" id="tel-casa" name="tel_casa" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" placeholder="Tel. Casa">
+                                            <label for="tel-casa">Teléfono de casa</label>
+                                            <input type="tel" title="Sólo números, máximo 10 dígitos." pattern="[0-9]{10}"  v-model="alu.generales.tel_casa" id="tel-casa" name="tel_casa" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" placeholder="Teléfono de casa">
                                         </div>
                                         <div class="tw:w-full tw:md:w-3/12 tw:px-2">
-                                            <label for="cel">Celular *</label>
-                                            <input type="tel" title="Sólo números, máximo 10 dígitos." pattern="[0-9]{10}" v-model="alu.generales.cel"  id="cel" name="cel" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" placeholder="Cel" required>
-                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600" v-if='alu.generales.cel==null || alu.generales.cel==""'>Colocar un número celular</small>
+                                            <label for="cel">Teléfono celular *</label>
+                                            <input type="tel" title="Sólo números, máximo 10 dígitos." pattern="[0-9]{10}" v-model="alu.generales.cel"  id="cel" name="cel" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" placeholder="Teléfono celular" required>
+                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600 tw:dark:text-red-400" v-if='alu.generales.cel==null || alu.generales.cel==""'>Colocar un número celular</small>
                                         </div>
                                         <div class="tw:w-full tw:md:w-5/12 tw:px-2">
                                             <label for="carrera">Programa educativo </label>
-                                            <select name="carrera" id="carrera" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" v-model="alu.generales.id_carrera" required disabled>
-                                                <option value="null" >Elija una opción</option>
+                                            <select name="carrera" id="carrera" aria-describedby="carrera-estado" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" v-model="alu.generales.id_carrera" required disabled>
+                                                <option value="null" >Selecciona una opción</option>
                                                 <option v-bind:value="car.id_carrera" v-for="car in carreras">@{{car.nombre}}</option>
                                             </select>
+                                            <small id="carrera-estado" class="tw:block tw:text-xs tw:text-gray-600 tw:dark:text-gray-300">Bloqueado</small>
                                         </div>
                                     </div>
                                     <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
                                         <div class="tw:w-full tw:md:w-4/12 tw:px-2">
-                                            <label for="periodo">Periodo </label>
-                                            <select name="periodo" id="periodo" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" v-model="alu.generales.id_periodo" data-tutoria-campo="generales.id_periodo" required disabled>
+                                            <label for="periodo">Período </label>
+                                            <select name="periodo" id="periodo" aria-describedby="periodo-estado" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" v-model="alu.generales.id_periodo" data-tutoria-campo="generales.id_periodo" required disabled>
                                                 <option value="null" selected>Elija un periodo</option>
                                                 <option v-bind:value="period.id_periodo" v-for="period in periodos">@{{period.periodo}}</option>
                                             </select>
+                                            <small id="periodo-estado" class="tw:block tw:text-xs tw:text-gray-600 tw:dark:text-gray-300">Bloqueado</small>
                                         </div>
                                         
                                          <div class="tw:w-full tw:md:w-4/12 tw:px-2">
                                             <label for="semestre">Semestre </label>
-                                            <select name="semestre" id="semestre" v-model="alu.generales.id_semestre_vue"  class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" required  disabled>
+                                            <select name="semestre" id="semestre" aria-describedby="semestre-estado" v-model="alu.generales.id_semestre_vue"  class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" required  disabled>
                                                 <option :value="null">Elija un semestre</option>
                                                 <option v-for="sem in semestres" :key="sem.id_semestre" :value="Number(sem.id_semestre)">@{{ sem.descripcion }}</option>
                                             </select>
+                                            <small id="semestre-estado" class="tw:block tw:text-xs tw:text-gray-600 tw:dark:text-gray-300">Bloqueado</small>
                                         </div>
 
                                         <div class="tw:w-full tw:md:w-4/12 tw:px-2">
@@ -138,7 +146,7 @@
                                                 <option value="null" selected>Elija un grupo</option>
                                                 <option v-bind:value="gru.id_grupo" v-for="gru in grupo">@{{gru.grupo}}</option>
                                             </select>
-                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600" v-if='alu.generales.id_grupo==null || alu.generales.id_grupo=="null"'>Elija un grupo</small>
+                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600 tw:dark:text-red-400" v-if='alu.generales.id_grupo==null || alu.generales.id_grupo=="null"'>Elija un grupo</small>
                                         </div>
                                     </div>
                                     <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
@@ -148,7 +156,7 @@
                                                 <option value="null" selected>Elija turno</option>
                                                 <option v-bind:value="turn.id_turno" v-for="turn in turno">@{{turn.descripcion_turno}}</option>
                                             </select>
-                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600" v-if='alu.generales.turno==null || alu.generales.turno=="null"'>Elija una opción</small>
+                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600 tw:dark:text-red-400" v-if='alu.generales.turno==null || alu.generales.turno=="null"'>Selecciona una opción</small>
                                         </div>
                                         <div class="tw:w-full tw:md:w-4/12 tw:px-2">
                                             <label for="estado">Estado académico *</label>
@@ -160,29 +168,30 @@
                                                 <option value="4">Baja temporal</option>
                                                 <option value="5">Baja definitiva</option>
                                             </select>
-                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600" v-if='(alu.generales.estado==null || alu.generales.estado=="null")'>Elija un estado académico</small>
+                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600 tw:dark:text-red-400" v-if='(alu.generales.estado==null || alu.generales.estado=="null")'>Elija un estado académico</small>
                                         </div>
                                         <div class="tw:w-full tw:md:w-4/12 tw:px-2">
                                             <label for="noC">No. Cuenta</label>
-                                            <input type="text" id="noC"  name="no_cuenta" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" v-model="alu.generales.no_cuenta"  placeholder="No. Cuenta" disabled>
+                                            <input type="text" id="noC" aria-describedby="noC-estado"  name="no_cuenta" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" v-model="alu.generales.no_cuenta"  placeholder="No. Cuenta" disabled>
+                                            <small id="noC-estado" class="tw:block tw:text-xs tw:text-gray-600 tw:dark:text-gray-300">Bloqueado</small>
                                         </div>
                                     </div>
                                     <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
                                         <div class="tw:w-full tw:md:w-4/12 tw:px-2">
                                             <label for="poblacion">Tipo de población</label>
                                             <select name="poblacion" id="poblacion" v-model="alu.generales.poblacion" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700">
-                                                <option value="null" selected>Elija una opción</option>
+                                                <option value="null" selected>Selecciona una opción</option>
                                                 <option value="Rural">Rural</option>
                                                 <option value="Urbana">Urbana</option>
                                             </select>
                                         </div>
                                         <div class="tw:w-full tw:md:w-3/12 tw:px-2">
-                                            <label for="nivel_economico">Nivel Socio-Económico *</label>
-                                            <input disabled type="text" v-model="alu.generales.nivel_economico" data-tutoria-campo="generales.nivel_economico"  id="nivel_economico" name="nivel_economico" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" placeholder="Nivel Socio-Económico" required>
-                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600" v-if="alu.generales.nivel_economico==null">Realizar test</small>
+                                            <label for="nivel_economico">Nivel socioeconómico *</label>
+                                            <input disabled type="text" v-model="alu.generales.nivel_economico" data-tutoria-campo="generales.nivel_economico"  id="nivel_economico" name="nivel_economico" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" placeholder="Nivel socioeconómico" required>
+                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600 tw:dark:text-red-400" v-if="alu.generales.nivel_economico==null">Completa el cuestionario</small>
                                         </div>
                                         <div class="tw:w-1/12 tw:text-left tw:pt-4 tw:px-2" v-if="alu.generales.nivel_economico==null">
-                                            <button class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:dark:bg-white/3"  data-toggle="modal" data-target="#modalNSE"><i class="fa fa-file"></i></button>
+                                            <button class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:dark:bg-white/3"  data-toggle="modal" data-target="#modalNSE"><i class="fa fa-file" aria-hidden="true"></i><span class="tw:sr-only">Responder el cuestionario</span></button>
                                         </div>
                                         <div class="tw:w-full tw:md:w-4/12 tw:px-2">
                                             <label for="trabaja">Trabaja *</label>
@@ -191,7 +200,7 @@
                                                 <option value="1">Si</option>
                                                 <option value="2" @click="borra_trabaja()">No</option>
                                             </select>
-                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600" v-if='alu.generales.trabaja==null || alu.generales.trabaja=="null"'>Elija una opción</small>
+                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600 tw:dark:text-red-400" v-if='alu.generales.trabaja==null || alu.generales.trabaja=="null"'>Selecciona una opción</small>
                                         </div>
                                     </div>
                                     <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4" v-if="alu.generales.trabaja==1">
@@ -208,7 +217,7 @@
                                         <div class="tw:w-full tw:md:w-4/12 tw:px-2">
                                             <label for="ant_inst">Antecedentes institucionales</label>
                                             <select name="ant_inst" id="ant_inst" v-model="alu.generales.ant_inst" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700">
-                                                <option value="null" selected>Elija una opción</option>
+                                                <option value="null" selected>Selecciona una opción</option>
                                                 <option value="Continuación de estudios">Continuación de estudios</option>
                                                 <option value="Cambio de carrera/institución">Cambio de carrera/institución</option>
                                             </select>
@@ -216,7 +225,7 @@
                                         <div class="tw:w-full tw:md:w-5/12 tw:px-2">
                                             <label for="satisfaccion_c">Nivel de satisfacción con el programa educativo</label>
                                             <select name="satisfaccion_c" id="satisfaccion_c" v-model="alu.generales.satisfaccion_c" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700">
-                                                <option value="null" selected>Elija una opción</option>
+                                                <option value="null" selected>Selecciona una opción</option>
                                                 <option value="Muy satisfecho">Muy satisfecho</option>
                                                 <option value="Satisfecho">Satisfecho</option>
                                                 <option value="Regular">Regular</option>
@@ -226,37 +235,37 @@
                                         <div class="tw:w-full tw:md:w-3/12 tw:px-2">
                                             <label for="beca">¿Cuenta con beca? *</label>
                                             <select name="beca" id="beca" v-model="alu.generales.beca" data-tutoria-campo="generales.beca" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" required>
-                                                <option value="null" selected>Elija una opción</option>
+                                                <option value="null" selected>Selecciona una opción</option>
                                                 <option value="1">Si</option>
                                                 <option value="2"  @click="borra_beca()">No</option>
                                             </select>
-                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600" v-if='alu.generales.beca==null || alu.generales.beca=="null"'>Elija una opción</small>
+                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600 tw:dark:text-red-400" v-if='alu.generales.beca==null || alu.generales.beca=="null"'>Selecciona una opción</small>
                                         </div>
                                     </div>
                                     <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
                                         <div class="tw:w-full tw:md:w-full tw:px-2" v-if="alu.generales.beca==1">
                                             <label for="tbeca">¿Qué tipo de beca? *</label>
                                             <select name="tbeca" id="tbeca" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" v-model="alu.generales.id_expbeca" data-tutoria-campo="generales.id_expbeca" required>
-                                                <option value="null" selected>Elija una opción</option>
+                                                <option value="null" selected>Selecciona una opción</option>
                                                 <option v-bind:value="bec.id_expbeca" v-for="bec in becas">@{{bec.descripcion_beca}}</option>
                                             </select>
-                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600" v-if='alu.generales.id_expbeca==null || alu.generales.id_expbeca=="null"'>Elija una opción</small>
+                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600 tw:dark:text-red-400" v-if='alu.generales.id_expbeca==null || alu.generales.id_expbeca=="null"'>Selecciona una opción</small>
                                         </div>
                                     </div>
                                     <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
                                         <div class="tw:w-full tw:md:w-4/12 tw:px-2">
                                             <label for="materias_repeticion">Materias en repeticion *</label>
                                             <select name="materias_repeticion" id="materias_repeticion" v-model="alu.generales.materias_repeticion" data-tutoria-campo="generales.materias_repeticion" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" required>
-                                                <option value="null" selected>Elija una opción</option>
+                                                <option value="null" selected>Selecciona una opción</option>
                                                 <option value="1">Si</option>
                                                 <option value="2"  @click="alu.generales.tot_repe=null">No</option>
                                             </select>
-                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600" v-if='alu.generales.materias_repeticion==null || alu.generales.materias_repeticion=="null"'>Elija una opción</small>
+                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600 tw:dark:text-red-400" v-if='alu.generales.materias_repeticion==null || alu.generales.materias_repeticion=="null"'>Selecciona una opción</small>
                                         </div>
                                         <div class="tw:w-full tw:md:w-4/12 tw:px-2" v-if="alu.generales.materias_repeticion==1">
                                             <label for="tot_repe">Número de materias en repetición</label>
                                             <select name="tot_repe" v-model="alu.generales.tot_repe" id="tot_repe" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700">
-                                                <option value="null" selected>Elija una opción</option>
+                                                <option value="null" selected>Selecciona una opción</option>
                                                 <option value="1">0</option>
                                                 <option value="2">1</option>
                                                 <option value="3">2</option>
@@ -266,18 +275,18 @@
                                         <div class="tw:w-full tw:md:w-4/12 tw:px-2">
                                             <label for="materias_especial">Materias en especial *</label>
                                             <select name="materias_especial" v-model="alu.generales.materias_especial" data-tutoria-campo="generales.materias_especial" id="materias_especial" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" required>
-                                                <option value="null" selected>Elija una opción</option>
+                                                <option value="null" selected>Selecciona una opción</option>
                                                 <option value="1">Si</option>
                                                 <option value="2"  @click="alu.generales.tot_espe=null">No</option>
                                             </select>
-                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600" v-if='alu.generales.materias_especial==null || alu.generales.materias_especial=="null"'>Elija una opción</small>
+                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600 tw:dark:text-red-400" v-if='alu.generales.materias_especial==null || alu.generales.materias_especial=="null"'>Selecciona una opción</small>
                                         </div>
                                     </div>
                                     <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
                                         <div class="tw:w-full tw:md:w-6/12 tw:px-2" v-if="alu.generales.materias_especial==1">
                                             <label for="tot_espe">Número de materias en especial</label>
                                             <select name="tot_espe" id="tot_espe" v-model="alu.generales.tot_espe" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700">
-                                                <option value="null" selected>Elija una opción</option>
+                                                <option value="null" selected>Selecciona una opción</option>
                                                 <option value="1">0</option>
                                                 <option value="2">1</option>
                                                 <option value="3">2</option>
@@ -287,7 +296,7 @@
                                         <div class="tw:w-full tw:md:w-6/12 tw:px-2">
                                             <label for="gen_espe">Número de especiales totales</label>
                                             <select name="gen_espe" v-model="alu.generales.gen_espe" id="gen_espe" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700">
-                                                <option value="null" selected>Elija una opción</option>
+                                                <option value="null" selected>Selecciona una opción</option>
                                                 <option value="1">0</option>
                                                 <option value="2">1</option>
                                                 <option value="3">2</option>
@@ -302,7 +311,7 @@
                             <div class="" >
                                 <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4 tw:pt-4 tw:pr-4 tw:pl-4">
                                     <div class="tw:w-full tw:content-center tw:px-2">
-                                        <h4 class="tw:text-center tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-brand-200 tw:bg-brand-50 tw:text-brand-700 tw:pt-6"><b>Antecedentes Académicos</b></h4>
+                                        <h4 class="tw:text-center tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-brand-200 tw:bg-brand-50 tw:text-brand-700 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:pt-6"><b>Antecedentes académicos</b></h4>
                                     </div>
                                 </div>
                                 <div class="tw:p-5 tw:sm:p-6">
@@ -316,14 +325,14 @@
                                         <div class="tw:w-full tw:md:w-4/12 tw:px-2">
                                             <label for="bachillerato">Tipo de bachillerato</label>
                                             <select name="bachillerato" v-model="alu.academicos.id_bachillerato" id="bachillerato" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700">
-                                                <option value="null" selected>Elija una opción</option>
+                                                <option value="null" selected>Selecciona una opción</option>
                                                 <option v-bind:value="bach.id_bachillerato" v-for="bach in bachiller">@{{bach.desc_bachillerato}}</option>
                                             </select>
                                         </div>
                                         <div class="tw:w-full tw:md:w-4/12 tw:px-2">
                                             <label for="cb">Años en que cursó el bachillerato</label>
                                             <select v-model="alu.academicos.anos_curso_bachillerato" id="cb" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700">
-                                                <option value="null" selected>Elija una opción</option>
+                                                <option value="null" selected>Selecciona una opción</option>
                                                 <option value="1">1</option>
                                                 <option value="2">2</option>
                                                 <option value="3">3</option>
@@ -355,7 +364,7 @@
                                         <div class="tw:w-full tw:md:w-6/12 tw:px-2">
                                             <label for="sus">Suspensión de estudios después de terminado el bachillerato</label>
                                             <select id="sus" v-model="alu.academicos.suspension_estudios_bachillerato" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700">
-                                                <option value="null" selected>Elija una opción</option>
+                                                <option value="null" selected>Selecciona una opción</option>
                                                 <option value="1">Si</option>
                                                 <option value="2" @click="alu.academicos.razones_suspension_estudios=null">No</option>
                                             </select>
@@ -387,11 +396,11 @@
                                         <div class="tw:w-full tw:md:w-full tw:px-2">
                                             <label for="cae">¿Te gusta el programa educativo elegido? *</label>
                                             <select v-model="alu.academicos.tegusta_carrera_elegida" data-tutoria-campo="academicos.tegusta_carrera_elegida" id="cae" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" required>
-                                                <option value="null" selected>Elija una opción</option>
+                                                <option value="null" selected>Selecciona una opción</option>
                                                 <option value="1">Si</option>
                                                 <option value="2" @click="alu.academicos.porque_carrera_elegida=null">No</option>
                                             </select>
-                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600" v-if='alu.academicos.tegusta_carrera_elegida==null || alu.academicos.tegusta_carrera_elegida=="null"'>Elija una opción</small>
+                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600 tw:dark:text-red-400" v-if='alu.academicos.tegusta_carrera_elegida==null || alu.academicos.tegusta_carrera_elegida=="null"'>Selecciona una opción</small>
                                         </div>
                                     </div>
                                     <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
@@ -404,7 +413,7 @@
                                         <div class="tw:w-full tw:md:w-full tw:px-2">
                                             <label for="ie">Interrupciones en los estudios</label>
                                             <select  id="ie" v-model="alu.academicos.interrupciones_estudios" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700">
-                                                <option value="null" selected>Elija una opción</option>
+                                                <option value="null" selected>Selecciona una opción</option>
                                                 <option value="1">Si</option>
                                                 <option value="2" @click="alu.academicos.razones_interrupcion=null">No</option>
                                             </select>
@@ -420,16 +429,16 @@
                                         <div class="tw:w-full tw:md:w-4/12 tw:px-2">
                                             <label for="tefe">¿Te motiva tu familia en tus estudios? *</label>
                                             <select v-model="alu.academicos.teestimula_familia" data-tutoria-campo="academicos.teestimula_familia" id="tefe" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" required>
-                                                <option value="null" selected>Elija una opción</option>
+                                                <option value="null" selected>Selecciona una opción</option>
                                                 <option value="1">Si</option>
                                                 <option value="2">No</option>
                                             </select>
-                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600" v-if='alu.academicos.teestimula_familia==null || alu.academicos.teestimula_familia=="null"'>Elija una opción</small>
+                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600 tw:dark:text-red-400" v-if='alu.academicos.teestimula_familia==null || alu.academicos.teestimula_familia=="null"'>Selecciona una opción</small>
                                         </div>
                                         <div class="tw:w-full tw:md:w-8/12 tw:px-2">
                                             <label for="ov">¿Tuviste otras opciones vocacionales o preferencias por otros programas educativos?</label>
                                             <select id="ov" v-model="alu.academicos.otras_opciones_vocales" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700">
-                                                <option value="null" selected>Elija una opción</option>
+                                                <option value="null" selected>Selecciona una opción</option>
                                                 <option value="1">Si</option>
                                                 <option value="2" @click="alu.academicos.cuales_otras_opciones_vocales=null">No</option>
                                             </select>
@@ -437,8 +446,8 @@
                                     </div>
                                     <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
                                         <div class="tw:w-full tw:md:w-full tw:px-2"  id="cuales" v-if="alu.academicos.otras_opciones_vocales==1">
-                                            <label for="cuales">¿Cuales?</label>
-                                            <input name="cuales" v-model="alu.academicos.cuales_otras_opciones_vocales" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" placeholder="¿Cuales?">
+                                            <label for="cuales">¿Cuáles?</label>
+                                            <input name="cuales" v-model="alu.academicos.cuales_otras_opciones_vocales" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" placeholder="¿Cuáles?">
                                         </div>
                                     </div>
                                     <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4 tw:pt-4 tw:pr-4 tw:pl-4">
@@ -450,11 +459,11 @@
                                         <div class="tw:w-full tw:md:w-full tw:px-2">
                                             <label for="oti">Otro programa educativo iniciado *</label>
                                             <select v-model="alu.academicos.otra_carrera_ini" data-tutoria-campo="academicos.otra_carrera_ini" id="oti" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" required>
-                                                <option value="null" selected>Elija una opción</option>
+                                                <option value="null" selected>Selecciona una opción</option>
                                                 <option value="1">Si</option>
                                                 <option value="2" @click="borra_institucion()">No</option>
                                             </select>
-                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600" v-if='alu.academicos.otra_carrera_ini==null || alu.academicos.otra_carrera_ini=="null"'>Elija una opción</small>
+                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600 tw:dark:text-red-400" v-if='alu.academicos.otra_carrera_ini==null || alu.academicos.otra_carrera_ini=="null"'>Selecciona una opción</small>
                                         </div>
                                     </div>
                                     <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4" v-if="alu.academicos.otra_carrera_ini==1">
@@ -465,7 +474,7 @@
                                         <div class="tw:w-full tw:md:w-4/12 tw:px-2">
                                             <label for="SC">Semestres cursados</label>
                                             <select v-model="alu.academicos.semestres_cursados" id="SC" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700">
-                                                <option value="null" selected >Elija una opción</option>
+                                                <option value="null" selected >Selecciona una opción</option>
                                                 <option value="1">1</option>
                                                 <option value="2">2</option>
                                                 <option value="3">3</option>
@@ -479,7 +488,7 @@
                                         <div class="tw:w-full tw:md:w-full tw:px-2">
                                             <label for="oe">Otros Estudios</label>
                                             <select v-model="alu.academicos.otros_estudios" id="oe" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" required>
-                                                <option value="null" selected>Elija una opción</option>
+                                                <option value="null" selected>Selecciona una opción</option>
                                                 <option value="1">Si</option>
                                                 <option value="2">No</option>
                                             </select>
@@ -492,7 +501,7 @@
                             <div class="" >
                                 <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4 tw:pt-4 tw:pr-4 tw:pl-4">
                                     <div class="tw:w-full tw:content-center tw:px-2">
-                                        <h4 class="tw:text-center tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-brand-200 tw:bg-brand-50 tw:text-brand-700 tw:pt-6"><b>Datos Familiares</b></h4>
+                                        <h4 class="tw:text-center tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-brand-200 tw:bg-brand-50 tw:text-brand-700 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:pt-6"><b>Datos familiares</b></h4>
                                     </div>
                                 </div>
                                 <div class="tw:p-5 tw:sm:p-6">
@@ -500,7 +509,7 @@
                                         <div class="tw:w-full tw:md:w-4/12 tw:px-2">
                                             <label for="np">Nombre del padre *</label>
                                             <input name="nombre_padre" v-model="alu.familiares.nombre_padre" data-tutoria-campo="familiares.nombre_padre" id="np" type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" placeholder="Nombre del padre" required>
-                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600" v-if='alu.familiares.nombre_padre==null || alu.familiares.nombre_padre=="" '>Colocar nombre del padre</small>
+                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600 tw:dark:text-red-400" v-if='alu.familiares.nombre_padre==null || alu.familiares.nombre_padre=="" '>Colocar nombre del padre</small>
                                         </div>
                                         <div class="tw:w-full tw:md:w-2/12 tw:px-2">
                                             <label for="edadP">Edad</label>
@@ -513,14 +522,14 @@
                                         <div class="tw:w-full tw:md:w-4/12 tw:px-2">
                                             <label for="LRP">Lugar de residencia *</label>
                                             <input v-model="alu.familiares.lugar_residencia_padre" data-tutoria-campo="familiares.lugar_residencia_padre" name="lugar_residencia_padre" id="LRP" placeholder="Lugar de residencia" type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" required>
-                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600" v-if='alu.familiares.lugar_residencia_padre==null || alu.familiares.lugar_residencia_padre=="" '>Colocar un lugar de residencia del padre</small>
+                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600 tw:dark:text-red-400" v-if='alu.familiares.lugar_residencia_padre==null || alu.familiares.lugar_residencia_padre=="" '>Colocar un lugar de residencia del padre</small>
                                         </div>
                                     </div>
                                     <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
                                         <div class="tw:w-full tw:md:w-4/12 tw:px-2">
                                             <label for="nm">Nombre de la madre *</label>
                                             <input type="text" v-model="alu.familiares.nombre_madre" data-tutoria-campo="familiares.nombre_madre" name="nombre_madre" id="nm" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" placeholder="Nombre de la madre" required>
-                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600" v-if='alu.familiares.nombre_madre==null || alu.familiares.nombre_madre=="" '>Colocar nombre de la madre</small>
+                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600 tw:dark:text-red-400" v-if='alu.familiares.nombre_madre==null || alu.familiares.nombre_madre=="" '>Colocar nombre de la madre</small>
                                         </div>
                                         <div class="tw:w-full tw:md:w-2/12 tw:px-2">
                                             <label for="edadM">Edad</label>
@@ -533,13 +542,13 @@
                                         <div class="tw:w-full tw:md:w-4/12 tw:px-2">
                                             <label for="LRM">Lugar de residencia *</label>
                                             <input id="LRM" v-model="alu.familiares.lugar_residencia_madre" data-tutoria-campo="familiares.lugar_residencia_madre" name="lugar_residencia_madre" type="text" placeholder="Lugar de residencia" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" required>
-                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600" v-if='alu.familiares.lugar_residencia_madre==null || alu.familiares.lugar_residencia_madre=="" '>Colocar un lugar de residencia de la madre</small>
+                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600 tw:dark:text-red-400" v-if='alu.familiares.lugar_residencia_madre==null || alu.familiares.lugar_residencia_madre=="" '>Colocar un lugar de residencia de la madre</small>
                                         </div>
                                     </div>
                                     <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
                                         <div class="tw:w-full tw:md:w-4/12 tw:px-2">
-                                            <label for="nh">Número de hermanos, incluyéndote:</label>
-                                            <input type="number" v-model="alu.familiares.no_hermanos" id="nh" name="no_hermanos" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" placeholder="No. de Hermanos">
+                                            <label for="no-hermanos">Número de hermanos, incluyéndote:</label>
+                                            <input type="number" v-model="alu.familiares.no_hermanos" id="no-hermanos" name="no_hermanos" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" placeholder="No. de Hermanos">
                                         </div>
                                         <div class="tw:w-full tw:md:w-4/12 tw:px-2">
                                             <label for="loe">¿Qué lugar que ocupas entre ellos?</label>
@@ -548,10 +557,10 @@
                                         <div class="tw:w-full tw:md:w-4/12 tw:px-2">
                                             <label for="av">Actualmente vives con: *</label>
                                             <select name="actualmente_vives" id="av" v-model="alu.familiares.id_opc_vives" data-tutoria-campo="familiares.id_opc_vives" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" required>
-                                                <option value="null" selected>Elija una opción</option>
+                                                <option value="null" selected>Selecciona una opción</option>
                                                 <option v-bind:value="viv.id_opc_vives" v-for="viv in vive">@{{viv.desc_opc}}</option>
                                             </select>
-                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600" v-if='alu.familiares.id_opc_vives==null || alu.familiares.id_opc_vives=="null"'>Elija una opción</small>
+                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600 tw:dark:text-red-400" v-if='alu.familiares.id_opc_vives==null || alu.familiares.id_opc_vives=="null"'>Selecciona una opción</small>
                                         </div>
                                     </div>
                                     <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
@@ -562,28 +571,28 @@
                                         <div class="tw:w-full tw:md:w-6/12 tw:px-2">
                                             <label for="etnia">Perteneces a una etnia indígena *</label>
                                             <select name="etnia" id="etnia" v-model="alu.familiares.etnia_indigena" data-tutoria-campo="familiares.etnia_indigena" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" required>
-                                                <option value="null" selected>Elija una opción</option>
+                                                <option value="null" selected>Selecciona una opción</option>
                                                 <option value="1">Si</option>
                                                 <option value="2" @click="alu.familiares.cual_etnia=null">No</option>
                                             </select>
-                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600" v-if='alu.familiares.etnia_indigena==null || alu.familiares.etnia_indigena=="null"'>Elija una opción</small>
+                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600 tw:dark:text-red-400" v-if='alu.familiares.etnia_indigena==null || alu.familiares.etnia_indigena=="null"'>Selecciona una opción</small>
                                         </div>
                                     </div>
                                     <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
                                         <div class="tw:w-full tw:md:w-4/12 tw:px-2" id="cualetnia" v-if="alu.familiares.etnia_indigena==1">
                                             <label for="cualetnia">¿Cual etnia?</label>
-                                            <input type="text" v-model="alu.familiares.cual_etnia" name="cual_etnia" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" placeholder="¿Cual?">
+                                            <input type="text" v-model="alu.familiares.cual_etnia" name="cual_etnia" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" placeholder="¿Cuál?">
                                         </div>
                                     </div>
                                     <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
                                         <div class="tw:w-full tw:md:w-6/12 tw:px-2">
                                             <label for="hablas">Hablas una lengua indígena *</label>
                                             <select  id="hablas" v-model="alu.familiares.hablas_lengua_indigena" data-tutoria-campo="familiares.hablas_lengua_indigena" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" required>
-                                                <option value="null" selected>Elija una opción</option>
+                                                <option value="null" selected>Selecciona una opción</option>
                                                 <option value="1">Si</option>
                                                 <option value="2">No</option>
                                             </select>
-                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600" v-if='alu.familiares.hablas_lengua_indigena==null || alu.familiares.hablas_lengua_indigena=="null"'>Elija una opción</small>
+                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600 tw:dark:text-red-400" v-if='alu.familiares.hablas_lengua_indigena==null || alu.familiares.hablas_lengua_indigena=="null"'>Selecciona una opción</small>
                                         </div>
                                         <div class="tw:w-full tw:md:w-6/12 tw:px-2">
                                             <label for="sostiene">¿Quién sostiene económicamente tu hogar?</label>
@@ -595,15 +604,15 @@
                                         <div class="tw:w-full tw:md:w-4/12 tw:px-2">
                                             <label for="consideras">Consideras a tu familia *</label>
                                             <select id="consideras" name="consideras_a_familia" v-model="alu.familiares.id_familia_union" data-tutoria-campo="familiares.id_familia_union" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" required>
-                                                <option value="null" selected>Elija una opción</option>
+                                                <option value="null" selected>Selecciona una opción</option>
                                                 <option v-bind:value="uni.id_familia_union" v-for="uni in union">@{{uni.desc_union}}</option>
                                             </select>
-                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600" v-if='alu.familiares.id_familia_union==null || alu.familiares.id_familia_union=="null"'>Elija un grupo</small>
+                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600 tw:dark:text-red-400" v-if='alu.familiares.id_familia_union==null || alu.familiares.id_familia_union=="null"'>Elija un grupo</small>
                                         </div>
                                         <div class="tw:w-full tw:md:w-4/12 tw:px-2">
                                             <label for="nt">Nombre del tutor *</label>
                                             <input type="text" v-model="alu.familiares.nombre_tutor" data-tutoria-campo="familiares.nombre_tutor" name="nombre_tutor" id="nt" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" placeholder="Nombre del tutor">
-                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600" v-if='alu.familiares.nombre_tutor==null || alu.familiares.nombre_tutor==""'>Nombre del tutor</small>
+                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600 tw:dark:text-red-400" v-if='alu.familiares.nombre_tutor==null || alu.familiares.nombre_tutor==""'>Nombre del tutor</small>
                                         </div>
                                         <div class="tw:w-full tw:md:w-4/12 tw:px-2">
                                             <label for="parentesco">Parentesco *</label>
@@ -611,7 +620,7 @@
                                                 <option value="null">Elija un parentesco</option>
                                                 <option v-bind:value="par.id_parentesco" v-for="par in parentesco">@{{par.desc_parentesco}}</option>
                                             </select>
-                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600" v-if='alu.familiares.id_parentesco==null || alu.familiares.id_parentesco=="null"'>Elija una opción</small>
+                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600 tw:dark:text-red-400" v-if='alu.familiares.id_parentesco==null || alu.familiares.id_parentesco=="null"'>Selecciona una opción</small>
                                         </div>
                                     </div>
                                 </div>
@@ -621,7 +630,7 @@
                             <div class="" >
                                 <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4 tw:pt-4 tw:pr-4 tw:pl-4">
                                     <div class="tw:w-full tw:content-center tw:px-2">
-                                        <h4 class="tw:text-center tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-brand-200 tw:bg-brand-50 tw:text-brand-700 tw:pt-6"><b>Hábitos de Estudio</b></h4>
+                                        <h4 class="tw:text-center tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-brand-200 tw:bg-brand-50 tw:text-brand-700 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:pt-6"><b>Hábitos de estudio</b></h4>
                                     </div>
                                 </div>
                                 <div class="tw:p-5 tw:sm:p-6">
@@ -629,10 +638,10 @@
                                         <div class="tw:w-full tw:md:w-6/12 tw:px-2">
                                             <label for="tiempo">Tiempo dedicado a estudiar diariamente fuera de clase *</label>
                                             <select v-model="alu.estudio.tiempo_empleado_estudiar" data-tutoria-campo="estudio.tiempo_empleado_estudiar" id="tiempo" type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" required>
-                                                <option value="null" selected>Elija una opción</option>
+                                                <option value="null" selected>Selecciona una opción</option>
                                                 <option v-bind:value="tiemp.id_opc_tiempo" v-for="tiemp in tiempo">@{{tiemp.desc_opc}}</option>
                                             </select>
-                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600" v-if='alu.estudio.tiempo_empleado_estudiar==null || alu.estudio.tiempo_empleado_estudiar=="null"'>Elija una opción</small>
+                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600 tw:dark:text-red-400" v-if='alu.estudio.tiempo_empleado_estudiar==null || alu.estudio.tiempo_empleado_estudiar=="null"'>Selecciona una opción</small>
                                         </div>
                                         <div class="tw:w-full tw:md:w-6/12 tw:px-2">
                                             <label for="fti">¿Cómo es tú forma de trabajo intelectual? *</label>
@@ -640,14 +649,14 @@
                                                 <option value="null" selected>Elija una Opción</option>
                                                 <option v-bind:value="int.id_opc_intelectual" v-for="int in intelectual">@{{int.desc_opc}}</option>
                                             </select>
-                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600" v-if='alu.estudio.id_opc_intelectual==null || alu.estudio.id_opc_intelectual=="null"'>Elija una opción</small>
+                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600 tw:dark:text-red-400" v-if='alu.estudio.id_opc_intelectual==null || alu.estudio.id_opc_intelectual=="null"'>Selecciona una opción</small>
                                         </div>
                                     </div>
                                     <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
                                         <div class="tw:w-full tw:md:w-full tw:px-2">
-                                            <label for="formaes">Tu forma de estudio mas utilizada *</label>
-                                            <input name="forma_estudio" v-model="alu.estudio.forma_estudio" data-tutoria-campo="estudio.forma_estudio" id="formaes" type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" placeholder="Tu forma de estudio mas utilizada" required>
-                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600" v-if='alu.estudio.forma_estudio==null || alu.estudio.forma_estudio=="" '>Colocar una forma de estudio</small>
+                                            <label for="formaes">Tu forma de estudio más utilizada *</label>
+                                            <input name="forma_estudio" v-model="alu.estudio.forma_estudio" data-tutoria-campo="estudio.forma_estudio" id="formaes" type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" placeholder="Tu forma de estudio más utilizada" required>
+                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600 tw:dark:text-red-400" v-if='alu.estudio.forma_estudio==null || alu.estudio.forma_estudio=="" '>Colocar una forma de estudio</small>
                                         </div>
                                         <div class="tw:w-full tw:md:w-full tw:px-2">
                                             <label for="empleas">¿Cómo empleas tu tiempo libre?</label>
@@ -683,7 +692,7 @@
                             <div class="" >
                                 <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4 tw:pt-4 tw:pr-4 tw:pl-4">
                                     <div class="tw:w-full tw:content-center tw:px-2">
-                                        <h4 class="tw:text-center tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-brand-200 tw:bg-brand-50 tw:text-brand-700 tw:pt-6"><b>Formación Integral/Salud</b></h4>
+                                        <h4 class="tw:text-center tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-brand-200 tw:bg-brand-50 tw:text-brand-700 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:pt-6"><b>Formación integral y salud</b></h4>
                                     </div>
                                 </div>
                                 <div class="tw:p-5 tw:sm:p-6">
@@ -691,11 +700,11 @@
                                         <div class="tw:w-full tw:md:w-full tw:px-2">
                                             <label for="depo">¿Practicas regularmente algún deporte? *</label>
                                             <select name="depo" id="depo" v-model="alu.integral.practica_deporte" data-tutoria-campo="integral.practica_deporte" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" required>
-                                                <option value="null" selected>Elija una opción</option>
+                                                <option value="null" selected>Selecciona una opción</option>
                                                 <option value="1">Si</option>
                                                 <option value="2" @click="alu.integral.especifica_deporte=null">No</option>
                                             </select>
-                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600" v-if='alu.integral.practica_deporte==null || alu.integral.practica_deporte=="null"'>Elija una opción</small>
+                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600 tw:dark:text-red-400" v-if='alu.integral.practica_deporte==null || alu.integral.practica_deporte=="null"'>Selecciona una opción</small>
                                         </div>
                                     </div>
                                     <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
@@ -708,11 +717,11 @@
                                         <div class="tw:w-full tw:md:w-full tw:px-2">
                                             <label for="artistica">¿Practicas alguna actividad artística? *</label>
                                             <select name="artistica" id="artistica" v-model="alu.integral.practica_artistica" data-tutoria-campo="integral.practica_artistica" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" required>
-                                                <option value="null" selected>Elija una opción</option>
+                                                <option value="null" selected>Selecciona una opción</option>
                                                 <option value="1">Si</option>
                                                 <option value="2" @click="alu.integral.especifica_artistica=null">No</option>
                                             </select>
-                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600" v-if='alu.integral.practica_artistica==null || alu.integral.practica_artistica=="null"'>Elija una opción</small>
+                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600 tw:dark:text-red-400" v-if='alu.integral.practica_artistica==null || alu.integral.practica_artistica=="null"'>Selecciona una opción</small>
                                         </div>
                                     </div>
                                     <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
@@ -725,11 +734,11 @@
                                         <div class="tw:w-full tw:md:w-full tw:px-2">
                                             <label for="actC">¿Participas en actividades culturales o sociales? *</label>
                                             <select  id="actC" name="actC" v-model="alu.integral.actividades_culturales" data-tutoria-campo="integral.actividades_culturales" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" required>
-                                                <option value="null" selected>Elija una opción</option>
+                                                <option value="null" selected>Selecciona una opción</option>
                                                 <option value="1">Si</option>
                                                 <option value="2" @click="alu.integral.cuales_act=null">No</option>
                                             </select>
-                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600" v-if='alu.integral.actividades_culturales==null || alu.integral.actividades_culturales=="null"'>Elija una opción</small>
+                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600 tw:dark:text-red-400" v-if='alu.integral.actividades_culturales==null || alu.integral.actividades_culturales=="null"'>Selecciona una opción</small>
                                         </div>
                                     </div>
                                     <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
@@ -746,14 +755,14 @@
                                         <div class="tw:w-full tw:md:w-4/12 tw:px-2">
                                             <label for="escala">¿Ingiere bebidas alcoholicas?</label>
                                             <select name="id_escala" id="id_escala" v-model="alu.integral.id_expbebidas" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700">
-                                                <option value="null" selected>Elija una opción</option>
+                                                <option value="null" selected>Selecciona una opción</option>
                                                 <option v-bind:value="bebi.id_expbebidas" v-for="bebi in bebidas">@{{bebi.descripcion_bebida}}</option>
                                             </select>
                                         </div>
                                         <div class="tw:w-full tw:md:w-4/12 tw:px-2">
                                             <label for="estSalud">¿Cómo consideras tu estado de salud?</label>
                                             <select name="estSalud" v-model="alu.integral.estado_salud" id="estSalud" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700">
-                                                <option value="null" selected>Elija una opción</option>
+                                                <option value="null" selected>Selecciona una opción</option>
                                                 <option value="1">Excelente</option>
                                                 <option value="2">Buena</option>
                                                 <option value="3">Regular</option>
@@ -765,11 +774,11 @@
                                         <div class="tw:w-full tw:md:w-full tw:px-2">
                                             <label for="enferCron">¿Padeces alguna enfermedad crónica? *</label>
                                             <select name="enferCron" v-model="alu.integral.enfermedad_cronica" data-tutoria-campo="integral.enfermedad_cronica" id="enferCron" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" required>
-                                                <option value="null" selected>Elija una opción</option>
+                                                <option value="null" selected>Selecciona una opción</option>
                                                 <option value="1">Si</option>
                                                 <option value="2" @click="alu.integral.especifica_enf_cron=null">No</option>
                                             </select>
-                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600" v-if='alu.integral.enfermedad_cronica==null || alu.integral.enfermedad_cronica=="null"'>Elija una opción</small>
+                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600 tw:dark:text-red-400" v-if='alu.integral.enfermedad_cronica==null || alu.integral.enfermedad_cronica=="null"'>Selecciona una opción</small>
                                         </div>
                                     </div>
                                     <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
@@ -782,11 +791,11 @@
                                         <div class="tw:w-full tw:md:w-full tw:px-2">
                                             <label for="EnfPa">¿Tus padres padecen alguna enfermedad crónica? *</label>
                                             <select id="EnfPa" name="EnfPa" v-model="alu.integral.enf_cron_padre" data-tutoria-campo="integral.enf_cron_padre"  class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" required>
-                                                <option value="null" selected>Elija una opción</option>
+                                                <option value="null" selected>Selecciona una opción</option>
                                                 <option value="1">Si</option>
                                                 <option value="2" @click="alu.integral.especifica_enf_cron_padres=null">No</option>
                                             </select>
-                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600" v-if='alu.integral.enf_cron_padre==null || alu.integral.enf_cron_padre=="null"'>Elija una opción</small>
+                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600 tw:dark:text-red-400" v-if='alu.integral.enf_cron_padre==null || alu.integral.enf_cron_padre=="null"'>Selecciona una opción</small>
                                         </div>
                                     </div>
                                     <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
@@ -799,11 +808,11 @@
                                         <div class="tw:w-full tw:md:w-full tw:px-2">
                                             <label for="operacion">¿Te han realizado alguna cirugía? *</label>
                                             <select id="operacion" name="operacion" v-model="alu.integral.operacion" data-tutoria-campo="integral.operacion" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" required>
-                                                <option value="null" selected>Elija una opción</option>
+                                                <option value="null" selected>Selecciona una opción</option>
                                                 <option value="1">Si</option>
                                                 <option value="2" @click="alu.integral.deque_operacion=null">No</option>
                                             </select>
-                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600" v-if='alu.integral.operacion==null || alu.integral.operacion=="null"'>Elija una opción</small>
+                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600 tw:dark:text-red-400" v-if='alu.integral.operacion==null || alu.integral.operacion=="null"'>Selecciona una opción</small>
                                         </div>
                                     </div>
                                     <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
@@ -816,11 +825,11 @@
                                         <div class="tw:w-full tw:md:w-full tw:px-2">
                                             <label for="EnVisual">¿Padeces alguna enfermedad visual? *</label>
                                             <select name="EnVisual" v-model="alu.integral.enfer_visual" data-tutoria-campo="integral.enfer_visual" id="EnVisual" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" required>
-                                                <option value="null" selected>Elija una opción</option>
+                                                <option value="null" selected>Selecciona una opción</option>
                                                 <option value="1">Si</option>
                                                 <option value="2" @click="alu.integral.especifica_enf=null">No</option>
                                             </select>
-                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600" v-if='alu.integral.enfer_visual==null || alu.integral.enfer_visual=="null"'>Elija una opción</small>
+                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600 tw:dark:text-red-400" v-if='alu.integral.enfer_visual==null || alu.integral.enfer_visual=="null"'>Selecciona una opción</small>
                                         </div>
                                     </div>
                                     <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
@@ -833,11 +842,11 @@
                                         <div class="tw:w-full tw:md:w-4/12 tw:px-2">
                                             <label for="lentes">¿Usas lentes? *</label>
                                             <select name="lentes" id="lentes" v-model="alu.integral.usas_lentes" data-tutoria-campo="integral.usas_lentes" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" required>
-                                                <option value="null" selected>Elija una opción</option>
+                                                <option value="null" selected>Selecciona una opción</option>
                                                 <option value="1">Si</option>
                                                 <option value="2">No</option>
                                             </select>
-                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600" v-if='alu.integral.usas_lentes==null || alu.integral.usas_lentes=="null"'>Elija una opción</small>
+                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600 tw:dark:text-red-400" v-if='alu.integral.usas_lentes==null || alu.integral.usas_lentes=="null"'>Selecciona una opción</small>
                                         </div>
                                         <div class="tw:w-full tw:md:w-4/12 tw:px-2">
                                             <label for="estatura">Estatura</label>
@@ -852,11 +861,11 @@
                                         <div class="tw:w-full tw:md:w-full tw:px-2">
                                             <label for="mediContro">¿Tomas medicamento controlado? *</label>
                                             <select name="mediContro" v-model="alu.integral.medicamento_controlado" data-tutoria-campo="integral.medicamento_controlado" id="mediContro" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" required>
-                                                <option value="null" selected>Elija una opción</option>
+                                                <option value="null" selected>Selecciona una opción</option>
                                                 <option value="1">Si</option>
                                                 <option value="2" @click="alu.integral.especifica_medicamento=null">No</option>
                                             </select>
-                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600" v-if='alu.integral.medicamento_controlado==null || alu.integral.medicamento_controlado=="null"'>Elija una opción</small>
+                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600 tw:dark:text-red-400" v-if='alu.integral.medicamento_controlado==null || alu.integral.medicamento_controlado=="null"'>Selecciona una opción</small>
                                         </div>
                                     </div>
                                     <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
@@ -888,7 +897,7 @@
                             <div class="" >
                                 <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4 tw:pt-4 tw:pr-4 tw:pl-4">
                                     <div class="tw:w-full tw:content-center tw:px-2">
-                                        <h4 class="tw:text-center tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-brand-200 tw:bg-brand-50 tw:text-brand-700 tw:pt-6"><b>Área Psicopedagógica</b></h4>
+                                        <h4 class="tw:text-center tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-brand-200 tw:bg-brand-50 tw:text-brand-700 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:pt-6"><b>Área psicopedagógica</b></h4>
                                     </div>
                                 </div>
                                 <div class="tw:p-5 tw:sm:p-6">
@@ -896,117 +905,117 @@
                                         <div class="tw:w-full tw:md:w-3/12 tw:px-2">
                                             <label for="rendEsco">Rendimiento escolar *</label>
                                             <select name="rendimiento_escolar" v-model="alu.area.rendimiento_escolar" data-tutoria-campo="area.rendimiento_escolar" id="rendEsco" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" required>
-                                                <option value="null" selected>Elija una opción</option>
+                                                <option value="null" selected>Selecciona una opción</option>
                                                 <option v-bind:value="esc.id_escala" v-for="esc in escala">@{{esc.desc_escala}}</option>
                                             </select>
-                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600" v-if='alu.area.rendimiento_escolar==null || alu.area.rendimiento_escolar=="null"'>Elija una opción</small>
+                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600 tw:dark:text-red-400" v-if='alu.area.rendimiento_escolar==null || alu.area.rendimiento_escolar=="null"'>Selecciona una opción</small>
                                         </div>
                                         <div class="tw:w-full tw:md:w-3/12 tw:px-2">
                                             <label for="dominio">Dominio del propio idioma</label>
                                             <select name="dominio" id="dominio" v-model="alu.area.dominio_idioma" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700">
-                                                <option value="null" selected>Elija una opción</option>
+                                                <option value="null" selected>Selecciona una opción</option>
                                                 <option v-bind:value="esc.id_escala" v-for="esc in escala">@{{esc.desc_escala}}</option>
                                             </select>
                                         </div>
                                         <div class="tw:w-full tw:md:w-3/12 tw:px-2">
                                             <label for="otro">Otro idioma *</label>
                                             <select name="otro_idioma" id="otro" v-model="alu.area.otro_idioma" data-tutoria-campo="area.otro_idioma" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" required>
-                                                <option value="null" selected>Elija una opción</option>
+                                                <option value="null" selected>Selecciona una opción</option>
                                                 <option v-bind:value="esc.id_escala" v-for="esc in escala">@{{esc.desc_escala}}</option>
                                             </select>
-                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600" v-if='alu.area.otro_idioma==null || alu.area.otro_idioma=="null"'>Elija una opción</small>
+                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600 tw:dark:text-red-400" v-if='alu.area.otro_idioma==null || alu.area.otro_idioma=="null"'>Selecciona una opción</small>
                                         </div>
                                         <div class="tw:w-full tw:md:w-3/12 tw:px-2">
                                             <label for="conComp">Conocimentos en cómputo *</label>
                                             <select name="conocimiento_computo" id="conComp" v-model="alu.area.conocimiento_compu" data-tutoria-campo="area.conocimiento_compu" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" required>
-                                                <option value="null" selected>Elija una opción</option>
+                                                <option value="null" selected>Selecciona una opción</option>
                                                 <option v-bind:value="esc.id_escala" v-for="esc in escala">@{{esc.desc_escala}}</option>
                                             </select>
-                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600" v-if='alu.area.conocimiento_compu==null || alu.area.conocimiento_compu=="null"'>Elija una opción</small>
+                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600 tw:dark:text-red-400" v-if='alu.area.conocimiento_compu==null || alu.area.conocimiento_compu=="null"'>Selecciona una opción</small>
                                         </div>
                                     </div>
                                     <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
                                         <div class="tw:w-full tw:md:w-4/12 tw:px-2">
                                             <label for="aptitudes">Aptitudes especiales</label>
                                             <select name="aptitudes" id="aptitudes" v-model="alu.area.aptitud_especial" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700">
-                                                <option value="null" selected>Elija una opción</option>
+                                                <option value="null" selected>Selecciona una opción</option>
                                                 <option v-bind:value="esc.id_escala" v-for="esc in escala">@{{esc.desc_escala}}</option>
                                             </select>
                                         </div>
                                         <div class="tw:w-full tw:md:w-4/12 tw:px-2">
                                             <label for="comprension">Comprensión y retención en clase *</label>
                                             <select name="comprension" id="comprension" v-model="alu.area.comprension" data-tutoria-campo="area.comprension" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" required>
-                                                <option value="null" selected>Elija una opción</option>
+                                                <option value="null" selected>Selecciona una opción</option>
                                                 <option v-bind:value="esc.id_escala" v-for="esc in escala">@{{esc.desc_escala}}</option>
                                             </select>
-                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600" v-if='alu.area.comprension==null || alu.area.comprension=="null"'>Elija una opción</small>
+                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600 tw:dark:text-red-400" v-if='alu.area.comprension==null || alu.area.comprension=="null"'>Selecciona una opción</small>
                                         </div>
                                         <div class="tw:w-full tw:md:w-4/12 tw:px-2">
                                             <label for="preparacion">Preparación y presentación de exámenes *</label>
                                             <select name="preparacion" id="preparacion" v-model="alu.area.preparacion" data-tutoria-campo="area.preparacion" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" required>
-                                                <option value="null" selected>Elija una opción</option>
+                                                <option value="null" selected>Selecciona una opción</option>
                                                 <option v-bind:value="esc.id_escala"  v-for="esc in escala">@{{esc.desc_escala}}</option>
                                             </select>
-                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600" v-if='alu.area.preparacion==null || alu.area.preparacion=="null"'>Elija una opción</small>
+                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600 tw:dark:text-red-400" v-if='alu.area.preparacion==null || alu.area.preparacion=="null"'>Selecciona una opción</small>
                                         </div>
                                     </div>
                                     <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
                                         <div class="tw:w-full tw:md:w-4/12 tw:px-2">
                                             <label for="estrategias">Aplicación de estrategias de aprendizaje</label>
                                             <select name="estrategias" id="estrategias" v-model="alu.area.estrategias_aprendizaje" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700">
-                                                <option value="null" selected>Elija una opción</option>
+                                                <option value="null" selected>Selecciona una opción</option>
                                                 <option v-bind:value="esc.id_escala"  v-for="esc in escala">@{{esc.desc_escala}}</option>
                                             </select>
                                         </div>
                                         <div class="tw:w-full tw:md:w-4/12 tw:px-2">
                                             <label for="actEst">Organización en actividades de estudio</label>
                                             <select name="organizacion_actividades" v-model="alu.area.organizacion_actividades" id="actEst" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700">
-                                                <option value="null" selected>Elija una opción</option>
+                                                <option value="null" selected>Selecciona una opción</option>
                                                 <option v-bind:value="esc.id_escala" v-for="esc in escala">@{{esc.desc_escala}}</option>
                                             </select>
                                         </div>
                                         <div class="tw:w-full tw:md:w-4/12 tw:px-2">
                                             <label for="concentracion">Concentración durante el estudio *</label>
                                             <select name="concentracion" id="concentracion" v-model="alu.area.concentracion" data-tutoria-campo="area.concentracion" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" required>
-                                                <option value="null" selected>Elija una opción</option>
+                                                <option value="null" selected>Selecciona una opción</option>
                                                 <option v-bind:value="esc.id_escala" v-for="esc in escala">@{{esc.desc_escala}}</option>
                                             </select>
-                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600" v-if='alu.area.concentracion==null || alu.area.concentracion=="null"'>Elija una opción</small>
+                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600 tw:dark:text-red-400" v-if='alu.area.concentracion==null || alu.area.concentracion=="null"'>Selecciona una opción</small>
                                         </div>
                                     </div>
                                     <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
                                         <div class="tw:w-full tw:md:w-6/12 tw:px-2">
                                             <label for="solucion">Solución de problemas y aprendizaje de las matemáticas*</label>
                                             <select name="solucion" id="solucion" v-model="alu.area.solucion_problemas" data-tutoria-campo="area.solucion_problemas" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" required>
-                                                <option value="null" selected>Elija una opción</option>
+                                                <option value="null" selected>Selecciona una opción</option>
                                                 <option v-bind:value="esc.id_escala" v-for="esc in escala">@{{esc.desc_escala}}</option>
                                             </select>
-                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600" v-if='alu.area.solucion_problemas==null || alu.area.solucion_problemas=="null"'>Elija una opción</small>
+                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600 tw:dark:text-red-400" v-if='alu.area.solucion_problemas==null || alu.area.solucion_problemas=="null"'>Selecciona una opción</small>
                                         </div>
                                         <div class="tw:w-full tw:md:w-4/12 tw:px-2">
                                             <label for="condiciones">Condiciones ambientales durante el estudio</label>
                                             <select name="condiciones" id="condiciones" v-model="alu.area.condiciones_ambientales" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700">
-                                                <option value="null" selected>Elija una opción</option>
+                                                <option value="null" selected>Selecciona una opción</option>
                                                 <option v-bind:value="esc.id_escala"  v-for="esc in escala">@{{esc.desc_escala}}</option>
                                             </select>
                                         </div>
                                         <div class="tw:w-full tw:md:w-2/12 tw:px-2">
                                             <label for="equipo">Trabajo en equipo *</label>
                                             <select name="equipo" id="equipo" v-model="alu.area.trabajo_equipo" data-tutoria-campo="area.trabajo_equipo" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" required>
-                                                <option value="null" selected>Elija una opción</option>
+                                                <option value="null" selected>Selecciona una opción</option>
                                                 <option v-bind:value="esc.id_escala" v-for="esc in escala">@{{esc.desc_escala}}</option>
                                             </select>
-                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600" v-if='alu.area.trabajo_equipo==null || alu.area.trabajo_equipo=="null"'>Elija una opción</small>
+                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600 tw:dark:text-red-400" v-if='alu.area.trabajo_equipo==null || alu.area.trabajo_equipo=="null"'>Selecciona una opción</small>
                                         </div>
                                     </div>
                                     <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
                                         <div class="tw:w-full tw:md:w-5/12 tw:px-2">
                                             <label for="bibliografica">Búsqueda bibliografica e integración de información *</label>
                                             <select name="bibliografica" id="bibliografica" v-model="alu.area.busqueda_bibliografica" data-tutoria-campo="area.busqueda_bibliografica" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" required>
-                                                <option value="null" selected>Elija una opción</option>
+                                                <option value="null" selected>Selecciona una opción</option>
                                                 <option v-bind:value="esc.id_escala"  v-for="esc in escala">@{{esc.desc_escala}}</option>
                                             </select>
-                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600" v-if='alu.area.busqueda_bibliografica==null || alu.area.busqueda_bibliografica=="null"'>Elija una opción</small>
+                                            <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600 tw:dark:text-red-400" v-if='alu.area.busqueda_bibliografica==null || alu.area.busqueda_bibliografica=="null"'>Selecciona una opción</small>
                                         </div>
                                     </div>
                                 </div>
@@ -1221,17 +1230,15 @@
                 getDatos: function () {
                     axios.get(this.rut).then(response => {
                         this.alu.generales.id_exp_general=response.data.generales[0].id_exp_general;
-                        this.alu.generales.id_periodo={{ \Illuminate\Support\Facades\Session::get('periodo_actual')}};
+                        this.alu.generales.id_periodo=@json(session('periodo_actual'));
                         this.alu.generales.nombre=response.data.generales[0].nombre;
-                        this.alu.generales.edad=response.data.generales[0].edad;
+                        this.alu.generales.edad=response.data.edad_calculada;
                         this.alu.generales.sexo=response.data.generales[0].sexo;
                         this.alu.generales.fecha_nacimientos=response.data.datos_alumn[0].fecha_nac;
                         this.alu.generales.lugar_nacimientos=response.data.generales[0].lugar_nacimientos;
                         //this.alu.generales.id_semestre=response.data.datos_alumn[0].id_semestre;
-                        console.log('ANTES:', response.data.datos_alumn[0].id_semestre_vue);
                         this.alu.generales.id_semestre = response.data.datos_alumn[0].id_semestre;
                         this.alu.generales.id_semestre_vue = Number(response.data.datos_alumn[0].id_semestre_vue);
-                        console.log('DESPUES:', this.alu.generales.id_semestre_vue);
                         this.alu.generales.id_estado_civil=response.data.generales[0].id_estado_civil;
                         this.alu.generales.no_hijos=response.data.generales[0].no_hijos;
                         this.alu.generales.direccion=response.data.generales[0].direccion;

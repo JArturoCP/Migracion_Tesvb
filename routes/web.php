@@ -349,7 +349,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/activar', 'Buscar_alumnos@activar');
     Route::get('/cuenta_alumno/{cuenta}', 'datos_alumno@buscarcuenta');
     Route::get('/periodo/{id_periodo}', 'HomeController@recargaperiodo');
-    Route::resource('/datos_alumno', 'datos_alumno');
+    Route::resource('/datos_alumno', 'datos_alumno')->middlewareFor(['index', 'store'], \App\Http\Middleware\SoloAlumnos::class);
     Route::post('/datos_alumnos/registrar_cct/{id_alumno}', 'datos_alumno@guardar_cct');
     Route::get('/datos_alumnos/modificar_cct/{id_alumno}', 'datos_alumno@modificar_cct');
     Route::post('/datos_alumnos/guardar_mod_cct/{id_alumno}', 'datos_alumno@guardar_mod_cct');
@@ -1469,9 +1469,9 @@ Route::middleware('auth')->group(function () {
     ///ALUMNO
     Route::get('/tutorias/inicioalu', 'Tutorias_PanelAlumnoController@principal');
     Route::Resource('tutorias/panel', 'Tutorias_PanelAlumnoController');
-    Route::get('/tutorias/AlumActualizar', 'Tutorias_ViewAlumnosController@actualizar');
+    Route::get('/tutorias/AlumActualizar', 'Tutorias_ViewAlumnosController@actualizar')->middleware(\App\Http\Middleware\SoloAlumnos::class);
     Route::get('/tutorias/getDatos', 'Tutorias_PanelAlumnoController@datosAlu');
-    Route::post('/tutorias/actualiza', 'Tutorias_ViewAlumnosController@actualiza');
+    Route::post('/tutorias/actualiza', 'Tutorias_ViewAlumnosController@actualiza')->middleware(\App\Http\Middleware\SoloAlumnos::class);
     Route::get("/tutorias/pdf/all", "Tutorias_PdfController@pdf_all")->name("pdf_all");
     Route::get('/tutorias/Alum', 'Tutorias_ViewAlumnosController@llenar');
     Route::get('/tutorias/getAlumno', 'Tutorias_PanelAlumnoController@datosPrincipales');

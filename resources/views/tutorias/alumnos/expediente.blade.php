@@ -1,6 +1,14 @@
 @extends('layouts.panel')
 @section('title', 'Llenar expediente')
 @include('tutorias.partials.recursos_panel')
+@push('cabeza')
+    <style>
+        #foto::file-selector-button {
+            margin-inline-end: .375rem;
+            padding-inline: .5rem;
+        }
+    </style>
+@endpush
 @section('content')
     @include('tutorias.alumnos.partial.navegacion_panel', ['titulo' => 'Llenar expediente', 'activa' => '/tutorias/inicioalu'])
 
@@ -15,12 +23,12 @@
                         :secciones="['exp-generales', 'exp-antecedentes', 'exp-familiares', 'exp-habitos', 'exp-formacion', 'exp-area']" externo />
                     <nav data-tutoria-tabs>
                         <div class="tw-pestanas tw:mb-6 tw:flex tw:flex-wrap tw:gap-2 tw:border-b tw:border-gray-200 tw:dark:border-gray-800" id="nav-tab" role="tablist">
-                            <a class="tw-pestana" @click="categoria('generales')" v-bind:class="{active:actgenerales}" id="exp-generales-tab" data-toggle="tab" href="#exp-generales" role="tab" aria-controls="exp-generales" aria-selected="true">Datos Generales</a>
-                            <a class="tw-pestana" @click="categoria('academico')" v-bind:class="{active:actacademico, disabled:disacademico}" id="exp-antecedentes-tab" data-toggle="tab" href="#exp-antecedentes" role="tab" aria-controls="exp-antecedentes" aria-selected="false">Antecedentes Académicos</a>
-                            <a class="tw-pestana" @click="categoria('familiares')" v-bind:class="{active:actfamiliares, disabled:disfamiliares}" id="exp-familiares-tab" data-toggle="tab" href="#exp-familiares" role="tab" aria-controls="exp-familiares" aria-selected="false">Datos Familiares</a>
-                            <a class="tw-pestana" @click="categoria('estudio')" v-bind:class="{active:actestudio, disabled:disestudio}"   id="exp-habitos-tab" data-toggle="tab" href="#exp-habitos" role="tab" aria-controls="exp-habitos" aria-selected="false">Hábitos de Estudio</a>
-                            <a class="tw-pestana" @click="categoria('integral')" v-bind:class="{active:actintegral, disabled:disintegral}" id="formacion-tab" data-toggle="tab" href="#exp-formacion" role="tab" aria-controls="exp-formacion" aria-selected="false">Formación Integral/Salud</a>
-                            <a class="tw-pestana" @click="categoria('area')" v-bind:class="{active:actarea, disabled:disarea}" id="exp-area-tab" data-toggle="tab" href="#exp-area" role="tab" aria-controls="exp-area" aria-selected="false">Área Psicopedagógica</a>
+                            <a class="tw-pestana" @click="categoria('generales')" v-bind:class="{active:actgenerales}" id="exp-generales-tab" data-toggle="tab" href="#exp-generales" role="tab" aria-controls="exp-generales" aria-selected="true">Datos generales</a>
+                            <a class="tw-pestana" @click="categoria('academico')" v-bind:class="{active:actacademico, disabled:disacademico}" id="exp-antecedentes-tab" data-toggle="tab" href="#exp-antecedentes" role="tab" aria-controls="exp-antecedentes" aria-selected="false">Antecedentes académicos</a>
+                            <a class="tw-pestana" @click="categoria('familiares')" v-bind:class="{active:actfamiliares, disabled:disfamiliares}" id="exp-familiares-tab" data-toggle="tab" href="#exp-familiares" role="tab" aria-controls="exp-familiares" aria-selected="false">Datos familiares</a>
+                            <a class="tw-pestana" @click="categoria('estudio')" v-bind:class="{active:actestudio, disabled:disestudio}"   id="exp-habitos-tab" data-toggle="tab" href="#exp-habitos" role="tab" aria-controls="exp-habitos" aria-selected="false">Hábitos de estudio</a>
+                            <a class="tw-pestana" @click="categoria('integral')" v-bind:class="{active:actintegral, disabled:disintegral}" id="formacion-tab" data-toggle="tab" href="#exp-formacion" role="tab" aria-controls="exp-formacion" aria-selected="false">Formación integral y salud</a>
+                            <a class="tw-pestana" @click="categoria('area')" v-bind:class="{active:actarea, disabled:disarea}" id="exp-area-tab" data-toggle="tab" href="#exp-area" role="tab" aria-controls="exp-area" aria-selected="false">Área psicopedagógica</a>
                         </div>
                     </nav>
                 </div>
@@ -33,14 +41,15 @@
                             <div class="" >
                                 <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4 tw:pt-4 tw:pr-4 tw:pl-4">
                                     <div class="tw:w-full tw:content-center tw:px-2">
-                                        <h4 class="tw:text-center tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-brand-200 tw:bg-brand-50 tw:text-brand-700 tw:pt-6"><b>Datos Generales</b></h4>
+                                        <h4 class="tw:text-center tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-brand-200 tw:bg-brand-50 tw:text-brand-700 tw:pt-6"><b>Datos generales</b></h4>
                                     </div>
                                 </div>
                                 <div class="tw:p-5 tw:sm:p-6">
                                     <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
-                                        <div class="tw:w-5/12 tw:px-2">
-                                            <label for="foto">Fotografía personal * <p class="tw:font-semibold">Nota: Solo una única vez subes la fotografía</p></label>
-                                            <input data-tutoria-campo="generales.foto" type="file" class="tw:h-11 tw:w-full tw:overflow-hidden tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:text-sm tw:text-gray-500 tw:shadow-theme-xs tw:file:mr-5 tw:file:border-0 tw:file:border-r tw:file:border-solid tw:file:border-gray-200 tw:file:bg-gray-50 tw:file:py-3 tw:file:pr-3 tw:file:pl-3.5 tw:file:text-sm tw:file:text-gray-700 tw:hover:file:bg-gray-100 tw:focus:outline-hidden tw:dark:text-gray-400 tw:dark:border-gray-700" accept="image/jpeg,image/png" @change="ObtenerImagen" required>
+                                        <div class="tw:px-2" style="flex: 1 1 min(100%, 22rem); min-width: 0">
+                                            <label for="foto">Fotografía personal *</label>
+                                            <p id="foto-ayuda" class="tw:font-semibold">Sube la fotografía por única vez.</p>
+                                            <input id="foto" aria-describedby="foto-ayuda" data-tutoria-campo="generales.foto" type="file" class="tw:h-11 tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:text-sm tw:text-gray-500 tw:shadow-theme-xs tw:file:mr-5 tw:file:border-0 tw:file:border-r tw:file:border-solid tw:file:border-gray-200 tw:file:bg-gray-50 tw:file:py-3 tw:file:pr-3 tw:file:pl-3.5 tw:file:text-sm tw:file:text-gray-700 tw:hover:file:bg-gray-100 tw:dark:text-gray-400 tw:dark:border-gray-700" accept="image/jpeg,image/png" @change="ObtenerImagen" required>
                                             <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600" v-if='imagenMiniatura==null'>Subir fotografía personal</small>
                                         </div>
                                         <div class="tw:w-4/12 tw:px-2">
@@ -91,7 +100,7 @@
                                             <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600" v-if='alu.generales.id_estado_civil==null || alu.generales.id_estado_civil=="null"'>Elija una opción</small>
                                         </div>
                                         <div class="tw:w-full tw:md:w-4/12 tw:px-2">
-                                            <label for="estado">No. Hijos *</label>
+                                            <label for="estado">Número de hijos *</label>
                                             <select id="nh" name="no_hijos" v-model="alu.generales.no_hijos" data-tutoria-campo="generales.no_hijos" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" required>
                                                 <option value="null" selected>Elija una opción</option>
                                                 <option value="1">0</option>
@@ -109,11 +118,11 @@
                                     </div>
                                     <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
                                         <div class="tw:w-full tw:md:w-4/12 tw:px-2">
-                                            <label for="tel-casa">Tel. Casa</label>
+                                            <label for="tel-casa">Teléfono de casa</label>
                                             <input type="tel" title="Sólo números, máximo 10 dígitos." pattern="[0-9]{10}"  v-model="alu.generales.tel_casa" id="tel-casa" name="tel_casa" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" placeholder="Tel. Casa">
                                         </div>
                                         <div class="tw:w-full tw:md:w-3/12 tw:px-2">
-                                            <label for="cel">Celular *</label>
+                                            <label for="cel">Teléfono celular *</label>
                                             <input type="tel" title="Sólo números, máximo 10 dígitos." pattern="[0-9]{10}" v-model="alu.generales.cel"  id="cel" name="cel" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" placeholder="Cel" required>
                                             <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600" v-if='alu.generales.cel==null || alu.generales.cel==""'>Colocar un número celular</small>
                                         </div>
@@ -185,7 +194,7 @@
                                             </select>
                                         </div>
                                         <div class="tw:w-full tw:md:w-3/12 tw:px-2">
-                                            <label for="nivel_economico">Nivel Socio-Económico *</label>
+                                            <label for="nivel_economico">Nivel socioeconómico *</label>
                                             <input disabled type="text" v-model="alu.generales.nivel_economico" data-tutoria-campo="generales.nivel_economico"  id="nivel_economico" name="nivel_economico" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" placeholder="Nivel Socio-Económico" required>
                                             <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600" v-if="alu.generales.nivel_economico==null">Realizar test</small>
                                         </div>
@@ -318,7 +327,7 @@
                             <div class="" >
                                 <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4 tw:pt-4 tw:pr-4 tw:pl-4">
                                     <div class="tw:w-full tw:content-center tw:px-2">
-                                        <h4 class="tw:text-center tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-brand-200 tw:bg-brand-50 tw:text-brand-700 tw:pt-6"><b>Antecedentes Académicos</b></h4>
+                                        <h4 class="tw:text-center tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-brand-200 tw:bg-brand-50 tw:text-brand-700 tw:pt-6"><b>Antecedentes académicos</b></h4>
                                     </div>
                                 </div>
                                 <div class="tw:p-5 tw:sm:p-6">
@@ -453,7 +462,7 @@
                                     </div>
                                     <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
                                         <div class="tw:w-full tw:md:w-full tw:px-2"  id="cuales" v-if="alu.academicos.otras_opciones_vocales==1">
-                                            <label for="cuales">¿Cuales?</label>
+                                            <label for="cuales">¿Cuáles?</label>
                                             <input name="cuales" v-model="alu.academicos.cuales_otras_opciones_vocales" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" placeholder="¿Cuales?">
                                         </div>
                                     </div>
@@ -516,7 +525,7 @@
                             <div class="" >
                                 <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4 tw:pt-4 tw:pr-4 tw:pl-4">
                                     <div class="tw:w-full tw:content-center tw:px-2">
-                                        <h4 class="tw:text-center tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-brand-200 tw:bg-brand-50 tw:text-brand-700 tw:pt-6"><b>Datos Familiares</b></h4>
+                                        <h4 class="tw:text-center tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-brand-200 tw:bg-brand-50 tw:text-brand-700 tw:pt-6"><b>Datos familiares</b></h4>
                                     </div>
                                 </div>
                                 <div class="tw:p-5 tw:sm:p-6">
@@ -653,7 +662,7 @@
                             <div class="" >
                                 <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4 tw:pt-4 tw:pr-4 tw:pl-4">
                                     <div class="tw:w-full tw:content-center tw:px-2">
-                                        <h4 class="tw:text-center tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-brand-200 tw:bg-brand-50 tw:text-brand-700 tw:pt-6"><b>Hábitos de Estudio</b></h4>
+                                        <h4 class="tw:text-center tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-brand-200 tw:bg-brand-50 tw:text-brand-700 tw:pt-6"><b>Hábitos de estudio</b></h4>
                                     </div>
                                 </div>
                                 <div class="tw:p-5 tw:sm:p-6">
@@ -677,8 +686,8 @@
                                     </div>
                                     <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
                                         <div class="tw:w-full tw:md:w-full tw:px-2">
-                                            <label for="formaes">Tu forma de estudio mas utilizada *</label>
-                                            <input name="forma_estudio" v-model="alu.estudio.forma_estudio" data-tutoria-campo="estudio.forma_estudio" id="formaes" type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" placeholder="Tu forma de estudio mas utilizada" required>
+                                            <label for="formaes">Tu forma de estudio más utilizada *</label>
+                                            <input name="forma_estudio" v-model="alu.estudio.forma_estudio" data-tutoria-campo="estudio.forma_estudio" id="formaes" type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:dark:text-white/90 tw:dark:border-gray-700" placeholder="Tu forma de estudio más utilizada" required>
                                             <small class="tw:mt-1 tw:block tw:text-xs tw:text-red-600" v-if='alu.estudio.forma_estudio==null || alu.estudio.forma_estudio=="" '>Colocar una forma de estudio</small>
                                         </div>
                                         <div class="tw:w-full tw:md:w-full tw:px-2">
@@ -723,7 +732,7 @@
                             <div class="" >
                                 <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4 tw:pt-4 tw:pr-4 tw:pl-4">
                                     <div class="tw:w-full tw:content-center tw:px-2">
-                                        <h4 class="tw:text-center tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-brand-200 tw:bg-brand-50 tw:text-brand-700 tw:pt-6"><b>Formación Integral/Salud</b></h4>
+                                        <h4 class="tw:text-center tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-brand-200 tw:bg-brand-50 tw:text-brand-700 tw:pt-6"><b>Formación integral y salud</b></h4>
                                     </div>
                                 </div>
                                 <div class="tw:p-5 tw:sm:p-6">
@@ -937,7 +946,7 @@
                             <div class="" >
                                 <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4 tw:pt-4 tw:pr-4 tw:pl-4">
                                     <div class="tw:w-full tw:content-center tw:px-2">
-                                        <h4 class="tw:text-center tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-brand-200 tw:bg-brand-50 tw:text-brand-700 tw:pt-6"><b>Área Psicopedagógica</b></h4>
+                                        <h4 class="tw:text-center tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-brand-200 tw:bg-brand-50 tw:text-brand-700 tw:pt-6"><b>Área psicopedagógica</b></h4>
                                     </div>
                                 </div>
                                 <div class="tw:p-5 tw:sm:p-6">
