@@ -54,3 +54,14 @@ footer,
     margin-top: 50px !important;
     z-index: 10 !important;
 }
+
+/* El pie con margen lateral debe ocupar el ancho disponible entre ambos márgenes. */
+body:not(.tesvb-login-page) .colorfooter.footer-responsive {
+    width: auto !important;
+    margin-inline: 2.5%;
+}
+
+.colorfooter.footer-responsive > .container {
+    width: 100%;
+    clear: both;
+}

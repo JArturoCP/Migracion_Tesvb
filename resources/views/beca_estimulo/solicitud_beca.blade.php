@@ -1,440 +1,271 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 @section('title', 'Estímulo al Desempeño escolar')
+@push('cabeza')
+    <script src="{{ asset('js/jquery.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('css/sweetalert2.min.css') }}?v=11.26.25">
+    <script src="{{ asset('js/sweetalert2.min.js') }}?v=11.26.25"></script>
+    <style>
+        .beca-calificaciones .tw-tabla .beca-materia {
+            text-align: left;
+        }
+        .beca-calificaciones .tw-tabla-desplazable:focus-visible {
+            outline: 3px solid #465fff;
+            outline-offset: -3px;
+        }
+        .dark .beca-calificaciones .tw-tabla-desplazable:focus-visible {
+            outline-color: #a4bcfd;
+        }
+    </style>
+@endpush
+
 @section('content')
-    <main class="col-md-12">
+    <div class="tw:min-w-0 tw:space-y-4">
+        <x-panel.encabezado titulo="Solicitud del Estímulo al Desempeño Escolar" />
 
-        <div class="row">
-
-            <div class="col-md-6 col-md-offset-3 ">
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title text-center">Solicitud del Estimulo al Desempeño Escolar</h3>
-                    </div>
-                </div>
-            </div>
-
-        </div>
         @if($alta_carga == 0)
             @if($periodo_beca == 0)
-            <div class="row">
-
-                <div class="col-md-6 col-md-offset-3 ">
-                    <div class="panel panel-danger">
-                        <div class="panel-heading">
-                            <h3 class="panel-title text-center">El periodo de solicitud de Estimulo al Desempeño Escolar fue o sera del {{ $peri->fecha_inicial }} al  {{ $peri->fecha_final }} del periodo {{$peri->periodo}}
-                            </h3>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
+                <x-panel.alerta tipo="advertencia">
+                    <p class="tw:font-semibold">El periodo de solicitud de Estimulo al Desempeño Escolar fue o sera del {{ $peri->fecha_inicial }} al  {{ $peri->fecha_final }} del periodo {{$peri->periodo}}
+                    </p>
+                </x-panel.alerta>
             @endif
-            <div class="row">
-
-                <div class="col-md-6 col-md-offset-3 ">
-                    <div class="panel panel-danger">
-                        <div class="panel-heading">
-                            <h3 class="panel-title text-center">Tu carga academica no se encuentra autorizada</h3>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
+            <x-panel.alerta tipo="advertencia">
+                <p class="tw:font-semibold">Tu carga académica aún no está autorizada.</p>
+            </x-panel.alerta>
         @else
 
-
-
-        @if($estado_beca == 0)
+            @if($estado_beca == 0)
                 @if($periodo_beca == 0)
-                    <div class="row">
-
-                        <div class="col-md-6 col-md-offset-3 ">
-                            <div class="panel panel-danger">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title text-center">El periodo de solicitud de Estimulo al Desempeño Escolar fue o sera del {{ $peri->fecha_inicial }} al  {{ $peri->fecha_final }} del periodo {{$peri->periodo}} </h3>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
+                    <x-panel.alerta tipo="advertencia">
+                        <p class="tw:font-semibold">El periodo de solicitud de Estimulo al Desempeño Escolar fue o sera del {{ $peri->fecha_inicial }} al  {{ $peri->fecha_final }} del periodo {{$peri->periodo}} </p>
+                    </x-panel.alerta>
                 @else
-                <div class="row">
+                    <x-panel.tarjeta>
+                        <p class="tw:font-semibold">REQUISITOS: <br></p>
+                        <div class="tw:mt-3">
+                            <b> Requisitos para el 100 % descuento:</b><br><br>
+                            - Ser alumno regular <br>
+                            -Tu promedio debe ser mayor 95 y menor a 100 si ninguna sumativa<br>
+                            <br>
+                            <b>Requisitos para el 50 % descuento:</b><br><br>
+                            - Ser alumno regular<br>
+                            -Tu promedio debe ser mayor 90 y menor a 95 sin ninguna sumativa o tambien  tu promedio debe ser mayor a 95 y menor a 100 con una sumativa .<br>
 
-                    <div class="col-md-6 col-md-offset-3 ">
-                        <div class="panel panel-danger">
-                            <div class="panel-heading">
-                                <h3 class="panel-title text-center">REQUISITOS: <br></h3>
-                                <h5>
-                                   <b> Requisitos para el 100 % descuento:</b><br><br>
-                                    - Ser alumno regular <br>
-                                    -Tu promedio debe ser mayor 95 y menor a 100 si ninguna sumativa<br>
-                                  <br>
-                                    <b>Requisitos para el 50 % descuento:</b><br><br>
-                                    - Ser alumno regular<br>
-                                    -Tu promedio debe ser mayor 90 y menor a 95 sin ninguna sumativa o tambien  tu promedio debe ser mayor a 95 y menor a 100 con una sumativa .<br>
-
-                                     <b>Nota importante: Antes de enviar tu solicitud, selecciona el semestre que cursaste</b>
-                                </h5>
-                            </div>
+                            <b>Nota importante: Antes de enviar tu solicitud, selecciona el semestre que cursaste</b>
                         </div>
-                    </div>
+                    </x-panel.tarjeta>
 
-                </div>
+                    @if($estado_estimulo == 1 )
 
+                        @if($descuento_estimulo==4)
+                            <x-panel.alerta tipo="error">
+                                <p class="tw:font-semibold">No cumples con los requisitos.</p>
+                            </x-panel.alerta>
+                        @elseif($descuento_estimulo==1)
+                            <x-panel.tarjeta>
+                                <p class="tw:font-semibold">NO.CUENTA: {{$datosalumno[0]->cuenta }} <br>
+                                    NOMBRE DEL ESTUDIANTE: {{$datosalumno[0]->nombre}} {{$datosalumno[0]->apaterno}}  {{$datosalumno[0]->amaterno}}<br>
+                                    PROGRAMA DE ESTUDIOS: {{$datosalumno[0]->carrera}}<br>
+                                    CURP: {{$datosalumno[0]->curp_al}}</p>
+                            </x-panel.tarjeta>
+                            <x-panel.alerta tipo="exito">
+                                <p class="tw:font-semibold">El porcentaje del estímulo es del 100 %.</p>
+                            </x-panel.alerta>
+                            <x-panel.select etiqueta="Elige el semestre que cursaste *" id="id_semestre" name="id_semestre">
+                                <option  disabled selected hidden>Selecciona semestre</option>
+                                @foreach($semestres as $semestre)
+                                    <option value="{{$semestre->id_semestre}}">{{$semestre->descripcion}}</option>
+                                @endforeach
 
-        @if($estado_estimulo == 1 )
+                            </x-panel.select>
+                            <x-panel.boton id="enviar" type="button" title="Enviar" class="tw:w-full tw:sm:w-auto">Enviar solicitud</x-panel.boton>
 
-            @if($descuento_estimulo==4)
-                <div class="row">
+                        @elseif($descuento_estimulo==2)
+                            <x-panel.tarjeta>
+                                <p class="tw:font-semibold">NO.CUENTA: {{$datosalumno[0]->cuenta }} <br>
+                                    NOMBRE DEL ESTUDIANTE: {{$datosalumno[0]->nombre}} {{$datosalumno[0]->apaterno}}  {{$datosalumno[0]->amaterno}}<br>
+                                    PROGRAMA DE ESTUDIOS: {{$datosalumno[0]->carrera}}<br>
+                                    CURP: {{$datosalumno[0]->curp_al}}</p>
+                            </x-panel.tarjeta>
+                            <x-panel.alerta tipo="exito">
+                                <p class="tw:font-semibold">El porcentaje del estímulo es del 50 %.</p>
+                            </x-panel.alerta>
+                            <x-panel.select etiqueta="Elige el semestre que cursaste *" id="id_semestre" name="id_semestre">
+                                <option  disabled selected hidden>Selecciona semestre</option>
+                                @foreach($semestres as $semestre)
+                                    <option value="{{$semestre->id_semestre}}">{{$semestre->descripcion}}</option>
+                                @endforeach
 
-                    <div class="col-md-6 col-md-offset-3 ">
-                        <div class="panel panel-danger">
-                            <div class="panel-heading">
-                                <h3 class="panel-title text-center">No cumples con los requisitos</h3>
-                            </div>
-                        </div>
-                    </div>
+                            </x-panel.select>
+                            <x-panel.boton id="enviar" type="button" title="Enviar" class="tw:w-full tw:sm:w-auto">Enviar solicitud</x-panel.boton>
+                        @elseif($descuento_estimulo==3)
+                            <x-panel.tarjeta>
+                                <p class="tw:font-semibold">NO.CUENTA: {{$datosalumno[0]->cuenta }} <br>
+                                    NOMBRE DEL ESTUDIANTE: {{$datosalumno[0]->nombre}} {{$datosalumno[0]->apaterno}}  {{$datosalumno[0]->amaterno}}<br>
+                                    PROGRAMA DE ESTUDIOS: {{$datosalumno[0]->carrera}}<br>
+                                    CURP: {{$datosalumno[0]->curp_al}}</p>
+                            </x-panel.tarjeta>
+                            <x-panel.alerta tipo="exito">
+                                <p class="tw:font-semibold">El porcentaje del estímulo es del 50 %.</p>
+                            </x-panel.alerta>
+                            <x-panel.select etiqueta="Elige el semestre que cursaste *" id="id_semestre" name="id_semestre">
+                                <option  disabled selected hidden>Selecciona semestre</option>
+                                @foreach($semestres as $semestre)
+                                    <option value="{{$semestre->id_semestre}}">{{$semestre->descripcion}}</option>
+                                @endforeach
 
-                </div>
-                @elseif($descuento_estimulo==1)
-                            <div class="row">
+                            </x-panel.select>
+                            <x-panel.boton id="enviar" type="button" title="Enviar" class="tw:w-full tw:sm:w-auto">Enviar solicitud</x-panel.boton>
 
-                                <div class="col-md-6 col-md-offset-3 ">
-                                    <div class="panel panel-success">
-                                        <div class="panel-heading">
-                                            <h1 class="panel-title text-center">NO.CUENTA: {{$datosalumno[0]->cuenta }} <br>
-                                                NOMBRE DEL ESTUDIANTE: {{$datosalumno[0]->nombre}} {{$datosalumno[0]->apaterno}}  {{$datosalumno[0]->amaterno}}<br>
-                                                PROGRAMA DE ESTUDIOS: {{$datosalumno[0]->carrera}}<br>
-                                                CURP: {{$datosalumno[0]->curp_al}}</h1>
-                                        </div>
-                                    </div>
-                                </div>
+                        @endif
 
-                            </div>
-                    <div class="row">
+                        <x-panel.tarjeta titulo="Calificaciones por materia" class="beca-calificaciones">
+                            <x-panel.tabla compacta class="tw-tabla-centrada" desplazable="Calificaciones por materia" aria-label="Calificaciones por materia">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">SEMESTRE</th>
+                                        <th scope="col" class="beca-materia">MATERIA</th>
+                                        @for ($i = 0; $i < $mayor_unidades; $i++)
+                                            <th scope="col">
+                                                {{($i==0 ? 'I' : ($i==1 ? 'II' :($i==2 ? 'III' :($i==3 ? 'IV' :($i==4 ? 'V' :($i==5 ? 'VI' :($i==6 ? 'VII' :($i==7 ? 'VIII' :($i==8 ? 'IX' :($i==9 ? 'X' :($i==10 ? 'XI' :($i==11 ? 'XII' :($i==12 ? 'XIII' :($i==13 ? 'XIV' :($i==14 ? 'XV' : ' ' )))))))))))))))}}
+                                            </th>
+                                        @endfor
+                                        <th scope="col">PROMEDIO</th>
+                                        <th scope="col"> T.E.</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php $promedio_sum=0; $num_materias=0;?>
+                                    @foreach($array_materias as $materias)
+                                        <?php $cont_res=0;?>
+                                        <tr>
+                                            @if($materias['id_semestre'] ==1)
+                                                <td>PRIMERO</td>
+                                            @elseif($materias['id_semestre'] ==2)
+                                                <td>SEGUNDO</td>
+                                            @elseif($materias['id_semestre'] ==3)
+                                                <td>TERCERO</td>
+                                            @elseif($materias['id_semestre'] ==4)
+                                                <td>CUARTO</td>
+                                            @elseif($materias['id_semestre'] ==5)
+                                                <td>QUINTO</td>
+                                            @elseif($materias['id_semestre'] ==6)
+                                                <td>SEXTO</td>
+                                            @elseif($materias['id_semestre'] ==7)
+                                                <td>SEPTIMO</td>
+                                            @elseif($materias['id_semestre'] ==8)
+                                                <td>OCTAVO</td>
+                                            @elseif($materias['id_semestre'] ==9)
+                                                <td>NOVENO</td>
+                                            @elseif($materias['id_semestre'] ==10)
+                                                <td>DECIMO</td>
+                                            @elseif($materias['id_semestre'] ==11)
+                                                <td>ONCEAVO</td>
+                                            @elseif($materias['id_semestre'] ==12)
+                                                <td>DOCEAVO</td>
+                                            @elseif($materias['id_semestre'] ==13)
 
-                        <div class="col-md-6 col-md-offset-3 ">
-                            <div class="panel panel-success">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title text-center">Porcentaje del estimulo es del 100 %</h3>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                            <div class="row">
-                                <div class="col-md-4 col-md-offset-4">
-                                    <label for="exampleInputEmail1">Elige el semestre que cursaste<b style="color:red; font-size:23px;">*</b></label>
-                                    <select class="form-control" id="id_semestre" name="id_semestre" >
-                                        <option  disabled selected hidden>Selecciona semestre</option>
-                                        @foreach($semestres as $semestre)
-                                            <option value="{{$semestre->id_semestre}}">{{$semestre->descripcion}}</option>
-                                        @endforeach
-
-                                    </select>
-                                    <p><br></p>
-                                </div>
-                            </div>
-                <div class="row">
-
-                    <div class="col-md-2 col-md-offset-5 ">
-                        <button id="enviar" type="button" class="btn btn-success btn-lg btn-block"  title="Enviar">Enviar solicitud</button>
-                        <br>
-                        <br>
-                    </div>
-                    <br>
-                    <br>
-
-                </div>
-
-            @elseif($descuento_estimulo==2)
-                            <div class="row">
-
-                                <div class="col-md-6 col-md-offset-3 ">
-                                    <div class="panel panel-success">
-                                        <div class="panel-heading">
-                                            <h1 class="panel-title text-center">NO.CUENTA: {{$datosalumno[0]->cuenta }} <br>
-                                                NOMBRE DEL ESTUDIANTE: {{$datosalumno[0]->nombre}} {{$datosalumno[0]->apaterno}}  {{$datosalumno[0]->amaterno}}<br>
-                                                PROGRAMA DE ESTUDIOS: {{$datosalumno[0]->carrera}}<br>
-                                                CURP: {{$datosalumno[0]->curp_al}}</h1>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                <div class="row">
-
-                    <div class="col-md-6 col-md-offset-3 ">
-                        <div class="panel panel-success">
-                            <div class="panel-heading">
-                                <h3 class="panel-title text-center">Porcentaje del estimulo es del 50 %</h3>
-                            </div>
-                        </div>
-
-                    </div>
-
-
-                </div>
-                            <div class="row">
-                                <div class="col-md-4 col-md-offset-4">
-                                    <label for="exampleInputEmail1">Elige el semestre que cursaste<b style="color:red; font-size:23px;">*</b></label>
-                                    <select class="form-control" id="id_semestre" name="id_semestre" >
-                                        <option  disabled selected hidden>Selecciona semestre</option>
-                                        @foreach($semestres as $semestre)
-                                            <option value="{{$semestre->id_semestre}}">{{$semestre->descripcion}}</option>
-                                        @endforeach
-
-                                    </select>
-                                    <p><br></p>
-                                </div>
-                            </div>
-                <div class="row">
-
-                    <div class="col-md-2 col-md-offset-5 ">
-                        <button id="enviar" type="button" class="btn btn-success btn-lg btn-block"  title="Enviar">Enviar solicitud</button>
-                        <br>
-                        <br>
-                    </div>
-                    <br>
-                    <br>
-                </div>
-            @elseif($descuento_estimulo==3)
-                            <div class="row">
-
-                                <div class="col-md-6 col-md-offset-3 ">
-                                    <div class="panel panel-success">
-                                        <div class="panel-heading">
-                                            <h1 class="panel-title text-center">NO.CUENTA: {{$datosalumno[0]->cuenta }} <br>
-                                                NOMBRE DEL ESTUDIANTE: {{$datosalumno[0]->nombre}} {{$datosalumno[0]->apaterno}}  {{$datosalumno[0]->amaterno}}<br>
-                                                PROGRAMA DE ESTUDIOS: {{$datosalumno[0]->carrera}}<br>
-                                                CURP: {{$datosalumno[0]->curp_al}}</h1>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                <div class="row">
-
-                    <div class="col-md-6 col-md-offset-3 ">
-                        <div class="panel panel-success">
-                            <div class="panel-heading">
-                                <h3 class="panel-title text-center">Porcentaje del estimulo es del 50 %</h3>
-                            </div>
-                        </div>
-
-
-                    </div>
-
-
-                </div>
-                            <div class="row">
-                                <div class="col-md-4 col-md-offset-4">
-                                    <label for="exampleInputEmail1">Elige el semestre que cursaste<b style="color:red; font-size:23px;">*</b></label>
-                                    <select class="form-control" id="id_semestre" name="id_semestre" >
-                                            <option  disabled selected hidden>Selecciona semestre</option>
-                                            @foreach($semestres as $semestre)
-                                                <option value="{{$semestre->id_semestre}}">{{$semestre->descripcion}}</option>
+                                            @endif
+                                            <th scope="row" class="beca-materia">{{ $materias['materia'] }}</th>
+                                            @foreach($materias['calificaciones'] as $calificaciones)
+                                                @if($calificaciones != null)
+                                                    <td>
+                                                        <x-panel.badge tono="{{ $calificaciones['calificacion']>=70 ? 'gris' : 'advertencia' }}">{{ $calificaciones['calificacion']>=70 ? $calificaciones['calificacion'] : 'N.A'  }}</x-panel.badge>
+                                                    </td>
+                                                    <?php $cont_res++; ?>
+                                                @else
+                                                @endif
                                             @endforeach
+                                            @for ($i = 0; $i < ($mayor_unidades-$cont_res); $i++)
+                                                @if($materias['unidades'] <= ($cont_res+$i) )
+                                                    <td class="tw:bg-gray-50 tw:dark:bg-gray-800"></td>
+                                                @else
+                                                    <td>0</td>
+                                                @endif
+                                            @endfor
+                                            @if( $materias['reprobada'] == true || $materias['promedio'] < 70 )
+                                                <td><x-panel.badge tono="error">N.A</x-panel.badge></td>
+                                            @else
+                                                <td>{{$materias['promedio']}}</td>
+                                            @endif
+                                            <?php $materias['promedio'] !=0 ? $promedio_sum+=$materias['promedio']  : 0 ; $num_materias++; ?>
+                                            <td>{!! $materias['curso']=='NORMAL' && $materias['esc_alumno'] ? 'ESC'  : ( $materias['curso']=='NORMAL' ? 'O'  : ($materias['curso']=='REPETICION' && $materias['esc_alumno'] ? 'ESC2' : ($materias['curso']=='REPETICION' ? 'O2' : ($materias['curso']=='ESPECIAL' ? 'CE' : ($materias['curso']=='GLOBAL' ? 'EG': '' )))))!!}</td>
+                                        </tr>
+                                    @endforeach
+                                    <tr>
+                                        <td colspan="1"></td>
+                                        <td colspan="{{$mayor_unidades+1}}"><strong>PROMEDIO</strong></td>
 
-                                    </select>
-<p><br></p>
-                                </div>
-                            </div>
-                <div class="row">
+                                        <td>{{$promedio_final }}</td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </x-panel.tabla>
+                        </x-panel.tarjeta>
+                    @endif
+                @endif
 
-                    <div class="col-md-2 col-md-offset-5">
-                        <button id="enviar" type="button" class="btn btn-success btn-lg btn-block"  title="Enviar">Enviar solicitud</button>
+            @else
+                <x-panel.tarjeta>
+                    <p class="tw:font-semibold">NO.CUENTA: {{$datosalumno[0]->cuenta }} <br>
+                        NOMBRE DEL ESTUDIANTE: {{$datosalumno[0]->nombre}} {{$datosalumno[0]->apaterno}}  {{$datosalumno[0]->amaterno}}<br>
+                        PROGRAMA DE ESTUDIOS: {{$datosalumno[0]->carrera}}<br>
+                        SEMESTRE: {{$registro_estado->semestre}}<br>
+                        CURP: {{$datosalumno[0]->curp_al}}</p>
+                    PROMEDIO: {{ $registro_estado->promedio }}
+                </x-panel.tarjeta>
+                @if($registro_estado->id_estado == 1 || $registro_estado->id_estado == 3)
+                    <x-panel.alerta tipo="advertencia">
+                        <p class="tw:font-semibold">
+                            Se envio correctamente tu solicitud, del
+                            @if($registro_estado->id_descuento == 1)
+                                100 %,
+                            @elseif($registro_estado->id_descuento == 2)
+                                50 %,
+                            @elseif($registro_estado->id_descuento == 3)
+                                50 %
+                            @endif
+                            a la Subdirección de Servicio Escolares.
+                            Espera la publicacion de resultados en la fechas programadas.
+                        </p>
 
-                        <br>
-                        <br>
-                    </div>
-                    <br>
-                    <br>
-                </div>
+                    </x-panel.alerta>
+
+                @elseif($registro_estado->id_estado == 2)
+                    <x-panel.alerta tipo="error">
+                        <p class="tw:font-semibold">
+                            Tu solicitud fue rechazada.
+                        </p>
+
+                    </x-panel.alerta>
+
+                @elseif($registro_estado->id_estado == 4)
+                    <x-panel.alerta tipo="error">
+                        <p class="tw:font-semibold">
+                            Tu solicitud fue rechazada.
+                        </p>
+
+                    </x-panel.alerta>
+                @elseif($registro_estado->id_estado == 5)
+                    <x-panel.alerta tipo="exito">
+                        <p class="tw:font-semibold">
+                            Felicidades. Tu solicitud fue autorizada, del
+                            @if($registro_estado->id_descuento == 1)
+                                100 % DE DESCUENTO.
+                            @elseif($registro_estado->id_descuento == 2)
+                                50 % DE DESCUENTO.
+                            @elseif($registro_estado->id_descuento == 3)
+                                50 % DE DESCUENTO.
+                            @endif
+                        </p>
+
+                    </x-panel.alerta>
+                @endif
 
             @endif
 
-                <div class="row">
-                    <div class="col-md-10 col-md-offset-1">
-                        <table class="table text-center col-md-12">
-                            <thead class="bg-primary" >
-                            <tr style="border: 2px solid #3097d1">
-                                <th>SEMESTRE</th>
-                                <th class="text-center ">MATERIA</th>
-                                @for ($i = 0; $i < $mayor_unidades; $i++)
-                                    <th class="text-center">
-                                        {{($i==0 ? 'I' : ($i==1 ? 'II' :($i==2 ? 'III' :($i==3 ? 'IV' :($i==4 ? 'V' :($i==5 ? 'VI' :($i==6 ? 'VII' :($i==7 ? 'VIII' :($i==8 ? 'IX' :($i==9 ? 'X' :($i==10 ? 'XI' :($i==11 ? 'XII' :($i==12 ? 'XIII' :($i==13 ? 'XIV' :($i==14 ? 'XV' : ' ' )))))))))))))))}}
-                                    </th>
-                                @endfor
-                                <th class="text-center">PROMEDIO</th>
-                                <th class="text-center"> T.E.</th>
-                            </tr>
-                            </thead>
-                            <tbody style="border: 2px solid #3097d1">
-                            <?php $promedio_sum=0; $num_materias=0;?>
-                            @foreach($array_materias as $materias)
-                                <?php $cont_res=0;?>
-                                <tr>
-                                    @if($materias['id_semestre'] ==1)
-                                        <th class="text-center">PRIMERO</th>
-                                    @elseif($materias['id_semestre'] ==2)
-                                        <th class="text-center">SEGUNDO</th>
-                                    @elseif($materias['id_semestre'] ==3)
-                                        <th class="text-center">TERCERO</th>
-                                    @elseif($materias['id_semestre'] ==4)
-                                        <th class="text-center">CUARTO</th>
-                                    @elseif($materias['id_semestre'] ==5)
-                                        <th class="text-center">QUINTO</th>
-                                    @elseif($materias['id_semestre'] ==6)
-                                        <th class="text-center">SEXTO</th>
-                                    @elseif($materias['id_semestre'] ==7)
-                                        <th class="text-center">SEPTIMO</th>
-                                    @elseif($materias['id_semestre'] ==8)
-                                        <th class="text-center">OCTAVO</th>
-                                    @elseif($materias['id_semestre'] ==9)
-                                        <th class="text-center">NOVENO</th>
-                                    @elseif($materias['id_semestre'] ==10)
-                                        <th class="text-center">DECIMO</th>
-                                    @elseif($materias['id_semestre'] ==11)
-                                        <th class="text-center">ONCEAVO</th>
-                                    @elseif($materias['id_semestre'] ==12)
-                                        <th class="text-center">DOCEAVO</th>
-                                    @elseif($materias['id_semestre'] ==13)
-
-                                    @endif
-                                    <th class="text-center">{{ $materias['materia'] }}</th>
-                                    @foreach($materias['calificaciones'] as $calificaciones)
-                                        @if($calificaciones != null)
-                                            <td style="background: {{ $calificaciones['calificacion']>=70 ? ' ' : '#FFEE62' }}">
-                                                {{ $calificaciones['calificacion']>=70 ? $calificaciones['calificacion'] : 'N.A'  }}
-                                            </td>
-                                            <?php $cont_res++; ?>
-                                        @else
-                                        @endif
-                                    @endforeach
-                                    @for ($i = 0; $i < ($mayor_unidades-$cont_res); $i++)
-                                        @if($materias['unidades'] <= ($cont_res+$i) )
-                                            <td class="bg-info"></td>
-                                        @else
-                                            <td>0</td>
-                                        @endif
-                                    @endfor
-                                    @if( $materias['reprobada'] == true || $materias['promedio'] < 70 )
-                                    <td style="background: #a94442;color:white;"> N.A</td>
-                                    @else
-                                        <td>{{$materias['promedio']}}</td>
-                                        @endif
-                                        <?php $materias['promedio'] !=0 ? $promedio_sum+=$materias['promedio']  : 0 ; $num_materias++; ?>
-                                    <td>{!! $materias['curso']=='NORMAL' && $materias['esc_alumno'] ? 'ESC'  : ( $materias['curso']=='NORMAL' ? 'O'  : ($materias['curso']=='REPETICION' && $materias['esc_alumno'] ? 'ESC2' : ($materias['curso']=='REPETICION' ? 'O2' : ($materias['curso']=='ESPECIAL' ? 'CE' : ($materias['curso']=='GLOBAL' ? 'EG': '' )))))!!}</td>
-                                </tr>
-                            @endforeach
-                            <tr>
-                                <td colspan="1" ></td>
-                                <td colspan="{{$mayor_unidades+1}}" class="text-center"><strong>PROMEDIO</strong></td>
-
-                                 <td>{{$promedio_final }}</td>
-                                <td></td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-       @endif
-       @endif
-
-            @else
-            <div class="row">
-                <div class="col-md-6 col-md-offset-3 ">
-                    <div class="panel panel-success">
-                        <div class="panel-heading">
-                            <h1 class="panel-title text-center">NO.CUENTA: {{$datosalumno[0]->cuenta }} <br>
-                                NOMBRE DEL ESTUDIANTE: {{$datosalumno[0]->nombre}} {{$datosalumno[0]->apaterno}}  {{$datosalumno[0]->amaterno}}<br>
-                                PROGRAMA DE ESTUDIOS: {{$datosalumno[0]->carrera}}<br>
-                                SEMESTRE: {{$registro_estado->semestre}}<br>
-                                CURP: {{$datosalumno[0]->curp_al}}</h1>
-                                PROMEDIO: {{ $registro_estado->promedio }}
-                        </div>
-                    </div>
-                </div>
-            </div>
-            @if($registro_estado->id_estado == 1 || $registro_estado->id_estado == 3)
-                <div class="row">
-                    <div class="col-md-6 col-md-offset-3 ">
-                        <div class="panel panel-warning">
-                            <div class="panel-heading">
-                                <h1 class="panel-title text-center">
-                                    Se envio correctamente tu solicitud, del
-                                    @if($registro_estado->id_descuento == 1)
-                                        100 %,
-                                        @elseif($registro_estado->id_descuento == 2)
-                                        50 %,
-                                            @elseif($registro_estado->id_descuento == 3)
-                                        50 %
-                                    @endif
-                                    a la Subdirección de Servicio Escolares.
-                                    Espera la publicacion de resultados en la fechas programadas.
-                                </h1>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                @elseif($registro_estado->id_estado == 2)
-                <div class="row">
-                    <div class="col-md-6 col-md-offset-3 ">
-                        <div class="panel panel-danger">
-                            <div class="panel-heading">
-                                <h1 class="panel-title text-center">
-                                    Tu solicitud fue rechazada.
-                                </h1>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-            @elseif($registro_estado->id_estado == 4)
-                <div class="row">
-                    <div class="col-md-6 col-md-offset-3 ">
-                        <div class="panel panel-danger">
-                            <div class="panel-heading">
-                                <h1 class="panel-title text-center">
-                                    Tu solicitud fue rechazada.
-                                </h1>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>v>
-                </div>
-            @elseif($registro_estado->id_estado == 5)
-                <div class="row">
-                    <div class="col-md-6 col-md-offset-3 ">
-                        <div class="panel panel-danger">
-                            <div class="panel-heading">
-                                <h1 class="panel-title text-center">
-                                    Felicidades. Tu solicitud fue autorizada, del
-                                    @if($registro_estado->id_descuento == 1)
-                                        100 % DE DESCUENTO.
-                                    @elseif($registro_estado->id_descuento == 2)
-                                        50 % DE DESCUENTO.
-                                    @elseif($registro_estado->id_descuento == 3)
-                                        50 % DE DESCUENTO.
-                                    @endif
-                                </h1>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                @endif
-
         @endif
-
-        @endif
-    </main>
+    </div>
     <script type="text/javascript">
         $(document).ready(function()
         {
