@@ -1,76 +1,76 @@
-@extends('layouts.app')
-@section('title', 'Ambiental')
-@section('content')
+@extends('layouts.panel')
+@section('title', 'Historial de documentación ambiental')
+
+@push('cabeza')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.18/vue.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <div id="periodoss_ver">
-        <main class="col-md-12">
+    <style>
+        #periodoss_ver[v-cloak] { display: none; }
+    </style>
+@endpush
 
+@section('content')
+    <x-panel.encabezado
+        titulo="HISTORIAL DE DOCUMENTACIÓN AMBIENTAL"
+        :migas="['Procedimiento Ambiental' => url('/ambiental/enviar_documentacion')]"
+    />
 
-            <div class="row">
-                <div class="col-md-10 col-md-offset-1">
-                    <div class="panel panel-info">
-                        <div class="panel-heading">
-                            <h3 class="panel-title text-center">Historial de los procedimientos de ambiental </h3>
-                        </div>
-                    </div>
-                </div>
+    <div id="periodoss_ver" class="tw:space-y-6" x-ignore v-cloak>
+        <x-panel.tarjeta titulo="Consultar historial por periodo">
+            <div class="tw:max-w-md">
+                <x-panel.select
+                    id="personal"
+                    etiqueta="Elegir periodo"
+                    v-validate="'required'"
+                    v-model="periodo.id_periodo"
+                    v-on:change="seleccion_periodo();"
+                >
+                    <option disabled selected hidden :value="0">Selecciona una opción</option>
+                    <option v-for="periodo in periodos" :value="periodo.id_periodo_amb">@{{ periodo.nombre_periodo_amb }}</option>
+                </x-panel.select>
             </div>
+        </x-panel.tarjeta>
 
+        <x-panel.tarjeta titulo="Resultados del historial">
+            <template v-if="!estadover && !periodo.id_periodo">
+                <x-panel.vacio titulo="Selecciona un periodo para consultar su historial" />
+            </template>
 
+            <template v-if="estadover && !procedimientos.length">
+                <x-panel.vacio titulo="Sin registros para el periodo seleccionado" />
+            </template>
 
-
-        </main>
-        <div class="row">
-            <div class="col-md-2 col-md-offset-5">
-                <div class="form-group">
-                    <label for="personal">Elegir periodo</label>
-                    <select class="form-control"  v-validate="'required'" v-model="periodo.id_periodo"  v-on:change="seleccion_periodo();">
-                        <option disabled selected hidden :value="0">Selecciona una opción</option>
-                        <option v-for="periodo in periodos" :value="periodo.id_periodo_amb">@{{periodo.nombre_periodo_amb}}</option>
-                    </select>
-                </div>
-            </div>
-        </div>
-        <template v-if="estadover == true">
-
-
-            <div class="row">
-                <div  class="col-md-10 col-lg-offset-1">
-                    <table id="tabla_envio" class="table table-bordered table-resposive">
-                        <thead>
+            <template v-if="estadover && procedimientos.length">
+                <x-panel.tabla id="tabla_envio">
+                    <thead>
                         <tr>
-
-                            <th>Procedimiento</th>
-                            <th>Encargado</th>
-                            <th>Ver</th>
+                            <th scope="col">Procedimiento</th>
+                            <th scope="col">Encargado</th>
+                            <th scope="col">Ver</th>
                         </tr>
-                        </thead>
-                        <tbody>
-
+                    </thead>
+                    <tbody>
                         <tr v-for="procedimiento in procedimientos" :key="procedimiento.id_procedimiento">
                             <td>@{{ procedimiento.nom_procedimiento }}</td>
                             <td>@{{ procedimiento.nombre }}</td>
                             <td v-if="procedimiento.estado_envio_doc == 0">No ha enviado su documentación</td>
                             <td v-if="procedimiento.estado_envio_doc == 1">Envio su documentación al departamento</td>
-                            <td v-if="procedimiento.estado_envio_doc == 2">En estado de  modificacion</td>
+                            <td v-if="procedimiento.estado_envio_doc == 2">En estado de modificacion</td>
                             <td v-if="procedimiento.estado_envio_doc == 3">Envio su documentación al departamento</td>
                             <td v-if="procedimiento.estado_envio_doc == 4">
-                                <button  class="btn btn-success btn-sm" v-on:click="abrirdocumentos_ver(procedimiento);" >Documentación</button>
-
+                                <x-panel.boton variante="exito" tamano="sm" v-on:click="abrirdocumentos_ver(procedimiento);">
+                                    Documentación
+                                </x-panel.boton>
                             </td>
-
-
                         </tr>
-
-
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </template>
-
+                    </tbody>
+                </x-panel.tabla>
+            </template>
+        </x-panel.tarjeta>
     </div>
+@endsection
+
+@push('scripts')
     <script>
         new Vue({
             el:"#periodoss_ver",
@@ -139,12 +139,4 @@
             },
         })
     </script>
-    <style>
-        .mostrar{
-            display: list-item;
-            opacity: 1;
-            background: rgba(44,38,75,0.849);
-        }
-    </style>
-
-@endsection
+@endpush

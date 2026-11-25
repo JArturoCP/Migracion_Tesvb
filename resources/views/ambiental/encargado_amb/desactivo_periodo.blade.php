@@ -1,32 +1,12 @@
-@extends('layouts.app')
-@section('title', 'Ambiental')
+@extends('layouts.panel')
+@section('title', 'Envío de documentación')
+
 @section('content')
+    <x-panel.encabezado titulo="ENVÍO DE DOCUMENTACIÓN" :migas="['Procedimiento Ambiental' => '#procedimientos']" />
 
-        <main class="col-md-12">
-
-
-            <div class="row">
-                <div class="col-md-10 col-md-offset-1">
-                    <div class="panel panel-info">
-                        <div class="panel-heading">
-                            <h3 class="panel-title text-center">Enviar documentación del procedimiento</h3>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-8 col-md-offset-2">
-
-                    <div class="panel panel-danger">
-                        <div class="panel-heading text-center">No se encuentra activo ningun periodo.</div>
-
-                    </div>
-                </div>
-            </div>
-
-
-
-        </main>
-
-
+    <x-panel.tarjeta id="procedimientos" titulo="Periodo ambiental">
+        <x-panel.alerta tipo="advertencia" titulo="Sin periodo activo">
+            No se encuentra activo ningún periodo.
+        </x-panel.alerta>
+    </x-panel.tarjeta>
 @endsection
