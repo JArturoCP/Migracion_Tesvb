@@ -11,7 +11,7 @@
                                 <a    href="{{url('/servicios_escolares/evaluaciones/'.$id_carrera)}}"><span class="glyphicon glyphicon-arrow-left" style="font-size:15px;color:#363636"></span><br>Regresar</a>
                             </div>
                             <div class="col-md-4 col-md-offset-1 " style="text-align: center;">
-                                <h3 class="panel-title text-center">CALIFICACIONES SUMATIVAS</h3>
+                                <h3 class="panel-title text-center">Calificaciones sumativas</h3>
                             </div>
                         </div>
                     </div>
@@ -45,7 +45,7 @@
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-danger">
                 <div class="panel-heading">
-                    <h3 class="panel-title text-center">No se han registrado calificaciones de sumativas</h3>
+                    <h3 class="panel-title text-center">No se han registrado calificaciones sumativas.</h3>
                 </div>
             </div>
         </div>
@@ -61,7 +61,7 @@
                                 <a    href="{{url('/servicios_escolares/evaluaciones/'.$id_carrera)}}"><span class="glyphicon glyphicon-arrow-left" style="font-size:15px;color:#363636"></span><br>Regresar</a>
                             </div>
                             <div class="col-md-4 col-md-offset-1 " style="text-align: center;">
-                                <h3 class="panel-title text-center">CALIFICACIONES SUMATIVAS</h3>
+                                <h3 class="panel-title text-center">Calificaciones sumativas</h3>
                             </div>
                         </div>
                     </div>
@@ -70,7 +70,7 @@
         </div>
         <div class="row">
             <div class="col-md-2 col-md-offset-8">
-                <a href="/generar_excel/acta_constitutiva_sumativa/{{ $id_docente }}/{{ $id_materia }}/{{ $id_grupo }}" class="btn btn-success" target="_blank"><span class="glyphicon glyphicon-print"  aria-hidden="true"></span>Exportar a excel</a>
+                <a href="/generar_excel/acta_constitutiva_sumativa/{{ $id_docente }}/{{ $id_materia }}/{{ $id_grupo }}" class="btn btn-success" target="_blank"><span class="glyphicon glyphicon-print"  aria-hidden="true"></span>Exportar a Excel</a>
             </div>
         </div>
         <div class="row">
@@ -205,10 +205,10 @@
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header bg-info">
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
-                                    <h4 class="modal-title" id="myModalLabel">Modificar Calificación</h4>
+                                    <h4 class="modal-title" id="myModalLabel">Modificar calificación</h4>
                                 </div>
                                 <div class="modal-body">
                                     <div class="form-group text-center">
@@ -255,7 +255,7 @@
                             position:"",
                             type: "error",
                             title: "Error",
-                            text: 'Esta intentando guardar la misma calificación',
+                            text: 'Está intentando guardar la misma calificación.',
                             showConfirmButton: true,
                         });
                     }
@@ -265,7 +265,7 @@
                             position:"",
                             type: "error",
                             title: "Error",
-                            text: 'La calificación que intenta ingresar esta fuera del rango valido',
+                            text: 'La calificación que intenta ingresar está fuera del rango válido.',
                             showConfirmButton: true,
                         });
                     }
@@ -284,13 +284,13 @@
                     else if(calificacion>0 && calificacion<70)
                     {
                         Swal({
-                            title: 'Ingreso una calificación reprobatoria',
-                            text: "¿Esta seguro que desea continuar?",
+                            title: 'Ingresó una calificación reprobatoria',
+                            text: "¿Está seguro de que desea continuar?",
                             type: 'warning',
                             showCancelButton: true,
                             confirmButtonColor: '#3085d6',
                             cancelButtonColor: '#d33',
-                            confirmButtonText: 'Si, continuar',
+                            confirmButtonText: 'Sí, continuar',
                             cancelButtonText: 'Cancelar'
                         }).then((result) => {
                             if (result.value) {

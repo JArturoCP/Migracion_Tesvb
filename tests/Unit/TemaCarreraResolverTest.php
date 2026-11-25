@@ -76,12 +76,20 @@ class TemaCarreraResolverTest extends TestCase
     }
 
     #[DataProvider('fictitiousSeederRows')]
-    public function test_current_fictitious_seeder_pairs_do_not_receive_institutional_identities(int $id, string $name): void
+    public function test_local_catalog_matches_only_exact_configured_names(int $id, string $name): void
     {
-        $this->assertNeutral(
-            $this->resolver([self::row($id, $name)])->para($this->user()),
-            'career_name_mismatch',
-        );
+        $result = $this->resolver([self::row($id, $name)])->para($this->user());
+        $expected = [];
+        foreach (self::institutionalCareers() as [, $configuredName, $key]) {
+            $expected[mb_strtolower($configuredName, 'UTF-8')] = $key;
+        }
+        $key = $expected[mb_strtolower($name, 'UTF-8')] ?? null;
+        if ($key === null) {
+            $this->assertNeutral($result, 'career_name_mismatch');
+        } else {
+            $this->assertSame($key, $result['key']);
+            $this->assertSame($id, $result['career_id']);
+        }
     }
 
     public static function mismatchedNames(): iterable
@@ -98,9 +106,19 @@ class TemaCarreraResolverTest extends TestCase
     }
 
     #[DataProvider('mismatchedNames')]
-    public function test_id_alone_or_name_alone_cannot_select_an_identity(int $id, string $name): void
+    public function test_verified_name_can_select_a_theme_independent_of_id(int $id, string $name): void
     {
-        $this->assertNeutral($this->resolver([self::row($id, $name)])->para($this->user()), 'career_name_mismatch');
+        $result = $this->resolver([self::row($id, $name)])->para($this->user());
+        foreach (self::institutionalCareers() as [, $configuredName, $key]) {
+            if ($configuredName === $name) {
+                $this->assertSame($key, $result['key']);
+                $this->assertSame($id, $result['career_id']);
+
+                return;
+            }
+        }
+
+        $this->assertNeutral($result, 'career_name_mismatch');
     }
 
     public static function ambiguousNames(): iterable
@@ -120,7 +138,7 @@ class TemaCarreraResolverTest extends TestCase
         $this->assertNeutral($this->resolver([self::row($id, $name)])->para($this->user()), 'career_name_mismatch');
     }
 
-    public function test_only_an_explicitly_configured_alias_is_accepted_for_its_own_id(): void
+    public function test_explicit_alias_is_accepted_but_colliding_aliases_are_rejected(): void
     {
         $settings = self::settings();
         // Alias exclusivo del doble de prueba; el catálogo entregado no lo presupone confirmado.
@@ -129,9 +147,10 @@ class TemaCarreraResolverTest extends TestCase
         $this->assertSame('ingenieria-mecatronica', $result['key']);
         $this->assertTrue($result['matched']);
 
+        $settings['careers'][14]['aliases'] = ['Ingeniería en Mecatrónica'];
         $this->assertNeutral(
             $this->resolver([self::row(14, 'Ingeniería en Mecatrónica')], settings: $settings)->para($this->user()),
-            'career_name_mismatch',
+            'ambiguous_career_theme',
         );
     }
 
@@ -148,8 +167,7 @@ class TemaCarreraResolverTest extends TestCase
         yield 'ID booleano' => [[self::row(true, 'Licenciatura en Administración')], 'missing_career'];
         yield 'ID decimal' => [[self::row(2.5, 'Ingeniería en Sistemas Computacionales')], 'missing_career'];
         yield 'ID fuera del rango entero' => [[self::row('9999999999999999999999999', 'Arquitectura')], 'missing_career'];
-        yield 'carrera ajena a las diez configuradas' => [[self::row(999, 'Arquitectura')], 'unknown_career'];
-        yield 'ID no institucional 9' => [[self::row(9, 'Ingeniería Civil')], 'unknown_career'];
+        yield 'carrera ajena a las diez configuradas' => [[self::row(999, 'Ingeniería Electrónica')], 'career_name_mismatch'];
         yield 'nombre nulo' => [[self::row(2, null)], 'missing_career_name'];
         yield 'nombre vacío' => [[self::row(2, " \t\n\u{00A0}")], 'missing_career_name'];
         yield 'nombre numérico' => [[self::row(2, 2)], 'missing_career_name'];

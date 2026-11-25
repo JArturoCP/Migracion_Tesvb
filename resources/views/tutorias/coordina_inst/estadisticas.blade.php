@@ -11,7 +11,7 @@
                     <button target="_blank" v-if="inst==false" @click="DatosReporte()" class="btn text-white btn-danger offset-1" ><i class="fas fa-file-pdf"></i></button>
                     <button target="_blank" v-if="inst==true" @click="DatosReporte()" class="btn text-white btn-danger offset-1" ><i class="fas fa-file-pdf"></i></button>
                 @endif
-                    <button type="button col-1" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button col-1" class="close" data-dismiss="modal" aria-label="Cerrar">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>

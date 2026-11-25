@@ -5,7 +5,7 @@
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-info">
                 <div class="panel-heading">
-                    <h3 class="panel-title text-center">HISTORIAL DE MODIFICACIONES DE CARGAS ACADÉMICAS </h3>
+                    <h3 class="panel-title text-center">Historial de modificaciones de cargas académicas</h3>
                 </div>
             </div>
         </div>

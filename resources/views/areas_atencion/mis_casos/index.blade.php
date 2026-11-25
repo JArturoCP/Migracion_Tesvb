@@ -1293,7 +1293,7 @@
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header bg-warning">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                                 <h4 class="modal-title">Agregar canalización desde Pedagogía</h4>
                             </div>
                             <div class="modal-body">
@@ -1380,7 +1380,7 @@
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header bg-warning">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                                 <h4 class="modal-title">Canalizar estudiante</h4>
                             </div>
                             <div class="modal-body">
@@ -1465,7 +1465,7 @@
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header bg-primary">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                                 <h4 class="modal-title">Agregar sesión</h4>
                             </div>
                             <div class="modal-body">
@@ -1538,7 +1538,7 @@
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header bg-success">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                                 <h4 class="modal-title">Cerrar caso</h4>
                             </div>
                             <div class="modal-body">
@@ -1744,7 +1744,7 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header" style="background:#337ab7;color:#fff;">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color:#fff;opacity:.9;"><span aria-hidden="true">&times;</span></button>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar" style="color:#fff;opacity:.9;"><span aria-hidden="true">&times;</span></button>
                             <h4 class="modal-title"><span class="glyphicon glyphicon-road"></span> Ruta de atención PIASE</h4>
                         </div>
                         <div class="modal-body">
@@ -1762,7 +1762,7 @@
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header bg-info">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                             <h4 class="modal-title"><span class="glyphicon glyphicon-stats"></span> Evolución del caso PIASE</h4>
                         </div>
                         <div class="modal-body" id="contenidoGrafica"></div>

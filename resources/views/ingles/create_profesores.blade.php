@@ -10,7 +10,7 @@
       <form data-panel-envio id="form_profesores_ingles" class="form" role="form" method="POST">
         {{ csrf_field() }}
         <div class="modal-header bg-info">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
           <h4 class="modal-title text-center" id="myModalLabel">Agregar Facilitador</h4>
         </div>
         <div class="modal-body">
@@ -73,7 +73,7 @@
             <div class="col-md-4">
               <div class="form-group">
                 <label for="fecha_termino">Fecha emision de Constancia o Certificado</label>
-                <input class="form-control datepicker fecha_termino" type="text" id="fecha_termino" name="fecha_termino" data-panel-etiqueta="la fecha de emisión" data-date-format="yyyy/mm/dd" placeholder="AAAA/MM/DD" required>
+                <input class="form-control datepicker fecha_termino" type="text" id="fecha_termino" name="fecha_termino" data-flatpickr-date="Y/m/d" data-flatpickr-min-days="0" data-panel-etiqueta="la fecha de emisión" data-date-format="yyyy/mm/dd" placeholder="AAAA/MM/DD" required>
               </div>
             </div>
           </div>
@@ -93,12 +93,6 @@
 
     $("#modal_agregar_facilitador").modal("show");
 
-    $('.fecha_termino').datepicker({
-      pickTime: false,
-      autoclose: true,
-      language: 'es',
-      startDate: '+0d',
-    });
 
   });
 </script>

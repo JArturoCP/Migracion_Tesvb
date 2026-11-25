@@ -152,7 +152,7 @@
                 <div class="modal-content">
 
                         <div class="modal-header bg-info">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                             <h4 class="modal-title text-center" id="myModalLabel">Autorización de Documentación Primera Etapa</h4>
                         </div>
                         <div id="contenedor_autorizar_docuementos">
@@ -172,7 +172,7 @@
                 <div class="modal-content">
 
                     <div class="modal-header bg-info">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title text-center" id="myModalLabel">Autorización de Documentación Primera Etapa</h4>
                     </div>
                     <div id="contenedor_autorizar_docuementos_modificaciones">
@@ -192,7 +192,7 @@
                 <div class="modal-content">
 
                     <div class="modal-header bg-info">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title text-center" id="myModalLabel">Documentación Primera Etapa</h4>
                     </div>
                     <div id="contenedor_autorizar_documentos">

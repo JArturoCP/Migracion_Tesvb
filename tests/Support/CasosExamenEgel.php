@@ -211,10 +211,9 @@ class CasosExamenEgel
             $fallas[] = 'falta la paginación';
         }
         $texto = CompararVistas::textoPlano(CompararVistas::region($nuevo, '//body'));
-        foreach (CompararVistas::textos(CompararVistas::regionApp(preg_replace($paginacion, '', $viejo))) as $t) {
-            if (! str_contains($texto, $t)) {
-                $fallas[] = "falta el texto «{$t}»";
-            }
+        $anterior = CompararVistas::regionApp(preg_replace($paginacion, '', $viejo));
+        foreach (CompararVistas::textosFaltantes($anterior, $texto, $vista) as $t) {
+            $fallas[] = "falta el texto «{$t}»";
         }
 
         return array_values(array_unique($fallas));

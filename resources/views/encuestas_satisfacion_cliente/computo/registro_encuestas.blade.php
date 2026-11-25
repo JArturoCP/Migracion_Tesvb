@@ -65,7 +65,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content ">
                 <div class="modal-header bg-info">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="exampleModalLabel">Nueva encuesta  de satisfacción al cliente interno</h4>
                 </div>
                 <div class="modal-body">
@@ -92,12 +92,6 @@
 
             } );
 
-            $('#fecha_s').datepicker({
-
-                autoclose: true,
-                //startDate: '+0d',
-                language: 'es'
-            });
 
             $("#table_enviado").on('click','.contestar',function(){
                 var id=$(this).data('id');

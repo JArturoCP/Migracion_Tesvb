@@ -83,31 +83,39 @@ final class TemaCarreraResolver
             return $this->resolved[$userId] = $this->neutral('missing_career');
         }
 
-        $theme = $this->themes['careers'][$careerId] ?? null;
-        if (! is_array($theme)) {
-            return $this->resolved[$userId] = $this->neutral('unknown_career');
+        return $this->resolved[$userId] = $this->paraCarrera($careerId, $student->nombre ?? null);
+    }
+
+    public function paraCarrera(mixed $id, mixed $nombre): array
+    {
+        $careerId = $this->positiveInteger($id);
+        if ($careerId === null) {
+            return $this->neutral('missing_career');
         }
 
-        $name = $this->normalizeName($student->nombre ?? null);
+        $name = $this->normalizeName($nombre);
         if ($name === null) {
-            return $this->resolved[$userId] = $this->neutral('missing_career_name');
+            return $this->neutral('missing_career_name');
         }
 
-        $acceptedNames = [$theme['name'], ...($theme['aliases'] ?? [])];
-        foreach ($acceptedNames as $acceptedName) {
-            if ($name === $this->normalizeName($acceptedName)) {
-                unset($theme['aliases']);
-
-                return $this->resolved[$userId] = [
-                    ...$theme,
-                    'career_id' => $careerId,
-                    'matched' => true,
-                    'reason' => 'matched',
-                ];
+        $matched = null;
+        foreach ($this->themes['careers'] as $theme) {
+            $acceptedNames = array_map($this->normalizeName(...), [$theme['name'], ...($theme['aliases'] ?? [])]);
+            if (! in_array($name, $acceptedNames, true)) {
+                continue;
             }
+            if ($matched !== null) {
+                return $this->neutral('ambiguous_career_theme');
+            }
+            $matched = $theme;
         }
 
-        return $this->resolved[$userId] = $this->neutral('career_name_mismatch');
+        if ($matched === null) {
+            return $this->neutral('career_name_mismatch');
+        }
+        unset($matched['aliases']);
+
+        return [...$matched, 'career_id' => $careerId, 'matched' => true, 'reason' => 'matched'];
     }
 
     private function neutral(string $reason): array

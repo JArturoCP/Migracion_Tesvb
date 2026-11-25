@@ -7,7 +7,7 @@
                 <button target="_blank" class="btn text-white btn-danger" v-if="(clicgrupo==false && reporteGen==false)" @click="reporte('ReporteGeneracion')"  ><i class="fas fa-file-pdf"></i></button>
                 <button target="_blank" class="btn text-white btn-danger" v-if="(clicgrupo==true && reporteGen==false)" @click="reporte('ReporteGrupo')" ><i class="fas fa-file-pdf"></i></button>
                 <button target="_blank" class="btn text-white btn-danger" v-if="reporteGen==true" @click="reporte('ReporteCarrera')" ><i class="fas fa-file-pdf"></i></button>
-                <button type="button col-1" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button col-1" class="close" data-dismiss="modal" aria-label="Cerrar">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>

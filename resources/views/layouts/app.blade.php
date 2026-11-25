@@ -81,6 +81,8 @@
     <!-- Notificaciones TESVB (reemplazo de alert/confirm/prompt) -->
     <script src="{{ asset('js/tesvb-notify.js') }}?v={{ filemtime(public_path('js/tesvb-notify.js')) }}"></script>
 
+@include('partials.panel.fechas')
+    @include('partials.panel.tema_estudiantil')
 </head>
 
 <body class="@yield('body_class')">
@@ -103,7 +105,7 @@
     @endif
 @show
 
-<div class="tesvb-contenido">
+<div class="tesvb-contenido" data-tema-estudiantil="bootstrap">
 @yield('content')
 </div>
 

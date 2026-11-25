@@ -8,8 +8,8 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header bg-info">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title text-center" id="myModalLabel">Carga Academica Ingles</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title text-center" id="myModalLabel">Carga académica de inglés</h4>
       </div>
       <div class="modal-body">
         <div class="alert alert-danger text-center">Verifica si el periodo que seleccionaste es correcto.</div>

@@ -11,7 +11,7 @@
             <div class="col-md-10 col-md-offset-1">
                 <div class="panel panel-info">
                     <div class="panel-heading">
-                        <h3 class="panel-title text-center">Solicitud de Prorroga</h3>
+                        <h3 class="panel-title text-center">Solicitud de prórroga</h3>
                     </div>
                 </div>
             </div>
@@ -21,7 +21,7 @@
             <div class="col-md-2 col-md-offset-8 text-center">
                 <div class="panel panel-info text-center">
                     <div class="panel-heading text-center">
-                        <a href="/solicitud/exportar_solicitudes_prorroga" class="btn btn-success tooltip-options link" data-toggle="tooltip" data-placement="top" title="Exportar a excel"><span class="oi oi-pencil"></span>Exportar a excel</a>
+                        <a href="/solicitud/exportar_solicitudes_prorroga" class="btn btn-success tooltip-options link" data-toggle="tooltip" data-placement="top" title="Exportar a excel"><span class="oi oi-pencil"></span>Exportar a Excel</a>
 
                     </div>
                 </div>

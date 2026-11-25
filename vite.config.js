@@ -28,6 +28,7 @@ export default defineConfig({
                 // Nuevo diseño: /inicio (layouts/panel) y marco de los módulos (layouts/marco).
                 'resources/css/marco.css',
                 'resources/js/panel.js',
+                'resources/js/fechas.js',
             ],
             refresh: true,
         }),

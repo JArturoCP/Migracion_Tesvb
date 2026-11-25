@@ -389,7 +389,7 @@
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header bg-info">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title text-center" id="modalGraficaLabel">Comparativo histórico</h4>
                     </div>
                     <div class="modal-body"><div id="contenedorGraficaReprobacion"><div class="text-center">Cargando...</div></div></div>
@@ -404,7 +404,7 @@
                     <form method="POST" action="{{ route('j_carrera.analisis_reprobacion.estrategia') }}" enctype="multipart/form-data">
                         {{ csrf_field() }}
                         <div class="modal-header bg-info">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                             <h4 class="modal-title text-center" id="modalEstrategiaLabel">Estrategia de seguimiento</h4>
                         </div>
                         <div class="modal-body">
@@ -466,7 +466,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header bg-info">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title text-center" id="modalVerSeguimientoLabel">Seguimiento del estudiante</h4>
                     </div>
                     <div class="modal-body">

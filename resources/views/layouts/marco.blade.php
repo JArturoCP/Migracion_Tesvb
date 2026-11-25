@@ -21,6 +21,8 @@
 
     @include('layouts.tipografia')
     @vite(['resources/css/marco.css', 'resources/js/panel.js'])
+@include('partials.panel.fechas')
+    @include('partials.panel.tema_estudiantil')
 </head>
 <body x-data="{ page: 'modulo', darkMode: false, sidebarToggle: false }"
     x-init="(() => {
@@ -33,7 +35,7 @@
         <div class="tw:relative tw:flex tw:min-w-0 tw:flex-1 tw:flex-col tw:overflow-x-clip" data-panel-area>
             @include('partials.panel.header')
 
-            <div id="main-content" x-ignore data-panel-contenido-modulo>
+            <div id="main-content" x-ignore data-panel-contenido-modulo data-tema-estudiantil="bootstrap">
                 @include($cuerpo)
             </div>
         </div>

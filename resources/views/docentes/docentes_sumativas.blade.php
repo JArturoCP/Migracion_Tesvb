@@ -5,7 +5,7 @@
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-info">
                 <div class="panel-heading">
-                    <h3 class="panel-title text-center">EVALUACIÓN SUMATIVA DE COMPLEMENTACIÓN</h3>
+                    <h3 class="panel-title text-center">Evaluación sumativa de complementación</h3>
                 </div>
             </div>
         </div>
@@ -69,7 +69,7 @@
                             <th rowspan="2" class="text-center" style="display: table-cell;vertical-align: middle;"></th>
                             <th rowspan="2" class="text-center" style="display: table-cell;vertical-align: middle;">NP</th>
                             <th rowspan="2" class="text-center" style="display: table-cell;vertical-align: middle;">No. CTA</th>
-                            <th rowspan="2" class="text-center" style="display: table-cell;vertical-align: middle;">NOMBRE DEL ALUMNO</th>
+                            <th rowspan="2" class="text-center" style="display: table-cell;vertical-align: middle;">Nombre del estudiante</th>
                             <th colspan="{{ $unidades+2 }}" class="text-center">UNIDADES</th>
                         </tr>
                         <tr>

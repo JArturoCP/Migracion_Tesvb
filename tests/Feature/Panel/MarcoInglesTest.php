@@ -64,10 +64,13 @@ it('el modo oscuro se aplica antes de pintar en el marco y solo oscurece sidebar
     $this->actingAs(EscenariosPanel::preparar('ingles', []));
     $html = renderIngles('ingles.inicio_ingles.layout_ingles');
 
-    preg_match('#<head>(.*?)</head>#s', $html, $cabeza);
-    expect($cabeza[1])->toContain("localStorage.getItem('darkMode')")
+    $cabeza = CompararVistas::region($html, '//head');
+    $contenido = CompararVistas::region($html, '//*[@data-panel-contenido-modulo]');
+    $xpath = new DOMXPath($contenido->ownerDocument);
+
+    expect($cabeza->textContent)->toContain("localStorage.getItem('darkMode')")
         ->and($html)->toContain("localStorage.setItem('darkMode'")
-        // el contenido del módulo (Bootstrap) no recibe clases tw:dark
-        ->and(preg_match('#data-panel-contenido-modulo>(.*)#s', $html, $contenido) ? substr_count($contenido[1], 'tw:dark:') : 0)
-        ->toBe(substr_count(view('partials.panel.periodos')->render(), 'tw:dark:'));
+        // El contenido Bootstrap queda fuera del alcance de clases oscuras del panel.
+        ->and($xpath->query('descendant-or-self::*[contains(@class, "tw:dark:")]', $contenido)->length)->toBe(0)
+        ->and($xpath->query('//*[@data-panel-marco]//*[contains(@class, "tw:dark:")]')->length)->toBeGreaterThan(0);
 });

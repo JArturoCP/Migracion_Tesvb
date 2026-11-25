@@ -31,7 +31,7 @@
                 <div class="col-md-6 col-md-offset-3">
                     <div class="panel panel-success">
                         <div class="panel-body" style="text-align: center">
-                            <p style="color: #FF0000">Hacer las correcciones que se te indican en los comentarios de los documentos rechazados</p>
+                            <p style="color: #FF0000">Corrige lo indicado en los comentarios de los documentos rechazados.</p>
                             <table class="table table-bordered">
                                 <thead>
                                 <tr>
@@ -182,7 +182,7 @@
                     <div class="col-md-6 col-md-offset-3">
                         <div class="panel panel-success">
                             <div class="panel-body" style="text-align: center">
-                                <p style="color: #FF0000">Hacer las correcciones que se te indican en los comentarios de los documentos rechazados</p>
+                                <p style="color: #FF0000">Corrige lo indicado en los comentarios de los documentos rechazados.</p>
                                 <table class="table table-bordered">
                                     <thead>
                                     <tr>
@@ -296,7 +296,7 @@
                 <div class="col-md-6 col-md-offset-3">
                     <div class="panel panel-success">
                         <div class="panel-heading">
-                            <h3 class="panel-title text-center">Se envio correctamente  la documentación al Departamento del Servicio Social y Residencia Profesional.</h3>
+                            <h3 class="panel-title text-center">Se envió correctamente la documentación al Departamento del Servicio Social y Residencia Profesional.</h3>
                         </div>
                     </div>
                 </div>
@@ -343,8 +343,8 @@
                 <div class="modal-content">
 
                     <div class="modal-header bg-info">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title text-center" id="myModalLabel">Modificar Carta Aceptación</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title text-center" id="myModalLabel">Modificar carta de aceptación</h4>
                     </div>
                     <div class="row">
                         <div class="col-md-10 col-md-offset-1">
@@ -372,8 +372,8 @@
                 <div class="modal-content">
 
                     <div class="modal-header bg-info">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title text-center" id="myModalLabel">Modificar Anexo Tecnico</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title text-center" id="myModalLabel">Modificar anexo técnico</h4>
                     </div>
                     <div class="row">
                         <div class="col-md-10 col-md-offset-1">
@@ -401,8 +401,8 @@
                 <div class="modal-content">
 
                     <div class="modal-header bg-info">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title text-center" id="myModalLabel">Modificar Curp</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title text-center" id="myModalLabel">Modificar CURP</h4>
                     </div>
                     <div class="row">
                         <div class="col-md-10 col-md-offset-1">
@@ -431,7 +431,7 @@
                 <div class="modal-content">
 
                     <div class="modal-header bg-info">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title text-center" id="myModalLabel">Modificar Carnet</h4>
                     </div>
                     <div class="row">
@@ -461,7 +461,7 @@
                 <div class="modal-content">
 
                     <div class="modal-header bg-info">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title text-center" id="myModalLabel">Modificar Costancia de Creditos</h4>
                     </div>
                     <div class="row">
@@ -490,7 +490,7 @@
                 <div class="modal-content">
 
                     <div class="modal-header bg-info">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title text-center" id="myModalLabel">Modificar Solicitud de registro de autorización</h4>
                     </div>
                     <div class="row">

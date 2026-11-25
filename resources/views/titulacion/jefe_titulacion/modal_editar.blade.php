@@ -27,7 +27,7 @@
     <div class="col-md-10 col-md-offset-1">
         <div class="form-group">
             <label for="selectLugar_s">Fecha de ultimo dia  de entrega de documentos</label>
-            <input class="form-control datepicker fecha_ultimo " type="text" id="fecha_ultimo" name="fecha_ultimo" data-date-format="dd-mm-yyyy" value="{{ $dato_alumno->fecha_entrego }}">
+            <input class="form-control datepicker fecha_ultimo " type="text" id="fecha_ultimo" name="fecha_ultimo" data-flatpickr-date="d-m-Y" data-flatpickr-min-days="0" data-date-format="dd-mm-yyyy" value="{{ $dato_alumno->fecha_entrego }}">
         </div>
 
     </div>
@@ -60,12 +60,6 @@
 <script>
 
     $(document).ready(function() {
-        $( '.fecha_ultimo').datepicker({
-            pickTime: false,
-            autoclose: true,
-            language: 'es',
-            startDate: '+0d',
-        });
     });
 
 </script>

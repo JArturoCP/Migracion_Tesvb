@@ -81,7 +81,7 @@
             <div class="modal-content">
 
                     <div class="modal-header bg-info">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title text-center" id="myModalLabel">Autorizar documentación de Alta de Residencia</h4>
                     </div>
                 <form class="form" action="{{url("/residencia/guardar_autorizacion_documentacion_alumn/")}}" role="form" method="POST" >

@@ -300,7 +300,7 @@
             <div class="modal-content">
 
                 <div class="modal-header bg-info">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title text-center" id="myModalLabel">Modificar Solicitud de Residencia Profesional</h4>
                 </div>
                 <div class="row">
@@ -331,7 +331,7 @@
             <div class="modal-content">
 
                 <div class="modal-header bg-info">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title text-center" id="myModalLabel">Modificar Constancia de 80% de avance académico</h4>
                 </div>
                 <div class="row">
@@ -361,7 +361,7 @@
             <div class="modal-content">
 
                 <div class="modal-header bg-info">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title text-center" id="myModalLabel">Modificar el Comprobante de seguro médico (IMSS, ISSSTE, ISSEMYM, etc.)</h4>
                 </div>
                 <div class="row">
@@ -391,7 +391,7 @@
             <div class="modal-content">
 
                 <div class="modal-header bg-info">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title text-center" id="myModalLabel">Modificar el Oficio de Asignación del Proyecto emitido por la Jefatura de División</h4>
                 </div>
                 <div class="row">
@@ -421,7 +421,7 @@
             <div class="modal-content">
 
                 <div class="modal-header bg-info">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title text-center" id="myModalLabel">Modificar el Oficio de Aceptación por parte de la empresa en hoja Membretada</h4>
                 </div>
                 <div class="row">
@@ -451,7 +451,7 @@
             <div class="modal-content">
 
                 <div class="modal-header bg-info">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title text-center" id="myModalLabel">Modificar el Oficio de Presentación por parte del TESVB</h4>
                 </div>
                 <div class="row">
@@ -481,7 +481,7 @@
             <div class="modal-content">
 
                 <div class="modal-header bg-info">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title text-center" id="myModalLabel">Modificar el Anteproyecto con el Visto Bueno de la Academia</h4>
                 </div>
                 <div class="row">
@@ -511,7 +511,7 @@
             <div class="modal-content">
 
                 <div class="modal-header bg-info">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title text-center" id="myModalLabel">Modificar la Carta de compromiso firmada por el Asesor Interno y revisor</h4>
                 </div>
                 <div class="row">
@@ -541,7 +541,7 @@
             <div class="modal-content">
 
                 <div class="modal-header bg-info">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title text-center" id="myModalLabel">Modificar el Convenio con la empresa (opcional)</h4>
                 </div>
                 <div class="row">

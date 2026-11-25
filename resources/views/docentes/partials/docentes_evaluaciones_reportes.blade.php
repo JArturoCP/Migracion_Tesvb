@@ -6,7 +6,7 @@
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-info">
                 <div class="panel-heading">
-                    <h3 class="panel-title text-center">REGISTRO DE CALIFICACIONES</h3>
+                    <h3 class="panel-title text-center">Registro de calificaciones</h3>
 
                 </div>
             </div>
@@ -38,7 +38,7 @@
                         </label>
                         <label for="" class="col-md-12 text-right">
                             <a href="{{url("reportes/reporte_docente",[$id_docente,$id_materia,$id_grupo])}}"  target="_blank" class="btn btn-success center">Reporte docente</a>
-                            <a href="{{url("reportes/reporte_canalizacion",[$id_docente,$id_materia,$id_grupo])}}" target="_blank" class="btn btn-success center">Reporte canalización</a>
+                            <a href="{{url("reportes/reporte_canalizacion",[$id_docente,$id_materia,$id_grupo])}}" target="_blank" class="btn btn-success center">Reporte de canalización</a>
                             <a href="{{url("reportes/reporte_tutor",[$id_docente,$id_materia,$id_grupo])}}"  target="_blank" class="btn btn-success center">Reporte tutor</a>
                             <button type="button" class="btn btn-success center"
                                     onclick="window.open('{{url('genera_listas', ['id_docente' => $id_docente,'id_materia' => $id_materia,'id_grupo' => $id_grupo,'unidades' => $unidades])}}')">

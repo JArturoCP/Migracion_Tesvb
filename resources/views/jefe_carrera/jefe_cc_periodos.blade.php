@@ -4,13 +4,13 @@
     <!--div class="col-md-10 col-xs-10 col-md-offset-1">
         <div class="panel panel-info">
     <div class="panel-heading">
-        <h3 class="panel-title text-center">HA TERMINADO EL PERIODO DE REGISTRO</h3>
+        <h3 class="panel-title text-center">Ha terminado el periodo de registro</h3>
     </div>  </div>  </div---->
     <div class="row">
         <div class="col-md-10 col-xs-10 col-md-offset-1">
             <div class="panel panel-info">
                 <div class="panel-heading">
-                    <h3 class="panel-title text-center">PERIODOS PARA EVALUAR UNIDADES</h3>
+                    <h3 class="panel-title text-center">Periodos para evaluar unidades</h3>
                 </div>
                 <div class="panel-body">
                     <div class="row col-md-12">
@@ -93,8 +93,8 @@
                 <div class="modal-content">
                     {{ csrf_field() }}
                     <div class="modal-header bg-info">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title text-center" id="myModalLabel">Generar Fecha de Evaluación</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title text-center" id="myModalLabel">Generar fecha de evaluación</h4>
                     </div>
                     <div class="modal-body">
                         <div id="contenedor_mostrar_periodo">
@@ -115,7 +115,7 @@
                 <form id="form_modificar" class="form" action="{{url("/docente/acciones/modificar_cc_periodo")}}" role="form" method="POST" >
                     {{ csrf_field() }}
                     <div class="modal-header bg-info">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title text-center" id="myModalLabel"><b>Modificar Fecha de Evaluación</b></h4>
                     </div>
                     <div id="contenedor_modificar">

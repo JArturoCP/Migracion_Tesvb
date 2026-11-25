@@ -224,6 +224,68 @@ class CompararVistas
         return implode(' ', self::textos($raiz));
     }
 
+    /** Comprueba el contenido anterior y las sustituciones editoriales aprobadas por vista. */
+    public static function textosFaltantes(DOMElement $anterior, string $textoNuevo, string $vista): array
+    {
+        $correcciones = match ($vista) {
+            'examen_egel.dashboard-resultados', 'examen_egel.reporte_resultados' => [
+                'Total puntos' => 'Total de puntos',
+            ],
+            'actividades_complementarias.alumnos.consulta_reg_actividades' => [
+                'Actividades Registradas' => 'Actividades registradas',
+                'Estado Solicitud' => 'Estado de la solicitud',
+                'Registro de Actividad' => 'Registro de actividad',
+                'NO HAS SELECCIONADO ACTIVIDAD' => 'Selecciona una actividad.',
+                'LA ACTIVIDAD QUE INTENTA REGISTRAR YA EXISTE' => 'La actividad que intentas registrar ya existe.',
+            ],
+            'actividades_complementarias.alumnos.carga_evidencias_alumnos' => [
+                'No. Evidencias' => 'Número de evidencias',
+                'Carga Evidencias' => 'Cargar evidencias',
+            ],
+            'actividades_complementarias.alumnos.liberacion_actividades' => [
+                'Calificación Obtenida' => 'Calificación obtenida',
+            ],
+            'tutorias.alumnos.expediente', 'tutorias.alumnos.expedienteUpdate' => [
+                'Datos Generales' => 'Datos generales',
+                'Antecedentes Académicos' => 'Antecedentes académicos',
+                'Datos Familiares' => 'Datos familiares',
+                'Hábitos de Estudio' => 'Hábitos de estudio',
+                'Formación Integral/Salud' => 'Formación integral y salud',
+                'Área Psicopedagógica' => 'Área psicopedagógica',
+                'No. Hijos *' => 'Número de hijos *',
+                'Tel. Casa' => 'Teléfono de casa',
+                'Celular *' => 'Teléfono celular *',
+                'Nivel Socio-Económico *' => 'Nivel socioeconómico *',
+                '¿Cuales?' => '¿Cuáles?',
+                'Tu forma de estudio mas utilizada *' => 'Tu forma de estudio más utilizada *',
+            ],
+            'evaluacion_docente.Alumnos.evaluacion_docente' => [
+                'Lee las siguientes preguntas y responde de manera correcta de acuerdo a los criterios' => 'Lee cada pregunta y responde de acuerdo con los criterios de evaluación.',
+                'En la ultima parte de la evaluación docente por favor de agregar un comentario por docente para poder finalizarla' => 'En la última parte, agrega un comentario por cada docente para finalizar la evaluación.',
+                'Mientras tu carga academica no este validada no podras relizar evaluacion' => 'Podrás realizar la evaluación docente cuando se valide tu carga académica.',
+                'UNA VEZ INICIADA LA EVALUACION NO SE PODRA REALIZAR NINGUN CAMBIO' => 'Una vez iniciada la evaluación, no se podrá realizar ningún cambio.',
+            ],
+            default => [],
+        };
+
+        if ($vista === 'tutorias.alumnos.expediente') {
+            $correcciones['Nota: Solo una única vez subes la fotografía'] = 'Sube la fotografía por única vez.';
+        }
+
+        if ($vista === 'tutorias.alumnos.expedienteUpdate') {
+            $correcciones += [
+                'Elija una opción' => 'Selecciona una opción',
+                'e-mail' => 'Correo electrónico',
+                'Realizar test' => 'Responder el cuestionario',
+            ];
+        }
+
+        return array_values(array_filter(
+            self::textos($anterior),
+            fn ($texto) => ! str_contains($textoNuevo, $correcciones[$texto] ?? $texto),
+        ));
+    }
+
     /** Hojas de estilo y scripts que cargan la página. */
     public static function recursos(string $html): array
     {

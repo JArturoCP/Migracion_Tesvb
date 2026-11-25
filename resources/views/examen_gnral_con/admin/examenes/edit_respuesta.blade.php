@@ -8,7 +8,7 @@
       <form data-panel-envio action="{{ route('admin.examen_general.respuesta.update', $respuesta->id_respuesta) }}" method="POST" class="form-horizontal">
         @csrf
         <div class="modal-header bg-info">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
           <h4 class="modal-title" id="myModalLabel"><span class="glyphicon glyphicon-edit"></span> EDITAR RESPUESTA DE LA PREGUNTA: {{ $respuesta->numero_pregunta }}</h4>
         </div>
         <div class="modal-body">

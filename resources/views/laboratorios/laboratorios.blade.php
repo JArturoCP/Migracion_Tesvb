@@ -182,7 +182,7 @@
                 <div class="modal-dialog " role="document">
                     <div class="modal-content">
                         <div class="modal-header bg-primary">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                             <h4 class="modal-title" id="myModalLabel">REGISTRAR EN PERIODO</h4>
                         </div>
                         <form id="form_registrar_profesor" action="{{url("/laboratorios/registrar/profesor/materia")}}" class="form" role="form" method="POST">
@@ -205,7 +205,7 @@
                 <div class="modal-dialog " role="document">
                     <div class="modal-content">
                         <div class="modal-header bg-success">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                             <h4 class="modal-title" id="myModalLabel">REGISTRAR EN FECHA DETERMINADA</h4>
                         </div>
                         <div class="modal-body">

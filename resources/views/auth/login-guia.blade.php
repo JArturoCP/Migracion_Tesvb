@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Login TESVB')
+@section('title', 'Iniciar sesión | TESVB')
 @section('content')
 <div class="container" id="container">
     <div class="row">
@@ -45,7 +45,7 @@ else
                     <img src="img/1.png">
               
               <div class="text-center" style="color:black;">
-                <strong><h3>Si no eres usuario registrado. Dar clic en el botón Registro ubicado en la parte superior derecha.</h3></strong>
+                <strong><h3>Si aún no tienes una cuenta, selecciona «Registro» en la parte superior derecha.</h3></strong>
               </div>
           </br>
             </div>
@@ -57,7 +57,7 @@ else
             <div class="item">
               <img src="img/2.png" >
               <div class="" style="color:black;">
-                <strong><h3>En el formulario de registro deberás ingresar tu correo que será tu identificación de usuario, contraseña y el tipo de usuario.</h3></strong>
+                <strong><h3>En el formulario de registro, ingresa tu correo electrónico y una contraseña. Después, selecciona el tipo de usuario. Tu correo será tu nombre de usuario.</h3></strong>
               </div>
             </div>
             <div class="item">
@@ -69,7 +69,7 @@ else
                         <div class="item">
               <img src="img/4.png" >
               <div class="carousel-caption" style="color:black;">
-                <strong><h3> Una vez que accedas a tu correo,selecciona el link, dar clic derecho y abrir el enlace en una nueva pestaña.</h3></strong>
+                <strong><h3> Abre el mensaje de verificación, haz clic derecho en el enlace y ábrelo en una nueva pestaña.</h3></strong>
               </div>
             </div>
                                     <div class="item">
@@ -108,14 +108,14 @@ else
 
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Iniciar Sesión</div>
+                <div class="panel-heading">Iniciar sesión</div>
                 <div class="panel-body">
                     <form class="form-horizontal" role="form" method="POST" action="{{ url('/login') }}">
                         <!-- action="{{ url('/login') }}"  -->
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">Correo Electrónico</label>
+                            <label for="email" class="col-md-4 control-label">Correo electrónico</label>
 
                             <div class="col-md-6">
                                 <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required autofocus>

@@ -8,7 +8,7 @@
                 <div v-else>
                     <h5 class="modal-title">Sugerencia</h5>
                 </div>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>

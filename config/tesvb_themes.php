@@ -1,6 +1,6 @@
 <?php
 
-// Catálogo institucional confirmado. No derivar IDs ni colores de los seeders ficticios.
+// Los índices históricos identifican entradas del catálogo visual. No son IDs académicos.
 // Los alias son una lista cerrada: añadir únicamente denominaciones confirmadas por TESVB.
 return [
     'neutral' => [
@@ -22,6 +22,7 @@ return [
             'secondary' => '#F5EEF0',
             'foreground' => '#153653',
             'image' => 'img/login/hurones/administracion.webp',
+            'logo' => 'img/logos_carreras/administracion.webp',
         ],
         2 => [
             'key' => 'ingenieria-sistemas',
@@ -31,6 +32,7 @@ return [
             'secondary' => '#FEF6EB',
             'foreground' => '#153653',
             'image' => 'img/login/hurones/ingenieria-sistemas.webp',
+            'logo' => 'img/logos_carreras/sistemas.webp',
         ],
         3 => [
             'key' => 'arquitectura',
@@ -40,6 +42,7 @@ return [
             'secondary' => '#EDF0F4',
             'foreground' => '#153653',
             'image' => 'img/login/hurones/arquitectura.webp',
+            'logo' => 'img/logos_carreras/arquitectura.webp',
         ],
         4 => [
             'key' => 'ingenieria-electrica',
@@ -49,6 +52,7 @@ return [
             'secondary' => '#ECF3EF',
             'foreground' => '#153653',
             'image' => 'img/login/hurones/ingenieria-electrica.webp',
+            'logo' => 'img/logos_carreras/electrica.webp',
         ],
         5 => [
             'key' => 'ingenieria-industrial',
@@ -58,6 +62,7 @@ return [
             'secondary' => '#ECF5FA',
             'foreground' => '#153653',
             'image' => 'img/login/hurones/ingenieria-industrial.webp',
+            'logo' => 'img/logos_carreras/industrial.webp',
         ],
         6 => [
             'key' => 'ingenieria-forestal',
@@ -67,6 +72,7 @@ return [
             'secondary' => '#F2F5F1',
             'foreground' => '#153653',
             'image' => 'img/login/hurones/ingenieria-forestal.webp',
+            'logo' => 'img/logos_carreras/forestal.webp',
         ],
         7 => [
             'key' => 'gastronomia',
@@ -76,6 +82,7 @@ return [
             'secondary' => '#F7EFF1',
             'foreground' => '#153653',
             'image' => 'img/login/hurones/gastronomia.webp',
+            'logo' => 'img/logos_carreras/gastronomia.webp',
         ],
         8 => [
             'key' => 'turismo',
@@ -85,6 +92,7 @@ return [
             'secondary' => '#EDF7F7',
             'foreground' => '#153653',
             'image' => 'img/login/hurones/turismo.webp',
+            'logo' => 'img/logos_carreras/turismo.webp',
         ],
         13 => [
             'key' => 'ingenieria-mecatronica',
@@ -94,6 +102,7 @@ return [
             'secondary' => '#ECF1F3',
             'foreground' => '#153653',
             'image' => 'img/login/hurones/ingenieria-mecatronica.webp',
+            'logo' => 'img/logos_carreras/mecatronica.webp',
         ],
         14 => [
             'key' => 'ingenieria-civil',
@@ -103,6 +112,7 @@ return [
             'secondary' => '#EEF1F4',
             'foreground' => '#153653',
             'image' => 'img/login/hurones/ingenieria-civil.webp',
+            'logo' => 'img/logos_carreras/civil.webp',
         ],
     ],
 ];

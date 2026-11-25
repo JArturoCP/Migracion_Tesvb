@@ -28,6 +28,8 @@
         $nombre_periodo = Session::get('nombre_periodo_ingles');
         $men = Session::get('men');
 
+        $inicioEstudiante = $palumno && ! $profesor_ingles && $unidad != 19 && ! $perfilTablero;
+
         // Accesos: mismas opciones, condiciones y href que menu_ingles (L57-194).
         $accesos = [];
         if ($profesor_ingles == true) {
@@ -76,14 +78,26 @@
             ]];
         }
         if ($palumno == true) {
-            $accesos[] = ['titulo' => 'Carga academica de ingles', 'enlaces' => [
-                ['Cargar voucher de pago', url('/ingles_horarios/cargar_voucher_pago')],
-                ['Registrar carga academica de ingles', url('/ingles_horarios/iniciar_carga_academica/')],
-                ['Ver carga academica de ingles', url('/ingles_horarios/revision_carga_academica/')],
-                ['Ver calificaciones de ingles', url('/ingles/ver_cal_alumno_ingles/')],
-            ]];
+            $accesosEstudiante = [
+                ['Cargar voucher de pago', url('/ingles_horarios/cargar_voucher_pago'), 'M3 9h18M7 15h4M5 5h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z'],
+                [$inicioEstudiante ? 'Registrar carga académica de Inglés' : 'Registrar carga academica de ingles', url('/ingles_horarios/iniciar_carga_academica/'), 'M8 3v4m8-4v4M4 10h16m-9 11H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v5m-3 2v8m-4-4h8'],
+                [$inicioEstudiante ? 'Ver carga académica de Inglés' : 'Ver carga academica de ingles', url('/ingles_horarios/revision_carga_academica/'), 'M8 3v4m8-4v4M4 10h16M8 14h1m3 0h1m3 0h1m-9 3h1m3 0h1m3 0h1M6 5h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z'],
+                [$inicioEstudiante ? 'Ver calificaciones de Inglés' : 'Ver calificaciones de ingles', url('/ingles/ver_cal_alumno_ingles/'), 'M4 14h3v7H4zm6-5h3v12h-3zm6-5h3v17h-3z'],
+            ];
+
+            if (! $inicioEstudiante) {
+                $accesos[] = ['titulo' => 'Carga academica de ingles', 'enlaces' => $accesosEstudiante];
+            }
         }
     ?>
+
+    @if($inicioEstudiante)
+        @push('cabeza')
+            <link rel="stylesheet" href="{{ asset('css/ingles-inicio.css') }}">
+        @endpush
+        @include('ingles.inicio_ingles.partials.inicio_estudiante')
+    @else
+
     <div class="tw:grid tw:grid-cols-12 tw:gap-4 tw:md:gap-6">
 
         {{-- Bienvenida (mismo parcial que /inicio): el "!!!!!Bienvenido(a)!!!!!" de antes, con el nombre de las
@@ -123,4 +137,5 @@
             </div>
         @endif
     </div>
+    @endif
 @endsection

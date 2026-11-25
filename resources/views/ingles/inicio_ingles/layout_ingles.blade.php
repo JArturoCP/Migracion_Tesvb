@@ -14,6 +14,7 @@
 <head>
 @include('ingles.inicio_ingles.partials.cabeza')
     @include('layouts.tipografia')
+@include('partials.panel.fechas')
 </head>
 
 <body>

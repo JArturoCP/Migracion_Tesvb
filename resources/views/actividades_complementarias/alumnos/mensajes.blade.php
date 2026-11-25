@@ -23,7 +23,7 @@
 <!-- Modal de mensaje -->
 <x-panel.modal id="modal_mensaje" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="myModalLabel"><div id="modal_mensaje_contenido">
       <div class="tw:px-6 tw:pt-6 tw:pr-14">
-        <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="myModalLabel">Actividades Complementarias</h4>
+        <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="myModalLabel">Actividades complementarias</h4>
       </div>
       <div class="tw-modal-cuerpo">
         <x-panel.alerta :tipo="$tonoMensaje" data-panel-mensaje>

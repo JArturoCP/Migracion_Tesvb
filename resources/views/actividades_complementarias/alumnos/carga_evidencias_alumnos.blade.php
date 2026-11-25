@@ -38,10 +38,10 @@
           <th>Categoría</th>
           <th>Horas</th>
           <th>Créditos</th>
-          <th>No. Evidencias</th>
+          <th>Número de evidencias</th>
           <th>Rúbrica</th>
           <th></th>
-          <th>Carga Evidencias</th>
+          <th>Cargar evidencias</th>
         </tr>
       </thead>
       <tbody>

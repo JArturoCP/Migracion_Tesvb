@@ -5,7 +5,7 @@
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-info">
                 <div class="panel-heading">
-                    <h3 class="panel-title text-center">CALIFICACIONES</h3>
+                    <h3 class="panel-title text-center">Calificaciones</h3>
                 </div>
             </div>
         </div>

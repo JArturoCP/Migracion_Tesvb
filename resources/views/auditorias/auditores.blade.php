@@ -194,7 +194,7 @@
             $(".btn_delete_auditor").click(function(){
                 var id=$(this).data('id');
                 swal({
-                    title: "Seguro que desea eliminar?",
+                    title: "¿Seguro que deseas eliminar al auditor?",
                     allowOutsideClick: false,
                     showCancelButton: true,
                     cancelButtonText: 'Cancelar',

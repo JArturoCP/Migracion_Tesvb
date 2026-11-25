@@ -184,7 +184,7 @@
                 </div>
 
 <div class="tw:w-full tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-red-200 tw:bg-red-50 tw:text-red-700 tw:relative tw:pr-10 tw:lg:w-full tw:px-2" role="alert" id="notifi_materia" style="display:none">
-    <button type="button" class="tw:text-2xl tw:leading-none tw:text-gray-400 tw:hover:text-gray-700" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <button type="button" class="tw:text-2xl tw:leading-none tw:text-gray-400 tw:hover:text-gray-700" data-dismiss="alert" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
   No terminaste tu registro de horas para : {{ $falta_materia }}
 </div>
 

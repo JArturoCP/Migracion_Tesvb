@@ -99,7 +99,7 @@ setlocale(LC_ALL, 'es_ES');
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="exampleModalLabel">Registro de actividad</h4>
                 </div>
                 <form id="form_add_ag" class="form" role="form" method="POST" action="{{url("/sgc/guarda_evento")}}">
@@ -165,7 +165,7 @@ setlocale(LC_ALL, 'es_ES');
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="exampleModalLabel">Registro de actividad</h4>
                 </div>
                 <form id="form_selec_aud" class="form" role="form" method="GET" action="">

@@ -10,7 +10,7 @@
                             <a    href="{{url('/servicios_escolares/carreras_calificaciones')}}"><span class="glyphicon glyphicon-arrow-left" style="font-size:15px;color:#363636"></span><br>Regresar</a>
                         </div>
                         <div class="col-md-4 col-md-offset-1 " style="text-align: center;">
-                            <h3 class="panel-title text-center">DOCENTES DE LA CARRERA</h3>
+                            <h3 class="panel-title text-center">Docentes de la carrera</h3>
                         </div>
 
                     </div>
@@ -96,7 +96,7 @@
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header bg-info">
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                     <h4 class="modal-title" id="myModalLabel">{{$materia['nombre_materia']}}</h4>

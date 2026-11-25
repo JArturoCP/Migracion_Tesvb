@@ -42,6 +42,9 @@
 /* Vistas de módulos migradas al panel (se escanean solo las clases tw:; el resto no genera CSS). */
 @source "../views/ambiental/encargado_amb/activo_periodo.blade.php";
 @source "../views/ambiental/encargado_amb/desactivo_periodo.blade.php";
+@source "../views/ambiental/encargado_amb/correcciones_procedimiento_doc.blade.php";
+@source "../views/ambiental/encargado_amb/historial_envio_documentacion.blade.php";
+@source "../views/ambiental/encargado_amb/procedimiento_doc.blade.php";
 @source "../views/tutorias/alumnos";
 @source "../views/tutorias/actividades_alumno";
 @source "../views/tutorias/calendario_eventos";

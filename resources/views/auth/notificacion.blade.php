@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Notificacion TESVB')
+@section('title', 'Notificación del TESVB')
 @section('content')
     <div class="container" id="container">
         <div class="row">

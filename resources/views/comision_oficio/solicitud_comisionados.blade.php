@@ -172,7 +172,7 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                             <h4 class="modal-title" id="exampleModalLabel">Agregar comisionado</h4>
                         </div>
                         <div class="modal-body">
@@ -250,7 +250,7 @@
                     <form id="form_agregar" class="form" action="{{url("/oficio/dependencia/crear/")}}" role="form" method="POST" >
                         {{ csrf_field() }}
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title" id="exampleModalLabel">Agregar otra dependencia</h4>
                     </div>
                     <div class="modal-body">
@@ -317,7 +317,7 @@
                     <form class="form" action="{{url("/oficios/dependencia/editar")}}" role="form" method="POST" >
                         {{ csrf_field() }}
                         <div class="modal-header bg-info">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                             <h4 class="modal-title text-center" id="myModalLabel">Modificar oficio</h4>
                         </div>
                         <div id="contenedor_modificar_dependencia">
@@ -341,7 +341,7 @@
                     <form class="form" action="{{url("/oficios/solicitud/modificar")}}" role="form" method="POST" >
                         {{ csrf_field() }}
                         <div class="modal-header bg-info">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                             <h4 class="modal-title text-center" id="myModalLabel">Modificar solicitud de oficio</h4>
                         </div>
                         <div id="contenedor_modificar_oficio">

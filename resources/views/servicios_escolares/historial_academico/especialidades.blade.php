@@ -5,8 +5,8 @@
         <div class="col-md-10 col-xs-10 col-md-offset-1">
             <div class="panel panel-info">
                 <div class="panel-heading">
-                    <h3 class="panel-title text-center">ESPECIALIDADES</h3>
-                    <h5 class="panel-title text-center">(PROGRAMAS DE ESTUDIO)</h5>
+                    <h3 class="panel-title text-center">Especialidades</h3>
+                    <h5 class="panel-title text-center">Programas de estudio</h5>
                 </div>
                 <div class="panel-body">
 
@@ -88,7 +88,7 @@
             <div class="modal-content">
 
                     <div class="modal-header bg-info">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title text-center" id="myModalLabel">Modificar nombre de la especialidad</h4>
                     </div>
                     <div class="modal-body">
@@ -108,7 +108,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="exampleModalLabel">Agregar especialidad</h4>
                 </div>
                 <div class="modal-body">

@@ -6,7 +6,7 @@
             <div class="panel panel-info">
                 <div class="panel-heading">
                     <h3 class="panel-title text-center">CONCENTRADO DE CALIFICACIONES <br> {{$nombre_carrera}}</h3>
-                    <h5 class="panel-title text-center">(SEMESTRES)</h5>
+                    <h5 class="panel-title text-center">Semestres</h5>
                 </div>
 
             </div>

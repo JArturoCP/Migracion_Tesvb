@@ -70,7 +70,7 @@
                     <form id="form" class="form" action="{{url("/cct/guardar_modificacion/")}}" role="form" method="POST" >
                         {{ csrf_field() }}
                         <div class="modal-header bg-info">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                             <h4 class="modal-title text-center" id="myModalLabel">Modificar Escuela de Procedencia</h4>
                         </div>
                         <div class="modal-body">
@@ -91,7 +91,7 @@
                 <div class="modal-content">
 
                         <div class="modal-header bg-info">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                             <h4 class="modal-title text-center" id="myModalLabel">Agregar Escuela de Procedencia</h4>
                         </div>
                     <form id="form_agregar" class="form" action="{{url("/cct/guardar_institucion_educativa/")}}" role="form" method="POST" >

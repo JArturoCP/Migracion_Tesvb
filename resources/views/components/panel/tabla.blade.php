@@ -8,9 +8,10 @@
     </x-panel.tabla>
     compacta: celdas más bajas.
 --}}
-@props(['compacta' => false])
+@props(['compacta' => false, 'desplazable' => null])
 <div class="tw-tabla-contenedor tw:overflow-hidden tw:rounded-xl tw:border tw:border-gray-200 tw:bg-white tw:dark:border-gray-800 tw:dark:bg-white/[0.03]">
-    <div class="tw:max-w-full tw:overflow-x-auto">
+    <div class="tw:max-w-full tw:overflow-x-auto{{ $desplazable ? ' tw-tabla-desplazable' : '' }}"
+        @if ($desplazable) tabindex="0" role="region" aria-label="{{ $desplazable }}" @endif>
         <table {{ $attributes->class(['tw-tabla tw:min-w-full', 'tw-tabla-compacta' => $compacta]) }}>
             {{ $slot }}
         </table>

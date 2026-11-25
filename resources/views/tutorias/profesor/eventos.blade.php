@@ -1,10 +1,6 @@
 @extends('layouts.app')
 @section('content')
     <style>
-        body {
-            font-family: "Lato", sans-serif;
-        }
-
         .sidepanel  {
             width: 0;
             position: fixed;

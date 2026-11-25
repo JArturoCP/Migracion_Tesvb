@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Registrar Estudiantes con Adeudo')
+@section('title', 'Registrar estudiantes con adeudo')
 @section('content')
     <main class="col-md-12">
 
@@ -8,7 +8,7 @@
             <div class="col-md-6 col-md-offset-3 ">
                 <div class="panel panel-info">
                     <div class="panel-heading">
-                        <h3 class="panel-title text-center">Registrar Estudiantes con Adeudo de Firma de Encuesta</h3>
+                        <h3 class="panel-title text-center">Registrar estudiantes con firma de encuesta pendiente</h3>
                     </div>
                 </div>
             </div>
@@ -19,7 +19,7 @@
             <div class="row">
                 <div class="col-md-4 col-md-offset-4">
                     <div class="dropdown">
-                        <label for="exampleInputEmail1">Elige carrrera<b style="color:red; font-size:23px;">*</b></label>
+                        <label for="exampleInputEmail1">Elige una carrera<b style="color:red; font-size:23px;">*</b></label>
                         <select class="form-control  "placeholder="selecciona una Opcion" id="carrera" name="carrera" required>
                             <option disabled selected hidden>Selecciona una opción</option>
                             @foreach($carreras as $carrera)
@@ -35,7 +35,7 @@
             <div class="row">
                 <div class="col-md-4 col-md-offset-4">
                     <div class="dropdown">
-                        <label for="exampleInputEmail1">Elige carrrera<b style="color:red; font-size:23px;">*</b></label>
+                        <label for="exampleInputEmail1">Elige una carrera<b style="color:red; font-size:23px;">*</b></label>
                         <select class="form-control  "placeholder="selecciona una Opcion" id="carrera" name="carrera" required>
                             <option disabled selected hidden>Selecciona una opción</option>
                             @foreach($carreras as $carrera)
@@ -88,7 +88,7 @@
                 <div class="col-md-7 ">
                     <div class="panel panel-info">
                         <div class="panel-heading">
-                            <h3 class="panel-title text-center">Estudiantes con adeudo  de firma de encuestas</h3>
+                            <h3 class="panel-title text-center">Estudiantes con firma de encuesta pendiente</h3>
                         </div>
                     </div>
                     <div class="panel panel-primary">

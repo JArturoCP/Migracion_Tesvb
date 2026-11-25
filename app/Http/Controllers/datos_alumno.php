@@ -12,6 +12,8 @@ use App\Semestres;
 use App\Tutor;
 use App\User;
 use Session;
+use App\Services\EdadAlumno;
+use Illuminate\Validation\ValidationException;
 
 
 class datos_alumno extends Controller
@@ -22,7 +24,7 @@ class datos_alumno extends Controller
     }
     public function index()
     {
-        $usuario = Session::get('usuario_alumno');
+        $usuario = auth()->id();
         $correo=DB::selectOne('SELECT users.email FROM users WHERE users.id= ?', [$usuario]);
         $carreras=Carreras::all();
         $estados_alu=Estados::all();
@@ -42,18 +44,13 @@ class datos_alumno extends Controller
         //  dd($usuario);
         if($sesion->alumno ==0)
         {
-            $añoactual=DB::selectOne('SELECT CURDATE() year');
-            $año=$añoactual->year;
-
-
             $array=array('id_usuario'=>$usuario,
-                'correo_al'=>$correo->email,
-                'fecha_nac'=>$año);
+                'correo_al'=>$correo->email);
 
             Alumnos::create($array);
             $dat_alumno=DB::selectOne('SELECT gnral_alumnos.id_alumno FROM gnral_alumnos WHERE gnral_alumnos.id_usuario=?', [(string) ($usuario)]);
             $id_alumno=$dat_alumno->id_alumno;
-            $array=array('id_alumno'=>$id_alumno,'fecha_nac_T'=>$año);
+            $array=array('id_alumno'=>$id_alumno);
             Tutor::create($array);
             $existe=0;
         }
@@ -91,30 +88,16 @@ class datos_alumno extends Controller
             $id_alumno=$dat_alumno->id_alumno;
             //dd($id_alumno);
 
-            $añoactual=DB::selectOne('SELECT CURDATE() year');
-            $año=$añoactual->year;
-            $array=array('id_alumno'=>$id_alumno,'fecha_nac_T'=>$año);
+            $array=array('id_alumno'=>$id_alumno);
             Tutor::create($array);
         }
         $datos_t=DB::selectOne('SELECT * FROM eva_tutor WHERE eva_tutor.id_alumno= ?', [$datos->id_alumno]);
 
-        $fecha=$datos->fecha_nac;
-        $fecha= explode("-", $fecha);
-        //dd($fecha);
-        $año=$fecha[0];
-
-        $mes=$fecha[1];
-        $dia=$fecha[2];
-        $fecha=$dia."/".$mes."/".$año;
-        $datos->fecha_nac=$fecha;
-        //////////////////fecha tutor
-        $fechat=$datos_t->fecha_nac_T;
-        $fechat= explode("-",$fechat);
-        $añot=$fechat[0];
-        $mest=$fechat[1];
-        $diat=$fechat[2];
-        $fechat=$diat."/".$mest."/".$añot;
-        $datos_t->fecha_nac_T=$fechat;
+        $datos->fecha_nac = EdadAlumno::fecha($datos->fecha_nac);
+        $datos_t->fecha_nac_T = EdadAlumno::fecha($datos_t->fecha_nac_T);
+        $fechaCapturada = old('fecha_nac', $datos->fecha_nac);
+        $fechaNacimiento = is_string($fechaCapturada) ? EdadAlumno::fecha($fechaCapturada) : null;
+        $edad = EdadAlumno::calcular($fechaNacimiento);
 
         $dat=DB::selectOne('SELECT count(id_carrera) carrera FROM gnral_alumnos WHERE gnral_alumnos.id_usuario= ?', [$usuario]);
         $dat=$dat->carrera;
@@ -124,69 +107,7 @@ class datos_alumno extends Controller
             ->orderBy('gnral_escuela_procedencia.estado', 'ASC')
             ->orderBy('gnral_escuela_procedencia.municipio', 'ASC')
             ->get();
-        if($datos->edad == null){
-           $f_nac=0;
-        }
-        else{
-           $f_nac=1;
-        }
-        $curp=DB::selectOne('SELECT * FROM gnral_alumnos WHERE gnral_alumnos.id_usuario= ?', [$usuario]);
-        $curp=$curp->curp_al;
-        if($curp== null){
-            $ed=0;
-            $edad=0;
-            $genero="";
-    }
-    else{
-        $ed=1;
-
-        $genero=$al_año=substr($curp, 10,1);
-
-
-        $al_año=substr($curp, 4,1); //sacar el año
-        if($al_año == 9 || $al_año == 8  || $al_año == 7 || $al_año == 6)
-        {
-            $al_año2=substr($curp, 5,1);
-            $amo="19".$al_año.$al_año2;
-            $mes=substr($curp, 6,2);
-            $dia=substr($curp, 8,2);
-            $ano_diferencia  = date("Y") - $amo;
-
-            $mes_diferencia =   date("m")-$mes;
-
-            $dia_diferencia   =   date("d")- $dia;
-
-            if ($dia_diferencia < 0 && $mes_diferencia == 0 || $mes_diferencia < 0)
-            {
-                $ano_diferencia=$ano_diferencia-1;
-            }
-            else{
-                $ano_diferencia=$ano_diferencia;
-            }
-        }
-        else if($al_año ==0 || $al_año == 1 || $al_año == 2){
-            $al_año2=substr($curp, 5,1);
-            $amo="20".$al_año.$al_año2;
-            $mes=substr($curp, 6,2);
-            $dia=substr($curp, 8,2);
-            $ano_diferencia  = date("Y") - $amo;
-
-            $mes_diferencia =   date("m")-$mes;
-
-            $dia_diferencia   =   date("d")- $dia;
-
-            if ($dia_diferencia < 0 && $mes_diferencia == 0 || $mes_diferencia < 0)
-            {
-                $ano_diferencia=$ano_diferencia-1;
-            }
-            else{
-                $ano_diferencia=$ano_diferencia;
-            }
-        }
-
-        $edad=$ano_diferencia;
-
-    }
+        $genero = substr($datos->curp_al ?? '', 10, 1);
         $sem=$datos->s_a;
 
        if($sem == 0){
@@ -297,7 +218,7 @@ if ($periodo_inscrito == 0) {
 //dd($datos);
         return view('evaluacion_docente.Alumnos.datos_alumno',compact('grados','seguro','respuestass','respuesta',
             'datos_u','carreras','estados_alu','municipios','estados_tutor','existe','datos','entidadnac','semestres',
-            'datos_t','dat','escuelas','f_nac','edad','ed','genero','sem','estado_institucion','institucion'));
+            'datos_t','dat','escuelas','edad','fechaNacimiento','genero','sem','estado_institucion','institucion'));
     }
     public function create()
     {
@@ -308,16 +229,12 @@ if ($periodo_inscrito == 0) {
     {
 
 
-        $usuario = Session::get('usuario_alumno');
-        $correo=DB::selectOne('SELECT users.email FROM users WHERE users.id= ?', [$usuario]);
-        $cuent=DB::selectOne('SELECT * FROM `gnral_alumnos` WHERE `id_usuario` = ? ', [$usuario]);
-        $cuentass=$cuent->cuenta;
-         //dd($request);
-        //dd($request->get('fecha_nac'));
-        $id=($request->get('id'));
-        $id_tutor=($request->get('id_tutor'));
+        $usuario = $request->user()->id;
+        $correo = $request->user()->email;
+        $ids = $request->validate(['id' => 'required|integer', 'id_tutor' => 'required|integer']);
+        $alumno = Alumnos::where('id_usuario', $usuario)->findOrFail($ids['id']);
+        $tutor = Tutor::where('id_alumno', $alumno->id_alumno)->findOrFail($ids['id_tutor']);
 
-        $existe=($request->get('existe'));
         $direccion=($request->get('igual'));
         ////////reorganizar fecha
 
@@ -328,119 +245,68 @@ if ($periodo_inscrito == 0) {
         ], [
             '*.date_format' => 'Ingresa una fecha de nacimiento válida.',
         ]);
-        $normalizarFecha = fn (string $valor) => str_contains($valor, '/')
-            ? implode('-', array_reverse(explode('/', $valor)))
-            : $valor;
-        $fecha = $normalizarFecha($fechas['fecha_nac']);
-        $fechat = $normalizarFecha($fechas['fecha_nac_tutor']);
+        $fecha = EdadAlumno::fecha($fechas['fecha_nac']);
+        $edad = EdadAlumno::calcular($fecha);
+        if ($edad === null) {
+            throw ValidationException::withMessages(['fecha_nac' => 'Ingresa una fecha de nacimiento válida que no sea futura.']);
+        }
+        $fechat = EdadAlumno::fecha($fechas['fecha_nac_tutor']);
+        $edadTutor = EdadAlumno::calcular($fechat);
+        if ($edadTutor === null) {
+            throw ValidationException::withMessages(['fecha_nac_tutor' => 'Ingresa una fecha de nacimiento válida que no sea futura.']);
+        }
 
 
 ////////////////////////////////////////
-        $cuent= strtoupper($request->get('cuenta'));
-        $curp_al= strtoupper($request->get('curpalu'));
-        if($cuentass == ''){
-            $datos=array(
+        $cuenta = strtoupper($request->string('cuenta')->toString());
+        $curp_al = strtoupper($request->string('curpalu')->toString());
+        $datos = [
+            'nombre'=>$request->get('nomalu'),
+            'apaterno'=>$request->get('appalu'),
+            'amaterno'=>$request->get('apmalu'),
+            'genero'=>$request->get('generoalu'),
+            'fecha_nac'=>$fecha,
+            'edad'=>$edad,
+            'curp_al'=>$curp_al,
+            'edo_civil'=>$request->get('estadoalu'),
+            'nacionalidad'=>$request->get('nacioalu'),
+            'twiter_al'=>$request->get('twiteralu'),
+            'correo_al'=>$alumno->correo_al ?: $correo,
+            'facebook_al'=>$request->get('facealu'),
+            'cel_al'=>$request->get('celalu'),
+            'tel_fijo_al'=>$request->get('telalu'),
+            'entidad_nac_al'=>$request->get('entidadalu'),
+            'grado_estudio_al'=>$request->get('estudiosalu'),
+            'id_carrera'=>$request->get('carreras'),
+            'id_semestre'=>$request->get('semestre'),
+            's_a'=>$request->get('semestre'),
+            'grupo'=>$request->get('grupoalu'),
+            'promedio'=>$request->get('promedio'),
+            'promedio_preparatoria'=>$request->get('promedio_preparatoria'),
+            'estado'=>$request->get('estados_alu'),
+            'id_municipio'=>$request->get('municipios_alu'),
 
-                'cuenta'=>$cuent,
-                'nombre'=>$request->get('nomalu'),
-                'apaterno'=>$request->get('appalu'),
-                'amaterno'=>$request->get('apmalu'),
-                'genero'=>$request->get('generoalu'),
-                //'fecha_nac'=>$request->get('fecha_nac'),
-                'fecha_nac'=>$fecha,
-                'edad'=>$request->get('edadalu'),
-                'curp_al'=>$curp_al,
-                'edo_civil'=>$request->get('estadoalu'),
-                'nacionalidad'=>$request->get('nacioalu'),
-                'twiter_al'=>$request->get('twiteralu'),
-                'correo_al'=>$request->get('correoalu'),
-                'facebook_al'=>$request->get('facealu'),
-                'cel_al'=>$request->get('celalu'),
-                'tel_fijo_al'=>$request->get('telalu'),
-                'entidad_nac_al'=>$request->get('entidadalu'),
-                'grado_estudio_al'=>$request->get('estudiosalu'),
-                'id_carrera'=>$request->get('carreras'),
-                'id_semestre'=>$request->get('semestre'),
-                's_a'=>$request->get('semestre'),
-                'grupo'=>$request->get('grupoalu'),
-                'promedio'=>$request->get('promedio'),
-                'promedio_preparatoria'=>$request->get('promedio_preparatoria'),
-                //'id_escuela_procedencia'=>$request->get('escuela'),
-                'estado'=>$request->get('estados_alu'),
-                'id_municipio'=>$request->get('municipios_alu'),
+            'discapacidad'=>$request->get('discapacidad'),
+            'descripcion_discapacidad'=>$request->get('descripcion_discapacidad'),
+            'lengua'=>$request->get('lengua'),
+            'descripcion_lengua'=>$request->get('descripcion_lengua'),
+            'id_seguro_social'=>$request->get('seguro'),
+            'numero_seguro_social'=>$request->get('seguro_social'),
 
-                'discapacidad'=>$request->get('discapacidad'),
-                'descripcion_discapacidad'=>$request->get('descripcion_discapacidad'),
-                'lengua'=>$request->get('lengua'),
-                'descripcion_lengua'=>$request->get('descripcion_lengua'),
-                'id_seguro_social'=>$request->get('seguro'),
-                'numero_seguro_social'=>$request->get('seguro_social'),
-
-                'calle_al'=>$request->get('calle_alu'),
-                'n_ext_al'=>$request->get('n_exterior_alu'),
-                'n_int_al'=>$request->get('n_interior_alu'),
-                'entre_calle'=>$request->get('entre_calle_alu'),
-                'y_calle'=>$request->get('y_calle_alu'),
-                'otra_ref'=>$request->get('otra_ref_alu'),
-                'colonia_al'=>$request->get('colonia_alu'),
-                'localidad_al'=>$request->get('localidad_alu'),
-                'cp'=>$request->get('CP_alu'),
-
-            );
-        }else{
-            $datos=array(
-
-                'cuenta'=>$cuent,
-                'nombre'=>$request->get('nomalu'),
-                'apaterno'=>$request->get('appalu'),
-                'amaterno'=>$request->get('apmalu'),
-                'genero'=>$request->get('generoalu'),
-                //'fecha_nac'=>$request->get('fecha_nac'),
-                'fecha_nac'=>$fecha,
-                'edad'=>$request->get('edadalu'),
-                'curp_al'=>$curp_al,
-                'edo_civil'=>$request->get('estadoalu'),
-                'nacionalidad'=>$request->get('nacioalu'),
-                'twiter_al'=>$request->get('twiteralu'),
-                'correo_al'=>$request->get('correoalu'),
-                'facebook_al'=>$request->get('facealu'),
-                'cel_al'=>$request->get('celalu'),
-                'tel_fijo_al'=>$request->get('telalu'),
-                'entidad_nac_al'=>$request->get('entidadalu'),
-                'grado_estudio_al'=>$request->get('estudiosalu'),
-                'id_carrera'=>$request->get('carreras'),
-                'id_semestre'=>$request->get('semestre'),
-                's_a'=>$request->get('semestre'),
-                'grupo'=>$request->get('grupoalu'),
-                'promedio'=>$request->get('promedio'),
-                'promedio_preparatoria'=>$request->get('promedio_preparatoria'),
-                //'id_escuela_procedencia'=>$request->get('escuela'),
-                'estado'=>$request->get('estados_alu'),
-                'id_municipio'=>$request->get('municipios_alu'),
-
-                'discapacidad'=>$request->get('discapacidad'),
-                'descripcion_discapacidad'=>$request->get('descripcion_discapacidad'),
-                'lengua'=>$request->get('lengua'),
-                'descripcion_lengua'=>$request->get('descripcion_lengua'),
-                'id_seguro_social'=>$request->get('seguro'),
-                'numero_seguro_social'=>$request->get('seguro_social'),
-
-                'calle_al'=>$request->get('calle_alu'),
-                'n_ext_al'=>$request->get('n_exterior_alu'),
-                'n_int_al'=>$request->get('n_interior_alu'),
-                'entre_calle'=>$request->get('entre_calle_alu'),
-                'y_calle'=>$request->get('y_calle_alu'),
-                'otra_ref'=>$request->get('otra_ref_alu'),
-                'colonia_al'=>$request->get('colonia_alu'),
-                'localidad_al'=>$request->get('localidad_alu'),
-                'cp'=>$request->get('CP_alu'),
-
-            );
-        }
+            'calle_al'=>$request->get('calle_alu'),
+            'n_ext_al'=>$request->get('n_exterior_alu'),
+            'n_int_al'=>$request->get('n_interior_alu'),
+            'entre_calle'=>$request->get('entre_calle_alu'),
+            'y_calle'=>$request->get('y_calle_alu'),
+            'otra_ref'=>$request->get('otra_ref_alu'),
+            'colonia_al'=>$request->get('colonia_alu'),
+            'localidad_al'=>$request->get('localidad_alu'),
+            'cp'=>$request->get('CP_alu'),
+        ];
 
         if($direccion==1)
         {
-            $curp_tutor = strtoupper($request->get('curp_tutor'));
+            $curp_tutor = strtoupper($request->string('curp_tutor')->toString());
             $datos_t=array(
                 'nombre'=>$request->get('nombre_tutor'),
                 'ap_paterno_T'=>$request->get('ap_tutor'),
@@ -448,7 +314,7 @@ if ($periodo_inscrito == 0) {
                 'puesto'=>$request->get('puesto_tutor'),
                 'parentezco'=>$request->get('parentesco_tutor'),
                 'fecha_nac_T'=>$fechat,
-                'edad'=>$request->get('edad_tutor'),
+                'edad'=>$edadTutor,
                 'genero'=>$request->get('genero_tutor'),
                 'edo_civil_t'=>$request->get('estado_civ_t'),
                 'grado_est_t'=>$request->get('estudios_tutor'),
@@ -475,7 +341,7 @@ if ($periodo_inscrito == 0) {
         }
         else
         {
-            $curp_tutor = strtoupper($request->get('curp_tutor'));
+            $curp_tutor = strtoupper($request->string('curp_tutor')->toString());
             $datos_t=array(
                 'nombre'=>$request->get('nombre_tutor'),
                 'ap_paterno_T'=>$request->get('ap_tutor'),
@@ -483,7 +349,7 @@ if ($periodo_inscrito == 0) {
                 'puesto'=>$request->get('puesto_tutor'),
                 'parentezco'=>$request->get('parentesco_tutor'),
                 'fecha_nac_T'=>$fechat,
-                'edad'=>$request->get('edad_tutor'),
+                'edad'=>$edadTutor,
                 'genero'=>$request->get('genero_tutor'),
                 'edo_civil_t'=>$request->get('estado_civ_t'),
                 'grado_est_t'=>$request->get('estudios_tutor'),
@@ -509,12 +375,12 @@ if ($periodo_inscrito == 0) {
         }
 
         $datos_u=array('info_ok'=>2);
-        $usuario = Session::get('usuario_alumno');
-
-        $alumno = Alumnos::where('id_usuario', $request->user()->id)->findOrFail($id);
-        $tutor = Tutor::where('id_alumno', $alumno->id_alumno)->findOrFail($id_tutor);
-        DB::transaction(function () use ($alumno, $tutor, $usuario, $datos, $datos_t, $datos_u) {
-            $alumno->update($datos);
+        DB::transaction(function () use ($alumno, $tutor, $usuario, $datos, $datos_t, $datos_u, $cuenta) {
+            $ficha = Alumnos::where('id_usuario', $usuario)->lockForUpdate()->findOrFail($alumno->id_alumno);
+            if (($ficha->cuenta === null || $ficha->cuenta === '') && $ficha->id_carrera === null) {
+                $datos['cuenta'] = $cuenta;
+            }
+            $ficha->update($datos);
             $tutor->update($datos_t);
             User::findOrFail($usuario)->update($datos_u);
         });

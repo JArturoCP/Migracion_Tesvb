@@ -16,7 +16,7 @@
     <div class="row">
         <div class="col-md-8 col-xs-10 col-md-offset-2">
             <div class="panel panel-danger">
-                    <h3 class="panel-title text-center">No han registrado calificaciones de sumativas en este semestre</h3>
+                    <h3 class="panel-title text-center">No se han registrado calificaciones sumativas en este semestre.</h3>
             </div>
 
         </div>
@@ -45,7 +45,7 @@
             <div class="row">
                 <div class="col-md-8 col-xs-10 col-md-offset-2">
                     <div class="panel panel-danger">
-                        <h3 class="panel-title text-center">Concentrado de calificaciones incompleto faltan los siguientes profesores:</h3>
+                        <h3 class="panel-title text-center">Concentrado incompleto: faltan las calificaciones de los siguientes docentes</h3>
                     </div>
 
                 </div>

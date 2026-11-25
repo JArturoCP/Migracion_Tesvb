@@ -27,7 +27,7 @@
 <div class="row">
     <div class="col-md-10 col-md-offset-1">
         <div class="form-group">
-        <label for="password-confirm" class="control-label">ingresa contraseña</label>
+        <label for="password-confirm" class="control-label">Contraseña</label>
 
             <input id="password" type="password" class="form-control" name="password" required>
         </div>

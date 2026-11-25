@@ -50,7 +50,7 @@
                     <div class="col-md-8 col-md-offset-2" style="text-align: center">
                         <div class="panel panel-primary">
                             <div class="panel-body"><a href="#"
-                                                       onclick="window.open('{{url('/constancia_titulacion_noadeudo/'.$id_alumno)}}')">TITULACION</a></div>
+                                                       onclick="window.open('{{url('/constancia_titulacion_noadeudo/'.$id_alumno)}}')">Titulación</a></div>
 
                         </div>
                     </div>

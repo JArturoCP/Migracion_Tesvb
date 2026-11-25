@@ -1,5 +1,5 @@
 <div class="modal-header bg-info">
-    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
     <h4 class="modal-title text-center" id="myModalLabel">Agregar actividad(es) en la  semana {{ $no_semana }} </h4>
 </div>
 <div class="row">

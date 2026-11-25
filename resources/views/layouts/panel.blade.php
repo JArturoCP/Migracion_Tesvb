@@ -18,7 +18,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    @empty($vistaPreviaDashboard)
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+    @endempty
     <title>@yield('title') · TESVB</title>
     <link rel="icon" href="{{ asset('favicon.ico') }}">
 
@@ -29,6 +31,8 @@
 
     @include('layouts.tipografia')
     @vite(['resources/css/marco.css', 'resources/js/panel.js'])
+@include('partials.panel.fechas')
+    @include('partials.panel.tema_estudiantil')
 </head>
 <body
     x-data="{ page: 'inicio', loaded: true, darkMode: false, stickyMenu: false, sidebarToggle: false, scrollTop: false }"
@@ -46,7 +50,7 @@
             <main id="main-content">
                 @include('partials.panel.header')
 
-                <div class="tw:mx-auto tw:max-w-(--tw-breakpoint-2xl) tw:p-4 tw:pb-20 tw:md:p-6 tw:md:pb-6" data-panel-contenido>
+                <div class="tw:mx-auto tw:max-w-(--tw-breakpoint-2xl) tw:p-4 tw:pb-20 tw:md:p-6 tw:md:pb-6" data-panel-contenido data-tema-estudiantil="tailadmin">
                     @yield('content')
                 </div>
             </main>
@@ -58,7 +62,7 @@
     </div>
 
     {{-- Modal de cambio de periodo: misma condición que layouts/app.blade.php (@section part_modal_periodos). --}}
-    @if (!Auth::guest())
+    @if (empty($vistaPreviaDashboard) && !Auth::guest())
         @include('partials.panel.periodos')
     @endif
 

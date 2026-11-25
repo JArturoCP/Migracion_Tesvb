@@ -19,7 +19,7 @@
             <th>Categoría</th>
             <th>Horas</th>
             <th>Créditos</th>
-            <th>Calificación Obtenida</th>
+            <th>Calificación obtenida</th>
           </tr>
         </thead>
         <tbody>

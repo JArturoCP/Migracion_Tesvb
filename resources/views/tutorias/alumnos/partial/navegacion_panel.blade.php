@@ -13,9 +13,9 @@
     if (Session::has('tutor_asignado')) {
         $items[] = ['etiqueta' => 'Expediente', 'url' => '/tutorias/inicioalu'];
         $items[] = ['etiqueta' => 'Actividades', 'url' => '/tutorias/actividad'];
-        $items[] = ['etiqueta' => 'Calendario de Actividades', 'url' => '/tutorias/calendario'];
+        $items[] = ['etiqueta' => 'Calendario de actividades', 'url' => '/tutorias/calendario'];
         if (Session::get('estado_eva') == true) {
-            $items[] = ['etiqueta' => 'Evaluación al Tutor', 'url' => '/tutoras_evaluacion/evaluacion_al_tutor/'];
+            $items[] = ['etiqueta' => 'Evaluación al tutor', 'url' => '/tutoras_evaluacion/evaluacion_al_tutor/'];
         }
     } elseif (Auth::check()) {
         if (Session::get('jefe')) {
