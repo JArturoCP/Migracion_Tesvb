@@ -118,7 +118,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-info">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title text-center" id="myModalLabel">Registrar estudiante</h4>
                 </div>
                 <form id="form_autorizacion" class="form" action="{{url("/titulacion/autorizar_estudiante/")}}" role="form" method="POST" enctype="multipart/form-data" >
@@ -142,7 +142,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-info">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title text-center" id="myModalLabel">Editar estudiante</h4>
                 </div>
                 <form id="form_modificacion_reporte" class="form" action="{{url("/titulacion/modificar_datos_estudiante/")}}" role="form" method="POST" enctype="multipart/form-data" >
@@ -165,7 +165,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-info">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title text-center" id="myModalLabel">Autorizar los datos del estudiante registrados</h4>
                 </div>
                 <form id="form_enviar_reporte" class="form" action="{{url("/titulacion/guardar_enviar_datos_estudiante_informacion/")}}" role="form" method="POST" enctype="multipart/form-data" >

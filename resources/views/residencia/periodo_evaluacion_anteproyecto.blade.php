@@ -473,7 +473,7 @@
       <!-- HEADER -->
       <!-- ================================================= -->
       <div class="modal-header modal-periodo-header">
-        <button type="button" class="close modal-close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close modal-close" data-dismiss="modal" aria-label="Cerrar">
             <span aria-hidden="true">&times;</span>
         </button>
 

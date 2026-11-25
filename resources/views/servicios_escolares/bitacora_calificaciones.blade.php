@@ -5,7 +5,7 @@
         <div class="col-md-10 col-xs-10 col-md-offset-1">
             <div class="panel panel-info">
                 <div class="panel-heading">
-                    <h3 class="panel-title text-center">EVALUACIONES MODIFICADAS</h3>
+                    <h3 class="panel-title text-center">Evaluaciones modificadas</h3>
                 </div>
                 <div class="panel-body">
                     <table class="table text-center my-0 border-table">

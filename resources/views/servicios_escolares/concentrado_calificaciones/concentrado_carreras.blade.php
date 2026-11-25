@@ -5,8 +5,8 @@
         <div class="col-md-10 col-xs-10 col-md-offset-1">
             <div class="panel panel-info">
                 <div class="panel-heading">
-                    <h3 class="panel-title text-center">CONCENTRADO DE CALIFICACIONES</h3>
-                    <h5 class="panel-title text-center">(PROGRAMAS DE ESTUDIO)</h5>
+                    <h3 class="panel-title text-center">Concentrado de calificaciones</h3>
+                    <h5 class="panel-title text-center">Programas de estudio</h5>
                 </div>
                 <div class="panel-body">
 

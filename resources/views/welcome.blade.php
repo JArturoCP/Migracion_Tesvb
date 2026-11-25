@@ -7,7 +7,6 @@
 
         <title>Laravel</title>
 
-        <!-- Fonts -->
         @include('layouts.tipografia')
 
         <!-- Styles -->

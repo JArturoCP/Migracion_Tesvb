@@ -7,7 +7,6 @@
 
         <title>{{ config('app.name', 'Laravel') }}</title>
 
-        <!-- Fonts -->
         @include('layouts.tipografia')
 
         <!-- Scripts -->

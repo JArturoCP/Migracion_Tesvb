@@ -29,7 +29,7 @@
     <div class="horario-scroll" tabindex="0" role="region" aria-label="Cuadrícula semanal; desplázate horizontalmente para ver todos los días">
         <table class="horario-tabla">
             <thead><tr>
-                <th class="horario-hora" scope="col">Hora/Día</th>
+                <th class="horario-hora" scope="col">Hora y día</th>
                 @foreach($dias as $dia)<th scope="col">{{ $dia }}</th>@endforeach
                 <th class="horario-total" scope="col">Totales</th>
             </tr></thead>

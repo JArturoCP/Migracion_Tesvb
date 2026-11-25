@@ -5,8 +5,8 @@
         <div class="col-md-10 col-xs-10 col-md-offset-1">
             <div class="panel panel-info">
                 <div class="panel-heading">
-                    <h3 class="panel-title text-center">HISTORIAL ACADÉMICO <br>{{$nombre_carrera}}</h3>
-                    <h5 class="panel-title text-center">(ESTUDIANTES)</h5>
+                    <h3 class="panel-title text-center">Historial académico <br>{{$nombre_carrera}}</h3>
+                    <h5 class="panel-title text-center">Estudiantes</h5>
                 </div>
             </div>
         </div>
@@ -20,9 +20,9 @@
                     <table class="table table-bordered " Style="background: white;" id="tablas_alumnos">
                         <thead>
                         <tr>
-                            <th style="text-align: center">No. CUENTA</th>
-                            <th style="text-align: center">NOMBRE DE ALUMNO(A)</th>
-                            <th style="text-align: center">HISTORIAL ACADÉMICO</th>
+                            <th style="text-align: center">Número de cuenta</th>
+                            <th style="text-align: center">Nombre del estudiante</th>
+                            <th style="text-align: center">Historial académico</th>
 
                         </tr>
                         </thead>
@@ -33,7 +33,7 @@
                                 <th style="text-align: center">{{$alumno->cuenta}}</th>
                                 <td style="text-align: center">{{$alumno->nombre}} {{$alumno->apaterno}} {{$alumno->amaterno}}</td>
                                 <td style="text-align: center">
-                                    <a href="#" class="id_alumno" id="{{ $alumno->id_alumno }}" ><span class="glyphicon glyphicon-book em5" aria-hidden="true"> Mostrar</span></a>
+                                    <a href="#" class="id_alumno" id="{{ $alumno->id_alumno }}" ><span class="glyphicon glyphicon-book em5" aria-hidden="true"></span> Ver historial</a>
                                 </td>
                             </tr>
                         @endforeach
@@ -47,7 +47,7 @@
             </div>
         </div>
     </div>
-    <div id="modal_historial" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+    <div id="modal_historial" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-label="Consultar historial académico">
         <div class="modal-dialog modal-content" role="document">
             <div class="modal-content">
                 <form action="" method="POST"  role="form" id="form_termino_calificar_actuales">
@@ -59,12 +59,12 @@
                             <div class="col-md-12 ">
                                 <input  type="hidden" class="form-control" id="id_alumno_r" name="id_alumno_r" />
 
-                                <label for="exampleInputEmail1">¿ LAS CALIFICACIONES DEL PERIODO ACTUAL YA ESTAN REGISTRADAS EN EL SISTEMA ? <b style="color:red; font-size:23px;">*</b></label>
+                                <label for="calificada">¿Ya están registradas en el sistema las calificaciones del periodo actual? <b style="color:red; font-size:23px;">*</b></label>
 
                                 <select class="form-control" placeholder="selecciona una Opcion" id="calificada" name="calificada" required>
                                     <option disabled selected>Selecciona una opción</option>
-                                        <option value="1">SI</option>
-                                        <option value="2">NO</option>
+                                        <option value="1">Sí</option>
+                                        <option value="2">No</option>
                                 </select>
 
                             </div>

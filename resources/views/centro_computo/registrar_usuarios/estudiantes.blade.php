@@ -84,7 +84,7 @@
         <div class="modal-dialog " role="document">
             <div class="modal-content">
                 <div class="modal-header bg-danger">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="myModalLabel">ELIMINAR USUARIO</h4>
                 </div>
                 <form  action="{{url("/centro_computo/eliminacion_user_sin_reg")}}" class="form" role="form" method="POST">
@@ -106,7 +106,7 @@
         <div class="modal-dialog " role="document">
             <div class="modal-content">
                 <div class="modal-header bg-danger">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="myModalLabel">ELIMINAR USUARIOS</h4>
                 </div>
                 <form  action="{{url("/centro_computo/eliminacion_usuarios_sin_reg")}}" class="form" role="form" method="POST">

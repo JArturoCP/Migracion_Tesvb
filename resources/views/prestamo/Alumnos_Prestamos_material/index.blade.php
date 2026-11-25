@@ -63,8 +63,8 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Solicitud de Préstamo</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <h5 class="modal-title" id="exampleModalLabel">Solicitud de préstamo</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
@@ -72,7 +72,7 @@
                             <form action="{{ route('solicitar_material.store') }}" method="POST" id="solicitar-material">
                                 @csrf
                                 <div class="form-group">
-                                    <label for="material">Material Disponible:</label>
+                                    <label for="material">Material disponible:</label>
                                     <select class="form-control" id="material" name="id_material" required>
                                         <option value="" disabled selected>Selecciona el material</option>
                                         @foreach($materiales_prestamos as $material)
@@ -85,7 +85,7 @@
 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                            <button type="button" class="btn btn-primary" form="solicitar-material" onclick="confirmGuardar()">Solicitar Prestamo</button>
+                            <button type="button" class="btn btn-primary" form="solicitar-material" onclick="confirmGuardar()">Solicitar préstamo</button>
                         </div>
                     </div>
                 </div>
@@ -141,8 +141,8 @@
                                         </div>
                                     @endif
                                     @if($histo->estatus == 'Aprobado')
-                                        <small><p>Si desea devolver el material</p>
-                                            <p>acuda a su jefatura.</p></small>
+                                        <small><p>Si deseas devolver el material</p>
+                                            <p>acude a tu jefatura.</p></small>
                                     @endif
                                 </td>
 
@@ -160,7 +160,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="editModalLabel">Editar Material</h5>
+                        <h5 class="modal-title" id="editModalLabel">Editar material</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -183,7 +183,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                            <button type="submit" class="btn btn-primary">Guardar cambios</button>
                         </div>
                     </form>
                 </div>

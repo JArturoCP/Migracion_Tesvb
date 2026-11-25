@@ -19,7 +19,7 @@
     <x-panel.tarjeta sin-relleno>
       <div class="tw:flex tw:flex-wrap tw:items-center tw:justify-between tw:gap-3 tw:px-5 tw:py-4 tw:sm:px-6">
         <div>
-          <h3 class="tw:text-base tw:font-medium tw:text-gray-800 tw:dark:text-white/90">Actividades Registradas</h3>
+          <h3 class="tw:text-base tw:font-medium tw:text-gray-800 tw:dark:text-white/90">Actividades registradas</h3>
           <div class="tw:mt-1 tw:flex tw:items-center tw:gap-2" id="hhhh">
             <span class="tw:text-sm tw:text-gray-500 tw:dark:text-gray-400">Total Horas:</span>
             <x-panel.badge tono="{{ $suma >= 40 ? 'exito' : 'marca' }}">{{$suma}}</x-panel.badge>
@@ -44,7 +44,7 @@
               <th>Coordinador</th>
               <th>Horas</th>
               <th>Créditos</th>
-              <th>Estado Solicitud</th>
+              <th>Estado de la solicitud</th>
               {{-- <th>Editar</th>--}}
               <th>Eliminar</th>
             </tr>
@@ -95,7 +95,7 @@
      cerraba el <form> anónimo. Se quita y el </form> de abajo cierra el formulario anónimo, como antes. --}}
   <x-panel.modal id="agrega_actalu" tamano="lg" clase-cerrar="close" aria-labelledby="myModalLabel">
     <x-slot:encabezado>
-      <h3 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="myModalLabel">Registro de Actividad</h3>
+      <h3 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="myModalLabel">Registro de actividad</h3>
     </x-slot:encabezado>
     <div class="tw:grid tw:grid-cols-1 tw:gap-5 tw:md:grid-cols-2">
       <x-panel.select etiqueta="Actividad" name="actividad_alumnos" id="actividad_alumnos">
@@ -154,11 +154,11 @@
 </x-panel.modal>
 
 <x-panel.modal id="mensaje_actividad" tamano="sm">
-  <p class="tw:pt-6 tw:text-center tw:font-bold tw:text-red-700 tw:dark:text-red-500">NO HAS SELECCIONADO ACTIVIDAD</p>
+  <p class="tw:pt-6 tw:text-center tw:font-bold tw:text-red-700 tw:dark:text-red-500">Selecciona una actividad.</p>
 </x-panel.modal>
 
 <x-panel.modal id="actividad_registrada" tamano="sm">
-  <p class="tw:pt-6 tw:text-center tw:font-bold tw:text-red-700 tw:dark:text-red-500">LA ACTIVIDAD QUE INTENTA REGISTRAR YA EXISTE</p>
+  <p class="tw:pt-6 tw:text-center tw:font-bold tw:text-red-700 tw:dark:text-red-500">La actividad que intentas registrar ya existe.</p>
 </x-panel.modal>
 <?php
   $direccion=Session::get('ip');

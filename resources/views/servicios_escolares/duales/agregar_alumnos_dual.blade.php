@@ -121,7 +121,7 @@
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header bg-info" style="text-align: center">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                             <b><h4 class="modal-title" id="myModalLabel">MATERIAS</h4></b>
                         </div>
                         <div class="modal-body">

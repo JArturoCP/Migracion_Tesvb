@@ -6,7 +6,7 @@
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-info">
                 <div class="panel-heading">
-                    <h3 class="panel-title text-center">REGISTRO DE CALIFICACIONES</h3>
+                    <h3 class="panel-title text-center">Registro de calificaciones</h3>
                 </div>
             </div>
         </div>
@@ -57,8 +57,8 @@
 														<tr class="text-center" style="background:#dddddd;color:black">
                                                             <th rowspan="2" class="text-center" style="display: table-cell;vertical-align: middle;"></th>
 																<th rowspan="2" class="text-center" style="display: table-cell;vertical-align: middle;">NP</th>
-																<th rowspan="2" class="text-center" style="display: table-cell;vertical-align: middle;">No. CTA</th>
-																<th rowspan="2" class="text-center" style="display: table-cell;vertical-align: middle;">NOMBRE DEL ALUMNO</th>
+																<th rowspan="2" class="text-center" style="display: table-cell;vertical-align: middle;">Número de cuenta</th>
+																<th rowspan="2" class="text-center" style="display: table-cell;vertical-align: middle;">Nombre del estudiante</th>
 																<th colspan="{{ $unidades+2 }}" class="text-center">UNIDADES</th>
 														</tr>
 														<tr>
@@ -255,7 +255,7 @@
                 <form id="calificar_duales" class="form" action="{{url("/registrar_cal_duales/")}}" role="form" method="POST" >
                     {{ csrf_field() }}
                     <div class="modal-header bg-info">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title text-center" id="myModalLabel">Calificar a estudiante dual</h4>
                     </div>
                     <div id="contenedor_cal_duales">

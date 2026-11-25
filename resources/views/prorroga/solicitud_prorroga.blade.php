@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Solicitud de Prorroga')
+@section('title', 'Solicitud de prórroga')
 @section('content')
     <main class="col-md-12">
 
@@ -8,7 +8,7 @@
             <div class="col-md-6 col-md-offset-3 ">
                 <div class="panel panel-info">
                     <div class="panel-heading">
-                        <h3 class="panel-title text-center">Solicitud de prorroga</h3>
+                        <h3 class="panel-title text-center">Solicitud de prórroga</h3>
                     </div>
                 </div>
             </div>
@@ -22,7 +22,7 @@
                         <div class="panel-heading">
                             <?php  $fecha_inicial=date("d-m-Y ",strtotime($periodo_p->fecha_inicial)) ?>
                             <?php  $fecha_final=date("d-m-Y ",strtotime($periodo_p->fecha_final)) ?>
-                            <h3 class="panel-title text-center">El periodo de solicitudes de prorroga es del {{ $fecha_inicial }} al {{ $fecha_final }} en el periodo {{ $periodo_p->periodo }} (si te encuentras en las fechas de solicitud a que revisar si el periodo es el que corresponde, por el contrario lo modificamos en el icono de calendario en el menu). </h3>
+                            <h3 class="panel-title text-center">El periodo de solicitudes de prórroga es del {{ $fecha_inicial }} al {{ $fecha_final }} en el periodo {{ $periodo_p->periodo }}. Si estás dentro de las fechas de solicitud, verifica que esté seleccionado el periodo indicado. Puedes cambiarlo desde el icono del calendario en el menú. </h3>
                         </div>
                     </div>
                 </div>
@@ -91,7 +91,7 @@
                 <div class="col-md-6 col-md-offset-3  text-center">
                     <div class="panel panel-danger">
                         <div class="panel-heading" style="text-align: center">
-                            <h3 class="panel-title text-center"><br>Tu solicitud de prorroga se envio correctamente. <br><br></h3>
+                            <h3 class="panel-title text-center"><br>Tu solicitud de prórroga se envió correctamente. <br><br></h3>
                         </div>
                     </div>
                 </div>
@@ -141,7 +141,7 @@
                             <div class="panel-heading">
                                 <?php  $fecha_inicial=date("d-m-Y ",strtotime($periodo_p->fecha_inicial)) ?>
                                 <?php  $fecha_final=date("d-m-Y ",strtotime($periodo_p->fecha_final)) ?>
-                                <h3 class="panel-title text-center">El periodo de solicitudes de prorroga es del {{ $fecha_inicial }} al {{ $fecha_final }} en el periodo {{ $periodo_p->periodo }} (si te encuentras en las fechas de solicitud a que revisar si el periodo es el que corresponde, por el contrario lo modificamos en el icono de calendario en el menu). </h3>
+                                <h3 class="panel-title text-center">El periodo de solicitudes de prórroga es del {{ $fecha_inicial }} al {{ $fecha_final }} en el periodo {{ $periodo_p->periodo }}. Si estás dentro de las fechas de solicitud, verifica que esté seleccionado el periodo indicado. Puedes cambiarlo desde el icono del calendario en el menú. </h3>
                             </div>
                         </div>
                     </div>

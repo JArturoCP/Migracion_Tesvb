@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Encuesta de satifacción del cliente')
+@section('title', 'Encuesta de satisfacción del cliente')
 @section('content')
     <main class="col-md-12">
 
@@ -7,7 +7,7 @@
             <div class="col-md-6 col-md-offset-3 ">
                 <div class="panel panel-info">
                     <div class="panel-heading">
-                        <h3 class="panel-title text-center">Encuesta de satifacción del cliente de reinscripción</h3>
+                        <h3 class="panel-title text-center">Encuesta de satisfacción del cliente de reinscripción</h3>
                     </div>
                 </div>
             </div>
@@ -20,7 +20,7 @@
                             Estimado estudiante:<br><br>
                             En nuestro Tecnológico tenemos el firme compromiso de satisfacer plenamente tus necesidades y requerimientos en los servicios que ofrecemos, buscando mejorar permanentemente nuestro desempeño y serviste mejor.
                             <br>
-                            Para lograr esto, lo más valioso es tu opinión, por lo que se solicita responder con sinceridad un breve cuestionario anexo, cuya respuesta será la mejor ayuda para superamos.
+                            Para lograr esto, lo más valioso es tu opinión, por lo que se solicita responder con sinceridad un breve cuestionario anexo, cuya respuesta será la mejor ayuda para superarnos.
                             <br>
                             Se agradece tu atención a la presente y me reitero a tu disposición.
                             <br><br>
@@ -42,7 +42,7 @@
                             {{ csrf_field() }}
                             <div class="row">
                                 <div class="col-md-12">
-                                    <p><b>1.- ¿Considerando que el personal de la Subdirección de Servicios Escolares atiende ventanillas en un horario 9:00 a 18:00 horas, el tiempo es? *<br></b></p>
+                                    <p><b>1.- ¿Considerando que el personal de la Subdirección de Servicios Escolares atiende ventanillas en un horario de 9:00 a 18:00 horas, el tiempo es? *<br></b></p>
                                     <label class="radio-inline"><input   type="radio" name="pregunta1" id="pregunta1" value="4">Excelente</label>
                                     <label class="radio-inline"><input   type="radio" name="pregunta1" id="pregunta1" value="3">Buena</label>
                                     <label class="radio-inline"><input   type="radio" name="pregunta1" id="pregunta1" value="2">Regular</label>

@@ -7,7 +7,7 @@
                 <div class="col-md-4 col-md-offset-4">
                     <div class="panel panel-info">
                         <div class="panel-heading">
-                            <h3 class="panel-title text-center">Registrar carga academica</h3>
+                            <h3 class="panel-title text-center">Registrar carga académica</h3>
                         </div>
                     </div>
                 </div>
@@ -83,7 +83,7 @@
         <div class="col-md-4 col-md-offset-4">
             <div class="panel panel-info">
                 <div class="panel-heading">
-                    <h3 class="panel-title text-center">Registrar carga academica</h3>
+                    <h3 class="panel-title text-center">Registrar carga académica</h3>
                 </div>
             </div>
         </div>
@@ -102,11 +102,11 @@
                 <li role="presentation"><a href="#cuatro" aria-controls="cuatro" role="tab" data-toggle="tab">Cuarto</a></li>
                 <li role="presentation"><a href="#sinco" aria-controls="sinco" role="tab" data-toggle="tab">Quinto</a></li>
                 <li role="presentation"><a href="#seis" aria-controls="seis" role="tab" data-toggle="tab">Sexto</a></li>
-                <li role="presentation"><a href="#siete" aria-controls="siete" role="tab" data-toggle="tab">Septimo</a></li>
+                <li role="presentation"><a href="#siete" aria-controls="siete" role="tab" data-toggle="tab">Séptimo</a></li>
                 <li role="presentation"><a href="#ocho" aria-controls="ocho" role="tab" data-toggle="tab">Octavo</a></li>
                 <li role="presentation"><a href="#nueve" aria-controls="nueve" role="tab" data-toggle="tab">Noveno</a></li>
                 @if($datos_alumn->id_carrera == 3)
-                   <li role="presentation"><a href="#decimo" aria-controls="decimo" role="tab" data-toggle="tab">Decimo</a></li>
+                   <li role="presentation"><a href="#decimo" aria-controls="decimo" role="tab" data-toggle="tab">Décimo</a></li>
                 @endif
    </ul>
 
@@ -357,7 +357,7 @@
      <div role="tabpanel" class="tab-pane" id="siete">
              <br>
              <div class="col-md-3 col-md-offset-4" align="center">
-                 <h4 style="color: #0c0c0c ">Septimo semestre</h4>
+                 <h4 style="color: #0c0c0c ">Séptimo semestre</h4>
              </div>
              <div class="col-md-12" align="center">
              </div>
@@ -477,7 +477,7 @@
         <div role="tabpanel" class="tab-pane" id="decimo">
             <br>
             <div class="col-md-3 col-md-offset-4" align="center">
-                <h4 style="color: #0c0c0c ">Decimo semestre</h4>
+                <h4 style="color: #0c0c0c ">Décimo semestre</h4>
             </div>
             <div class="col-md-12" align="center">
             </div>
@@ -544,7 +544,7 @@
                 <div class="col-md-4 col-md-offset-4">
                     <div class="panel panel-info">
                         <div class="panel-heading">
-                            <h3 class="panel-title text-center">Registrar carga academica</h3>
+                            <h3 class="panel-title text-center">Registrar carga académica</h3>
                         </div>
                     </div>
                 </div>

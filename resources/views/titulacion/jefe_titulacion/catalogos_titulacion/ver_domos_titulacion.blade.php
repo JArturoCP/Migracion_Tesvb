@@ -110,7 +110,7 @@
                 <form class="form" action="{{url("/titulo/guardar_modificacion_estado_titulo/")}}" role="form" method="POST" >
                     {{ csrf_field() }}
                     <div class="modal-header bg-info">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title text-center" id="myModalLabel">Modificar estado  del titulo del estudiante</h4>
                     </div>
                     <div id="contenedor_editar_estado_folio_titulo">
@@ -133,7 +133,7 @@
                 <form class="form" id="form_guardar_estudiante" action="{{url("/titulo/guardar_agregar_folio_titulo/")}}" role="form" method="POST" >
                     {{ csrf_field() }}
                     <div class="modal-header bg-info">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title text-center" id="myModalLabel">Registrar folio del titulo a estudiante</h4>
                     </div>
                     <div id="contenedor_agregar_folio_titulo">
@@ -156,7 +156,7 @@
                 <form class="form" action="{{url("/titulo/guardar_modificacion_folio_titulo/")}}" role="form" method="POST" >
                     {{ csrf_field() }}
                     <div class="modal-header bg-info">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title text-center" id="myModalLabel">Modificar estado del folio del titulo</h4>
                     </div>
                     <div id="contenedor_editar_folio_titulo">

@@ -50,7 +50,7 @@
         <div class="modal-dialog " role="document">
             <div class="modal-content">
                 <div class="modal-header bg-primary">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="myModalLabel">USUARIO</h4>
                 </div>
                 <form  action="{{url("/centro_computo/modificar_usuario_per/")}}" class="form" role="form" method="POST">

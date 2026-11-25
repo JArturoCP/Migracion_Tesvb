@@ -24,7 +24,7 @@
                 }
             </style>
 
-            <x-panel.alerta tipo="error" class="tw:mx-auto tw:max-w-3xl">Mientras tu carga academica no este validada no podras relizar evaluacion</x-panel.alerta>
+            <x-panel.alerta tipo="error" class="tw:mx-auto tw:max-w-3xl">Podrás realizar la evaluación docente cuando se valide tu carga académica.</x-panel.alerta>
         @endif
 
         @if($no==0)
@@ -117,11 +117,11 @@
 
         <div class="condicion" id="condicion" >
             <div class="alert tw:relative tw:mb-6 tw:rounded-xl tw:border tw:border-amber-300 tw:bg-amber-50 tw:p-4 tw:pr-12" role="alert">
-                <a href="#" class="tw:absolute tw:top-3 tw:right-4 tw:text-2xl tw:leading-none tw:text-amber-600 tw:hover:text-amber-800" data-dismiss="alert" aria-label="close">&times;</a>
+                <a href="#" class="tw:absolute tw:top-3 tw:right-4 tw:text-2xl tw:leading-none tw:text-amber-600 tw:hover:text-amber-800" data-dismiss="alert" aria-label="Cerrar">&times;</a>
                 <h4 class="tw:mb-2 tw:text-base"><b>Instrucciones</b></h4>
                 <ul class="tw:list-disc tw:space-y-1 tw:pl-5 tw:text-sm tw:text-gray-700 tw:dark:text-gray-300">
-                    <li>Lee las siguientes preguntas y responde de manera correcta de acuerdo a los criterios</li>
-                    <li>En la ultima parte de la evaluación docente por favor de agregar un comentario por docente para poder finalizarla</li>
+                    <li>Lee cada pregunta y responde de acuerdo con los criterios de evaluación.</li>
+                    <li>En la última parte, agrega un comentario por cada docente para finalizar la evaluación.</li>
                 </ul>
             </div>
 
@@ -255,7 +255,7 @@
                 <h3 class="tw:text-lg tw:font-bold tw:text-red-600" id="myModalLabel"><strong>¡¡¡AVISO IMPORTANTE!!!</strong></h3>
             </x-slot:encabezado>
             <x-panel.alerta tipo="error">
-                <span class="tw:font-semibold">UNA VEZ INICIADA LA EVALUACION NO SE PODRA REALIZAR NINGUN CAMBIO</span>
+                <span class="tw:font-semibold">Una vez iniciada la evaluación, no se podrá realizar ningún cambio.</span>
             </x-panel.alerta>
             <x-slot:pie>
                 <x-panel.boton variante="secundario" data-dismiss="modal"><b>Cancelar</b></x-panel.boton>

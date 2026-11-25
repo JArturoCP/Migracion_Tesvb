@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <title>Documento no disponible</title>
+    @include('layouts.tipografia')
 
     <style>
         html, body {
@@ -11,7 +12,6 @@
             width: 100%;
             min-height: 100%;
             background: #f5f7fa;
-            font-family: Arial, Helvetica, sans-serif;
         }
 
         .documento-wrapper {

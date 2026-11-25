@@ -187,7 +187,7 @@
                 <form class="form" action="" role="form" method="POST">
                     {{ csrf_field() }}
                     <div class="modal-header bg-info">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span
                                     aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title text-center" id="myModalLabel">Modificar periodo</h4>
                     </div>

@@ -841,7 +841,7 @@
                                     <form id="form_mod_mencion_honorifica" class="form" action="{{url("/titulacion/guardar_modificacion_mencion_honorifica/$id_alumno")}}" role="form" method="POST" >
                                         {{ csrf_field() }}
                                         <div class="modal-header bg-info">
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                                             <h4 class="modal-title text-center" id="myModalLabel">Modificar datos de la mención honorifica</h4>
                                         </div>
                                         <div class="modal-body">
@@ -942,7 +942,7 @@
                         <form id="form_agregar_periodo" class="form" action="{{url("/titulacion/guardar_modificacion_oficio_recursos/$id_alumno")}}" role="form" method="POST" >
                             {{ csrf_field() }}
                             <div class="modal-header bg-info">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                                 <h4 class="modal-title text-center" id="myModalLabel">Modificar datos del oficio recursos</h4>
                             </div>
                             <div class="modal-body">
@@ -964,7 +964,7 @@
                         <form id="form_mod_acta_titulacion" class="form" action="{{url("/titulacion/guardar_modificacion_acta_titulacion/$id_alumno")}}" role="form" method="POST" >
                             {{ csrf_field() }}
                             <div class="modal-header bg-info">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                                 <h4 class="modal-title text-center" id="myModalLabel">Modificar datos de la acta de titulación</h4>
                             </div>
                             <div class="modal-body">
@@ -1014,7 +1014,7 @@ Full screen Modal
                     <form id="form_mod_dat_al" class="form" action="{{url("/titulacion/guardar_modificacion_dat_estudiante/$id_alumno")}}" role="form" method="POST" >
                         {{ csrf_field() }}
                         <div class="modal-header bg-info">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                             <h4 class="modal-title text-center" id="myModalLabel">Modificar datos del estudiante</h4>
                         </div>
                         <div class="modal-body">
@@ -1037,7 +1037,7 @@ Full screen Modal
                     <form  class="form" action="{{url("/titulacion/guardar_autorizaciondatos_registrados/$id_alumno")}}" role="form" method="POST" >
                         {{ csrf_field() }}
                         <div class="modal-header bg-info">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                             <h4 class="modal-title text-center" id="myModalLabel">Autorizacion de datos del estudiante</h4>
                         </div>
                         <div class="modal-body">

@@ -65,7 +65,7 @@
        $("#presupuesto_estatal").change(function (event){
            var presupuesto_estatal_pesos= event.target.value;
            if(isNaN(presupuesto_estatal_pesos)){
-               TNotify.alert( "La cantidad de fuente de financiamiento estatal debe ser un numero");
+               TNotify.alert( "La cantidad de fuente de financiamiento estatal debe ser un número");
                $('#pesos_presupuesto_estatal').empty();
 
            }else {
@@ -82,7 +82,7 @@
         $("#presupuesto_federal").change(function (event){
             var presupuesto_federal_pesos= event.target.value;
             if(isNaN(presupuesto_federal_pesos)){
-                TNotify.alert( "La cantidad de fuente de financiamiento federal debe ser un numero");
+                TNotify.alert( "La cantidad de fuente de financiamiento federal debe ser un número");
                 $('#pesos_presupuesto_federal').empty();
 
             }else {
@@ -99,7 +99,7 @@
         $("#presupuesto_propios").change(function (event){
             var presupuesto_propios_pesos= event.target.value;
             if(isNaN(presupuesto_propios_pesos)){
-                TNotify.alert( "La cantidad de fuente de financiamiento propios debe ser un numero");
+                TNotify.alert( "La cantidad de fuente de financiamiento propios debe ser un número");
                 $('#pesos_presupuesto_propios').empty();
 
             }else {

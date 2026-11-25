@@ -5,7 +5,7 @@
         <div class="col-md-4 col-md-offset-4">
             <div class="panel panel-info">
                 <div class="panel-heading">
-                    <h3 class="panel-title text-center">PROMEDIO ACADÉMICO</h3>
+                    <h3 class="panel-title text-center">Promedio académico</h3>
                 </div>
             </div>
         </div>

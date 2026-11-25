@@ -6,7 +6,7 @@
         <div class="col-md-10 col-xs-10 col-md-offset-1">
             <div class="panel panel-info">
                 <div class="panel-heading">
-                    <h3 class="panel-title text-center">Generar  Anteproyecto</h3>
+                    <h3 class="panel-title text-center">Generar anteproyecto</h3>
                 </div>
                 <div class="panel-body">
                     <div class="row col-md-12">
@@ -17,7 +17,7 @@
                                     <li><a   id="mensaje" style="border-bottom: 2px solid black;">Objetivos</a></li>
                                     <li><a   id="mensaje1" style="border-bottom: 2px solid black;">Alcances</a></li>
                                     <li><a   id="mensaje2" style="border-bottom: 2px solid black;">Justificación</a></li>
-                                    <li><a   id="mensaje3" style="border-bottom: 2px solid black;">Marco Teorico</a></li>
+                                    <li><a   id="mensaje3" style="border-bottom: 2px solid black;">Marco teórico</a></li>
                                     <li><a   id="mensaje4" style="border-bottom: 2px solid black;">Cronograma</a></li>
 
                                 @else
@@ -25,7 +25,7 @@
                                     <li><a href="{{url('/residencia/anteproyecto/objetivos')}}" style="border-bottom: 2px solid black;">Objetivos</a></li>
                                     <li><a href="{{url('/residencia/anteproyecto/alcances')}}" style="border-bottom: 2px solid black;">Alcances</a></li>
                                     <li><a href="{{url('/residencia/anteproyecto/justificacion')}}" style="border-bottom: 2px solid black;">Justificación</a></li>
-                                    <li><a href="{{url('/residencia/anteproyecto/marco_teorico')}}" style="border-bottom: 2px solid black;">Marco Teorico</a></li>
+                                    <li><a href="{{url('/residencia/anteproyecto/marco_teorico')}}" style="border-bottom: 2px solid black;">Marco teórico</a></li>
                                     <li><a href="{{url('/residencia/anteproyecto/cronograma')}}" style="border-bottom: 2px solid black;">Cronograma</a></li>
 
                                 @endif
@@ -110,7 +110,7 @@
             <div class="modal-content">
                 <div class="modal-body">
 
-                    <p class="text-center">Primero se debe llenar el apartado de portada</p>
+                    <p class="text-center">Primero, completa la portada.</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>

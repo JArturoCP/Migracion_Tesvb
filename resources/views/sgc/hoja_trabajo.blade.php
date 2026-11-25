@@ -118,7 +118,7 @@
             <div class="modal-content">
                 <form id="form_add_nota" class="form" role="form" method="POST" action="{{url('sgc/notas')}}">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title" id="exampleModalLabel">Agregar nota a la hoja de trabajo</h4>
                     </div>
                     <div class="modal-body">

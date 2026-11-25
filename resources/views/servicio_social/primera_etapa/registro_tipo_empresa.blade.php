@@ -8,7 +8,7 @@
             <div class="col-md-6 col-md-offset-3">
                 <div class="panel panel-info">
                     <div class="panel-heading">
-                        <h3 class="panel-title text-center">Registro de la primera etapa del Servicio Social</h3>
+                        <h3 class="panel-title text-center">Registro de la primera etapa del servicio social</h3>
                     </div>
                 </div>
             </div>
@@ -74,7 +74,7 @@
                 <div class="col-md-6 col-md-offset-3">
                     <div class="panel panel-info">
                         <div class="panel-heading">
-                            <h3 class="panel-title text-center">Documentos de la primera etapa del Servicio Social</h3>
+                            <h3 class="panel-title text-center">Documentos de la primera etapa del servicio social</h3>
                         </div>
                     </div>
                 </div>
@@ -276,7 +276,7 @@
                         <div class="col-md-6 col-md-offset-3">
                             <div class="panel panel-success">
                                 <div class="panel-heading">
-                                    <h3 class="panel-title text-center">Se envío correctamente la documentación al Departamento del Servicio Social y Residencia.</h3>
+                                    <h3 class="panel-title text-center">Se envió correctamente la documentación al Departamento del Servicio Social y Residencia.</h3>
                                 </div>
                             </div>
                         </div>
@@ -423,7 +423,7 @@
                         <div class="col-md-6 col-md-offset-3">
                             <div class="panel panel-success">
                                 <div class="panel-heading">
-                                    <h3 class="panel-title text-center">Se envío correctamente la documentación al Departamento del Servicio Social y Residencia.</h3>
+                                    <h3 class="panel-title text-center">Se envió correctamente la documentación al Departamento del Servicio Social y Residencia.</h3>
                                 </div>
                             </div>
                         </div>
@@ -436,8 +436,8 @@
                     <div class="modal-content">
 
                         <div class="modal-header bg-info">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title text-center" id="myModalLabel">Modificar Carta Aceptación</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title text-center" id="myModalLabel">Modificar carta de aceptación</h4>
                         </div>
                         <div class="row">
                             <div class="col-md-10 col-md-offset-1">
@@ -465,7 +465,7 @@
                     <div class="modal-content">
 
                         <div class="modal-header bg-info">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                             <h4 class="modal-title text-center" id="myModalLabel">Modificar Anexo Tecnico</h4>
                         </div>
                         <div class="row">
@@ -494,7 +494,7 @@
                     <div class="modal-content">
 
                         <div class="modal-header bg-info">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                             <h4 class="modal-title text-center" id="myModalLabel">Modificar Curp</h4>
                         </div>
                         <div class="row">
@@ -524,7 +524,7 @@
                     <div class="modal-content">
 
                         <div class="modal-header bg-info">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                             <h4 class="modal-title text-center" id="myModalLabel">Modificar Carnet</h4>
                         </div>
                         <div class="row">
@@ -554,7 +554,7 @@
                     <div class="modal-content">
 
                         <div class="modal-header bg-info">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                             <h4 class="modal-title text-center" id="myModalLabel">Modificar Costancia de Creditos</h4>
                         </div>
                         <div class="row">
@@ -583,7 +583,7 @@
                     <div class="modal-content">
 
                         <div class="modal-header bg-info">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                             <h4 class="modal-title text-center" id="myModalLabel">Modificar Solicitud de registro de autorización</h4>
                         </div>
                         <div class="row">
@@ -614,7 +614,7 @@
                         <form class="form" action="{{url("/servicio_social/modificacion_tipo_empresa/")}}" role="form" method="POST" >
                             {{ csrf_field() }}
                             <div class="modal-header bg-info">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                                 <h4 class="modal-title text-center" id="myModalLabel">Modificar Datos</h4>
                             </div>
                             <div id="contenedor_modificar_datos">

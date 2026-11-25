@@ -1867,7 +1867,7 @@
 
                         <li class="dropdown">
                             <a class="dropdown-toogle" href="" data-toggle="dropdown" role="button" aria-haspopup="true"
-                                aria-expanded="false">Datos Alumno(a)
+                                aria-expanded="false">Datos del estudiante
                                 <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li><a href="{{url('/datos_alumno')}}">Actualizar</a></li>
@@ -1875,7 +1875,7 @@
                                 <li><a href="{{url('/carga_academica')}}">Llenar Carga
                                         Académica</a></li>
                                 @endif
-                                <li><a href="{{url('/checar_carga')}}">Ver Carga Académica</a>
+                                <li><a href="{{url('/checar_carga')}}">Ver carga académica</a>
                                 </li>
                                 {{--
                                                                     <li><a href="{{url('/alumno/academico/cal')}}">Promedio
@@ -1888,12 +1888,12 @@
                     </ul>
                     <ul class="nav navbar-nav navbar-left">
                         <li class="dropdown">
-                        <li><a href="{{url('/ingles/')}}">Ingles</a></li>
+                        <li><a href="{{url('/ingles/')}}">Inglés</a></li>
                         </li>
                     </ul>
                     <ul class="nav navbar-nav navbar-left" style="">
                         <li class="dropdown">
-                        <li><a href="{{url('/tutorias/')}}">Tutorias</a></li>
+                        <li><a href="{{url('/tutorias/')}}">Tutorías</a></li>
                         </li>
                     </ul>
 
@@ -2516,7 +2516,7 @@
             <form class="form" action="" role="form" method="POST">
                 {{ csrf_field() }}
                 <div class="modal-header bg-info">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span
                             aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title text-center" id="myModalLabel">Modificar periodo</h4>
                 </div>

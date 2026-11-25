@@ -1,11 +1,11 @@
 @extends('layouts.app')
-@section('title', 'S.Escolares')
+@section('title', 'Historial académico')
 @section('content')
     <div class="row">
         <div class="col-md-10 col-xs-10 col-md-offset-1">
             <div class="panel panel-info">
                 <div class="panel-heading">
-                    <h3 class="panel-title text-center">HISTORIAL ACADÉMICO <br> {{$alumno}} </h3>
+                    <h3 class="panel-title text-center">Historial académico <br> {{$alumno}} </h3>
                     <h5 class="panel-title text-center"></h5>
                 </div>
             </div>
@@ -17,10 +17,10 @@
             <div class="panel panel-danger">
                 <div class="panel-heading">
                     @if($calificada == 1)
-                        <h3 class="panel-title text-center"><br>LAS MATERIAS DE ESTE PERIODO SE TOMARAN EN CUENTA PARA EL HISTORIAL ACADÉMICO.</h3>
+                        <h3 class="panel-title text-center"><br>Las materias de este periodo se tomarán en cuenta para el historial académico.</h3>
 
                     @elseif($calificada == 2)
-                        <h3 class="panel-title text-center"><br>LAS MATERIAS DE ESTE PERIODO NO SE  TOMARAN EN CUENTA PARA EL HISTORIAL ACADÉMICO.</h3>
+                        <h3 class="panel-title text-center"><br>Las materias de este periodo no se tomarán en cuenta para el historial académico.</h3>
 
                     @endif
 
@@ -33,7 +33,7 @@
             <div class="col-md-10 col-xs-10 col-md-offset-1">
                 <div class="panel panel-danger">
                     <div class="panel-heading">
-                        <h3 class="panel-title text-center">No tiene materias</h3>
+                        <h3 class="panel-title text-center">No hay materias registradas.</h3>
                         <h5 class="panel-title text-center"></h5>
                     </div>
                 </div>
@@ -42,12 +42,12 @@
     @else
         <div class="row">
             <div class="col-md-1 col-md-offset-8">
-                <button  class="btn btn-primary pdf_historial">Historial Academico</button>
+                <button  class="btn btn-primary pdf_historial">Ver PDF</button>
                 {{-- <button type="button" class="btn btn-primary center" onclick="window.open('{{url('/servicios_escolares/historial_academico/pdf_historial_academico/'.$id_alumno)}}')">Historial academico</button>
              --}}
             </div>
             <div class="col-md-1">
-                <button  class="btn btn-success pdf_historial_excel">Historial Academico excel</button>
+                <button  class="btn btn-success pdf_historial_excel">Exportar a Excel</button>
                 {{-- <button type="button" class="btn btn-primary center" onclick="window.open('{{url('/servicios_escolares/historial_academico/pdf_historial_academico/'.$id_alumno)}}')">Historial academico</button>
              --}}
             </div>
@@ -63,7 +63,7 @@
                     <tr>
                         <th style="text-align: center">Sem.</th>
                         <th style="text-align: center">Clave</th>
-                        <th style="text-align: center">Nombre materia</th>
+                        <th style="text-align: center">Nombre de la materia</th>
                         <th style="text-align: center">Cr.</th>
                         <th style="text-align: center">Cal.</th>
                         <th style="text-align: center">Acr.</th>
@@ -200,11 +200,11 @@
                     @if($verifi_reg_ante == 0)
                         @if($verificar_periodo_residencia == 0)
                             <div class="alert alert-warning">
-                                <strong>Atención !! </strong>El estudiante no tiene registro de residencia en sus cargas academicas
+                                <strong>¡Atención!</strong>El estudiante no tiene registro de residencia en sus cargas academicas
                             </div>
                         @else
                             <div class="alert alert-warning">
-                                <strong>Atención !! </strong>El estudiante dio de alta su residencia en el o en los periodos:
+                                <strong>¡Atención!</strong>El estudiante dio de alta su residencia en el o en los periodos:
                                 @foreach($verificar_periodo_residencia as $per)
                                     {{ $per->periodo }},
                                 @endforeach
@@ -214,7 +214,7 @@
 
                     @else
                         <div class="alert alert-warning">
-                            <strong>Atención !! </strong><br> El estudiante esta en proceso de seguimiento de residencia en el periodo {{ $periodo_seguimiento }}
+                            <strong>¡Atención!</strong><br> El estudiante esta en proceso de seguimiento de residencia en el periodo {{ $periodo_seguimiento }}
                         </div>
                     @endif
                 </div>
@@ -227,7 +227,7 @@
                         <thead>
                         <tr>
                             <th class="text-center">Nombre</th>
-                            <th class="text-center">Calificacion</th>
+                            <th class="text-center">Calificación</th>
                             <th class="text-center">Estado</th>
 
                         </tr>
@@ -270,8 +270,8 @@
                     <th>Semestre</th>
                     <th>Periodo</th>
                     <th>Nombre del periodo</th>
-                    <th>Fecha que fue eliminada</th>
-                    <th>Agregarla nuevamente al historial</th>
+                    <th>Fecha de eliminación</th>
+                    <th>Volver a agregar al historial</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -303,7 +303,7 @@
                     <div class="modal-body">
 
                         <div class="row" >
-                            <div class="col-md-8 col-md-offset-2"><h3>Calificar Residencia</h3></div>
+                            <div class="col-md-8 col-md-offset-2"><h3>Calificar residencia</h3></div>
                         </div>
                         <div class="row" >
                             <div class="col-md-8 col-md-offset-2">
@@ -336,7 +336,7 @@
                     <div class="modal-body">
 
                         <div class="row">
-                            <div class="col-md-10 col-md-offset-1"><h3>Calificar Servicio Social</h3></div>
+                            <div class="col-md-10 col-md-offset-1"><h3>Calificar servicio social</h3></div>
                         </div>
                         <div class="row" >
                             <div class="col-md-8 col-md-offset-2">
@@ -368,11 +368,11 @@
                     <div class="modal-body">
 
                         <div class="row">
-                            <div class="col-md-10 col-md-offset-1"><h3>Calificar Actividades complementarias</h3></div>
+                            <div class="col-md-10 col-md-offset-1"><h3>Calificar actividades complementarias</h3></div>
                         </div>
                         <div class="row" >
                             <div class="col-md-8 col-md-offset-2">
-                                <label>¿El alumno ya acredito las actividades complementarias? Si es correcto, dar clic en el boton aceptar</label>
+                                <label>¿El estudiante ya acreditó las actividades complementarias? Si es así, selecciona «Aceptar».</label>
                             </div>
                         </div>
                     </div>
@@ -393,13 +393,13 @@
                     <div class="modal-body">
 
                         <div class="row">
-                            <div class="col-md-10 col-md-offset-1"><h3>Historial Academico</h3></div>
+                            <div class="col-md-10 col-md-offset-1"><h3>Historial académico</h3></div>
                         </div>
                         <div class="row" >
                             <div class="col-md-8 col-md-offset-2">
                                 <div class="dropdown">
                                     <label for="exampleInputEmail1">Elige especialidad<b style="color:red; font-size:23px;">*</b></label>
-                                    <select class="form-control  "placeholder="selecciona una Opcion" id="especialidad" name="especialidad" required>
+                                    <select class="form-control  "placeholder="Selecciona una opción" id="especialidad" name="especialidad" required>
                                         <option disabled selected hidden>Selecciona una opción</option>
                                         @foreach($especialidad as $especialidad)
                                             <option value="{{$especialidad->especialidad}}">{{$especialidad->especialidad}}</option>
@@ -413,7 +413,7 @@
                             <div class="col-md-8 col-md-offset-2">
                                 <div class="dropdown">
                                     <label for="exampleInputEmail1">Elige plan<b style="color:red; font-size:23px;">*</b></label>
-                                    <select class="form-control  "placeholder="selecciona una Opcion" id="plan" name="plan" required>
+                                    <select class="form-control  "placeholder="Selecciona una opción" id="plan" name="plan" required>
                                         <option disabled selected hidden>Selecciona una opción</option>
                                         @foreach($plan as $plan)
                                             <option value="{{$plan->plan}}">{{$plan->plan}}</option>
@@ -440,7 +440,7 @@
                     <div class="modal-body">
 
                         {{ csrf_field() }}
-                        ¿Realmente deseas quitar la materia  <input type="button" id="nombre_materia" name="nombre_materia" value=""> del historial academico?
+                        ¿Realmente deseas quitar la materia  <input type="button" id="nombre_materia" name="nombre_materia" value=""> del historial académico?
                         <input type="hidden" id="id_carga_academica" name="id_carga_academica" value="">
 
                     </div>
@@ -460,7 +460,7 @@
                     <div class="modal-body">
 
                         {{ csrf_field() }}
-                        ¿Realmente deseas agregar nuevamente la materia  <input type="button" id="nombre_materia_l" name="nombre_materia_l" value=""> al historial academico?
+                        ¿Realmente deseas agregar nuevamente la materia  <input type="button" id="nombre_materia_l" name="nombre_materia_l" value=""> al historial académico?
                         <input type="hidden" id="id_carga_academica_l" name="id_carga_academica_l" value="">
 
                     </div>
@@ -480,13 +480,13 @@
                 <div class="modal-body">
 
                     <div class="row">
-                        <div class="col-md-10 col-md-offset-1"><h3>Historial Academico excel</h3></div>
+                        <div class="col-md-10 col-md-offset-1"><h3>Historial académico en Excel</h3></div>
                     </div>
                     <div class="row" >
                         <div class="col-md-8 col-md-offset-2">
                             <div class="dropdown">
                                 <label for="exampleInputEmail1">Elige especialidad<b style="color:red; font-size:23px;">*</b></label>
-                                <select class="form-control  "placeholder="selecciona una Opcion" id="especialidad2" name="especialidad2" required>
+                                <select class="form-control  "placeholder="Selecciona una opción" id="especialidad2" name="especialidad2" required>
                                     <option disabled selected hidden>Selecciona una opción</option>
                                     @foreach($especialidad2 as $especialidades)
                                         <option value="{{$especialidades->id_especialidad }}">{{$especialidades->especialidad}}</option>
@@ -500,7 +500,7 @@
                         <div class="col-md-8 col-md-offset-2">
                             <div class="dropdown">
                                 <label for="exampleInputEmail1">Elige plan<b style="color:red; font-size:23px;">*</b></label>
-                                <select class="form-control  "placeholder="selecciona una Opcion" id="plan2" name="plan2" required>
+                                <select class="form-control  "placeholder="Selecciona una opción" id="plan2" name="plan2" required>
                                     <option disabled selected hidden>Selecciona una opción</option>
                                     @foreach($plan2 as $planes)
                                         <option value="{{$planes->id_plan}}">{{$planes->plan}}</option>
@@ -537,7 +537,7 @@
                     swal({
                         position: "top",
                         type: "error",
-                        title: "hay un campo vacio",
+                        title: "Hay un campo vacío.",
                         showConfirmButton: false,
                         timer: 3500
                     });
@@ -560,7 +560,7 @@
                     swal({
                         position: "top",
                         type: "error",
-                        title: "hay un campo vacio",
+                        title: "Hay un campo vacío.",
                         showConfirmButton: false,
                         timer: 3500
                     });

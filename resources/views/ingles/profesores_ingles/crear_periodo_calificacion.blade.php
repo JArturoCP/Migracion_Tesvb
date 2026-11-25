@@ -1,5 +1,5 @@
 {{-- Fragmento AJAX (GET /ingles/registro_periodo_ingles/{unidad}/{nivel}/{grupo}) dentro de #modal_registro de
-     periodos_calificaciones. Mismos campos (fecha_periodo, id_nivel, id_unidad, id_grupo) y mismo datepicker. --}}
+     periodos_calificaciones. Mismos campos (fecha_periodo, id_nivel, id_unidad, id_grupo) y mismo formato de envío. --}}
 <div>
     <div class="tw:flex tw:flex-col tw:gap-1.5">
         <label for="fecha_periodo" class="tw:text-sm tw:font-medium tw:text-gray-700 tw:dark:text-gray-400">Seleccionar fecha de evaluación</label>

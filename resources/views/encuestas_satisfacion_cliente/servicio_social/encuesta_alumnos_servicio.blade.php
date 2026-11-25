@@ -112,7 +112,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-info">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title text-center" id="myModalLabel">Enviar encuesta</h4>
                 </div>
                 <form id="form_envio_encuesta" class="form" action="{{url("/encuestas_satisfaccion/envio_encuesta_estudiante_servicio/".$mes."/".$year)}}" role="form" method="POST" >

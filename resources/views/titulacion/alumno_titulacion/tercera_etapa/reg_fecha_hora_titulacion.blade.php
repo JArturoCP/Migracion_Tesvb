@@ -58,7 +58,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header bg-info">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title text-center" id="myModalLabel">Eliminar la fecha de titulación</h4>
                     </div>
                     <form id="form_eliminar_fecha_jurado" class="form" action="{{url("/titulacion/elim_fe_titulacion/".$id_alumno)}}" role="form" method="POST" >

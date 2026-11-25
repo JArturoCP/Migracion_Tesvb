@@ -198,7 +198,7 @@
             <div class="modal-content">
 
                 <div class="modal-header bg-info">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title text-center" id="myModalLabel">Calificar actividad</h4>
                 </div>
                 <div id="contenedor_calificar_actividad">
@@ -219,7 +219,7 @@
             <div class="modal-content">
 
                 <div class="modal-header bg-info">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title text-center" id="myModalLabel">Modificar Asesor</h4>
                 </div>
                 <div id="contenedor_modificar_asesores">
@@ -239,7 +239,7 @@
             <div class="modal-content">
 
                 <div class="modal-header bg-info">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title text-center" id="myModalLabel">Oficios Finales</h4>
                 </div>
                 <div class="row">
@@ -311,7 +311,7 @@
                 <div class="modal-content">
 
                     <div class="modal-header bg-info">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title text-center" id="myModalLabel">Evaluación Final de Residencia Profesional</h4>
                     </div>
                     <div class="row">

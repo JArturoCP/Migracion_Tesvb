@@ -10,7 +10,7 @@
       <form data-panel-envio class="form" action="{{url("/centro_computo/registro_datos_estudiante_excel/")}}" role="form" method="POST" enctype="multipart/form-data">
         {{ csrf_field() }}
         <div class="modal-header bg-info">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
           <h4 class="modal-title text-center" id="myModalLabel">Registrar correo y contraseña de los estudiantes</h4>
         </div>
         <div class="modal-body">

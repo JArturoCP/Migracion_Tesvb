@@ -226,7 +226,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span
                                     aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title" id="exampleModalLabel">Agregar Parte Interesada</h4>
                     </div>
@@ -261,7 +261,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span
                                     aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title" id="exampleModalLabel">Agregar Requisito</h4>
                     </div>
@@ -292,7 +292,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span
                                     aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title" id="exampleModalLabel">Agregar Riesgo</h4>
                     </div>
@@ -324,7 +324,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span
                                     aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title" id="exampleModalLabel">Agregar Oportunidad</h4>
                     </div>
@@ -356,7 +356,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span
                                     aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title" id="exampleModalLabel">Modificar Registro</h4>
                     </div>

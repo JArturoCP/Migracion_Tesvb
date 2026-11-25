@@ -83,7 +83,7 @@
             <div class="modal-content">
 
                     <div class="modal-header bg-info">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title text-center" id="myModalLabel">Agregar domo de titulos</h4>
                     </div>
                 <form class="form" id="form_reg_domo" action="{{url("/titulacion/guardar_domo_titulacion/")}}" role="form" method="POST" >

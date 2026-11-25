@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'PIASE Estudiante')
+@section('title', 'Seguimiento del estudiante | PIASE')
 @section('content')
 
     <style>
@@ -46,8 +46,8 @@
     </style>
 
     <div class="piase-student-wrap">
-        <h3 class="piase-title"><span class="glyphicon glyphicon-education"></span> PIASE - Seguimiento del estudiante</h3>
-        <p class="piase-subtitle">Consulta tus citas, actividades asignadas, evidencias y observaciones realizadas por el responsable.</p>
+        <h3 class="piase-title"><span class="glyphicon glyphicon-education"></span> PIASE: seguimiento del estudiante</h3>
+        <p class="piase-subtitle">Consulta tus citas, actividades asignadas, evidencias y observaciones del responsable.</p>
 
         @if(session('success'))
             <div class="alert alert-success">{{ session('success') }}</div>
@@ -215,7 +215,7 @@
                                                                 <input type="file" name="evidencia" class="form-control">
                                                             </div>
                                                             <div class="col-md-5">
-                                                                <label>Descripción de evidencia</label>
+                                                                <label>Descripción de la evidencia</label>
                                                                 <textarea name="texto_evidencia" class="form-control" rows="2" placeholder="Describe brevemente lo que entregas...">{{ $actividad->texto_evidencia }}</textarea>
                                                             </div>
                                                             <div class="col-md-2" style="padding-top:25px;">
@@ -298,11 +298,11 @@
                 </div>
             </div>
 
-            <div class="modal fade" id="modalRutaPiase" tabindex="-1" role="dialog">
+            <div class="modal fade" id="modalRutaPiase" tabindex="-1" role="dialog" aria-label="Ruta PIASE del estudiante">
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header bg-info">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                             <h4 class="modal-title">Ruta PIASE del estudiante</h4>
                         </div>
                         <div class="modal-body">

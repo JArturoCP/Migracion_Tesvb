@@ -6,7 +6,7 @@
             <div class="col-md-6 col-md-offset-3">
                 <div class="panel panel-info">
                     <div class="panel-heading">
-                        <h3 class="panel-title text-center">Carga Academica Ingles</h3>
+                        <h3 class="panel-title text-center">Carga académica de inglés</h3>
                     </div>
                 </div>
             </div>

@@ -49,7 +49,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="exampleModalLabel">Agregar escuela de procedencia</h4>
                 </div>
                 <div class="modal-body">
@@ -105,7 +105,7 @@
                 <form id="form_mod_periodo_ingles" class="form" action="{{url("/modificacion/escuela_procedencia/")}}" role="form" method="POST" >
                     {{ csrf_field() }}
                     <div class="modal-header bg-info">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title text-center" id="myModalLabel">Modificar Escuela de Procedencia</h4>
                     </div>
                     <div class="modal-body">

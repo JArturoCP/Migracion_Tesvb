@@ -119,7 +119,7 @@
                     <div class="modal-body">
 
                         <div class="row" >
-                            <div class="col-md-8 col-md-offset-2"><h3>Calificar Residencia</h3></div>
+                            <div class="col-md-8 col-md-offset-2"><h3>Calificar residencia</h3></div>
                         </div>
                         <div class="row" >
                             <div class="col-md-8 col-md-offset-2">

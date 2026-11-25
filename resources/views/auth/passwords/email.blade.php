@@ -18,7 +18,7 @@
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">Dirección de correo electrónico registrado en el sistema.</label>
+                            <label for="email" class="col-md-4 control-label">Correo electrónico registrado</label>
 
                             <div class="col-md-6">
                                 <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required>
@@ -34,7 +34,7 @@
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary">
-                                    Enviar enlace de restablecimiento de contraseña
+                                    Enviar enlace de recuperación
                                 </button>
                             </div>
                         </div>
@@ -45,8 +45,8 @@
     </div>
     <div class="row">
         <div class="col-md-4 col-md-offset-4" style="text-align: center">
-            <label>Manual de resteo de contraseña</label><br>
-            <a  target="_blank" href="/manuales/olvidaste.pdf" class="btn btn-danger "><i class="glyphicon glyphicon-book em56" title="Ver  PDF"></i></a>
+            <label>Manual para restablecer la contraseña</label><br>
+            <a  target="_blank" href="/manuales/olvidaste.pdf" aria-label="Abrir el manual para restablecer la contraseña (PDF, nueva pestaña)" class="btn btn-danger "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a>
         </div>
     </div>
     <div class="row">

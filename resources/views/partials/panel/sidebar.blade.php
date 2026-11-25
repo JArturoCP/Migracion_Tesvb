@@ -35,7 +35,7 @@
         <nav x-data="sidebar" aria-label="Menú principal">
             <div>
                 <h3 class="tw:mb-4 tw:text-xs tw:leading-5 tw:text-gray-400 tw:uppercase">
-                    <span class="tw:menu-group-title" :class="sidebarToggle ? 'tw:xl:hidden' : ''">MENÚ</span>
+                    <span class="tw:menu-group-title" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Menú</span>
                 </h3>
 
                 <ul class="tw:mb-6 tw:flex tw:flex-col tw:gap-1" data-panel-menu>
@@ -479,7 +479,7 @@
                         <li>
                             <a href="#" @click.prevent="selected = (selected === 'm4' ? '' : 'm4')" class="tw:group tw:menu-item" :class="selected === 'm4' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m4">
 @include('partials.panel.iconos.graficas', ['clave' => 'm4'])
-<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Evaluación Docente</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Evaluación docente</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm4'])
 </a>
                             <div x-cloak x-show.important="$store.buscador.activo || selected === 'm4'" x-collapse>
@@ -581,7 +581,7 @@
                         <li>
                             <a href="#" @click.prevent="selected = (selected === 'm7' ? '' : 'm7')" class="tw:group tw:menu-item" :class="selected === 'm7' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m7">
 @include('partials.panel.iconos.graficas', ['clave' => 'm7'])
-<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Evaluación Docente</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Evaluación docente</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm7'])
 </a>
                             <div x-cloak x-show.important="$store.buscador.activo || selected === 'm7'" x-collapse>
@@ -1027,7 +1027,7 @@
                             <li>
                                 <a href="#" @click.prevent="selected = (selected === 'm24' ? '' : 'm24')" class="tw:group tw:menu-item" :class="selected === 'm24' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m24">
 @include('partials.panel.iconos.graficas', ['clave' => 'm24'])
-<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Evaluación Docente</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Evaluación docente</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm24'])
 </a>
 
@@ -1129,7 +1129,7 @@
                                         <a href="{{url('/duales/concentrado_calificaciones_duales/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Concentrado de Calificaciones de Alumnos Duales</a>
                                     </li>
                                     <li>
-                                        <a href="{{url('/servicios_escolares/historial_academico/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Historial Académico de los estudiantes</a>
+                                        <a href="{{url('/servicios_escolares/historial_academico/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Historial académico de los estudiantes</a>
                                     </li>
                                     <li>
                                         <a href="{{url('/servicios_escolares/bajas_temporales/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Bajas temporales de los estudiantes</a>
@@ -1156,7 +1156,7 @@
                                         <a href="{{url('/servicios_escolares/carrera_estudiantes_desactivados/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Ver estudiantes inactivos</a>
                                     </li>
                                     <li>
-                                        <a href="{{url('/servicios_escolares/carrera_actualizar_semestre_periodo/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Ver periodos de actualizacion de semestre estudiantes</a>
+                                        <a href="{{url('/servicios_escolares/carrera_actualizar_semestre_periodo/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Ver periodos de actualización de semestre de estudiantes</a>
                                     </li>
                                     <li><a href="{{url('/computo/calificar')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Calificar estudiantes (Curso intersemestral)</a></li>
                                     <li><a href="{{url('/encuestas_satisfaccion/encuesta_incripcion_periodo/')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Encuestas de satisfacción al cliente (inscripción)</a></li>
@@ -1923,16 +1923,16 @@
                         <li>
                             <a href="#" @click.prevent="selected = (selected === 'm60' ? '' : 'm60')" class="tw:group tw:menu-item" :class="selected === 'm60' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m60">
 @include('partials.panel.iconos.usuario', ['clave' => 'm60'])
-<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Datos Alumno(a)</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Datos del estudiante</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm60'])
 </a>
                             <div x-cloak x-show.important="$store.buscador.activo || selected === 'm60'" x-collapse>
 <ul :class="sidebarToggle ? 'tw:xl:hidden' : 'tw:flex'" class="tw:menu-dropdown tw:mt-2 tw:flex tw:animate-in tw:flex-col tw:gap-1 tw:pl-9 tw:duration-200 tw:fade-in-0 tw:slide-in-from-top-1">
                                 <li><a href="{{url('/datos_alumno')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Actualizar</a></li>
                                 @if($ver_carga==false)
-                                <li><a href="{{url('/carga_academica')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Llenar Carga Académica</a></li>
+                                <li><a href="{{url('/carga_academica')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Registrar carga académica</a></li>
                                 @endif
-                                <li><a href="{{url('/checar_carga')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Ver Carga Académica</a>
+                                <li><a href="{{url('/checar_carga')}}" class="tw:group tw:menu-dropdown-item tw:menu-dropdown-item-inactive" data-panel-enlace>Ver carga académica</a>
                                 </li>
                                 {{--
                                                                     <li><a href="{{url('/alumno/academico/cal')}}">Promedio
@@ -1977,7 +1977,7 @@
                         <li>
                             <a href="#" @click.prevent="selected = (selected === 'm61' ? '' : 'm61')" class="tw:group tw:menu-item" :class="selected === 'm61' ? 'tw:menu-item-active' : 'tw:menu-item-inactive'" data-panel-modulo="m61">
 @include('partials.panel.iconos.graficas', ['clave' => 'm61'])
-<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Evaluación Docente</span>
+<span class="tw:menu-item-text" :class="sidebarToggle ? 'tw:xl:hidden' : ''">Evaluación docente</span>
 @include('partials.panel.iconos.flecha', ['clave' => 'm61'])
 </a>
                             <div x-cloak x-show.important="$store.buscador.activo || selected === 'm61'" x-collapse>

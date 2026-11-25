@@ -1,6 +1,6 @@
 
 <div class="modal-header bg-info">
-    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
     <h4 class="modal-title text-center" id="myModalLabel">Modificar actividad en la semana {{$cronograma->no_semana}}</h4>
 </div>
 <div class="row">

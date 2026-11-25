@@ -8,7 +8,7 @@
                 <div class="col-md-6 col-md-offset-3">
                     <div class="panel panel-danger">
                         <div class="panel-heading">
-                            <h3 class="panel-title text-center">No has registrado tu carga academica de ingles</h3>
+                            <h3 class="panel-title text-center">No has registrado tu carga académica de inglés.</h3>
                         </div>
                     </div>
                 </div>
@@ -18,7 +18,7 @@
             <div class="col-md-6 col-md-offset-3">
                 <div class="panel panel-info">
                     <div class="panel-heading">
-                        <h3 class="panel-title text-center">Carga Academica Ingles</h3>
+                        <h3 class="panel-title text-center">Carga académica de inglés</h3>
                     </div>
                 </div>
             </div>
@@ -71,10 +71,10 @@
                         <th>Hora/Día</th>
                         <th>Lunes </th>
                         <th>Martes</th>
-                        <th>Miercoles</th>
+                        <th>Miércoles</th>
                         <th>Jueves</th>
                         <th>Viernes</th>
-                        <th>Sabado</th>
+                        <th>Sábado</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -127,7 +127,7 @@
              @if($comentario[0]->id_estado == 3)
                 <div class="row">
                     <div class="col-md-2 col-md-offset-5">
-                        <button type="button" class="btn btn-success btn-lg" onclick="window.location='{{ url('/ingles_horarios/enviar_carga_academica_ingles/'.$carga_academica->id_nivel.'/'.$carga_academica->id_grupo.'/1' ) }}'" disabled>Enviar carga academica de ingles </button>
+                        <button type="button" class="btn btn-success btn-lg" onclick="window.location='{{ url('/ingles_horarios/enviar_carga_academica_ingles/'.$carga_academica->id_nivel.'/'.$carga_academica->id_grupo.'/1' ) }}'" disabled>Enviar carga académica de inglés</button>
                         <br>
                         <br>
                     </div>
@@ -161,7 +161,7 @@
                 <div class="row">
 
                     <div class="col-md-2 col-md-offset-5">
-                        <button type="button" id="enviar_carga" class="btn btn-success btn-lg">Enviar carga academica de ingles </button>
+                        <button type="button" id="enviar_carga" class="btn btn-success btn-lg">Enviar carga académica de inglés</button>
                         <br>
                         <br>
                     </div>

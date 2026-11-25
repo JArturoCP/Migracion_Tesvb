@@ -3,7 +3,7 @@
 @section('content')
 <main class="container-fluid">
     <div class="panel panel-info">
-        <div class="panel-heading"><h1 class="panel-title">Mi horario</h1></div>
+        <div class="panel-heading" data-acento-carrera><h1 class="panel-title">Mi horario</h1></div>
         <div class="panel-body">
             @if(!$alumno)
                 <div class="alert alert-warning">Tu cuenta aún no tiene un registro de estudiante asociado. Solicita su revisión en Servicios Escolares.</div>

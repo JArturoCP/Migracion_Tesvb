@@ -5,7 +5,7 @@
         <div class="col-md-10 col-xs-10 col-md-offset-1">
             <div class="panel panel-info">
                 <div class="panel-heading">
-                    <h3 class="panel-title text-center">PERIODOS PARA EVALUAR UNIDADES</h3>
+                    <h3 class="panel-title text-center">Periodos para evaluar unidades</h3>
                 </div>
                 <div class="panel-body">
                     <div class="row col-md-12">
@@ -86,8 +86,8 @@
                 <form id="form_agregar_periodo" class="form" action="{{url("/docente/acciones/crear_periodos")}}" role="form" method="POST" >
                     {{ csrf_field() }}
                     <div class="modal-header bg-info">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title text-center" id="myModalLabel">Generar Fecha de Evaluación</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title text-center" id="myModalLabel">Asignar fecha de evaluación</h4>
                     </div>
                     <div class="modal-body">
                         <div id="contenedor_registro">
