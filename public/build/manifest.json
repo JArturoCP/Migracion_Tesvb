@@ -19,7 +19,7 @@
     ]
   },
   "resources/css/marco.css": {
-    "file": "assets/marco-6omHuIWm.css",
+    "file": "assets/marco-2YUNbw5M.css",
     "src": "resources/css/marco.css",
     "isEntry": true,
     "name": "marco",
@@ -36,6 +36,15 @@
       "_module.esm-BK6u66ms.js"
     ]
   },
+  "resources/js/fechas.js": {
+    "file": "assets/fechas-D14RjBEC.js",
+    "name": "fechas",
+    "src": "resources/js/fechas.js",
+    "isEntry": true,
+    "css": [
+      "assets/fechas-BMepuMQp.css"
+    ]
+  },
   "resources/js/panel.js": {
     "file": "assets/panel-CUKV9wYg.js",
     "name": "panel",
@@ -46,15 +55,6 @@
     ],
     "dynamicImports": [
       "node_modules/apexcharts/dist/apexcharts.esm.js"
-    ]
-  },
-  "resources/js/fechas.js": {
-    "file": "assets/fechas-D14RjBEC.js",
-    "name": "fechas",
-    "src": "resources/js/fechas.js",
-    "isEntry": true,
-    "css": [
-      "assets/fechas-BMepuMQp.css"
     ]
   }
 }
