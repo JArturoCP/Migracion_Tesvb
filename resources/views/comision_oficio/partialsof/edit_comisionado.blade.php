@@ -1,19 +1,19 @@
 
-<div class="row">
-    <div class="col-md-10 col-md-offset-1">
-        <div class="form-group">
+<div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+    <div class="tw:w-full tw:px-2">
+        <div class="tw:mb-4">
             <label for="descripcion_oficio">Nombre del comisionado</label>
             <input type="hidden" id="id_oficio_comisionado" name="id_oficio_comisionado" value="{{ $comisionado->id_oficio_personal }}">
-            <input class="form-control" type="text" id="nombre" readonly="readonly" name="nombre" value="{{ $comisionado->nombre }}">
+            <input class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" type="text" id="nombre" readonly="readonly" name="nombre" value="{{ $comisionado->nombre }}">
 
         </div>
     </div>
 </div>
-<div class="row">
-    <div class="col-md-5 col-md-offset-1">
-        <div class="dropdown">
+<div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+    <div class="tw:w-full tw:lg:w-6/12 tw:px-2">
+        <div class="tw:mb-4">
             <label for="selectLugar_s">Viaticos</label>
-            <select class="form-control" id="viaticos" name="viaticos"  required >
+            <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="viaticos" name="viaticos"  required >
                 <option disabled selected hidden>Selecciona una opción</option>
                 @foreach($respuestas as $respuestas)
                     @if($comisionado->viaticos==$respuestas->id_respuesta)
@@ -25,10 +25,10 @@
             </select>
         </div>
     </div>
-    <div class="col-md-5">
-        <div class="dropdown">
+    <div class="tw:w-full tw:lg:w-6/12 tw:px-2">
+        <div class="tw:mb-4">
             <label for="selectLugar_s">Automovil</label>
-            <select class="form-control" id="automoviles" name="automoviles"  required >
+            <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="automoviles" name="automoviles"  required >
                 <option disabled selected>Selecciona...</option>
                 @foreach($respuestass as $respuestass)
                     @if($comisionado->automovil==$respuestass->id_respuesta)
@@ -42,12 +42,12 @@
     </div>
 </div>
 @if($auto ==1)
-<div class="row" style="display: none" id="lleva_auto">
-    <div class="col-md-4 col-md-offset-1">
-        <div class="form-group">
+<div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4" style="display: none" id="lleva_auto">
+    <div class="tw:w-full tw:lg:w-6/12 tw:px-2">
+        <div class="tw:mb-4">
             <label for="automovil">Automovil</label>
 
-                <select class="form-control required " placeholder="selecciona una Opcion" id="automovil" name="automovil"  >
+                <select class="required tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" placeholder="selecciona una Opcion" id="automovil" name="automovil"  >
                     <option disabled selected hidden>Selecciona una opción</option>
                     @foreach($automoviles as $automoviles)
                         <option value="{{$automoviles->id_vehiculo}}" data-esta="{{$automoviles->modelo}}">{{$automoviles->modelo}} {{$automoviles->placas}}</option>
@@ -57,22 +57,20 @@
 
 
         </div>
-        <br>
     </div>
-    <div class="col-md-4 col-md-offset-1">
-        <div class="form-group">
+    <div class="tw:w-full tw:lg:w-6/12 tw:px-2">
+        <div class="tw:mb-4">
             <label for="licencia">licencia</label>
-            <input class="form-control required " id="licencia" name="licencia" />
+            <input class="required tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="licencia" name="licencia" />
         </div>
-        <br>
     </div>
 </div>
     @elseif($auto ==2)
-    <div class="row" style="display: inline" id="lleva_auto">
-        <div class="col-md-4 col-md-offset-1">
-            <div class="dropdown">
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4" style="display: inline" id="lleva_auto">
+        <div class="tw:w-full tw:lg:w-6/12 tw:px-2">
+            <div class="tw:mb-4">
                 <label for="automovil">Automovil</label>
-                <select class="form-control " id="automovil" name="automovil" >
+                <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="automovil" name="automovil" >
                     @foreach($automoviles as $automoviles)
                         @if($auto_comisionado->id_vehiculo==$automoviles->id_vehiculo)
                             <option value="{{$automoviles->id_vehiculo}}" selected="selected" >{{$automoviles->modelo}} {{$automoviles->placas}}</option>
@@ -82,14 +80,12 @@
                     @endforeach
                 </select>
             </div>
-            <br>
         </div>
-        <div class="col-md-4 col-md-offset-1">
-            <div class="form-group">
+        <div class="tw:w-full tw:lg:w-6/12 tw:px-2">
+            <div class="tw:mb-4">
                 <label for="licencia">licencia</label>
-                <input class="form-control required" id="licencia" name="licencia" value="{{$auto_comisionado->licencia}}" />
+                <input class="required tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="licencia" name="licencia" value="{{$auto_comisionado->licencia}}" />
             </div>
-            <br>
         </div>
     </div>
 @endif

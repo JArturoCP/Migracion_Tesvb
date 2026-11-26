@@ -25,8 +25,6 @@
  *   5. Sin el plugin global de formularios: @tailwindcss/forms solo con la estrategia "class".
  */
 
-@import "@fontsource-variable/outfit";
-
 @import "tailwindcss/theme.css" prefix(tw);
 @import "tailwindcss/utilities.css" source(none) prefix(tw) important;
 @import "tw-animate-css";
@@ -42,6 +40,11 @@
 @source "../views/components/panel";
 @source "../../public/js/panel/formularios.js";
 /* Vistas de módulos migradas al panel (se escanean solo las clases tw:; el resto no genera CSS). */
+@source "../views/ambiental/encargado_amb/activo_periodo.blade.php";
+@source "../views/ambiental/encargado_amb/desactivo_periodo.blade.php";
+@source "../views/ambiental/encargado_amb/correcciones_procedimiento_doc.blade.php";
+@source "../views/ambiental/encargado_amb/historial_envio_documentacion.blade.php";
+@source "../views/ambiental/encargado_amb/procedimiento_doc.blade.php";
 @source "../views/tutorias/alumnos";
 @source "../views/tutorias/actividades_alumno";
 @source "../views/tutorias/calendario_eventos";
@@ -54,7 +57,6 @@
 @source "../views/plantilla";
 @source "../views/reticulas";
 @source "../views/docentes";
-@source "../views/comision_oficio/solicitud_oficio.blade.php";
 @source "../views/incidencias/agregar.blade.php";
 @source "../views/titulacion/jefe_titulacion/formulario_datos_titulado/reg_datos_alumno.blade.php";
 @source "../views/encuestas_satisfacion_cliente/partials";
@@ -77,13 +79,30 @@
 @source "../views/panel";
 @source "../views/examen_egel";
 @source "../views/auditorias";
+@source "../views/residencia";
+@source "../views/duales";
+@source "../views/servicio_social";
+@source "../views/laboratorios";
+@source "../views/departamento_finanzas";
+@source "../views/RMateriales";
+@source "../views/comision_oficio";
+@source "../views/prestamo";
+@source "../views/informe_paa";
+@source "../views/plantilla_personal";
+@source "../views/servicios_escolares";
+@source "../views/centro_computo";
+@source "../views/jefe_carrera";
+@source "../views/reportes_profesores";
+@source "../views/computo";
+@source "../views/constancia_adeudo";
+@source "../views/prorroga";
 @source "../views/vendor/pagination/panel.blade.php";
 @source "../js/panel";
 
 @custom-variant dark (&:is(.dark *));
 @theme {
   --font-*: initial;
-  --font-outfit: "Outfit Variable", Outfit, sans-serif;
+
 
   --breakpoint-*: initial;
   --breakpoint-2xsm: 375px;
@@ -201,7 +220,7 @@
 
 /* Raíz del marco: fuente y tamaño propios, sin heredar los de Bootstrap. */
 .tw-marco {
-  font-family: var(--tw-font-outfit) !important;
+  font-family: var(--tesvb-font-family) !important;
   font-size: 16px !important;
   line-height: 1.5 !important;
   font-weight: 400 !important;

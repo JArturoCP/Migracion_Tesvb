@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 use App\Alumnos;
+use App\Services\EdadAlumno;
+use Illuminate\Support\Arr;
 use App\Tutorias_areas_canalizacion;
 use App\AsignaExpediente;
 use App\Tutorias_Exp_antecedentes_academico;
@@ -170,18 +172,56 @@ class Tutorias_ViewAlumnosController extends Controller
     public function actualiza(Request $request)
     {
 
-        $generales = Tutorias_Exp_generale::find($request->alu['generales']['id_exp_general']);
-        $generales->update($request->alu['generales']);
-        $academicos = Tutorias_Exp_antecedentes_academico::find($request->alu['academicos']['id_exp_antecedentes_academicos']);
-        $academicos->update($request->alu['academicos']);
-        $familiares = Tutorias_Exp_datos_familiare::find($request->alu['familiares']['id_exp_datos_familiares']);
-        $familiares->update($request->alu['familiares']);
-        $estudio = Tutorias_Exp_habitos_estudio::find($request->alu['estudio']['id_exp_habitos_estudio']);
-        $estudio->update($request->alu['estudio']);
-        $integral = Tutorias_Exp_formacion_integral::find($request->alu['integral']['id_exp_formacion_integral']);
-        $integral->update($request->alu['integral']);
-        $area = Tutorias_Exp_area_psicopedagogica::find($request->alu['area']['id_exp_area_psicopedagogica']);
-        $area->update($request->alu['area']);
+        $alumno = Alumnos::where('id_usuario', $request->user()->id)->findOrFail($request->session()->get('id_alumno'));
+        $secciones = [
+            'generales' => Tutorias_Exp_generale::class,
+            'academicos' => Tutorias_Exp_antecedentes_academico::class,
+            'familiares' => Tutorias_Exp_datos_familiare::class,
+            'estudio' => Tutorias_Exp_habitos_estudio::class,
+            'integral' => Tutorias_Exp_formacion_integral::class,
+            'area' => Tutorias_Exp_area_psicopedagogica::class,
+        ];
+        $reglas = [];
+        foreach ($secciones as $seccion => $modelo) {
+            $reglas['alu.' . $seccion] = 'required|array';
+            $reglas['alu.' . $seccion . '.' . (new $modelo)->getKeyName()] = 'required|integer';
+        }
+        $request->validate($reglas);
+        $datos = $request->input('alu');
+
+        DB::transaction(function () use ($alumno, $secciones, $datos, $request) {
+            foreach ($secciones as $seccion => $modelo) {
+                $registro = new $modelo;
+                $campos = $datos[$seccion];
+                $registro = $modelo::where('id_alumno', $alumno->id_alumno)
+                    ->findOrFail($campos[$registro->getKeyName()]);
+                $cambios = Arr::except(Arr::only($campos, $registro->getFillable()), ['id_alumno']);
+                if ($seccion === 'generales') {
+                    $cambios = Arr::except($cambios, [
+                        'nombre', 'correo', 'no_cuenta', 'id_carrera', 'foto',
+                    ]);
+                    // El alta del expediente crea filas vacías y guarda en esta misma ruta.
+                    $cambios['nombre'] = $registro->nombre ?? trim(implode(' ', array_filter([
+                        $alumno->nombre, $alumno->apaterno, $alumno->amaterno,
+                    ])));
+                    $cambios['correo'] = $registro->correo ?? $request->user()->email;
+                    $cambios['no_cuenta'] = $registro->no_cuenta ?? $alumno->cuenta;
+                    $cambios['id_carrera'] = $registro->id_carrera ?? $alumno->id_carrera;
+                    $foto = $campos['foto'] ?? null;
+                    $extension = ['image/jpeg' => 'jpeg', 'image/jpg' => 'jpg', 'image/png' => 'png'];
+                    if ($registro->foto === null && is_string($foto) && isset($extension[$foto])
+                        && preg_match('/^[a-z0-9_-]+$/i', (string) $alumno->cuenta)
+                        && is_file(public_path('Fotografias/' . $alumno->cuenta . '.' . $extension[$foto]))) {
+                        $cambios['foto'] = $foto;
+                    }
+                    $cambios['edad'] = EdadAlumno::calcular($alumno->fecha_nac);
+                    $cambios['fecha_nacimientos'] = EdadAlumno::fecha($alumno->fecha_nac);
+                    $cambios['id_semestre'] = $alumno->id_semestre;
+                    $cambios['id_periodo'] = $request->session()->get('periodo_actual') ?? $registro->id_periodo;
+                }
+                $registro->update($cambios);
+            }
+        });
 
         return('ok');
     }

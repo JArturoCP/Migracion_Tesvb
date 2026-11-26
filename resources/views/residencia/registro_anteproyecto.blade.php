@@ -1,56 +1,57 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 @section('title', 'Registrar Anteproyecto')
+@include('partials.panel.recursos_app')
 @section('content')
-    <div class="row">
-        <div class="col-md-10 col-xs-10 col-md-offset-1">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h3 class="panel-title text-center">Generar  Anteproyecto</h3>
-                </div>
-                <div class="panel-body">
-                    <div class="row col-md-12">
-                        <div>
-                            <ul class="nav nav-pills nav-stacked col-md-2" style="border: 2px solid black; border-radius: 7px; padding-right: 0">
+<div class="tw-pantalla">
+    <x-panel.encabezado titulo="Generar Anteproyecto" :migas="['Residencia profesional' => null]" />
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+        <div class="tw:w-full tw:px-2">
+            <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+                
+                <div class="tw:p-5 tw:sm:p-6">
+                    <div class="tw:w-full tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4 tw:lg:w-full tw:px-2">
+                        <div class="tw:w-full tw:flex tw:flex-wrap tw:gap-y-4">
+                            <ul class="tw:mb-6 tw:divide-y tw:divide-gray-100 tw:overflow-hidden tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03] tw:w-full tw:lg:w-2/12 tw:px-2">
                                @if($registro_proy ==0)
-                                    <li><a href="{{url('/residencia/anteproyecto/portada')}}" style="border-bottom: 2px solid black;">Portada</a></li>
-                                    <li><a   id="mensaje" style="border-bottom: 2px solid black;">Objetivos</a></li>
-                                    <li><a   id="mensaje1" style="border-bottom: 2px solid black;">Alcances</a></li>
-                                    <li><a   id="mensaje2" style="border-bottom: 2px solid black;">Justificación</a></li>
-                                    <li><a   id="mensaje3" style="border-bottom: 2px solid black;">Marco Teorico</a></li>
-                                    <li><a   id="mensaje4" style="border-bottom: 2px solid black;">Cronograma</a></li>
+                                    <li><a class="tw:block tw:px-4 tw:py-3 tw:text-sm tw:font-medium tw:cursor-pointer tw:text-gray-700 tw:dark:text-gray-300 tw:hover:bg-gray-50" href="{{url('/residencia/anteproyecto/portada')}}">Portada</a></li>
+                                    <li><a class="tw:block tw:px-4 tw:py-3 tw:text-sm tw:font-medium tw:cursor-pointer tw:text-gray-700 tw:dark:text-gray-300 tw:hover:bg-gray-50"   id="mensaje">Objetivos</a></li>
+                                    <li><a class="tw:block tw:px-4 tw:py-3 tw:text-sm tw:font-medium tw:cursor-pointer tw:text-gray-700 tw:dark:text-gray-300 tw:hover:bg-gray-50"   id="mensaje1">Alcances</a></li>
+                                    <li><a class="tw:block tw:px-4 tw:py-3 tw:text-sm tw:font-medium tw:cursor-pointer tw:text-gray-700 tw:dark:text-gray-300 tw:hover:bg-gray-50"   id="mensaje2">Justificación</a></li>
+                                    <li><a class="tw:block tw:px-4 tw:py-3 tw:text-sm tw:font-medium tw:cursor-pointer tw:text-gray-700 tw:dark:text-gray-300 tw:hover:bg-gray-50"   id="mensaje3">Marco Teorico</a></li>
+                                    <li><a class="tw:block tw:px-4 tw:py-3 tw:text-sm tw:font-medium tw:cursor-pointer tw:text-gray-700 tw:dark:text-gray-300 tw:hover:bg-gray-50"   id="mensaje4">Cronograma</a></li>
 
                                 @else
-                                    <li><a href="{{url('/residencia/anteproyecto/portada')}}" style="border-bottom: 2px solid black;">Portada</a></li>
-                                    <li><a href="{{url('/residencia/anteproyecto/objetivos')}}" style="border-bottom: 2px solid black;">Objetivos</a></li>
-                                    <li><a href="{{url('/residencia/anteproyecto/alcances')}}" style="border-bottom: 2px solid black;">Alcances</a></li>
-                                    <li><a href="{{url('/residencia/anteproyecto/justificacion')}}" style="border-bottom: 2px solid black;">Justificación</a></li>
-                                    <li><a href="{{url('/residencia/anteproyecto/marco_teorico')}}" style="border-bottom: 2px solid black;">Marco Teorico</a></li>
-                                    <li><a href="{{url('/residencia/anteproyecto/cronograma')}}" style="border-bottom: 2px solid black;">Cronograma</a></li>
+                                    <li><a class="tw:block tw:px-4 tw:py-3 tw:text-sm tw:font-medium tw:cursor-pointer tw:text-gray-700 tw:dark:text-gray-300 tw:hover:bg-gray-50" href="{{url('/residencia/anteproyecto/portada')}}">Portada</a></li>
+                                    <li><a class="tw:block tw:px-4 tw:py-3 tw:text-sm tw:font-medium tw:cursor-pointer tw:text-gray-700 tw:dark:text-gray-300 tw:hover:bg-gray-50" href="{{url('/residencia/anteproyecto/objetivos')}}">Objetivos</a></li>
+                                    <li><a class="tw:block tw:px-4 tw:py-3 tw:text-sm tw:font-medium tw:cursor-pointer tw:text-gray-700 tw:dark:text-gray-300 tw:hover:bg-gray-50" href="{{url('/residencia/anteproyecto/alcances')}}">Alcances</a></li>
+                                    <li><a class="tw:block tw:px-4 tw:py-3 tw:text-sm tw:font-medium tw:cursor-pointer tw:text-gray-700 tw:dark:text-gray-300 tw:hover:bg-gray-50" href="{{url('/residencia/anteproyecto/justificacion')}}">Justificación</a></li>
+                                    <li><a class="tw:block tw:px-4 tw:py-3 tw:text-sm tw:font-medium tw:cursor-pointer tw:text-gray-700 tw:dark:text-gray-300 tw:hover:bg-gray-50" href="{{url('/residencia/anteproyecto/marco_teorico')}}">Marco Teorico</a></li>
+                                    <li><a class="tw:block tw:px-4 tw:py-3 tw:text-sm tw:font-medium tw:cursor-pointer tw:text-gray-700 tw:dark:text-gray-300 tw:hover:bg-gray-50" href="{{url('/residencia/anteproyecto/cronograma')}}">Cronograma</a></li>
 
                                 @endif
                                    </ul>
-                               <div class="tab-content col-md-10">
+                               <div class="tab-content tw:w-full tw:lg:w-10/12 tw:px-2">
                                    @if($enviado_anteproyecto ==0)
                                    @if($registro_proy ==0)
-                                   <div class="tab-pane fade in active text-center">
-                                       <div class="col-md-6 col-md-offset-3">
-                                           <label class=" alert alert-success"  data-toggle="tab" >Seleccione rubro de Portada para registrar anteproyecto
+                                   <div class="tab-pane fade in active tw:text-center">
+                                       <div class="tw:w-full tw:px-2">
+                                           <label class="tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-green-200 tw:bg-green-50 tw:text-green-800"  data-toggle="tab" >Seleccione rubro de Portada para registrar anteproyecto
                                            </label>
                                        </div>
                                    </div>
                                        @else
                                        @if($autorizar_proyecto==0)
-                                           <div class="tab-pane fade in active text-center">
-                                               <div class="col-md-6 col-md-offset-3">
-                                                   <label class=" alert alert-success"  data-toggle="tab" > Te falta llenar un apartado de tu anteproyecto, verifica.<br>
-                                                       <button  type="button" class="btn btn-success btn-lg btn-block" title="Enviar" disabled>Enviar Anteproyecto</button>
+                                           <div class="tab-pane fade in active tw:text-center">
+                                               <div class="tw:w-full tw:px-2">
+                                                   <label class="tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-green-200 tw:bg-green-50 tw:text-green-800"  data-toggle="tab" > Te falta llenar un apartado de tu anteproyecto, verifica.<br>
+                                                       <button  type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" title="Enviar" disabled>Enviar Anteproyecto</button>
                                                    </label>
                                                </div>
                                            </div>
                                            @else
-                                           <div class="tab-pane fade in active text-center">
-                                               <div class="col-md-6 col-md-offset-3">
-                                                   <label class=" alert alert-success"  data-toggle="tab" >    <button type="button" class="btn btn-success btn-lg btn-block enviar" id="{{$reg_proy}}" title="Enviar">Enviar Anteproyecto</button>
+                                           <div class="tab-pane fade in active tw:text-center">
+                                               <div class="tw:w-full tw:px-2">
+                                                   <label class="tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-green-200 tw:bg-green-50 tw:text-green-800"  data-toggle="tab" >    <button type="button" class="enviar tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" id="{{$reg_proy}}" title="Enviar">Enviar Anteproyecto</button>
 
                                                    </label>
                                                </div>
@@ -60,9 +61,9 @@
 
                                    @endif
                                        @else
-                                       <div class="tab-pane fade in active text-center">
-                                           <div class="col-md-6 col-md-offset-3">
-                                               <label class=" alert alert-success"  data-toggle="tab" > Tu proyecto ya fue enviado, ya no puedes hacer ninguna modificación de registro de anteproyecto.<br>
+                                       <div class="tab-pane fade in active tw:text-center">
+                                           <div class="tw:w-full tw:px-2">
+                                               <label class="tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-green-200 tw:bg-green-50 tw:text-green-800"  data-toggle="tab" > Tu proyecto ya fue enviado, ya no puedes hacer ninguna modificación de registro de anteproyecto.<br>
                                                  </label>
                                            </div>
                                        </div>
@@ -77,29 +78,23 @@
                </div>
                </div>
                         </div>
-                    </div></div></div></div>
-    </div>
+                    </div>
+    
     <!-- Mensaje de anteproyecto -->
-    <div id="modal_verificar" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-        <div class="modal-dialog modal-sm" role="document">
-            <div class="modal-content">
-                <div class="modal-body">
+    <x-panel.modal id="modal_verificar" tamano="sm" sin-relleno aria-labelledby="mySmallModalLabel">
+                <div class="tw-modal-cuerpo tw:pt-14">
 
-                    <p class="text-center">Primero se debe llenar el apartado de portada</p>
+                    <p class="tw:text-center">Primero se debe llenar el apartado de portada</p>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                    <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cerrar</button>
 
                 </div>
-            </div>
-        </div>
-    </div>
+            </x-panel.modal>
     <!-- enviar anteproyecto -->
-    <div id="modal_enviar" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-        <div class="modal-dialog modal-sm" role="document">
-            <div class="modal-content">
+    <x-panel.modal id="modal_enviar" tamano="sm" sin-relleno aria-labelledby="mySmallModalLabel">
                 <form id="form_envio_anteproyecto" action="{{url("/residencia/anteproyecto/enviar/")}}" method="POST" role="form" >
-                    <div class="modal-body">
+                    <div class="tw-modal-cuerpo tw:pt-14">
 
                         {{ csrf_field() }}
                         ¿Realmente deseas deseas enviar tu anteproyecto?
@@ -107,13 +102,11 @@
                     </div>
 
                 </form>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                    <button id="confirma_elimina_oficio"  class="btn btn-primary" >Aceptar</button>
+                <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                    <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                    <button id="confirma_elimina_oficio"  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Aceptar</button>
                 </div>
-            </div>
-        </div>
-    </div>
+            </x-panel.modal>
     <script type="text/javascript">
         $(document).ready( function() {
             $("#mensaje").click(function (event) {
@@ -149,4 +142,5 @@
             });
         });
     </script>
+</div>
 @endsection

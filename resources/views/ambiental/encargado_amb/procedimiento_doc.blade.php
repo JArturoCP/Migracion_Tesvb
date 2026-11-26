@@ -1,63 +1,160 @@
-@extends('layouts.app')
-@section('title', 'Ambiental')
+@extends('layouts.panel')
+@section('title', 'Documentación del procedimiento')
+
+@push('cabeza')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.18/vue.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="{{ asset('css/sweetalert2.min.css') }}?v=11.26.25">
+    <script src="{{ asset('js/sweetalert2.min.js') }}?v=11.26.25"></script>
+    <script src="{{ asset('js/tesvb-notify.js') }}?v={{ filemtime(public_path('js/tesvb-notify.js')) }}"></script>
+
+    <style>
+        #envio_doc[v-cloak],
+        #envio_doc .modal {
+            display: none;
+        }
+
+        #envio_doc .modal.mostrar {
+            position: fixed;
+            inset: 0;
+            z-index: 10000;
+            display: grid;
+            place-items: center;
+            overflow-y: auto;
+            padding: 1rem;
+            background: rgb(16 24 40 / 60%);
+        }
+
+        #envio_doc .modal-dialog {
+            width: min(100%, 640px);
+            max-height: 100%;
+        }
+
+        #envio_doc .modal-content {
+            border-radius: 1rem;
+            background: white;
+            box-shadow: var(--tw-shadow-theme-lg);
+        }
+
+        #envio_doc .modal-header,
+        #envio_doc .modal-body {
+            padding: 1rem;
+        }
+
+        #envio_doc .modal-header {
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            border-bottom: 1px solid var(--tw-color-gray-200);
+        }
+
+        #envio_doc .modal-title {
+            font-weight: 600;
+        }
+
+        #envio_doc .modal-header .close {
+            flex: 0 0 2rem;
+            border-radius: .5rem;
+            background: var(--tw-color-gray-100);
+            color: var(--tw-color-gray-700);
+            font-size: 1.25rem;
+        }
+
+        #envio_doc .modal-body > * + *,
+        #envio_doc > .row {
+            margin-top: 1rem;
+        }
+
+        #envio_doc .modal-footer {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            gap: .5rem;
+        }
+
+        #envio_doc .form-control {
+            display: block;
+            width: 100%;
+            margin-top: .5rem;
+            padding: .5rem;
+            border: 1px solid var(--tw-color-gray-300);
+            border-radius: .5rem;
+        }
+
+        #envio_doc .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: .5rem .75rem;
+            border: 1px solid var(--tw-color-gray-300);
+            border-radius: .5rem;
+            font-size: .875rem;
+            font-weight: 500;
+        }
+
+        #envio_doc :is(.btn-primary, .btn-success, .btn-warning) {
+            border-color: transparent;
+            background: var(--tw-color-brand-500);
+            color: white;
+        }
+
+        #envio_doc :is(.btn-primary, .btn-success, .btn-warning):hover {
+            background: var(--tw-color-brand-600);
+        }
+
+        #envio_doc .btn:disabled {
+            opacity: .55;
+        }
+
+        .dark #envio_doc .modal-content {
+            background: var(--tw-color-gray-900);
+        }
+
+        .dark #envio_doc .modal-header,
+        .dark #envio_doc :is(.form-control, .btn-default) {
+            border-color: var(--tw-color-gray-700);
+        }
+
+        .dark #envio_doc .form-control {
+            background: var(--tw-color-gray-900);
+        }
+    </style>
+@endpush
+
 @section('content')
+    <x-panel.encabezado
+        titulo="DOCUMENTACIÓN DEL PROCEDIMIENTO"
+        :migas="[
+            'Procedimiento Ambiental' => url('/ambiental/enviar_documentacion#procedimientos'),
+            'Procedimientos' => url('/ambiental/enviar_documentacion'),
+        ]"
+    />
 
-    <main class="col-md-12">
+    <div class="tw:space-y-6">
+        <x-panel.tarjeta titulo="Periodo ambiental" :subtitulo="$periodo[0]->nombre_periodo_amb">
+            <p class="tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-white/90">
+                {{ $procedimiento[0]->nom_procedimiento }}
+            </p>
+        </x-panel.tarjeta>
 
-
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title text-center">Enviar documentación del procedimiento del Periodo: {{ $periodo[0]->nombre_periodo_amb }} <br>
-                        {{ $procedimiento[0]->nom_procedimiento }}</h3>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.18/vue.min.js"></script>
-        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-        <div id="envio_doc">
-            <div class="row">
-                <div class="col-md-10 col-xs-10 col-md-offset-1">
-                    <p>
-                        <span class="glyphicon glyphicon-arrow-right"></span>
-                        <a href="{{url("/ambiental/enviar_documentacion")}}">Procedimientos</a>
-                        <span class="glyphicon glyphicon-chevron-right"></span>
-                        <span>Documentación del procedimiento </span>
-
-                    </p>
-                    <br>
-                </div>
-            </div>
+        <x-panel.tarjeta titulo="Estado de la documentación">
+            <div id="envio_doc" x-ignore v-cloak>
             <template v-if="activo == 0 ">
 
-                <div class="row">
-                    <div  class="col-md-10 col-lg-offset-1">
-                        <div class="panel panel-danger">
-                            <div class="panel-heading">
-                                <h3 class="panel-title text-center">No se te ha registrado que documentación entregaras a la subdirección de Vinculación.</h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <x-panel.alerta tipo="advertencia">
+                    No se te ha registrado que documentación entregaras a la subdirección de Vinculación.
+                </x-panel.alerta>
             </template>
             <template v-if="activo == 1 ">
                 <template v-if="status_documentacion == 2 ">
-                <div class="row">
-                    <div  class="col-md-10 col-lg-offset-1">
-                        <div class="panel panel-danger">
-                            <div class="panel-heading">
-                                <h3 class="panel-title text-center">No se te solicito documentación.</h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <x-panel.alerta tipo="advertencia" class="tw:mb-4">
+                    No se te solicito documentación.
+                </x-panel.alerta>
                 </template>
 
-                <div class="row">
-                    <div  class="col-md-10 col-lg-offset-1">
-                        <table id="tabla_envio" class="table table-bordered table-resposive">
+                <x-panel.tabla id="tabla_envio">
                             <template v-if="status_documentacion != 2 ">
                             <thead>
                             <tr>
@@ -80,7 +177,7 @@
                                 <td v-if="documentacion[0].evi_estado_acc_m1 == 0"></td>
 
                                 <td v-if="documentacion[0].evi_estado_acc_m1 == 1"><button  class="btn btn-warning btn-sm" v-on:click="modificarse_pri=true , abrirModal_pri();" >Modificar</button></td>
-                                  <td v-if="documentacion[0].evi_estado_acc_m1 == 1"><a  target="_blank" href="/sub_vinculacion/@{{documentacion[0].pdf_estado_acc_m1  }}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a></td>
+                                  <td v-if="documentacion[0].evi_estado_acc_m1 == 1"><a  target="_blank" href="/sub_vinculacion/@{{documentacion[0].pdf_estado_acc_m1  }}" class="btn btn-success ">Ver PDF</a></td>
 
                             </tr>
                             </template>
@@ -105,7 +202,7 @@
                                 <td v-if="documentacion[0].evi_cuestion_ambas_per_m2  == 0"> <button  class="btn btn-primary btn-sm" v-on:click="modificarse_segundo=false , abrirModal_cuestion_ambas_per_m2(documentacion);" >Agregar</button></td>
                                 <td v-if="documentacion[0].evi_cuestion_ambas_per_m2  == 0"></td>
                                   <td v-if="documentacion[0].evi_cuestion_ambas_per_m2  == 1"><button  class="btn btn-warning btn-sm" v-on:click="modificarse_segundo=true , abrirModal_cuestion_ambas_per_m2(documentacion);" >Modificar</button></td>
-                                <td v-if="documentacion[0].evi_cuestion_ambas_per_m2  == 1"><a  target="_blank" href="/sub_vinculacion/@{{documentacion[0].pdf_cuestion_ambas_per_m2   }}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a></td>
+                                <td v-if="documentacion[0].evi_cuestion_ambas_per_m2  == 1"><a  target="_blank" href="/sub_vinculacion/@{{documentacion[0].pdf_cuestion_ambas_per_m2   }}" class="btn btn-success ">Ver PDF</a></td>
                                 <td v-if="documentacion[0].evi_cuestion_ambas_per_m2  == 2"><button  class="btn btn-warning btn-sm" v-on:click="modificarse_segundo=true , abrirModal_cuestion_ambas_per_m2(documentacion);" >Modificar</button></td>
                                 <td v-if="documentacion[0].evi_cuestion_ambas_per_m2  == 2"></td>
                             </tr>
@@ -121,7 +218,7 @@
                                 <td v-if="documentacion[0].evi_necesidades_espectativas_m2  == 0"> <button  class="btn btn-primary btn-sm" v-on:click="modificarse_tercero=false , abrirModal_necesidades_espectativas_m2(documentacion);" >Agregar</button></td>
                                 <td v-if="documentacion[0].evi_necesidades_espectativas_m2  == 0"></td>
                                 <td v-if="documentacion[0].evi_necesidades_espectativas_m2  == 1"><button  class="btn btn-warning btn-sm" v-on:click="modificarse_tercero=true , abrirModal_necesidades_espectativas_m2(documentacion);" >Modificar</button></td>
-                                <td v-if="documentacion[0].evi_necesidades_espectativas_m2  == 1"><a  target="_blank" href="/sub_vinculacion/@{{documentacion[0].pdf_necesidades_espectativas_m2   }}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a></td>
+                                <td v-if="documentacion[0].evi_necesidades_espectativas_m2  == 1"><a  target="_blank" href="/sub_vinculacion/@{{documentacion[0].pdf_necesidades_espectativas_m2   }}" class="btn btn-success ">Ver PDF</a></td>
                                 <td v-if="documentacion[0].evi_necesidades_espectativas_m2  == 2"><button  class="btn btn-warning btn-sm" v-on:click="modificarse_tercero=true , abrirModal_necesidades_espectativas_m2(documentacion);" >Modificar</button></td>
                                 <td v-if="documentacion[0].evi_necesidades_espectativas_m2  == 2"></td>
                             </tr>
@@ -137,7 +234,7 @@
                                 <td v-if="documentacion[0].evi_aspecto_ambiental_m2  == 0"> <button  class="btn btn-primary btn-sm" v-on:click="modificarse_cuarto=false , abrirModal_aspecto_ambiental_m2(documentacion);" >Agregar</button></td>
                                 <td v-if="documentacion[0].evi_aspecto_ambiental_m2  == 0"></td>
                                 <td v-if="documentacion[0].evi_aspecto_ambiental_m2  == 1"><button  class="btn btn-warning btn-sm" v-on:click="modificarse_cuarto=true , abrirModal_aspecto_ambiental_m2(documentacion);" >Modificar</button></td>
-                                <td v-if="documentacion[0].evi_aspecto_ambiental_m2  == 1"><a  target="_blank" href="/sub_vinculacion/@{{documentacion[0].pdf_aspecto_ambiental_m2   }}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a></td>
+                                <td v-if="documentacion[0].evi_aspecto_ambiental_m2  == 1"><a  target="_blank" href="/sub_vinculacion/@{{documentacion[0].pdf_aspecto_ambiental_m2   }}" class="btn btn-success ">Ver PDF</a></td>
 
                             </tr>
                             </template>
@@ -152,7 +249,7 @@
                                 <td v-if="documentacion[0].evi_riesgo_oportu_m2  == 0"> <button  class="btn btn-primary btn-sm" v-on:click="modificarse_quinto=false , abrirModal_riesgo_oportu_m2(documentacion);" >Agregar</button></td>
                                 <td v-if="documentacion[0].evi_riesgo_oportu_m2  == 0"></td>
                                 <td v-if="documentacion[0].evi_riesgo_oportu_m2  == 1"><button  class="btn btn-warning btn-sm" v-on:click="modificarse_quinto=true , abrirModal_riesgo_oportu_m2(documentacion);" >Modificar</button></td>
-                                <td v-if="documentacion[0].evi_riesgo_oportu_m2  == 1"><a  target="_blank" href="/sub_vinculacion/@{{documentacion[0].pdf_riesgo_oportu_m2   }}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a></td>
+                                <td v-if="documentacion[0].evi_riesgo_oportu_m2  == 1"><a  target="_blank" href="/sub_vinculacion/@{{documentacion[0].pdf_riesgo_oportu_m2   }}" class="btn btn-success ">Ver PDF</a></td>
 
                             </tr>
                             </template>
@@ -175,7 +272,7 @@
                                 <td v-if="documentacion[0].evi_grado_objetivo_m3  == 0"> <button  class="btn btn-primary btn-sm" v-on:click="modificarse_sexto=false , abrirModal_grado_objetivo_m3(documentacion);" >Agregar</button></td>
                                 <td v-if="documentacion[0].evi_grado_objetivo_m3  == 0"></td>
                                 <td v-if="documentacion[0].evi_grado_objetivo_m3  == 1"><button  class="btn btn-warning btn-sm" v-on:click="modificarse_sexto=true , abrirModal_grado_objetivo_m3(documentacion);" >Modificar</button></td>
-                                <td v-if="documentacion[0].evi_grado_objetivo_m3  == 1"><a  target="_blank" href="/sub_vinculacion/@{{documentacion[0].pdf_grado_objetivo_m3    }}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a></td>
+                                <td v-if="documentacion[0].evi_grado_objetivo_m3  == 1"><a  target="_blank" href="/sub_vinculacion/@{{documentacion[0].pdf_grado_objetivo_m3    }}" class="btn btn-success ">Ver PDF</a></td>
 
                             </tr>
                             </template>
@@ -189,7 +286,7 @@
                                 <td v-if="documentacion[0].evi_programa_gestion_m3  == 0"> <button  class="btn btn-primary btn-sm" v-on:click="modificarse_septimo=false , abrirModal_programa_gestion_m3(documentacion);" >Agregar</button></td>
                                 <td v-if="documentacion[0].evi_programa_gestion_m3  == 0"></td>
                                 <td v-if="documentacion[0].evi_programa_gestion_m3  == 1"><button  class="btn btn-warning btn-sm" v-on:click="modificarse_septimo=true , abrirModal_programa_gestion_m3(documentacion);" >Modificar</button></td>
-                                <td v-if="documentacion[0].evi_programa_gestion_m3  == 1"><a  target="_blank" href="/sub_vinculacion/@{{documentacion[0].pdf_programa_gestion_m3    }}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a></td>
+                                <td v-if="documentacion[0].evi_programa_gestion_m3  == 1"><a  target="_blank" href="/sub_vinculacion/@{{documentacion[0].pdf_programa_gestion_m3    }}" class="btn btn-success ">Ver PDF</a></td>
 
                             </tr>
                             </template>
@@ -214,7 +311,7 @@
                                 <td v-if="documentacion[0].evi_noconformid_correctivas_m4  == 0"> <button  class="btn btn-primary btn-sm" v-on:click="modificarse_octavo=false , abrirModal_noconformid_correctivas_m4(documentacion);" >Agregar</button></td>
                                 <td v-if="documentacion[0].evi_noconformid_correctivas_m4  == 0"></td>
                                 <td v-if="documentacion[0].evi_noconformid_correctivas_m4  == 1"><button  class="btn btn-warning btn-sm" v-on:click="modificarse_octavo=true , abrirModal_noconformid_correctivas_m4(documentacion);" >Modificar</button></td>
-                                <td v-if="documentacion[0].evi_noconformid_correctivas_m4  == 1"><a  target="_blank" href="/sub_vinculacion/@{{documentacion[0].pdf_noconformid_correctivas_m4    }}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a></td>
+                                <td v-if="documentacion[0].evi_noconformid_correctivas_m4  == 1"><a  target="_blank" href="/sub_vinculacion/@{{documentacion[0].pdf_noconformid_correctivas_m4    }}" class="btn btn-success ">Ver PDF</a></td>
 
                             </tr>
                             </template>
@@ -228,7 +325,7 @@
                                 <td v-if="documentacion[0].evi_resu_seg_med_m4   == 0"> <button  class="btn btn-primary btn-sm" v-on:click="modificarse_noveno=false , abrirModal_resu_seg_med_m4(documentacion);" >Agregar</button></td>
                                 <td v-if="documentacion[0].evi_resu_seg_med_m4   == 0"></td>
                                 <td v-if="documentacion[0].evi_resu_seg_med_m4   == 1"><button  class="btn btn-warning btn-sm" v-on:click="modificarse_noveno=true , abrirModal_resu_seg_med_m4(documentacion);" >Modificar</button></td>
-                                <td v-if="documentacion[0].evi_resu_seg_med_m4   == 1"><a  target="_blank" href="/sub_vinculacion/@{{documentacion[0].pdf_resu_seg_med_m4    }}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a></td>
+                                <td v-if="documentacion[0].evi_resu_seg_med_m4   == 1"><a  target="_blank" href="/sub_vinculacion/@{{documentacion[0].pdf_resu_seg_med_m4    }}" class="btn btn-success ">Ver PDF</a></td>
 
                             </tr>
                             </template>
@@ -242,7 +339,7 @@
                                 <td v-if="documentacion[0].evi_cumplimiento_req_m4   == 0"> <button  class="btn btn-primary btn-sm" v-on:click="modificarse_decimo=false , abrirModal_cumplimiento_req_m4(documentacion);" >Agregar</button></td>
                                 <td v-if="documentacion[0].evi_cumplimiento_req_m4   == 0"></td>
                                 <td v-if="documentacion[0].evi_cumplimiento_req_m4   == 1"><button  class="btn btn-warning btn-sm" v-on:click="modificarse_decimo=true , abrirModal_cumplimiento_req_m4(documentacion);" >Modificar</button></td>
-                                <td v-if="documentacion[0].evi_cumplimiento_req_m4   == 1"><a  target="_blank" href="/sub_vinculacion/@{{documentacion[0].pdf_cumplimiento_req_m4    }}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a></td>
+                                <td v-if="documentacion[0].evi_cumplimiento_req_m4   == 1"><a  target="_blank" href="/sub_vinculacion/@{{documentacion[0].pdf_cumplimiento_req_m4    }}" class="btn btn-success ">Ver PDF</a></td>
 
                             </tr>
                             </template>
@@ -256,7 +353,7 @@
                                 <td v-if="documentacion[0].evi_resultado_audi_m4   == 0"> <button  class="btn btn-primary btn-sm" v-on:click="modificarse_onceavo=false , abrirModal_resultado_audi_m4(documentacion);" >Agregar</button></td>
                                 <td v-if="documentacion[0].evi_resultado_audi_m4   == 0"></td>
                                 <td v-if="documentacion[0].evi_resultado_audi_m4   == 1"><button  class="btn btn-warning btn-sm" v-on:click="modificarse_onceavo=true , abrirModal_resultado_audi_m4(documentacion);" >Modificar</button></td>
-                                <td v-if="documentacion[0].evi_resultado_audi_m4   == 1"><a  target="_blank" href="/sub_vinculacion/@{{documentacion[0].pdf_resultado_audi_m4    }}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a></td>
+                                <td v-if="documentacion[0].evi_resultado_audi_m4   == 1"><a  target="_blank" href="/sub_vinculacion/@{{documentacion[0].pdf_resultado_audi_m4    }}" class="btn btn-success ">Ver PDF</a></td>
 
                             </tr>
                             </template>
@@ -272,7 +369,7 @@
                                 <td v-if="documentacion[0].evi_adecuacion_recurso_m5  == 0"> <button  class="btn btn-primary btn-sm" v-on:click="modificarse_doceavo=false , abrirModal_adecuacion_recurso_m5(documentacion);" >Agregar</button></td>
                                 <td v-if="documentacion[0].evi_adecuacion_recurso_m5  == 0"></td>
                                 <td v-if="documentacion[0].evi_adecuacion_recurso_m5  == 1"><button  class="btn btn-warning btn-sm" v-on:click="modificarse_doceavo=true , abrirModal_adecuacion_recurso_m5(documentacion);" >Modificar</button></td>
-                                <td v-if="documentacion[0].evi_adecuacion_recurso_m5  == 1"><a  target="_blank" href="/sub_vinculacion/@{{documentacion[0].pdf_adecuacion_recurso_m5   }}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a></td>
+                                <td v-if="documentacion[0].evi_adecuacion_recurso_m5  == 1"><a  target="_blank" href="/sub_vinculacion/@{{documentacion[0].pdf_adecuacion_recurso_m5   }}" class="btn btn-success ">Ver PDF</a></td>
                                 <td v-if="documentacion[0].evi_adecuacion_recurso_m5  == 2"><button  class="btn btn-warning btn-sm" v-on:click="modificarse_doceavo=true , abrirModal_adecuacion_recurso_m5(documentacion);" >Modificar</button></td>
                                 <td v-if="documentacion[0].evi_adecuacion_recurso_m5  == 2"></td>
                             </tr>
@@ -287,7 +384,7 @@
                                 <td v-if="documentacion[0].evi_comunicacion_pertinente_m6   == 0"> <button  class="btn btn-primary btn-sm" v-on:click="modificarse_terceavo=false , abrirModal_comunicacion_pertinente_m6(documentacion);" >Agregar</button></td>
                                 <td v-if="documentacion[0].evi_comunicacion_pertinente_m6   == 0"></td>
                                 <td v-if="documentacion[0].evi_comunicacion_pertinente_m6   == 1"><button  class="btn btn-warning btn-sm" v-on:click="modificarse_terceavo=true , abrirModal_comunicacion_pertinente_m6(documentacion);" >Modificar</button></td>
-                                <td v-if="documentacion[0].evi_comunicacion_pertinente_m6   == 1"><a  target="_blank" href="/sub_vinculacion/@{{documentacion[0].pdf_comunicacion_pertinente_m6    }}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a></td>
+                                <td v-if="documentacion[0].evi_comunicacion_pertinente_m6   == 1"><a  target="_blank" href="/sub_vinculacion/@{{documentacion[0].pdf_comunicacion_pertinente_m6    }}" class="btn btn-success ">Ver PDF</a></td>
 
                             </tr>
                             </template>
@@ -303,42 +400,28 @@
                                 <td v-if="documentacion[0].evi_oportunidades_mejora_m7  == 0"> <button  class="btn btn-primary btn-sm" v-on:click="modificarse_cuartoceavo=false , abrirModal_oportunidades_mejora_m7(documentacion);" >Agregar</button></td>
                                 <td v-if="documentacion[0].evi_oportunidades_mejora_m7  == 0"></td>
                                 <td v-if="documentacion[0].evi_oportunidades_mejora_m7  == 1"><button  class="btn btn-warning btn-sm" v-on:click="modificarse_cuartoceavo=true , abrirModal_oportunidades_mejora_m7(documentacion);" >Modificar</button></td>
-                                <td v-if="documentacion[0].evi_oportunidades_mejora_m7  == 1"><a  target="_blank" href="/sub_vinculacion/@{{documentacion[0].pdf_oportunidades_mejora_m7   }}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a></td>
+                                <td v-if="documentacion[0].evi_oportunidades_mejora_m7  == 1"><a  target="_blank" href="/sub_vinculacion/@{{documentacion[0].pdf_oportunidades_mejora_m7   }}" class="btn btn-success ">Ver PDF</a></td>
                                 <td v-if="documentacion[0].evi_oportunidades_mejora_m7  == 2"><button  class="btn btn-warning btn-sm" v-on:click="modificarse_cuartoceavo=true , abrirModal_oportunidades_mejora_m7(documentacion);" >Modificar</button></td>
                                 <td v-if="documentacion[0].evi_oportunidades_mejora_m7  == 2"></td>
                             </tr>
                             </template>
                             </tbody>
-                        </table>
-                    </div>
-                </div>
+                </x-panel.tabla>
                 @include('ambiental.encargado_amb.condicionante_envio')
             </template>
             <template v-if="activo == 2">
-                <div class="row">
-                    <div class="col-md-8 col-md-offset-2">
-                        <div class="panel panel-danger">
-                            <div class="panel-heading">
-                                <h3 class="panel-title text-center">Se envio correctamente tu documentación a la SUBDIRECCIÓN DE VINCULACIÓN Y EXTENSIÓN para su revisión</h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <x-panel.alerta tipo="info">
+                    Se envio correctamente tu documentación a la SUBDIRECCIÓN DE VINCULACIÓN Y EXTENSIÓN para su revisión
+                </x-panel.alerta>
             </template>
             <template v-if="activo == 3">
                 @include('ambiental.encargado_amb.correcciones_procedimiento_doc')
                 @include('ambiental.encargado_amb.modal_enviar_modificacion_doc')
             </template>
             <template v-if="activo == 4">
-                <div class="row">
-                    <div class="col-md-8 col-md-offset-2">
-                        <div class="panel panel-success">
-                            <div class="panel-heading">
-                                <h3 class="panel-title text-center">Tu documentación fue autorizada por la SUBDIRECCIÓN DE VINCULACIÓN Y EXTENSIÓN</h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <x-panel.alerta tipo="exito">
+                    Tu documentación fue autorizada por la SUBDIRECCIÓN DE VINCULACIÓN Y EXTENSIÓN
+                </x-panel.alerta>
             </template>
             @include('ambiental.encargado_amb.modal_doc_1')
             @include('ambiental.encargado_amb.modal_doc_2')
@@ -356,8 +439,12 @@
             @include('ambiental.encargado_amb.modal_doc_14')
             @include('ambiental.encargado_amb.modal_enviar_documentacion')
 
-        </div>
-    </main>
+            </div>
+        </x-panel.tarjeta>
+    </div>
+@endsection
+
+@push('scripts')
     <script>
         new Vue({
             el:"#envio_doc",
@@ -493,15 +580,15 @@
                     //llamar datos al controlador
                     const contar = await axios.get('/ambiental/estado_documentacion/{{$id_encargado}}');
                     this.activaciones = contar.data;
-                    this.activo = this.activaciones;
-                        const documentacion = await axios.get('/ambiental/ver_documentacion_encargado/{{$id_encargado}}');
-                        this.documentacion = documentacion.data;
+                    const documentacion = await axios.get('/ambiental/ver_documentacion_encargado/{{$id_encargado}}');
+                    this.documentacion = documentacion.data;
 
                     const respuestas = await axios.get('/ambiental/respuestas/');
                     this.respuestas = respuestas.data;
 
                     const estado_doc = await axios.get('/ambiental/estado_documentacion_encargado/{{$id_encargado}}');
                     this.status_documentacion = estado_doc.data;
+                    this.activo = this.activaciones;
 
                 },
                 async  abrirModal_pri(){
@@ -1619,12 +1706,4 @@
             },
         })
     </script>
-    <style>
-        .mostrar{
-            display: list-item;
-            opacity: 1;
-            background: rgba(44,38,75,0.849);
-        }
-    </style>
-
-@endsection
+@endpush

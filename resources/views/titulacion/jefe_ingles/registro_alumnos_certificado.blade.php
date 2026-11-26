@@ -118,7 +118,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-info">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title text-center" id="myModalLabel">Agregar Certificado</h4>
                 </div>
                 <form id="form_agregar_certificado" class="form" action="{{url("/titulacion/guardar_certificado_alumno/")}}" role="form" method="POST" enctype="multipart/form-data" >
@@ -141,7 +141,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-info">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title text-center" id="myModalLabel">Editar Datos del Alumno</h4>
                 </div>
                 <form id="form_modificar_certificado" class="form" action="{{url("/titulacion/modificar_edicion_datos_alumno/")}}" role="form" method="POST" enctype="multipart/form-data" >
@@ -165,7 +165,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-danger">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title text-center" id="myModalLabel">Eliminar Registro</h4>
                 </div>
                 <form id="form_eliminar_certificado" class="form" action="{{url("/titulacion/eliminacion_certificado/")}}" role="form" method="POST" enctype="multipart/form-data" >
@@ -188,7 +188,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-primary">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title text-center" id="myModalLabel">Enviar Certificado de Acreditación de Idioma Ingles</h4>
                 </div>
                 <form id="form_enviar_certificado" class="form" action="{{url("/titulacion/aceptar_envio_certificado/")}}" role="form" method="POST" enctype="multipart/form-data" >

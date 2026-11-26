@@ -1,26 +1,20 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 @section('title', 'Documentación de alta de residenciaa')
+@include('partials.panel.recursos_app')
 @section('content')
+<div class="tw-pantalla">
 
-    <main class="col-md-12">
-        <div class="row">
-            <div class="col-md-6 col-md-offset-3">
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title text-center">Enviar Documentación de Alta de Residencia</h3>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <main class="tw:w-full tw:lg:w-full tw:px-2">
+        <x-panel.encabezado titulo="Enviar Documentación de Alta de Residencia" :migas="['Residencia profesional' => null]" />
 
-        <div class="row">
-            <div class="col-md-6 col-md-offset-3">
-                <div class="panel panel-info">
-                    <div class="panel-body">
-                            <div class="panel-body">
-                                <div class="row">
-                                    <div class="col-md-10 col-md-offset-1">
-                                        <div class="form-group">
+        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+            <div class="tw:w-full tw:px-2">
+                <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+                    <div class="tw:p-5 tw:sm:p-6">
+                            <div class="tw:p-5 tw:sm:p-6">
+                                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                    <div class="tw:w-full tw:px-2">
+                                        <div class="tw:mb-4">
                                             <label for="nombre_proyecto">Nombre del alumno:</label>
                                             <p>{{$datosalumno->nombre}} {{$datosalumno->apaterno}} {{$datosalumno->amaterno}}</p>
                                             <p>Correo electronico: {{$documentos_alta->correo}}</p>
@@ -32,13 +26,14 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-12 ">
-                <div class="panel panel-success">
-                    <div class="panel-body" style="text-align: justify">
-                        <p style="color: #FF0000"><b>Nota: El documento se deben escanear y guardar en un pdf legible</b></p>
+        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+            <div class="tw:w-full tw:lg:w-full tw:px-2">
+                <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+                    <div class="tw:p-5 tw:sm:p-6">
+                        <p class="tw:text-red-600 tw:dark:text-red-400"><b>Nota: El documento se deben escanear y guardar en un pdf legible</b></p>
 
-                        <table class="table table-bordered">
+                        <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table class="tw-tabla tw-tabla-bordes">
                             <thead>
                             <tr>
                                 <th>Nombre del documento</th>
@@ -51,83 +46,83 @@
                             <tbody>
                             <tr> @if($documentos_alta->solicitud_residencia   == 1 )
                                 <td>Solicitud de Residencia Profesional</td>
-                                    <td><a  target="_blank" href="{{asset('/residencia_pdf/'.$documentos_alta->pdf_solicitud_residencia)}}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a></td>
+                                    <td><a  target="_blank" href="{{asset('/residencia_pdf/'.$documentos_alta->pdf_solicitud_residencia)}}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"><i class="fa fa-book em56" title="Ver PDF"></i></a></td>
                                      <td>
-                                        <button   id="id_solicitud_residencia"  class="btn btn-primary" >Modificar</button>
+                                        <button   id="id_solicitud_residencia"  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap" >Modificar</button>
                                     </td>
-                                    <td style="color: #FF0000">{{ $documentos_alta->comentario_solicitud_residencia  }}</td>
+                                    <td class="tw:text-red-600 tw:dark:text-red-400">{{ $documentos_alta->comentario_solicitud_residencia  }}</td>
                                 @endif
                             </tr>
                             <tr>
                                   @if($documentos_alta->constancia_avance_academico   == 1 )
                                     <td>Constancia de 80% de avance académico.</td>
-                                    <td><a  target="_blank" href="{{asset('/residencia_pdf/'.$documentos_alta->pdf_constancia_avance_academico)}}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a></td>
+                                    <td><a  target="_blank" href="{{asset('/residencia_pdf/'.$documentos_alta->pdf_constancia_avance_academico)}}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"><i class="fa fa-book em56" title="Ver PDF"></i></a></td>
 
                                     <td>
-                                        <button   id="id_constancia_avance_academico"  class="btn btn-primary" >Modificar</button>
+                                        <button   id="id_constancia_avance_academico"  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap" >Modificar</button>
 
                                     </td>
-                                    <td style="color: #FF0000">{{ $documentos_alta->comentario_constancia_avance_academico }}</td>
+                                    <td class="tw:text-red-600 tw:dark:text-red-400">{{ $documentos_alta->comentario_constancia_avance_academico }}</td>
                                 @endif
                             </tr>
                             <tr>
                                    @if($documentos_alta->comprobante_seguro   == 1 )
                                     <td>Comprobante de seguro médico (IMSS, ISSSTE, ISSEMYM, etc.)</td>
-                                    <td><a  target="_blank" href="{{asset('/residencia_pdf/'.$documentos_alta->pdf_comprobante_seguro)}}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a></td>
+                                    <td><a  target="_blank" href="{{asset('/residencia_pdf/'.$documentos_alta->pdf_comprobante_seguro)}}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"><i class="fa fa-book em56" title="Ver PDF"></i></a></td>
                                     <td>
-                                        <button   id="id_comprobante_seguro"  class="btn btn-primary" >Modificar</button>
+                                        <button   id="id_comprobante_seguro"  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap" >Modificar</button>
 
                                     </td>
-                                <td style="color: #FF0000">{{ $documentos_alta->comentario_comprobante_seguro }}</td>
+                                <td class="tw:text-red-600 tw:dark:text-red-400">{{ $documentos_alta->comentario_comprobante_seguro }}</td>
                                 @endif
 
                             </tr>
                             <tr>
                                       @if($documentos_alta->oficio_asignacion_jefatura ==1   )
                                     <td>Oficio de Asignación del Proyecto emitido por la Jefatura de División</td>
-                                    <td><a  target="_blank" href="{{asset('/residencia_pdf/'.$documentos_alta->pdf_oficio_asignacion_jefatura)}}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a></td>
+                                    <td><a  target="_blank" href="{{asset('/residencia_pdf/'.$documentos_alta->pdf_oficio_asignacion_jefatura)}}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"><i class="fa fa-book em56" title="Ver PDF"></i></a></td>
                                     <td>
-                                        <button   id="id_oficio_asignacion_jefatura"  class="btn btn-primary" >Modificar</button>
+                                        <button   id="id_oficio_asignacion_jefatura"  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap" >Modificar</button>
 
                                     </td>
-                                    <td style="color: #FF0000">{{ $documentos_alta->comentario_oficio_asignacion_jefatura }}</td>
+                                    <td class="tw:text-red-600 tw:dark:text-red-400">{{ $documentos_alta->comentario_oficio_asignacion_jefatura }}</td>
                                 @endif
 
                             </tr>
                             <tr>
                                 @if($documentos_alta->oficio_aceptacion_empresa == 1 )
                                     <td>Oficio de Aceptación por parte de la empresa en hoja Membretada</td>
-                                    <td><a  target="_blank" href="{{asset('/residencia_pdf/'.$documentos_alta->pdf_oficio_aceptacion_empresa)}}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a></td>
+                                    <td><a  target="_blank" href="{{asset('/residencia_pdf/'.$documentos_alta->pdf_oficio_aceptacion_empresa)}}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"><i class="fa fa-book em56" title="Ver PDF"></i></a></td>
 
                                     <td>
-                                        <button   id="id_oficio_aceptacion_empresa"  class="btn btn-primary" >Modificar</button>
+                                        <button   id="id_oficio_aceptacion_empresa"  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap" >Modificar</button>
 
                                     </td>
-                                    <td style="color: #FF0000">{{ $documentos_alta->comentario_oficio_aceptacion_empresa  }}</td>
+                                    <td class="tw:text-red-600 tw:dark:text-red-400">{{ $documentos_alta->comentario_oficio_aceptacion_empresa  }}</td>
                                 @endif
 
                             </tr>
                             <tr>
                                 @if($documentos_alta->oficio_presentacion_tecnologico == 1 )
                                     <td>Oficio de Presentación por parte del TESVB</td>
-                                    <td><a  target="_blank" href="{{asset('/residencia_pdf/'.$documentos_alta->pdf_oficio_presentacion_tecnologico)}}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a></td>
+                                    <td><a  target="_blank" href="{{asset('/residencia_pdf/'.$documentos_alta->pdf_oficio_presentacion_tecnologico)}}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"><i class="fa fa-book em56" title="Ver PDF"></i></a></td>
                                     <td>
-                                        <button   id="id_oficio_presentacion_tecnologico"  class="btn btn-primary" >Modificar</button>
+                                        <button   id="id_oficio_presentacion_tecnologico"  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap" >Modificar</button>
 
                                     </td>
-                                    <td style="color: #FF0000">{{ $documentos_alta->comentario_oficio_presentacion_tecnologico  }}</td>
+                                    <td class="tw:text-red-600 tw:dark:text-red-400">{{ $documentos_alta->comentario_oficio_presentacion_tecnologico  }}</td>
                                 @endif
                             </tr>
                             <tr>
                                 @if($documentos_alta->anteproyecto   == 1 )
                                     <td>Anteproyecto con el Visto Bueno de la Academia</td>
-                                    <td><a  target="_blank" href="{{asset('/residencia_pdf/'.$documentos_alta->pdf_anteproyecto)}}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a></td>
+                                    <td><a  target="_blank" href="{{asset('/residencia_pdf/'.$documentos_alta->pdf_anteproyecto)}}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"><i class="fa fa-book em56" title="Ver PDF"></i></a></td>
 
                                     <td>
-                                        <button   id="id_anteproyecto"  class="btn btn-primary" >Modificar</button>
+                                        <button   id="id_anteproyecto"  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap" >Modificar</button>
 
                                     </td>
-                                    <td style="color: #FF0000">{{ $documentos_alta->comentario_anteproyecto  }}</td>
+                                    <td class="tw:text-red-600 tw:dark:text-red-400">{{ $documentos_alta->comentario_anteproyecto  }}</td>
 
                                 @endif
                             </tr>
@@ -135,27 +130,27 @@
                                 @if($documentos_alta->carta_compromiso  == 1 )
                                     <td>Carta de compromiso firmada por el Asesor Interno y revisor</td>
 
-                                    <td><a  target="_blank" href="{{asset('/residencia_pdf/'.$documentos_alta->pdf_carta_compromiso)}}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a></td>
+                                    <td><a  target="_blank" href="{{asset('/residencia_pdf/'.$documentos_alta->pdf_carta_compromiso)}}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"><i class="fa fa-book em56" title="Ver PDF"></i></a></td>
 
                                     <td>
-                                        <button   id="id_carta_compromiso"  class="btn btn-primary" >Modificar</button>
+                                        <button   id="id_carta_compromiso"  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap" >Modificar</button>
 
                                     </td>
-                                    <td style="color: #FF0000">{{ $documentos_alta->comentario_carta_compromiso  }}</td>
+                                    <td class="tw:text-red-600 tw:dark:text-red-400">{{ $documentos_alta->comentario_carta_compromiso  }}</td>
                                 @endif
                             </tr>
                             <tr>
                                @if($documentos_alta->id_estado_convenio == 1)
                                     @if($documentos_alta->convenio_empresa   == 1 )
-                                        <td style="color: red">Convenio con la empresa (opcional)</td>
+                                        <td class="tw:text-red-600 tw:dark:text-red-400">Convenio con la empresa (opcional)</td>
 
-                                        <td><a  target="_blank" href="{{asset('/residencia_pdf/'.$documentos_alta->pdf_convenio_empresa)}}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a></td>
+                                        <td><a  target="_blank" href="{{asset('/residencia_pdf/'.$documentos_alta->pdf_convenio_empresa)}}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"><i class="fa fa-book em56" title="Ver PDF"></i></a></td>
 
                                         <td>
-                                        <button   id="id_convenio_empresa"  class="btn btn-primary" >Modificar</button>
+                                        <button   id="id_convenio_empresa"  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap" >Modificar</button>
 
                                     </td>
-                                    <td style="color: #FF0000">{{ $documentos_alta->comentario_convenio_empresa  }}</td>
+                                    <td class="tw:text-red-600 tw:dark:text-red-400">{{ $documentos_alta->comentario_convenio_empresa  }}</td>
 
 
                                 @endif
@@ -163,10 +158,11 @@
                             </tr>
                             </tbody>
                         </table>
-                        <div class="row">
+</div>
+                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
-                                <div class="col-md-2 col-md-offset-5">
-                                    <button   class="btn btn-success  " title="Enviar documentacion" data-toggle="modal" data-target="#enviar_documentacion_residencia">Enviar documentación</button>
+                                <div class="tw:w-full tw:px-2">
+                                    <button   class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" title="Enviar documentacion" data-toggle="modal" data-target="#enviar_documentacion_residencia">Enviar documentación</button>
 
                                 </div>
 
@@ -184,300 +180,258 @@
 
     </main>
     {{--modificar solicitud de residencia --}}
-    <div class="modal fade" id="modal_modificar_solicitud_residencia" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
+    <x-panel.modal id="modal_modificar_solicitud_residencia" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="myModalLabel">
 
-                <div class="modal-header bg-info">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title text-center" id="myModalLabel">Modificar Solicitud de Residencia Profesional</h4>
+                <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                    
+                    <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="myModalLabel">Modificar Solicitud de Residencia Profesional</h4>
                 </div>
-                <div class="row">
-                    <div class="col-md-10 col-md-offset-1">
+                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                    <div class="tw:w-full tw:px-2">
                         <p>
-                            <label for="nombre_proyecto">Ingresar nuevo PDF con la Solicitud de Residencia Profesional.<b style="color:red; font-size:23px;">*</b></label>
-                        <form class="form" id="form_modificar_solicitud_residencia" action="{{url("/residencia/registrar_solicitud_residencia/".$documentos_alta->id_alta_residencia)}}" role="form" method="POST" enctype="multipart/form-data" >
+                            <label for="nombre_proyecto">Ingresar nuevo PDF con la Solicitud de Residencia Profesional.<b class="tw:text-red-600 tw:dark:text-red-400 tw:text-lg">*</b></label>
+                        <form id="form_modificar_solicitud_residencia" action="{{url("/residencia/registrar_solicitud_residencia/".$documentos_alta->id_alta_residencia)}}" role="form" method="POST" enctype="multipart/form-data" >
                             {{ csrf_field() }}
-                            <input class="form-control"  id="solicitud_residencia" name="solicitud_residencia" type="file"   accept="application/pdf" required/>
+                            <input class="tw:h-11 tw:w-full tw:overflow-hidden tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:text-sm tw:text-gray-500 tw:dark:text-gray-400 tw:shadow-theme-xs tw:file:mr-5 tw:file:border-0 tw:file:border-r tw:file:border-solid tw:file:border-gray-200 tw:file:bg-gray-50 tw:file:py-3 tw:file:pr-3 tw:file:pl-3.5 tw:file:text-sm tw:file:text-gray-700 tw:hover:file:bg-gray-100 tw:focus:outline-hidden"  id="solicitud_residencia" name="solicitud_residencia" type="file"   accept="application/pdf" required/>
                         </form>
                         </p>
                     </div>
                 </div>
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                    <button  id="modificar_solicitud_residencia" class="btn btn-primary" >Modificar</button>
+                <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                    <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                    <button  id="modificar_solicitud_residencia" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Modificar</button>
 
                 </div>
-            </div>
-        </div>
-    </div>
+            </x-panel.modal>
     {{--modificar solicitud de residencia--}}
 
     {{--modificar constancia_avance_academico --}}
-    <div class="modal fade" id="modal_modificar_constancia_avance_academico" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
+    <x-panel.modal id="modal_modificar_constancia_avance_academico" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="myModalLabel">
 
-                <div class="modal-header bg-info">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title text-center" id="myModalLabel">Modificar Constancia de 80% de avance académico</h4>
+                <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                    
+                    <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="myModalLabel">Modificar Constancia de 80% de avance académico</h4>
                 </div>
-                <div class="row">
-                    <div class="col-md-10 col-md-offset-1">
+                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                    <div class="tw:w-full tw:px-2">
                         <p>
-                            <label for="nombre_proyecto">Ingresar nuevo PDF con la Constancia de 80% de avance académico.<b style="color:red; font-size:23px;">*</b></label>
-                        <form class="form" id="form_modificar_constancia_avance_academico" action="{{url("/residencia/registrar_constancia_avance_academico/".$documentos_alta->id_alta_residencia)}}" role="form" method="POST" enctype="multipart/form-data" >
+                            <label for="nombre_proyecto">Ingresar nuevo PDF con la Constancia de 80% de avance académico.<b class="tw:text-red-600 tw:dark:text-red-400 tw:text-lg">*</b></label>
+                        <form id="form_modificar_constancia_avance_academico" action="{{url("/residencia/registrar_constancia_avance_academico/".$documentos_alta->id_alta_residencia)}}" role="form" method="POST" enctype="multipart/form-data" >
                             {{ csrf_field() }}
-                            <input class="form-control"  id="constancia_avance_academico" name="constancia_avance_academico" type="file"   accept="application/pdf" required/>
+                            <input class="tw:h-11 tw:w-full tw:overflow-hidden tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:text-sm tw:text-gray-500 tw:dark:text-gray-400 tw:shadow-theme-xs tw:file:mr-5 tw:file:border-0 tw:file:border-r tw:file:border-solid tw:file:border-gray-200 tw:file:bg-gray-50 tw:file:py-3 tw:file:pr-3 tw:file:pl-3.5 tw:file:text-sm tw:file:text-gray-700 tw:hover:file:bg-gray-100 tw:focus:outline-hidden"  id="constancia_avance_academico" name="constancia_avance_academico" type="file"   accept="application/pdf" required/>
                         </form>
                         </p>
                     </div>
                 </div>
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                    <button  id="modificar_constancia_avance_academico" class="btn btn-primary" >Modificar</button>
+                <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                    <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                    <button  id="modificar_constancia_avance_academico" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Modificar</button>
 
                 </div>
-            </div>
-        </div>
-    </div>
+            </x-panel.modal>
     {{--modificar constancia_avance_academico--}}
     {{--modificar comprobante_seguro --}}
-    <div class="modal fade" id="modal_modificar_comprobante_seguro" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
+    <x-panel.modal id="modal_modificar_comprobante_seguro" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="myModalLabel">
 
-                <div class="modal-header bg-info">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title text-center" id="myModalLabel">Modificar el Comprobante de seguro médico (IMSS, ISSSTE, ISSEMYM, etc.)</h4>
+                <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                    
+                    <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="myModalLabel">Modificar el Comprobante de seguro médico (IMSS, ISSSTE, ISSEMYM, etc.)</h4>
                 </div>
-                <div class="row">
-                    <div class="col-md-10 col-md-offset-1">
+                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                    <div class="tw:w-full tw:px-2">
                         <p>
-                            <label for="nombre_proyecto">Ingresar nuevo PDF con el Comprobante de seguro médico (IMSS, ISSSTE, ISSEMYM, etc.)<b style="color:red; font-size:23px;">*</b></label>
-                        <form class="form" id="form_modificar_comprobante_seguro" action="{{url("/residencia/registrar_comprobante_seguro/".$documentos_alta->id_alta_residencia)}}" role="form" method="POST" enctype="multipart/form-data" >
+                            <label for="nombre_proyecto">Ingresar nuevo PDF con el Comprobante de seguro médico (IMSS, ISSSTE, ISSEMYM, etc.)<b class="tw:text-red-600 tw:dark:text-red-400 tw:text-lg">*</b></label>
+                        <form id="form_modificar_comprobante_seguro" action="{{url("/residencia/registrar_comprobante_seguro/".$documentos_alta->id_alta_residencia)}}" role="form" method="POST" enctype="multipart/form-data" >
                             {{ csrf_field() }}
-                            <input class="form-control"  id="comprobante_seguro" name="comprobante_seguro" type="file"   accept="application/pdf" required/>
+                            <input class="tw:h-11 tw:w-full tw:overflow-hidden tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:text-sm tw:text-gray-500 tw:dark:text-gray-400 tw:shadow-theme-xs tw:file:mr-5 tw:file:border-0 tw:file:border-r tw:file:border-solid tw:file:border-gray-200 tw:file:bg-gray-50 tw:file:py-3 tw:file:pr-3 tw:file:pl-3.5 tw:file:text-sm tw:file:text-gray-700 tw:hover:file:bg-gray-100 tw:focus:outline-hidden"  id="comprobante_seguro" name="comprobante_seguro" type="file"   accept="application/pdf" required/>
                         </form>
                         </p>
                     </div>
                 </div>
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                    <button  id="modificar_comprobante_seguro" class="btn btn-primary" >Modificar</button>
+                <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                    <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                    <button  id="modificar_comprobante_seguro" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Modificar</button>
 
                 </div>
-            </div>
-        </div>
-    </div>
+            </x-panel.modal>
     {{--modificar comprobante_seguro--}}
     {{--modificar oficio_asignacion_jefatura --}}
-    <div class="modal fade" id="modal_modificar_oficio_asignacion_jefatura" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
+    <x-panel.modal id="modal_modificar_oficio_asignacion_jefatura" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="myModalLabel">
 
-                <div class="modal-header bg-info">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title text-center" id="myModalLabel">Modificar el Oficio de Asignación del Proyecto emitido por la Jefatura de División</h4>
+                <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                    
+                    <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="myModalLabel">Modificar el Oficio de Asignación del Proyecto emitido por la Jefatura de División</h4>
                 </div>
-                <div class="row">
-                    <div class="col-md-10 col-md-offset-1">
+                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                    <div class="tw:w-full tw:px-2">
                         <p>
-                            <label for="nombre_proyecto">Ingresar nuevo PDF con Oficio de Asignación del Proyecto emitido por la Jefatura de División<b style="color:red; font-size:23px;">*</b></label>
-                        <form class="form" id="form_modificar_oficio_asignacion_jefatura" action="{{url("/residencia/registrar_oficio_asignacion_jefatura/".$documentos_alta->id_alta_residencia)}}" role="form" method="POST" enctype="multipart/form-data" >
+                            <label for="nombre_proyecto">Ingresar nuevo PDF con Oficio de Asignación del Proyecto emitido por la Jefatura de División<b class="tw:text-red-600 tw:dark:text-red-400 tw:text-lg">*</b></label>
+                        <form id="form_modificar_oficio_asignacion_jefatura" action="{{url("/residencia/registrar_oficio_asignacion_jefatura/".$documentos_alta->id_alta_residencia)}}" role="form" method="POST" enctype="multipart/form-data" >
                             {{ csrf_field() }}
-                            <input class="form-control"  id="oficio_asignacion_jefatura" name="oficio_asignacion_jefatura" type="file"   accept="application/pdf" required/>
+                            <input class="tw:h-11 tw:w-full tw:overflow-hidden tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:text-sm tw:text-gray-500 tw:dark:text-gray-400 tw:shadow-theme-xs tw:file:mr-5 tw:file:border-0 tw:file:border-r tw:file:border-solid tw:file:border-gray-200 tw:file:bg-gray-50 tw:file:py-3 tw:file:pr-3 tw:file:pl-3.5 tw:file:text-sm tw:file:text-gray-700 tw:hover:file:bg-gray-100 tw:focus:outline-hidden"  id="oficio_asignacion_jefatura" name="oficio_asignacion_jefatura" type="file"   accept="application/pdf" required/>
                         </form>
                         </p>
                     </div>
                 </div>
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                    <button  id="modificar_oficio_asignacion_jefatura" class="btn btn-primary" >Modificar</button>
+                <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                    <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                    <button  id="modificar_oficio_asignacion_jefatura" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Modificar</button>
 
                 </div>
-            </div>
-        </div>
-    </div>
+            </x-panel.modal>
     {{--modificar oficio_asignacion_jefatura--}}
     {{--modificar oficio_aceptacion_empresa --}}
-    <div class="modal fade" id="modal_modificar_oficio_aceptacion_empresa" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
+    <x-panel.modal id="modal_modificar_oficio_aceptacion_empresa" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="myModalLabel">
 
-                <div class="modal-header bg-info">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title text-center" id="myModalLabel">Modificar el Oficio de Aceptación por parte de la empresa en hoja Membretada</h4>
+                <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                    
+                    <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="myModalLabel">Modificar el Oficio de Aceptación por parte de la empresa en hoja Membretada</h4>
                 </div>
-                <div class="row">
-                    <div class="col-md-10 col-md-offset-1">
+                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                    <div class="tw:w-full tw:px-2">
                         <p>
-                            <label for="nombre_proyecto">Ingresar nuevo PDF con el Oficio de Aceptación por parte de la empresa en hoja Membretada<b style="color:red; font-size:23px;">*</b></label>
-                        <form class="form" id="form_modificar_oficio_aceptacion_empresa" action="{{url("/residencia/registrar_oficio_aceptacion_empresa/".$documentos_alta->id_alta_residencia)}}" role="form" method="POST" enctype="multipart/form-data" >
+                            <label for="nombre_proyecto">Ingresar nuevo PDF con el Oficio de Aceptación por parte de la empresa en hoja Membretada<b class="tw:text-red-600 tw:dark:text-red-400 tw:text-lg">*</b></label>
+                        <form id="form_modificar_oficio_aceptacion_empresa" action="{{url("/residencia/registrar_oficio_aceptacion_empresa/".$documentos_alta->id_alta_residencia)}}" role="form" method="POST" enctype="multipart/form-data" >
                             {{ csrf_field() }}
-                            <input class="form-control"  id="oficio_aceptacion_empresa" name="oficio_aceptacion_empresa" type="file"   accept="application/pdf" required/>
+                            <input class="tw:h-11 tw:w-full tw:overflow-hidden tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:text-sm tw:text-gray-500 tw:dark:text-gray-400 tw:shadow-theme-xs tw:file:mr-5 tw:file:border-0 tw:file:border-r tw:file:border-solid tw:file:border-gray-200 tw:file:bg-gray-50 tw:file:py-3 tw:file:pr-3 tw:file:pl-3.5 tw:file:text-sm tw:file:text-gray-700 tw:hover:file:bg-gray-100 tw:focus:outline-hidden"  id="oficio_aceptacion_empresa" name="oficio_aceptacion_empresa" type="file"   accept="application/pdf" required/>
                         </form>
                         </p>
                     </div>
                 </div>
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                    <button  id="modificar_oficio_aceptacion_empresa" class="btn btn-primary" >Modificar</button>
+                <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                    <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                    <button  id="modificar_oficio_aceptacion_empresa" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Modificar</button>
 
                 </div>
-            </div>
-        </div>
-    </div>
+            </x-panel.modal>
     {{--modificar oficio_aceptacion_empresa--}}
     {{--modificar oficio_presentacion_tecnologico --}}
-    <div class="modal fade" id="modal_modificar_oficio_presentacion_tecnologico" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
+    <x-panel.modal id="modal_modificar_oficio_presentacion_tecnologico" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="myModalLabel">
 
-                <div class="modal-header bg-info">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title text-center" id="myModalLabel">Modificar el Oficio de Presentación por parte del TESVB</h4>
+                <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                    
+                    <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="myModalLabel">Modificar el Oficio de Presentación por parte del TESVB</h4>
                 </div>
-                <div class="row">
-                    <div class="col-md-10 col-md-offset-1">
+                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                    <div class="tw:w-full tw:px-2">
                         <p>
-                            <label for="nombre_proyecto">Ingresar nuevo PDF con el Oficio de Presentación por parte del TESVB<b style="color:red; font-size:23px;">*</b></label>
-                        <form class="form" id="form_modificar_oficio_presentacion_tecnologico" action="{{url("/residencia/registrar_oficio_presentacion_tecnologico/".$documentos_alta->id_alta_residencia)}}" role="form" method="POST" enctype="multipart/form-data" >
+                            <label for="nombre_proyecto">Ingresar nuevo PDF con el Oficio de Presentación por parte del TESVB<b class="tw:text-red-600 tw:dark:text-red-400 tw:text-lg">*</b></label>
+                        <form id="form_modificar_oficio_presentacion_tecnologico" action="{{url("/residencia/registrar_oficio_presentacion_tecnologico/".$documentos_alta->id_alta_residencia)}}" role="form" method="POST" enctype="multipart/form-data" >
                             {{ csrf_field() }}
-                            <input class="form-control"  id="oficio_presentacion_tecnologico" name="oficio_presentacion_tecnologico" type="file"   accept="application/pdf" required/>
+                            <input class="tw:h-11 tw:w-full tw:overflow-hidden tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:text-sm tw:text-gray-500 tw:dark:text-gray-400 tw:shadow-theme-xs tw:file:mr-5 tw:file:border-0 tw:file:border-r tw:file:border-solid tw:file:border-gray-200 tw:file:bg-gray-50 tw:file:py-3 tw:file:pr-3 tw:file:pl-3.5 tw:file:text-sm tw:file:text-gray-700 tw:hover:file:bg-gray-100 tw:focus:outline-hidden"  id="oficio_presentacion_tecnologico" name="oficio_presentacion_tecnologico" type="file"   accept="application/pdf" required/>
                         </form>
                         </p>
                     </div>
                 </div>
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                    <button  id="modificar_oficio_presentacion_tecnologico" class="btn btn-primary" >Modificar</button>
+                <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                    <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                    <button  id="modificar_oficio_presentacion_tecnologico" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Modificar</button>
 
                 </div>
-            </div>
-        </div>
-    </div>
+            </x-panel.modal>
     {{--modificar oficio_presentacion_tecnologico--}}
     {{--modificar anteproyecto --}}
-    <div class="modal fade" id="modal_modificar_anteproyecto" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
+    <x-panel.modal id="modal_modificar_anteproyecto" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="myModalLabel">
 
-                <div class="modal-header bg-info">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title text-center" id="myModalLabel">Modificar el Anteproyecto con el Visto Bueno de la Academia</h4>
+                <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                    
+                    <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="myModalLabel">Modificar el Anteproyecto con el Visto Bueno de la Academia</h4>
                 </div>
-                <div class="row">
-                    <div class="col-md-10 col-md-offset-1">
+                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                    <div class="tw:w-full tw:px-2">
                         <p>
-                            <label for="nombre_proyecto">Ingresar nuevo PDF con el Anteproyecto con el Visto Bueno de la Academia<b style="color:red; font-size:23px;">*</b></label>
-                        <form class="form" id="form_modificar_anteproyecto" action="{{url("/residencia/registrar_anteproyectos/".$documentos_alta->id_alta_residencia)}}" role="form" method="POST" enctype="multipart/form-data" >
+                            <label for="nombre_proyecto">Ingresar nuevo PDF con el Anteproyecto con el Visto Bueno de la Academia<b class="tw:text-red-600 tw:dark:text-red-400 tw:text-lg">*</b></label>
+                        <form id="form_modificar_anteproyecto" action="{{url("/residencia/registrar_anteproyectos/".$documentos_alta->id_alta_residencia)}}" role="form" method="POST" enctype="multipart/form-data" >
                             {{ csrf_field() }}
-                            <input class="form-control"  id="anteproyecto" name="anteproyecto" type="file"   accept="application/pdf" required/>
+                            <input class="tw:h-11 tw:w-full tw:overflow-hidden tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:text-sm tw:text-gray-500 tw:dark:text-gray-400 tw:shadow-theme-xs tw:file:mr-5 tw:file:border-0 tw:file:border-r tw:file:border-solid tw:file:border-gray-200 tw:file:bg-gray-50 tw:file:py-3 tw:file:pr-3 tw:file:pl-3.5 tw:file:text-sm tw:file:text-gray-700 tw:hover:file:bg-gray-100 tw:focus:outline-hidden"  id="anteproyecto" name="anteproyecto" type="file"   accept="application/pdf" required/>
                         </form>
                         </p>
                     </div>
                 </div>
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                    <button  id="modificar_anteproyecto" class="btn btn-primary" >Modificar</button>
+                <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                    <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                    <button  id="modificar_anteproyecto" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Modificar</button>
 
                 </div>
-            </div>
-        </div>
-    </div>
+            </x-panel.modal>
     {{--modificar anteproyecto--}}
     {{--modificar carta_compromiso --}}
-    <div class="modal fade" id="modal_modificar_carta_compromiso" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
+    <x-panel.modal id="modal_modificar_carta_compromiso" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="myModalLabel">
 
-                <div class="modal-header bg-info">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title text-center" id="myModalLabel">Modificar la Carta de compromiso firmada por el Asesor Interno y revisor</h4>
+                <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                    
+                    <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="myModalLabel">Modificar la Carta de compromiso firmada por el Asesor Interno y revisor</h4>
                 </div>
-                <div class="row">
-                    <div class="col-md-10 col-md-offset-1">
+                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                    <div class="tw:w-full tw:px-2">
                         <p>
-                            <label for="nombre_proyecto">Ingresar nuevo PDF con la Carta de compromiso firmada por el Asesor Interno y revisor<b style="color:red; font-size:23px;">*</b></label>
-                        <form class="form" id="form_modificar_carta_compromiso" action="{{url("/residencia/registrar_carta_compromiso/".$documentos_alta->id_alta_residencia)}}" role="form" method="POST" enctype="multipart/form-data" >
+                            <label for="nombre_proyecto">Ingresar nuevo PDF con la Carta de compromiso firmada por el Asesor Interno y revisor<b class="tw:text-red-600 tw:dark:text-red-400 tw:text-lg">*</b></label>
+                        <form id="form_modificar_carta_compromiso" action="{{url("/residencia/registrar_carta_compromiso/".$documentos_alta->id_alta_residencia)}}" role="form" method="POST" enctype="multipart/form-data" >
                             {{ csrf_field() }}
-                            <input class="form-control"  id="carta_compromiso" name="carta_compromiso" type="file"   accept="application/pdf" required/>
+                            <input class="tw:h-11 tw:w-full tw:overflow-hidden tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:text-sm tw:text-gray-500 tw:dark:text-gray-400 tw:shadow-theme-xs tw:file:mr-5 tw:file:border-0 tw:file:border-r tw:file:border-solid tw:file:border-gray-200 tw:file:bg-gray-50 tw:file:py-3 tw:file:pr-3 tw:file:pl-3.5 tw:file:text-sm tw:file:text-gray-700 tw:hover:file:bg-gray-100 tw:focus:outline-hidden"  id="carta_compromiso" name="carta_compromiso" type="file"   accept="application/pdf" required/>
                         </form>
                         </p>
                     </div>
                 </div>
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                    <button  id="modificar_carta_compromiso" class="btn btn-primary" >Modificar</button>
+                <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                    <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                    <button  id="modificar_carta_compromiso" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Modificar</button>
 
                 </div>
-            </div>
-        </div>
-    </div>
+            </x-panel.modal>
     {{--modificar carta_compromiso--}}
     {{--modificar carta_compromiso --}}
-    <div class="modal fade" id="modal_modificar_convenio_empresa" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
+    <x-panel.modal id="modal_modificar_convenio_empresa" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="myModalLabel">
 
-                <div class="modal-header bg-info">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title text-center" id="myModalLabel">Modificar el Convenio con la empresa (opcional)</h4>
+                <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                    
+                    <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="myModalLabel">Modificar el Convenio con la empresa (opcional)</h4>
                 </div>
-                <div class="row">
-                    <div class="col-md-10 col-md-offset-1">
+                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                    <div class="tw:w-full tw:px-2">
                         <p>
-                            <label for="nombre_proyecto">Ingresar nuevo PDF con el Convenio con la empresa (opcional)<b style="color:red; font-size:23px;">*</b></label>
-                        <form class="form" id="form_modificar_convenio_empresa" action="{{url("/residencia/registrar_convenio_empresa/".$documentos_alta->id_alta_residencia)}}" role="form" method="POST" enctype="multipart/form-data" >
+                            <label for="nombre_proyecto">Ingresar nuevo PDF con el Convenio con la empresa (opcional)<b class="tw:text-red-600 tw:dark:text-red-400 tw:text-lg">*</b></label>
+                        <form id="form_modificar_convenio_empresa" action="{{url("/residencia/registrar_convenio_empresa/".$documentos_alta->id_alta_residencia)}}" role="form" method="POST" enctype="multipart/form-data" >
                             {{ csrf_field() }}
-                            <input class="form-control"  id="convenio_empresa" name="convenio_empresa" type="file"   accept="application/pdf" required/>
+                            <input class="tw:h-11 tw:w-full tw:overflow-hidden tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:text-sm tw:text-gray-500 tw:dark:text-gray-400 tw:shadow-theme-xs tw:file:mr-5 tw:file:border-0 tw:file:border-r tw:file:border-solid tw:file:border-gray-200 tw:file:bg-gray-50 tw:file:py-3 tw:file:pr-3 tw:file:pl-3.5 tw:file:text-sm tw:file:text-gray-700 tw:hover:file:bg-gray-100 tw:focus:outline-hidden"  id="convenio_empresa" name="convenio_empresa" type="file"   accept="application/pdf" required/>
                         </form>
                         </p>
                     </div>
                 </div>
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                    <button  id="modificar_convenio_empresa" class="btn btn-primary" >Modificar</button>
+                <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                    <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                    <button  id="modificar_convenio_empresa" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Modificar</button>
 
                 </div>
-            </div>
-        </div>
-    </div>
+            </x-panel.modal>
     {{--modificar carta_compromiso--}}
 
-    <div class="modal fade" id="enviar_documentacion_residencia" role="dialog">
-
-        <div class="modal-dialog modal-sm">
-            <div class="modal-content">
+    <x-panel.modal id="enviar_documentacion_residencia" tamano="sm" sin-relleno clase-cerrar="close">
                 <form method="POST" id="enviar_doc" action="{{url("/residencia/envio_documento_residencia/modificada/".$documentos_alta->id_alta_residencia)}}">
                     @csrf
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Enviar documentos</h4>
+                    <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                        
+                        <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">Enviar documentos</h4>
                     </div>
-                    <div class="modal-body">
+                    <div class="tw-modal-cuerpo">
                         <p>¿Seguro que quieres, enviar tus documentos al Departamento de Servicio Social y Residencia Profesional para su revisión?</p>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <button  type="submit" class="btn btn-primary" >Aceptar</button>
+                    <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                        <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                        <button  type="submit" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Aceptar</button>
                     </div>
                 </form>
 
-            </div>
-        </div>
-
-    </div>
+            </x-panel.modal>
     <script type="text/javascript">
         $(document).ready( function() {
 
@@ -823,4 +777,5 @@
 
 
 
+</div>
 @endsection

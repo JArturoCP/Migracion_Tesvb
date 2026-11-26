@@ -710,17 +710,20 @@ where in_profesores_ingles.id_tipo_usuario=users.id and in_profesores_ingles.id_
     }
     public function recargaperiodo($id_periodo)
     {
+        $id_periodo = filter_var($id_periodo, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
+        $periodoSeleccionado = $id_periodo ? DB::table('gnral_periodos')->where('id_periodo', $id_periodo)->first() : null;
+        abort_if($periodoSeleccionado === null, 404, 'Periodo escolar inválido.');
+
         //dd("holaaa");
         Session::put('periodo_anterior',$periodo_anterior=($id_periodo-1));
         Session::put('periodo_actual',$periodo_actual=intval($id_periodo));
         Session::put('periodo_siguiente',$periodo_siguiente=($id_periodo+1));
         Session::put('p1',$p1=DB::selectOne('select * from gnral_periodos where id_periodo= ?', [$periodo_anterior]));
-        Session::put('p2',$p2=DB::selectOne('select * from gnral_periodos where id_periodo= ?', [$periodo_actual]));
+        Session::put('p2',$periodoSeleccionado);
         Session::put('p3',$p3=DB::selectOne('select * from gnral_periodos where id_periodo= ?', [$periodo_siguiente]));
         Session::put('periodotrabaja',$periodo_actual);
-        $periodon=DB::selectOne('select periodo from gnral_periodos where id_periodo= ? ', [$periodo_actual]);
-        Session::put('nombre_periodo',$periodon->periodo);
-        $id_usuario = Session::get('usuario_alumno');
+        Session::put('nombre_periodo',$periodoSeleccionado->periodo);
+        $id_usuario = Auth::id();
         $dat=DB::selectOne('select gnral_alumnos.id_carrera,gnral_alumnos.cuenta,gnral_alumnos.id_alumno,gnral_alumnos.id_semestre
 from gnral_alumnos where gnral_alumnos.id_usuario= ?', [$id_usuario]);  //////////////////////PERIODO///////////////////
          if($dat == null){

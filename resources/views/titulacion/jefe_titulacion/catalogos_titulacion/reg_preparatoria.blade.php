@@ -62,7 +62,7 @@
             <div class="modal-content">
 
                 <div class="modal-header bg-info">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title text-center" id="myModalLabel">Agregar preparatoria</h4>
                 </div>
                 <form class="form" id="form_reg_preparatoria" action="{{url("/titulacion/guardar_nueva_preparatoria/")}}" role="form" method="POST" >
@@ -129,7 +129,7 @@
                 <form id="form_editar_preparatoria" class="form" action="{{url("/titulacion/guardar_modificacion_preparatoria/")}}" role="form" method="POST" >
                     {{ csrf_field() }}
                     <div class="modal-header bg-info">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title text-center" id="myModalLabel">Modificar preparatoria</h4>
                     </div>
                     <div class="modal-body">

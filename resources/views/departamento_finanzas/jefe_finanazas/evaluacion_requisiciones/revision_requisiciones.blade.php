@@ -1,17 +1,11 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 @section('title', 'Revisión de requisiciones')
+@include('partials.panel.recursos_app', ['datatables' => true])
 @section('content')
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title text-center">Revisión de requisiciones del anteproyecto de presupuesto {{ $year }}</h3>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row col-md-11 col-md-offset-1">
-            <ul class="nav nav-tabs">
+<div class="tw-pantalla">
+        <x-panel.encabezado :titulo="'Revisión de requisiciones del anteproyecto de presupuesto '.$year" :migas="['Finanzas' => null]" />
+        <div class="tw:w-full tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4 tw:px-2">
+            <ul class="tw:w-full tw-pestanas tw:mb-6 tw:flex tw:flex-wrap tw:gap-2 tw:border-b tw:border-gray-200 tw:dark:border-gray-800">
                 <li class="active"><a href="#">Revisar requisiciones</a></li>
                 <li>
                     <a href="{{ url('/presupuesto_anteproyecto/permiso_mod_jefe_depart/') }}" >En proceso de modificación</a>
@@ -20,16 +14,17 @@
                     <a href="{{ url('/presupuesto_anteproyecto/autorizados_mod_jefe_depart/') }}" >Requisiciones revisadas</a>
                 </li>
             </ul>
-            <p>
+            <p class="tw:w-full">
                 <br>
             </p>
         </div>
-        <div class="row">
-            <div class="col-md-10 col-md-offset-1">
-                <div class="panel panel-primary">
-                    <div class="panel-body">
+        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+            <div class="tw:w-full tw:px-2">
+                <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+                    <div class="tw:p-5 tw:sm:p-6">
 
-                        <table id="table_autorizar_doc_final" class="table table-bordered table-resposive">
+                        <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table id="table_autorizar_doc_final" class="tw-tabla tw-tabla-bordes">
                             <thead>
                             <tr>
                                 <th>No. </th>
@@ -49,10 +44,10 @@
                                     <td>{{ $registro->titulo }} {{ $registro->nombre}}</td>
                                     <td>{{ $registro->nom_departamento }}</td>
                                     @if($registro->id_estado_requisicion == 1)
-                                    <td><a   href="/presupuesto_anteproyecto/revicion_req_departamento/{{ $registro->id_req_mat_ante }}" class="btn btn-primary ">Revisar</a></td>
+                                    <td><a   href="/presupuesto_anteproyecto/revicion_req_departamento/{{ $registro->id_req_mat_ante }}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap">Revisar</a></td>
                                     @endif
                                     @if($registro->id_estado_requisicion == 3)
-                                        <td><a   href="/presupuesto_anteproyecto/revicion_mod_req_departamento/{{ $registro->id_req_mat_ante }}" class="btn btn-primary ">Revisar modificaciones</a></td>
+                                        <td><a   href="/presupuesto_anteproyecto/revicion_mod_req_departamento/{{ $registro->id_req_mat_ante }}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap">Revisar modificaciones</a></td>
                                     @endif
 
 
@@ -62,69 +57,36 @@
                             @endforeach
                             </tbody>
                         </table>
+</div>
                     </div>
                 </div>
             </div>
         </div>
 
     <!-- Modal -->
-    <div class="modal fullscreen-modal fade" id="autorizar_doc_finales" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Autorización de documentación</h4>
+    <x-panel.modal id="autorizar_doc_finales" tamano="xl" sin-relleno clase-cerrar="close" aria-labelledby="myModalLabel">
+                <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                    
+                    <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="myModalLabel">Autorización de documentación</h4>
                 </div>
-                <div class="modal-body">
+                <div class="tw-modal-cuerpo">
                     <div id="contenedor_doc_finales">
                     </div>
                 </div>
 
-            </div>
-        </div>
-    </div>
+            </x-panel.modal>
     <!-- Modal -->
-    <div class="modal fullscreen-modal fade" id="autorizar_doc_finales_mod" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Autorización de documentación modificada</h4>
+    <x-panel.modal id="autorizar_doc_finales_mod" tamano="xl" sin-relleno clase-cerrar="close" aria-labelledby="myModalLabel">
+                <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                    
+                    <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="myModalLabel">Autorización de documentación modificada</h4>
                 </div>
-                <div class="modal-body">
+                <div class="tw-modal-cuerpo">
                     <div id="contenedor_doc_finales_mod">
                     </div>
                 </div>
 
-            </div>
-        </div>
-    </div>
-    <style>
-        /*
-Full screen Modal
-*/
-        .fullscreen-modal .modal-dialog {
-            margin: 0;
-            margin-right: auto;
-            margin-left: auto;
-            width: 100%;
-        }
-        @media (min-width: 768px) {
-            .fullscreen-modal .modal-dialog {
-                width: 768px;
-            }
-        }
-        @media (min-width: 992px) {
-            .fullscreen-modal .modal-dialog {
-                width: 999px;
-            }
-        }
-        @media (min-width: 1200px) {
-            .fullscreen-modal .modal-dialog {
-                width: 1200px;
-            }
-        }
-    </style>
+            </x-panel.modal>
     <script type="text/javascript">
         $(document).ready(function() {
             $('#table_autorizar_doc_final').DataTable( );
@@ -148,4 +110,5 @@ Full screen Modal
             });
         });
     </script>
+</div>
 @endsection

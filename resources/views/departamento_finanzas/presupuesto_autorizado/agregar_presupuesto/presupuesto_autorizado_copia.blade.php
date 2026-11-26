@@ -1,30 +1,18 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 @section('title', 'Presupuesto autorizado modificado')
+@include('partials.panel.recursos_app')
 @section('content')
-    <div class="row">
-        <div class="col-md-8  col-md-offset-2">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h3 class="panel-title text-center">Presupuesto autorizado del {{ $year }} para modificar</h3>
-                </div>
-            </div>
-        </div>
-    </div>
+<div class="tw-pantalla">
+    <x-panel.encabezado :titulo="'Presupuesto autorizado del '.$year.' para modificar'" :migas="['Finanzas' => null]" />
 
 
 
         @if($estado_presupuesto == 0)
-            <div class="row">
-                <div class="col-md-4 col-md-offset-4">
-                    <div class="panel panel-danger">
-                        <div class="panel-heading" style="text-align: center">No se ha terminado de agregar presupuesto del año {{ $year }}</div>
-                    </div>
-                </div>
-            </div>
+            <x-panel.alerta tipo="error" class="tw:mb-4">No se ha terminado de agregar presupuesto del año {{ $year }}</x-panel.alerta>
 
     @else
-            <div class="row">
-                <div class="col-md-10 col-md-offset-1">
+            <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                <div class="tw:w-full tw:px-2">
                     <p>PRESUPUESTO DEL MES <b>(PM)</b></p>
                     <p>PRESUPUESTO EJERCIDO <b>(PE)</b></p>
                     <p>PRESUPUESTO SOBRANTE <b>(PS)</b></p>
@@ -34,11 +22,6 @@
 
 
 
-        <div class="row">
-            <div class="col-md-1 col-md-offset-2">
-                <p><br></p>
-            </div>
-        </div>
         <style type="text/css">
             #tabla_presupuesto thead tr th {
                 position: sticky;
@@ -51,26 +34,27 @@
 
 
         </style>
-        <div class="row">
-            <div class="col-md-10 col-md-offset-1">
-                <table class="table table-bordered" id="tabla_presupuesto">
+        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+            <div class="tw:w-full tw:px-2">
+                <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table class="tw-tabla tw-tabla-bordes" id="tabla_presupuesto">
                     <thead>
                     <tr>
-                        <th style="background: grey; color: black;">Partida</th>
-                        <th style="background: grey; color: black;">Denominaciòn</th>
-                        <th style="background: grey; color: black;">Total</th>
-                        <th style="background: #b0d4f1; color: black;">Enero</th>
-                        <th style="background: #b0d4f1; color: black;">Febrero</th>
-                        <th style="background: #b0d4f1; color: black;">Marzo</th>
-                        <th style="background: #b0d4f1; color: black;">Abril</th>
-                        <th style="background: #b0d4f1; color: black;">Mayo</th>
-                        <th style="background: #b0d4f1; color: black;">Junio</th>
-                        <th style="background: #b0d4f1; color: black;">Julio</th>
-                        <th style="background: #b0d4f1; color: black;">Agosto</th>
-                        <th style="background: #b0d4f1; color: black;">Septiembre</th>
-                        <th style="background: #b0d4f1; color: black;">Octubre</th>
-                        <th style="background: #b0d4f1; color: black;">Noviembre</th>
-                        <th style="background: #b0d4f1; color: black;">Diciembre</th>
+                        <th class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90">Partida</th>
+                        <th class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90">Denominaciòn</th>
+                        <th class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90">Total</th>
+                        <th class="tw:bg-sky-100 tw:dark:bg-sky-500/15 tw:text-gray-800 tw:dark:text-white/90">Enero</th>
+                        <th class="tw:bg-sky-100 tw:dark:bg-sky-500/15 tw:text-gray-800 tw:dark:text-white/90">Febrero</th>
+                        <th class="tw:bg-sky-100 tw:dark:bg-sky-500/15 tw:text-gray-800 tw:dark:text-white/90">Marzo</th>
+                        <th class="tw:bg-sky-100 tw:dark:bg-sky-500/15 tw:text-gray-800 tw:dark:text-white/90">Abril</th>
+                        <th class="tw:bg-sky-100 tw:dark:bg-sky-500/15 tw:text-gray-800 tw:dark:text-white/90">Mayo</th>
+                        <th class="tw:bg-sky-100 tw:dark:bg-sky-500/15 tw:text-gray-800 tw:dark:text-white/90">Junio</th>
+                        <th class="tw:bg-sky-100 tw:dark:bg-sky-500/15 tw:text-gray-800 tw:dark:text-white/90">Julio</th>
+                        <th class="tw:bg-sky-100 tw:dark:bg-sky-500/15 tw:text-gray-800 tw:dark:text-white/90">Agosto</th>
+                        <th class="tw:bg-sky-100 tw:dark:bg-sky-500/15 tw:text-gray-800 tw:dark:text-white/90">Septiembre</th>
+                        <th class="tw:bg-sky-100 tw:dark:bg-sky-500/15 tw:text-gray-800 tw:dark:text-white/90">Octubre</th>
+                        <th class="tw:bg-sky-100 tw:dark:bg-sky-500/15 tw:text-gray-800 tw:dark:text-white/90">Noviembre</th>
+                        <th class="tw:bg-sky-100 tw:dark:bg-sky-500/15 tw:text-gray-800 tw:dark:text-white/90">Diciembre</th>
                         @if($estado_presupuesto == 0)
                             <th></th>
                             <th></th>
@@ -80,135 +64,136 @@
                     </thead>
                     <tbody>
                     <tr>
-                        <th colspan="2" style="text-align: center">Total autorizado</th>
-                        <th style="text-align: right">{{number_format($total_presupuesto, 2, '.', ',') }}</th>
-                        <th style="text-align: right">{{number_format($total_enero, 2, '.', ',') }}</th>
-                        <th style="text-align: right">{{number_format($total_febrero, 2, '.', ',') }}</th>
-                        <th style="text-align: right">{{number_format($total_marzo, 2, '.', ',') }}</th>
-                        <th style="text-align: right">{{number_format($total_abril, 2, '.', ',') }}</th>
-                        <th style="text-align: right">{{number_format($total_mayo, 2, '.', ',') }}</th>
-                        <th style="text-align: right">{{number_format($total_junio, 2, '.', ',') }}</th>
-                        <th style="text-align: right">{{number_format($total_julio, 2, '.', ',') }}</th>
-                        <th style="text-align: right">{{number_format($total_agosto, 2, '.', ',') }}</th>
-                        <th style="text-align: right">{{number_format($total_septiembre, 2, '.', ',') }}</th>
-                        <th style="text-align: right">{{number_format($total_octubre, 2, '.', ',') }}</th>
-                        <th style="text-align: right">{{number_format($total_noviembre, 2, '.', ',') }}</th>
-                        <th style="text-align: right">{{number_format($total_diciembre, 2, '.', ',') }}</th>
+                        <th class="tw:text-center" colspan="2">Total autorizado</th>
+                        <th class="tw:text-right">{{number_format($total_presupuesto, 2, '.', ',') }}</th>
+                        <th class="tw:text-right">{{number_format($total_enero, 2, '.', ',') }}</th>
+                        <th class="tw:text-right">{{number_format($total_febrero, 2, '.', ',') }}</th>
+                        <th class="tw:text-right">{{number_format($total_marzo, 2, '.', ',') }}</th>
+                        <th class="tw:text-right">{{number_format($total_abril, 2, '.', ',') }}</th>
+                        <th class="tw:text-right">{{number_format($total_mayo, 2, '.', ',') }}</th>
+                        <th class="tw:text-right">{{number_format($total_junio, 2, '.', ',') }}</th>
+                        <th class="tw:text-right">{{number_format($total_julio, 2, '.', ',') }}</th>
+                        <th class="tw:text-right">{{number_format($total_agosto, 2, '.', ',') }}</th>
+                        <th class="tw:text-right">{{number_format($total_septiembre, 2, '.', ',') }}</th>
+                        <th class="tw:text-right">{{number_format($total_octubre, 2, '.', ',') }}</th>
+                        <th class="tw:text-right">{{number_format($total_noviembre, 2, '.', ',') }}</th>
+                        <th class="tw:text-right">{{number_format($total_diciembre, 2, '.', ',') }}</th>
                     </tr>
                     <tr>
 
-                        <td style="text-align: right"></td>
-                        <td style="text-align: right"></td>
-                        <td style="text-align: right"></td>
-                        <td style="text-align: right"></td>
-                        <td style="text-align: right"></td>
-                        <td style="text-align: right"></td>
-                        <td style="text-align: right"></td>
-                        <td style="text-align: right"></td>
-                        <td style="text-align: right"></td>
-                        <td style="text-align: right"></td>
-                        <td style="text-align: right"></td>
-                        <td style="text-align: right"></td>
-                        <td style="text-align: right"></td>
-                        <td style="text-align: right"></td>
-                        <td style="text-align: right"></td>
+                        <td class="tw:text-right"></td>
+                        <td class="tw:text-right"></td>
+                        <td class="tw:text-right"></td>
+                        <td class="tw:text-right"></td>
+                        <td class="tw:text-right"></td>
+                        <td class="tw:text-right"></td>
+                        <td class="tw:text-right"></td>
+                        <td class="tw:text-right"></td>
+                        <td class="tw:text-right"></td>
+                        <td class="tw:text-right"></td>
+                        <td class="tw:text-right"></td>
+                        <td class="tw:text-right"></td>
+                        <td class="tw:text-right"></td>
+                        <td class="tw:text-right"></td>
+                        <td class="tw:text-right"></td>
                         @if($estado_presupuesto == 0)
-                            <td style="text-align: center">Editar</td>
-                            <td style="text-align: center">Eliminar</td>
+                            <td class="tw:text-center">Editar</td>
+                            <td class="tw:text-center">Eliminar</td>
                         @else
                         @endif
                     </tr>
                     @foreach($array_partidas as $partida)
                         <tr>
 
-                            <td style="text-align: right">{{$partida['clave_presupuestal']}}</td>
-                            <td style="text-align: right">{{$partida['nombre_partida'] }}</td>
-                            <td style="text-align: right">{{number_format($partida['total_presupuesto'], 2, '.', ',') }}</td>
+                            <td class="tw:text-right">{{$partida['clave_presupuestal']}}</td>
+                            <td class="tw:text-right">{{$partida['nombre_partida'] }}</td>
+                            <td class="tw:text-right">{{number_format($partida['total_presupuesto'], 2, '.', ',') }}</td>
 
-                            <td style="text-align: right">
-                                <p style="color: blue"><b>PM = </b> {{number_format($partida['enero_pres'], 2, '.', ',') }}</p>
-                                <p style="color: red"><b>PE = </b> {{number_format($partida['enero_utilizado'], 2, '.', ',') }}</p>
+                            <td class="tw:text-right">
+                                <p class="tw:text-blue-700 tw:dark:text-blue-400"><b>PM = </b> {{number_format($partida['enero_pres'], 2, '.', ',') }}</p>
+                                <p class="tw:text-red-600 tw:dark:text-red-400"><b>PE = </b> {{number_format($partida['enero_utilizado'], 2, '.', ',') }}</p>
                                 <p><b>PS = </b>{{number_format($partida['enero_pres_total'], 2, '.', ',') }}</p>
-                                <p style="text-align: center;">  <a  href="#" class="edita_enero" id="{{ $partida['id_presupuesto_aut_copia'] }}"><i class="glyphicon glyphicon-edit" ></i></a></p>
+                                <p class="tw:text-center">  <a  href="#" class="edita_enero tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base" id="{{ $partida['id_presupuesto_aut_copia'] }}"><i class="fa fa-pencil-square-o" ></i></a></p>
 
                             </td>
-                            <td style="text-align: right">
-                                <p style="color: blue"><b>PM = </b>  {{number_format($partida['febrero_pres'], 2, '.', ',') }}</p>
-                                <p style="color: red"><b>PE = </b> {{number_format($partida['febrero_utilizado'], 2, '.', ',') }}</p>
+                            <td class="tw:text-right">
+                                <p class="tw:text-blue-700 tw:dark:text-blue-400"><b>PM = </b>  {{number_format($partida['febrero_pres'], 2, '.', ',') }}</p>
+                                <p class="tw:text-red-600 tw:dark:text-red-400"><b>PE = </b> {{number_format($partida['febrero_utilizado'], 2, '.', ',') }}</p>
                                 <p><b>PS = </b>{{number_format($partida['febrero_pres_total'], 2, '.', ',') }}</p>
-                                <p style="text-align: center;">  <a href="#" class="edita_febrero" id="{{ $partida['id_presupuesto_aut_copia'] }}"><i class="glyphicon glyphicon-edit"></i></a></p>
+                                <p class="tw:text-center">  <a href="#" class="edita_febrero tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base" id="{{ $partida['id_presupuesto_aut_copia'] }}"><i class="fa fa-pencil-square-o"></i></a></p>
                             </td>
-                            <td style="text-align: right">
-                                <p style="color: blue"><b>PM = </b> {{number_format($partida['marzo_pres'], 2, '.', ',') }}</p>
-                                <p style="color: red"><b>PE = </b> {{number_format($partida['marzo_utilizado'], 2, '.', ',') }}</p>
+                            <td class="tw:text-right">
+                                <p class="tw:text-blue-700 tw:dark:text-blue-400"><b>PM = </b> {{number_format($partida['marzo_pres'], 2, '.', ',') }}</p>
+                                <p class="tw:text-red-600 tw:dark:text-red-400"><b>PE = </b> {{number_format($partida['marzo_utilizado'], 2, '.', ',') }}</p>
                                 <p>{{number_format($partida['marzo_pres_total'], 2, '.', ',') }}</p>
-                                <p style="text-align: center;">  <a href="#" class="edita_marzo" id="{{ $partida['id_presupuesto_aut_copia'] }}"><i class="glyphicon glyphicon-edit"></i></a></p>
+                                <p class="tw:text-center">  <a href="#" class="edita_marzo tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base" id="{{ $partida['id_presupuesto_aut_copia'] }}"><i class="fa fa-pencil-square-o"></i></a></p>
 
                             </td>
-                            <td style="text-align: right">
-                                <p style="color: blue"><b>PM = </b>  {{number_format($partida['abril_pres'], 2, '.', ',') }}</p>
-                                <p style="color: red"><b>PE = </b> {{number_format($partida['abril_utilizado'], 2, '.', ',') }}</p>
+                            <td class="tw:text-right">
+                                <p class="tw:text-blue-700 tw:dark:text-blue-400"><b>PM = </b>  {{number_format($partida['abril_pres'], 2, '.', ',') }}</p>
+                                <p class="tw:text-red-600 tw:dark:text-red-400"><b>PE = </b> {{number_format($partida['abril_utilizado'], 2, '.', ',') }}</p>
                                 <p><b>PS = </b>{{number_format($partida['abril_pres_total'], 2, '.', ',') }}</p>
-                                <p style="text-align: center;">  <a href="#" class="edita_abril" id="{{ $partida['id_presupuesto_aut_copia'] }}"><i class="glyphicon glyphicon-edit"></i></a></p>
+                                <p class="tw:text-center">  <a href="#" class="edita_abril tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base" id="{{ $partida['id_presupuesto_aut_copia'] }}"><i class="fa fa-pencil-square-o"></i></a></p>
                             </td>
-                            <td style="text-align: right">
-                                <p style="color: blue"><b>PM = </b>  {{number_format($partida['mayo_pres'], 2, '.', ',') }}</p>
-                                <p style="color: red"><b>PE = </b> {{number_format($partida['mayo_utilizado'], 2, '.', ',') }}</p>
+                            <td class="tw:text-right">
+                                <p class="tw:text-blue-700 tw:dark:text-blue-400"><b>PM = </b>  {{number_format($partida['mayo_pres'], 2, '.', ',') }}</p>
+                                <p class="tw:text-red-600 tw:dark:text-red-400"><b>PE = </b> {{number_format($partida['mayo_utilizado'], 2, '.', ',') }}</p>
                                 <p><b>PS = </b>{{number_format($partida['mayo_pres_total'], 2, '.', ',') }}</p>
-                                <p style="text-align: center;">  <a href="#" class="edita_mayo" id="{{ $partida['id_presupuesto_aut_copia'] }}"><i class="glyphicon glyphicon-edit"></i></a></p>
+                                <p class="tw:text-center">  <a href="#" class="edita_mayo tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base" id="{{ $partida['id_presupuesto_aut_copia'] }}"><i class="fa fa-pencil-square-o"></i></a></p>
                             </td>
-                            <td style="text-align: right">
-                                <p style="color: blue"><b>PM = </b> {{number_format($partida['junio_pres'], 2, '.', ',') }}</p>
-                                <p style="color: red"><b>PE = </b> {{number_format($partida['junio_utilizado'], 2, '.', ',') }}</p>
+                            <td class="tw:text-right">
+                                <p class="tw:text-blue-700 tw:dark:text-blue-400"><b>PM = </b> {{number_format($partida['junio_pres'], 2, '.', ',') }}</p>
+                                <p class="tw:text-red-600 tw:dark:text-red-400"><b>PE = </b> {{number_format($partida['junio_utilizado'], 2, '.', ',') }}</p>
                                 <p><b>PS = </b>{{number_format($partida['junio_pres_total'], 2, '.', ',') }}</p>
-                                <p style="text-align: center;">  <a href="#" class="edita_junio" id="{{ $partida['id_presupuesto_aut_copia'] }}"><i class="glyphicon glyphicon-edit"></i></a></p>
+                                <p class="tw:text-center">  <a href="#" class="edita_junio tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base" id="{{ $partida['id_presupuesto_aut_copia'] }}"><i class="fa fa-pencil-square-o"></i></a></p>
 
                             </td>
-                            <td style="text-align: right">
-                                <p style="color: blue"><b>PM = </b>  {{number_format($partida['julio_pres'], 2, '.', ',') }}</p>
-                                <p style="color: red"><b>PE = </b> {{number_format($partida['julio_utilizado'], 2, '.', ',') }}</p>
+                            <td class="tw:text-right">
+                                <p class="tw:text-blue-700 tw:dark:text-blue-400"><b>PM = </b>  {{number_format($partida['julio_pres'], 2, '.', ',') }}</p>
+                                <p class="tw:text-red-600 tw:dark:text-red-400"><b>PE = </b> {{number_format($partida['julio_utilizado'], 2, '.', ',') }}</p>
                                 <p><b>PS = </b>{{number_format($partida['julio_pres_total'], 2, '.', ',') }}</p>
-                                <p style="text-align: center;">  <a href="#" class="edita_julio" id="{{ $partida['id_presupuesto_aut_copia'] }}"><i class="glyphicon glyphicon-edit"></i></a></p>
+                                <p class="tw:text-center">  <a href="#" class="edita_julio tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base" id="{{ $partida['id_presupuesto_aut_copia'] }}"><i class="fa fa-pencil-square-o"></i></a></p>
                             </td>
-                            <td style="text-align: right">
-                                <p style="color: blue"><b>PM = </b>  {{number_format($partida['agosto_pres'], 2, '.', ',') }}</p>
-                                <p style="color: red"><b>PE = </b> {{number_format($partida['agosto_utilizado'], 2, '.', ',') }}</p>
+                            <td class="tw:text-right">
+                                <p class="tw:text-blue-700 tw:dark:text-blue-400"><b>PM = </b>  {{number_format($partida['agosto_pres'], 2, '.', ',') }}</p>
+                                <p class="tw:text-red-600 tw:dark:text-red-400"><b>PE = </b> {{number_format($partida['agosto_utilizado'], 2, '.', ',') }}</p>
                                 <p><b>PS = </b>{{number_format($partida['agosto_pres_total'], 2, '.', ',') }}</p>
-                                <p style="text-align: center;">  <a href="#" class="edita_agosto" id="{{ $partida['id_presupuesto_aut_copia'] }}"><i class="glyphicon glyphicon-edit"></i></a></p>
+                                <p class="tw:text-center">  <a href="#" class="edita_agosto tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base" id="{{ $partida['id_presupuesto_aut_copia'] }}"><i class="fa fa-pencil-square-o"></i></a></p>
                             </td>
-                            <td style="text-align: right">
-                                <p style="color: blue"><b>PM = </b> {{number_format($partida['septiembre_pres'], 2, '.', ',') }}</p>
-                                <p style="color: red"><b>PE = </b> {{number_format($partida['septiembre_utilizado'], 2, '.', ',') }}</p>
+                            <td class="tw:text-right">
+                                <p class="tw:text-blue-700 tw:dark:text-blue-400"><b>PM = </b> {{number_format($partida['septiembre_pres'], 2, '.', ',') }}</p>
+                                <p class="tw:text-red-600 tw:dark:text-red-400"><b>PE = </b> {{number_format($partida['septiembre_utilizado'], 2, '.', ',') }}</p>
                                 <p><b>PS = </b>{{number_format($partida['septiembre_pres_total'], 2, '.', ',') }}</p>
-                                <p style="text-align: center;">  <a href="#" class="edita_septiembre" id="{{ $partida['id_presupuesto_aut_copia'] }}"><i class="glyphicon glyphicon-edit"></i></a></p>
+                                <p class="tw:text-center">  <a href="#" class="edita_septiembre tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base" id="{{ $partida['id_presupuesto_aut_copia'] }}"><i class="fa fa-pencil-square-o"></i></a></p>
                             </td>
-                            <td style="text-align: right">
-                                <p style="color: blue"><b>PM = </b>  {{number_format($partida['octubre_pres'], 2, '.', ',') }}</p>
-                                <p style="color: red"><b>PE = </b> {{number_format($partida['octubre_utilizado'], 2, '.', ',') }}</p>
+                            <td class="tw:text-right">
+                                <p class="tw:text-blue-700 tw:dark:text-blue-400"><b>PM = </b>  {{number_format($partida['octubre_pres'], 2, '.', ',') }}</p>
+                                <p class="tw:text-red-600 tw:dark:text-red-400"><b>PE = </b> {{number_format($partida['octubre_utilizado'], 2, '.', ',') }}</p>
                                 <p><b>PS = </b>{{number_format($partida['octubre_pres_total'], 2, '.', ',') }}</p>
-                                <p style="text-align: center;">  <a href="#" class="edita_octubre" id="{{ $partida['id_presupuesto_aut_copia'] }}"><i class="glyphicon glyphicon-edit"></i></a></p>
+                                <p class="tw:text-center">  <a href="#" class="edita_octubre tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base" id="{{ $partida['id_presupuesto_aut_copia'] }}"><i class="fa fa-pencil-square-o"></i></a></p>
 
                             </td>
-                            <td style="text-align: right">
-                                <p style="color: blue"><b>PM = </b> {{number_format($partida['noviembre_pres'], 2, '.', ',') }}</p>
-                                <p style="color: red"><b>PE = </b> {{number_format($partida['noviembre_utilizado'], 2, '.', ',') }}</p>
+                            <td class="tw:text-right">
+                                <p class="tw:text-blue-700 tw:dark:text-blue-400"><b>PM = </b> {{number_format($partida['noviembre_pres'], 2, '.', ',') }}</p>
+                                <p class="tw:text-red-600 tw:dark:text-red-400"><b>PE = </b> {{number_format($partida['noviembre_utilizado'], 2, '.', ',') }}</p>
                                 <p><b>PS = </b>{{number_format($partida['noviembre_pres_total'], 2, '.', ',') }}</p>
-                                <p style="text-align: center;">  <a href="#" class="edita_noviembre" id="{{ $partida['id_presupuesto_aut_copia'] }}"><i class="glyphicon glyphicon-edit"></i></a></p>
+                                <p class="tw:text-center">  <a href="#" class="edita_noviembre tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base" id="{{ $partida['id_presupuesto_aut_copia'] }}"><i class="fa fa-pencil-square-o"></i></a></p>
                             </td>
-                            <td style="text-align: right">
-                               <p style="color: blue"><b>PM = </b> {{number_format($partida['diciembre_pres'], 2, '.', ',') }}</p>
-                                <p style="color: red"><b>PE = </b> {{number_format($partida['diciembre_utilizado'], 2, '.', ',') }}</p>
+                            <td class="tw:text-right">
+                               <p class="tw:text-blue-700 tw:dark:text-blue-400"><b>PM = </b> {{number_format($partida['diciembre_pres'], 2, '.', ',') }}</p>
+                                <p class="tw:text-red-600 tw:dark:text-red-400"><b>PE = </b> {{number_format($partida['diciembre_utilizado'], 2, '.', ',') }}</p>
                                 <p><b>PS = </b>{{number_format($partida['diciembre_pres_total'], 2, '.', ',') }}</p>
-                                <p style="text-align: center;">  <a href="#" class="edita_diciembre" id="{{ $partida['id_presupuesto_aut_copia'] }}"><i class="glyphicon glyphicon-edit"></i></a></p>
+                                <p class="tw:text-center">  <a href="#" class="edita_diciembre tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base" id="{{ $partida['id_presupuesto_aut_copia'] }}"><i class="fa fa-pencil-square-o"></i></a></p>
                             </td>
                             @if($estado_presupuesto == 0)
-                                <td style="text-align: center;">   <button class="btn btn-primary editar" id="{{ $partida['id_presupuesto_aut_copia'] }}"><i class="glyphicon glyphicon-cog"></i></button></td>
-                                <td style="text-align: center;">   <button class="btn btn-danger eliminar" id="{{ $partida['id_presupuesto_aut_copia'] }}"><i class="glyphicon glyphicon-trash"></i></button></td>
+                                <td class="tw:text-center">   <button class="editar tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base" id="{{ $partida['id_presupuesto_aut_copia'] }}"><i class="fa fa-cog"></i></button></td>
+                                <td class="tw:text-center">   <button class="eliminar tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-red-600 tw:ring-1 tw:ring-red-300 tw:ring-inset tw:hover:bg-red-50 tw:dark:bg-gray-800 tw:dark:text-red-500 tw:dark:ring-red-500/40 tw:dark:hover:bg-red-500/10 tw:size-9 tw:text-base" id="{{ $partida['id_presupuesto_aut_copia'] }}"><i class="fa fa-trash"></i></button></td>
                             @endif
                         </tr>
                     @endforeach
                     </tbody>
                 </table>
+</div>
             </div>
         </div>
 
@@ -216,77 +201,43 @@
 
         {{-- modal modificar requisicion de materiales--}}
 
-        <div class="modal fullscreen-modal fade" id="modal_mod_partida" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-            <div class="modal-dialog modal-lg" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="exampleModalLabel">Modificar partida</h4>
+        <x-panel.modal id="modal_mod_partida" tamano="xl" sin-relleno clase-cerrar="close" aria-labelledby="exampleModalLabel">
+                    <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                        
+                        <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="exampleModalLabel">Modificar partida</h4>
                     </div>
-                    <div class="modal-body">
+                    <div class="tw-modal-cuerpo">
                         <div id="contenedor_mod_partida">
 
                         </div>
 
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                            <button id="guardar_mod_partida"  class="btn btn-primary" >Guardar</button>
+                        <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                            <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                            <button id="guardar_mod_partida"  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Guardar</button>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
+                </x-panel.modal>
 
         {{-- modal modificar presupuesto del mes de la requisicion--}}
 
-        <div class="modal" id="modal_mod_req_mes" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="exampleModalLabel">Modificar presupuesto del mes de la requisición</h4>
+        <x-panel.modal id="modal_mod_req_mes" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="exampleModalLabel">
+                    <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                        
+                        <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="exampleModalLabel">Modificar presupuesto del mes de la requisición</h4>
                     </div>
-                    <div class="modal-body">
+                    <div class="tw-modal-cuerpo">
                         <div id="contenedor_mod_req_mes">
 
                         </div>
 
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                            <button id="guardar_mod_req_mes"  class="btn btn-primary" >Guardar</button>
+                        <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                            <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                            <button id="guardar_mod_req_mes"  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Guardar</button>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
+                </x-panel.modal>
         @endif
 
-        <style>
-            /*
-    Full screen Modal
-    */
-            .fullscreen-modal .modal-dialog {
-                margin: 0;
-                margin-right: auto;
-                margin-left: auto;
-                width: 100%;
-            }
-            @media (min-width: 768px) {
-                .fullscreen-modal .modal-dialog {
-                    width: 750px;
-                }
-            }
-            @media (min-width: 992px) {
-                .fullscreen-modal .modal-dialog {
-                    width: 970px;
-                }
-            }
-            @media (min-width: 1200px) {
-                .fullscreen-modal .modal-dialog {
-                    width: 1170px;
-                }
-            }
-        </style>
         <script>
             $(document).ready(function() {
                 $(".edita_enero").click(function (){
@@ -952,4 +903,5 @@
 
 
 
-        @endsection
+        </div>
+@endsection

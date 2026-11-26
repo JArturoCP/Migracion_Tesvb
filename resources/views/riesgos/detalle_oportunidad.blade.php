@@ -1,62 +1,63 @@
-@extends('layouts.app')
+@extends('layouts.panel')
+@include('partials.panel.recursos_app', ['validacion' => true, 'datepicker' => true])
 @section('title', 'Oportunidad')
 @section('content')
 
  @include("riesgos.partials.msg_ok")
-{{--   <a href="{{ redirect()->back()->getTargetUrl()}}" class="btn btn-primary btn-lg text-center">
-    <span class="glyphicon glyphicon-circle-arrow-left"  aria-hidden="true" data-toggle="tooltip" title="Regresar"></span>
+{{--   <a href="{{ redirect()->back()->getTargetUrl()}}" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-2 tw:px-5 tw:py-3.5 tw:text-base tw:text-center">
+    <span class="fa fa-arrow-circle-left"  aria-hidden="true" data-toggle="tooltip" title="Regresar"></span>
 </a>--}}
 
 
-    <div class="row">
-        <div class="col-md-10 col-xs-10 col-md-offset-1">
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+        <div class="tw:lg:w-10/12 tw:w-10/12 tw:lg:ml-[8.3333%] tw:px-2">
             <p>
-                <span class="glyphicon glyphicon-arrow-right"></span>
+                <span class="fa fa-arrow-right"></span>
                 <a href="{{url("/riesgos/proceso")}}">Registro Procesos</a>
-                <span class="glyphicon glyphicon-chevron-right"></span>
+                <span class="fa fa-chevron-right"></span>
                 <a href="{{url("/riesgos/add_partes")."/".$oportunidades[0]->ri_requisitos[0]->partes[0]->id_proceso}}">Partes interesadas</a>
-                <span class="glyphicon glyphicon-chevron-right"></span>
+                <span class="fa fa-chevron-right"></span>
                 <span>Oportunidad</span>
             </p>
             <br>
 
-            <h2 class="text-primary">Oportunidad: {{$oportunidades[0]->des_oportunidad or ""}}</h2>
-            <div class="row">
-                <div class="col-md-4">
-                      <h3 class="text-danger"> Factor de la oportunidad: {{$oportunidades[0]->calificacion * $oportunidades[0]->calif_beneficio}}</h3>
+            <h2 class="tw:text-brand-500">Oportunidad: {{$oportunidades[0]->des_oportunidad or ""}}</h2>
+            <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                <div class="tw:w-full tw:lg:w-4/12 tw:px-2">
+                      <h3 class="tw:text-red-600"> Factor de la oportunidad: {{$oportunidades[0]->calificacion * $oportunidades[0]->calif_beneficio}}</h3>
                 </div>
-                <div class="col-md-4 col-md-offset-4">
-                   <h3 class="text-primary"> Calificación limite/umbral: {{$umbral[0]->numero}}</h3>
+                <div class="tw:w-full tw:lg:w-4/12 tw:lg:ml-[33.3333%] tw:px-2">
+                   <h3 class="tw:text-brand-500"> Calificación limite/umbral: {{$umbral[0]->numero}}</h3>
                 </div>
             </div>
 
 
-            <div class="panel panel-info col-md-12">
-                <div class="panel-heading row ">
-                    <h3 class="row col-md-12 panel-title">Probabilidad de lograr la oportunidad
-                        <span data-toggle="modal" data-target="#modal_modificar_oportunidad" class=""><a href="#!" class="pull-right"><span aria-hidden="true" class="glyphicon glyphicon-cog" data-toggle="tooltip" title="Modificar oportunidad"></span></a></span>
+            <div class="tw:w-full tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white tw:lg:w-full tw:px-2">
+                <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4 tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                    <h3 class="tw:w-full tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4 tw:lg:w-full tw:text-base tw:font-medium tw:text-gray-800 tw:px-2">Probabilidad de lograr la oportunidad
+                        <span data-toggle="modal" data-target="#modal_modificar_oportunidad" class=""><a href="#!" class="tw:float-right"><span aria-hidden="true" class="fa fa-cog" data-toggle="tooltip" title="Modificar oportunidad"></span></a></span>
                     </h3>
                 </div>
-                <div class="panel-body">
+                <div class="tw:p-5 tw:sm:p-6">
 
                     {{--$oportunidades--}}
-                    <div class="row">
+                    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
-                        <div class="col-md-4">
+                        <div class="tw:w-full tw:lg:w-4/12 tw:px-2">
                            Probabilidad
                             <h5 class=""><strong>{{isset($oportunidades[0]->ri_o_probabilidad[0])?$oportunidades[0]->ri_o_probabilidad[0]->des_probabilidad:"Sin datos"}}</strong></h5>
 
                         </div>
-                        <div class="col-md-4">
+                        <div class="tw:w-full tw:lg:w-4/12 tw:px-2">
                             Calificacion de la probabilidad
-                            <h5 class="pl-3"><strong>{{$oportunidades[0]->calificacion}}</strong></h5>
+                            <h5 class="tw:pl-4"><strong>{{$oportunidades[0]->calificacion}}</strong></h5>
 
                         </div>
                     </div>
 
                     <div>
-                        <div class="row">
-                            <div class="col-md-4">
+                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                            <div class="tw:w-full tw:lg:w-4/12 tw:px-2">
                                 Potencial para la apertura de nuevos programas de estudio
                                 <h5 class="">
                                    <strong>{{isset($oportunidades[0]->ri_o_potencialapertura[0])?$oportunidades[0]->ri_o_potencialapertura[0]->des_potencialapertura:"Sin datos"}}</strong>
@@ -65,7 +66,7 @@
                                 </h5>
 
                             </div>
-                            <div class="col-md-8">
+                            <div class="tw:w-full tw:lg:w-8/12 tw:px-2">
                                Potencial del crecimiento de la matricula actual
                                 <h5 class="">
                                     <strong>{{isset($oportunidades[0]->ri_o_potencialcrecimiento[0])?$oportunidades[0]->ri_o_potencialcrecimiento[0]->des_potencialcrecimiento:"Sin Datos"}}</strong>
@@ -81,35 +82,35 @@
                     </div>
                 </div>
             </div>
-            <div class="panel panel-info col-md-12">
-                <div class="panel-heading row ">
-                    <h3 class="row col-md-12 panel-title">Beneficio Potencial de la oportunidad</h3>
+            <div class="tw:w-full tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white tw:lg:w-full tw:px-2">
+                <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4 tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                    <h3 class="tw:w-full tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4 tw:lg:w-full tw:text-base tw:font-medium tw:text-gray-800 tw:px-2">Beneficio Potencial de la oportunidad</h3>
                 </div>
-                <div class="panel-body">
-                    <div class="row">
+                <div class="tw:p-5 tw:sm:p-6">
+                    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
-                        <div class="col-md-4">
+                        <div class="tw:w-full tw:lg:w-4/12 tw:px-2">
                             Mejora potencial en la satisfaccion del cliente
                             <h5 class=""><strong>{{isset($oportunidades[0]->ri_o_mejoracliente[0])?$oportunidades[0]->ri_o_mejoracliente[0]->des_mejoracliente:"Sin Datos"}}</strong></h5>
                         </div>
-                        <div class="col-md-4">
+                        <div class="tw:w-full tw:lg:w-4/12 tw:px-2">
                             Mejora potencial de los procesos internos del SGC
-                            <h5 class="pl-3"><strong>{{isset($oportunidades[0]->ri_o_mejorasgc[0])?$oportunidades[0]->ri_o_mejorasgc[0]->des_mejorasgc:"Sin Datos"}}</strong></h5>
+                            <h5 class="tw:pl-4"><strong>{{isset($oportunidades[0]->ri_o_mejorasgc[0])?$oportunidades[0]->ri_o_mejorasgc[0]->des_mejorasgc:"Sin Datos"}}</strong></h5>
                         </div>
-                        <div class="col-md-4">
+                        <div class="tw:w-full tw:lg:w-4/12 tw:px-2">
                             Calificación del Beneficio
-                            <h5 class="pl-3"><strong>{{$oportunidades[0]->calif_beneficio}}</strong></h5>
+                            <h5 class="tw:pl-4"><strong>{{$oportunidades[0]->calif_beneficio}}</strong></h5>
                         </div>
                     </div>
                     <div>
-                        <div class="row">
-                            <div class="col-md-4">
+                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                            <div class="tw:w-full tw:lg:w-4/12 tw:px-2">
                                 Mejora de la reputación de la Institución
                                 <h5 class="">
                                     <strong>{{isset($oportunidades[0]->ri_o_mejorareputacion[0])?$oportunidades[0]->ri_o_mejorareputacion[0]->des_mejorareputacion:"Sin Datos"}}</strong>
                                 </h5>
                             </div>
-                            <div class="col-md-8">
+                            <div class="tw:w-full tw:lg:w-8/12 tw:px-2">
                                 Potencial costo de implementación
                                 <h5 class="">
                                     <strong>{{isset($oportunidades[0]->ri_o_potencialcosto[0])?$oportunidades[0]->ri_o_potencialcosto[0]->des_potencialcosto:"Sin Datos"}}</strong>
@@ -125,28 +126,29 @@
                 </div>
             </div>
 
-            <div class="panel panel-info col-md-12">
-                <div class="panel-heading row ">
-                    <h3 class="row col-md-12 panel-title">Plan de Seguimiento de Oportunidades <button data-toggle="modal"  data-tooltip="true"  title="Agregar" data-target="#modal_crear_plan" type="button" class="btn btn-success pull-right"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button></h3>
+            <div class="tw:w-full tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white tw:lg:w-full tw:px-2">
+                <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4 tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                    <h3 class="tw:w-full tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4 tw:lg:w-full tw:text-base tw:font-medium tw:text-gray-800 tw:px-2">Plan de Seguimiento de Oportunidades <button data-toggle="modal"  data-tooltip="true"  title="Agregar" data-target="#modal_crear_plan" type="button" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-green-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-green-700 tw:float-right tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm"><span class="fa fa-plus" aria-hidden="true"></span></button></h3>
                 </div>
-                <div class="panel-body">
-                    <div class="row">
+                <div class="tw:p-5 tw:sm:p-6">
+                    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
-                        <div class="col-md-10 col-md-offset-1">
-                            <ul class="list-group">
-                                <table class="table table-bordered">
+                        <div class="tw:w-full tw:lg:w-10/12 tw:lg:ml-[8.3333%] tw:px-2">
+                            <ul class="tw:divide-y tw:divide-gray-100 tw:rounded-lg tw:border tw:border-gray-200">
+                                <div class="tw-tabla-contenedor tw:mb-4 tw:max-w-full tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200">
+<table class="tw-tabla tw-tabla-bordes">
                                     <thead>
                                         <tr>
-                                            <th class="text-center col-md-2">
+                                            <th class="tw:w-full tw:text-center tw:lg:w-2/12 tw:px-2">
                                                 Fecha inicial
                                             </th>
-                                            <th class="text-center col-md-2">
+                                            <th class="tw:w-full tw:text-center tw:lg:w-2/12 tw:px-2">
                                                 Fecha propuesta
                                             </th>
-                                            <th class="col-md-8 text-center">
+                                            <th class="tw:w-full tw:lg:w-8/12 tw:text-center tw:px-2">
                                                 Accion del plan de seguimiento
                                             </th>
-                                            <th class="col-md-1 text-center">
+                                            <th class="tw:w-full tw:lg:w-1/12 tw:text-center tw:px-2">
                                                 Acciones
                                             </th>
                                         </tr>
@@ -156,30 +158,31 @@
                                     @foreach($oportunidades[0]->ri_o_planseguimiento as $plan_seguimiento)
 
                                         <tr>
-                                            <td class="col-md-2 text-center">
+                                            <td class="tw:w-full tw:lg:w-2/12 tw:text-center tw:px-2">
                                                 {{$plan_seguimiento->fecha_inicial}}
                                             </td>
-                                            <td class="col-md-2 text-center">
+                                            <td class="tw:w-full tw:lg:w-2/12 tw:text-center tw:px-2">
                                                 {{$plan_seguimiento->fecha}}
                                             </td>
-                                            <td class="col-md-6">
+                                            <td class="tw:w-full tw:lg:w-6/12 tw:px-2">
                                                 <h5 class=""><strong>{{$plan_seguimiento->des_planseguimiento}}</strong></h5>
                                             </td>
-                                            <td class="col-md-1">
-                                                <a class="pull-left btn_delete_plan_seguimiento" data-id="{{$plan_seguimiento->id_planseguimiento}}"><span aria-hidden="true"  class="glyphicon glyphicon-trash" data-toggle="tooltip" title="Eliminar accion"></span></a>
-                                                <a class="pull-right btn_edit_plan_seguimiento" data-toggle="modal" data-target="#modal_edit_accion" data-url="" data-id="{{$plan_seguimiento->id_planseguimiento}}"><span aria-hidden="true" class="glyphicon glyphicon-cog" data-toggle="tooltip" title="Editar accion"></span></a>
+                                            <td class="tw:w-full tw:lg:w-1/12 tw:px-2">
+                                                <a class="btn_delete_plan_seguimiento tw:float-left" data-id="{{$plan_seguimiento->id_planseguimiento}}"><span aria-hidden="true"  class="fa fa-trash" data-toggle="tooltip" title="Eliminar accion"></span></a>
+                                                <a class="btn_edit_plan_seguimiento tw:float-right" data-toggle="modal" data-target="#modal_edit_accion" data-url="" data-id="{{$plan_seguimiento->id_planseguimiento}}"><span aria-hidden="true" class="fa fa-cog" data-toggle="tooltip" title="Editar accion"></span></a>
 
                                                 <br>
-                                                <a href="#!" class="pull-left btn_add_evidencia_oportunidad" data-id="{{$plan_seguimiento->id_planseguimiento}}" data-toggle="modal" data-target="#modal_add_evidencia" ><span class="glyphicon glyphicon-file" data-toggle="tooltip" data-placement="top" title="Adjuntar evidencia"></span></a>
+                                                <a href="#!" class="btn_add_evidencia_oportunidad tw:float-left" data-id="{{$plan_seguimiento->id_planseguimiento}}" data-toggle="modal" data-target="#modal_add_evidencia" ><span class="fa fa-file" data-toggle="tooltip" data-placement="top" title="Adjuntar evidencia"></span></a>
 
                                                 @if($plan_seguimiento->file!=null)
-                                                    <a href="{{asset("storage/".$plan_seguimiento->file)}}" target="_blank" class="pull-right btn_add_evidencia_oportunidad"><span class="glyphicon glyphicon-camera" data-toggle="tooltip" data-placement="top" title="Ver evidencia"></span></a>
+                                                    <a href="{{asset("storage/".$plan_seguimiento->file)}}" target="_blank" class="btn_add_evidencia_oportunidad tw:float-right"><span class="fa fa-camera" data-toggle="tooltip" data-placement="top" title="Ver evidencia"></span></a>
                                                 @endif
                                             </td>
                                         </tr>
                                     @endforeach
                                     </tbody>
                                 </table>
+</div>
                             </ul>
                         </div>
                     </div>
@@ -190,103 +193,103 @@
 
     </div>
     <!-- Modal -->
-    <div class="modal fade" id="modal_crear_plan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade tw-modal-compat" id="modal_crear_plan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-panel-modal hidden>
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Accion para plan de oportunidades
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <button type="button" class="tw:text-2xl tw:leading-none tw:text-gray-400 tw:hover:text-gray-700" data-dismiss="modal" aria-label="Cerrar">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </h5>
 
                 </div>
-                <form id="form_plan_oportunidad" class="form" role="form" method="POST" action="{{url("riesgos/planseguimiento")}}">
+                <form id="form_plan_oportunidad" class="" role="form" method="POST" action="{{url("riesgos/planseguimiento")}}">
                     <div class="modal-body">
                         {{ csrf_field() }}
 
                         <input type="hidden" value="{{$oportunidades[0]->id_oportunidad}}" name="id_oportunidad_plan">
-                        <div class="form-group">
-                            <label for="des_plan_oportunidad" class="col-form-label">Descripcion</label>
-                            <textarea class="form-control" name="des_plan_oportunidad" id="des_plan_oportunidad" cols="3" rows="3"></textarea>
+                        <div class="tw:mb-4">
+                            <label for="des_plan_oportunidad" class="tw:mb-1.5 tw:block tw:text-sm tw:font-medium tw:text-gray-700">Descripcion</label>
+                            <textarea class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500" name="des_plan_oportunidad" id="des_plan_oportunidad" cols="3" rows="3"></textarea>
                         </div>
-                        <h3 class="alert alert-danger">Después de establecer las fechas no podrá realizar ningún cambio, asegúrese de verificar que sean correctas.</h3>
+                        <h3 class="tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-red-200 tw:bg-red-50 tw:text-red-700">Después de establecer las fechas no podrá realizar ningún cambio, asegúrese de verificar que sean correctas.</h3>
 
-                        <div class="form-group">
-                            <label for="fecha_inicial" class="col-form-label">Fecha inicial</label>
-                            <div class="input-group date" id="date_picker_fecha" data-provide="datepicker">
-                                <input type="text" class="form-control" id="fecha_inicial" name="fecha_inicial" />
-                                <div class="input-group-addon">
-                                    <span class="glyphicon glyphicon-th"></span>
+                        <div class="tw:mb-4">
+                            <label for="fecha_inicial" class="tw:mb-1.5 tw:block tw:text-sm tw:font-medium tw:text-gray-700">Fecha inicial</label>
+                            <div class="date tw:flex tw:w-full tw:items-stretch" id="date_picker_fecha" data-provide="datepicker">
+                                <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="fecha_inicial" name="fecha_inicial" />
+                                <div class="tw:inline-flex tw:items-center tw:border tw:border-gray-300 tw:bg-gray-50 tw:px-3 tw:text-sm tw:text-gray-600">
+                                    <span class="fa fa-th"></span>
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="fecha_entrega" class="col-form-label">Fecha entrega</label>
-                            <div class="input-group date" id="date_picker_group" data-provide="datepicker">
-                                <input type="text" class="form-control" id="fecha_entrega" name="fecha_entrega" />
-                                <div class="input-group-addon">
-                                    <span class="glyphicon glyphicon-th"></span>
+                        <div class="tw:mb-4">
+                            <label for="fecha_entrega" class="tw:mb-1.5 tw:block tw:text-sm tw:font-medium tw:text-gray-700">Fecha entrega</label>
+                            <div class="date tw:flex tw:w-full tw:items-stretch" id="date_picker_group" data-provide="datepicker">
+                                <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="fecha_entrega" name="fecha_entrega" />
+                                <div class="tw:inline-flex tw:items-center tw:border tw:border-gray-300 tw:bg-gray-50 tw:px-3 tw:text-sm tw:text-gray-600">
+                                    <span class="fa fa-th"></span>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary h-secondary_m" data-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-primary h-primary_m">Aceptar</button>
+                        <button type="button" class="h-secondary_m tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" data-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="h-primary_m tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm">Aceptar</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-    <div class="modal fade " id="modal_modificar_oportunidad" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade tw-modal-compat" id="modal_modificar_oportunidad" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-panel-modal hidden>
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Accion para plan de oportunidades
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <button type="button" class="tw:text-2xl tw:leading-none tw:text-gray-400 tw:hover:text-gray-700" data-dismiss="modal" aria-label="Cerrar">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </h5>
 
                 </div>
-                <form id="form_modificar_oportunidad" class="form" role="form" method="POST" action="{{url("riesgos/regoportunidad")."/".$oportunidades[0]->id_oportunidad}}">
+                <form id="form_modificar_oportunidad" class="" role="form" method="POST" action="{{url("riesgos/regoportunidad")."/".$oportunidades[0]->id_oportunidad}}">
                     <div class="modal-body">
                         {{ csrf_field() }}
                         {{ method_field('PUT') }}
 
-                        <div class="row">
-                            <h3>Probabilidad de lograr la oportunidad</h3>
-                            <div class="form-group col-md-6">
-                                <label for="id_probabilidad" class="col-form-label">Probabilidad</label>
-                                <select name="id_probabilidad" id="id_probabilidad" class="form-control">
+                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                            <h3 class="tw:mb-4 tw:text-lg tw:font-semibold">Probabilidad de lograr la oportunidad</h3>
+                            <div class="tw:w-full tw:mb-4 tw:lg:w-6/12 tw:px-2">
+                                <label for="id_probabilidad" class="tw:mb-1.5 tw:block tw:text-sm tw:font-medium tw:text-gray-700">Probabilidad</label>
+                                <select name="id_probabilidad" id="id_probabilidad" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11">
                                     <option value="" selected disabled>Seleccione un valor</option>
                                     @foreach( $probabilidades as $probabilidad)
                                         <option value="{{$probabilidad->id_probabilidad}}" {{$probabilidad->id_probabilidad==$oportunidades[0]->id_probabilidad?"selected":""}}>{{$probabilidad->des_probabilidad}}</option>
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="form-group col-md-6">
-                                <label for="id_ocurrenciap" class="col-form-label">Ocurrecias previas</label>
-                                <select name="id_ocurrenciap" id="id_ocurrenciap" class="form-control">
+                            <div class="tw:w-full tw:mb-4 tw:lg:w-6/12 tw:px-2">
+                                <label for="id_ocurrenciap" class="tw:mb-1.5 tw:block tw:text-sm tw:font-medium tw:text-gray-700">Ocurrecias previas</label>
+                                <select name="id_ocurrenciap" id="id_ocurrenciap" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11">
                                     <option value="" selected disabled>Seleccione un valor</option>
                                     @foreach( $ocurrenciaps as $ocurrenciap)
                                         <option value="{{$ocurrenciap->id_ocurrenciap}}" {{$ocurrenciap->id_ocurrenciap==$oportunidades[0]->id_ocurrenciap?"selected":""}}>{{$ocurrenciap->des_ocurrenciasp}}</option>
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="form-group col-md-6">
-                                <label for="id_potencialapertura" class="col-form-label">Potencial de apertura de nuevos programas de estudio</label>
-                                <select name="id_potencialapertura" id="id_potencialapertura" class="form-control">
+                            <div class="tw:w-full tw:mb-4 tw:lg:w-6/12 tw:px-2">
+                                <label for="id_potencialapertura" class="tw:mb-1.5 tw:block tw:text-sm tw:font-medium tw:text-gray-700">Potencial de apertura de nuevos programas de estudio</label>
+                                <select name="id_potencialapertura" id="id_potencialapertura" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11">
                                     <option value="" selected disabled>Seleccione un valor</option>
                                     @foreach( $potencialaperturas as $potencialapertura)
                                         <option value="{{$potencialapertura->id_potencialapertura}}" {{$potencialapertura->id_potencialapertura==$oportunidades[0]->id_potencialapertura?"selected":""}}>{{$potencialapertura->des_potencialapertura}}</option>
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="form-group col-md-6">
-                                <label for="id_potencialcreciminto" class="col-form-label">Potencial de crecimiento de la matrícula actual</label>
-                                <select name="id_potencialcrecimiento" id="id_potencialcrecimiento" class="form-control">
+                            <div class="tw:w-full tw:mb-4 tw:lg:w-6/12 tw:px-2">
+                                <label for="id_potencialcreciminto" class="tw:mb-1.5 tw:block tw:text-sm tw:font-medium tw:text-gray-700">Potencial de crecimiento de la matrícula actual</label>
+                                <select name="id_potencialcrecimiento" id="id_potencialcrecimiento" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11">
                                     <option value="" selected disabled>Seleccione un valor</option>
                                     @foreach( $potencialcrecimientos as $potencialcrecimiento)
                                         <option value="{{$potencialcrecimiento->id_potencialcrecimiento}}" {{$potencialcrecimiento->id_potencialcrecimiento==$oportunidades[0]->id_potencialcrecimiento?"selected":""}}>{{$potencialcrecimiento->des_potencialcrecimiento}}</option>
@@ -295,38 +298,38 @@
                             </div>
 
                         </div>
-                        <div class="row">
+                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
                             <h3>Beneficio potencial de la oportunidad</h3>
-                            <div class="form-group col-md-6">
-                                <label for="id_mejoracliente" class="col-form-label">Mejora potencial en la satisfaccion del cliente</label>
-                                <select name="id_mejoracliente" id="id_mejoracliente" class="form-control">
+                            <div class="tw:w-full tw:mb-4 tw:lg:w-6/12 tw:px-2">
+                                <label for="id_mejoracliente" class="tw:mb-1.5 tw:block tw:text-sm tw:font-medium tw:text-gray-700">Mejora potencial en la satisfaccion del cliente</label>
+                                <select name="id_mejoracliente" id="id_mejoracliente" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11">
                                     <option value="" selected disabled>Seleccione un valor</option>
                                     @foreach( $mejoraclientes as $mejoracliente)
                                         <option value="{{$mejoracliente->id_mejoracliente}}" {{$mejoracliente->id_mejoracliente==$oportunidades[0]->id_mejoracliente?"selected":""}}>{{$mejoracliente->des_mejoracliente}}</option>
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="form-group col-md-6">
-                                <label for="id_mejorasgc" class="col-form-label">Mejora potencial de los procesos internos del SGC</label>
-                                <select name="id_mejorasgc" id="id_mejorasgc" class="form-control">
+                            <div class="tw:w-full tw:mb-4 tw:lg:w-6/12 tw:px-2">
+                                <label for="id_mejorasgc" class="tw:mb-1.5 tw:block tw:text-sm tw:font-medium tw:text-gray-700">Mejora potencial de los procesos internos del SGC</label>
+                                <select name="id_mejorasgc" id="id_mejorasgc" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11">
                                     <option value="" selected disabled>Seleccione un valor</option>
                                     @foreach( $mejorasgcs as $mejorasgc)
                                         <option value="{{$mejorasgc->id_mejorasgc}}" {{$mejorasgc->id_mejorasgc==$oportunidades[0]->id_mejorasgc?"selected":""}}>{{$mejorasgc->des_mejorasgc}}</option>
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="form-group col-md-6">
-                                <label for="id_mejorareputacion" class="col-form-label">Mejora de la reputación de la Institución</label>
-                                <select name="id_mejorareputacion" id="id_mejorareputacion" class="form-control">
+                            <div class="tw:w-full tw:mb-4 tw:lg:w-6/12 tw:px-2">
+                                <label for="id_mejorareputacion" class="tw:mb-1.5 tw:block tw:text-sm tw:font-medium tw:text-gray-700">Mejora de la reputación de la Institución</label>
+                                <select name="id_mejorareputacion" id="id_mejorareputacion" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11">
                                     <option value="" selected disabled>Seleccione un valor</option>
                                     @foreach( $mejorareputacions as $mejorareputacion)
                                         <option value="{{$mejorareputacion->id_mejorareputacion}}" {{$mejorareputacion->id_mejorareputacion==$oportunidades[0]->id_mejorareputacion?"selected":""}}>{{$mejorareputacion->des_mejorareputacion}}</option>
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="form-group col-md-6">
-                                <label for="id_potencialcosto" class="col-form-label">Potencial costo de implementación</label>
-                                <select name="id_potencialcosto" id="id_potencialccosto" class="form-control">
+                            <div class="tw:w-full tw:mb-4 tw:lg:w-6/12 tw:px-2">
+                                <label for="id_potencialcosto" class="tw:mb-1.5 tw:block tw:text-sm tw:font-medium tw:text-gray-700">Potencial costo de implementación</label>
+                                <select name="id_potencialcosto" id="id_potencialccosto" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11">
                                     <option value="" selected disabled>Seleccione un valor</option>
                                     @foreach( $potencialcostos as $potencialcosto)
                                         <option value="{{$potencialcosto->id_potencialcosto}}" {{$potencialcosto->id_potencialcosto==$oportunidades[0]->id_potencialcosto?"selected":""}}>{{$potencialcosto->des_potencialcosto}}</option>
@@ -338,8 +341,8 @@
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary h-secondary_m" data-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-primary h-primary_m">Aceptar</button>
+                        <button type="button" class="h-secondary_m tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" data-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="h-primary_m tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm">Aceptar</button>
                     </div>
                 </form>
             </div>
@@ -348,39 +351,39 @@
 
 
 {{--Modal form edit accion--}}
-    <form id="form_edit_accion" class="form" role="form" method="POST" action="">
-        <div class="modal fade" id="modal_edit_accion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <form id="form_edit_accion" class="" role="form" method="POST" action="">
+        <div class="modal fade tw-modal-compat" id="modal_edit_accion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" data-panel-modal hidden>
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <button type="button" class="tw:text-2xl tw:leading-none tw:text-gray-400 tw:hover:text-gray-700" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title" id="exampleModalLabel">Editar accion</h4>
                     </div>
                     <div class="modal-body">
                         {{ csrf_field() }}
                         @csrf
                         @method('PUT')
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
+                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                            <div class="tw:w-full tw:lg:w-full tw:px-2">
+                                <div class="tw:mb-4">
                                     <label for="des_planseguimiento">Accion para plan de oportunidades </label>
-                                    <input id="des_planseguimiento" name="des_planseguimiento" class="form-control"/>
+                                    <input id="des_planseguimiento" name="des_planseguimiento" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"/>
                                 </div>
-                                <div class="form-group">
-                                    <label for="fecha_inicial" class="col-form-label">Fecha inicial</label>
-                                    <div class="input-group date" id="date_picker_fecha_inicial" data-provide="datepicker">
-                                        <input  class="form-control" id="f_inicial" name="f_inicial" disabled="true"/>
-                                        <div class="input-group-addon">
-                                            <span class="glyphicon glyphicon-th"></span>
+                                <div class="tw:mb-4">
+                                    <label for="fecha_inicial" class="tw:mb-1.5 tw:block tw:text-sm tw:font-medium tw:text-gray-700">Fecha inicial</label>
+                                    <div class="date tw:flex tw:w-full tw:items-stretch" id="date_picker_fecha_inicial" data-provide="datepicker">
+                                        <input  class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="f_inicial" name="f_inicial" disabled="true"/>
+                                        <div class="tw:inline-flex tw:items-center tw:border tw:border-gray-300 tw:bg-gray-50 tw:px-3 tw:text-sm tw:text-gray-600">
+                                            <span class="fa fa-th"></span>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="fecha_entrega" class="col-form-label">Fecha entrega</label>
-                                    <div class="input-group date" id="date_picker_fecha_final" data-provide="datepicker">
-                                        <input  class="form-control" id="f_entrega" name="f_entrega" disabled="true"/>
-                                        <div class="input-group-addon">
-                                            <span class="glyphicon glyphicon-th"></span>
+                                <div class="tw:mb-4">
+                                    <label for="fecha_entrega" class="tw:mb-1.5 tw:block tw:text-sm tw:font-medium tw:text-gray-700">Fecha entrega</label>
+                                    <div class="date tw:flex tw:w-full tw:items-stretch" id="date_picker_fecha_final" data-provide="datepicker">
+                                        <input  class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="f_entrega" name="f_entrega" disabled="true"/>
+                                        <div class="tw:inline-flex tw:items-center tw:border tw:border-gray-300 tw:bg-gray-50 tw:px-3 tw:text-sm tw:text-gray-600">
+                                            <span class="fa fa-th"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -388,8 +391,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <input id="save_accion" type="submit" class="btn btn-primary" value="Guardar"/>
+                        <button type="button" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" data-dismiss="modal">Cancelar</button>
+                        <input id="save_accion" type="submit" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" value="Guardar"/>
                     </div>
                 </div>
             </div>
@@ -402,28 +405,28 @@
         {{ csrf_field() }}
     </form>
 
-<div class="modal fade" id="modal_add_evidencia" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog mt-2" role="document">
+<div class="modal fade tw-modal-compat" id="modal_add_evidencia" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-panel-modal hidden>
+    <div class="modal-dialog tw:mt-2" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Editar control de riesgo</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="tw:text-2xl tw:leading-none tw:text-gray-400 tw:hover:text-gray-700" data-dismiss="modal" aria-label="Cerrar">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form id="form_add_evidencia" class="form" role="form" method="POST" action="" enctype="multipart/form-data" />
+            <form id="form_add_evidencia" class="" role="form" method="POST" action="" enctype="multipart/form-data" />
             @csrf
             @method("PUT")
             <div class="modal-body">
 
-                <div class="form-group">
-                    <label for="" class="col-form-label">Evidencia</label>
-                    <input name="evidencia" id="evidencia"  class="form-control" type="file" accept="application/pdf">
+                <div class="tw:mb-4">
+                    <label for="" class="tw:mb-1.5 tw:block tw:text-sm tw:font-medium tw:text-gray-700">Evidencia</label>
+                    <input name="evidencia" id="evidencia"  class="tw:h-11 tw:w-full tw:overflow-hidden tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:text-sm tw:text-gray-500 tw:shadow-theme-xs tw:file:mr-5 tw:file:border-0 tw:file:border-r tw:file:border-solid tw:file:border-gray-200 tw:file:bg-gray-50 tw:file:py-3 tw:file:pr-3 tw:file:pl-3.5 tw:file:text-sm tw:file:text-gray-700 tw:hover:file:bg-gray-100 tw:focus:outline-hidden" type="file" accept="application/pdf">
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary h-secondary_m" data-dismiss="modal">Cancelar</button>
-                <button type="submit" class="btn btn-primary h-primary_m">Aceptar</button>
+                <button type="button" class="h-secondary_m tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="h-primary_m tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm">Aceptar</button>
             </div>
             </form>
         </div>

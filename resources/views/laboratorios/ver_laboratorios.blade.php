@@ -1,22 +1,16 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 @section('title', 'Laboratorios')
+@include('partials.panel.recursos_app', ['datepicker' => true])
 @section('content')
-    <main class="col-md-12">
-        <div class="row">
-            <div class="col-md-4 col-md-offset-4">
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title text-center">Consultar Laboratorios</h3>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-2 col-md-offset-3">
-                <div class="form-group">
-                    <div class="dropdown">
+<div class="tw-pantalla">
+    <main class="tw:w-full tw:lg:w-full tw:px-2">
+        <x-panel.encabezado titulo="Consultar Laboratorios" :migas="['Laboratorios' => null]" />
+        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+            <div class="tw:w-full tw:lg:max-w-2xl tw:px-2">
+                <div class="tw:mb-4">
+                    <div class="tw:mb-4">
                         <label for="laboratorio">Laboratorios</label>
-                        <select name="laboratorio" id="laboratorio" class="form-control " >
+                        <select name="laboratorio" id="laboratorio" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" >
                             <option  disabled selected hidden>Selecciona Laboratorio</option>
                             @foreach($laboratorios as $laboratorio)
 
@@ -24,18 +18,17 @@
 
                             @endforeach
                         </select>
-                        <br>
                     </div>
                 </div>
             </div>
-            <div id="mostrar" style="display:none;">
-                <div class="col-md-2">
-                    <div class="form-group">
+            <div class="tw:w-full" id="mostrar" style="display:none;">
+                <div class="tw:w-full tw:lg:w-2/12 tw:px-2">
+                    <div class="tw:mb-4">
                         <label for="deparamento">Selecciona fecha Inicial</label>
-                        <div class='input-group date' data-date-format="yyyy/mm/dd" id='datetimepicker11' >
-                            <input type='text' id="fecha_inicial" class="form-control" required />
-                            <span class="input-group-addon">
-                                        <span class="glyphicon glyphicon-calendar">
+                        <div class='date tw:flex tw:w-full tw:items-stretch' data-date-format="yyyy/mm/dd" id='datetimepicker11' >
+                            <input type='text' id="fecha_inicial" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" required />
+                            <span class="input-group-addon tw:inline-flex tw:items-center tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-gray-50 tw:dark:bg-gray-900 tw:px-3 tw:text-sm tw:text-gray-600 tw:dark:text-gray-400">
+                                        <span class="fa fa-calendar">
                                      </span>
                                     </span>
                         </div>
@@ -53,14 +46,13 @@
                     </script>
                 </div>
             </div>
-            <div id="mostrar_fecha_f" style="display:none;">
-                <div class="col-md-2">
+            <div class="tw:w-full tw:flex tw:flex-wrap tw:gap-y-4" id="mostrar_fecha_f" style="display:none;">
+                <div class="tw:w-full tw:lg:w-2/12 tw:px-2">
                     <label for="fecha final">Fecha final</label>
-                    <div id="soli" class="form-group"></div>
+                    <div id="soli" class="tw:mb-4"></div>
                 </div>
-                <div class="col-md-1">
-                    <br>
-                    <button id="guardar_solicitud" class="btn btn-info">Mostrar</button>
+                <div class="tw:w-full tw:lg:w-1/12 tw:px-2">
+                    <button id="guardar_solicitud" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap">Mostrar</button>
                 </div>
             </div>
 
@@ -68,8 +60,6 @@
 
 
         </div>
-        <br>
-        <br>
 
 
 
@@ -103,7 +93,7 @@
                 var  resultado = TuFecha.getFullYear() + '/' +
                     (TuFecha.getMonth() + 1) + '/' + TuFecha.getDate();
                 $('#soli').empty();
-                $('#soli').append('<input class="form-control" id="fecha_final" disabled value="'+resultado+'"/>');
+                $('#soli').append('<input class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="fecha_final" disabled value="'+resultado+'"/>');
                 // TNotify.alert(resultado);
 
             });
@@ -112,4 +102,5 @@
         });
     </script>
 
+</div>
 @endsection

@@ -1,26 +1,20 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 @section('title', 'Centro de Computo')
+@include('partials.panel.recursos_app', ['datatables' => true])
 @section('content')
+<div class="tw-pantalla">
 
-    <main class="col-md-12">
+    <main class="tw:w-full tw:lg:w-full tw:px-2">
 
 
-        <div class="row">
-            <div class="col-md-6 col-md-offset-3">
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        <h3 class="panel-title text-center">Usuarios
-                        </h3>
-                    </div>
-                </div>
-            </div>
+        <x-panel.encabezado titulo="Usuarios" :migas="['Centro de cómputo' => null]" />
+        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+            <p class="tw:w-full"><br></p>
         </div>
-        <div class="row">
-            <p><br></p>
-        </div>
-        <div class="row">
-            <div class="col-md-6 col-md-offset-3">
-                <table class="table table-bordered" id="tabla">
+        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+            <div class="tw:w-full tw:px-2">
+                <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table class="tw-tabla tw-tabla-bordes" id="tabla">
                     <thead>
                     <tr>
                         <th>Correo</th>
@@ -34,39 +28,36 @@
                             <td>{{ $usuario->email }}</td>
                             <td>{{  $usuario->created_at}}</td>
                             <td>{{$usuario->updated_at}}</td>
-                            <td class="text-center">
-                                <button class="btn btn btn-primary iduser" id="{{ $usuario->id }}">Modificar</button>
+                            <td class="tw:text-center">
+                                <button class="iduser tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap" id="{{ $usuario->id }}">Modificar</button>
 
                             </td>
                         </tr>
                     @endforeach
                     </tbody>
                 </table>
+</div>
             </div>
         </div>
 
     </main>
-    <div class="modal fade bs-example-modal-lg" id="modal_user" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog " role="document">
-            <div class="modal-content">
-                <div class="modal-header bg-primary">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">USUARIO</h4>
+    <x-panel.modal id="modal_user" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="myModalLabel">
+                <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                    
+                    <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="myModalLabel">USUARIO</h4>
                 </div>
-                <form  action="{{url("/centro_computo/modificar_usuario_per/")}}" class="form" role="form" method="POST">
+                <form  action="{{url("/centro_computo/modificar_usuario_per/")}}" class="" role="form" method="POST">
                     {{ csrf_field() }}
-                    <div class="modal-body">
+                    <div class="tw-modal-cuerpo">
                         <div id="contenedor_user">
                         </div>
                     </div>
 
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary " >Agregar</button>
+                <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                    <button type="submit" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Agregar</button>
                 </div>
                 </form>
-            </div>
-        </div>
-    </div>
+            </x-panel.modal>
     <script>
         $(document).ready(function() {
             $('#tabla').DataTable();
@@ -79,4 +70,5 @@
             });
         });
     </script>
+</div>
 @endsection

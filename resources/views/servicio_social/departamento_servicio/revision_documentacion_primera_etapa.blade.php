@@ -1,22 +1,19 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 @section('title', 'Servicio Social')
+@include('partials.panel.recursos_app', ['datatables' => true])
 @section('content')
+<div class="tw-pantalla">
     <main>
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title text-center">Revisión de Documentación Primera Etapa</h3>
-                    </div>
-                </div>
-            </div>
+        <x-panel.encabezado titulo="Revisión de Documentación Primera Etapa" :migas="['Servicio social' => null]" />
+<div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+            
 
-            <div class="row col-md-11 col-md-offset-1">
+            <div class="tw:w-full tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4 tw:px-2">
 
 
 
                 <!-- Nav tabs -->
-                <ul class="nav nav-tabs" role="tablist">
+                <ul class="tw:w-full tw-pestanas tw:mb-6 tw:flex tw:flex-wrap tw:gap-2 tw:border-b tw:border-gray-200 tw:dark:border-gray-800" role="tablist">
                     <li role="presentation" class="active"><a href="#uno" aria-controls="home" role="tab" data-toggle="tab">Autorizar Documentación</a></li>
                     <li role="presentation"><a href="#dos" aria-controls="dos" role="tab" data-toggle="tab">En proceso de Modificación</a></li>
                   <li role="presentation"><a href="#tres" aria-controls="dos" role="tab" data-toggle="tab">Estudiantes con Documentación Autorizada</a></li>
@@ -24,14 +21,13 @@
                 </ul>
 
                 <!-- Tab panes -->
-                <div class="tab-content ">
+                <div class="tab-content tw:w-full">
                     <div role="tabpanel" class="tab-pane active" id="uno">
 
-                        <div class=" col-md-9 col-md-offset-1">
+                        <div class="tw:w-full tw:px-2">
 
-                            </br></br></br>
-
-                            <table class="table table-bordered " Style="background: white;" id="autorizar_servicio">
+                            <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table class="tw-tabla tw-tabla-bordes" Style="background: white;" id="autorizar_servicio">
                                 <thead>
                                 <tr>
                                     <th>No. CUENTA</th>
@@ -55,23 +51,23 @@
                                         <td>{{$autorizaciones->tipo_empresa}}</td>
                                         <td>{{$autorizaciones->fecha_registro}}</td>
                                         @if($autorizaciones->id_estado_enviado ==1)
-                                        <td><button  id="{{ $autorizaciones->id_datos_alumnos }}" class="btn btn-primary btn-lg autorizacion_docuemntos"><i class="glyphicon glyphicon-edit em56"></i></button></td>
+                                        <td><button  id="{{ $autorizaciones->id_datos_alumnos }}" class="autorizacion_docuemntos tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"><i class="fa fa-pencil-square-o em56"></i></button></td>
                                     @else
-                                            <td><button  id="{{ $autorizaciones->id_datos_alumnos }}" class="btn btn-primary btn-lg autorizacion_documentos_modificaciones"><i class="glyphicon glyphicon-edit em56"></i></button></td>
+                                            <td><button  id="{{ $autorizaciones->id_datos_alumnos }}" class="autorizacion_documentos_modificaciones tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"><i class="fa fa-pencil-square-o em56"></i></button></td>
 
                                         @endif
                                     </tr>
                                 @endforeach
                                 </tbody>
                             </table>
+</div>
                         </div>
                     </div>
                     <div role="tabpanel" class="tab-pane" id="dos">
-                        <div class=" col-md-9 col-md-offset-1">
+                        <div class="tw:w-full tw:px-2">
 
-                            </br></br></br>
-
-                            <table class="table table-bordered " Style="background: white;" id="modificar_servicio">
+                            <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table class="tw-tabla tw-tabla-bordes" Style="background: white;" id="modificar_servicio">
                                 <thead>
                                 <tr>
                                     <th>NO. CUENTA</th>
@@ -99,15 +95,15 @@
 
                                 </tbody>
                             </table>
+</div>
                         </div>
                     </div>
 
                     <div role="tabpanel" class="tab-pane" id="tres">
-                        <div class=" col-md-9 col-md-offset-1">
+                        <div class="tw:w-full tw:px-2">
 
-                            </br></br></br>
-
-                            <table class="table table-bordered " Style="background: white;" id="documentacion_autorizada">
+                            <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table class="tw-tabla tw-tabla-bordes" Style="background: white;" id="documentacion_autorizada">
                                 <thead>
                                 <tr>
                                     <th>NO. CUENTA</th>
@@ -129,7 +125,7 @@
                                         <td>{{$autorizados->carrera}}</td>
                                         <td>{{$autorizados->tipo_empresa}}</td>
                                         <td>{{$autorizados->fecha_registro}}</td>
-                                        <td><button  id="{{ $autorizados->id_datos_alumnos }}" class="btn btn-primary btn-lg documentacion_autorizada">Mostrar</button></td>
+                                        <td><button  id="{{ $autorizados->id_datos_alumnos }}" class="documentacion_autorizada tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap">Mostrar</button></td>
 
                                     </tr>
                                 @endforeach
@@ -138,6 +134,7 @@
 
                                 </tbody>
                             </table>
+</div>
                         </div>
                     </div>
 
@@ -147,33 +144,26 @@
 
         </div>
         {{--autorizar documentos--}}
-        <div class="modal fade" id="modal_autorizar_documentos" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
+        <x-panel.modal id="modal_autorizar_documentos" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="myModalLabel">
 
-                        <div class="modal-header bg-info">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title text-center" id="myModalLabel">Autorización de Documentación Primera Etapa</h4>
+                        <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                            
+                            <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="myModalLabel">Autorización de Documentación Primera Etapa</h4>
                         </div>
                         <div id="contenedor_autorizar_docuementos">
 
 
                         </div>
 
-                </div>
-
-            </div>
-        </div>
+                </x-panel.modal>
         {{--fin autorizar--}}
 
         {{--autorizar documentos con modificaciones--}}
-        <div class="modal fade" id="modal_autorizar_documentos_modificaciones" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
+        <x-panel.modal id="modal_autorizar_documentos_modificaciones" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="myModalLabel">
 
-                    <div class="modal-header bg-info">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title text-center" id="myModalLabel">Autorización de Documentación Primera Etapa</h4>
+                    <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                        
+                        <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="myModalLabel">Autorización de Documentación Primera Etapa</h4>
                     </div>
                     <div id="contenedor_autorizar_docuementos_modificaciones">
 
@@ -181,19 +171,14 @@
                     </div>
 
 
-                </div>
-
-            </div>
-        </div>
+                </x-panel.modal>
         {{--fin autorizar--}}
         {{--autorizado documentos --}}
-        <div class="modal fade" id="modal_autorizado_documentos" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
+        <x-panel.modal id="modal_autorizado_documentos" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="myModalLabel">
 
-                    <div class="modal-header bg-info">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title text-center" id="myModalLabel">Documentación Primera Etapa</h4>
+                    <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                        
+                        <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="myModalLabel">Documentación Primera Etapa</h4>
                     </div>
                     <div id="contenedor_autorizar_documentos">
 
@@ -201,39 +186,10 @@
                     </div>
 
 
-                </div>
-
-            </div>
-        </div>
+                </x-panel.modal>
         {{--fin autorizar--}}
 
     </main>
-    <style>
-        /*
-Full screen Modal
-*/
-        .fullscreen-modal .modal-dialog {
-            margin: 0;
-            margin-right: auto;
-            margin-left: auto;
-            width: 100%;
-        }
-        @media (min-width: 768px) {
-            .fullscreen-modal .modal-dialog {
-                width: 768px;
-            }
-        }
-        @media (min-width: 992px) {
-            .fullscreen-modal .modal-dialog {
-                width: 999px;
-            }
-        }
-        @media (min-width: 1200px) {
-            .fullscreen-modal .modal-dialog {
-                width: 1200px;
-            }
-        }
-    </style>
     <script type="text/javascript">
         $(document).ready(function() {
             $('#autorizar_servicio').DataTable(  );
@@ -264,4 +220,5 @@ Full screen Modal
         })
 
     </script>
+</div>
 @endsection

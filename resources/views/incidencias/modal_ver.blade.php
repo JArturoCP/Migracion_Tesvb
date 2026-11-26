@@ -1,6 +1,6 @@
 <div>
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
+        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+            <div class="tw:w-full tw:lg:w-8/12 tw:lg:ml-[16.6667%] tw:px-2">
                 <b>Solicitante: </b>
                 <p>{{$oficios->nombre}}</p>
                 <b>Articulo: </b><p>{{$oficios->nombre_articulo}}</p>

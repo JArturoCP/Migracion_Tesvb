@@ -1,63 +1,64 @@
-@extends('layouts.app')
+@extends('layouts.panel')
+@include('partials.panel.recursos_app', ['datatables' => true])
 @section('title', 'Registro de Docentes de Nuevo Ingreso')
 @section('content')
 
-<div class="container" style="margin-top:30px; margin-bottom:30px;">
+<div class="tw:w-full" style="margin-top:30px; margin-bottom:30px;">
 
-  <div class="page-header">
+  <div class="tw:mb-6 tw:border-b tw:border-gray-200 tw:pb-2">
     <h2>
-      <i class="fa fa-user-plus text-primary"></i>
+      <i class="fa fa-user-plus tw:text-brand-500"></i>
       Registro de Docentes de Nuevo Ingreso
     </h2>
-    <p class="text-muted">
+    <p class="tw:text-gray-500">
       Capture la información del docente para registrarlo en el sistema.
     </p>
   </div>
 
-  <div class="panel panel-primary">
-    <div class="panel-heading">
-      <h3 class="panel-title">
+  <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
+    <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4">
+      <h3 class="tw:text-lg tw:font-semibold tw:text-gray-800">
         <i class="fa fa-address-card"></i>
         Información del docente
       </h3>
     </div>
 
-    <div class="panel-body">
+    <div class="tw:p-5 tw:sm:p-6">
 
       <form action="{{ route('admin.examen_general.guardar_docentes_nuevos') }}" method="POST">
         @csrf
 
-        <div class="row">
-          <div class="col-md-12">
-            <div class="form-group">
+        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+          <div class="tw:w-full tw:lg:w-full tw:px-2">
+            <div class="tw:mb-4">
               <label>
-                <i class="fa fa-user text-primary"></i>
+                <i class="fa fa-user tw:text-brand-500"></i>
                 Nombre completo
               </label>
-              <input type="text" name="nombre_docente" class="form-control input-lg" placeholder="Ejemplo: Juan Pérez López" required>
+              <input type="text" name="nombre_docente" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" placeholder="Ejemplo: Juan Pérez López" required>
             </div>
           </div>
 
-          <div class="col-md-12">
-            <div class="form-group">
+          <div class="tw:w-full tw:lg:w-full tw:px-2">
+            <div class="tw:mb-4">
               <label>
-                <i class="fa fa-envelope text-primary"></i>
+                <i class="fa fa-envelope tw:text-brand-500"></i>
                 Correo electrónico
               </label>
-              <input type="email" name="correo" class="form-control input-lg" placeholder="ejemplo@institucion.edu.mx" required>
+              <input type="email" name="correo" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" placeholder="ejemplo@institucion.edu.mx" required>
             </div>
           </div>
 
-          <div class="col-md-12">
-            <div class="form-group">
+          <div class="tw:w-full tw:lg:w-full tw:px-2">
+            <div class="tw:mb-4">
               <label>
-                <i class="fa fa-lock text-primary"></i>
+                <i class="fa fa-lock tw:text-brand-500"></i>
                 Contraseña
               </label>
-              <div class="input-group">
-                <input type="password" id="password" name="password" class="form-control input-lg" placeholder="Digite número de cédula" required>
-                <span class="input-group-btn">
-                  <button type="button" class="btn btn-default" id="mostrarPassword">
+              <div class="input-group tw:flex tw:w-full tw:items-stretch">
+                <input type="password" id="password" name="password" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" placeholder="Digite número de cédula" required>
+                <span class="tw:inline-flex">
+                  <button type="button" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" id="mostrarPassword">
                     <i class="fa fa-eye"></i>
                   </button>
                 </span>
@@ -65,13 +66,13 @@
             </div>
           </div>
 
-          <div class="col-md-12">
-            <div class="form-group">
+          <div class="tw:w-full tw:lg:w-full tw:px-2">
+            <div class="tw:mb-4">
               <label>
-                <i class="fa fa-graduation-cap text-primary"></i>
+                <i class="fa fa-graduation-cap tw:text-brand-500"></i>
                 Carrera
               </label>
-              <select name="id_carrera" class="form-control input-lg" required>
+              <select name="id_carrera" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" required>
                 <option value="">
                   Seleccione una carrera
                 </option>
@@ -86,16 +87,16 @@
         </div>
         <hr>
 
-        <div class="text-right">
-          <a href="{{ url()->previous() }}" class="btn btn-default">
+        <div class="tw:text-right">
+          <a href="{{ url()->previous() }}" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm">
             <i class="fa fa-arrow-left"></i>
             Regresar
           </a>
-          <button type="reset" class="btn btn-warning">
+          <button type="reset" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-amber-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-amber-600 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm">
             <i class="fa fa-eraser"></i>
             Limpiar
           </button>
-          <button type="submit" class="btn btn-success">
+          <button type="submit" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-green-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-green-700 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm">
             <i class="fa fa-save"></i>
             Guardar docente
           </button>
@@ -104,8 +105,8 @@
 
     </div>
 
-    <div class="panel-footer">
-      <i class="fa fa-info-circle text-info"></i>
+    <div class="tw:border-t tw:border-gray-100 tw:px-5 tw:py-4">
+      <i class="fa fa-info-circle tw:text-sky-600"></i>
       Verifique que la información capturada sea correcta antes de guardar.
     </div>
 
@@ -113,23 +114,24 @@
 
   <hr>
 
-  <div class="panel panel-info">
-    <div class="panel-heading">
-      <h3 class="panel-title">
+  <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
+    <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4">
+      <h3 class="tw:text-lg tw:font-semibold tw:text-gray-800">
         <i class="fa fa-users"></i>
         Docentes registrados
       </h3>
     </div>
 
-    <div class="panel-body">
-      <div class="table-responsive">
-        <table class="table table-bordered table-striped table-hover" id="tabla_docentes">
+    <div class="tw:p-5 tw:sm:p-6">
+      <div class="tw:max-w-full tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200">
+        <div class="tw-tabla-contenedor tw:mb-4 tw:max-w-full tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200">
+<table class="tw-tabla tw-tabla-bordes tw-tabla-rayas" id="tabla_docentes">
           <thead>
             <tr class="info">
-              <th width="60" class="text-center">#</th>
+              <th width="60" class="tw:text-center">#</th>
               <th>Nombre</th>
               <th>Correo electrónico</th>
-              <th class="text-center">Contraseña</th>
+              <th class="tw:text-center">Contraseña</th>
               <th>Carrera</th>
             </tr>
           </thead>
@@ -137,7 +139,7 @@
           <tbody>
             @forelse($docentes_registrados as $docente)
             <tr>
-              <td class="text-center">
+              <td class="tw:text-center">
                 {{ $loop->iteration }}
               </td>
               <td>
@@ -147,10 +149,10 @@
                 {{ $docente->correo }}
               </td>
               <td width="220">
-                <div class="input-group">
-                  <input type="password" class="form-control input-sm passwordDocente" value="{{ $docente->password }}" readonly>
-                  <span class="input-group-btn">
-                    <button type="button" class="btn btn-default verPassword" title="Mostrar/Ocultar contraseña">
+                <div class="input-group tw:flex tw:w-full tw:items-stretch">
+                  <input type="password" class="passwordDocente tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" value="{{ $docente->password }}" readonly>
+                  <span class="tw:inline-flex">
+                    <button type="button" class="verPassword tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" title="Mostrar/Ocultar contraseña">
                       <i class="fa fa-eye"></i>
                     </button>
                   </span>
@@ -162,14 +164,15 @@
             </tr>
             @empty
             <tr>
-              <td colspan="5" class="text-center">
-                <i class="fa fa-info-circle text-info"></i>
+              <td colspan="5" class="tw:text-center">
+                <i class="fa fa-info-circle tw:text-sky-600"></i>
                 No hay docentes registrados.
               </td>
             </tr>
             @endforelse
           </tbody>
         </table>
+</div>
       </div>
     </div>
   </div>

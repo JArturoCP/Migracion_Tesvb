@@ -1,91 +1,76 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 @section('title', 'Revisión de requisiciones')
+@include('partials.panel.recursos_app')
 @section('content')
-    <div class="row">
-        <div class="col-md-10 col-xs-10 col-md-offset-1">
+<div class="tw-pantalla">
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+        <div class="tw:w-full tw:px-2">
             <p>
-                <span class="glyphicon glyphicon-arrow-right"></span>
-                <a href="{{url("/presupuesto_anteproyecto/revicion_requisiciones_anteproyecto")}}">Revisión de requisiciones de los departamentos </a>
-                <span class="glyphicon glyphicon-arrow-right"></span>
+                <span class="fa fa-arrow-right"></span>
+                <a class="tw:text-brand-500 tw:hover:underline" href="{{url("/presupuesto_anteproyecto/revicion_requisiciones_anteproyecto")}}">Revisión de requisiciones de los departamentos </a>
+                <span class="fa fa-arrow-right"></span>
                 <span >Requisiciones del departamento </span>
 
             </p>
-            <br>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-8  col-md-offset-2">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h3 class="panel-title text-center">Revisión de requisiciones del anteproyecto de presupuesto {{ $datos_jefe->year_requisicion }}<br>
-                    (NOMBRE DEL JEFE(A) DEL DEPARTAMENTO O JEFATURA: <b>{{ $datos_jefe->titulo }} {{ $datos_jefe->nombre }})</b><br>
-                    (NOMBRE DEL DEPARTAMENTO O JEFATURA: <b>{{ $datos_jefe->nom_departamento }}</b></h3>
-                      </div>
-            </div>
-        </div>
-        <br>
-    </div>
+    <x-panel.encabezado :titulo="'Revisión de requisiciones del anteproyecto de presupuesto '.$datos_jefe->year_requisicion.' (nombre del jefe(a) del departamento o jefatura: '.$datos_jefe->titulo.' '.$datos_jefe->nombre.') (nombre del departamento o jefatura: '.$datos_jefe->nom_departamento" :migas="['Finanzas' => null]" />
 
 
 
 
-    <div class="row">
-        <div class="col-md-2 col-md-offset-2">
+
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+        <div class="tw:w-full tw:px-2">
             <p></p>
         </div>
     </div>
 
     @foreach($requisiciones2 as $requisicion)
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <div class="panel panel-warning">
-                    <div class="panel-heading">
+        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+            <div class="tw:w-full tw:px-2">
+                <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+                    <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:dark:border-gray-800 tw:bg-gray-50 tw:dark:bg-gray-900 tw:px-5 tw:py-4">
 
-                        <div class="row">
-                            <div class="col-md-10 col-md-offset-1">
-                                <h4 style="text-align: center; color: #0c0c0c">PARTIDA PRESUPUESTAL: <b>{{ $requisicion['nombre_partida'] }}</b></h4>
-                                <h4 style="text-align: center; color: #0c0c0c">MES: <b>{{ $requisicion['mes'] }}</b></h4>
-                                <h5 style="text-align: center; color: #0c0c0c">JUSTIFICACIÓN: <b>{{ $requisicion['justificacion'] }}</b></h5>
-                                <h4 style="text-align: center; color: #0c0c0c">PROYECTO: <b>{{ $requisicion['nombre_proyecto'] }}</b></h4>
-                                <h5 style="text-align: center; color: #0c0c0c">META: <b>{{ $requisicion['meta'] }}</b></h5>
+                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                            <div class="tw:w-full tw:px-2">
+                                <h4 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90 tw:text-center tw:text-gray-800 tw:dark:text-white/90">PARTIDA PRESUPUESTAL: <b>{{ $requisicion['nombre_partida'] }}</b></h4>
+                                <h4 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90 tw:text-center tw:text-gray-800 tw:dark:text-white/90">MES: <b>{{ $requisicion['mes'] }}</b></h4>
+                                <h5 class="tw:mb-2 tw:text-sm tw:font-semibold tw:text-gray-700 tw:dark:text-gray-300 tw:text-center tw:text-gray-800 tw:dark:text-white/90">JUSTIFICACIÓN: <b>{{ $requisicion['justificacion'] }}</b></h5>
+                                <h4 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90 tw:text-center tw:text-gray-800 tw:dark:text-white/90">PROYECTO: <b>{{ $requisicion['nombre_proyecto'] }}</b></h4>
+                                <h5 class="tw:mb-2 tw:text-sm tw:font-semibold tw:text-gray-700 tw:dark:text-gray-300 tw:text-center tw:text-gray-800 tw:dark:text-white/90">META: <b>{{ $requisicion['meta'] }}</b></h5>
                             </div>
                         </div>
                         @if( $requisicion['id_autorizacion']  == 0)
                                 @if($requisicion['comentario']  != '' )
-                                <div class="row">
-                                    <div class="col-md-8 col-md-offset-2">
-                                        <h4 style="color: #942a25; background: white">COMENTARIO MODIFICACIÓN: <b>{{ $requisicion['comentario']  }}</b></h4>
+                                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                    <div class="tw:w-full tw:px-2">
+                                        <h4 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90 tw:text-red-800 tw:dark:text-red-400">COMENTARIO MODIFICACIÓN: <b>{{ $requisicion['comentario']  }}</b></h4>
                                     </div>
 
                                 </div>
                                 @endif
-                            <div class="row">
-                                <div class="col-md-2 col-md-offset-5">
-                                    <button class="btn btn-success btn-lg" onclick="window.location='{{ url('/presupuesto_anteproyecto/revisicion_bienes_servicios_departamento/'.$requisicion['id_actividades_req_ante'].'/'.$id_req_mat_ante ) }}'">Revisar requisición</button>
+                            <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                <div class="tw:w-full tw:px-2">
+                                    <button class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" onclick="window.location='{{ url('/presupuesto_anteproyecto/revisicion_bienes_servicios_departamento/'.$requisicion['id_actividades_req_ante'].'/'.$id_req_mat_ante ) }}'">Revisar requisición</button>
                                 </div>
 
                             </div>
                         @else
                                 @if( $requisicion['id_autorizacion']  == 2)
-                                <div class="row">
-                                    <div class="col-md-8 col-md-offset-2">
-                                        <div class="panel panel-primary">
-                                            <div class="panel-heading" style="text-align: center">Permiso de modificar.<br>
-                                                COMENTARIO:  <b>{{ $requisicion['comentario']  }}</b></div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <h3 class="tw:mb-4 tw:text-center tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">Permiso de modificar.<br>
+                                                COMENTARIO:  <b>{{ $requisicion['comentario']  }}</b></h3>
 
                                 @endif
                                     @if( $requisicion['id_autorizacion']  == 4)
-                                        <div class="row">
-                                            <div class="col-md-8 col-md-offset-2">
-                                                <div class="panel panel-success">
-                                                    <div class="panel-heading" style="text-align: center">
+                                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                            <div class="tw:w-full tw:px-2">
+                                                <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+                                                    <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:dark:border-gray-800 tw:bg-gray-50 tw:dark:bg-gray-900 tw:px-5 tw:py-4 tw:text-center">
                                                         Requisición autorizada
-                                                        <div class="row">
-                                                            <div class="col-md-2 col-md-offset-4">
-                                                                <button class="btn btn-default btn-lg" onclick="window.location='{{ url('/presupuesto_anteproyecto/ver_autorizacion_bienes_servicios_departamento/'.$requisicion['id_actividades_req_ante'].'/'.$id_req_mat_ante ) }}'">Ver requisición autorizada</button>
+                                                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                                            <div class="tw:w-full tw:px-2">
+                                                                <button class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" onclick="window.location='{{ url('/presupuesto_anteproyecto/ver_autorizacion_bienes_servicios_departamento/'.$requisicion['id_actividades_req_ante'].'/'.$id_req_mat_ante ) }}'">Ver requisición autorizada</button>
                                                             </div>
 
                                                         </div>
@@ -96,14 +81,8 @@
 
                                     @endif
                                     @if( $requisicion['id_autorizacion']  == 3)
-                                        <div class="row">
-                                            <div class="col-md-8 col-md-offset-2">
-                                                <div class="panel panel-danger">
-                                                    <div class="panel-heading" style="text-align: center">Requisión rechazada<br>
-                                                        COMENTARIO DE PORQUE SE RECHAZÓ :  <b>{{ $requisicion['comentario']  }}</b></div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <x-panel.alerta tipo="error" class="tw:mb-4">Requisión rechazada<br>
+                                                        COMENTARIO DE PORQUE SE RECHAZÓ :  <b>{{ $requisicion['comentario']  }}</b></x-panel.alerta>
 
                                     @endif
 
@@ -114,82 +93,72 @@
             </div>
 
             @endforeach
-    <div class="row">
-        <div class="col-md-10 col-md-offset-1">
-            <p><br></p>
+    <div class="tw:w-full tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+        <div class="tw:w-full tw:px-2">
         </div>
     </div>
             @if($numero_requisicion == $total_req_cal )
                 @if($total_mod == 0)
-                    <div class="row">
-                        <div class="col-md-2 col-md-offset-5">
-                            <button  id="{{ $id_req_mat_ante }}"  class="btn btn-primary btn-lg  autorizar_requisiciones" >Enviar notificación
+                    <div class="tw:w-full tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                        <div class="tw:w-full tw:px-2">
+                            <button  id="{{ $id_req_mat_ante }}"  class="autorizar_requisiciones tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Enviar notificación
                             </button>
                         </div>
                     </div>
 
                @else
-                    <div class="row">
-                        <div class="col-md-2 col-md-offset-5">
-                            <button  id="{{ $id_req_mat_ante }}"  class="btn btn-success btn-lg  mod_requisiciones" >Enviar notificación
+                    <div class="tw:w-full tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                        <div class="tw:w-full tw:px-2">
+                            <button  id="{{ $id_req_mat_ante }}"  class="mod_requisiciones tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Enviar notificación
                             </button>
                         </div>
                     </div>
                 @endif
            @endif
-            <div class="row">
-                <div class="col-md-10 col-md-offset-1">
-                    <p><br></p>
+            <div class="tw:w-full tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                <div class="tw:w-full tw:px-2">
                 </div>
             </div>
 
             {{-- modal enviar modificaciones --}}
 
-            <div class="modal fade" id="modal_enviar_modificacion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-                <div class="modal-dialog " role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title" id="exampleModalLabel">Enviar modificaciones</h4>
+            <x-panel.modal id="modal_enviar_modificacion" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="exampleModalLabel">
+                        <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                            
+                            <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="exampleModalLabel">Enviar modificaciones</h4>
                         </div>
-                        <div class="modal-body">
+                        <div class="tw-modal-cuerpo">
                             <form id="form_enviar_modificaciones" action="{{url("/presupuesto_anteproyecto/enviar_modificaciones_depart/")}}" method="POST" role="form" >
                                 {{ csrf_field() }}
                                 <input type="hidden" id="id_req_mat_ante" name="id_req_mat_ante" value="">
-                                <h2 style="text-align: center;">¿ Seguro(a) que quiere enviar las modificaciones al jefe(a) de departamento o jefatura</h2>
+                                <h2 class="tw:mb-4 tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90 tw:text-center">¿ Seguro(a) que quiere enviar las modificaciones al jefe(a) de departamento o jefatura</h2>
                             </form>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                                <button id="guardar_enviar_modificaciones"  class="btn btn-primary" >Aceptar</button>
+                            <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                                <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                                <button id="guardar_enviar_modificaciones"  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Aceptar</button>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
+                    </x-panel.modal>
 
             {{-- modal enviar autorizacion --}}
 
-            <div class="modal fade" id="modal_enviar_autorizacion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-                <div class="modal-dialog " role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title" id="exampleModalLabel">Enviar notificación</h4>
+            <x-panel.modal id="modal_enviar_autorizacion" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="exampleModalLabel">
+                        <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                            
+                            <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="exampleModalLabel">Enviar notificación</h4>
                         </div>
-                        <div class="modal-body">
+                        <div class="tw-modal-cuerpo">
                             <form id="form_enviar_autorizacion" action="{{url("/presupuesto_anteproyecto/enviar_autorizacion_depart/")}}" method="POST" role="form" >
                                 {{ csrf_field() }}
                                 <input type="hidden" id="id_req_mat_antep" name="id_req_mat_antep" value="">
-                                <h2 style="text-align: center;">¿Seguro(a) que quiere enviar notificación de que ya se revisaron toda las requisiciones ?</h2>
+                                <h2 class="tw:mb-4 tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90 tw:text-center">¿Seguro(a) que quiere enviar notificación de que ya se revisaron toda las requisiciones ?</h2>
                             </form>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                                <button id="guardar_enviar_autorizacion"  class="btn btn-primary" >Aceptar</button>
+                            <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                                <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                                <button id="guardar_enviar_autorizacion"  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Aceptar</button>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
+                    </x-panel.modal>
 
             <script>
                 $(document).ready(function() {
@@ -214,4 +183,5 @@
 
                 });
             </script>
+</div>
 @endsection

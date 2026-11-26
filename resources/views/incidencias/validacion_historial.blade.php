@@ -1,11 +1,12 @@
-@extends('layouts.app')
+@extends('layouts.panel')
+@include('partials.panel.recursos_app', ['datatables' => true])
 @section('title', 'Registro de Oficios enviados')
 @section('content')
 
-    <main class="col-md-12">
-        <div class="row">
-            <div class="col-md-9 col-md-offset-1">
-                <ul class="nav nav-tabs">
+    <main class="tw:w-full tw:lg:w-full tw:px-2">
+        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+            <div class="tw:w-full tw:lg:w-9/12 tw:lg:ml-[8.3333%] tw:px-2">
+                <ul class="tw-pestanas tw:mb-6 tw:flex tw:flex-wrap tw:gap-2 tw:border-b tw:border-gray-200">
                     <li class="active" ><a href="#">Historial de oficios recibidos</a>
                     </li>
                      <li  > <a href="{{url('/incidencias/validar_oficios')}}">Oficios recibidos para validación</a></li>
@@ -14,18 +15,19 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-md-10 col-md-offset-1">
-                <table id="table_enviado1" class="table table-bordered table-resposive">
+        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+            <div class="tw:w-full tw:lg:w-10/12 tw:lg:ml-[8.3333%] tw:px-2">
+                <div class="tw-tabla-contenedor tw:mb-4 tw:max-w-full tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200">
+<table id="table_enviado1" class="table-responsive tw-tabla tw-tabla-bordes">
                     <thead>
                      <tr>
-                        <th class="text-center">No.</th>
-                        <th class="text-center">Nombre del solicitante</th>
-                         <th class="text-center">Fecha de la solicitud del oficio</th>
-                         <th class="text-center">Fecha de la incidencia</th>
-                        <th class="text-center">Artículo</th>
-                        <th class="text-center">Estatus</th>
-                        <th class="text-center">Oficio</th>
+                        <th class="tw:text-center">No.</th>
+                        <th class="tw:text-center">Nombre del solicitante</th>
+                         <th class="tw:text-center">Fecha de la solicitud del oficio</th>
+                         <th class="tw:text-center">Fecha de la incidencia</th>
+                        <th class="tw:text-center">Artículo</th>
+                        <th class="tw:text-center">Estatus</th>
+                        <th class="tw:text-center">Oficio</th>
                      </tr>
                     </thead>
                     <tbody>
@@ -67,16 +69,16 @@
                                     @if($solicitud->id_estado_solicitud == 2)
 
                                             @if($solicitud->id_articulo==7)
-                                                <button type="button" class="btn btn-primary center" onclick="window.open('{{url('pdfregistroincidencia_acade_finan',['id_solicitud'=>$solicitud->id_solicitud])}}')">Imprimir oficio</button>
+                                                <button type="button" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:text-center tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" onclick="window.open('{{url('pdfregistroincidencia_acade_finan',['id_solicitud'=>$solicitud->id_solicitud])}}')">Imprimir oficio</button>
                                             @elseif($solicitud->id_articulo==1 || $solicitud->id_articulo==9)
-                                               <button type="button" class="btn btn-primary center" onclick="window.open('{{url('pdfregistroincidencia',['id_solicitud'=>$solicitud->id_solicitud])}}')">Imprimir oficio</button>
+                                               <button type="button" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:text-center tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" onclick="window.open('{{url('pdfregistroincidencia',['id_solicitud'=>$solicitud->id_solicitud])}}')">Imprimir oficio</button>
                                             @elseif($solicitud->id_articulo==4)
-                                                <button type="button" class="btn btn-primary center" onclick="window.open('{{url('pdfregistroincidencia4',['id_solicitud'=>$solicitud->id_solicitud])}}')">Imprimir oficios</button>
+                                                <button type="button" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:text-center tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" onclick="window.open('{{url('pdfregistroincidencia4',['id_solicitud'=>$solicitud->id_solicitud])}}')">Imprimir oficios</button>
 
                                             @elseif($solicitud->id_articulo==2 || $solicitud->id_articulo==5 ||$solicitud->id_articulo==6  || $solicitud->id_articulo==7 || $solicitud->id_articulo==8 || $solicitud->id_articulo==10 || $solicitud->id_articulo==11)
-                                          <button type="button" class="btn btn-primary center" onclick="window.open('{{url('pdfregistroincidencia1',['id_solicitud'=>$solicitud->id_solicitud])}}')">Imprimir oficios</button>
+                                          <button type="button" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:text-center tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" onclick="window.open('{{url('pdfregistroincidencia1',['id_solicitud'=>$solicitud->id_solicitud])}}')">Imprimir oficios</button>
                                         @endif
-                                            <p><br><button type="button" class="btn btn-primary center" onclick="window.open('{{url('/incidencias/imprimir_aviso_justificacion/'.$solicitud->id_solicitud)}}')">Imprimir aviso</button>
+                                            <p><br><button type="button" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:text-center tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" onclick="window.open('{{url('/incidencias/imprimir_aviso_justificacion/'.$solicitud->id_solicitud)}}')">Imprimir aviso</button>
                                             </p>
 
                                     @else
@@ -87,21 +89,22 @@
                         @endforeach
                     </tbody>
                 </table>
+</div>
             </div>
         </div>
-        <div class="modal fade" id="modal_mostrar1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal fade tw-modal-compat" id="modal_mostrar1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                    <div class="modal-header bg-info">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title text-center" id="myModalLabel">Oficio de Incidencia</h4>
+                    <div class="modal-header tw:bg-sky-100">
+                        <button type="button" class="tw:text-2xl tw:leading-none tw:text-gray-400 tw:hover:text-gray-700" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title tw:text-center" id="myModalLabel">Oficio de Incidencia</h4>
                     </div>
                     <div class="modal-body">
                         <div id="contenedor_mostrar1">
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                        <button type="button" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" data-dismiss="modal">Cerrar</button>
                     </div>
                 </div>
             </div>

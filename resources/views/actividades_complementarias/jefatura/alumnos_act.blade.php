@@ -15,10 +15,10 @@
                 </li>
                 <li role="presentation">
                     <a href="#dos" aria-controls="dos" role="tab" data-toggle="tab" class="tw:inline-block tw:rounded-t-lg tw:border-b-2 tw:border-transparent tw:px-4 tw:py-2 tw:text-sm tw:font-medium tw:text-gray-500 tw:hover:text-gray-700 tw:dark:text-gray-400">Liberados</a>
-                </li>  
+                </li>
                 <li role="presentation">
                     <a href="#tres" aria-controls="tres" role="tab" data-toggle="tab" class="tw:inline-block tw:rounded-t-lg tw:border-b-2 tw:border-transparent tw:px-4 tw:py-2 tw:text-sm tw:font-medium tw:text-gray-500 tw:hover:text-gray-700 tw:dark:text-gray-400">Registrados</a>
-                </li>  
+                </li>
             </ul>
         </div>
 
@@ -36,7 +36,7 @@
                         </x-panel.boton>
                     </div>
                 </div>
-               
+
                 <x-panel.tabla id="paginacion">
                     <thead>
                         <tr>
@@ -70,7 +70,7 @@
                         </tr>
                         @endforeach
                     </tbody>
-                </x-panel.tabla>    
+                </x-panel.tabla>
             </div>
 
             <div role="tabpanel" class="tab-pane" id="dos">
@@ -103,7 +103,7 @@
                         </tr>
                         @endforeach
                     </tbody>
-                </x-panel.tabla>            
+                </x-panel.tabla>
             </div>
 
             <div role="tabpanel" class="tab-pane" id="tres">
@@ -136,7 +136,7 @@
                         </tr>
                         @endforeach
                     </tbody>
-                </x-panel.tabla>    
+                </x-panel.tabla>
             </div>
         </div>
     </x-panel.tarjeta>
@@ -176,15 +176,15 @@ $(document).ready(function(){
 
         $('input[name="orderbox[]"]:checked').each(function(){
             checkboxValues[checkboxValues.length]=$(this).val();
-            cuenta[cuenta.length]=$(this).data('cuenta'); 
+            cuenta[cuenta.length]=$(this).data('cuenta');
         });
-            
+
         var $marcados=$('input[name="orderbox[]"]:checked');
         var numero=$marcados.length;
         if(numero==0)
         {
             $('#mensaje_actividad').modal('show');
-            setTimeout(myFunction, 2000); 
+            setTimeout(myFunction, 2000);
 
             function myFunction(){
                 $('#mensaje_actividad').modal('hide');
@@ -212,7 +212,7 @@ $(document).ready(function(){
 
         $('input[name="orderboxx[]"]:checked').each(function(){
             checkboxValues[checkboxValues.length]=$(this).val();
-            cuenta[cuenta.length]=$(this).data('cuentaa'); 
+            cuenta[cuenta.length]=$(this).data('cuentaa');
         });
         var $marcados=$('input[name="orderboxx[]"]:checked');
         var numero=$marcados.length;

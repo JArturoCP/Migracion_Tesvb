@@ -78,7 +78,7 @@
                             <tr>
 
                                 <th>Requisito</th>
-                                <th>Ver Documento</th>
+                                <th>Ver documento</th>
                                 <th>Acción</th>
 
                             </tr>
@@ -831,9 +831,9 @@
                     this.estado_guardar_acta=false;
                     this.modal_acta_reg=1;
                    if(this.modificar_acta == true){
-                       this.titulo_acta="Modificar Documentación";
+                       this.titulo_acta="Modificar documentación";
                    }else{
-                       this.titulo_acta="Registrar Documentación"
+                       this.titulo_acta="Registrar documentación"
                    }
                 },
 
@@ -841,54 +841,54 @@
                     this.estado_guardar_curp=false;
                     this.modal_curp_reg=1;
                     if(this.modificar_curp == true){
-                        this.titulo_curp="Modificar Documentación";
+                        this.titulo_curp="Modificar documentación";
                     }else{
-                        this.titulo_curp="Registrar Documentación"
+                        this.titulo_curp="Registrar documentación"
                     }
                },
                 async  abrirModal_agregar_certificado_prepa(){
                     this.estado_guardar_certificado_prepa=false;
                     this.modal_certificado_prepa_reg=1;
                     if(this.modificar_certificado_prepa == true){
-                        this.titulo_certificado_prepa="Modificar Documentación";
+                        this.titulo_certificado_prepa="Modificar documentación";
                     }else{
-                        this.titulo_certificado_prepa="Registrar Documentación"
+                        this.titulo_certificado_prepa="Registrar documentación"
                     }
                 },
                 async abrirModal_agregar_tesvb(){
                     this.estado_guardar_certificado_tesvb=false;
                     this.modal_certificado_tesvb_reg=1;
                     if(this.modificar_certificado_tesvb == true){
-                        this.titulo_certificado_tesvb="Modificar Documentación";
+                        this.titulo_certificado_tesvb="Modificar documentación";
                     }else{
-                        this.titulo_certificado_tesvb="Registrar Documentación"
+                        this.titulo_certificado_tesvb="Registrar documentación"
                     }
                 },
                 async abrirModal_agregar_constancia_ss(){
                     this.estado_guardar_constancia_ss=false;
                     this.modal_constancia_ss_reg=1;
                     if(this.modificar_constancia_ss == true){
-                        this.titulo_constancia_ss="Modificar Documentación";
+                        this.titulo_constancia_ss="Modificar documentación";
                     }else{
-                        this.titulo_constancia_ss="Registrar Documentación"
+                        this.titulo_constancia_ss="Registrar documentación"
                     }
                 },
                 async abrirModal_agregar_certificado_ingles(){
                     this.estado_guardar_certificado_ingles=false;
                     this.modal_certificado_ingles_reg=1;
                     if(this.modificar_certificado_ingles == true){
-                        this.titulo_certificado_ingles="Modificar Documentación";
+                        this.titulo_certificado_ingles="Modificar documentación";
                     }else{
-                        this.titulo_certificado_ingles="Registrar Documentación"
+                        this.titulo_certificado_ingles="Registrar documentación"
                     }
                 },
                 async abrirModal_agregar_reporte_result_egel(){
                     this.estado_guardar_reporte_egel=false;
                     this.modal_reporte_result_egel=1;
                     if(this.modificar_reporte_result_egel == true){
-                        this.titulo_reporte_result_egel="Modificar Documentación";
+                        this.titulo_reporte_result_egel="Modificar documentación";
                     }else{
-                        this.titulo_reporte_result_egel="Registrar Documentación"
+                        this.titulo_reporte_result_egel="Registrar documentación"
                     }
 
                 },
@@ -896,54 +896,54 @@
                     this.estado_guardar_opcion_titulacion=false;
                     this.modal_opcion_titulacion_reg=1;
                     if(this.modificar_opcion_titulacion == true){
-                        this.titulo_opcion_titulacion="Modificar Documentación";
+                        this.titulo_opcion_titulacion="Modificar documentación";
                     }else{
-                        this.titulo_opcion_titulacion="Registrar Documentación"
+                        this.titulo_opcion_titulacion="Registrar documentación"
                     }
                 },
                 async abrirModal_agregar_pago_titulo(){
                     this.estado_guardar_pago_titulo=false;
                     this.modal_pago_titulo=1;
                     if(this.modificar_pago_titulo == true){
-                        this.titulo_pago_titulo="Modificar Documentación";
+                        this.titulo_pago_titulo="Modificar documentación";
                     }else{
-                        this.titulo_pago_titulo="Registrar Documentación"
+                        this.titulo_pago_titulo="Registrar documentación"
                     }
                 },
                 async abrirModal_agregar_pago_contancia(){
                     this.estado_guardar_pago_contancia=false;
                     this.modal_pago_contancia=1;
                     if(this.modificar_pago_contancia == true){
-                        this.titulo_pago_contancia="Modificar Documentación";
+                        this.titulo_pago_contancia="Modificar documentación";
                     }else{
-                        this.titulo_pago_contancia="Registrar Documentación"
+                        this.titulo_pago_contancia="Registrar documentación"
                     }
                 },
                 async abrirModal_agregar_pago_derecho_ti(){
                     this.estado_guardar_pago_derecho_ti=false;
                     this.modal_pago_derecho_ti=1;
                     if(this.modificar_pago_derecho_ti == true){
-                        this.titulo_pago_derecho_ti="Modificar Documentación";
+                        this.titulo_pago_derecho_ti="Modificar documentación";
                     }else{
-                        this.titulo_pago_derecho_ti="Registrar Documentación"
+                        this.titulo_pago_derecho_ti="Registrar documentación"
                     }
                 },
                 async abrirModal_agregar_pago_integrante_jurado(){
                     this.estado_guardar_pago_integrante_jurado=false;
                     this.modal_pago_integrante_jurado=1;
                     if(this.modificar_pago_integrante_jurado == true){
-                        this.titulo_pago_integrante_jurado="Modificar Documentación";
+                        this.titulo_pago_integrante_jurado="Modificar documentación";
                     }else{
-                        this.titulo_pago_integrante_jurado="Registrar Documentación"
+                        this.titulo_pago_integrante_jurado="Registrar documentación"
                     }
                 },
                 async abrirModal_agregar_acta_residencia(){
                     this.estado_guardar_acta_residencia=false;
                     this.modal_acta_residencia=1;
                     if(this.modificar_acta_residencia == true){
-                        this.titulo_acta_residencia="Modificar Documentación";
+                        this.titulo_acta_residencia="Modificar documentación";
                     }else{
-                        this.titulo_acta_residencia="Registrar Documentación"
+                        this.titulo_acta_residencia="Registrar documentación"
                     }
                 },
                 async abrirModal_pago_concepto_autenticacion(){
@@ -951,9 +951,9 @@
                     this.estado_guardar_pago_concepto_autenticacion=false;
                     this.modal_pago_concepto_autenticacion=1;
                     if(this.modificar_pago_concepto_autenticacion == true){
-                        this.titulo_pago_concepto_autenticacion="Modificar Documentación";
+                        this.titulo_pago_concepto_autenticacion="Modificar documentación";
                     }else{
-                        this.titulo_pago_concepto_autenticacion="Registrar Documentación"
+                        this.titulo_pago_concepto_autenticacion="Registrar documentación"
                     }
 
                 },

@@ -1,55 +1,56 @@
-@extends('layouts.app')
+@extends('layouts.panel')
+@include('partials.panel.recursos_app')
 @section('title', 'Ambiental')
 @section('content')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.18/vue.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <div id="autorizar_encargado_doc">
-        <div class="row">
-            <div class="col-md-10 col-xs-10 col-md-offset-1">
+    <div id="autorizar_encargado_doc" x-ignore>
+        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+            <div class="tw:lg:w-10/12 tw:w-10/12 tw:lg:ml-[8.3333%] tw:px-2">
                 <p>
-                    <span class="glyphicon glyphicon-arrow-right"></span>
+                    <span class="fa fa-arrow-right"></span>
                     <a href="{{url("/ambiental/historial_ambiental_departamento")}}">Historial de  los procedimientos </a>
-                    <span class="glyphicon glyphicon-chevron-right"></span>
+                    <span class="fa fa-chevron-right"></span>
                     <span>Documentación del Procedimiento Autorizado</span>
                 </p>
                 <br>
             </div>
         </div>
-        <main class="col-md-12">
-            <div class="row">
-                <div class="col-md-8 col-md-offset-2">
-                    <div class="panel panel-info">
-                        <div class="panel-heading">
-                            <h3 class="panel-title text-center">Documentación Autorizada  del periodo {{ $periodo[0]->nombre_periodo_amb }} <br>
+        <main class="tw:w-full tw:lg:w-full tw:px-2">
+            <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                <div class="tw:w-full tw:lg:w-8/12 tw:lg:ml-[16.6667%] tw:px-2">
+                    <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
+                        <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4">
+                            <h3 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:text-center">Documentación Autorizada  del periodo {{ $periodo[0]->nombre_periodo_amb }} <br>
                                 @{{ encargados[0].nombre }} <br> @{{ encargados[0].nom_procedimiento }}</h3>
                         </div>
                     </div>
                 </div>
             </div>
             <template v-if="encargados[0].solic_estado_acc_m1 == 2">
-                <div class="row">
-                    <div class="col-md-4 col-md-offset-4">
-                        <div class="panel panel-primary">
-                            <div class="panel-heading" style="text-align: center"><p>Modulo 1</p></div>
+                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                    <div class="tw:w-full tw:lg:w-4/12 tw:lg:ml-[33.3333%] tw:px-2">
+                        <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
+                            <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4" style="text-align: center"><p>Modulo 1</p></div>
 
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-10 col-md-offset-1">
-                        <div class="panel panel-success">
-                            <div class="panel-body">
-                                <div class="col-md-4 ">
+                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                    <div class="tw:w-full tw:lg:w-10/12 tw:lg:ml-[8.3333%] tw:px-2">
+                        <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
+                            <div class="tw:p-5 tw:sm:p-6">
+                                <div class="tw:w-full tw:lg:w-4/12 tw:px-2">
                                     <p>a) El estado de las acciones de las revisiones por la dirección previas.<br>
                                         <br/>
                                     </p>
                                 </div>
-                                <div class="col-md-3 ">
+                                <div class="tw:w-full tw:lg:w-3/12 tw:px-2">
                                     <label> Documento: Si
-                                        <a  target="_blank" href="/sub_vinculacion/@{{encargados[0].pdf_estado_acc_m1  }}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a>
+                                        <a  target="_blank" href="/sub_vinculacion/@{{encargados[0].pdf_estado_acc_m1  }}" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-green-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-green-700 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm"><i class="fa em56 fa-book" title="Ver PDF"></i></a>
                                     </label>
                                 </div>
-                                <div class="col-md-3" style="text-align: left">
+                                <div class="tw:w-full tw:lg:w-3/12 tw:px-2" style="text-align: left">
                                     <template v-if="encargados[0].cal_estado_acc_m1 == 1">
                                         <template v-if="encargados[0].estado_estado_acc_m1 == 1">
                                             <label for="personal">Autorizado</label>
@@ -62,9 +63,9 @@
 
                                     </template>
                                     <template v-if="encargados[0].cal_estado_acc_m1 == 0">
-                                        <div class="form-group">
+                                        <div class="tw:mb-4">
                                             <label for="personal">Autorizar</label>
-                                            <select class="form-control"  v-validate="'required'" v-model="encargados[0].estado_estado_acc_m1" >
+                                            <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"  v-validate="'required'" v-model="encargados[0].estado_estado_acc_m1" >
                                                 <option disabled selected hidden :value="0">Selecciona</option>
                                                 <option v-for="respuesta in respuestas" :value="respuesta.id_respuesta">@{{respuesta.descripcion}}</option>
                                             </select>
@@ -73,9 +74,9 @@
                                 </div>
                                 <template v-if="encargados[0].estado_estado_acc_m1 == 1">
 
-                                    <div class="col-md-2">
+                                    <div class="tw:w-full tw:lg:w-2/12 tw:px-2">
                                         <template v-if="encargados[0].cal_estado_acc_m1 == 0">
-                                            <button style="margin: 30px"  class="btn btn-primary btn-sm" v-on:click="guardar_resp_doc1(encargados);" >Guardar</button>
+                                            <button style="margin: 30px"  class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-1.5 tw:px-3 tw:py-1.5 tw:text-sm" v-on:click="guardar_resp_doc1(encargados);" >Guardar</button>
                                         </template>
                                         <template v-if="encargados[0].cal_estado_acc_m1 == 1">
                                             <p style="color: red">Revisado</p>
@@ -87,19 +88,19 @@
 
 
                             <template v-if="encargados[0].estado_estado_acc_m1 == 2">
-                                <div class="row">
-                                    <div class="col-md-10 col-md-offset-1">
-                                        <div class="form-group">
+                                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                    <div class="tw:w-full tw:lg:w-10/12 tw:lg:ml-[8.3333%] tw:px-2">
+                                        <div class="tw:mb-4">
                                             <label for="domicilio3">Comentario para la modificación </label>
-                                            <textarea class="form-control" id="comentario_doc1" v-model="encargados[0].comentario_estado_acc_m1" name="comentario_doc1" rows="1"   required>@{{ $encargados[0]->comentario_estado_acc_m1 }}</textarea>
+                                            <textarea class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500" id="comentario_doc1" v-model="encargados[0].comentario_estado_acc_m1" name="comentario_doc1" rows="1"   required>@{{ $encargados[0]->comentario_estado_acc_m1 }}</textarea>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
-                                    <div class="col-md-2 col-md-offset-5">
+                                    <div class="tw:w-full tw:lg:w-2/12 tw:lg:ml-[41.6667%] tw:px-2">
                                         <template v-if="encargados[0].cal_estado_acc_m1 == 0">
-                                            <button  class="btn btn-primary btn-sm" v-on:click="guardar_resp_doc1(encargados);" >Guardar</button>
+                                            <button  class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-1.5 tw:px-3 tw:py-1.5 tw:text-sm" v-on:click="guardar_resp_doc1(encargados);" >Guardar</button>
                                         </template>
                                         <template v-if="encargados[0].cal_estado_acc_m1 == 1">
                                             <p style="color: red">Revisado</p>
@@ -117,30 +118,30 @@
             encargados[0].solic_aspecto_ambiental_m2 ==2 ||
             encargados[0].solic_riesgo_oportu_m2 == 2
             ">
-                <div class="row">
-                    <div class="col-md-4 col-md-offset-4">
-                        <div class="panel panel-primary">
-                            <div class="panel-heading" style="text-align: center"><p>Modulo 2</p></div>
+                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                    <div class="tw:w-full tw:lg:w-4/12 tw:lg:ml-[33.3333%] tw:px-2">
+                        <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
+                            <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4" style="text-align: center"><p>Modulo 2</p></div>
 
                         </div>
                     </div>
                 </div>
             </template>
             <template v-if="encargados[0].solic_cuestion_ambas_per_m2 == 2">
-                <div class="row">
-                    <div class="col-md-10 col-md-offset-1">
-                        <div class="panel panel-success">
-                            <div class="panel-body">
-                                <div class="col-md-4 ">
+                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                    <div class="tw:w-full tw:lg:w-10/12 tw:lg:ml-[8.3333%] tw:px-2">
+                        <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
+                            <div class="tw:p-5 tw:sm:p-6">
+                                <div class="tw:w-full tw:lg:w-4/12 tw:px-2">
                                     <p><b>b) Los cambios en:</b> <br> 1) Las cuestiones externas e internas que sean pertinentes
                                         al sistema  de gestión ambiental.<br>
                                         <br/>
                                     </p>
                                 </div>
-                                <div class="col-md-3 ">
+                                <div class="tw:w-full tw:lg:w-3/12 tw:px-2">
                                     <template v-if="encargados[0].evi_cuestion_ambas_per_m2  == 1">
                                         <label> ¿Existen cambios?:<br> Si
-                                            <a  target="_blank" href="/sub_vinculacion/@{{encargados[0].pdf_cuestion_ambas_per_m2  }}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a>
+                                            <a  target="_blank" href="/sub_vinculacion/@{{encargados[0].pdf_cuestion_ambas_per_m2  }}" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-green-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-green-700 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm"><i class="fa em56 fa-book" title="Ver PDF"></i></a>
                                         </label>
                                     </template>
                                     <template v-if="encargados[0].evi_cuestion_ambas_per_m2  == 2">
@@ -149,7 +150,7 @@
                                     </template>
 
                                 </div>
-                                <div class="col-md-3" style="text-align: left">
+                                <div class="tw:w-full tw:lg:w-3/12 tw:px-2" style="text-align: left">
                                     <template v-if="encargados[0].cal_cuestion_ambas_per_m2 == 1">
                                         <template v-if="encargados[0].estado_cuestion_ambas_per_m2 == 1">
                                             <label for="personal">Autorizado</label>
@@ -162,9 +163,9 @@
 
                                     </template>
                                     <template v-if="encargados[0].cal_cuestion_ambas_per_m2 == 0">
-                                        <div class="form-group">
+                                        <div class="tw:mb-4">
                                             <label for="personal">Autorizar</label>
-                                            <select class="form-control"  v-validate="'required'" v-model="encargados[0].estado_cuestion_ambas_per_m2" >
+                                            <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"  v-validate="'required'" v-model="encargados[0].estado_cuestion_ambas_per_m2" >
                                                 <option disabled selected hidden :value="0">Selecciona</option>
                                                 <option v-for="respuesta in respuestas" :value="respuesta.id_respuesta">@{{respuesta.descripcion}}</option>
                                             </select>
@@ -173,10 +174,10 @@
 
                                     <template v-if="encargados[0].estado_cuestion_ambas_per_m2 == 1">
 
-                                        <div class="col-md-2">
+                                        <div class="tw:w-full tw:lg:w-2/12 tw:px-2">
                                             <p><br></p>
                                             <template v-if="encargados[0].cal_cuestion_ambas_per_m2 == 0">
-                                                <button  class="btn btn-primary btn-sm" v-on:click="guardar_resp_doc2(encargados);" >Guardar</button>
+                                                <button  class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-1.5 tw:px-3 tw:py-1.5 tw:text-sm" v-on:click="guardar_resp_doc2(encargados);" >Guardar</button>
                                             </template>
                                             <template v-if="encargados[0].cal_cuestion_ambas_per_m2 == 1">
                                                 <p style="color: red">Revisado</p>
@@ -189,18 +190,18 @@
 
 
                                 <template v-if="encargados[0].estado_cuestion_ambas_per_m2 == 2">
-                                    <div class="row">
-                                        <div class="col-md-10 col-md-offset-1">
-                                            <div class="form-group">
+                                    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                        <div class="tw:w-full tw:lg:w-10/12 tw:lg:ml-[8.3333%] tw:px-2">
+                                            <div class="tw:mb-4">
                                                 <label for="domicilio3">Comentario para la modificación </label>
-                                                <textarea class="form-control" id="comentario_doc2" v-model="encargados[0].comentario_cuestion_ambas_per_m2" name="comentario_doc2" rows="1"   required>@{{ $encargados[0]->comentario_cuestion_ambas_per_m2 }}</textarea>
+                                                <textarea class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500" id="comentario_doc2" v-model="encargados[0].comentario_cuestion_ambas_per_m2" name="comentario_doc2" rows="1"   required>@{{ $encargados[0]->comentario_cuestion_ambas_per_m2 }}</textarea>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-md-2 col-md-offset-5">
+                                    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                        <div class="tw:w-full tw:lg:w-2/12 tw:lg:ml-[41.6667%] tw:px-2">
                                             <template v-if="encargados[0].cal_cuestion_ambas_per_m2 == 0">
-                                                <button  class="btn btn-primary btn-sm" v-on:click="guardar_resp_doc2(encargados);" >Guardar</button>
+                                                <button  class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-1.5 tw:px-3 tw:py-1.5 tw:text-sm" v-on:click="guardar_resp_doc2(encargados);" >Guardar</button>
                                             </template>
                                             <template v-if="encargados[0].cal_cuestion_ambas_per_m2 == 1">
                                                 <p style="color: red">Revisado</p>
@@ -215,20 +216,20 @@
                 </div>
             </template>
             <template v-if="encargados[0].solic_necesidades_espectativas_m2 == 2">
-                <div class="row">
-                    <div class="col-md-10 col-md-offset-1">
-                        <div class="panel panel-success">
-                            <div class="panel-body">
-                                <div class="col-md-4 ">
+                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                    <div class="tw:w-full tw:lg:w-10/12 tw:lg:ml-[8.3333%] tw:px-2">
+                        <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
+                            <div class="tw:p-5 tw:sm:p-6">
+                                <div class="tw:w-full tw:lg:w-4/12 tw:px-2">
                                     <p>2) Las necesidades y expectativas de las partes interesadas , incluidos
                                         los requisitos legales y otros requisitos.<br>
                                         <br/>
                                     </p>
                                 </div>
-                                <div class="col-md-3 ">
+                                <div class="tw:w-full tw:lg:w-3/12 tw:px-2">
                                     <template v-if="encargados[0].evi_necesidades_espectativas_m2  == 1">
                                         <label> ¿Existen cambios?:<br> Si
-                                            <a  target="_blank" href="/sub_vinculacion/@{{encargados[0].pdf_necesidades_espectativas_m2  }}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a>
+                                            <a  target="_blank" href="/sub_vinculacion/@{{encargados[0].pdf_necesidades_espectativas_m2  }}" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-green-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-green-700 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm"><i class="fa em56 fa-book" title="Ver PDF"></i></a>
                                         </label>
                                     </template>
                                     <template v-if="encargados[0].evi_necesidades_espectativas_m2  == 2">
@@ -237,7 +238,7 @@
                                     </template>
 
                                 </div>
-                                <div class="col-md-3" style="text-align: left">
+                                <div class="tw:w-full tw:lg:w-3/12 tw:px-2" style="text-align: left">
                                     <template v-if="encargados[0].cal_necesidades_espectativas_m2 == 1">
                                         <template v-if="encargados[0].estado_necesidades_espectativas_m2 == 1">
                                             <label for="personal">Autorizado</label>
@@ -250,9 +251,9 @@
 
                                     </template>
                                     <template v-if="encargados[0].cal_necesidades_espectativas_m2 == 0">
-                                        <div class="form-group">
+                                        <div class="tw:mb-4">
                                             <label for="personal">Autorizar</label>
-                                            <select class="form-control"  v-validate="'required'" v-model="encargados[0].estado_necesidades_espectativas_m2" >
+                                            <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"  v-validate="'required'" v-model="encargados[0].estado_necesidades_espectativas_m2" >
                                                 <option disabled selected hidden :value="0">Selecciona</option>
                                                 <option v-for="respuesta in respuestas" :value="respuesta.id_respuesta">@{{respuesta.descripcion}}</option>
                                             </select>
@@ -261,10 +262,10 @@
                                 </div>
                                 <template v-if="encargados[0].estado_necesidades_espectativas_m2 == 1">
 
-                                    <div class="col-md-2">
+                                    <div class="tw:w-full tw:lg:w-2/12 tw:px-2">
                                         <p><br></p>
                                         <template v-if="encargados[0].cal_necesidades_espectativas_m2 == 0">
-                                            <button  class="btn btn-primary btn-sm" v-on:click="guardar_resp_doc3(encargados);" >Guardar</button>
+                                            <button  class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-1.5 tw:px-3 tw:py-1.5 tw:text-sm" v-on:click="guardar_resp_doc3(encargados);" >Guardar</button>
                                         </template>
                                         <template v-if="encargados[0].cal_necesidades_espectativas_m2 == 1">
                                             <p style="color: red">Revizado</p>
@@ -276,18 +277,18 @@
 
 
                                 <template v-if="encargados[0].estado_necesidades_espectativas_m2 == 2">
-                                    <div class="row">
-                                        <div class="col-md-10 col-md-offset-1">
-                                            <div class="form-group">
+                                    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                        <div class="tw:w-full tw:lg:w-10/12 tw:lg:ml-[8.3333%] tw:px-2">
+                                            <div class="tw:mb-4">
                                                 <label for="domicilio3">Comentario para la modificación </label>
-                                                <textarea class="form-control" id="comentario_doc3" v-model="encargados[0].comentario_necesidades_espectativas_m2" name="comentario_doc3" rows="1"   required>@{{ $encargados[0]->comentario_necesidades_espectativas_m2 }}</textarea>
+                                                <textarea class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500" id="comentario_doc3" v-model="encargados[0].comentario_necesidades_espectativas_m2" name="comentario_doc3" rows="1"   required>@{{ $encargados[0]->comentario_necesidades_espectativas_m2 }}</textarea>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-md-2 col-md-offset-5">
+                                    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                        <div class="tw:w-full tw:lg:w-2/12 tw:lg:ml-[41.6667%] tw:px-2">
                                             <template v-if="encargados[0].cal_necesidades_espectativas_m2 == 0">
-                                                <button  class="btn btn-primary btn-sm" v-on:click="guardar_resp_doc3(encargados);" >Guardar</button>
+                                                <button  class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-1.5 tw:px-3 tw:py-1.5 tw:text-sm" v-on:click="guardar_resp_doc3(encargados);" >Guardar</button>
                                             </template>
                                             <template v-if="encargados[0].cal_necesidades_espectativas_m2 == 1">
                                                 <p style="color: red">Revizado</p>
@@ -302,24 +303,24 @@
             </template>
 
             <template v-if="encargados[0].solic_aspecto_ambiental_m2 == 2">
-                <div class="row">
-                    <div class="col-md-10 col-md-offset-1">
-                        <div class="panel panel-success">
-                            <div class="panel-body">
-                                <div class="col-md-4 ">
+                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                    <div class="tw:w-full tw:lg:w-10/12 tw:lg:ml-[8.3333%] tw:px-2">
+                        <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
+                            <div class="tw:p-5 tw:sm:p-6">
+                                <div class="tw:w-full tw:lg:w-4/12 tw:px-2">
                                     <p>3) Sus aspectos ambientales  significativos.<br>
                                         <br/>
                                     </p>
                                 </div>
-                                <div class="col-md-3 ">
+                                <div class="tw:w-full tw:lg:w-3/12 tw:px-2">
                                     <label> Documento: Si
-                                        <a  target="_blank" href="/sub_vinculacion/@{{encargados[0].pdf_aspecto_ambiental_m2  }}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a>
+                                        <a  target="_blank" href="/sub_vinculacion/@{{encargados[0].pdf_aspecto_ambiental_m2  }}" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-green-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-green-700 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm"><i class="fa em56 fa-book" title="Ver PDF"></i></a>
                                     </label>
 
 
 
                                 </div>
-                                <div class="col-md-3" style="text-align: left">
+                                <div class="tw:w-full tw:lg:w-3/12 tw:px-2" style="text-align: left">
                                     <template v-if="encargados[0].cal_aspecto_ambiental_m2 == 1">
                                         <template v-if="encargados[0].estado_aspecto_ambiental_m2 == 1">
                                             <label for="personal">Autorizado</label>
@@ -332,9 +333,9 @@
 
                                     </template>
                                     <template v-if="encargados[0].cal_aspecto_ambiental_m2 == 0">
-                                        <div class="form-group">
+                                        <div class="tw:mb-4">
                                             <label for="personal">Autorizar</label>
-                                            <select class="form-control"  v-validate="'required'" v-model="encargados[0].estado_aspecto_ambiental_m2" >
+                                            <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"  v-validate="'required'" v-model="encargados[0].estado_aspecto_ambiental_m2" >
                                                 <option disabled selected hidden :value="0">Selecciona</option>
                                                 <option v-for="respuesta in respuestas" :value="respuesta.id_respuesta">@{{respuesta.descripcion}}</option>
                                             </select>
@@ -343,10 +344,10 @@
                                 </div>
                                 <template v-if="encargados[0].estado_aspecto_ambiental_m2 == 1">
 
-                                    <div class="col-md-2">
+                                    <div class="tw:w-full tw:lg:w-2/12 tw:px-2">
                                         <p><br></p>
                                         <template v-if="encargados[0].cal_aspecto_ambiental_m2 == 0">
-                                            <button  class="btn btn-primary btn-sm" v-on:click="guardar_resp_doc4(encargados);" >Guardar</button>
+                                            <button  class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-1.5 tw:px-3 tw:py-1.5 tw:text-sm" v-on:click="guardar_resp_doc4(encargados);" >Guardar</button>
                                         </template>
                                         <template v-if="encargados[0].cal_aspecto_ambiental_m2 == 1">
                                             <p style="color: red">Revizado</p>
@@ -358,18 +359,18 @@
 
 
                             <template v-if="encargados[0].estado_aspecto_ambiental_m2 == 2">
-                                <div class="row">
-                                    <div class="col-md-10 col-md-offset-1">
-                                        <div class="form-group">
+                                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                    <div class="tw:w-full tw:lg:w-10/12 tw:lg:ml-[8.3333%] tw:px-2">
+                                        <div class="tw:mb-4">
                                             <label for="domicilio3">Comentario para la modificación </label>
-                                            <textarea class="form-control" id="comentario_doc4" v-model="encargados[0].comentario_aspecto_ambiental_m2" name="comentario_doc4" rows="1"   required>@{{ $encargados[0]->comentario_aspecto_ambiental_m2 }}</textarea>
+                                            <textarea class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500" id="comentario_doc4" v-model="encargados[0].comentario_aspecto_ambiental_m2" name="comentario_doc4" rows="1"   required>@{{ $encargados[0]->comentario_aspecto_ambiental_m2 }}</textarea>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-2 col-md-offset-5">
+                                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                    <div class="tw:w-full tw:lg:w-2/12 tw:lg:ml-[41.6667%] tw:px-2">
                                         <template v-if="encargados[0].cal_aspecto_ambiental_m2 == 0">
-                                            <button  class="btn btn-primary btn-sm" v-on:click="guardar_resp_doc4(encargados);" >Guardar</button>
+                                            <button  class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-1.5 tw:px-3 tw:py-1.5 tw:text-sm" v-on:click="guardar_resp_doc4(encargados);" >Guardar</button>
                                         </template>
                                         <template v-if="encargados[0].cal_aspecto_ambiental_m2 == 1">
                                             <p style="color: red">Revizado</p>
@@ -382,24 +383,24 @@
                 </div>
             </template>
             <template v-if="encargados[0].solic_riesgo_oportu_m2 == 2">
-                <div class="row">
-                    <div class="col-md-10 col-md-offset-1">
-                        <div class="panel panel-success">
-                            <div class="panel-body">
-                                <div class="col-md-4 ">
+                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                    <div class="tw:w-full tw:lg:w-10/12 tw:lg:ml-[8.3333%] tw:px-2">
+                        <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
+                            <div class="tw:p-5 tw:sm:p-6">
+                                <div class="tw:w-full tw:lg:w-4/12 tw:px-2">
                                     <p>4) Los riesgos y oportunidades<br>
                                         <br/>
                                     </p>
                                 </div>
-                                <div class="col-md-3 ">
+                                <div class="tw:w-full tw:lg:w-3/12 tw:px-2">
                                     <label> Documento: Si
-                                        <a  target="_blank" href="/sub_vinculacion/@{{encargados[0].pdf_riesgo_oportu_m2   }}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a>
+                                        <a  target="_blank" href="/sub_vinculacion/@{{encargados[0].pdf_riesgo_oportu_m2   }}" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-green-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-green-700 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm"><i class="fa em56 fa-book" title="Ver PDF"></i></a>
                                     </label>
 
 
 
                                 </div>
-                                <div class="col-md-3" style="text-align: left">
+                                <div class="tw:w-full tw:lg:w-3/12 tw:px-2" style="text-align: left">
                                     <template v-if="encargados[0].cal_riesgo_oportu_m2 == 1">
                                         <template v-if="encargados[0].estado_riesgo_oportu_m2 == 1">
                                             <label for="personal">Autorizado</label>
@@ -412,9 +413,9 @@
 
                                     </template>
                                     <template v-if="encargados[0].cal_riesgo_oportu_m2 == 0">
-                                        <div class="form-group">
+                                        <div class="tw:mb-4">
                                             <label for="personal">Autorizar</label>
-                                            <select class="form-control"  v-validate="'required'" v-model="encargados[0].estado_riesgo_oportu_m2" >
+                                            <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"  v-validate="'required'" v-model="encargados[0].estado_riesgo_oportu_m2" >
                                                 <option disabled selected hidden :value="0">Selecciona</option>
                                                 <option v-for="respuesta in respuestas" :value="respuesta.id_respuesta">@{{respuesta.descripcion}}</option>
                                             </select>
@@ -423,10 +424,10 @@
                                 </div>
                                 <template v-if="encargados[0].estado_riesgo_oportu_m2 == 1">
 
-                                    <div class="col-md-2">
+                                    <div class="tw:w-full tw:lg:w-2/12 tw:px-2">
                                         <p><br></p>
                                         <template v-if="encargados[0].cal_riesgo_oportu_m2 == 0">
-                                            <button  class="btn btn-primary btn-sm" v-on:click="guardar_resp_doc5(encargados);" >Guardar</button>
+                                            <button  class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-1.5 tw:px-3 tw:py-1.5 tw:text-sm" v-on:click="guardar_resp_doc5(encargados);" >Guardar</button>
                                         </template>
                                         <template v-if="encargados[0].cal_riesgo_oportu_m2 == 1">
                                             <p style="color: red">Revizado</p>
@@ -438,18 +439,18 @@
 
 
                             <template v-if="encargados[0].estado_riesgo_oportu_m2 == 2">
-                                <div class="row">
-                                    <div class="col-md-10 col-md-offset-1">
-                                        <div class="form-group">
+                                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                    <div class="tw:w-full tw:lg:w-10/12 tw:lg:ml-[8.3333%] tw:px-2">
+                                        <div class="tw:mb-4">
                                             <label for="domicilio3">Comentario para la modificación </label>
-                                            <textarea class="form-control" id="comentario_doc5" v-model="encargados[0].comentario_riesgo_oportu_m2" name="comentario_doc5" rows="1"   required>@{{ $encargados[0]->comentario_riesgo_oportu_m2 }}</textarea>
+                                            <textarea class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500" id="comentario_doc5" v-model="encargados[0].comentario_riesgo_oportu_m2" name="comentario_doc5" rows="1"   required>@{{ $encargados[0]->comentario_riesgo_oportu_m2 }}</textarea>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-2 col-md-offset-5">
+                                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                    <div class="tw:w-full tw:lg:w-2/12 tw:lg:ml-[41.6667%] tw:px-2">
                                         <template v-if="encargados[0].cal_riesgo_oportu_m2 == 0">
-                                            <button  class="btn btn-primary btn-sm" v-on:click="guardar_resp_doc5(encargados);" >Guardar</button>
+                                            <button  class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-1.5 tw:px-3 tw:py-1.5 tw:text-sm" v-on:click="guardar_resp_doc5(encargados);" >Guardar</button>
                                         </template>
                                         <template v-if="encargados[0].cal_riesgo_oportu_m2 == 1">
                                             <p style="color: red">Revizado</p>
@@ -463,35 +464,35 @@
             </template>
             <template v-if="encargados[0].solic_grado_objetivo_m3 == 2 ||
             encargados[0].solic_programa_gestion_m3 == 2">
-                <div class="row">
-                    <div class="col-md-4 col-md-offset-4">
-                        <div class="panel panel-primary">
-                            <div class="panel-heading" style="text-align: center"><p>Modulo 3</p></div>
+                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                    <div class="tw:w-full tw:lg:w-4/12 tw:lg:ml-[33.3333%] tw:px-2">
+                        <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
+                            <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4" style="text-align: center"><p>Modulo 3</p></div>
 
                         </div>
                     </div>
                 </div>
             </template>
             <template v-if="encargados[0].solic_grado_objetivo_m3 == 2">
-                <div class="row">
-                    <div class="col-md-10 col-md-offset-1">
-                        <div class="panel panel-success">
-                            <div class="panel-body">
-                                <div class="col-md-4 ">
+                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                    <div class="tw:w-full tw:lg:w-10/12 tw:lg:ml-[8.3333%] tw:px-2">
+                        <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
+                            <div class="tw:p-5 tw:sm:p-6">
+                                <div class="tw:w-full tw:lg:w-4/12 tw:px-2">
                                     <p> <b>c) El grado en que se han logrado los objetivos ambientales.</b>
                                         <br/>
                                         1) Objetivos ambientales del S. de G. A.
                                     </p>
                                 </div>
-                                <div class="col-md-3 ">
+                                <div class="tw:w-full tw:lg:w-3/12 tw:px-2">
                                     <label> Documento: Si
-                                        <a  target="_blank" href="/sub_vinculacion/@{{encargados[0].pdf_grado_objetivo_m3   }}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a>
+                                        <a  target="_blank" href="/sub_vinculacion/@{{encargados[0].pdf_grado_objetivo_m3   }}" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-green-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-green-700 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm"><i class="fa em56 fa-book" title="Ver PDF"></i></a>
                                     </label>
 
 
 
                                 </div>
-                                <div class="col-md-3" style="text-align: left">
+                                <div class="tw:w-full tw:lg:w-3/12 tw:px-2" style="text-align: left">
                                     <template v-if="encargados[0].cal_grado_objetivo_m3 == 1">
                                         <template v-if="encargados[0].estado_grado_objetivo_m3 == 1">
                                             <label for="personal">Autorizado</label>
@@ -504,9 +505,9 @@
 
                                     </template>
                                     <template v-if="encargados[0].cal_grado_objetivo_m3 == 0">
-                                        <div class="form-group">
+                                        <div class="tw:mb-4">
                                             <label for="personal">Autorizar</label>
-                                            <select class="form-control"  v-validate="'required'" v-model="encargados[0].estado_grado_objetivo_m3" >
+                                            <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"  v-validate="'required'" v-model="encargados[0].estado_grado_objetivo_m3" >
                                                 <option disabled selected hidden :value="0">Selecciona</option>
                                                 <option v-for="respuesta in respuestas" :value="respuesta.id_respuesta">@{{respuesta.descripcion}}</option>
                                             </select>
@@ -515,10 +516,10 @@
                                 </div>
                                 <template v-if="encargados[0].estado_grado_objetivo_m3 == 1">
 
-                                    <div class="col-md-2">
+                                    <div class="tw:w-full tw:lg:w-2/12 tw:px-2">
                                         <p><br></p>
                                         <template v-if="encargados[0].cal_grado_objetivo_m3== 0">
-                                            <button  class="btn btn-primary btn-sm" v-on:click="guardar_resp_doc6(encargados);" >Guardar</button>
+                                            <button  class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-1.5 tw:px-3 tw:py-1.5 tw:text-sm" v-on:click="guardar_resp_doc6(encargados);" >Guardar</button>
                                         </template>
                                         <template v-if="encargados[0].cal_grado_objetivo_m3== 1">
                                             <p style="color: red">Revizado</p>
@@ -530,18 +531,18 @@
 
 
                             <template v-if="encargados[0].estado_grado_objetivo_m3 == 2">
-                                <div class="row">
-                                    <div class="col-md-10 col-md-offset-1">
-                                        <div class="form-group">
+                                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                    <div class="tw:w-full tw:lg:w-10/12 tw:lg:ml-[8.3333%] tw:px-2">
+                                        <div class="tw:mb-4">
                                             <label for="domicilio3">Comentario para la modificación </label>
-                                            <textarea class="form-control" id="comentario_doc6" v-model="encargados[0].comentario_grado_objetivo_m3" name="comentario_doc6" rows="1"   required>@{{ $encargados[0]->comentario_grado_objetivo_m3 }}</textarea>
+                                            <textarea class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500" id="comentario_doc6" v-model="encargados[0].comentario_grado_objetivo_m3" name="comentario_doc6" rows="1"   required>@{{ $encargados[0]->comentario_grado_objetivo_m3 }}</textarea>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-2 col-md-offset-5">
+                                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                    <div class="tw:w-full tw:lg:w-2/12 tw:lg:ml-[41.6667%] tw:px-2">
                                         <template v-if="encargados[0].cal_grado_objetivo_m3== 0">
-                                            <button  class="btn btn-primary btn-sm" v-on:click="guardar_resp_doc6(encargados);" >Guardar</button>
+                                            <button  class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-1.5 tw:px-3 tw:py-1.5 tw:text-sm" v-on:click="guardar_resp_doc6(encargados);" >Guardar</button>
                                         </template>
                                         <template v-if="encargados[0].cal_grado_objetivo_m3== 1">
                                             <p style="color: red">Revizado</p>
@@ -554,24 +555,24 @@
                 </div>
             </template>
             <template v-if="encargados[0].solic_programa_gestion_m3 == 2">
-                <div class="row">
-                    <div class="col-md-10 col-md-offset-1">
-                        <div class="panel panel-success">
-                            <div class="panel-body">
-                                <div class="col-md-4 ">
+                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                    <div class="tw:w-full tw:lg:w-10/12 tw:lg:ml-[8.3333%] tw:px-2">
+                        <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
+                            <div class="tw:p-5 tw:sm:p-6">
+                                <div class="tw:w-full tw:lg:w-4/12 tw:px-2">
                                     <p>
                                         2) Programa de G. A.
                                     </p>
                                 </div>
-                                <div class="col-md-3 ">
+                                <div class="tw:w-full tw:lg:w-3/12 tw:px-2">
                                     <label> Documento: Si
-                                        <a  target="_blank" href="/sub_vinculacion/@{{encargados[0].pdf_programa_gestion_m3   }}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a>
+                                        <a  target="_blank" href="/sub_vinculacion/@{{encargados[0].pdf_programa_gestion_m3   }}" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-green-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-green-700 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm"><i class="fa em56 fa-book" title="Ver PDF"></i></a>
                                     </label>
 
 
 
                                 </div>
-                                <div class="col-md-3" style="text-align: left">
+                                <div class="tw:w-full tw:lg:w-3/12 tw:px-2" style="text-align: left">
                                     <template v-if="encargados[0].cal_programa_gestion_m3 == 1">
                                         <template v-if="encargados[0].estado_programa_gestion_m3 == 1">
                                             <label for="personal">Autorizado</label>
@@ -584,9 +585,9 @@
 
                                     </template>
                                     <template v-if="encargados[0].cal_programa_gestion_m3 == 0">
-                                        <div class="form-group">
+                                        <div class="tw:mb-4">
                                             <label for="personal">Autorizar</label>
-                                            <select class="form-control"  v-validate="'required'" v-model="encargados[0].estado_programa_gestion_m3" >
+                                            <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"  v-validate="'required'" v-model="encargados[0].estado_programa_gestion_m3" >
                                                 <option disabled selected hidden :value="0">Selecciona</option>
                                                 <option v-for="respuesta in respuestas" :value="respuesta.id_respuesta">@{{respuesta.descripcion}}</option>
                                             </select>
@@ -595,10 +596,10 @@
                                 </div>
                                 <template v-if="encargados[0].estado_programa_gestion_m3 == 1">
 
-                                    <div class="col-md-2">
+                                    <div class="tw:w-full tw:lg:w-2/12 tw:px-2">
                                         <p><br></p>
                                         <template v-if="encargados[0].cal_programa_gestion_m3== 0">
-                                            <button  class="btn btn-primary btn-sm" v-on:click="guardar_resp_doc7(encargados);" >Guardar</button>
+                                            <button  class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-1.5 tw:px-3 tw:py-1.5 tw:text-sm" v-on:click="guardar_resp_doc7(encargados);" >Guardar</button>
                                         </template>
                                         <template v-if="encargados[0].cal_programa_gestion_m3== 1">
                                             <p style="color: red">Revizado</p>
@@ -610,18 +611,18 @@
 
 
                             <template v-if="encargados[0].estado_programa_gestion_m3 == 2">
-                                <div class="row">
-                                    <div class="col-md-10 col-md-offset-1">
-                                        <div class="form-group">
+                                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                    <div class="tw:w-full tw:lg:w-10/12 tw:lg:ml-[8.3333%] tw:px-2">
+                                        <div class="tw:mb-4">
                                             <label for="domicilio3">Comentario para la modificación </label>
-                                            <textarea class="form-control" id="comentario_doc7" v-model="encargados[0].comentario_programa_gestion_m3" name="comentario_doc7" rows="1"   required>@{{ $encargados[0]->comentario_programa_gestion_m3 }}</textarea>
+                                            <textarea class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500" id="comentario_doc7" v-model="encargados[0].comentario_programa_gestion_m3" name="comentario_doc7" rows="1"   required>@{{ $encargados[0]->comentario_programa_gestion_m3 }}</textarea>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-2 col-md-offset-5">
+                                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                    <div class="tw:w-full tw:lg:w-2/12 tw:lg:ml-[41.6667%] tw:px-2">
                                         <template v-if="encargados[0].cal_programa_gestion_m3== 0">
-                                            <button  class="btn btn-primary btn-sm" v-on:click="guardar_resp_doc7(encargados);" >Guardar</button>
+                                            <button  class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-1.5 tw:px-3 tw:py-1.5 tw:text-sm" v-on:click="guardar_resp_doc7(encargados);" >Guardar</button>
                                         </template>
                                         <template v-if="encargados[0].cal_programa_gestion_m3== 1">
                                             <p style="color: red">Revizado</p>
@@ -637,35 +638,35 @@
             encargados[0].solic_resu_seg_med_m4 == 2 ||
             encargados[0].solic_cumplimiento_req_m4 == 2 ||
              encargados[0].solic_resultado_audi_m4  == 2   ">
-                <div class="row">
-                    <div class="col-md-4 col-md-offset-4">
-                        <div class="panel panel-primary">
-                            <div class="panel-heading" style="text-align: center"><p>Modulo 4</p></div>
+                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                    <div class="tw:w-full tw:lg:w-4/12 tw:lg:ml-[33.3333%] tw:px-2">
+                        <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
+                            <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4" style="text-align: center"><p>Modulo 4</p></div>
 
                         </div>
                     </div>
                 </div>
             </template>
             <template v-if="encargados[0].solic_noconformid_correctivas_m4 == 2">
-                <div class="row">
-                    <div class="col-md-10 col-md-offset-1">
-                        <div class="panel panel-success">
-                            <div class="panel-body">
-                                <div class="col-md-4 ">
+                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                    <div class="tw:w-full tw:lg:w-10/12 tw:lg:ml-[8.3333%] tw:px-2">
+                        <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
+                            <div class="tw:p-5 tw:sm:p-6">
+                                <div class="tw:w-full tw:lg:w-4/12 tw:px-2">
                                     <p> <b>d) La información sobre el desempeño ambiental de la organización,
                                             incluidas las tendencias relativas a:</b> <br>
                                         1) No conformidades y acciones correctivas.
                                     </p>
                                 </div>
-                                <div class="col-md-3 ">
+                                <div class="tw:w-full tw:lg:w-3/12 tw:px-2">
                                     <label> Documento: Si
-                                        <a  target="_blank" href="/sub_vinculacion/@{{encargados[0].pdf_noconformid_correctivas_m4   }}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a>
+                                        <a  target="_blank" href="/sub_vinculacion/@{{encargados[0].pdf_noconformid_correctivas_m4   }}" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-green-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-green-700 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm"><i class="fa em56 fa-book" title="Ver PDF"></i></a>
                                     </label>
 
 
 
                                 </div>
-                                <div class="col-md-3" style="text-align: left">
+                                <div class="tw:w-full tw:lg:w-3/12 tw:px-2" style="text-align: left">
                                     <template v-if="encargados[0].cal_noconformid_correctivas_m4 == 1">
                                         <template v-if="encargados[0].estado_noconformid_correctivas_m4 == 1">
                                             <label for="personal">Autorizado</label>
@@ -678,9 +679,9 @@
 
                                     </template>
                                     <template v-if="encargados[0].cal_noconformid_correctivas_m4 == 0">
-                                        <div class="form-group">
+                                        <div class="tw:mb-4">
                                             <label for="personal">Autorizar</label>
-                                            <select class="form-control"  v-validate="'required'" v-model="encargados[0].estado_noconformid_correctivas_m4" >
+                                            <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"  v-validate="'required'" v-model="encargados[0].estado_noconformid_correctivas_m4" >
                                                 <option disabled selected hidden :value="0">Selecciona</option>
                                                 <option v-for="respuesta in respuestas" :value="respuesta.id_respuesta">@{{respuesta.descripcion}}</option>
                                             </select>
@@ -689,10 +690,10 @@
                                 </div>
                                 <template v-if="encargados[0].estado_noconformid_correctivas_m4 == 1">
 
-                                    <div class="col-md-2">
+                                    <div class="tw:w-full tw:lg:w-2/12 tw:px-2">
                                         <p><br></p>
                                         <template v-if="encargados[0].cal_noconformid_correctivas_m4== 0">
-                                            <button  class="btn btn-primary btn-sm" v-on:click="guardar_resp_doc8(encargados);" >Guardar</button>
+                                            <button  class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-1.5 tw:px-3 tw:py-1.5 tw:text-sm" v-on:click="guardar_resp_doc8(encargados);" >Guardar</button>
                                         </template>
                                         <template v-if="encargados[0].cal_noconformid_correctivas_m4== 1">
                                             <p style="color: red">Revizado</p>
@@ -704,18 +705,18 @@
 
 
                             <template v-if="encargados[0].estado_noconformid_correctivas_m4 == 2">
-                                <div class="row">
-                                    <div class="col-md-10 col-md-offset-1">
-                                        <div class="form-group">
+                                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                    <div class="tw:w-full tw:lg:w-10/12 tw:lg:ml-[8.3333%] tw:px-2">
+                                        <div class="tw:mb-4">
                                             <label for="domicilio3">Comentario para la modificación </label>
-                                            <textarea class="form-control" id="comentario_doc8" v-model="encargados[0].comentario_noconformid_correctivas_m4" name="comentario_doc8" rows="1"   required>@{{ $encargados[0]->comentario_noconformid_correctivas_m4 }}</textarea>
+                                            <textarea class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500" id="comentario_doc8" v-model="encargados[0].comentario_noconformid_correctivas_m4" name="comentario_doc8" rows="1"   required>@{{ $encargados[0]->comentario_noconformid_correctivas_m4 }}</textarea>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-2 col-md-offset-5">
+                                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                    <div class="tw:w-full tw:lg:w-2/12 tw:lg:ml-[41.6667%] tw:px-2">
                                         <template v-if="encargados[0].cal_noconformid_correctivas_m4== 0">
-                                            <button  class="btn btn-primary btn-sm" v-on:click="guardar_resp_doc8(encargados);" >Guardar</button>
+                                            <button  class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-1.5 tw:px-3 tw:py-1.5 tw:text-sm" v-on:click="guardar_resp_doc8(encargados);" >Guardar</button>
                                         </template>
                                         <template v-if="encargados[0].cal_noconformid_correctivas_m4== 1">
                                             <p style="color: red">Revizado</p>
@@ -728,24 +729,24 @@
                 </div>
             </template>
             <template v-if="encargados[0].solic_resu_seg_med_m4 == 2">
-                <div class="row">
-                    <div class="col-md-10 col-md-offset-1">
-                        <div class="panel panel-success">
-                            <div class="panel-body">
-                                <div class="col-md-4 ">
+                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                    <div class="tw:w-full tw:lg:w-10/12 tw:lg:ml-[8.3333%] tw:px-2">
+                        <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
+                            <div class="tw:p-5 tw:sm:p-6">
+                                <div class="tw:w-full tw:lg:w-4/12 tw:px-2">
                                     <p>
                                         2) Resultados de seguimiento y medición.
                                     </p>
                                 </div>
-                                <div class="col-md-3 ">
+                                <div class="tw:w-full tw:lg:w-3/12 tw:px-2">
                                     <label> Documento: Si
-                                        <a  target="_blank" href="/sub_vinculacion/@{{encargados[0].pdf_resu_seg_med_m4 }}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a>
+                                        <a  target="_blank" href="/sub_vinculacion/@{{encargados[0].pdf_resu_seg_med_m4 }}" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-green-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-green-700 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm"><i class="fa em56 fa-book" title="Ver PDF"></i></a>
                                     </label>
 
 
 
                                 </div>
-                                <div class="col-md-3" style="text-align: left">
+                                <div class="tw:w-full tw:lg:w-3/12 tw:px-2" style="text-align: left">
                                     <template v-if="encargados[0].cal_resu_seg_med_m4 == 1">
                                         <template v-if="encargados[0].estado_resu_seg_med_m4 == 1">
                                             <label for="personal">Autorizado</label>
@@ -758,9 +759,9 @@
 
                                     </template>
                                     <template v-if="encargados[0].cal_resu_seg_med_m4 == 0">
-                                        <div class="form-group">
+                                        <div class="tw:mb-4">
                                             <label for="personal">Autorizar</label>
-                                            <select class="form-control"  v-validate="'required'" v-model="encargados[0].estado_resu_seg_med_m4" >
+                                            <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"  v-validate="'required'" v-model="encargados[0].estado_resu_seg_med_m4" >
                                                 <option disabled selected hidden :value="0">Selecciona</option>
                                                 <option v-for="respuesta in respuestas" :value="respuesta.id_respuesta">@{{respuesta.descripcion}}</option>
                                             </select>
@@ -769,10 +770,10 @@
                                 </div>
                                 <template v-if="encargados[0].estado_resu_seg_med_m4 == 1">
 
-                                    <div class="col-md-2">
+                                    <div class="tw:w-full tw:lg:w-2/12 tw:px-2">
                                         <p><br></p>
                                         <template v-if="encargados[0].cal_resu_seg_med_m4== 0">
-                                            <button  class="btn btn-primary btn-sm" v-on:click="guardar_resp_doc9(encargados);" >Guardar</button>
+                                            <button  class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-1.5 tw:px-3 tw:py-1.5 tw:text-sm" v-on:click="guardar_resp_doc9(encargados);" >Guardar</button>
                                         </template>
                                         <template v-if="encargados[0].cal_resu_seg_med_m4== 1">
                                             <p style="color: red">Revizado</p>
@@ -784,18 +785,18 @@
 
 
                             <template v-if="encargados[0].estado_resu_seg_med_m4 == 2">
-                                <div class="row">
-                                    <div class="col-md-10 col-md-offset-1">
-                                        <div class="form-group">
+                                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                    <div class="tw:w-full tw:lg:w-10/12 tw:lg:ml-[8.3333%] tw:px-2">
+                                        <div class="tw:mb-4">
                                             <label for="domicilio3">Comentario para la modificación </label>
-                                            <textarea class="form-control" id="comentario_doc9" v-model="encargados[0].comentario_resu_seg_med_m4" name="comentario_doc9" rows="1"   required>@{{ $encargados[0]->comentario_resu_seg_med_m4 }}</textarea>
+                                            <textarea class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500" id="comentario_doc9" v-model="encargados[0].comentario_resu_seg_med_m4" name="comentario_doc9" rows="1"   required>@{{ $encargados[0]->comentario_resu_seg_med_m4 }}</textarea>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-2 col-md-offset-5">
+                                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                    <div class="tw:w-full tw:lg:w-2/12 tw:lg:ml-[41.6667%] tw:px-2">
                                         <template v-if="encargados[0].cal_resu_seg_med_m4== 0">
-                                            <button  class="btn btn-primary btn-sm" v-on:click="guardar_resp_doc9(encargados);" >Guardar</button>
+                                            <button  class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-1.5 tw:px-3 tw:py-1.5 tw:text-sm" v-on:click="guardar_resp_doc9(encargados);" >Guardar</button>
                                         </template>
                                         <template v-if="encargados[0].cal_resu_seg_med_m4== 1">
                                             <p style="color: red">Revizado</p>
@@ -808,24 +809,24 @@
                 </div>
             </template>
             <template v-if="encargados[0].solic_cumplimiento_req_m4 == 2">
-                <div class="row">
-                    <div class="col-md-10 col-md-offset-1">
-                        <div class="panel panel-success">
-                            <div class="panel-body">
-                                <div class="col-md-4 ">
+                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                    <div class="tw:w-full tw:lg:w-10/12 tw:lg:ml-[8.3333%] tw:px-2">
+                        <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
+                            <div class="tw:p-5 tw:sm:p-6">
+                                <div class="tw:w-full tw:lg:w-4/12 tw:px-2">
                                     <p>
                                         3) Cumplimiento de los requisitos legales y otros requisitos.
                                     </p>
                                 </div>
-                                <div class="col-md-3 ">
+                                <div class="tw:w-full tw:lg:w-3/12 tw:px-2">
                                     <label> Documento: Si
-                                        <a  target="_blank" href="/sub_vinculacion/@{{encargados[0].pdf_cumplimiento_req_m4 }}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a>
+                                        <a  target="_blank" href="/sub_vinculacion/@{{encargados[0].pdf_cumplimiento_req_m4 }}" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-green-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-green-700 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm"><i class="fa em56 fa-book" title="Ver PDF"></i></a>
                                     </label>
 
 
 
                                 </div>
-                                <div class="col-md-3" style="text-align: left">
+                                <div class="tw:w-full tw:lg:w-3/12 tw:px-2" style="text-align: left">
                                     <template v-if="encargados[0].cal_cumplimiento_req_m4 == 1">
                                         <template v-if="encargados[0].estado_cumplimiento_req_m4 == 1">
                                             <label for="personal">Autorizado</label>
@@ -838,9 +839,9 @@
 
                                     </template>
                                     <template v-if="encargados[0].cal_cumplimiento_req_m4 == 0">
-                                        <div class="form-group">
+                                        <div class="tw:mb-4">
                                             <label for="personal">Autorizar</label>
-                                            <select class="form-control"  v-validate="'required'" v-model="encargados[0].estado_cumplimiento_req_m4" >
+                                            <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"  v-validate="'required'" v-model="encargados[0].estado_cumplimiento_req_m4" >
                                                 <option disabled selected hidden :value="0">Selecciona</option>
                                                 <option v-for="respuesta in respuestas" :value="respuesta.id_respuesta">@{{respuesta.descripcion}}</option>
                                             </select>
@@ -849,10 +850,10 @@
                                 </div>
                                 <template v-if="encargados[0].estado_cumplimiento_req_m4 == 1">
 
-                                    <div class="col-md-2">
+                                    <div class="tw:w-full tw:lg:w-2/12 tw:px-2">
                                         <p><br></p>
                                         <template v-if="encargados[0].cal_cumplimiento_req_m4== 0">
-                                            <button  class="btn btn-primary btn-sm" v-on:click="guardar_resp_doc10(encargados);" >Guardar</button>
+                                            <button  class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-1.5 tw:px-3 tw:py-1.5 tw:text-sm" v-on:click="guardar_resp_doc10(encargados);" >Guardar</button>
                                         </template>
                                         <template v-if="encargados[0].cal_cumplimiento_req_m4== 1">
                                             <p style="color: red">Revizado</p>
@@ -864,18 +865,18 @@
 
 
                             <template v-if="encargados[0].estado_cumplimiento_req_m4 == 2">
-                                <div class="row">
-                                    <div class="col-md-10 col-md-offset-1">
-                                        <div class="form-group">
+                                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                    <div class="tw:w-full tw:lg:w-10/12 tw:lg:ml-[8.3333%] tw:px-2">
+                                        <div class="tw:mb-4">
                                             <label for="domicilio3">Comentario para la modificación </label>
-                                            <textarea class="form-control" id="comentario_doc10" v-model="encargados[0].comentario_cumplimiento_req_m4" name="comentario_doc10" rows="1"   required>@{{ $encargados[0]->comentario_cumplimiento_req_m4 }}</textarea>
+                                            <textarea class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500" id="comentario_doc10" v-model="encargados[0].comentario_cumplimiento_req_m4" name="comentario_doc10" rows="1"   required>@{{ $encargados[0]->comentario_cumplimiento_req_m4 }}</textarea>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-2 col-md-offset-5">
+                                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                    <div class="tw:w-full tw:lg:w-2/12 tw:lg:ml-[41.6667%] tw:px-2">
                                         <template v-if="encargados[0].cal_cumplimiento_req_m4== 0">
-                                            <button  class="btn btn-primary btn-sm" v-on:click="guardar_resp_doc10(encargados);" >Guardar</button>
+                                            <button  class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-1.5 tw:px-3 tw:py-1.5 tw:text-sm" v-on:click="guardar_resp_doc10(encargados);" >Guardar</button>
                                         </template>
                                         <template v-if="encargados[0].cal_cumplimiento_req_m4== 1">
                                             <p style="color: red">Revizado</p>
@@ -888,24 +889,24 @@
                 </div>
             </template>
             <template v-if="encargados[0].solic_resultado_audi_m4 == 2">
-                <div class="row">
-                    <div class="col-md-10 col-md-offset-1">
-                        <div class="panel panel-success">
-                            <div class="panel-body">
-                                <div class="col-md-4 ">
+                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                    <div class="tw:w-full tw:lg:w-10/12 tw:lg:ml-[8.3333%] tw:px-2">
+                        <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
+                            <div class="tw:p-5 tw:sm:p-6">
+                                <div class="tw:w-full tw:lg:w-4/12 tw:px-2">
                                     <p>
                                         4)Resultados de las auditorias.
                                     </p>
                                 </div>
-                                <div class="col-md-3 ">
+                                <div class="tw:w-full tw:lg:w-3/12 tw:px-2">
                                     <label> Documento: Si
-                                        <a  target="_blank" href="/sub_vinculacion/@{{encargados[0].pdf_resultado_audi_m4 }}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a>
+                                        <a  target="_blank" href="/sub_vinculacion/@{{encargados[0].pdf_resultado_audi_m4 }}" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-green-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-green-700 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm"><i class="fa em56 fa-book" title="Ver PDF"></i></a>
                                     </label>
 
 
 
                                 </div>
-                                <div class="col-md-3" style="text-align: left">
+                                <div class="tw:w-full tw:lg:w-3/12 tw:px-2" style="text-align: left">
                                     <template v-if="encargados[0].cal_resultado_audi_m4 == 1">
                                         <template v-if="encargados[0].estado_resultado_audi_m4 == 1">
                                             <label for="personal">Autorizado</label>
@@ -918,9 +919,9 @@
 
                                     </template>
                                     <template v-if="encargados[0].cal_resultado_audi_m4 == 0">
-                                        <div class="form-group">
+                                        <div class="tw:mb-4">
                                             <label for="personal">Autorizar</label>
-                                            <select class="form-control"  v-validate="'required'" v-model="encargados[0].estado_resultado_audi_m4" >
+                                            <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"  v-validate="'required'" v-model="encargados[0].estado_resultado_audi_m4" >
                                                 <option disabled selected hidden :value="0">Selecciona</option>
                                                 <option v-for="respuesta in respuestas" :value="respuesta.id_respuesta">@{{respuesta.descripcion}}</option>
                                             </select>
@@ -929,10 +930,10 @@
                                 </div>
                                 <template v-if="encargados[0].estado_resultado_audi_m4 == 1">
 
-                                    <div class="col-md-2">
+                                    <div class="tw:w-full tw:lg:w-2/12 tw:px-2">
                                         <p><br></p>
                                         <template v-if="encargados[0].cal_resultado_audi_m4 == 0">
-                                            <button  class="btn btn-primary btn-sm" v-on:click="guardar_resp_doc11(encargados);" >Guardar</button>
+                                            <button  class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-1.5 tw:px-3 tw:py-1.5 tw:text-sm" v-on:click="guardar_resp_doc11(encargados);" >Guardar</button>
                                         </template>
                                         <template v-if="encargados[0].cal_resultado_audi_m4 == 1">
                                             <p style="color: red">Revizado</p>
@@ -944,18 +945,18 @@
 
 
                             <template v-if="encargados[0].estado_resultado_audi_m4 == 2">
-                                <div class="row">
-                                    <div class="col-md-10 col-md-offset-1">
-                                        <div class="form-group">
+                                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                    <div class="tw:w-full tw:lg:w-10/12 tw:lg:ml-[8.3333%] tw:px-2">
+                                        <div class="tw:mb-4">
                                             <label for="domicilio3">Comentario para la modificación </label>
-                                            <textarea class="form-control" id="comentario_doc11" v-model="encargados[0].comentario_resultado_audi_m4" name="comentario_doc11" rows="1"   required>@{{ $encargados[0]->comentario_resultado_audi_m4 }}</textarea>
+                                            <textarea class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500" id="comentario_doc11" v-model="encargados[0].comentario_resultado_audi_m4" name="comentario_doc11" rows="1"   required>@{{ $encargados[0]->comentario_resultado_audi_m4 }}</textarea>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-2 col-md-offset-5">
+                                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                    <div class="tw:w-full tw:lg:w-2/12 tw:lg:ml-[41.6667%] tw:px-2">
                                         <template v-if="encargados[0].cal_resultado_audi_m4 == 0">
-                                            <button  class="btn btn-primary btn-sm" v-on:click="guardar_resp_doc11(encargados);" >Guardar</button>
+                                            <button  class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-1.5 tw:px-3 tw:py-1.5 tw:text-sm" v-on:click="guardar_resp_doc11(encargados);" >Guardar</button>
                                         </template>
                                         <template v-if="encargados[0].cal_resultado_audi_m4 == 1">
                                             <p style="color: red">Revizado</p>
@@ -968,27 +969,27 @@
                 </div>
             </template>
             <template v-if="encargados[0].solic_adecuacion_recurso_m5 == 2">
-                <div class="row">
-                    <div class="col-md-4 col-md-offset-4">
-                        <div class="panel panel-primary">
-                            <div class="panel-heading" style="text-align: center"><p>Modulo 5</p></div>
+                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                    <div class="tw:w-full tw:lg:w-4/12 tw:lg:ml-[33.3333%] tw:px-2">
+                        <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
+                            <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4" style="text-align: center"><p>Modulo 5</p></div>
 
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-10 col-md-offset-1">
-                        <div class="panel panel-success">
-                            <div class="panel-body">
-                                <div class="col-md-4 ">
+                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                    <div class="tw:w-full tw:lg:w-10/12 tw:lg:ml-[8.3333%] tw:px-2">
+                        <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
+                            <div class="tw:p-5 tw:sm:p-6">
+                                <div class="tw:w-full tw:lg:w-4/12 tw:px-2">
                                     <p>
                                         e)Adecuación de los recursos .
                                     </p>
                                 </div>
-                                <div class="col-md-3 ">
+                                <div class="tw:w-full tw:lg:w-3/12 tw:px-2">
                                     <template v-if="encargados[0].evi_adecuacion_recurso_m5 == 1">
                                         <label> ¿ Requiere adecuación de recursos ?: Si
-                                            <a  target="_blank" href="/sub_vinculacion/@{{encargados[0].pdf_adecuacion_recurso_m5 }}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a>
+                                            <a  target="_blank" href="/sub_vinculacion/@{{encargados[0].pdf_adecuacion_recurso_m5 }}" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-green-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-green-700 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm"><i class="fa em56 fa-book" title="Ver PDF"></i></a>
                                         </label>
                                     </template>
                                     <template v-if="encargados[0].evi_adecuacion_recurso_m5 == 2">
@@ -998,7 +999,7 @@
 
 
                                 </div>
-                                <div class="col-md-3" style="text-align: left">
+                                <div class="tw:w-full tw:lg:w-3/12 tw:px-2" style="text-align: left">
                                     <template v-if="encargados[0].cal_adecuacion_recurso_m5 == 1">
                                         <template v-if="encargados[0].estado_adecuacion_recurso_m5 == 1">
                                             <label for="personal">Autorizado</label>
@@ -1011,9 +1012,9 @@
 
                                     </template>
                                     <template v-if="encargados[0].cal_adecuacion_recurso_m5 == 0">
-                                        <div class="form-group">
+                                        <div class="tw:mb-4">
                                             <label for="personal">Autorizar</label>
-                                            <select class="form-control"  v-validate="'required'" v-model="encargados[0].estado_adecuacion_recurso_m5" >
+                                            <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"  v-validate="'required'" v-model="encargados[0].estado_adecuacion_recurso_m5" >
                                                 <option disabled selected hidden :value="0">Selecciona</option>
                                                 <option v-for="respuesta in respuestas" :value="respuesta.id_respuesta">@{{respuesta.descripcion}}</option>
                                             </select>
@@ -1022,10 +1023,10 @@
                                 </div>
                                 <template v-if="encargados[0].estado_adecuacion_recurso_m5 == 1">
 
-                                    <div class="col-md-2">
+                                    <div class="tw:w-full tw:lg:w-2/12 tw:px-2">
                                         <p><br></p>
                                         <template v-if="encargados[0].cal_adecuacion_recurso_m5 == 0">
-                                            <button  class="btn btn-primary btn-sm" v-on:click="guardar_resp_doc12(encargados);" >Guardar</button>
+                                            <button  class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-1.5 tw:px-3 tw:py-1.5 tw:text-sm" v-on:click="guardar_resp_doc12(encargados);" >Guardar</button>
                                         </template>
                                         <template v-if="encargados[0].cal_adecuacion_recurso_m5 == 1">
                                             <p style="color: red">Revizado</p>
@@ -1037,18 +1038,18 @@
 
 
                             <template v-if="encargados[0].estado_adecuacion_recurso_m5 == 2">
-                                <div class="row">
-                                    <div class="col-md-10 col-md-offset-1">
-                                        <div class="form-group">
+                                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                    <div class="tw:w-full tw:lg:w-10/12 tw:lg:ml-[8.3333%] tw:px-2">
+                                        <div class="tw:mb-4">
                                             <label for="domicilio3">Comentario para la modificación </label>
-                                            <textarea class="form-control" id="comentario_doc12" v-model="encargados[0].comentario_adecuacion_recurso_m5" name="comentario_doc12" rows="1"   required>@{{ $encargados[0]->comentario_adecuacion_recurso_m5 }}</textarea>
+                                            <textarea class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500" id="comentario_doc12" v-model="encargados[0].comentario_adecuacion_recurso_m5" name="comentario_doc12" rows="1"   required>@{{ $encargados[0]->comentario_adecuacion_recurso_m5 }}</textarea>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-2 col-md-offset-5">
+                                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                    <div class="tw:w-full tw:lg:w-2/12 tw:lg:ml-[41.6667%] tw:px-2">
                                         <template v-if="encargados[0].cal_adecuacion_recurso_m5 == 0">
-                                            <button  class="btn btn-primary btn-sm" v-on:click="guardar_resp_doc12(encargados);" >Guardar</button>
+                                            <button  class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-1.5 tw:px-3 tw:py-1.5 tw:text-sm" v-on:click="guardar_resp_doc12(encargados);" >Guardar</button>
                                         </template>
                                         <template v-if="encargados[0].cal_adecuacion_recurso_m5 == 1">
                                             <p style="color: red">Revizado</p>
@@ -1061,33 +1062,33 @@
                 </div>
             </template>
             <template v-if="encargados[0].solic_comunicacion_pertinente_m6 == 2">
-                <div class="row">
-                    <div class="col-md-4 col-md-offset-4">
-                        <div class="panel panel-primary">
-                            <div class="panel-heading" style="text-align: center"><p>Modulo 6</p></div>
+                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                    <div class="tw:w-full tw:lg:w-4/12 tw:lg:ml-[33.3333%] tw:px-2">
+                        <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
+                            <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4" style="text-align: center"><p>Modulo 6</p></div>
 
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-10 col-md-offset-1">
-                        <div class="panel panel-success">
-                            <div class="panel-body">
-                                <div class="col-md-4 ">
+                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                    <div class="tw:w-full tw:lg:w-10/12 tw:lg:ml-[8.3333%] tw:px-2">
+                        <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
+                            <div class="tw:p-5 tw:sm:p-6">
+                                <div class="tw:w-full tw:lg:w-4/12 tw:px-2">
                                     <p>
                                         f)Las comunicaciones pertinentes de las partes interesadas, incluidas las quejas.
                                     </p>
                                 </div>
-                                <div class="col-md-3 ">
+                                <div class="tw:w-full tw:lg:w-3/12 tw:px-2">
 
                                     <label> Documento: Si
-                                        <a  target="_blank" href="/sub_vinculacion/@{{encargados[0].pdf_comunicacion_pertinente_m6 }}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a>
+                                        <a  target="_blank" href="/sub_vinculacion/@{{encargados[0].pdf_comunicacion_pertinente_m6 }}" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-green-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-green-700 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm"><i class="fa em56 fa-book" title="Ver PDF"></i></a>
                                     </label>
 
 
 
                                 </div>
-                                <div class="col-md-3" style="text-align: left">
+                                <div class="tw:w-full tw:lg:w-3/12 tw:px-2" style="text-align: left">
                                     <template v-if="encargados[0].cal_comunicacion_pertinente_m6 == 1">
                                         <template v-if="encargados[0].estado_comunicacion_pertinente_m6 == 1">
                                             <label for="personal">Autorizado</label>
@@ -1100,9 +1101,9 @@
 
                                     </template>
                                     <template v-if="encargados[0].cal_comunicacion_pertinente_m6 == 0">
-                                        <div class="form-group">
+                                        <div class="tw:mb-4">
                                             <label for="personal">Autorizar</label>
-                                            <select class="form-control"  v-validate="'required'" v-model="encargados[0].estado_comunicacion_pertinente_m6" >
+                                            <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"  v-validate="'required'" v-model="encargados[0].estado_comunicacion_pertinente_m6" >
                                                 <option disabled selected hidden :value="0">Selecciona</option>
                                                 <option v-for="respuesta in respuestas" :value="respuesta.id_respuesta">@{{respuesta.descripcion}}</option>
                                             </select>
@@ -1111,10 +1112,10 @@
                                 </div>
                                 <template v-if="encargados[0].estado_comunicacion_pertinente_m6 == 1">
 
-                                    <div class="col-md-2">
+                                    <div class="tw:w-full tw:lg:w-2/12 tw:px-2">
                                         <p><br></p>
                                         <template v-if="encargados[0].cal_comunicacion_pertinente_m6 == 0">
-                                            <button  class="btn btn-primary btn-sm" v-on:click="guardar_resp_doc13(encargados);" >Guardar</button>
+                                            <button  class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-1.5 tw:px-3 tw:py-1.5 tw:text-sm" v-on:click="guardar_resp_doc13(encargados);" >Guardar</button>
                                         </template>
                                         <template v-if="encargados[0].cal_comunicacion_pertinente_m6 == 1">
                                             <p style="color: red">Revizado</p>
@@ -1126,18 +1127,18 @@
 
 
                             <template v-if="encargados[0].estado_comunicacion_pertinente_m6 == 2">
-                                <div class="row">
-                                    <div class="col-md-10 col-md-offset-1">
-                                        <div class="form-group">
+                                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                    <div class="tw:w-full tw:lg:w-10/12 tw:lg:ml-[8.3333%] tw:px-2">
+                                        <div class="tw:mb-4">
                                             <label for="domicilio3">Comentario para la modificación </label>
-                                            <textarea class="form-control" id="comentario_doc13" v-model="encargados[0].comentario_comunicacion_pertinente_m6" name="comentario_doc13" rows="1"   required>@{{ $encargados[0]->comentario_comunicacion_pertinente_m6 }}</textarea>
+                                            <textarea class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500" id="comentario_doc13" v-model="encargados[0].comentario_comunicacion_pertinente_m6" name="comentario_doc13" rows="1"   required>@{{ $encargados[0]->comentario_comunicacion_pertinente_m6 }}</textarea>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-2 col-md-offset-5">
+                                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                    <div class="tw:w-full tw:lg:w-2/12 tw:lg:ml-[41.6667%] tw:px-2">
                                         <template v-if="encargados[0].cal_comunicacion_pertinente_m6 == 0">
-                                            <button  class="btn btn-primary btn-sm" v-on:click="guardar_resp_doc13(encargados);" >Guardar</button>
+                                            <button  class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-1.5 tw:px-3 tw:py-1.5 tw:text-sm" v-on:click="guardar_resp_doc13(encargados);" >Guardar</button>
                                         </template>
                                         <template v-if="encargados[0].cal_comunicacion_pertinente_m6 == 1">
                                             <p style="color: red">Revizado</p>
@@ -1150,27 +1151,27 @@
                 </div>
             </template>
             <template v-if="encargados[0].solic_oportunidades_mejora_m7 == 2">
-                <div class="row">
-                    <div class="col-md-4 col-md-offset-4">
-                        <div class="panel panel-primary">
-                            <div class="panel-heading" style="text-align: center"><p>Modulo 7</p></div>
+                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                    <div class="tw:w-full tw:lg:w-4/12 tw:lg:ml-[33.3333%] tw:px-2">
+                        <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
+                            <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4" style="text-align: center"><p>Modulo 7</p></div>
 
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-10 col-md-offset-1">
-                        <div class="panel panel-success">
-                            <div class="panel-body">
-                                <div class="col-md-4 ">
+                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                    <div class="tw:w-full tw:lg:w-10/12 tw:lg:ml-[8.3333%] tw:px-2">
+                        <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
+                            <div class="tw:p-5 tw:sm:p-6">
+                                <div class="tw:w-full tw:lg:w-4/12 tw:px-2">
                                     <p>
                                         g)Las oportunidades de mejora continua.
                                     </p>
                                 </div>
-                                <div class="col-md-3 ">
+                                <div class="tw:w-full tw:lg:w-3/12 tw:px-2">
                                     <template v-if="encargados[0].evi_oportunidades_mejora_m7 == 1">
                                         <label> ¿ Presenta oportunidades de mejora continua ?: Si
-                                            <a  target="_blank" href="/sub_vinculacion/@{{encargados[0].pdf_oportunidades_mejora_m7 }}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a>
+                                            <a  target="_blank" href="/sub_vinculacion/@{{encargados[0].pdf_oportunidades_mejora_m7 }}" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-green-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-green-700 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm"><i class="fa em56 fa-book" title="Ver PDF"></i></a>
                                         </label>
                                     </template>
                                     <template v-if="encargados[0].evi_oportunidades_mejora_m7 == 2">
@@ -1180,7 +1181,7 @@
 
 
                                 </div>
-                                <div class="col-md-3" style="text-align: left">
+                                <div class="tw:w-full tw:lg:w-3/12 tw:px-2" style="text-align: left">
                                     <template v-if="encargados[0].cal_oportunidades_mejora_m7 == 1">
                                         <template v-if="encargados[0].estado_oportunidades_mejora_m7 == 1">
                                             <label for="personal">Autorizado</label>
@@ -1193,9 +1194,9 @@
 
                                     </template>
                                     <template v-if="encargados[0].cal_oportunidades_mejora_m7 == 0">
-                                        <div class="form-group">
+                                        <div class="tw:mb-4">
                                             <label for="personal">Autorizar</label>
-                                            <select class="form-control"  v-validate="'required'" v-model="encargados[0].estado_oportunidades_mejora_m7" >
+                                            <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"  v-validate="'required'" v-model="encargados[0].estado_oportunidades_mejora_m7" >
                                                 <option disabled selected hidden :value="0">Selecciona</option>
                                                 <option v-for="respuesta in respuestas" :value="respuesta.id_respuesta">@{{respuesta.descripcion}}</option>
                                             </select>
@@ -1204,10 +1205,10 @@
                                 </div>
                                 <template v-if="encargados[0].estado_oportunidades_mejora_m7 == 1">
 
-                                    <div class="col-md-2">
+                                    <div class="tw:w-full tw:lg:w-2/12 tw:px-2">
                                         <p><br></p>
                                         <template v-if="encargados[0].cal_oportunidades_mejora_m7 == 0">
-                                            <button  class="btn btn-primary btn-sm" v-on:click="guardar_resp_doc14(encargados);" >Guardar</button>
+                                            <button  class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-1.5 tw:px-3 tw:py-1.5 tw:text-sm" v-on:click="guardar_resp_doc14(encargados);" >Guardar</button>
                                         </template>
                                         <template v-if="encargados[0].cal_oportunidades_mejora_m7 == 1">
                                             <p style="color: red">Revizado</p>
@@ -1219,19 +1220,19 @@
 
 
                             <template v-if="encargados[0].estado_oportunidades_mejora_m7 == 2">
-                                <div class="row">
-                                    <div class="col-md-10 col-md-offset-1">
-                                        <div class="form-group">
+                                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                    <div class="tw:w-full tw:lg:w-10/12 tw:lg:ml-[8.3333%] tw:px-2">
+                                        <div class="tw:mb-4">
                                             <label for="domicilio3">Comentario para la modificación </label>
-                                            <textarea class="form-control" id="comentario_doc12" v-model="encargados[0].comentario_oportunidades_mejora_m7" name="comentario_doc12" rows="2"   required>@{{ $encargados[0]->comentario_oportunidades_mejora_m7 }}</textarea>
+                                            <textarea class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500" id="comentario_doc12" v-model="encargados[0].comentario_oportunidades_mejora_m7" name="comentario_doc12" rows="2"   required>@{{ $encargados[0]->comentario_oportunidades_mejora_m7 }}</textarea>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-2 col-md-offset-5">
+                                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                    <div class="tw:w-full tw:lg:w-2/12 tw:lg:ml-[41.6667%] tw:px-2">
                                         <template v-if="encargados[0].cal_oportunidades_mejora_m7 == 0">
 
-                                            <button  class="btn btn-primary btn-sm" v-on:click="guardar_resp_doc14(encargados);" >Guardar</button>
+                                            <button  class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-1.5 tw:px-3 tw:py-1.5 tw:text-sm" v-on:click="guardar_resp_doc14(encargados);" >Guardar</button>
                                         </template>
                                         <template v-if="encargados[0].cal_oportunidades_mejora_m7 == 1">
                                             <p style="color: red">Revizado</p>

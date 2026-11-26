@@ -6,7 +6,7 @@
             <tr>
 
                 <th>Requisito</th>
-                <th>Ver Documento</th>
+                <th>Ver documento</th>
                 <th>Acción</th>
                 <th>Comentarios</th>
 

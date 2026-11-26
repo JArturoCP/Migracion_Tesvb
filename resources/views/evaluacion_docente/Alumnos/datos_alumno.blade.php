@@ -2,6 +2,7 @@
 @section('title', 'Datos del alumno')
 @include('partials.panel.recursos_app', ['validacion' => true, 'datatables' => true])
 @include('partials.panel.formularios')
+@include('partials.panel.estados_datos_alumno')
 @section('content')
     <main>
         <x-panel.encabezado titulo="Datos del alumno" />
@@ -24,6 +25,10 @@
             $estiloPasoAlumno = 'tab-pane tw:space-y-5 tw:motion-safe:animate-in tw:motion-safe:fade-in-0 tw:motion-safe:slide-in-from-bottom-1 tw:motion-safe:duration-200';
         @endphp
 
+        @php
+            $fechaCapturadaTutor = old('fecha_nac_tutor', $datos_t->fecha_nac_T);
+            $fechaNacimientoTutor = is_string($fechaCapturadaTutor) ? \App\Services\EdadAlumno::fecha($fechaCapturadaTutor) : null;
+        @endphp
         <div id="stepper_alumno" class="tw:space-y-5">
             <x-panel.tarjeta>
                 <div class="tw:mb-4 tw:flex tw:items-center tw:justify-between tw:gap-3 tw:text-sm">
@@ -58,7 +63,7 @@
                 </ol>
             </x-panel.tarjeta>
 
-            <form method="POST" action="{{ url('/datos_alumno') }}" id="formgeneral" data-panel-seguimiento="alumno"
+            <form method="POST" action="{{ url('/datos_alumno') }}" id="formgeneral" data-datos-estudiante data-panel-seguimiento="alumno"
                 class="tw:[&_[aria-invalid=true]]:border-amber-500"
                 data-alumno-errores="{{ json_encode($errors->getBag('default')->messages()) }}">
                 @csrf
@@ -89,19 +94,21 @@
                         </section>
                     <section class="{{ $estiloPasoAlumno }}" id="uno" role="tabpanel" aria-labelledby="paso-alumno-uno">
                             @include('evaluacion_docente.Alumnos.encabezado_paso', ['paso' => $pasosAlumno['uno']])
+                        <p class="tw:mb-4 tw:text-sm tw:text-gray-600 tw:dark:text-gray-300">Los campos marcados como «Solo lectura» o «Bloqueado» son de consulta.</p>
                         <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4">
                             <div class="tw:min-w-0 tw:w-full tw:sm:w-1/2 tw:lg:w-2/12 tw:px-2">
-                                <h4 class="tw:mb-1.5 tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">No. de Cuenta<b class="tw:text-red-600 tw:dark:text-red-400">*</b></h4>
+                                <label for="cuenta" class="tw:mb-1.5 tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">Matrícula<b class="tw:text-red-600 tw:dark:text-red-400">*</b></label>
                                 <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"  placeholder="" name="id" value="{{$datos->id_alumno}}" style="display:none;">
                                 <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"  placeholder="" name="id_tutor" value="{{$datos_t->id_tutor}}" style="display:none;">
                                 <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"  placeholder="" name="existe" value="{{$existe}}" style="display:none;">
                                 <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"  placeholder="" name="cuentao" value="{{$datos->cuenta}}" style="display:none;">
-                                @if($dat ==0)
+                                @if($dat == 0 && ($datos->cuenta === null || $datos->cuenta === ''))
                                     <input type="text" class="@error('cuenta') tw:ring-1 tw:ring-red-500 @enderror tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"  placeholder="Ejem: 201207017" name="cuenta" id="cuenta"
                                            value="{{$datos->cuenta}}" >
                                 @else
-                                    <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"  readonly="readonly" name="cuenta" id="cuenta"
+                                    <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"  readonly="readonly" aria-describedby="cuenta-estado" name="cuenta" id="cuenta"
                                            value="{{$datos->cuenta}}" >
+                                    <small id="cuenta-estado" class="tw:block tw:text-xs tw:text-gray-600 tw:dark:text-gray-300">Solo lectura</small>
                                 @endif
                                 @if($errors->has('cuenta'))
                                     <span class="tw:text-sm tw:text-red-600 tw:dark:text-red-400">{{$errors->first('cuenta')}}</span>
@@ -110,7 +117,7 @@
                                 @endif
                             </div>
                             <div class="tw:min-w-0 tw:w-full tw:sm:w-1/2 tw:lg:w-3/12 tw:px-2">
-                                <h4 class="tw:mb-1.5 tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">Nombre(s)<b class="tw:text-red-600 tw:dark:text-red-400">*</b></h4>
+                                <label for="nomalu" class="tw:mb-1.5 tw:block tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">Nombre(s)<b class="tw:text-red-600 tw:dark:text-red-400">*</b></label>
                                 <input type="text" class="@error('nomalu') tw:ring-1 tw:ring-red-500 @enderror tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"  placeholder="" onkeyup="javascript:this.value=this.value.toUpperCase();" name="nomalu" id="nomalu" value="{{$datos->nombre}}" >
                                 @if($errors->has('nomalu'))
                                     <span class="tw:text-sm tw:text-red-600 tw:dark:text-red-400">{{$errors->first('nomalu')}}</span>
@@ -120,7 +127,7 @@
                                 @endif
                             </div>
                             <div class="tw:min-w-0 tw:w-full tw:sm:w-1/2 tw:lg:w-3/12 tw:px-2">
-                                <h4 class="tw:mb-1.5 tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">Apellido Paterno<a class="tw:text-red-600 tw:dark:text-red-400">*</a></h4>
+                                <label for="appalu" class="tw:mb-1.5 tw:block tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">Apellido paterno<a class="tw:text-red-600 tw:dark:text-red-400">*</a></label>
                                 <input type="text" class="@error('appalu') tw:ring-1 tw:ring-red-500 @enderror tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"  placeholder="" name="appalu" id="appalu" onkeyup="javascript:this.value=this.value.toUpperCase();" value="{{$datos->apaterno}}">
                                 @if($errors->has('appalu'))
                                     <span class="tw:text-sm tw:text-red-600 tw:dark:text-red-400">{{$errors->first('appalu')}} </span>
@@ -132,7 +139,7 @@
                             </div>
 
                             <div class="tw:min-w-0 tw:w-full tw:sm:w-1/2 tw:lg:w-3/12 tw:px-2">
-                                <h4 class="tw:mb-1.5 tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">Apellido Materno<b class="tw:text-red-600 tw:dark:text-red-400">*</b></h4>
+                                <label for="apmalu" class="tw:mb-1.5 tw:block tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">Apellido materno<b class="tw:text-red-600 tw:dark:text-red-400">*</b></label>
                                 <input type="text" class="@error('apmalu') tw:ring-1 tw:ring-red-500 @enderror tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"  placeholder="" onkeyup="javascript:this.value=this.value.toUpperCase();" name="apmalu" id="apmalu" value="{{$datos->amaterno}}">
                                 @if($errors->has('apmalu'))
                                     <span class="tw:text-sm tw:text-red-600 tw:dark:text-red-400">{{$errors->first('appalu')}} </span>
@@ -142,22 +149,18 @@
                         </div>
                         <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4">
                             <div class="tw:min-w-0 tw:w-full tw:sm:w-1/2 tw:lg:w-2/12 tw:px-2">
-                                <h4 class="tw:mb-1.5 tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">Fecha De Nacimiento<b class="tw:text-red-600 tw:dark:text-red-400">*</b></h4>
-                                <input type="date" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="fecha_nac" id="fecha_nac" value="{{ str_contains((string) old('fecha_nac', $datos->fecha_nac), '/') ? implode('-', array_reverse(explode('/', old('fecha_nac', $datos->fecha_nac)))) : old('fecha_nac', $datos->fecha_nac) }}">
+                                <label for="fecha_nac" class="tw:mb-1.5 tw:block tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">Fecha de nacimiento<b aria-hidden="true" class="tw:text-red-600 tw:dark:text-red-400">*</b></label>
+                                <input type="date" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="fecha_nac" id="fecha_nac" value="{{ $fechaNacimiento }}" max="{{ now(\App\Services\EdadAlumno::ZONA_HORARIA)->toDateString() }}" required>
                             </div>
-                            <div class="tw:min-w-0 tw:w-full tw:sm:w-1/2 tw:lg:w-1/12 tw:px-2" id="fecha_nacimiento">
-                                @if($ed == 0)
-                                    <h4 class="tw:mb-1.5 tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">Edad<b class="tw:text-red-600 tw:dark:text-red-400">*</b></h4>
-                                <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"  placeholder="" name="edadalu" value="{{$datos->edad}}" >
-                                @else
-                                    <h4 class="tw:mb-1.5 tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">Edad<b class="tw:text-red-600 tw:dark:text-red-400">*</b></h4>
-                                    <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"  placeholder="" name="edadalu" value="{{$edad}}" readonly="readonly">
-                                @endif
+                            <div class="tw:min-w-0 tw:w-full tw:sm:w-1/2 tw:lg:w-2/12 tw:px-2">
+                                <label for="edadalu" class="tw:mb-1.5 tw:block tw:text-sm tw:font-medium">Edad</label>
+                                <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="edadalu" id="edadalu" value="{{ $edad }}" readonly aria-describedby="edadalu-ayuda" placeholder="No disponible">
+                                <small aria-live="polite" id="edadalu-ayuda" class="tw:block tw:text-xs tw:text-gray-600 tw:dark:text-gray-300">{{ $edad === null ? 'No disponible sin una fecha de nacimiento válida.' : 'Calculada automáticamente' }}</small>
                             </div>
                             <div class="tw:min-w-0 tw:w-full tw:sm:w-1/2 tw:lg:w-3/12 tw:px-2">
 
-                                <h4 class="tw:mb-1.5 tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">Genero<b class="tw:text-red-600 tw:dark:text-red-400">*</b></h4>
-                                <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"  name="generoalu" value="{{$datos->genero}}">
+                                <label for="generoalu" class="tw:mb-1.5 tw:block tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">Género<b class="tw:text-red-600 tw:dark:text-red-400">*</b></label>
+                                <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"  name="generoalu" id="generoalu" value="{{$datos->genero}}">
                                         @if($datos->genero == null)
                                             <option disabled selected hidden>Selecciona una opción</option>
                                             <option  value="F">FEMENINO</option>
@@ -172,13 +175,13 @@
                                 </select>
                             </div>
                             <div class="tw:min-w-0 tw:w-full tw:sm:w-1/2 tw:lg:w-3/12 tw:px-2">
-                                <h4 class="tw:mb-1.5 tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">Curp<b class="tw:text-red-600 tw:dark:text-red-400">*</b></h4>
-                                <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"  onkeyup="javascript:this.value=this.value.toUpperCase();" placeholder="" name="curpalu" oninput="validarInput(this)" value="{{$datos->curp_al}}">
+                                <label for="curpalu" class="tw:mb-1.5 tw:block tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">CURP<b class="tw:text-red-600 tw:dark:text-red-400">*</b></label>
+                                <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"  onkeyup="javascript:this.value=this.value.toUpperCase();" placeholder="" name="curpalu" id="curpalu" oninput="validarInput(this)" value="{{$datos->curp_al}}">
                                 <p id="resultado" aria-live="polite" class="tw:text-sm tw:font-medium tw:text-red-700 tw:dark:text-red-400 tw:data-[valido=true]:text-green-700 tw:dark:data-[valido=true]:text-green-400"></p>
                             </div>
                             <div class="tw:min-w-0 tw:w-full tw:sm:w-1/2 tw:lg:w-3/12 tw:px-2">
                                 <h4 class="tw:mb-1.5 tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">Nacionalidad<b class="tw:text-red-600 tw:dark:text-red-400">*</b></h4>
-                                <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"placeholder="selecciona una Opcion" name="nacioalu" >
+                                <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"placeholder="Selecciona una opción" name="nacioalu" >
                                     @if($existe==0)
                                         <option disabled selected hidden>Selecciona una opción</option>
                                         <option  value="MEXICANA">MEXICANA</option>
@@ -202,11 +205,11 @@
                             </div>
 
                         </div>
-                        <h3 class="tw:border-t tw:border-gray-100 tw:pt-4 tw:text-sm tw:font-semibold tw:text-gray-900 tw:dark:border-gray-800 tw:dark:text-white/90">Contacto del alumno</h3>
+                        <h3 class="tw:border-t tw:border-gray-100 tw:pt-4 tw:text-sm tw:font-semibold tw:text-gray-900 tw:dark:border-gray-800 tw:dark:text-white/90">Contacto del estudiante</h3>
                         <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4">
                             <div class="tw:min-w-0 tw:w-full tw:sm:w-1/2 tw:lg:w-3/12 tw:px-2">
-                                <h4 class="tw:mb-1.5 tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">Estado Civil<b class="tw:text-red-600 tw:dark:text-red-400">*</b></h4>
-                                <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"placeholder="selecciona una Opcion" name="estadoalu" >
+                                <h4 class="tw:mb-1.5 tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">Estado civil<b class="tw:text-red-600 tw:dark:text-red-400">*</b></h4>
+                                <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"placeholder="Selecciona una opción" name="estadoalu" >
                                     @if($existe==0)
                                         <option disabled selected hidden>Selecciona una opción</option>
                                         <option  value="SOLTERO">SOLTERO</option>
@@ -263,14 +266,15 @@
 
                             </div>
                             <div class="tw:min-w-0 tw:w-full tw:sm:w-1/2 tw:lg:w-3/12 tw:px-2">
-                                <h4 class="tw:mb-1.5 tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">Correo<b class="tw:text-red-600 tw:dark:text-red-400">*</b></h4>
-                                <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="Email" readonly="readonly" name="correoalu" value="{{$datos->correo_al}}">
+                                <label for="Email" class="tw:mb-1.5 tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">Correo electrónico<b class="tw:text-red-600 tw:dark:text-red-400">*</b></label>
+                                <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="Email" readonly="readonly" aria-describedby="correoalu-estado" name="correoalu" value="{{ $datos->correo_al ?: ($datos_u->email ?? '') }}">
+                                <small id="correoalu-estado" class="tw:block tw:text-xs tw:text-gray-600 tw:dark:text-gray-300">Solo lectura</small>
                                 <span id="emailOK"></span>
                             </div>
 
                             <div class="tw:min-w-0 tw:w-full tw:sm:w-1/2 tw:lg:w-3/12 tw:px-2">
 
-                                <label for="exampleInputEmail1">TwitTer<b class="tw:sr-only">*</b></label>
+                                <label for="exampleInputEmail1">Twitter<b class="tw:sr-only">*</b></label>
                                 <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="twiteralu" placeholder="" value="{{$datos->twiter_al}}">
                             </div>
 
@@ -282,13 +286,13 @@
                         </div>
                         <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4">
                             <div class="tw:min-w-0 tw:w-full tw:sm:w-1/2 tw:lg:w-3/12 tw:px-2">
-                                <h4 class="tw:mb-1.5 tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">Celular<b class="tw:text-red-600 tw:dark:text-red-400">*</b></h4>
+                                <h4 class="tw:mb-1.5 tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">Teléfono celular<b class="tw:text-red-600 tw:dark:text-red-400">*</b></h4>
                                 <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="celalu" placeholder="Ejem: 7221232323"
                                        onKeypress="if (event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;"
                                        maxlength="10" value="{{$datos->cel_al}}">
                             </div>
                             <div class="tw:min-w-0 tw:w-full tw:sm:w-1/2 tw:lg:w-3/12 tw:px-2">
-                                <label>Tel. Fijo<b class="tw:sr-only">*</b></label>
+                                <label>Teléfono fijo<b class="tw:sr-only">*</b></label>
                                 <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="telalu" placeholder=""
                                        onKeypress="if (event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;"
                                        maxlength="10" value="{{$datos->tel_fijo_al}}">
@@ -296,8 +300,8 @@
                             </div>
 
                             <div class="tw:min-w-0 tw:w-full tw:sm:w-1/2 tw:lg:w-3/12 tw:px-2">
-                                <h4 class="tw:mb-1.5 tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">Entidad de Nacimiento<b class="tw:text-red-600 tw:dark:text-red-400">*</b></h4>
-                                <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"placeholder="selecciona una Opcion" id="entidadalu" name="entidadalu" >
+                                <h4 class="tw:mb-1.5 tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">Entidad de nacimiento<b class="tw:text-red-600 tw:dark:text-red-400">*</b></h4>
+                                <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"placeholder="Selecciona una opción" id="entidadalu" name="entidadalu" >
                                     @if($existe==0)
                                         <option disabled selected hidden>Selecciona una opción</option>
                                         @foreach($entidadnac as $entidadnac)
@@ -323,7 +327,7 @@
                         <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4">
                             <div class="tw:w-full tw:lg:w-10/12 tw:px-2" >
                                 <h3 class="tw:mb-1.5 tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200"><b>Escuela de procedencia</b><b class="tw:text-red-600 tw:dark:text-red-400"></b></h3>
-                                <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" placeholder="selecciona una Opcion" id="escuela" name="escuela" >
+                                <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" placeholder="Selecciona una opción" id="escuela" name="escuela" >
                                     <option disabled selected hidden>Selecciona una opción</option>
                                     @foreach($escuelas as $escuela)
                                         @if($datos->id_escuela_procedencia == $escuela->id_escuela_procedencia)
@@ -342,8 +346,8 @@
                         <h3 class="tw:border-t tw:border-gray-100 tw:pt-4 tw:text-sm tw:font-semibold tw:text-gray-900 tw:dark:border-gray-800 tw:dark:text-white/90">Información académica</h3>
                         <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4">
                             <div class="tw:min-w-0 tw:w-full tw:sm:w-1/2 tw:lg:w-4/12 tw:px-2">
-                                <h4 class="tw:mb-1.5 tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">Carrera<b class="tw:text-red-600 tw:dark:text-red-400">*</b></h4>
-                                <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="carreras" value="{{$datos->id_carrera}}">
+                                <label for="carreras" class="tw:mb-1.5 tw:block tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">Carrera<b class="tw:text-red-600 tw:dark:text-red-400">*</b></label>
+                                <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="carreras" id="carreras" value="{{$datos->id_carrera}}">
                                     @if($existe==0)
 
                                         <option  disabled selected hidden>Selecciona una carrera</option>
@@ -367,8 +371,8 @@
 
                             </div>
                             <div class="tw:min-w-0 tw:w-full tw:sm:w-1/2 tw:lg:w-3/12 tw:px-2">
-                                <h4 class="tw:mb-1.5 tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">Semestre<b class="tw:text-red-600 tw:dark:text-red-400">*</b></h4>
-                                <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"placeholder="selecciona una Opcion" name="semestre" value="{{$datos->id_semestre}}">
+                                <label for="semestre" class="tw:mb-1.5 tw:block tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">Semestre<b class="tw:text-red-600 tw:dark:text-red-400">*</b></label>
+                                <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"placeholder="Selecciona una opción" name="semestre" id="semestre" value="{{$datos->id_semestre}}">
                                     @if($existe==0)
                                         <option disabled selected hidden>Selecciona semestre</option>
                                         @foreach($semestres as $semestres)
@@ -395,8 +399,8 @@
 
                             <div class="tw:min-w-0 tw:w-full tw:sm:w-1/2 tw:lg:w-2/12 tw:px-2">
 
-                                <h4 class="tw:mb-1.5 tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">Grupo<b class="tw:text-red-600 tw:dark:text-red-400">*</b></h4>
-                                <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"placeholder="selecciona una Opcion" name="grupoalu" id="grupoalu">
+                                <label for="grupoalu" class="tw:mb-1.5 tw:block tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">Grupo<b class="tw:text-red-600 tw:dark:text-red-400">*</b></label>
+                                <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"placeholder="Selecciona una opción" name="grupoalu" id="grupoalu">
 
                                     @if($existe==0)
 
@@ -430,7 +434,7 @@
                         <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4">
                             <div class="tw:min-w-0 tw:w-full tw:sm:w-1/2 tw:lg:w-3/12 tw:px-2">
 
-                                <h4 class="tw:mb-1.5 tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">Tienes alguna discapacidad<b class="tw:text-red-600 tw:dark:text-red-400">*</b></h4>
+                                <h4 class="tw:mb-1.5 tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">¿Tienes alguna discapacidad?<b class="tw:text-red-600 tw:dark:text-red-400">*</b></h4>
                                 <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="discapacidad" name="discapacidad" >
                                     @if($existe==0)
 
@@ -457,12 +461,12 @@
 
                             </div>
                             <div class="tw:min-w-0 tw:w-full tw:sm:w-1/2 tw:lg:w-3/12 tw:px-2" id="descripcion_discapacidad">
-                                <h4 class="tw:mb-1.5 tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">Cual es?<b class="tw:text-red-600 tw:dark:text-red-400"></b></h4>
+                                <h4 class="tw:mb-1.5 tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">¿Cuál es?<b class="tw:text-red-600 tw:dark:text-red-400"></b></h4>
                                 <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="descripcion_discapacidad" name="descripcion_discapacidad" placeholder="" value="{{$datos->descripcion_discapacidad}}" re>
                             </div>
                             <div class="tw:min-w-0 tw:w-full tw:sm:w-1/2 tw:lg:w-3/12 tw:px-2">
-                                <h4 class="tw:mb-1.5 tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">Hablas alguna lengua indigena<b class="tw:text-red-600 tw:dark:text-red-400">*</b></h4>
-                                <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"placeholder="selecciona una Opcion" id="lengua" name="lengua" >
+                                <h4 class="tw:mb-1.5 tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">¿Hablas alguna lengua indígena?<b class="tw:text-red-600 tw:dark:text-red-400">*</b></h4>
+                                <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"placeholder="Selecciona una opción" id="lengua" name="lengua" >
                                     @if($existe==0)
 
                                         <option disabled selected hidden>Selecciona una opción</option>
@@ -488,14 +492,14 @@
 
                             </div>
                             <div class="tw:min-w-0 tw:w-full tw:sm:w-1/2 tw:lg:w-3/12 tw:px-2" id="descripcion_lengua">
-                                <h4 class="tw:mb-1.5 tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">Cual es?<b class="tw:text-red-600 tw:dark:text-red-400"></b></h4>
+                                <h4 class="tw:mb-1.5 tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">¿Cuál es?<b class="tw:text-red-600 tw:dark:text-red-400"></b></h4>
                                 <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="descripcion_lengua" name="descripcion_lengua" placeholder="" value="{{$datos->descripcion_lengua }}">
                             </div>
                         </div>
                         <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4">
                             <div class="tw:min-w-0 tw:w-full tw:sm:w-1/2 tw:lg:w-3/12 tw:px-2">
                                 <h5 class="tw:mb-1.5 tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">En que  Institucion de Salud Pública<br> estas afiliado?<b class="tw:text-red-600 tw:dark:text-red-400">*</b></h5>
-                                <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"placeholder="selecciona una Opcion" id="seguro" name="seguro" >
+                                <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"placeholder="Selecciona una opción" id="seguro" name="seguro" >
                                     @if($existe==0)
 
                                         <option disabled selected hidden>Selecciona una opción</option>
@@ -584,7 +588,7 @@
                         <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4">
                             <div class="tw:min-w-0 tw:w-full tw:sm:w-1/2 tw:lg:w-3/12 tw:px-2">
                                 <h4 class="tw:mb-1.5 tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">Estado<b class="tw:text-red-600 tw:dark:text-red-400">*</b></h4>
-                                <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"placeholder="selecciona una Opcion" id="estados_alu" name="estados_alu" >
+                                <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"placeholder="Selecciona una opción" id="estados_alu" name="estados_alu" >
                                     @if($existe==0)
 
                                         <option disabled selected hidden>Selecciona una opción</option>
@@ -611,7 +615,7 @@
                             </div>
                             <div class="tw:min-w-0 tw:w-full tw:sm:w-1/2 tw:lg:w-3/12 tw:px-2">
                                 <h4 class="tw:mb-1.5 tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">Municipio<b class="tw:text-red-600 tw:dark:text-red-400">*</b></h4>
-                                <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"placeholder="selecciona una Opcion" id="municipios_alu" name="municipios_alu" value="">
+                                <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"placeholder="Selecciona una opción" id="municipios_alu" name="municipios_alu" value="">
 
                                 </select>
                             </div>
@@ -620,22 +624,22 @@
                             <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"  placeholder="" name="calle_alu" id="calle_alu" value="{{$datos->calle_al}}">
                             </div>
                             <div class="tw:min-w-0 tw:w-full tw:sm:w-1/2 tw:lg:w-2/12 tw:px-2">
-                            <label for="exampleInputEmail1">No. Exterior<b class="tw:sr-only">*</b></label>
+                            <label for="exampleInputEmail1">Número exterior<b class="tw:sr-only">*</b></label>
                             <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"  placeholder="" name="n_exterior_alu" id="n_exterior_alu" value="{{$datos->n_ext_al}}">
                             </div>
 
                     </div>
                     <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4">
                                 <div class="tw:min-w-0 tw:w-full tw:sm:w-1/2 tw:lg:w-2/12 tw:px-2">
-                            <label for="exampleInputEmail1">No. Interior<b class="tw:sr-only">*</b></label>
+                            <label for="exampleInputEmail1">Número interior<b class="tw:sr-only">*</b></label>
                             <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"  placeholder="" name="n_interior_alu" id="n_interior_alu" value="{{$datos->n_int_al}}">
                                 </div>
                         <div class="tw:min-w-0 tw:w-full tw:sm:w-1/2 tw:lg:w-3/12 tw:px-2">
-                            <h4 class="tw:mb-1.5 tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">Entre Calle<b class="tw:text-red-600 tw:dark:text-red-400">*</b></h4>
+                            <h4 class="tw:mb-1.5 tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">Entre calle<b class="tw:text-red-600 tw:dark:text-red-400">*</b></h4>
                             <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"  placeholder="" name="entre_calle_alu" id="entre_calle_alu" value="{{$datos->entre_calle}}">
                         </div>
                         <div class="tw:min-w-0 tw:w-full tw:sm:w-1/2 tw:lg:w-3/12 tw:px-2">
-                            <h4 class="tw:mb-1.5 tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">Y Calle<b class="tw:text-red-600 tw:dark:text-red-400">*</b></h4>
+                            <h4 class="tw:mb-1.5 tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">Y calle<b class="tw:text-red-600 tw:dark:text-red-400">*</b></h4>
                             <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" placeholder="" name="y_calle_alu" id="y_calle_alu" value="{{$datos->y_calle}}">
                         </div>
                         <div class="tw:min-w-0 tw:w-full tw:sm:w-1/2 tw:lg:w-3/12 tw:px-2">
@@ -645,7 +649,7 @@
                     </div>
                     <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4">
                         <div class="tw:min-w-0 tw:w-full tw:sm:w-1/2 tw:lg:w-2/12 tw:px-2">
-                            <h4 class="tw:mb-1.5 tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">C. Postal<b class="tw:text-red-600 tw:dark:text-red-400">*</b></h4>
+                            <h4 class="tw:mb-1.5 tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">Código postal<b class="tw:text-red-600 tw:dark:text-red-400">*</b></h4>
                             <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" maxlength="5" placeholder="" name="CP_alu" id="CP_alu" value="{{$datos->cp}}">
                         </div>
                         <div class="tw:min-w-0 tw:w-full tw:sm:w-1/2 tw:lg:w-3/12 tw:px-2">
@@ -665,15 +669,15 @@
                             @include('evaluacion_docente.Alumnos.encabezado_paso', ['paso' => $pasosAlumno['tres']])
                     <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4">
                         <div class="tw:min-w-0 tw:w-full tw:sm:w-1/2 tw:lg:w-3/12 tw:px-2">
-                            <h4 class="tw:mb-1.5 tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">Nombre(s)<b class="tw:text-red-600 tw:dark:text-red-400">*</b></h4>
+                            <label for="nombre_tutor" class="tw:mb-1.5 tw:block tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">Nombre(s)<b class="tw:text-red-600 tw:dark:text-red-400">*</b></label>
                             <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"  placeholder="" name="nombre_tutor" id="nombre_tutor" value="{{$datos_t->nombre}}">
                         </div>
                         <div class="tw:min-w-0 tw:w-full tw:sm:w-1/2 tw:lg:w-3/12 tw:px-2">
-                            <h4 class="tw:mb-1.5 tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">Apellido Paterno<b class="tw:text-red-600 tw:dark:text-red-400">*</b></h4>
+                            <label for="ap_tutor" class="tw:mb-1.5 tw:block tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">Apellido paterno<b class="tw:text-red-600 tw:dark:text-red-400">*</b></label>
                             <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"  placeholder="" name="ap_tutor" id="ap_tutor" value="{{$datos_t->ap_paterno_T}}">
                         </div>
                         <div class="tw:min-w-0 tw:w-full tw:sm:w-1/2 tw:lg:w-3/12 tw:px-2">
-                            <h4 class="tw:mb-1.5 tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">Apellido Materno<b class="tw:text-red-600 tw:dark:text-red-400">*</b></h4>
+                            <label for="am_tutor" class="tw:mb-1.5 tw:block tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">Apellido materno<b class="tw:text-red-600 tw:dark:text-red-400">*</b></label>
                             <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"  placeholder="" name="am_tutor" id="am_tutor" value="{{$datos_t->ap_mat_T}}">
                         </div>
                     </div>
@@ -683,22 +687,23 @@
                             <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" placeholder="" name="puesto_tutor" id="puesto_tutor" value="{{$datos_t->puesto}}">
                         </div>
                         <div class="tw:min-w-0 tw:w-full tw:sm:w-1/2 tw:lg:w-3/12 tw:px-2">
-                            <h4 class="tw:mb-1.5 tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">Parentezco<b class="tw:text-red-600 tw:dark:text-red-400">*</b></h4>
+                            <label for="parentesco_tutor" class="tw:mb-1.5 tw:block tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">Parentesco<b class="tw:text-red-600 tw:dark:text-red-400">*</b></label>
                             <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"  placeholder="" name="parentesco_tutor" id="parentesco_tutor" value="{{$datos_t->parentezco}}">
                         </div>
                         <div class="tw:min-w-0 tw:w-full tw:sm:w-1/2 tw:lg:w-3/12 tw:px-2">
-                            <h4 class="tw:mb-1.5 tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">Fecha de Nacimiento<b class="tw:text-red-600 tw:dark:text-red-400">*</b></h4>
-                            <input type="date" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"  placeholder="" name="fecha_nac_tutor" id="fecha_nac_tutor" value="{{ str_contains((string) old('fecha_nac_tutor', $datos_t->fecha_nac_T), '/') ? implode('-', array_reverse(explode('/', old('fecha_nac_tutor', $datos_t->fecha_nac_T)))) : old('fecha_nac_tutor', $datos_t->fecha_nac_T) }}">
+                            <label for="fecha_nac_tutor" class="tw:mb-1.5 tw:block tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">Fecha de nacimiento<b aria-hidden="true" class="tw:text-red-600 tw:dark:text-red-400">*</b></label>
+                            <input type="date" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"  placeholder="" name="fecha_nac_tutor" id="fecha_nac_tutor" value="{{ $fechaNacimientoTutor }}" max="{{ now(\App\Services\EdadAlumno::ZONA_HORARIA)->toDateString() }}" required>
                         </div>
 
                     </div>
                     <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4">
-                    <div class="tw:min-w-0 tw:w-full tw:sm:w-1/2 tw:lg:w-1/12 tw:px-2" id="edad_tutor">
-                        <h4 class="tw:mb-1.5 tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">Edad<b class="tw:text-red-600 tw:dark:text-red-400">*</b></h4>
-                        <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"  placeholder=""  name="edad_tutor" id="edad_tutor" value="{{$datos_t->edad}}" readonly="readonly">
+                    <div class="tw:min-w-0 tw:w-full tw:sm:w-1/2 tw:lg:w-2/12 tw:px-2">
+                        <label for="edad_tutor" class="tw:mb-1.5 tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">Edad</label>
+                        <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="edad_tutor" id="edad_tutor" value="{{ \App\Services\EdadAlumno::calcular($fechaNacimientoTutor) }}" readonly aria-describedby="edad-tutor-ayuda" placeholder="No disponible">
+                        <small id="edad-tutor-ayuda" class="tw:block tw:text-xs tw:text-gray-600 tw:dark:text-gray-300">Calculada automáticamente</small>
                     </div>
                         <div class="tw:min-w-0 tw:w-full tw:sm:w-1/2 tw:lg:w-3/12 tw:px-2">
-                            <h4 class="tw:mb-1.5 tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">Genero<b class="tw:text-red-600 tw:dark:text-red-400">*</b></h4>
+                            <label for="genero_tutor" class="tw:mb-1.5 tw:block tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">Género<b class="tw:text-red-600 tw:dark:text-red-400">*</b></label>
                             <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="genero_tutor" id="genero_tutor">
                                 @if($existe==0)
                                     <option disabled selected hidden>Selecciona una opción</option>
@@ -721,8 +726,8 @@
                             </select>
                         </div>
                         <div class="tw:min-w-0 tw:w-full tw:sm:w-1/2 tw:lg:w-3/12 tw:px-2">
-                            <h4 class="tw:mb-1.5 tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">Estado Civil<b class="tw:text-red-600 tw:dark:text-red-400">*</b></h4>
-                            <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"placeholder="selecciona una Opcion" name="estado_civ_t" id="estado_civ_t" >
+                            <h4 class="tw:mb-1.5 tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">Estado civil<b class="tw:text-red-600 tw:dark:text-red-400">*</b></h4>
+                            <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"placeholder="Selecciona una opción" name="estado_civ_t" id="estado_civ_t" >
                                 @if($existe==0)
                                     <option disabled selected hidden>Selecciona una opción</option>
                                     <option  value="SOLTERO">SOLTERO</option>
@@ -782,7 +787,7 @@
                             </select>
                         </div>
                         <div class="tw:min-w-0 tw:w-full tw:sm:w-1/2 tw:lg:w-3/12 tw:px-2">
-                            <label for="exampleInputEmail1">Grado de Estudios<b class="tw:sr-only">*</b></label>
+                            <label for="exampleInputEmail1">Grado de estudios<b class="tw:sr-only">*</b></label>
                             <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"  placeholder="" name="estudios_tutor" id="estudios_tutor" value="{{$datos_t->grado_est_t}}">
                         </div>
                     </div>
@@ -793,7 +798,7 @@
                         <div class="tw:min-w-0 tw:w-full tw:sm:w-1/2 tw:lg:w-3/12 tw:px-2">
                             <h4 class="tw:mb-1.5 tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">Nacionalidad<b class="tw:text-red-600 tw:dark:text-red-400">*</b></h4>
 
-                            <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"placeholder="selecciona una Opcion" name="nacioanalidad_turor" id="nacioanalidad_turor" >
+                            <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"placeholder="Selecciona una opción" name="nacioanalidad_turor" id="nacioanalidad_turor" >
                                 @if($existe==0)
                                     <option disabled selected hidden>Selecciona una opción</option>
                                     <option  value="MEXICANA">MEXICANA</option>
@@ -815,12 +820,12 @@
                             </select>
                         </div>
                         <div class="tw:min-w-0 tw:w-full tw:sm:w-1/2 tw:lg:w-3/12 tw:px-2">
-                            <h4 class="tw:mb-1.5 tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">Curp<b class="tw:text-red-600 tw:dark:text-red-400">*</b></h4>
+                            <label for="curp_tutor" class="tw:mb-1.5 tw:block tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">CURP<b class="tw:text-red-600 tw:dark:text-red-400">*</b></label>
                             <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" onkeyup="javascript:this.value=this.value.toUpperCase();"  oninput="validarcurp(this)" placeholder="" name="curp_tutor" id="curp_tutor" value="{{$datos_t->curp}}">
                             <p id="result" aria-live="polite" class="tw:text-sm tw:font-medium tw:text-red-700 tw:dark:text-red-400 tw:data-[valido=true]:text-green-700 tw:dark:data-[valido=true]:text-green-400"></p>
                         </div>
                         <div class="tw:min-w-0 tw:w-full tw:sm:w-1/2 tw:lg:w-3/12 tw:px-2">
-                            <label for="exampleInputEmail1">Correo<b class="tw:sr-only">*</b></label>
+                            <label for="exampleInputEmail1">Correo electrónico<b class="tw:sr-only">*</b></label>
                             <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"  placeholder="" name="correo_tutor" id="correo_tutor" value="{{$datos_t->correo_t}}">
                         </div>
                     </div>
@@ -835,7 +840,7 @@
                             <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"  placeholder="" name="facebook_tutor" id="facebook_tutor" value="{{$datos_t->facebook_t}}">
                         </div>
                         <div class="tw:min-w-0 tw:w-full tw:sm:w-1/2 tw:lg:w-3/12 tw:px-2">
-                            <h4 class="tw:mb-1.5 tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">Celular<b class="tw:text-red-600 tw:dark:text-red-400">*</b></h4>
+                            <h4 class="tw:mb-1.5 tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">Teléfono celular<b class="tw:text-red-600 tw:dark:text-red-400">*</b></h4>
                             <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="exampleInputEmail1" nKeypress="if (event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;"
                                    maxlength="10" placeholder="Ejem: 7221232323" name="cel_tutor" id="cel_tutor" value="{{$datos_t->cel_t}}">
                         </div>
@@ -843,7 +848,7 @@
                     </div>
                     <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4">
                     <div class="tw:min-w-0 tw:w-full tw:sm:w-1/2 tw:lg:w-3/12 tw:px-2">
-                        <label for="exampleInputEmail1">Tel Fijo<b class="tw:sr-only">*</b></label>
+                        <label for="exampleInputEmail1">Teléfono fijo<b class="tw:sr-only">*</b></label>
                         <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"  placeholder="" name="tel_fijo_tutor" id="tel_fijo_tutor" value="{{$datos_t->tel_fijo_t}}">
                     </div>
                     </div>
@@ -855,7 +860,7 @@
                        {{--
                           <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4">
                               <div class="tw:min-w-0 tw:w-full tw:sm:w-1/2 tw:lg:w-5/12 tw:px-2">
-                        <h5>El Domicilio del Padre o Tutor es el mismo que el del Alumno?</h5>
+                        <h5>¿El domicilio de tu padre o tutor es el mismo que el tuyo?</h5>
 
                             <p class="tw:text-center" >
                                 <input type="checkbox" value="" id="direccion_igual">
@@ -870,7 +875,7 @@
                             <div class="tw:min-w-0 tw:w-full tw:sm:w-1/2 tw:lg:w-3/12 tw:px-2">
                                 <h4 class="tw:mb-1.5 tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">Estado<b class="tw:text-red-600 tw:dark:text-red-400">*</b></h4>
                             <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" placeholder="" id="estado_tutorinput" name="estado_tutorinput" value="" style="display:none;">
-                            <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"placeholder="selecciona una Opcion" id="estados_tutor" value="" name="estados_tutor">
+                            <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"placeholder="Selecciona una opción" id="estados_tutor" value="" name="estados_tutor">
 
                                 @if($existe==0||$datos_t->estado_T==0)
 
@@ -900,30 +905,30 @@
                             <div class="tw:min-w-0 tw:w-full tw:sm:w-1/2 tw:lg:w-3/12 tw:px-2">
                                 <h4 class="tw:mb-1.5 tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">Municipio<b class="tw:text-red-600 tw:dark:text-red-400">*</b></h4>
                             <input type="text" name="municipios_tutorinput" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" placeholder="" id="municipio_tutorinput" value="" style="display:none;">
-                            <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"placeholder="selecciona una Opcion" id="municipios_tutor" value="" name="municipios_tutor">
+                            <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"placeholder="Selecciona una opción" id="municipios_tutor" value="" name="municipios_tutor">
                                 <option disabled selected hidden>Selecciona una opcion</option>
                             </select>
                             </div>
                             <div class="tw:min-w-0 tw:w-full tw:sm:w-1/2 tw:lg:w-3/12 tw:px-2">
-                                <h4 class="tw:mb-1.5 tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">calle<b class="tw:text-red-600 tw:dark:text-red-400">*</b></h4>
+                                <h4 class="tw:mb-1.5 tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">Calle<b class="tw:text-red-600 tw:dark:text-red-400">*</b></h4>
                             <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" placeholder="" id="calle_tutor" name="calle_tutor" value="{{$datos_t->calle}}">
                             </div>
                             <div class="tw:min-w-0 tw:w-full tw:sm:w-1/2 tw:lg:w-2/12 tw:px-2">
-                            <label for="exampleInputEmail1">No. Exterior<b class="tw:sr-only">*</b></label>
+                            <label for="exampleInputEmail1">Número exterior<b class="tw:sr-only">*</b></label>
                             <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" placeholder="" id="no_exterior_tutor" name="no_exterior_tutor" value="{{$datos_t->n_ext_t}}">
                             </div>
                         </div>
                         <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4">
                             <div class="tw:min-w-0 tw:w-full tw:sm:w-1/2 tw:lg:w-2/12 tw:px-2">
-                            <label for="exampleInputEmail1">No. Interior<b class="tw:sr-only">*</b></label>
+                            <label for="exampleInputEmail1">Número interior<b class="tw:sr-only">*</b></label>
                             <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"placeholder="" id="no_interior_tutor" name="no_interior_tutor" value="{{$datos_t->n_int_t}}">
                             </div>
                             <div class="tw:min-w-0 tw:w-full tw:sm:w-1/2 tw:lg:w-3/12 tw:px-2">
-                                <h4 class="tw:mb-1.5 tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">Entre Calle<b class="tw:text-red-600 tw:dark:text-red-400">*</b></h4>
+                                <h4 class="tw:mb-1.5 tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">Entre calle<b class="tw:text-red-600 tw:dark:text-red-400">*</b></h4>
                             <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"  placeholder="" id="entre_calle_tutor" name="entre_calle_tutor" value="{{$datos_t->entre_calle_t}}">
                             </div>
                             <div class="tw:min-w-0 tw:w-full tw:sm:w-1/2 tw:lg:w-3/12 tw:px-2">
-                                <h4 class="tw:mb-1.5 tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">Y Calle<b class="tw:text-red-600 tw:dark:text-red-400">*</b></h4>
+                                <h4 class="tw:mb-1.5 tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">Y calle<b class="tw:text-red-600 tw:dark:text-red-400">*</b></h4>
                             <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"  placeholder="" id="y_calle_tutor" name="y_calle_tutor" value="{{$datos_t->y_calle_t}}">
                             </div>
                             <div class="tw:min-w-0 tw:w-full tw:sm:w-1/2 tw:lg:w-3/12 tw:px-2">
@@ -933,7 +938,7 @@
                         </div>
                         <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4">
                             <div class="tw:min-w-0 tw:w-full tw:sm:w-1/2 tw:lg:w-2/12 tw:px-2">
-                                <h4 class="tw:mb-1.5 tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">C. Postal<b class="tw:text-red-600 tw:dark:text-red-400">*</b></h4>
+                                <h4 class="tw:mb-1.5 tw:text-sm tw:font-medium tw:text-gray-800 tw:dark:text-gray-200">Código postal<b class="tw:text-red-600 tw:dark:text-red-400">*</b></h4>
                             <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"  placeholder="" id="cp_tutor" name="cp_tutor" value="{{$datos_t->cp_t}}">
                             </div>
                             <div class="tw:min-w-0 tw:w-full tw:sm:w-1/2 tw:lg:w-3/12 tw:px-2">
@@ -1044,13 +1049,13 @@
 
         if(lenguas == 1) {
             $('#descripcion_lengua').empty();
-            $('#descripcion_lengua').append('<label for="exampleInputEmail1">Cual es?<b class="tw:text-red-600 tw:dark:text-red-400"></b></label> <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="descripcion_lengua" name="descripcion_lengua"  value=""  readonly="readonly">\n' +
+            $('#descripcion_lengua').append('<label for="exampleInputEmail1">¿Cuál es?<b class="tw:text-red-600 tw:dark:text-red-400"></b></label> <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="descripcion_lengua" name="descripcion_lengua"  value=""  readonly="readonly">\n' +
                 '                          ');
         }
         var disc=$("#discapacidad").val();
         if(disc == 1) {
             $('#descripcion_discapacidad').empty();
-            $('#descripcion_discapacidad').append(' <label for="exampleInputEmail1">Cual es?<b class="tw:text-red-600 tw:dark:text-red-400"></b></label> <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="descripcion_discapacidad" name="descripcion_discapacidad" placeholder="" value="" readonly="readonly">\n' +
+            $('#descripcion_discapacidad').append(' <label for="exampleInputEmail1">¿Cuál es?<b class="tw:text-red-600 tw:dark:text-red-400"></b></label> <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="descripcion_discapacidad" name="descripcion_discapacidad" placeholder="" value="" readonly="readonly">\n' +
                 '                          ');
         }
 
@@ -1118,16 +1123,38 @@
             return true; //Validado
         }
 
-        function calculateAge(birthday) {
-            var birthday_arr = birthday.split("-").reverse();
-            var birthday_date = new Date(birthday_arr[2], birthday_arr[1] - 1, birthday_arr[0]);
-            var ageDifMs = Date.now() - birthday_date.getTime();
-            var ageDate = new Date(ageDifMs);
-            return Math.abs(ageDate.getUTCFullYear() - 1970);
+        function calculateAge(fecha) {
+            if (!/^\d{4}-\d{2}-\d{2}$/.test(fecha)) return null;
+            const calendario = new Date(fecha + 'T00:00:00Z');
+            if (Number.isNaN(calendario.getTime()) || calendario.toISOString().slice(0, 10) !== fecha) return null;
+            const hoy = new Intl.DateTimeFormat('en-CA', {
+                timeZone: @json(\App\Services\EdadAlumno::ZONA_HORARIA),
+                year: 'numeric', month: '2-digit', day: '2-digit',
+            }).formatToParts(new Date());
+            const parte = tipo => hoy.find(item => item.type === tipo).value;
+            const fechaActual = parte('year') + '-' + parte('month') + '-' + parte('day');
+            if (fecha > fechaActual || fecha.startsWith('0000')) return null;
+            const cumpleañosPendiente = fecha.slice(5) > fechaActual.slice(5);
+            return Number(parte('year')) - Number(fecha.slice(0, 4)) - Number(cumpleañosPendiente);
         }
 
 
         $(document).ready(function(){
+
+            const fechaAlumno = document.getElementById('fecha_nac');
+            const actualizarEdadAlumno = () => {
+                const edad = calculateAge(fechaAlumno.value);
+                document.getElementById('edadalu').value = edad ?? '';
+                document.getElementById('edadalu-ayuda').textContent = edad === null
+                    ? 'No disponible sin una fecha de nacimiento válida.'
+                    : 'Calculada automáticamente: ' + edad + ' años.';
+            };
+            fechaAlumno.addEventListener('input', actualizarEdadAlumno);
+            fechaAlumno.addEventListener('change', actualizarEdadAlumno);
+            const fechaTutor = document.getElementById('fecha_nac_tutor');
+            fechaTutor.addEventListener('input', () => {
+                document.getElementById('edad_tutor').value = calculateAge(fechaTutor.value) ?? '';
+            });
 
             $("#seguro").change(function(e) {
 
@@ -1235,28 +1262,19 @@
             });
 
 
-            $("#fecha_nac_tutor").change(function (e) {
-                var fecha_nacimiento_tutor = e.target.value;
-                if (!fecha_nacimiento_tutor) { return; }
-                var fecha_tutor= calculateAge(fecha_nacimiento_tutor);
-                $('#edad_tutor').empty();
-                $('#edad_tutor').append(' <label for="exampleInputEmail1">Edad<b class="tw:text-red-600 tw:dark:text-red-400">*</b></label>\n' +
-                    '                <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"  placeholder=""  name="edad_tutor" id="edad_tutor" value="'+fecha_tutor+'" readonly="readonly">\n' +
-                    '               ');
 
-            });
 
             $("#lengua").change(function(e) {
 
                 var lengua = e.target.value;
                 if(lengua == 1) {
                     $('#descripcion_lengua').empty();
-                    $('#descripcion_lengua').append('<label for="exampleInputEmail1">Cual es?<b class="tw:text-red-600 tw:dark:text-red-400"></b></label> <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="descripcion_lengua" name="descripcion_lengua"  value=""  readonly="readonly">\n' +
+                    $('#descripcion_lengua').append('<label for="exampleInputEmail1">¿Cuál es?<b class="tw:text-red-600 tw:dark:text-red-400"></b></label> <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="descripcion_lengua" name="descripcion_lengua"  value=""  readonly="readonly">\n' +
                         '                          ');
                 }
                 if(lengua == 2) {
                     $('#descripcion_lengua').empty();
-                    $('#descripcion_lengua').append('<label for="exampleInputEmail1">Cual es?<b class="tw:text-red-600 tw:dark:text-red-400"></b></label> <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="descripcion_lengua" name="descripcion_lengua" value="{{$datos->descripcion_lengua }}" required>\n' +
+                    $('#descripcion_lengua').append('<label for="exampleInputEmail1">¿Cuál es?<b class="tw:text-red-600 tw:dark:text-red-400"></b></label> <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="descripcion_lengua" name="descripcion_lengua" value="{{$datos->descripcion_lengua }}" required>\n' +
                         '                          ');
                 }
             });
@@ -1265,12 +1283,12 @@
                 var discapacidad = e.target.value;
                 if(discapacidad == 1) {
                     $('#descripcion_discapacidad').empty();
-                    $('#descripcion_discapacidad').append(' <label for="exampleInputEmail1">Cual es?<b class="tw:text-red-600 tw:dark:text-red-400"></b></label> <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="descripcion_discapacidad" name="descripcion_discapacidad" placeholder="" value="" readonly="readonly">\n' +
+                    $('#descripcion_discapacidad').append(' <label for="exampleInputEmail1">¿Cuál es?<b class="tw:text-red-600 tw:dark:text-red-400"></b></label> <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="descripcion_discapacidad" name="descripcion_discapacidad" placeholder="" value="" readonly="readonly">\n' +
                         '                          ');
                 }
                 if(discapacidad == 2) {
                     $('#descripcion_discapacidad').empty();
-                    $('#descripcion_discapacidad').append(' <label for="exampleInputEmail1">Cual es?<b class="tw:text-red-600 tw:dark:text-red-400"></b></label> <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="descripcion_discapacidad"  name="descripcion_discapacidad" placeholder="" value="{{$datos->descripcion_discapacidad}}" required>\n' +
+                    $('#descripcion_discapacidad').append(' <label for="exampleInputEmail1">¿Cuál es?<b class="tw:text-red-600 tw:dark:text-red-400"></b></label> <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-gray-100 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="descripcion_discapacidad"  name="descripcion_discapacidad" placeholder="" value="{{$datos->descripcion_discapacidad}}" required>\n' +
                         '                          ');
                 }
             });
@@ -1298,7 +1316,6 @@
                     appalu:"required",
                     apmalu:"required",
                     fecha_nac:"required",
-                    edadalu:{required:true, digits:true,minlength: 2},
                     generoalu:"required",
                     curpalu:"required",
                     nacioalu:"required",
@@ -1333,7 +1350,6 @@
                     am_tutor:"required",
                     parentesco_tutor:"required",
                     fecha_nac_tutor:"required",
-                    edad_tutor:{required:true, digits:true,minlength: 2},
                     genero_tutor:"required",
                     estado_civ_t:"required",
                     nacioanalidad_turor:"required",

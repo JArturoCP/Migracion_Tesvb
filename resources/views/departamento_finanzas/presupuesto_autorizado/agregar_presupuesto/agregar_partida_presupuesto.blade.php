@@ -1,66 +1,45 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 @section('title', 'Presupuesto autorizado')
+@include('partials.panel.recursos_app')
 @section('content')
-    <div class="row">
-        <div class="col-md-8  col-md-offset-2">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h3 class="panel-title text-center">Presupuesto autorizado del {{ $year }}</h3>
-                </div>
-            </div>
-        </div>
-    </div>
+<div class="tw-pantalla">
+    <x-panel.encabezado :titulo="'Presupuesto autorizado del '.$year" :migas="['Finanzas' => null]" />
 
 
-    <div class="row">
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
         @if($estado_presupuesto == 0)
-        <div class="col-md-1 col-md-offset-2">
-            <button data-toggle="modal"  data-tooltip="true" data-placement="left" title="Agregar presupuesto a la partida" data-target="#modal_crear_p" type="button" class="btn btn-success btn-lg flotante">
-                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+        <div class="tw:w-full tw:lg:w-1/12 tw:lg:grow tw:px-2">
+            <button data-toggle="modal"  data-tooltip="true" data-placement="left" title="Agregar presupuesto a la partida" data-target="#modal_crear_p" type="button" class="flotante tw:fixed tw:right-6 tw:bottom-6 tw:z-40 tw:inline-flex tw:size-14 tw:items-center tw:justify-center tw:rounded-full tw:bg-brand-500 tw:text-xl tw:text-white tw:shadow-theme-lg tw:hover:bg-brand-600">
+                <span class="fa fa-plus" aria-hidden="true"></span>
             </button>
         </div>
-            <div class="col-md-2 col-md-offset-6">
-                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#terminar_pres">Registro terminado</button>
+            <div class="tw:w-full tw:lg:w-2/12 tw:lg:grow tw:px-2">
+                <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-red-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-red-700 tw:disabled:bg-red-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-toggle="modal" data-target="#terminar_pres">Registro terminado</button>
             </div>
 
             <!-- modal terminar de registrar presupuesto -->
-            <div class="modal fade" id="terminar_pres" role="dialog">
-                <div class="modal-dialog modal-sm">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title">Termino de registro de presupuesto</h4>
+            <x-panel.modal id="terminar_pres" tamano="sm" sin-relleno clase-cerrar="close">
+                        <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                            
+                            <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">Termino de registro de presupuesto</h4>
                         </div>
-                        <div class="modal-body">
-                            <form id="form_guardar_terminar_presupuesto" class="form" action="{{url("/presupuesto_autorizado/guardar_terminar_presupuesto/".$year )}}" role="form" method="POST" >
+                        <div class="tw-modal-cuerpo">
+                            <form id="form_guardar_terminar_presupuesto" class="" action="{{url("/presupuesto_autorizado/guardar_terminar_presupuesto/".$year )}}" role="form" method="POST" >
                                 {{ csrf_field() }}
                             <p>¿Seguro que ya termino de registrar el presupuesto del {{ $year }}?</p>
                             </form>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                            <button id="aceptar_terminar"  class="btn btn-primary" >Aceptar</button>
+                        <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                            <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cerrar</button>
+                            <button id="aceptar_terminar"  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Aceptar</button>
                         </div>
-                    </div>
-                </div>
-            </div>
+                    </x-panel.modal>
     </div>
         @else
-            <div class="row">
-                <div class="col-md-3 col-md-offset-4">
-                    <div class="panel panel-success">
-                        <div class="panel-heading" style="text-align: center">Registro de presupuesto finalizado</div>
-                    </div>
-                </div>
-            </div>
+            <x-panel.alerta tipo="exito" class="tw:mb-4">Registro de presupuesto finalizado</x-panel.alerta>
 
         @endif
 
-    </div>
-    <div class="row">
-        <div class="col-md-1 col-md-offset-2">
-            <p><br></p>
-        </div>
     </div>
     <style type="text/css">
         #tabla_presupuesto thead tr th {
@@ -74,26 +53,27 @@
 
 
     </style>
-    <div class="row">
-        <div class="col-md-10 col-md-offset-1">
-        <table class="table table-bordered" id="tabla_presupuesto">
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+        <div class="tw:w-full tw:px-2">
+        <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table class="tw-tabla tw-tabla-bordes" id="tabla_presupuesto">
             <thead>
             <tr>
-                <th style="background: grey; color: black;">Partida</th>
-                <th style="background: grey; color: black;">Denominaciòn</th>
-                <th style="background: grey; color: black;">Total</th>
-                <th style="background: #b0d4f1; color: black;">Enero</th>
-                <th style="background: #b0d4f1; color: black;">Febrero</th>
-                <th style="background: #b0d4f1; color: black;">Marzo</th>
-                <th style="background: #b0d4f1; color: black;">Abril</th>
-                <th style="background: #b0d4f1; color: black;">Mayo</th>
-                <th style="background: #b0d4f1; color: black;">Junio</th>
-                <th style="background: #b0d4f1; color: black;">Julio</th>
-                <th style="background: #b0d4f1; color: black;">Agosto</th>
-                <th style="background: #b0d4f1; color: black;">Septiembre</th>
-                <th style="background: #b0d4f1; color: black;">Octubre</th>
-                <th style="background: #b0d4f1; color: black;">Noviembre</th>
-                <th style="background: #b0d4f1; color: black;">Diciembre</th>
+                <th class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90">Partida</th>
+                <th class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90">Denominaciòn</th>
+                <th class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90">Total</th>
+                <th class="tw:bg-sky-100 tw:dark:bg-sky-500/15 tw:text-gray-800 tw:dark:text-white/90">Enero</th>
+                <th class="tw:bg-sky-100 tw:dark:bg-sky-500/15 tw:text-gray-800 tw:dark:text-white/90">Febrero</th>
+                <th class="tw:bg-sky-100 tw:dark:bg-sky-500/15 tw:text-gray-800 tw:dark:text-white/90">Marzo</th>
+                <th class="tw:bg-sky-100 tw:dark:bg-sky-500/15 tw:text-gray-800 tw:dark:text-white/90">Abril</th>
+                <th class="tw:bg-sky-100 tw:dark:bg-sky-500/15 tw:text-gray-800 tw:dark:text-white/90">Mayo</th>
+                <th class="tw:bg-sky-100 tw:dark:bg-sky-500/15 tw:text-gray-800 tw:dark:text-white/90">Junio</th>
+                <th class="tw:bg-sky-100 tw:dark:bg-sky-500/15 tw:text-gray-800 tw:dark:text-white/90">Julio</th>
+                <th class="tw:bg-sky-100 tw:dark:bg-sky-500/15 tw:text-gray-800 tw:dark:text-white/90">Agosto</th>
+                <th class="tw:bg-sky-100 tw:dark:bg-sky-500/15 tw:text-gray-800 tw:dark:text-white/90">Septiembre</th>
+                <th class="tw:bg-sky-100 tw:dark:bg-sky-500/15 tw:text-gray-800 tw:dark:text-white/90">Octubre</th>
+                <th class="tw:bg-sky-100 tw:dark:bg-sky-500/15 tw:text-gray-800 tw:dark:text-white/90">Noviembre</th>
+                <th class="tw:bg-sky-100 tw:dark:bg-sky-500/15 tw:text-gray-800 tw:dark:text-white/90">Diciembre</th>
                 @if($estado_presupuesto == 0)
                 <th></th>
                 <th></th>
@@ -103,112 +83,109 @@
             </thead>
             <tbody>
             <tr>
-                <th colspan="2" style="text-align: center">Total autorizado</th>
-                <th style="text-align: right">{{number_format($total_presupuesto, 2, '.', ',') }}</th>
-                <th style="text-align: right">{{number_format($total_enero, 2, '.', ',') }}</th>
-                <th style="text-align: right">{{number_format($total_febrero, 2, '.', ',') }}</th>
-                <th style="text-align: right">{{number_format($total_marzo, 2, '.', ',') }}</th>
-                <th style="text-align: right">{{number_format($total_abril, 2, '.', ',') }}</th>
-                <th style="text-align: right">{{number_format($total_mayo, 2, '.', ',') }}</th>
-                <th style="text-align: right">{{number_format($total_junio, 2, '.', ',') }}</th>
-                <th style="text-align: right">{{number_format($total_julio, 2, '.', ',') }}</th>
-                <th style="text-align: right">{{number_format($total_agosto, 2, '.', ',') }}</th>
-                <th style="text-align: right">{{number_format($total_septiembre, 2, '.', ',') }}</th>
-                <th style="text-align: right">{{number_format($total_octubre, 2, '.', ',') }}</th>
-                <th style="text-align: right">{{number_format($total_noviembre, 2, '.', ',') }}</th>
-                <th style="text-align: right">{{number_format($total_diciembre, 2, '.', ',') }}</th>
+                <th class="tw:text-center" colspan="2">Total autorizado</th>
+                <th class="tw:text-right">{{number_format($total_presupuesto, 2, '.', ',') }}</th>
+                <th class="tw:text-right">{{number_format($total_enero, 2, '.', ',') }}</th>
+                <th class="tw:text-right">{{number_format($total_febrero, 2, '.', ',') }}</th>
+                <th class="tw:text-right">{{number_format($total_marzo, 2, '.', ',') }}</th>
+                <th class="tw:text-right">{{number_format($total_abril, 2, '.', ',') }}</th>
+                <th class="tw:text-right">{{number_format($total_mayo, 2, '.', ',') }}</th>
+                <th class="tw:text-right">{{number_format($total_junio, 2, '.', ',') }}</th>
+                <th class="tw:text-right">{{number_format($total_julio, 2, '.', ',') }}</th>
+                <th class="tw:text-right">{{number_format($total_agosto, 2, '.', ',') }}</th>
+                <th class="tw:text-right">{{number_format($total_septiembre, 2, '.', ',') }}</th>
+                <th class="tw:text-right">{{number_format($total_octubre, 2, '.', ',') }}</th>
+                <th class="tw:text-right">{{number_format($total_noviembre, 2, '.', ',') }}</th>
+                <th class="tw:text-right">{{number_format($total_diciembre, 2, '.', ',') }}</th>
             </tr>
             <tr>
 
-                <td style="text-align: right"></td>
-                <td style="text-align: right"></td>
-                <td style="text-align: right"></td>
-                <td style="text-align: right"></td>
-                <td style="text-align: right"></td>
-                <td style="text-align: right"></td>
-                <td style="text-align: right"></td>
-                <td style="text-align: right"></td>
-                <td style="text-align: right"></td>
-                <td style="text-align: right"></td>
-                <td style="text-align: right"></td>
-                <td style="text-align: right"></td>
-                <td style="text-align: right"></td>
-                <td style="text-align: right"></td>
-                <td style="text-align: right"></td>
+                <td class="tw:text-right"></td>
+                <td class="tw:text-right"></td>
+                <td class="tw:text-right"></td>
+                <td class="tw:text-right"></td>
+                <td class="tw:text-right"></td>
+                <td class="tw:text-right"></td>
+                <td class="tw:text-right"></td>
+                <td class="tw:text-right"></td>
+                <td class="tw:text-right"></td>
+                <td class="tw:text-right"></td>
+                <td class="tw:text-right"></td>
+                <td class="tw:text-right"></td>
+                <td class="tw:text-right"></td>
+                <td class="tw:text-right"></td>
+                <td class="tw:text-right"></td>
                 @if($estado_presupuesto == 0)
-                <td style="text-align: center">Editar</td>
-                <td style="text-align: center">Eliminar</td>
+                <td class="tw:text-center">Editar</td>
+                <td class="tw:text-center">Eliminar</td>
                     @else
                     @endif
             </tr>
             @foreach($array_partidas as $partida)
             <tr>
 
-                <td style="text-align: right">{{$partida['clave_presupuestal']}}</td>
-                <td style="text-align: right">{{$partida['nombre_partida'] }}</td>
-                <td style="text-align: right">{{number_format($partida['total_presupuesto'], 2, '.', ',') }}</td>
-                <td style="text-align: right">{{number_format($partida['enero_pres'], 2, '.', ',') }}</td>
-                <td style="text-align: right">{{number_format($partida['febrero_pres'], 2, '.', ',') }}</td>
-                <td style="text-align: right">{{number_format($partida['marzo_pres'], 2, '.', ',') }}</td>
-                <td style="text-align: right">{{number_format($partida['abril_pres'], 2, '.', ',') }}</td>
-                <td style="text-align: right">{{number_format($partida['mayo_pres'], 2, '.', ',') }}</td>
-                <td style="text-align: right">{{number_format($partida['junio_pres'], 2, '.', ',') }}</td>
-                <td style="text-align: right">{{number_format($partida['julio_pres'], 2, '.', ',') }}</td>
-                <td style="text-align: right">{{number_format($partida['agosto_pres'], 2, '.', ',') }}</td>
-                <td style="text-align: right">{{number_format($partida['septiembre_pres'], 2, '.', ',') }}</td>
-                <td style="text-align: right">{{number_format($partida['octubre_pres'], 2, '.', ',') }}</td>
-                <td style="text-align: right">{{number_format($partida['noviembre_pres'], 2, '.', ',') }}</td>
-                <td style="text-align: right">{{number_format($partida['diciembre_pres'], 2, '.', ',') }}</td>
+                <td class="tw:text-right">{{$partida['clave_presupuestal']}}</td>
+                <td class="tw:text-right">{{$partida['nombre_partida'] }}</td>
+                <td class="tw:text-right">{{number_format($partida['total_presupuesto'], 2, '.', ',') }}</td>
+                <td class="tw:text-right">{{number_format($partida['enero_pres'], 2, '.', ',') }}</td>
+                <td class="tw:text-right">{{number_format($partida['febrero_pres'], 2, '.', ',') }}</td>
+                <td class="tw:text-right">{{number_format($partida['marzo_pres'], 2, '.', ',') }}</td>
+                <td class="tw:text-right">{{number_format($partida['abril_pres'], 2, '.', ',') }}</td>
+                <td class="tw:text-right">{{number_format($partida['mayo_pres'], 2, '.', ',') }}</td>
+                <td class="tw:text-right">{{number_format($partida['junio_pres'], 2, '.', ',') }}</td>
+                <td class="tw:text-right">{{number_format($partida['julio_pres'], 2, '.', ',') }}</td>
+                <td class="tw:text-right">{{number_format($partida['agosto_pres'], 2, '.', ',') }}</td>
+                <td class="tw:text-right">{{number_format($partida['septiembre_pres'], 2, '.', ',') }}</td>
+                <td class="tw:text-right">{{number_format($partida['octubre_pres'], 2, '.', ',') }}</td>
+                <td class="tw:text-right">{{number_format($partida['noviembre_pres'], 2, '.', ',') }}</td>
+                <td class="tw:text-right">{{number_format($partida['diciembre_pres'], 2, '.', ',') }}</td>
                 @if($estado_presupuesto == 0)
-                <td style="text-align: center;">   <button class="btn btn-primary editar" id="{{ $partida['id_presupuesto_aut'] }}"><i class="glyphicon glyphicon-cog"></i></button></td>
-                <td style="text-align: center;">   <button class="btn btn-danger eliminar" id="{{ $partida['id_presupuesto_aut'] }}"><i class="glyphicon glyphicon-trash"></i></button></td>
+                <td class="tw:text-center">   <button class="editar tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base" id="{{ $partida['id_presupuesto_aut'] }}"><i class="fa fa-cog"></i></button></td>
+                <td class="tw:text-center">   <button class="eliminar tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-red-600 tw:ring-1 tw:ring-red-300 tw:ring-inset tw:hover:bg-red-50 tw:dark:bg-gray-800 tw:dark:text-red-500 tw:dark:ring-red-500/40 tw:dark:hover:bg-red-500/10 tw:size-9 tw:text-base" id="{{ $partida['id_presupuesto_aut'] }}"><i class="fa fa-trash"></i></button></td>
                 @endif
             </tr>
             @endforeach
             </tbody>
         </table>
+</div>
         </div>
     </div>
 
-    <div class="modal fullscreen-modal fade" id="modal_crear_p" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Agregar presupuesto a la partida</h4>
+    <x-panel.modal id="modal_crear_p" tamano="xl" sin-relleno clase-cerrar="close" aria-labelledby="myModalLabel">
+                <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                    
+                    <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="myModalLabel">Agregar presupuesto a la partida</h4>
                 </div>
-                <div class="modal-body">
-                    <form id="form_guardar_partida" class="form" action="{{url("/presupuesto_autorizado/guardar_presupesto_partida/")}}" role="form" method="POST" >
+                <div class="tw-modal-cuerpo">
+                    <form id="form_guardar_partida" class="" action="{{url("/presupuesto_autorizado/guardar_presupesto_partida/")}}" role="form" method="POST" >
                         {{ csrf_field() }}
-                    <div class="row">
-                        <div class="col-md-10 col-md-offset-1">
-                            <div class="dropdown">
+                    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                        <div class="tw:w-full tw:px-2">
+                            <div class="tw:mb-4">
                                 <label for="exampleInputEmail1">Elige partida presupuestal</label>
-                                <select class="form-control  "placeholder="selecciona una Opcion" id="id_partida" name="id_partida" required>
+                                <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"placeholder="selecciona una Opcion" id="id_partida" name="id_partida" required>
                                     <option disabled selected hidden>Selecciona una opción</option>
                                     @foreach($partidas as $partida)
                                         <option value="{{$partida->id_partida_pres}}" data-esta="{{$partida->clave_presupuestal }}">{{ $partida->clave_presupuestal }} {{ $partida->nombre_partida }}</option>
                                     @endforeach
                                 </select>
-                                <br>
                             </div>
                         </div>
-                        <br>
                     </div>
-                    <div class="row">
-                        <div class="col-md-5">
-                            <div class="form-group">
+                    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                        <div class="tw:w-full tw:lg:w-5/12 tw:px-2">
+                            <div class="tw:mb-4">
                                 <label>Ingresa presupuesto del mes de enero</label>
-                                <input class="form-control" id="enero_pres" name="enero_pres" type="text" type="number" step=".01" title="Ingrese un nùmero decimal valido" required></input>
+                                <input class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="enero_pres" name="enero_pres" type="text" type="number" step=".01" title="Ingrese un nùmero decimal valido" required></input>
                             </div>
                             <div id="pesos_enero">
 
                             </div>
                         </div>
-                        <div class="col-md-5">
-                            <div class="form-group">
+                        <div class="tw:w-full tw:lg:w-5/12 tw:px-2">
+                            <div class="tw:mb-4">
                                 <label>Ingresa presupuesto del mes de febrero</label>
-                                <input class="form-control" id="febrero_pres" name="febrero_pres" type="number" step=".01" value="" required></input>
+                                <input class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="febrero_pres" name="febrero_pres" type="number" step=".01" value="" required></input>
                             </div>
                             <div id="pesos_febrero">
 
@@ -216,20 +193,20 @@
                         </div>
                     </div>
 
-                    <div class="row">
-                        <div class="col-md-5">
-                            <div class="form-group">
+                    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                        <div class="tw:w-full tw:lg:w-5/12 tw:px-2">
+                            <div class="tw:mb-4">
                                 <label>Ingresa presupuesto del mes de marzo</label>
-                                <input class="form-control" id="marzo_pres" name="marzo_pres" type="number" step=".01" value="" required></input>
+                                <input class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="marzo_pres" name="marzo_pres" type="number" step=".01" value="" required></input>
                             </div>
                             <div id="pesos_marzo">
 
                             </div>
                         </div>
-                        <div class="col-md-5">
-                            <div class="form-group">
+                        <div class="tw:w-full tw:lg:w-5/12 tw:px-2">
+                            <div class="tw:mb-4">
                                 <label>Ingresa presupuesto del mes de abril</label>
-                                <input class="form-control" id="abril_pres" name="abril_pres" type="number" step=".01" value="" required></input>
+                                <input class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="abril_pres" name="abril_pres" type="number" step=".01" value="" required></input>
                             </div>
                             <div id="pesos_abril">
 
@@ -237,20 +214,20 @@
                         </div>
                     </div>
 
-                    <div class="row">
-                        <div class="col-md-5">
-                            <div class="form-group">
+                    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                        <div class="tw:w-full tw:lg:w-5/12 tw:px-2">
+                            <div class="tw:mb-4">
                                 <label>Ingresa presupuesto del mes de mayo</label>
-                                <input class="form-control" id="mayo_pres" name="mayo_pres" type="number" step=".01" value="" required></input>
+                                <input class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="mayo_pres" name="mayo_pres" type="number" step=".01" value="" required></input>
                             </div>
                             <div id="pesos_mayo">
 
                             </div>
                         </div>
-                        <div class="col-md-5">
-                            <div class="form-group">
+                        <div class="tw:w-full tw:lg:w-5/12 tw:px-2">
+                            <div class="tw:mb-4">
                                 <label>Ingresa presupuesto del mes de junio</label>
-                                <input class="form-control" id="junio_pres" name="junio_pres" type="number" step=".01" value="" required></input>
+                                <input class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="junio_pres" name="junio_pres" type="number" step=".01" value="" required></input>
                             </div>
                             <div id="pesos_junio">
 
@@ -258,20 +235,20 @@
                         </div>
                     </div>
 
-                    <div class="row">
-                        <div class="col-md-5">
-                            <div class="form-group">
+                    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                        <div class="tw:w-full tw:lg:w-5/12 tw:px-2">
+                            <div class="tw:mb-4">
                                 <label>Ingresa presupuesto del mes de julio</label>
-                                <input class="form-control" id="julio_pres" name="julio_pres" type="number" step=".01" value="" required></input>
+                                <input class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="julio_pres" name="julio_pres" type="number" step=".01" value="" required></input>
                             </div>
                             <div id="pesos_julio">
 
                             </div>
                         </div>
-                        <div class="col-md-5">
-                            <div class="form-group">
+                        <div class="tw:w-full tw:lg:w-5/12 tw:px-2">
+                            <div class="tw:mb-4">
                                 <label>Ingresa presupuesto del mes de agosto</label>
-                                <input class="form-control" id="agosto_pres" name="agosto_pres" type="number" step=".01" value="" required></input>
+                                <input class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="agosto_pres" name="agosto_pres" type="number" step=".01" value="" required></input>
                             </div>
                             <div id="pesos_agosto">
 
@@ -279,20 +256,20 @@
                         </div>
                     </div>
 
-                    <div class="row">
-                        <div class="col-md-5">
-                            <div class="form-group">
+                    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                        <div class="tw:w-full tw:lg:w-5/12 tw:px-2">
+                            <div class="tw:mb-4">
                                 <label>Ingresa presupuesto del mes de septiembre</label>
-                                <input class="form-control" id="septiembre_pres" name="septiembre_pres" type="number" step=".01" value="" required></input>
+                                <input class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="septiembre_pres" name="septiembre_pres" type="number" step=".01" value="" required></input>
                             </div>
                             <div id="pesos_septiembre">
 
                             </div>
                         </div>
-                        <div class="col-md-5">
-                            <div class="form-group">
+                        <div class="tw:w-full tw:lg:w-5/12 tw:px-2">
+                            <div class="tw:mb-4">
                                 <label>Ingresa presupuesto del mes de octubre</label>
-                                <input class="form-control" id="octubre_pres" name="octubre_pres" type="number" step=".01" value="" required></input>
+                                <input class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="octubre_pres" name="octubre_pres" type="number" step=".01" value="" required></input>
                             </div>
                             <div id="pesos_octubre">
 
@@ -300,20 +277,20 @@
                         </div>
                     </div>
 
-                    <div class="row">
-                        <div class="col-md-5">
-                            <div class="form-group">
+                    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                        <div class="tw:w-full tw:lg:w-5/12 tw:px-2">
+                            <div class="tw:mb-4">
                                 <label>Ingresa presupuesto del mes de noviembre</label>
-                                <input class="form-control" id="noviembre_pres" name="noviembre_pres" type="number" step=".01" value="" required></input>
+                                <input class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="noviembre_pres" name="noviembre_pres" type="number" step=".01" value="" required></input>
                             </div>
                             <div id="pesos_noviembre">
 
                             </div>
                         </div>
-                        <div class="col-md-5">
-                            <div class="form-group">
+                        <div class="tw:w-full tw:lg:w-5/12 tw:px-2">
+                            <div class="tw:mb-4">
                                 <label>Ingresa presupuesto del mes de diciembre</label>
-                                <input class="form-control" id="diciembre_pres" name="diciembre_pres" type="number" step=".01" value="" required></input>
+                                <input class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="diciembre_pres" name="diciembre_pres" type="number" step=".01" value="" required></input>
                             </div>
                             <div id="pesos_diciembre">
 
@@ -323,85 +300,49 @@
                     </form>
                 </div>
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-primary" id="enviar_presupuesto">Aceptar</button>
+                <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                    <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" id="enviar_presupuesto">Aceptar</button>
                 </div>
-            </div>
-        </div>
-    </div>
+            </x-panel.modal>
 
     {{-- modal modificar requisicion de materiales--}}
 
-    <div class="modal fullscreen-modal fade" id="modal_mod_partida" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="exampleModalLabel">Modificar partida</h4>
+    <x-panel.modal id="modal_mod_partida" tamano="xl" sin-relleno clase-cerrar="close" aria-labelledby="exampleModalLabel">
+                <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                    
+                    <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="exampleModalLabel">Modificar partida</h4>
                 </div>
-                <div class="modal-body">
+                <div class="tw-modal-cuerpo">
                     <div id="contenedor_mod_partida">
 
                     </div>
 
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <button id="guardar_mod_partida"  class="btn btn-primary" >Guardar</button>
+                    <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                        <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                        <button id="guardar_mod_partida"  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Guardar</button>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
+            </x-panel.modal>
 
     {{-- modal eliminar requisicion de materiales--}}
 
-    <div class="modal  fade" id="modal_eliminar_partida" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="exampleModalLabel">Eliminar partida</h4>
+    <x-panel.modal id="modal_eliminar_partida" tamano="lg" sin-relleno clase-cerrar="close" aria-labelledby="exampleModalLabel">
+                <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                    
+                    <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="exampleModalLabel">Eliminar partida</h4>
                 </div>
-                <div class="modal-body">
+                <div class="tw-modal-cuerpo">
                     <div id="contenedor_eliminar_partida">
 
                     </div>
 
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <button id="aceptar_eliminar_partida"  class="btn btn-primary" >Aceptar</button>
+                    <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                        <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                        <button id="aceptar_eliminar_partida"  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Aceptar</button>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-    <style>
-        /*
-Full screen Modal
-*/
-        .fullscreen-modal .modal-dialog {
-            margin: 0;
-            margin-right: auto;
-            margin-left: auto;
-            width: 100%;
-        }
-        @media (min-width: 768px) {
-            .fullscreen-modal .modal-dialog {
-                width: 750px;
-            }
-        }
-        @media (min-width: 992px) {
-            .fullscreen-modal .modal-dialog {
-                width: 970px;
-            }
-        }
-        @media (min-width: 1200px) {
-            .fullscreen-modal .modal-dialog {
-                width: 1170px;
-            }
-        }
-    </style>
+            </x-panel.modal>
     <script>
         $(document).ready(function() {
             $("#aceptar_terminar").click(function (){
@@ -934,4 +875,5 @@ Full screen Modal
 
 
 
+</div>
 @endsection

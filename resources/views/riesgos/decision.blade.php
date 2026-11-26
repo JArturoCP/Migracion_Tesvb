@@ -1,24 +1,26 @@
-@extends('layouts.app')
+@extends('layouts.panel')
+@include('partials.panel.recursos_app', ['validacion' => true])
 @section('title', 'Decisión')
 @section('content')
 
-    <main class="col-md-12">
-        <div class="row">
-            <div class="col-md-5 col-md-offset-3">
+    <main class="tw:w-full tw:lg:w-full tw:px-2">
+        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+            <div class="tw:w-full tw:lg:w-5/12 tw:lg:ml-[25%] tw:px-2">
                 @if (session()->has('flash_notification.message'))
-                    <div class="alert alert-{{ session('flash_notification.level') }}">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <div class="alert alert-{{ session('flash_notification.level') }} tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm">
+                        <button type="button" class="tw:text-2xl tw:leading-none tw:text-gray-400 tw:hover:text-gray-700" data-dismiss="alert" aria-hidden="true">&times;</button>
                         {!! session('flash_notification.message') !!}
                     </div>
                 @endif
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title text-center">Nivel Decisión</h3>
+                <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
+                    <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4">
+                        <h3 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:text-center">Nivel Decisión</h3>
                     </div>
                 </div>
             </div>
-            <div class="col-md-8 col-md-offset-2">
-                <table class="table table-bordered table-resposive">
+            <div class="tw:w-full tw:lg:w-8/12 tw:lg:ml-[16.6667%] tw:px-2">
+                <div class="tw-tabla-contenedor tw:mb-4 tw:max-w-full tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200">
+<table class="table-responsive tw-tabla tw-tabla-bordes">
                     <thead>
                     <tr>
                         <th>Descripción</th>
@@ -32,73 +34,74 @@
                             <td>{{$decision->des_nivel_des}}</td>
 
                             <td>
-                                <a href="#!" class="modificar" data-id="{{ $decision->id_nivel_de }}"><span class="glyphicon glyphicon-cog em2" aria-hidden="true"></span></a>
+                                <a href="#!" class="modificar" data-id="{{ $decision->id_nivel_de }}"><span class="fa fa-cog em2" aria-hidden="true"></span></a>
                             </td>
 
                             <td>
-                                <a class="elimina" data-id="{{ $decision->id_nivel_de }}"><span class="glyphicon glyphicon-trash em2" aria-hidden="true"></span></a>
+                                <a class="elimina" data-id="{{ $decision->id_nivel_de }}"><span class="fa fa-trash em2" aria-hidden="true"></span></a>
                             </td>
                         </tr>
                     @endforeach
 
                     </tbody>
                 </table>
+</div>
             </div>
         </div>
     </main>
 
     <div>
-        <button data-toggle="modal"  data-tooltip="true" data-placement="left" title="Agregar nuevo nivel de decisión" data-target="#modal_crear" type="button" class="btn btn-success btn-lg flotante">
-            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+        <button data-toggle="modal"  data-tooltip="true" data-placement="left" title="Agregar nuevo nivel de decisión" data-target="#modal_crear" type="button" class="flotante tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-green-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-green-700 tw:gap-2 tw:px-5 tw:py-3.5 tw:text-base">
+            <span class="fa fa-plus" aria-hidden="true"></span>
         </button>
     </div>
-    <form id="form_decision_crea" class="form" role="form" method="POST" >
-        <div class="modal fade" id="modal_crear" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <form id="form_decision_crea" class="" role="form" method="POST" >
+        <div class="modal fade tw-modal-compat" id="modal_crear" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" data-panel-modal hidden>
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <button type="button" class="tw:text-2xl tw:leading-none tw:text-gray-400 tw:hover:text-gray-700" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title" id="exampleModalLabel">Agregar Nivel de Decisión</h4>
                     </div>
                     <div class="modal-body">
 
                         {{ csrf_field() }}
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
+                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                            <div class="tw:w-full tw:lg:w-full tw:px-2">
+                                <div class="tw:mb-4">
                                     <label for="des_nivel_des">Descripción Nivel de Decisión</label>
-                                    <input type="text" class="form-control"name="des_nivel_des" placeholder="Nombre">
+                                    <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"name="des_nivel_des" placeholder="Nombre">
                                 </div>
                             </div>
                         </div>
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <input id="save_unidad" type="submit" class="btn btn-primary" value="Guardar"/>
+                        <button type="button" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" data-dismiss="modal">Cancelar</button>
+                        <input id="save_unidad" type="submit" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" value="Guardar"/>
                     </div>
                 </div>
             </div>
         </div>
     </form>
 
-    <form id="form_decision_modi" class="form" role="form" method="POST"  action="">
-        <div class="modal fade" id="modal_modi" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <form id="form_decision_modi" class="" role="form" method="POST"  action="">
+        <div class="modal fade tw-modal-compat" id="modal_modi" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" data-panel-modal hidden>
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <button type="button" class="tw:text-2xl tw:leading-none tw:text-gray-400 tw:hover:text-gray-700" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title" id="exampleModalLabel">Modificar Nivel Decisión</h4>
                     </div>
                     <div class="modal-body">
 
                         {{ csrf_field() }}
                         {{ method_field('PUT') }}
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
+                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                            <div class="tw:w-full tw:lg:w-full tw:px-2">
+                                <div class="tw:mb-4">
                                     <label for="des_decision_modi">Descripción Nivel Decisión</label>
-                                    <input type="text" class="form-control" id="des_decision_modi" name="des_decision_modi" placeholder="Nombre">
+                                    <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="des_decision_modi" name="des_decision_modi" placeholder="Nombre">
                                 </div>
                             </div>
                         </div>
@@ -106,8 +109,8 @@
                     </div>
 
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <input id="save_unidad" type="submit" class="btn btn-primary" value="Guardar"/>
+                        <button type="button" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" data-dismiss="modal">Cancelar</button>
+                        <input id="save_unidad" type="submit" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" value="Guardar"/>
                     </div>
                 </div>
             </div>

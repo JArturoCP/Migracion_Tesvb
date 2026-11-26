@@ -1,24 +1,24 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 @section('title', 'Servicios Escolares Agregar Alumnos en Plantilla')
+@include('partials.panel.recursos_app', ['datatables' => true])
 @section('content')
+<div class="tw-pantalla">
 
-    <main class="col-md-12">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="col-md-6 col-md-offset-1">
-                    <div class="panel panel-info">
-                        <div class="panel-heading">
-                            <h3 class="panel-title text-center">ESTUDIANTES CANDIDATOS</h3>
-                        </div>
-                    </div>
-                    <table id="paginar_table" class="table table-bordered " style="text-align: center">
+    <main class="tw:w-full tw:lg:w-full tw:px-2">
+        <x-panel.encabezado titulo="Estudiantes candidatos" :migas="['Servicios escolares' => null]" />
+<div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+            <div class="tw:flex tw:flex-wrap tw:gap-y-4 tw:w-full tw:lg:w-full tw:px-2">
+                <div class="tw:w-full tw:lg:w-6/12 tw:lg:grow tw:px-2">
+                    
+                    <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table id="paginar_table" class="tw-tabla-centrada tw-tabla tw-tabla-bordes">
                         <thead >
-                        <tr class="info">
-                            <th style="text-align: center">No. de Cuenta</th>
-                            <th style="text-align: center">Nombre</th>
-                            <th style="text-align: center">Apellido Paterno</th>
-                            <th style="text-align: center">Apellido Materno</th>
-                            <th style="text-align: center">A Plantilla</th>
+                        <tr class="tw:bg-sky-50">
+                            <th class="tw:text-center" >No. de Cuenta</th>
+                            <th class="tw:text-center" >Nombre</th>
+                            <th class="tw:text-center" >Apellido Paterno</th>
+                            <th class="tw:text-center" >Apellido Materno</th>
+                            <th class="tw:text-center" >A Plantilla</th>
                         </tr>
                         </thead>
 
@@ -29,9 +29,9 @@
                                 <b><td>{{ $estudiante['nombre'] }}</td></b>
                                 <b><td>{{ $estudiante['apaterno'] }}</td></b>
                                 <b><td>{{ $estudiante['amaterno'] }}</td></b>
-                                <b><td class="text-center">
+                                <b><td class="tw:text-center">
                                         @if($estado_periodo == 1)
-                                            <a class="agrega" data-id="{{ $estudiante['id_alumno'] }}"><span class="glyphicon glyphicon-log-in em2" aria-hidden="true"></span></a>
+                                            <a class="agrega tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base" data-id="{{ $estudiante['id_alumno'] }}"><span class="fa fa-sign-in " aria-hidden="true"></span></a>
                                         @endif
                                     </td>
                                 </b>
@@ -39,20 +39,18 @@
                         @endforeach
                         </tbody>
                     </table>
+</div>
                 </div>
-                <div class="col-md-4">
-                    <div class="panel panel-info">
-                        <div class="panel-heading">
-                            <h3 class="panel-title text-center">ESTUDIANTES EN PLANTILLA</h3>
-                        </div>
-                    </div>
+                <div class="tw:w-full tw:lg:w-4/12 tw:lg:grow tw:px-2">
+                    <h3 class="tw:mb-4 tw:text-center tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">ESTUDIANTES EN PLANTILLA</h3>
 
-                    <table id="paginar_tabla" class="table table-bordered" style="text-align: center">
+                    <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table id="paginar_tabla" class="tw-tabla-centrada tw-tabla tw-tabla-bordes">
                         <thead>
-                        <tr class="info">
-                            <th style="text-align: center">No. Cuenta</th>
-                            <th style="text-align: center">Nombre del alumno</th>
-                            <th style="text-align: center">Eliminar</th>
+                        <tr class="tw:bg-sky-50">
+                            <th class="tw:text-center" >No. Cuenta</th>
+                            <th class="tw:text-center" >Nombre del alumno</th>
+                            <th class="tw:text-center" >Eliminar</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -60,85 +58,72 @@
                             <tr>
                                 <td>{{ $plantilla->cuenta }}</td>
                                 <td>{{$plantilla->nombre ." ". $plantilla->apaterno ." ". $plantilla->amaterno}}</td>
-                                <td class="text-center">
+                                <td class="tw:text-center">
                                     @if($estado_periodo == 1)
-                                        <a class="elimina" data-id_alumno="{{ $plantilla->id_duales_actuales }}">
-                                            <span class="glyphicon glyphicon-trash em2" aria-hidden="true" style="color: crimson"></span>
-                                        </a>
+                                        <a class="elimina tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-red-600 tw:ring-1 tw:ring-red-300 tw:ring-inset tw:hover:bg-red-50 tw:dark:bg-gray-800 tw:dark:text-red-500 tw:dark:ring-red-500/40 tw:dark:hover:bg-red-500/10 tw:size-9 tw:text-base" data-id_alumno="{{ $plantilla->id_duales_actuales }}"><span class="fa fa-trash " aria-hidden="true"></span></a>
                                     @endif
                                 </td>
                             </tr>
                         @endforeach
                         </tbody>
                     </table>
+</div>
                 </div>
             </div>
         </div>
 
         <!-- MODAL PARA AGREGAR ALUMNOS A PLANTILLA -->
-        <div id="modal_agrega" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-            <div class="modal-dialog modal-sm" role="document">
-                <div class="modal-content">
-                    <div class="modal-body text-center">
+        <x-panel.modal id="modal_agrega" tamano="sm" sin-relleno aria-labelledby="mySmallModalLabel">
+                    <div class="tw-modal-cuerpo tw:pt-14 tw:text-center">
                         <form action="{{url("/duales/guardar_alumno_dual")}}" method="POST" role="form" id="form_alumno_crea">
                             {{ csrf_field() }}
                             <input type="hidden" id="alumno" name="alumno" value="" />
                             <b>¿Realmente deseas agregar a éste alumno a plantilla?</b>
                         </form>
-                        <div class="modal-footer">
-                            <button type="button" class="btn" data-dismiss="modal" style="background: crimson;color: whitesmoke;">Cancelar <span class="glyphicon glyphicon-remove-sign"></span></button>
-                            <button id="confirma_agrega" type="button" class="btn btn-success">Aceptar <span class="glyphicon glyphicon-saved"></span></button>
+                        <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                            <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar <span class="fa fa-times-circle"></span></button>
+                            <button id="confirma_agrega" type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap">Aceptar <span class="fa fa-check"></span></button>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
+                </x-panel.modal>
 
         <!-- MODAL PARA ELIMINAR ALUMNOS-->
-        <div id="modal_elimina" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-            <div class="modal-dialog modal-sm" role="document">
-                <div class="modal-content">
-                    <div class="modal-body text-center">
+        <x-panel.modal id="modal_elimina" tamano="sm" sin-relleno aria-labelledby="mySmallModalLabel">
+                    <div class="tw-modal-cuerpo tw:pt-14 tw:text-center">
                         <form action="" method="POST" role="form" id="form_delete">
                             {{ csrf_field() }}
                             <b>¿Realmente deseas eliminar éste elemento?</b>
                             <input type="hidden" id="eliminar_alumno" name="eliminar_alumno" value="">
                         </form>
-                        <div class="modal-footer">
-                            <button type="button" class="btn" data-dismiss="modal" style="background: crimson;color: whitesmoke;">Cancelar
-                                <span class="glyphicon glyphicon-remove-sign"></span></button>
-                            <button id="confirma_elimina" type="button" class="btn btn-success">Aceptar <span class="glyphicon glyphicon-saved"></span></button>
+                        <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                            <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar
+                                <span class="fa fa-times-circle"></span></button>
+                            <button id="confirma_elimina" type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap">Aceptar <span class="fa fa-check"></span></button>
                         </div>
 
                     </div>
-                </div>
-            </div>
-        </div>
+                </x-panel.modal>
 
         <!-- MODAL PARA AGREGAR MATERIAS -->
-        <form id="form_ver_materias" class="form" role="form" method="POST">
-            <div class="modal fade bs-example-modal-lg" id="modal_materias" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                <div class="modal-dialog modal-lg" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header bg-info" style="text-align: center">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <b><h4 class="modal-title" id="myModalLabel">MATERIAS</h4></b>
+        <form id="form_ver_materias" role="form" method="POST">
+            <x-panel.modal id="modal_materias" tamano="lg" sin-relleno clase-cerrar="close" aria-labelledby="myModalLabel">
+                        <div class="tw:px-6 tw:pt-6 tw:pr-14 tw:text-center" >
+                            
+                            <b><h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="myModalLabel">MATERIAS</h4></b>
                         </div>
-                        <div class="modal-body">
+                        <div class="tw-modal-cuerpo">
                             {{ csrf_field() }}
                             <input type="hidden" id="alumnM" name="alumnM" value="">
                             <input type="hidden" id="materias" name="materias" value="">
-                            <div class="row">
-                                <div id="contenedor_materias">
+                            <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                <div class="tw:w-full" id="contenedor_materias">
                                 </div>
                             </div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-success acepta">Agregar</button>
+                        <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                            <button type="button" class="acepta tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap">Agregar</button>
                         </div>
-                    </div>
-                </div>
-            </div>
+                    </x-panel.modal>
         </form>
     </main>
 
@@ -171,5 +156,6 @@
         });
     </script>
 
+</div>
 @endsection
 

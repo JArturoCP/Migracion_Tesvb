@@ -1,17 +1,18 @@
-@extends('layouts.app')
+@extends('layouts.panel')
+@include('partials.panel.recursos_app', ['datatables' => true])
 @section('title', 'Resultados Examen de Conocimientos Generales')
 
 @section('content')
 
-<div class="container">
+<div class="tw:w-full">
 
   {{-- HEADER --}}
-  <div class="row">
-    <div class="col-md-12">
+  <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+    <div class="tw:w-full tw:lg:w-full tw:px-2">
 
       <div style="background:#2c3e50; color:white; padding:15px; margin-top:10px; margin-bottom:15px;">
         <h3 style="margin:0;">
-          <span class="glyphicon glyphicon-user"></span>
+          <span class="fa fa-user"></span>
           Resultados Examen de Conocimientos Generales
         </h3>
         <small style="opacity:0.8;">
@@ -23,20 +24,20 @@
   </div>
 
   {{-- CARD TABLE --}}
-  <div class="row">
-    <div class="col-md-12">
+  <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+    <div class="tw:w-full tw:lg:w-full tw:px-2">
 
       <div style="background:#fff; border:1px solid #ddd; box-shadow:0 2px 4px rgba(0,0,0,0.1);">
 
         <div style="padding:10px 15px; border-bottom:1px solid #eee; background:#f8f8f8; overflow:hidden;">
 
           <strong style="float:left; margin-top:6px;">
-            <span class="glyphicon glyphicon-list"></span>
+            <span class="fa fa-list"></span>
             Listado de docentes
           </strong>
 
-          <a href="{{ route('admin.examen_general.excel') }}" class="btn btn-success btn-sm" style="float:right;">
-            <span class="glyphicon glyphicon-download-alt"></span>
+          <a href="{{ route('admin.examen_general.excel') }}" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-green-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-green-700 tw:gap-1.5 tw:px-3 tw:py-1.5 tw:text-sm" style="float:right;">
+            <span class="fa fa-download"></span>
             Exportar Excel
           </a>
 
@@ -46,7 +47,8 @@
 
           @if(count($docentes) > 0)
 
-          <table class="table table-hover" style="margin:0;" id="tab_pag1">
+          <div class="tw-tabla-contenedor tw:mb-4 tw:max-w-full tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200">
+<table class="tw-tabla" style="margin:0;" id="tab_pag1">
 
             <thead>
               <tr style="background:#ecf0f1;">
@@ -68,7 +70,7 @@
                 </td>
 
                 <td style="vertical-align:middle;">
-                  <span class="glyphicon glyphicon-user" style="color:#7f8c8d;"></span>
+                  <span class="fa fa-user" style="color:#7f8c8d;"></span>
                   <strong>{{ $docente->nombre }}</strong>
                 </td>
 
@@ -106,6 +108,7 @@
             </tbody>
 
           </table>
+</div>
 
           @else
 

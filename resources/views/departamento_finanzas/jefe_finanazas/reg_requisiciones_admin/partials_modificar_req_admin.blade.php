@@ -1,21 +1,12 @@
-<form id="form_modificar_requisicion" class="form" action="{{url("/presupuesto_anteproyecto/guardar_mod_req_mat_admin/".$requsicion_material->id_actividades_req_ante)}}" role="form" method="POST" >
+<form id="form_modificar_requisicion" class="" action="{{url("/presupuesto_anteproyecto/guardar_mod_req_mat_admin/".$requsicion_material->id_actividades_req_ante)}}" role="form" method="POST" >
     {{ csrf_field() }}
 
-    <div class="row">
-        <div class="col-md-10 col-md-offset-1">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4>Nombre del proyecto: {{ $requsicion_material->nombre_proyecto }}</h4>
-                </div>
-
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-10 col-md-offset-1">
-            <div class="dropdown">
+    <h3 class="tw:mb-4 tw:text-center tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">Nombre del proyecto: {{ $requsicion_material->nombre_proyecto }}</h3>
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+        <div class="tw:w-full tw:px-2">
+            <div class="tw:mb-4">
                 <label for="exampleInputEmail1">Elige mes de adquisición</label>
-                <select class="form-control  "placeholder="selecciona una Opcion" id="mes_mod" name="mes_mod" required>
+                <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"placeholder="selecciona una Opcion" id="mes_mod" name="mes_mod" required>
                     <option disabled selected hidden>Selecciona una opción</option>
                     @foreach($meses as $mes)
                         @if($requsicion_material->id_mes == $mes->id_mes)
@@ -26,25 +17,23 @@
                         @endif
                     @endforeach
                 </select>
-                <br>
             </div>
         </div>
-        <br>
     </div>
-    <div class="row">
-        <div class="col-md-10 col-md-offset-1 ">
-            <div class="form-group">
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+        <div class="tw:w-full tw:px-2">
+            <div class="tw:mb-4">
                 <label for="justificacion">Ingresa justificación</label>
-                <textarea class="form-control" id="justificacion_mod" name="justificacion_mod" rows="3" placeholder="Ingresa juestificación" onkeyup="javascript:this.value=this.value.toUpperCase();">{{ $requsicion_material->justificacion }}</textarea>
+                <textarea class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500" id="justificacion_mod" name="justificacion_mod" rows="3" placeholder="Ingresa juestificación" onkeyup="javascript:this.value=this.value.toUpperCase();">{{ $requsicion_material->justificacion }}</textarea>
             </div>
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-md-10 col-md-offset-1">
-            <div class="dropdown">
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+        <div class="tw:w-full tw:px-2">
+            <div class="tw:mb-4">
                 <label for="exampleInputEmail1">Elige el nombre de la partida presupuestal</label>
-                <select class="form-control  "placeholder="selecciona una Opcion" id="partida_presupuestal_mod" name="partida_presupuestal_mod" required>
+                <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"placeholder="selecciona una Opcion" id="partida_presupuestal_mod" name="partida_presupuestal_mod" required>
                     <option disabled selected hidden>Selecciona una opción</option>
                     @foreach($partidas_presupuestales as $partida)
                         @if($requsicion_material->id_partida_pres == $partida['id_partida_pres'])
@@ -55,24 +44,22 @@
                         @endif
                     @endforeach
                 </select>
-                <br>
             </div>
         </div>
-        <br>
     </div>
-    <div class="row">
-        <div class="col-md-10 col-md-offset-1 ">
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+        <div class="tw:w-full tw:px-2">
 
             <label for="exampleInputEmail1">Selecciona meta</label>
             <div id="meta_m">
 
                 @foreach($metas as $meta)
                     @if($requsicion_material->id_meta == $meta->id_meta)
-                        <div class="radio">
+                        <div class="tw:flex tw:items-center tw:gap-2">
                             <label><input type="radio" name="meta_mod" value="{{ $meta->id_meta }}" checked>{{ $meta->meta }}</label>
                         </div>
                     @else
-                        <div class="radio">
+                        <div class="tw:flex tw:items-center tw:gap-2">
                             <label><input type="radio" name="meta_mod"  value="{{ $meta->id_meta }}">{{ $meta->meta }}</label>
                         </div>
                         @endif

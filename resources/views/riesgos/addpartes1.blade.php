@@ -1,48 +1,50 @@
-@extends('layouts.app')
+@extends('layouts.panel')
+@include('partials.panel.recursos_app', ['validacion' => true])
 @section('title', 'Partes interesadas de la unidad')
 @section('content')
 
-<main class="col-md-12">
-    <div class="row">
-        <div class="col-md-5 col-md-offset-3">
+<main class="tw:w-full tw:lg:w-full tw:px-2">
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+        <div class="tw:w-full tw:lg:w-5/12 tw:lg:ml-[25%] tw:px-2">
             @if (session()->has('flash_notification.message'))
-                <div class="alert alert-{{ session('flash_notification.level') }}">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <div class="alert alert-{{ session('flash_notification.level') }} tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm">
+                    <button type="button" class="tw:text-2xl tw:leading-none tw:text-gray-400 tw:hover:text-gray-700" data-dismiss="alert" aria-hidden="true">&times;</button>
                     {!! session('flash_notification.message') !!}
                 </div>
             @endif
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h3 class="panel-title text-center">Partes Interesadas de la unidad administrativa</h3>
+            <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
+                <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4">
+                    <h3 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:text-center">Partes Interesadas de la unidad administrativa</h3>
                 </div>
             </div>
         </div>
-        <div class="col-md-10 col-md-offset-1">
-            <div id="accordion" class="panel-group">
+        <div class="tw:w-full tw:lg:w-10/12 tw:lg:ml-[8.3333%] tw:px-2">
+            <div id="accordion" class="">
                 @foreach($partes_unidad as $parte_unidad)
-                <div class="panel ">
-                    <div class="panel-heading">
-                        <h3 class="panel-title row">
+                <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
+                    <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4">
+                        <h3 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
                             <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{$parte_unidad->id_uni_p}}">{{$parte_unidad->parte[0]->des_parte}}</a>
                             {{--Nuevo icono eliminar --}}
-                            <a href="#!" class="pull-right btn_delete_unidad_partes" data-id="{{$parte_unidad->id_uni_p}}"><span class="text-danger glyphicon glyphicon-trash" data-toggle="tooltip" title="Eliminar parte interesada "></span></a>
+                            <a href="#!" class="btn_delete_unidad_partes tw:float-right" data-id="{{$parte_unidad->id_uni_p}}"><span class="fa fa-trash tw:text-red-600" data-toggle="tooltip" title="Eliminar parte interesada "></span></a>
                         </h3>
                     </div>
-                    <div id="collapse{{$parte_unidad->id_uni_p}}" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            <div class="row text-center">
-                                <div class="panel panel-info">
-                                    <div class="panel-heading">
-                                         <h3 class="panel-title text-center">Requisitos
-                                             <a href="#!" data-toggle="modal"  data-id="{{$parte_unidad->id_uni_p}}" data-target="#modal_crear_requisito" class="pull-right  btn_crear_requisito">
-                                                 <span class="text-success glyphicon glyphicon-plus" aria-hidden="true" data-toggle="tooltip" title="Agregar"></span>
+                    <div id="collapse{{$parte_unidad->id_uni_p}}" class="collapse">
+                        <div class="tw:p-5 tw:sm:p-6">
+                            <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4 tw:text-center">
+                                <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
+                                    <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4">
+                                         <h3 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:text-center">Requisitos
+                                             <a href="#!" data-toggle="modal"  data-id="{{$parte_unidad->id_uni_p}}" data-target="#modal_crear_requisito" class="btn_crear_requisito tw:float-right">
+                                                 <span class="fa fa-plus tw:text-green-600" aria-hidden="true" data-toggle="tooltip" title="Agregar"></span>
                                              </a>
                                          </h3>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <table class="table table-bordered table-resposive">
+                            <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                <div class="tw-tabla-contenedor tw:mb-4 tw:max-w-full tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200">
+<table class="table-responsive tw-tabla tw-tabla-bordes">
                                     <thead>
                                         <tr>
                                             <th>Requisitos</th>
@@ -57,27 +59,27 @@
                                             <tr>
                                                 <td>{{$requisito->des_requisito}}</td>
                                                 <td>
-                                                    <div class="row">
-                                                        <div class="col-md-10">
+                                                    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                                        <div class="tw:w-full tw:lg:w-10/12 tw:px-2">
                                                             <a href="#!" data-toggle="modal"  data-id="{{$requisito->id_requisito}}" data-target="#modal_crear_requisito_riesgo" class="btn_crear_requisito_riesgo">
-                                                                <span class="text-success glyphicon glyphicon-plus" aria-hidden="true" data-toggle="tooltip" title="Agregar riesgo"></span>
+                                                                <span class="fa fa-plus tw:text-green-600" aria-hidden="true" data-toggle="tooltip" title="Agregar riesgo"></span>
                                                             </a>
                                                         </div>
                                                     </div>
-                                                    <div class="row">
-                                                        <div class="col-md-10  col-md-offset-1">
-                                                            <ul class="list-group">
+                                                    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                                        <div class="tw:w-full tw:lg:w-10/12 tw:lg:ml-[8.3333%] tw:px-2">
+                                                            <ul class="tw:divide-y tw:divide-gray-100 tw:rounded-lg tw:border tw:border-gray-200">
                                                                 @foreach($requisito->riesgos as $riesgo_requisito)
-                                                                   <li class="list-group-item">
-                                                                       <div class="row">
-                                                                           <div class="col-md-8">
+                                                                   <li class="tw:block tw:px-4 tw:py-3">
+                                                                       <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                                                           <div class="tw:w-full tw:lg:w-8/12 tw:px-2">
                                                                                <a href="{{url('riesgos/registroriesgos')."/".$riesgo_requisito->id_riesgo}}"> {{$riesgo_requisito->des_riesgo}}</a>
                                                                            </div>
-                                                                           <div class="col-md-2">
-                                                                               <a href="#!" class="btn_delete_riesgo_requisito pull-right" data-id="{{$riesgo_requisito->id_riesgo}}"><span aria-hidden="true" class="text-danger glyphicon glyphicon-trash" data-toggle="tooltip" title="Eliminar riesgo"></span></a>
+                                                                           <div class="tw:w-full tw:lg:w-2/12 tw:px-2">
+                                                                               <a href="#!" class="btn_delete_riesgo_requisito tw:float-right" data-id="{{$riesgo_requisito->id_riesgo}}"><span aria-hidden="true" class="fa fa-trash tw:text-red-600" data-toggle="tooltip" title="Eliminar riesgo"></span></a>
                                                                            </div>
-                                                                           <div class="col-md-2">
-                                                                               <a href="#!" class="pull-right btn_edit_info" data-toggle="modal" data-target="#modal_modificar_datos" data-url="riesgos/riesgo/{{$riesgo_requisito->id_riesgo}}" data-info_edit="{{$riesgo_requisito->des_riesgo}}"><span aria-hidden="true" class="glyphicon glyphicon-cog" data-toggle="tooltip" title="Editar riesgo"></span></a>
+                                                                           <div class="tw:w-full tw:lg:w-2/12 tw:px-2">
+                                                                               <a href="#!" class="btn_edit_info tw:float-right" data-toggle="modal" data-target="#modal_modificar_datos" data-url="riesgos/riesgo/{{$riesgo_requisito->id_riesgo}}" data-info_edit="{{$riesgo_requisito->des_riesgo}}"><span aria-hidden="true" class="fa fa-cog" data-toggle="tooltip" title="Editar riesgo"></span></a>
                                                                            </div>
                                                                        </div>
                                                                    </li>
@@ -87,28 +89,28 @@
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <div class="row">
-                                                        <div class="col-md-10">
+                                                    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                                        <div class="tw:w-full tw:lg:w-10/12 tw:px-2">
                                                             <a data-toggle="modal"  data-id="{{$requisito->id_requisito}}" data-target="#modal_crear_requisito_oportunidad" class="btn_crear_requisito_oportunidad">
-                                                                <span class="text-success glyphicon glyphicon-plus" aria-hidden="true" data-toggle="tooltip" title="Agregar oportunidad"></span>
+                                                                <span class="fa fa-plus tw:text-green-600" aria-hidden="true" data-toggle="tooltip" title="Agregar oportunidad"></span>
                                                             </a>
                                                         </div>
                                                     </div>
-                                                    <div class="row">
-                                                        <div class="col-md-10  col-md-offset-1">
-                                                            <ul class="list-group">
+                                                    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                                        <div class="tw:w-full tw:lg:w-10/12 tw:lg:ml-[8.3333%] tw:px-2">
+                                                            <ul class="tw:divide-y tw:divide-gray-100 tw:rounded-lg tw:border tw:border-gray-200">
                                                                 @foreach($requisito->oportunidades as $riesgo_oportunidad)
-                                                                    <li class="list-group-item">
-                                                                        <div class="row">
-                                                                            <div class="col-md-9">
+                                                                    <li class="tw:block tw:px-4 tw:py-3">
+                                                                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                                                            <div class="tw:w-full tw:lg:w-9/12 tw:px-2">
                                                                                 <a href="{{url('riesgos/regoportunidad')."/".$riesgo_oportunidad->id_oportunidad}}" class="">{{$riesgo_oportunidad->des_oportunidad}}</a>
                                                                             </div>
-                                                                            <div class="col-md-1"></div>
-                                                                            <div class="col-md-1">
-                                                                                <a class="btn_delete_oportunidad_requisito pull-right" data-id="{{$riesgo_oportunidad->id_oportunidad}}"><span aria-hidden="true" class="text-danger glyphicon glyphicon-trash" data-toggle="tooltip" title="Eliminar oportunidad"></span></a>
+                                                                            <div class="tw:w-full tw:lg:w-1/12 tw:px-2"></div>
+                                                                            <div class="tw:w-full tw:lg:w-1/12 tw:px-2">
+                                                                                <a class="btn_delete_oportunidad_requisito tw:float-right" data-id="{{$riesgo_oportunidad->id_oportunidad}}"><span aria-hidden="true" class="fa fa-trash tw:text-red-600" data-toggle="tooltip" title="Eliminar oportunidad"></span></a>
                                                                             </div>
-                                                                            <div class="col-md-1">
-                                                                                <a class="pull-right btn_edit_info" data-toggle="modal" data-target="#modal_modificar_datos" data-url="riesgos/regoportunidad/{{$riesgo_oportunidad->id_oportunidad}}" data-info_edit="{{$riesgo_oportunidad->des_oportunidad}}"><span aria-hidden="true" class="glyphicon glyphicon-cog" data-toggle="tooltip" title="Editar oportunidad"></span></a>
+                                                                            <div class="tw:w-full tw:lg:w-1/12 tw:px-2">
+                                                                                <a class="btn_edit_info tw:float-right" data-toggle="modal" data-target="#modal_modificar_datos" data-url="riesgos/regoportunidad/{{$riesgo_oportunidad->id_oportunidad}}" data-info_edit="{{$riesgo_oportunidad->des_oportunidad}}"><span aria-hidden="true" class="fa fa-cog" data-toggle="tooltip" title="Editar oportunidad"></span></a>
                                                                             </div>
                                                                         </div>
                                                                     </li>
@@ -119,17 +121,18 @@
                                                 </td>
                                                {{-- <td>{{$requisito->riesgos[0]->des_riesgo}}</td>--}}
                                                {{-- <td>
-                                                    <a href="{{url('riesgos/registroriesgos')."/".$requisito->id_riesgo}}" class="btn btn-danger btn-sm"><span aria-hidden="true" class="glyphicon glyphicon-fire"></span></a>
+                                                    <a href="{{url('riesgos/registroriesgos')."/".$requisito->id_riesgo}}" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-red-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-red-700 tw:gap-1.5 tw:px-3 tw:py-1.5 tw:text-sm"><span aria-hidden="true" class="fa fa-fire"></span></a>
 
                                                 </td>--}}
                                                 <td>
-                                                    <a class="btn_delete_requisito_riesgo" data-id="{{$requisito->id_requisito}}"><span aria-hidden="true"  class="text-danger glyphicon glyphicon-trash" data-toggle="tooltip" title="Eliminar requisito"></span></a>
-                                                    <a class="pull-right btn_edit_info" data-toggle="modal" data-target="#modal_modificar_datos" data-url="riesgos/requisitos/{{$requisito->id_requisito}}" data-info_edit="{{$requisito->des_requisito}}"><span aria-hidden="true" class="glyphicon glyphicon-cog" data-toggle="tooltip" title="Editar requisito"></span></a>
+                                                    <a class="btn_delete_requisito_riesgo" data-id="{{$requisito->id_requisito}}"><span aria-hidden="true"  class="fa fa-trash tw:text-red-600" data-toggle="tooltip" title="Eliminar requisito"></span></a>
+                                                    <a class="btn_edit_info tw:float-right" data-toggle="modal" data-target="#modal_modificar_datos" data-url="riesgos/requisitos/{{$requisito->id_requisito}}" data-info_edit="{{$requisito->des_requisito}}"><span aria-hidden="true" class="fa fa-cog" data-toggle="tooltip" title="Editar requisito"></span></a>
                                                 </td>
                                             </tr>
                                         @endforeach
                                     </tbody>
                                 </table>
+</div>
                             </div>
                         </div>
                     </div>
@@ -141,26 +144,26 @@
 </main>
 
 <div>
-    <button data-toggle="modal"  data-tooltip="true" data-placement="left" title="Agregar nueva parte interesada" data-target="#modal_crear" type="button" class="btn btn-success btn-lg flotante">
-        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+    <button data-toggle="modal"  data-tooltip="true" data-placement="left" title="Agregar nueva parte interesada" data-target="#modal_crear" type="button" class="flotante tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-green-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-green-700 tw:gap-2 tw:px-5 tw:py-3.5 tw:text-base">
+        <span class="fa fa-plus" aria-hidden="true"></span>
     </button>
 </div>
 
-<form id="form_parte_crea" class="form" role="form" method="POST" >
-    <div class="modal fade" id="modal_crear" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+<form id="form_parte_crea" class="" role="form" method="POST" >
+    <div class="modal fade tw-modal-compat" id="modal_crear" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" data-panel-modal hidden>
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="tw:text-2xl tw:leading-none tw:text-gray-400 tw:hover:text-gray-700" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="exampleModalLabel">Agregar Parte Interesada</h4>
                 </div>
                 <div class="modal-body">
                     {{ csrf_field() }}
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
+                    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                        <div class="tw:w-full tw:lg:w-full tw:px-2">
+                            <div class="tw:mb-4">
                                 <label for="parte_interesada">Parte Interesada</label>
-                                <select class="form-control" name="parte_interesada" id="parte_interesada" >
+                                <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="parte_interesada" id="parte_interesada" >
                                     <option disabled selected>Seleccione una opción</option>
                                     @foreach($partes as $parte)
                                         <option value="{{$parte->id_parte}}">{{$parte->des_parte}}</option>
@@ -171,124 +174,124 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                    <input id="save_unidad" type="submit" class="btn btn-primary" value="Guardar"/>
+                    <button type="button" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" data-dismiss="modal">Cancelar</button>
+                    <input id="save_unidad" type="submit" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" value="Guardar"/>
                 </div>
             </div>
         </div>
     </div>
 </form>
 
-<form id="form_requisito" class="form" role="form" method="POST" action="{{url('riesgos/requisitos')}}">
-    <div class="modal fade" id="modal_crear_requisito" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+<form id="form_requisito" class="" role="form" method="POST" action="{{url('riesgos/requisitos')}}">
+    <div class="modal fade tw-modal-compat" id="modal_crear_requisito" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" data-panel-modal hidden>
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="tw:text-2xl tw:leading-none tw:text-gray-400 tw:hover:text-gray-700" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="exampleModalLabel">Agregar Requisito</h4>
                 </div>
                 <div class="modal-body">
                     {{ csrf_field() }}
                     <input type="hidden" name="id_uni_p" id="id_uni_p">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
+                    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                        <div class="tw:w-full tw:lg:w-full tw:px-2">
+                            <div class="tw:mb-4">
                                 <label for="des_parte">Requisito</label>
-                                <input type="text" class="form-control"name="requisito" placeholder="Requisito">
+                                <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"name="requisito" placeholder="Requisito">
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                    <input type="submit" class="btn btn-primary" value="Guardar"/>
+                    <button type="button" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" data-dismiss="modal">Cancelar</button>
+                    <input type="submit" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" value="Guardar"/>
                 </div>
             </div>
         </div>
     </div>
 </form>
 
-<form id="form_requisito_riesgo" class="form" role="form" method="POST" action="{{url('riesgos/riesgo')}}">
-    <div class="modal fade" id="modal_crear_requisito_riesgo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+<form id="form_requisito_riesgo" class="" role="form" method="POST" action="{{url('riesgos/riesgo')}}">
+    <div class="modal fade tw-modal-compat" id="modal_crear_requisito_riesgo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" data-panel-modal hidden>
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="tw:text-2xl tw:leading-none tw:text-gray-400 tw:hover:text-gray-700" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="exampleModalLabel">Agregar Riesgo</h4>
                 </div>
                 <div class="modal-body">
                     {{ csrf_field() }}
                     <input type="hidden" name="id_requisito_riesgo" id="id_requisito_riesgo">
-                    <div class="row">
-                         <div class="col-md-12">
-                             <div class="form-group">
+                    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                         <div class="tw:w-full tw:lg:w-full tw:px-2">
+                             <div class="tw:mb-4">
                                  <label for="riesgo">Riesgo</label>
-                                 <input type="text" class="form-control" name="riesgo" placeholder="Riesgo">
+                                 <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="riesgo" placeholder="Riesgo">
                              </div>
                          </div>
                      </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                    <input type="submit" class="btn btn-primary" value="Guardar"/>
+                    <button type="button" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" data-dismiss="modal">Cancelar</button>
+                    <input type="submit" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" value="Guardar"/>
                 </div>
             </div>
         </div>
     </div>
 </form>
 
-<form id="form_requisito_oportunidad" class="form" role="form" method="POST" action="{{url('riesgos/regoportunidad')}}">
-    <div class="modal fade" id="modal_crear_requisito_oportunidad" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+<form id="form_requisito_oportunidad" class="" role="form" method="POST" action="{{url('riesgos/regoportunidad')}}">
+    <div class="modal fade tw-modal-compat" id="modal_crear_requisito_oportunidad" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" data-panel-modal hidden>
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="tw:text-2xl tw:leading-none tw:text-gray-400 tw:hover:text-gray-700" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="exampleModalLabel">Agregar Oportunidad</h4>
                 </div>
                 <div class="modal-body">
                     {{ csrf_field() }}
                     <input type="hidden" name="id_requisito_oportunidad" id="id_requisito_oportunidad">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
+                    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                        <div class="tw:w-full tw:lg:w-full tw:px-2">
+                            <div class="tw:mb-4">
                                 <label for="riesgo">Oportunidad</label>
-                                <input type="text" class="form-control" name="oportunidad" placeholder="Oportunidad">
+                                <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="oportunidad" placeholder="Oportunidad">
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                    <input type="submit" class="btn btn-primary" value="Guardar"/>
+                    <button type="button" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" data-dismiss="modal">Cancelar</button>
+                    <input type="submit" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" value="Guardar"/>
                 </div>
             </div>
         </div>
     </div>
 </form>
 
-<form id="form_modificar_datos" class="form" role="form" method="POST" >
-    <div class="modal fade" id="modal_modificar_datos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+<form id="form_modificar_datos" class="" role="form" method="POST" >
+    <div class="modal fade tw-modal-compat" id="modal_modificar_datos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" data-panel-modal hidden>
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="tw:text-2xl tw:leading-none tw:text-gray-400 tw:hover:text-gray-700" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="exampleModalLabel">Modificar Registro</h4>
                 </div>
                 <div class="modal-body">
                     {{ csrf_field() }}
                     {{ method_field('PUT') }}
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
+                    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                        <div class="tw:w-full tw:lg:w-full tw:px-2">
+                            <div class="tw:mb-4">
                                 <label for="riesgo">Descripción </label>
-                                <input type="text" class="form-control" name="des_dato_modificar" id="des_dato_modificar">
+                                <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="des_dato_modificar" id="des_dato_modificar">
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                    <input type="submit" class="btn btn-primary" value="Guardar"/>
+                    <button type="button" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" data-dismiss="modal">Cancelar</button>
+                    <input type="submit" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" value="Guardar"/>
                 </div>
             </div>
         </div>

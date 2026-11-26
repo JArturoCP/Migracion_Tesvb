@@ -1,33 +1,30 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 @section('title', 'Tarjetas de Resguardos')
+@include('partials.panel.recursos_app')
 @section('content')
+<div class="tw-pantalla">
     <main class="main">
 
-        <div class="container">
-            <div class="panel panel-info">
-
-                <div class="panel-heading center-block">
-                    <h2 class="panel-title text-center" style="font-size: large">Impresión y Consulta de Tarjetas de Resguardo</h2>
-                </div>
-            </div>
-            <div align="center" class="container-fluid">
+        <div class="tw:w-full">
+            <x-panel.encabezado titulo="Impresión y Consulta de Tarjetas de Resguardo" :migas="['Recursos materiales' => null]" />
+            <div class="tw:w-full tw:text-center">
                 <!-- Formulario para Busqueda -->
 
                 <!-- Fin formulario -->
             </div>
-            <br>
-        <div class="container-fluid" >
-            <div class="container-fluid">
-                <div class="card-body">
-                        <table class="table table-bordered table-striped table-sm" style="color: black;text-align: center; background-color: lightyellow"  >
+        <div class="tw:w-full" >
+            <div class="tw:w-full">
+                <div class="tw:p-5 tw:sm:p-6">
+                        <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table class="tw-tabla-centrada tw-tabla tw-tabla-bordes tw-tabla-rayas tw-tabla-compacta"  >
                             <thead>
                             <tr>
 
-                                <th style="text-align: center">Resguardatario:</th>
-                                <th style="text-align: center">Categoría:</th>
-                                <th style="text-align: center">Nombre del Bien:</th>
-                                <th style="text-align: center">Fecha de Resguardo:
-                                <th style="text-align: center">Imprimir:</th>
+                                <th class="tw:text-center">Resguardatario:</th>
+                                <th class="tw:text-center">Categoría:</th>
+                                <th class="tw:text-center">Nombre del Bien:</th>
+                                <th class="tw:text-center">Fecha de Resguardo:
+                                <th class="tw:text-center">Imprimir:</th>
 
                             </tr>
                             </thead>
@@ -44,7 +41,7 @@
                                 <td>
                                     <form action="{{route('pdfrest',$res->id)}}" method="get" target="_blank">
                                         @csrf
-                                    <button class="btn btn-sm btn-info"  type="submit">Tarjeta de Resguardo
+                                    <button class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap"  type="submit">Tarjeta de Resguardo
 
                                     </button>
                                     </form>
@@ -56,6 +53,7 @@
                             @endforeach
                             @endforeach
                         </table>
+</div>
                         {{$resguardos->links()}}<!--para la paginacion-->
                 </div>
             </div>
@@ -68,4 +66,5 @@
 
 
 
+</div>
 @endsection

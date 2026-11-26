@@ -1,55 +1,23 @@
 @extends('ingles.inicio_ingles.layout_ingles')
 @section('title', 'Cargar vouchers de pago')
 @section('content')
+    @include('ingles.alumno_ingles.estilos')
+    <main class="ingles-estudiante ingles-voucher">
+        <h1 class="ingles-titulo">Cargar voucher de pago</h1>
 
-    <main class="col-md-12">
-
-        <div class="row">
-
-            <div class="col-md-6 col-md-offset-3">
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title text-center"><b>Cargar Voucher de Pago</b></h3>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    {{--por si no ha subido su baucher--}}
-    @if($id_estado_carga_voucher==0)
-    @if($estado_periodo==0)
-   <div class="container" style="width: 30%; height: 5%; margin-top: 1em; margin-bottom: 1em">
-            <div>
-                <div class="panel panel-danger">
-                    <div class="panel-heading">
-                        <h3 class="panel-title text-center"><b>¡¡¡EL PERIODO NO SE ENCUENTRA ACTIVO PARA INGRESAR EL VOUCHER!!!</b></h3>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-    @else
-
-        <div class="container" style="width: 30%; height: 5%; margin-top: 1em; margin-bottom: 1em">
-            <div>
-                <div class="panel panel-danger">
-                    <div class="panel-heading">
-                        <h3 class="panel-title text-center"><b>¡¡¡EL ARCHIVO DEBE ESTAR EN FORMATO PDF!!!</b></h3>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-        <div class="container" style="width: 40%">
-            <div>
-                <form action="{{url("/ingles_horarios/cargar_voucher_pago/")}}" method="post" enctype="multipart/form-data" id="formulario_guardar_voucher">
-                @csrf
-                    <input type="file" id="voucher" name="voucher" class="form-control" style="align-items: center" accept="application/pdf" required/>
-
-                    {{--validar el tamaño del pdf--}}
-                    <script>
+        @if($id_estado_carga_voucher==0)
+            @if($estado_periodo==0)
+                <p class="ingles-aviso ingles-aviso--error">El periodo no se encuentra activo para ingresar el voucher.</p>
+            @else
+                <div class="ingles-tarjeta">
+                    <form action="{{url("/ingles_horarios/cargar_voucher_pago/")}}" method="post" enctype="multipart/form-data" id="formulario_guardar_voucher">
+                        @csrf
+                        <div class="ingles-campo">
+                            <label for="voucher">Comprobante de pago</label>
+                            <input type="file" id="voucher" name="voucher" class="form-control" accept="application/pdf" aria-describedby="ayuda-voucher" required/>
+                            <p class="ingles-ayuda" id="ayuda-voucher">Archivo PDF de hasta 10 MB.</p>
+                        </div>
+    <script>
                         const MAXIMO_TAMANIO_BYTES = 10000000; // 1MB = 1 millón de bytes, se asigna de tamaño 10 MB
 
                         // Obtener referencia al elemento
@@ -70,78 +38,44 @@
                                 // Validación pasada. Envía el formulario o haz lo que tengas que hacer
                             }
                         });
-                    </script>
+                        </script>
+                        <div class="ingles-campo">
+                            <label for="val_linea_voucher">Ingresa la línea de captura de tu voucher de pago</label>
+                            <input type="text" id="val_linea_voucher" name="val_linea_voucher" placeholder="¡¡¡Ingrese los 27 digitos de su linea de captura!!!" class="form-control" required/>
 
-                    <label style="margin-top: 1.5em"> Ingresa la línea de captura de tu voucher de pago</label>
-                    <input type="text" id="val_linea_voucher" name="val_linea_voucher" placeholder="¡¡¡Ingrese los 27 digitos de su linea de captura!!!" class="form-control" style="align-items: center" required/>
-
-                    <label style="margin-top: 1em"> Fecha de cambio del recibo</label>
-                    <input type="date" id="fecha_cambio" name="fecha_cambio" class="form-control" style="align-items: center" {{--value="{{$fecha->format('Y-m-d')}}" readonly--}} required/>
-
-                    <input id="linea_captura" type="hidden" class="form-control" name="linea_captura" value="">
-                    <input id="id_tipo_voucher" type="hidden" class="form-control" name="id_tipo_voucher" value="">
-
-                </form>
-                <div style="padding: 1.5em;">
-                        <div class="d-grid gap-2 d-md-flex" style="size: 25px; margin-top: 1.5em; margin-bottom: 1.5em; align-items: center; display: flex; justify-content: center">
-                            <button type="button" id="boton_rojo" class="btn" style="background-color: crimson; position:absolute;left: 30%;width:250px; height:50px; border-radius: 2em">
-                                <strong style="color:white;"><b>Cargar Sello Rojo (¡¡¡ORIGINAL!!!)</b></strong>
-                            </button>
-                            <button type="button" id="boton_azul" class="btn btn-primary" style="position:absolute;right: 30%;width:250px; height:50px; border-radius: 2em;">
-                                    <strong><b>Cargar Sello Azul (¡¡¡COPIA!!!)</b></strong>
-                                </button>
                         </div>
+                        <div class="ingles-campo">
+                            <label for="fecha_cambio">Fecha de cambio del recibo</label>
+                            <input type="date" id="fecha_cambio" name="fecha_cambio" class="form-control" {{--value="{{$fecha->format('Y-m-d')}}" readonly--}} required/>
+
+                        </div>
+                        <input id="linea_captura" type="hidden" class="form-control" name="linea_captura" value="">
+                        <input id="id_tipo_voucher" type="hidden" class="form-control" name="id_tipo_voucher" value="">
+                    </form>
+                    <div class="ingles-acciones">
+                        <button type="button" id="boton_rojo" class="btn ingles-boton ingles-boton--rojo">Cargar sello rojo (original)</button>
+                        <button type="button" id="boton_azul" class="btn ingles-boton ingles-boton--azul">Cargar sello azul (copia)</button>
                     </div>
                 </div>
-        </div>
-    @endif
-    {{--por si ya ha subido su baucher--}}
-    @elseif($id_estado_carga_voucher==1)
-    @if($dato_voucher->id_estado_valida_voucher==1)
-            <div class="container" style="margin-top: 1em; margin-bottom: 1em">
-                <div class="row">
-
-                    <div class="col-md-6 col-md-offset-3">
-                        <div class="panel panel-success">
-                            <div class="panel-heading">
-                                <h3 class="panel-title text-center"><b>Ya se envio tu voucher a departamento de actividades complementarias</b></h3>
-                            </div>
+            @endif
+        @elseif($id_estado_carga_voucher==1)
+            @if($dato_voucher->id_estado_valida_voucher==1)
+                <p class="ingles-aviso ">Ya se envió tu voucher al Departamento de Actividades Complementarias.</p>
+                <div class="ingles-acciones">
+                    <a class="btn ingles-boton" onclick="window.open('{{url($ruta)  }}')" href="#">Ver voucher</a>
+                </div>
+            @elseif($dato_voucher->id_estado_valida_voucher==3)
+                <p class="ingles-aviso ingles-aviso--error"><strong>Comentario de rechazo</strong><br>
+                {{$dato_voucher->comentario}}</p>
+                <div class="ingles-tarjeta">
+                    <form action="{{url("/ingles_horarios/cargar_voucher_modificar/".$dato_voucher->id_voucher)}}" method="post" enctype="multipart/form-data" id="formulario_modificacion_voucher">
+                        @csrf
+                        <div class="ingles-campo">
+                            <label for="voucher_mod">Comprobante de pago</label>
+                            <input type="file" id="voucher_mod" name="voucher_mod" class="form-control" accept="application/pdf" aria-describedby="ayuda-voucher_mod" required/>
+                            <p class="ingles-ayuda" id="ayuda-voucher_mod">Archivo PDF de hasta 10 MB.</p>
                         </div>
-                    </div>
-                </div>
-
-                <div style="margin-top: 1em; align-items: center; display: flex; justify-content: center">
-
-                    {{--<iframe src="{{asset($ruta)}}" type="application/pdf" width="420px" height="430px" frameborder="0"></iframe>
-                    <button type="submit" class="btn btn-warning" onclick="location.href = {{asset($ruta)}}"><b>Ver archivo</b></button>--}}
-                    {{--Visualiza el archivo en una nueva ventana y deja descargarlo--}}
-                    <button type="submit" class="btn" style="background-color:#d9edf7; border-radius: 2em;">
-                        <a  onclick="window.open('{{url($ruta)  }}')"  href="#" style="text-decoration: none;"><b>Ver voucher</b></a>
-                    </button>
-                </div>
-            </div>
-    @elseif($dato_voucher->id_estado_valida_voucher==3)
-           <div class="container" style="margin-top: 1em; margin-bottom: 1em">
-                <div class="row">
-
-                    <div class="col-md-6 col-md-offset-3">
-                        <div class="panel panel-danger">
-                            <div class="panel-heading">
-                                <h3 class="panel-title text-center">Comentario de Rechazo:
-                                    {{$dato_voucher->comentario}}</h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="container" style="width: 40%">
-            <div>
-                <form action="{{url("/ingles_horarios/cargar_voucher_modificar/".$dato_voucher->id_voucher)}}" method="post" enctype="multipart/form-data" id="formulario_modificacion_voucher">
-                @csrf
-                    <input type="file" id="voucher_mod" name="voucher_mod" class="form-control" style="align-items: center" accept="application/pdf" required/>
-
-                    {{--validar el tamaño del pdf--}}
-                    <script>
+    <script>
                         const MAXIMO_TAMANIO_BYTES = 10000000; // 1MB = 1 millón de bytes, se asigna de tamaño 10 MB
 
                         // Obtener referencia al elemento
@@ -162,42 +96,29 @@
                                 // Validación pasada. Envía el formulario o haz lo que tengas que hacer
                             }
                         });
-                    </script>
+                        </script>
+                        <div class="ingles-campo">
+                            <label for="val_linea_voucher_mod">Ingresa la línea de captura de tu voucher de pago</label>
+                            <input type="text" id="val_linea_voucher_mod" name="val_linea_voucher_mod" placeholder="¡¡¡Ingrese los 27 digitos de su linea de captura!!!" value="{{$dato_voucher->linea_captura}}" class="form-control" required/>
 
-                    <label style="margin-top: 1.5em;color: black;">      Ingresa la línea de captura de tu voucher de pago</label>
-                    <input type="text" id="val_linea_voucher_mod" name="val_linea_voucher_mod" placeholder="¡¡¡Ingrese los 27 digitos de su linea de captura!!!" value="{{$dato_voucher->linea_captura}}" class="form-control" style="align-items: center" required/>
-
-                    <label style="margin-top: 1em;color: black;">         Fecha de cambio del recibo</label>
-                    <input type="date" id="fecha_cambio_mod" name="fecha_cambio_mod" class="form-control" style="align-items: center" value="{{$dato_voucher->fecha_cambio}}" required/>
-
-                    <input id="linea_captura_mod" type="hidden" class="form-control" name="linea_captura_mod" value="{{$dato_voucher->linea_captura}}">
-                    <input id="id_tipo_voucher_mod" type="hidden" class="form-control" name="id_tipo_voucher_mod" value="">
-
-                </form>
-                <div style="padding: 1.5em;">
-                        <div class="d-grid gap-2 d-md-flex" style="size: 25px; margin-top: 1.5em; margin-bottom: 1.5em; align-items: center; display: flex; justify-content: center">
-                            <button type="button" id="boton_rojo_mod" class="btn" style="background-color: crimson; position:absolute;left: 30%;width:250; height:50px; border-radius: 2em">
-                                <strong style="color:white;"><b>Cargar Sello Rojo (¡¡¡ORIGNINAL!!!)</b></strong>
-                            </button>
-                            <button type="button" id="boton_azul_mod" class="btn btn-primary" style="position:absolute;right: 30%;width:250; height:50px; border-radius: 2em;">
-                                    <strong><b>Cargar Sello Azul (¡¡¡COPIA!!!)</b></strong>
-                                </button>    
                         </div>
+                        <div class="ingles-campo">
+                            <label for="fecha_cambio_mod">Fecha de cambio del recibo</label>
+                            <input type="date" id="fecha_cambio_mod" name="fecha_cambio_mod" class="form-control" value="{{$dato_voucher->fecha_cambio}}" required/>
+
+                        </div>
+                        <input id="linea_captura_mod" type="hidden" class="form-control" name="linea_captura_mod" value="{{$dato_voucher->linea_captura}}">
+                        <input id="id_tipo_voucher_mod" type="hidden" class="form-control" name="id_tipo_voucher_mod" value="">
+                    </form>
+                    <div class="ingles-acciones">
+                        <button type="button" id="boton_rojo_mod" class="btn ingles-boton ingles-boton--rojo">Cargar sello rojo (original)</button>
+                        <button type="button" id="boton_azul_mod" class="btn ingles-boton ingles-boton--azul">Cargar sello azul (copia)</button>
                     </div>
                 </div>
-        </div>
-        @elseif($dato_voucher->id_estado_valida_voucher==2)
-        <div class="row">
-
-                    <div class="col-md-6 col-md-offset-3">
-                        <div class="panel panel-success">
-                            <div class="panel-heading">
-                                <h3 class="panel-title text-center"><b>Tu voucher ya fue autorizado por el coordinador de lenguas extranjeras, favor de llenar tu carga academica</b></h3>
-                            </div>
-                        </div>
-                    </div>
-    @endif
-    @endif
+            @elseif($dato_voucher->id_estado_valida_voucher==2)
+                <p class="ingles-aviso ingles-aviso--exito">Tu voucher ya fue autorizado por el coordinador de lenguas extranjeras. Llena tu carga académica.</p>
+            @endif
+        @endif
     </main>
 
     <script type="text/javascript">
@@ -467,45 +388,4 @@
         
         
     </script>
-
 @endsection
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

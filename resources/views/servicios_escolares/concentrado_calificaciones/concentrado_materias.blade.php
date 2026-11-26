@@ -1,22 +1,14 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 @section('title', 'S.Escolares')
+@include('partials.panel.recursos_app')
 @section('content')
-    <div class="row">
-        <div class="col-md-10 col-xs-10 col-md-offset-1">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h3 class="panel-title text-center">CONCENTRADO DE CALIFICACIONES <br>{{$nombre_carrera}} <br> {{$id_semestre}}0{{$grupo}}</h3>
-                    <h5 class="panel-title text-center">(MATERIAS)</h5>
-                </div>
-
-            </div>
-        </div>
-    </div>
+<div class="tw-pantalla">
+    <x-panel.encabezado :titulo="'Concentrado de calificaciones '.$nombre_carrera.' '.$id_semestre.'0'.$grupo.' (materias)'" :migas="['Servicios escolares' => null]" />
     @if($mat_calificada == 0)
-    <div class="row">
-        <div class="col-md-8 col-xs-10 col-md-offset-2">
-            <div class="panel panel-danger">
-                    <h3 class="panel-title text-center">No han registrado calificaciones de sumativas en este semestre</h3>
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+        <div class="tw:w-full tw:px-2">
+            <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+                    <h3 class="tw:text-base tw:font-medium tw:text-gray-800 tw:dark:text-white/90 tw:text-center">No se han registrado calificaciones sumativas en este semestre.</h3>
             </div>
 
         </div>
@@ -24,42 +16,43 @@
 
     @else
         @if($mat_sin_cal ==0)
-            <div class="row">
-                <div class="col-md-8 col-xs-10 col-md-offset-2">
-                    <div class="panel panel-primary">
-                        <h3 class="panel-title text-center">Concentrado de calificaciones completo</h3>
+            <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                <div class="tw:w-full tw:px-2">
+                    <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+                        <h3 class="tw:text-base tw:font-medium tw:text-gray-800 tw:dark:text-white/90 tw:text-center">Concentrado de calificaciones completo</h3>
                     </div>
 
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-md-2 col-md-offset-6">
-                    <a href="/servicios_escolares/concentrado_calificaciones_excel/{{$id_carrera}}/{{$id_semestre}}/{{$grupo}}" class="btn btn-success">Exportar concentrado <span class="oi oi-document p-1"></span></a>
+            <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                <div class="tw:w-full tw:px-2">
+                    <a href="/servicios_escolares/concentrado_calificaciones_excel/{{$id_carrera}}/{{$id_semestre}}/{{$grupo}}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap">Exportar concentrado <span class="oi oi-document tw:p-1"></span></a>
                 </div>
             </div>
 
 
 
             @else
-            <div class="row">
-                <div class="col-md-8 col-xs-10 col-md-offset-2">
-                    <div class="panel panel-danger">
-                        <h3 class="panel-title text-center">Concentrado de calificaciones incompleto faltan los siguientes profesores:</h3>
+            <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                <div class="tw:w-full tw:px-2">
+                    <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+                        <h3 class="tw:text-base tw:font-medium tw:text-gray-800 tw:dark:text-white/90 tw:text-center">Concentrado incompleto: faltan las calificaciones de los siguientes docentes</h3>
                     </div>
 
                 </div>
             </div>
 
 
-            <div class="row">
-                <div class="col-md-8 col-xs-10 col-md-offset-2">
-                    <table class="table table-striped col-md-12">
+            <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                <div class="tw:w-full tw:px-2">
+                    <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table class="tw:w-full tw-tabla tw-tabla-rayas tw:lg:w-full tw:px-2">
                         <thead class="">
-                        <tr class="text-center">
-                            <th class="text-center" >CLAVE</th>
-                            <th class="text-center" >PROFESOR</th>
-                            <th class="text-center" >MATERIA</th>
+                        <tr class="tw:text-center">
+                            <th class="tw:text-center" >CLAVE</th>
+                            <th class="tw:text-center" >PROFESOR</th>
+                            <th class="tw:text-center" >MATERIA</th>
                         </tr>
                         </tr>
                         </thead>
@@ -74,6 +67,7 @@
                             @endforeach
                         </tbody>
                     </table>
+</div>
 
                 </div>
 
@@ -82,17 +76,18 @@
             @endif
 
         <?php $num_celda=($mat_calificada*2)+1 ?>
-        <div class="row">
-            <div class="col-md-10 col-xs-10 col-md-offset-1">
-                <div class="panel">
-                    <div class="panel-body">
-                        <table class="table table-striped col-md-12">
+        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+            <div class="tw:w-full tw:px-2">
+                <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+                    <div class="tw:p-5 tw:sm:p-6">
+                        <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table class="tw:w-full tw-tabla tw-tabla-rayas tw:lg:w-full tw:px-2">
                             <thead class="">
-                            <tr class="text-center">
-                                <th class="text-center" rowspan="4">NP.</th>
-                                <th class="text-center" rowspan="4">No. CTA</th>
-                                <th class="text-center" rowspan="4">ALUMNO</th>
-                                <th class="text-center" colspan="{{$num_celda}}">Materia</th>
+                            <tr class="tw:text-center">
+                                <th class="tw:text-center" rowspan="4">NP.</th>
+                                <th class="tw:text-center" rowspan="4">No. CTA</th>
+                                <th class="tw:text-center" rowspan="4">ALUMNO</th>
+                                <th class="tw:text-center" colspan="{{$num_celda}}">Materia</th>
                             </tr>
                             <tr>
 
@@ -124,32 +119,32 @@
                             @foreach($materias_calificaciones as $alumno)
                                 <tr class="">
                                     <td>{{$alumno['numero']}}</td>
-                                    <td class="text-center" style=" {!! $alumno['estado_alumno']==2 ? 'background:#ffee62; color:orange' : ($alumno['estado_alumno']==3 ? 'background:#a94442; color:white' : '') !!} "> {{$alumno['cuenta']}}</td>
+                                    <td class="tw:text-center" style=" {!! $alumno['estado_alumno']==2 ? 'background:#ffee62; color:orange' : ($alumno['estado_alumno']==3 ? 'background:#a94442; color:white' : '') !!} "> {{$alumno['cuenta']}}</td>
                                     <td >{{$alumno['nombre']}}</td>
                                     @foreach($alumno['l'] as $calificacion)
                                         @if($calificacion['estado'] == 1)
 
-                                        <td style="background: black; color: white; text-align: center;">NO cursa</td>
-                                            <td style="background: black; color: white;text-align: center;"></td>
+                                        <td class="tw:bg-gray-900 tw:text-white tw:text-center" >NO cursa</td>
+                                            <td class="tw:bg-gray-900 tw:text-white tw:text-center" ></td>
                                         @else
                                             @if($calificacion['promedio'] < 70)
-                                                <td style="background: red; color: white;text-align: center;">N.A.</td>
+                                                <td class="tw:bg-red-600 tw:text-white tw:text-center" >N.A.</td>
                                                 @else
 
-                                            <td style="text-align: center;">{{$calificacion['promedio']}}</td>
+                                            <td class="tw:text-center" >{{$calificacion['promedio']}}</td>
                                             @endif
-                                            <td style="text-align: center;">{{$calificacion['te']}}</td>
+                                            <td class="tw:text-center" >{{$calificacion['te']}}</td>
                                         @endif
 
                                     @endforeach
                                     @if($alumno['estado_validacion'] == 10)
-                                        <td style="background: red; color:black;text-align: center;">BAJA</td>
+                                        <td class="tw:bg-red-600 tw:text-white tw:text-center" >BAJA</td>
 
                                     @else
                                     @if($alumno['promedio_f'] < 70)
-                                        <td style="background: red; color:black;text-align: center;">{{ $alumno['promedio_f']  }}</td>
+                                        <td class="tw:bg-red-600 tw:text-white tw:text-center" >{{ $alumno['promedio_f']  }}</td>
                                     @else
-                                        <td style="text-align: center;">{{$alumno['promedio_f']}}</td>
+                                        <td class="tw:text-center" >{{$alumno['promedio_f']}}</td>
                                     @endif
                                         @endif
 
@@ -161,11 +156,11 @@
                             $total_aprobados_grupo=0;
                             ?>
                             <tr>
-                                <td colspan="3" class="text-right" >
+                                <td colspan="3" class="tw:text-right" >
                                     Meta real
                                 </td>
                                 @foreach($com as $califi)
-                                    <td class="text-right" >
+                                    <td class="tw:text-right" >
                                         <?php  $numero_materia++;
                                         $creditos_finales+=$califi['creditos'];?>
 
@@ -187,11 +182,11 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td colspan="3" class="text-right" >
+                                <td colspan="3" class="tw:text-right" >
                                     Alumnos que cursan la materia
                                 </td>
                                 @foreach($com as $califi)
-                                    <td class="text-right" >
+                                    <td class="tw:text-right" >
                                       {{$califi['total']}}
                                     </td>
                                     <td></td>
@@ -199,11 +194,11 @@
                                 <td>{{ $numero_alumno }}</td>
                             </tr>
                             <tr>
-                                <td colspan="3" class="text-right" >
+                                <td colspan="3" class="tw:text-right" >
                                     Alumnos aprobados
                                 </td>
                                 @foreach($com as $califi)
-                                    <td class="text-right" >
+                                    <td class="tw:text-right" >
                                         {{$califi['aprobados']}}
                                     </td>
                                     <td></td>
@@ -211,11 +206,11 @@
                                 <td>{{ $numero_promedio_aprobado }}</td>
                             </tr>
                             <tr>
-                                <td colspan="3" class="text-right" >
+                                <td colspan="3" class="tw:text-right" >
                                     Alumnos reprobados
                                 </td>
                                 @foreach($com as $califi)
-                                    <td class="text-right" >
+                                    <td class="tw:text-right" >
                                         {{$califi['reprobados']}}
                                     </td>
                                     <td></td>
@@ -223,11 +218,11 @@
                                 <td>{{ $numero_promedio_reprobado }}</td>
                             </tr>
                             <tr>
-                                <td colspan="3" class="text-right" >
+                                <td colspan="3" class="tw:text-right" >
                                     Indice de Reprobación
                                 </td>
                                 @foreach($com as $califi)
-                                    <td class="text-right" >
+                                    <td class="tw:text-right" >
                                         @if($califi['reprobados']==0)
                                             0%
                                         @else
@@ -246,11 +241,11 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td colspan="3" class="text-right" >
+                                <td colspan="3" class="tw:text-right" >
                                     Promedio de la materia
                                 </td>
                                 @foreach($com as $califi)
-                                    <td class="text-right" >
+                                    <td class="tw:text-right" >
                                         @if($califi['total']==0)
                                             0.00
                                         @else
@@ -272,11 +267,11 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td colspan="3" class="text-right" >
+                                <td colspan="3" class="tw:text-right" >
                                     Alumnos baja
                                 </td>
                                 @foreach($com as $califi)
-                                    <td class="text-right" >
+                                    <td class="tw:text-right" >
                                         {{$califi['bajas']}}
                                     </td>
                                     <td></td>
@@ -284,11 +279,11 @@
                                 <td> {{ $bajas }}</td>
                             </tr>
                             <tr>
-                                <td colspan="3" class="text-right" >
+                                <td colspan="3" class="tw:text-right" >
                                     Indice de Deserción
                                 </td>
                                 @foreach($com as $califi)
-                                    <td class="text-right" >
+                                    <td class="tw:text-right" >
                                         @if($califi['bajas']==0)
                                             0%
                                         @else
@@ -311,11 +306,11 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td colspan="3" class="text-right" >
+                                <td colspan="3" class="tw:text-right" >
                                     Creditos por materia
                                 </td>
                                 @foreach($com as $califi)
-                                    <td class="text-right" >
+                                    <td class="tw:text-right" >
                                         {{$califi['creditos']}}
                                     </td>
                                     <td></td>
@@ -323,11 +318,11 @@
                                 <td>{{ $creditos_finales }}</td>
                             </tr>
                             <tr>
-                                <td colspan="3" class="text-right" >
+                                <td colspan="3" class="tw:text-right" >
                                     Total de creditos cursados en la materia
                                 </td>
                                 @foreach($com as $califi)
-                                    <td class="text-right" >
+                                    <td class="tw:text-right" >
                                         <?php $total_creditos=$califi['creditos']*$califi['total']; $total_creditos_grupo+=$total_creditos;?>{{$total_creditos}}
                                     </td>
                                     <td></td>
@@ -335,11 +330,11 @@
                                 <td>{{$total_creditos_grupo}}</td>
                             </tr>
                             <tr>
-                                <td colspan="3" class="text-right" >
+                                <td colspan="3" class="tw:text-right" >
                                     Total de creditos aprobados
                                 </td>
                                 @foreach($com as $califi)
-                                    <td class="text-right" >
+                                    <td class="tw:text-right" >
                                         <?php $total_creditos_a=$califi['creditos']*$califi['aprobados']; $total_aprobados_grupo+=$total_creditos_a;?>{{$total_creditos_a}}  </td>
                                     <td></td>
                                 @endforeach
@@ -360,10 +355,12 @@
 
                             </tbody>
                         </table>
+</div>
                     </div>
                 </div>
             </div>
         </div>
     @endif
 
+</div>
 @endsection

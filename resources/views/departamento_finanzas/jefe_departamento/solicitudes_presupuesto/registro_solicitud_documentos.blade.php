@@ -1,58 +1,55 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 @section('title', 'Solicitudes de requisiciones')
+@include('partials.panel.recursos_app')
 @section('content')
-    <div class="row">
-        <div class="col-md-8  col-md-offset-2">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h3 class="panel-title text-center">Registrar documentos de la solicitud</h3>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <p style=""><span class="glyphicon glyphicon-file" style="font-size: 30px;"></span> Solicitud: <b>{{ $solicitud->descripcion_solicitud }}</b></p>
-                    <p style="">Proyecto: <b>{{ $solicitud->nombre_proyecto }}</b></p>
-                    <p style="">Meta: <b>{{ $solicitud->meta }}</b></p>
-                    <p style="">Mes: <b>{{ $solicitud->mes }}</b></p>
+<div class="tw-pantalla">
+    <x-panel.encabezado titulo="Registrar documentos de la solicitud" :migas="['Finanzas' => null]" />
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+        <div class="tw:w-full tw:px-2">
+            <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+                <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:dark:border-gray-800 tw:bg-gray-50 tw:dark:bg-gray-900 tw:px-5 tw:py-4">
+                    <p><span class="fa fa-file"></span> Solicitud: <b>{{ $solicitud->descripcion_solicitud }}</b></p>
+                    <p>Proyecto: <b>{{ $solicitud->nombre_proyecto }}</b></p>
+                    <p>Meta: <b>{{ $solicitud->meta }}</b></p>
+                    <p>Mes: <b>{{ $solicitud->mes }}</b></p>
 
                 </div>
-                <div class="panel-body">
+                <div class="tw:p-5 tw:sm:p-6">
                     @if($estado_solicitud == 0)
-                        <div class="row">
-                            <div class="col-md-12">
+                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                            <div class="tw:w-full tw:lg:w-full tw:px-2">
 
-                                <table class="table table-bordered">
+                                <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table class="tw-tabla tw-tabla-bordes">
                                     <thead>
                                     <tr>
-                                        <th colspan="7" style="text-align: center; background:  #D6EEEE;">
+                                        <th class="tw:text-center tw:bg-sky-50 tw:dark:bg-sky-500/10" colspan="7">
                                             <b>PARTIDAS PRESUPUESTALES</b>
                                         </th>
                                     </tr>
                                     @foreach($partidas as $partida)
                                         <tr>
 
-                                            <th colspan="7" style="text-align: center; ">
+                                            <th class="tw:text-center" colspan="7">
                                                 {{ $partida->clave_presupuestal }} {{ $partida->nombre_partida }}..............................................................
-                                                <b style="color: red">PRESUPUESTO DADO: {{ "$".number_format($partida->presupuesto_dado, 2, '.', ',') }}</b>
+                                                <b class="tw:text-red-600 tw:dark:text-red-400">PRESUPUESTO DADO: {{ "$".number_format($partida->presupuesto_dado, 2, '.', ',') }}</b>
                                             </th>
                                         </tr>
                                     @endforeach
                                     </thead>
                                 </table>
+</div>
 
 
                             </div>
                         </div>
-                    <div class="row">
-                        <div class="col-md-12 ">
-                            <table class="table table-bordered">
+                    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                        <div class="tw:w-full tw:lg:w-full tw:px-2">
+                            <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table class="tw-tabla tw-tabla-bordes">
                                 <thead>
                                 <tr>
-                                    <th colspan="5" style="text-align: center">Documentación en pdf</th>
+                                    <th class="tw:text-center" colspan="5">Documentación en pdf</th>
                                 </tr>
                                 <tr>
                                     <th>Requisición </th>
@@ -65,23 +62,23 @@
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <td style="text-align: center">
-                                        <button class="btn btn-primary btn-lg agregar_requisicion" title="Agregar requisición pdf" id="{{ $solicitud->id_solicitud }}" ><span     class="glyphicon glyphicon-plus " aria-hidden="true"></span></button>
+                                    <td class="tw:text-center">
+                                        <button class="agregar_requisicion tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base" title="Agregar requisición pdf" id="{{ $solicitud->id_solicitud }}" ><span     class="fa fa-plus" aria-hidden="true"></span></button>
 
                                     </td>
-                                    <td style="text-align: center">
-                                        <button  class="btn btn-primary btn-lg agregar_anexo1" title="Agregar anexo 1 pdf" id="{{ $solicitud->id_solicitud }}" ><span     class="glyphicon glyphicon-plus " aria-hidden="true"></span></button>
+                                    <td class="tw:text-center">
+                                        <button  class="agregar_anexo1 tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base" title="Agregar anexo 1 pdf" id="{{ $solicitud->id_solicitud }}" ><span     class="fa fa-plus" aria-hidden="true"></span></button>
                                     </td>
-                                    <td style="text-align: center">
+                                    <td class="tw:text-center">
 
-                                        <button  class="btn btn-primary btn-lg agregar_suficiencia" title="Agregar oficio de suficiencia presupuestal pdf" id="{{ $solicitud->id_solicitud }}" ><span     class="glyphicon glyphicon-plus " aria-hidden="true"></span></button>
+                                        <button  class="agregar_suficiencia tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base" title="Agregar oficio de suficiencia presupuestal pdf" id="{{ $solicitud->id_solicitud }}" ><span     class="fa fa-plus" aria-hidden="true"></span></button>
                                     </td>
-                                    <td style="text-align: center">
+                                    <td class="tw:text-center">
 
-                                        <button  class="btn btn-primary btn-lg agregar_justificacion" title="Agregar justificacion pdf" id="{{ $solicitud->id_solicitud }}" ><span     class="glyphicon glyphicon-plus " aria-hidden="true"></span></button>
+                                        <button  class="agregar_justificacion tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base" title="Agregar justificacion pdf" id="{{ $solicitud->id_solicitud }}" ><span     class="fa fa-plus" aria-hidden="true"></span></button>
                                     </td>
-                                    <td style="text-align: center">
-                                        <button  class="btn btn-primary btn-lg agregar_cotizacion" title="Agregar cotización pdf" id="{{ $solicitud->id_solicitud }}" ><span     class="glyphicon glyphicon-plus " aria-hidden="true"></span></button>
+                                    <td class="tw:text-center">
+                                        <button  class="agregar_cotizacion tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base" title="Agregar cotización pdf" id="{{ $solicitud->id_solicitud }}" ><span     class="fa fa-plus" aria-hidden="true"></span></button>
 
                                     </td>
                                 </tr>
@@ -89,54 +86,50 @@
 
                                 </tbody>
                             </table>
+</div>
                         </div>
                     </div>
 
                     @endif
                         @if($estado_solicitud == 1)
                             @if($solicitud->comentario_solicitud !='')
-                                <div class="row">
-                                    <div class="col-md-8 col-md-offset-2">
-                                        <div class="panel panel-danger">
-                                            <div class="panel-heading" style="text-align: center;">
-                                                Comentario: {{ $solicitud->comentario_solicitud }}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <x-panel.alerta tipo="error" class="tw:mb-4">Comentario: {{ $solicitud->comentario_solicitud }}</x-panel.alerta>
                             @endif
-                                <div class="panel-body">
-                                    <div class="row">
-                                        <div class="col-md-12">
+                                <div class="tw:p-5 tw:sm:p-6">
+                                    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                        <div class="tw:w-full tw:lg:w-full tw:px-2">
 
-                                            <table class="table table-bordered">
+                                            <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table class="tw-tabla tw-tabla-bordes">
                                                 <thead>
                                                 <tr>
-                                                    <th colspan="7" style="text-align: center; background:  #D6EEEE;">
+                                                    <th class="tw:text-center tw:bg-sky-50 tw:dark:bg-sky-500/10" colspan="7">
                                                         <b>PARTIDAS PRESUPUESTALES</b>
                                                     </th>
                                                 </tr>
                                                 @foreach($partidas as $partida)
                                                     <tr>
 
-                                                        <th colspan="7" style="text-align: center; ">
+                                                        <th class="tw:text-center" colspan="7">
                                                             {{ $partida->clave_presupuestal }} {{ $partida->nombre_partida }}..............................................................
-                                                            <b style="color: red">PRESUPUESTO DADO: {{ "$".number_format($partida->presupuesto_dado, 2, '.', ',') }}</b>
+                                                            <b class="tw:text-red-600 tw:dark:text-red-400">PRESUPUESTO DADO: {{ "$".number_format($partida->presupuesto_dado, 2, '.', ',') }}</b>
                                                         </th>
                                                     </tr>
                                                 @endforeach
                                                 </thead>
                                             </table>
+</div>
 
 
                                         </div>
                                     </div>
-                            <div class="row">
-                                <div class="col-md-12 ">
-                                    <table class="table table-bordered">
+                            <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                <div class="tw:w-full tw:lg:w-full tw:px-2">
+                                    <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table class="tw-tabla tw-tabla-bordes">
                                         <thead>
                                         <tr>
-                                            <th colspan="5" style="text-align: center; background:  #D6EEEE;">Documentación en pdf</th>
+                                            <th class="tw:text-center tw:bg-sky-50 tw:dark:bg-sky-500/10" colspan="5">Documentación en pdf</th>
                                         </tr>
                                         <tr>
                                             <th>Requisición </th>
@@ -151,72 +144,62 @@
                                         <tbody>
                                         <tr>
                                             @if($documentos->requisicion_pdf == '')
-                                            <td style="text-align: center">
-                                                <button class="btn btn-primary btn-lg agregar_requisicion" title="Agregar requisición pdf" id="{{ $solicitud->id_solicitud }}" ><span     class="glyphicon glyphicon-plus " aria-hidden="true"></span></button>
+                                            <td class="tw:text-center">
+                                                <button class="agregar_requisicion tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base" title="Agregar requisición pdf" id="{{ $solicitud->id_solicitud }}" ><span     class="fa fa-plus" aria-hidden="true"></span></button>
 
                                             </td>
                                             @else
-                                                <td style="text-align: center">
-                                                    <a  target="_blank" href="/finanzas/requisicion_pres_aut/{{ $documentos->requisicion_pdf }}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a>
+                                                <td class="tw:text-center">
+                                                    <a  target="_blank" href="/finanzas/requisicion_pres_aut/{{ $documentos->requisicion_pdf }}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"><i class="fa fa-book em56" title="Ver PDF"></i></a>
 
-                                                    <button title="Modificar requisicion pdf" id="{{ $documentos->id_solicitud_documento }}"  class="btn btn-primary editar_requisicion" >
-                                                    <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-                                                </button>
+                                                    <button title="Modificar requisicion pdf" id="{{ $documentos->id_solicitud_documento }}"  class="editar_requisicion tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base" ><span class="fa fa-cog" aria-hidden="true"></span></button>
                                                 </td>
                                             @endif
                                                 @if($documentos->anexo_1_pdf == '')
-                                                <td style="text-align: center">
-                                                    <button  class="btn btn-primary btn-lg agregar_anexo1" title="Agregar anexo 1 pdf" id="{{ $solicitud->id_solicitud }}" ><span     class="glyphicon glyphicon-plus " aria-hidden="true"></span></button>
+                                                <td class="tw:text-center">
+                                                    <button  class="agregar_anexo1 tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base" title="Agregar anexo 1 pdf" id="{{ $solicitud->id_solicitud }}" ><span     class="fa fa-plus" aria-hidden="true"></span></button>
                                                 </td>
                                                 @else
-                                                    <td style="text-align: center">
-                                                        <a  target="_blank" href="/finanzas/anexo1_pres_aut/{{ $documentos->anexo_1_pdf }}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a>
+                                                    <td class="tw:text-center">
+                                                        <a  target="_blank" href="/finanzas/anexo1_pres_aut/{{ $documentos->anexo_1_pdf }}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"><i class="fa fa-book em56" title="Ver PDF"></i></a>
 
-                                                        <button title="Modificar anexo 1 pdf" id="{{ $documentos->id_solicitud_documento }}"  class="btn btn-primary editar_anexo1" >
-                                                            <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-                                                        </button>
+                                                        <button title="Modificar anexo 1 pdf" id="{{ $documentos->id_solicitud_documento }}"  class="editar_anexo1 tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base" ><span class="fa fa-cog" aria-hidden="true"></span></button>
                                                     </td>
                                                 @endif
                                                 @if($documentos->oficio_suficiencia_presupuestal_pdf == '')
-                                                <td style="text-align: center">
+                                                <td class="tw:text-center">
 
-                                                    <button  class="btn btn-primary btn-lg agregar_suficiencia" title="Agregar oficio de suficiencia presupuestal pdf" id="{{ $solicitud->id_solicitud }}" ><span     class="glyphicon glyphicon-plus " aria-hidden="true"></span></button>
+                                                    <button  class="agregar_suficiencia tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base" title="Agregar oficio de suficiencia presupuestal pdf" id="{{ $solicitud->id_solicitud }}" ><span     class="fa fa-plus" aria-hidden="true"></span></button>
                                                 </td>
                                                 @else
-                                                    <td style="text-align: center">
-                                                        <a  target="_blank" href="/finanzas/suficiencia_pres_aut/{{ $documentos->oficio_suficiencia_presupuestal_pdf }}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a>
+                                                    <td class="tw:text-center">
+                                                        <a  target="_blank" href="/finanzas/suficiencia_pres_aut/{{ $documentos->oficio_suficiencia_presupuestal_pdf }}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"><i class="fa fa-book em56" title="Ver PDF"></i></a>
 
-                                                        <button title="Modificar oficio de suficiencia pdf" id="{{ $documentos->id_solicitud_documento }}"  class="btn btn-primary editar_suficiencia" >
-                                                            <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-                                                        </button>
+                                                        <button title="Modificar oficio de suficiencia pdf" id="{{ $documentos->id_solicitud_documento }}"  class="editar_suficiencia tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base" ><span class="fa fa-cog" aria-hidden="true"></span></button>
                                                     </td>
                                                 @endif
                                                 @if($documentos->id_estado_justificacion == 0)
-                                            <td style="text-align: center">
-                                                <button  class="btn btn-primary btn-lg agregar_justificacion" title="Agregar justificacion pdf" id="{{ $solicitud->id_solicitud }}" ><span     class="glyphicon glyphicon-plus " aria-hidden="true"></span></button>
+                                            <td class="tw:text-center">
+                                                <button  class="agregar_justificacion tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base" title="Agregar justificacion pdf" id="{{ $solicitud->id_solicitud }}" ><span     class="fa fa-plus" aria-hidden="true"></span></button>
                                             </td>
                                                 @else
-                                                    <td style="text-align: center">
+                                                    <td class="tw:text-center">
                                                     @if($documentos->id_estado_justificacion == 1)
                                                         No
                                                     @else
-                                                        <a  target="_blank" href="/finanzas/justificacion_pres_aut/{{ $documentos->oficio_justificacion }}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a>
+                                                        <a  target="_blank" href="/finanzas/justificacion_pres_aut/{{ $documentos->oficio_justificacion }}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"><i class="fa fa-book em56" title="Ver PDF"></i></a>
                                                     @endif
-                                                    <button title="Modificar justificacion pdf" id="{{ $documentos->id_solicitud_documento }}"  class="btn btn-primary editar_justificacion" >
-                                                        <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-                                                    </button>
+                                                    <button title="Modificar justificacion pdf" id="{{ $documentos->id_solicitud_documento }}"  class="editar_justificacion tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base" ><span class="fa fa-cog" aria-hidden="true"></span></button>
                                                     </td>
                                                 @endif
                                                 @if($documentos->cotizacion_pdf == '')
-                                                    <td style="text-align: center">
-                                                        <button  class="btn btn-primary btn-lg agregar_cotizacion" title="Agregar cotización pdf" id="{{ $solicitud->id_solicitud }}" ><span     class="glyphicon glyphicon-plus " aria-hidden="true"></span></button>
+                                                    <td class="tw:text-center">
+                                                        <button  class="agregar_cotizacion tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base" title="Agregar cotización pdf" id="{{ $solicitud->id_solicitud }}" ><span     class="fa fa-plus" aria-hidden="true"></span></button>
                                                     </td>
                                                 @else
-                                                    <td style="text-align: center">
-                                                    <a  target="_blank" href="/finanzas/cotizacion_pres_aut/{{ $documentos->cotizacion_pdf }}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a>
-                                                    <button title="Modificar cotización pdf" id="{{ $documentos->id_solicitud_documento }}"  class="btn btn-primary editar_cotizacion" >
-                                                        <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-                                                    </button>
+                                                    <td class="tw:text-center">
+                                                    <a  target="_blank" href="/finanzas/cotizacion_pres_aut/{{ $documentos->cotizacion_pdf }}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"><i class="fa fa-book em56" title="Ver PDF"></i></a>
+                                                    <button title="Modificar cotización pdf" id="{{ $documentos->id_solicitud_documento }}"  class="editar_cotizacion tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base" ><span class="fa fa-cog" aria-hidden="true"></span></button>
                                                     </td>
 
                                                 @endif
@@ -225,6 +208,7 @@
 
                                         </tbody>
                                     </table>
+</div>
                                 </div>
                             </div>
 
@@ -233,15 +217,10 @@
                                         @if($documentos->anexo_1_pdf !='')
                                             @if($documentos->oficio_suficiencia_presupuestal_pdf !='')
                                                 @if($documentos->id_estado_justificacion != 0)
-                                                    <div class="row">
-                                                        <div class="col-md-4 col-md-offset-4" style="text-align: center">
-                                                            <button  id="{{ $id_solicitud }}"  class="btn btn-success btn-lg  enviar_solicitud" >Enviar solicitud
+                                                    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                                        <div class="tw:w-full tw:px-2 tw:text-center">
+                                                            <button  id="{{ $id_solicitud }}"  class="enviar_solicitud tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Enviar solicitud
                                                             </button>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                            <p><br></p>
                                                         </div>
                                                     </div>
                                                 @endif
@@ -260,326 +239,270 @@
 
     {{-- modal agregar requisicion pdf--}}
 
-    <div class="modal fade" id="modal_agregar_requisicion_pdf" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="exampleModalLabel">Requisicion pdf</h4>
+    <x-panel.modal id="modal_agregar_requisicion_pdf" tamano="lg" sin-relleno clase-cerrar="close" aria-labelledby="exampleModalLabel">
+                <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                    
+                    <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="exampleModalLabel">Requisicion pdf</h4>
                 </div>
-                <div class="modal-body">
+                <div class="tw-modal-cuerpo">
                     <div id="contenedor_agregar_requisicion_pdf">
 
                     </div>
 
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <button id="guardar_req"  class="btn btn-primary" >Guardar</button>
+                    <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                        <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                        <button id="guardar_req"  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Guardar</button>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
+            </x-panel.modal>
 
     {{-- modal agregar agregar_anexo1--}}
 
-    <div class="modal fade" id="modal_agregar_anexo1_pdf" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="exampleModalLabel">Anexo 1 pdf</h4>
+    <x-panel.modal id="modal_agregar_anexo1_pdf" tamano="lg" sin-relleno clase-cerrar="close" aria-labelledby="exampleModalLabel">
+                <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                    
+                    <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="exampleModalLabel">Anexo 1 pdf</h4>
                 </div>
-                <div class="modal-body">
+                <div class="tw-modal-cuerpo">
                     <div id="contenedor_agregar_anexo1_pdf">
 
                     </div>
 
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <button id="guardar_anexo1"  class="btn btn-primary" >Guardar</button>
+                    <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                        <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                        <button id="guardar_anexo1"  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Guardar</button>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
+            </x-panel.modal>
 
     {{-- modal agregar suficiencia  pdf--}}
 
-    <div class="modal fade" id="modal_agregar_suficiencia" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="exampleModalLabel">Oficio de suficiencia presupuestal pdf</h4>
+    <x-panel.modal id="modal_agregar_suficiencia" tamano="lg" sin-relleno clase-cerrar="close" aria-labelledby="exampleModalLabel">
+                <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                    
+                    <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="exampleModalLabel">Oficio de suficiencia presupuestal pdf</h4>
                 </div>
-                <div class="modal-body">
+                <div class="tw-modal-cuerpo">
                     <div id="contenedor_agregar_suficiencia">
 
                     </div>
 
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <button id="guardar_suficiencia"  class="btn btn-primary" >Guardar</button>
+                    <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                        <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                        <button id="guardar_suficiencia"  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Guardar</button>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
+            </x-panel.modal>
 
     {{-- modal agregar justificacion  pdf--}}
 
-    <div class="modal fade" id="modal_agregar_justificacion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="exampleModalLabel">Justificación pdf</h4>
+    <x-panel.modal id="modal_agregar_justificacion" tamano="lg" sin-relleno clase-cerrar="close" aria-labelledby="exampleModalLabel">
+                <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                    
+                    <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="exampleModalLabel">Justificación pdf</h4>
                 </div>
-                <div class="modal-body">
+                <div class="tw-modal-cuerpo">
                     <div id="contenedor_agregar_justificacion">
 
                     </div>
 
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <button id="guardar_justificacion"  class="btn btn-primary" >Guardar</button>
+                    <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                        <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                        <button id="guardar_justificacion"  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Guardar</button>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
+            </x-panel.modal>
     {{-- modal agregar cotizacion  --}}
 
-    <div class="modal fade" id="modal_agregar_cotizacion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="exampleModalLabel">Cotización pdf</h4>
+    <x-panel.modal id="modal_agregar_cotizacion" tamano="lg" sin-relleno clase-cerrar="close" aria-labelledby="exampleModalLabel">
+                <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                    
+                    <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="exampleModalLabel">Cotización pdf</h4>
                 </div>
-                <div class="modal-body">
+                <div class="tw-modal-cuerpo">
                     <div id="contenedor_agregar_cotizacion">
 
                     </div>
 
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <button id="guardar_cotizacion"  class="btn btn-primary" >Guardar</button>
+                    <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                        <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                        <button id="guardar_cotizacion"  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Guardar</button>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
+            </x-panel.modal>
 
     {{-- modal modificar requisicion--}}
 
-    <div class="modal fade" id="modal_modificar_req" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="exampleModalLabel">Modificar requisicion  pdf</h4>
+    <x-panel.modal id="modal_modificar_req" tamano="lg" sin-relleno clase-cerrar="close" aria-labelledby="exampleModalLabel">
+                <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                    
+                    <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="exampleModalLabel">Modificar requisicion  pdf</h4>
                 </div>
-                <div class="modal-body">
+                <div class="tw-modal-cuerpo">
                     <div id="contenedor_modificar_req">
 
                     </div>
 
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <button id="guardar_modificar_req"  class="btn btn-primary" >Guardar</button>
+                    <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                        <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                        <button id="guardar_modificar_req"  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Guardar</button>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
+            </x-panel.modal>
     {{-- modal modificar anexo1--}}
 
-    <div class="modal fade" id="modal_mod_anexo1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="exampleModalLabel">Modificar requisicion  pdf</h4>
+    <x-panel.modal id="modal_mod_anexo1" tamano="lg" sin-relleno clase-cerrar="close" aria-labelledby="exampleModalLabel">
+                <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                    
+                    <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="exampleModalLabel">Modificar requisicion  pdf</h4>
                 </div>
-                <div class="modal-body">
+                <div class="tw-modal-cuerpo">
                     <div id="contenedor_mod_anexo1">
 
                     </div>
 
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <button id="guardar_mod_anexo1"  class="btn btn-primary" >Guardar</button>
+                    <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                        <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                        <button id="guardar_mod_anexo1"  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Guardar</button>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
+            </x-panel.modal>
 
     {{-- modal modificar oficio de suficiencia pdfp--}}
 
-    <div class="modal fade" id="modal_mod_suficiencia" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="exampleModalLabel">Modificar oficio de suficiencia presupuestal  pdf</h4>
+    <x-panel.modal id="modal_mod_suficiencia" tamano="lg" sin-relleno clase-cerrar="close" aria-labelledby="exampleModalLabel">
+                <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                    
+                    <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="exampleModalLabel">Modificar oficio de suficiencia presupuestal  pdf</h4>
                 </div>
-                <div class="modal-body">
+                <div class="tw-modal-cuerpo">
                     <div id="contenedor_mod_suficiencia">
 
                     </div>
 
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <button id="guardar_mod_suficiencia"  class="btn btn-primary" >Guardar</button>
+                    <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                        <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                        <button id="guardar_mod_suficiencia"  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Guardar</button>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
+            </x-panel.modal>
 
     {{-- modal modificar justificacion pdf--}}
 
-    <div class="modal fade" id="modal_mod_justificacion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="exampleModalLabel">Modificar justificación  pdf</h4>
+    <x-panel.modal id="modal_mod_justificacion" tamano="lg" sin-relleno clase-cerrar="close" aria-labelledby="exampleModalLabel">
+                <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                    
+                    <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="exampleModalLabel">Modificar justificación  pdf</h4>
                 </div>
-                <div class="modal-body">
+                <div class="tw-modal-cuerpo">
                     <div id="contenedor_mod_justificacion">
 
                     </div>
 
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <button id="guardar_mod_justificacion"  class="btn btn-primary" >Guardar</button>
+                    <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                        <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                        <button id="guardar_mod_justificacion"  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Guardar</button>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
+            </x-panel.modal>
 
     {{-- modal modificar cotizacion  --}}
 
-    <div class="modal fade" id="modal_modificar_cotizacion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="exampleModalLabel">Modificar cotización pdf</h4>
+    <x-panel.modal id="modal_modificar_cotizacion" tamano="lg" sin-relleno clase-cerrar="close" aria-labelledby="exampleModalLabel">
+                <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                    
+                    <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="exampleModalLabel">Modificar cotización pdf</h4>
                 </div>
-                <div class="modal-body">
+                <div class="tw-modal-cuerpo">
                     <div id="contenedor_modificar_cotizacion">
 
                     </div>
 
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <button id="guardar_modificar_cotizacion"  class="btn btn-primary" >Guardar</button>
+                    <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                        <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                        <button id="guardar_modificar_cotizacion"  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Guardar</button>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
+            </x-panel.modal>
     {{-- modal agregar material partida  --}}
 
-    <div class="modal fade" id="modal_agregar_material_partida" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="exampleModalLabel">Agregar material o servicio a la partida</h4>
+    <x-panel.modal id="modal_agregar_material_partida" tamano="lg" sin-relleno clase-cerrar="close" aria-labelledby="exampleModalLabel">
+                <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                    
+                    <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="exampleModalLabel">Agregar material o servicio a la partida</h4>
                 </div>
-                <div class="modal-body">
+                <div class="tw-modal-cuerpo">
                     <div id="contenedor_material_partida">
 
                     </div>
 
 
                 </div>
-            </div>
-        </div>
-    </div>
+            </x-panel.modal>
 
     {{-- modal enviar solicitud --}}
 
-    <div class="modal fade" id="modal_enviar_solicitud" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="exampleModalLabel">Enviar solicitud</h4>
+    <x-panel.modal id="modal_enviar_solicitud" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="exampleModalLabel">
+                <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                    
+                    <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="exampleModalLabel">Enviar solicitud</h4>
                 </div>
-                <div class="modal-body">
-                    <form id="form_enviar_solicitud" class="form" action="{{url("/presupuesto_autorizado/enviar_solicitud/".$id_solicitud)}}" role="form" method="POST" >
+                <div class="tw-modal-cuerpo">
+                    <form id="form_enviar_solicitud" class="" action="{{url("/presupuesto_autorizado/enviar_solicitud/".$id_solicitud)}}" role="form" method="POST" >
                     {{ csrf_field() }}
-                        <div class="row">
-                            <div class="col-md-8 col-md-offset-2">
-                                <h4>¿Deseas enviar tu solicitud?</h4>
+                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                            <div class="tw:w-full tw:px-2">
+                                <h4 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">¿Deseas enviar tu solicitud?</h4>
                             </div>
                         </div>
                     </form>
 
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <button id="guardar_enviar_solicitud"  class="btn btn-primary" >Enviar</button>
+                    <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                        <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                        <button id="guardar_enviar_solicitud"  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Enviar</button>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
+            </x-panel.modal>
     {{-- modal agregar material partida  --}}
 
-    <div class="modal fade" id="modal_modificar_material_partida" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="exampleModalLabel">Modificar material o servicio a la partida</h4>
+    <x-panel.modal id="modal_modificar_material_partida" tamano="lg" sin-relleno clase-cerrar="close" aria-labelledby="exampleModalLabel">
+                <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                    
+                    <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="exampleModalLabel">Modificar material o servicio a la partida</h4>
                 </div>
-                <div class="modal-body">
+                <div class="tw-modal-cuerpo">
                     <div id="contenedor_modificar_material_partida">
 
                     </div>
 
 
                 </div>
-            </div>
-        </div>
-    </div>
+            </x-panel.modal>
 
     {{-- modal eliminar material o servicio --}}
 
-    <div class="modal fade" id="modal_eliminar_material" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="exampleModalLabel">Notificación.</h4>
+    <x-panel.modal id="modal_eliminar_material" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="exampleModalLabel">
+                <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                    
+                    <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="exampleModalLabel">Notificación.</h4>
                 </div>
-                <div class="modal-body">
-                    <form id="form_eliminar_material" class="form" action="{{url("/presupuesto_autorizado/eliminar_material_solicitud/")}}" role="form" method="POST" >
+                <div class="tw-modal-cuerpo">
+                    <form id="form_eliminar_material" class="" action="{{url("/presupuesto_autorizado/eliminar_material_solicitud/")}}" role="form" method="POST" >
                         {{ csrf_field() }}
                         <input type="hidden" id="id_material_part" name="id_material_part" value="">
-                        <div class="row">
-                            <div class="col-md-8 col-md-offset-2">
-                                <h4>¿Deseas eliminar material o servicio, etc.?</h4>
+                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                            <div class="tw:w-full tw:px-2">
+                                <h4 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">¿Deseas eliminar material o servicio, etc.?</h4>
                             </div>
                         </div>
                     </form>
 
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <button id="guardar_eliminar_material"  class="btn btn-primary" >Aceptar</button>
+                    <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                        <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                        <button id="guardar_eliminar_material"  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Aceptar</button>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
+            </x-panel.modal>
 
     <script type="text/javascript">
         $(document).ready( function() {
@@ -980,4 +903,5 @@
     </script>
 
 
+</div>
 @endsection

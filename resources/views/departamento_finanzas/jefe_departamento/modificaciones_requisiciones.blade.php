@@ -1,118 +1,77 @@
 +
 
-@extends('layouts.app')
+@extends('layouts.panel')
 @section('title', 'Actividades de requisiciones del anteproyecto')
+@include('partials.panel.recursos_app')
 @section('content')
-    <div class="row">
-        <div class="col-md-8  col-md-offset-2">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h3 class="panel-title text-center">Actividades de requisiciones del anteproyecto</h3>
-                    <h3 class="panel-title text-center">Año de las requisiciones del anteproyecto: {{ $datos_req_envio->year_requisicion }}</h3>
-                </div>
-            </div>
-        </div>
-        <br>
-    </div>
+<div class="tw-pantalla">
+    <x-panel.encabezado :titulo="'Actividades de requisiciones del anteproyecto Año de las requisiciones del anteproyecto: '.$datos_req_envio->year_requisicion" :migas="['Finanzas' => null]" />
+
     <?php setlocale(LC_MONETARY, 'es_MX');
 
     ?>
 
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-danger">
-                <div class="panel-heading">
-                    <h3 class="panel-title text-center">Hacer las correcciones correspondientes en las requisiciones que tienen comentarios de modificación.</h3>
-                </div>
-            </div>
+    <x-panel.alerta tipo="error" class="tw:mb-4">Hacer las correcciones correspondientes en las requisiciones que tienen comentarios de modificación.</x-panel.alerta>
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+        <h3 class="tw:mb-4 tw:text-center tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90"><p class="tw:text-center"><a  target="_blank" href="/documentos_finanza/catalogo.pdf" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-red-600 tw:ring-1 tw:ring-red-300 tw:ring-inset tw:hover:bg-red-50 tw:dark:bg-gray-800 tw:dark:text-red-500 tw:dark:ring-red-500/40 tw:dark:hover:bg-red-500/10 tw:size-9 tw:text-base"><i class="fa fa-book em56" title="Ver PDF"></i></a>  Catalogo de unidades de medida
+                    </p></h3>
+        <div class="tw:w-full tw:px-2">
+            <h3 class="tw:mb-4 tw:text-center tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90"><p class="tw:text-center">Clasificador por objeto de gasto  <a  target="_blank" href="/documentos_finanza/clasificador.pdf" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-red-600 tw:ring-1 tw:ring-red-300 tw:ring-inset tw:hover:bg-red-50 tw:dark:bg-gray-800 tw:dark:text-red-500 tw:dark:ring-red-500/40 tw:dark:hover:bg-red-500/10 tw:size-9 tw:text-base"><i class="fa fa-book em56" title="Ver PDF"></i></a>
+                    </p></h3>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-2  col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <p style="text-align: center;"><a  target="_blank" href="/documentos_finanza/catalogo.pdf" class="btn btn-danger "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a>  Catalogo de unidades de medida
-                    </p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-2  col-md-offset-4">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <p style="text-align: center;">Clasificador por objeto de gasto  <a  target="_blank" href="/documentos_finanza/clasificador.pdf" class="btn btn-danger "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a>
-                    </p>
-                </div>
-            </div>
-        </div>
-        <br>
     </div>
 
     <?php setlocale(LC_MONETARY, 'es_MX');
 
     ?>
-    <div class="row">
-        <div class="col-md-1 col-md-offset-2">
-            <button data-toggle="modal"  data-tooltip="true" data-placement="left" title="Agregar nueva requisición de materiales" data-target="#modal_crear_requisicion" type="button" class="btn btn-primary btn-lg flotante">
-                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+        <div class="tw:w-full tw:px-2">
+            <button data-toggle="modal"  data-tooltip="true" data-placement="left" title="Agregar nueva requisición de materiales" data-target="#modal_crear_requisicion" type="button" class="flotante tw:fixed tw:right-6 tw:bottom-6 tw:z-40 tw:inline-flex tw:size-14 tw:items-center tw:justify-center tw:rounded-full tw:bg-brand-500 tw:text-xl tw:text-white tw:shadow-theme-lg tw:hover:bg-brand-600">
+                <span class="fa fa-plus" aria-hidden="true"></span>
             </button>
         </div>
 
-        <p><br></p>
+        <p class="tw:w-full"><br></p>
     </div>
 
     @foreach($requisiciones2 as $requisicion)
         @if($requisicion['id_autorizacion'] == 0)
 
-            <div class="row">
-                <div class="col-md-8 col-md-offset-2">
-                    <div class="panel panel-warning">
-                        <div class="panel-heading">
-                            <div class="row">
-                                <div class="col-md-2 col-md-offset-10">
-                                    <button title="Modificar requisicion de materiales" id="{{ $requisicion['id_actividades_req_ante'] }}"  class="btn btn-primary editar_requisiciones" >
-                                        <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-                                    </button>
-                                    <button title="Eliminar requisicion de materiales" id="{{ $requisicion['id_actividades_req_ante'] }}"  class="btn btn-danger eliminar_requisiciones" >
-                                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                                    </button>
+            <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                <div class="tw:w-full tw:px-2">
+                    <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+                        <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:dark:border-gray-800 tw:bg-gray-50 tw:dark:bg-gray-900 tw:px-5 tw:py-4">
+                            <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                <div class="tw:w-full tw:px-2">
+                                    <button title="Modificar requisicion de materiales" id="{{ $requisicion['id_actividades_req_ante'] }}"  class="editar_requisiciones tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base" ><span class="fa fa-cog" aria-hidden="true"></span></button>
+                                    <button title="Eliminar requisicion de materiales" id="{{ $requisicion['id_actividades_req_ante'] }}"  class="eliminar_requisiciones tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-red-600 tw:ring-1 tw:ring-red-300 tw:ring-inset tw:hover:bg-red-50 tw:dark:bg-gray-800 tw:dark:text-red-500 tw:dark:ring-red-500/40 tw:dark:hover:bg-red-500/10 tw:size-9 tw:text-base" ><span class="fa fa-trash" aria-hidden="true"></span></button>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-10 col-md-offset-1">
-                                    <h4 style="text-align: center; color: #0c0c0c">PARTIDA PRESUPUESTAL: <b>{{ $requisicion['nombre_partida'] }}</b></h4>
-                                    <h4 style="text-align: center; color: #0c0c0c">MES: <b>{{ $requisicion['mes'] }}</b></h4>
-                                    <h5 style="text-align: center; color: #0c0c0c">JUSTIFICACIÓN: <b>{{ $requisicion['justificacion'] }}</b></h5>
-                                    <h4 style="text-align: center; color: #0c0c0c">PROYECTO: <b>{{ $requisicion['nombre_proyecto'] }}</b></h4>
-                                    <h5 style="text-align: center; color: #0c0c0c">META: <b>{{ $requisicion['meta'] }}</b></h5>
+                            <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                <div class="tw:w-full tw:px-2">
+                                    <h4 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90 tw:text-center tw:text-gray-800 tw:dark:text-white/90">PARTIDA PRESUPUESTAL: <b>{{ $requisicion['nombre_partida'] }}</b></h4>
+                                    <h4 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90 tw:text-center tw:text-gray-800 tw:dark:text-white/90">MES: <b>{{ $requisicion['mes'] }}</b></h4>
+                                    <h5 class="tw:mb-2 tw:text-sm tw:font-semibold tw:text-gray-700 tw:dark:text-gray-300 tw:text-center tw:text-gray-800 tw:dark:text-white/90">JUSTIFICACIÓN: <b>{{ $requisicion['justificacion'] }}</b></h5>
+                                    <h4 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90 tw:text-center tw:text-gray-800 tw:dark:text-white/90">PROYECTO: <b>{{ $requisicion['nombre_proyecto'] }}</b></h4>
+                                    <h5 class="tw:mb-2 tw:text-sm tw:font-semibold tw:text-gray-700 tw:dark:text-gray-300 tw:text-center tw:text-gray-800 tw:dark:text-white/90">META: <b>{{ $requisicion['meta'] }}</b></h5>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-8 col-md-offset-2">
-                                    <div class="panel panel-success">
-                                        <div class="panel-heading">
-                                            <h4 style="text-align: center"><b>Requisición nueva</b></h4>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <x-panel.alerta tipo="exito" class="tw:mb-4"><h4 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90 tw:text-center"><b>Requisición nueva</b></h4></x-panel.alerta>
 
-                            <div class="row">
-                                <div class="col-md-3 col-md-offset-4">
-                                    <button class="btn btn-primary btn-lg" onclick="window.location='{{ url('/presupuesto_anteproyecto/modificar_bienes_servicios_anteproyecto/'.$requisicion['id_actividades_req_ante'] ) }}'">Agregar documentación o bienes o servicios, etc.</button>
+                            <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                <div class="tw:w-full tw:px-2">
+                                    <button class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" onclick="window.location='{{ url('/presupuesto_anteproyecto/modificar_bienes_servicios_anteproyecto/'.$requisicion['id_actividades_req_ante'] ) }}'">Agregar documentación o bienes o servicios, etc.</button>
                                 </div>
 
                             </div>
-                            <div class="row">
-                                <div class="col-md-10">
-                                    <br>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12 ">
-                                    <table class="table table-bordered">
+
+                            <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                <div class="tw:w-full tw:lg:w-full tw:px-2">
+                                    <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table class="tw-tabla tw-tabla-bordes">
                                         <thead>
                                         <tr>
-                                            <th colspan="4" style="text-align: center">Documentación en pdf</th>
+                                            <th class="tw:text-center" colspan="4">Documentación en pdf</th>
                                         </tr>
                                         <tr>
                                             <th>Requisición </th>
@@ -125,48 +84,48 @@
                                         </thead>
                                         <tbody>
                                         <tr>
-                                            <td style="text-align: center">
+                                            <td class="tw:text-center">
                                                 @if($requisicion['requisicion_pdf'] == '')
                                                     No hay documento registrado
                                                 @else
 
-                                                    <a  target="_blank" href="/finanzas/requisiciones/{{ $requisicion['requisicion_pdf'] }}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a>
+                                                    <a  target="_blank" href="/finanzas/requisiciones/{{ $requisicion['requisicion_pdf'] }}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"><i class="fa fa-book em56" title="Ver PDF"></i></a>
 
                                                 @endif
                                             </td>
-                                            <td style="text-align: center">
+                                            <td class="tw:text-center">
                                                 @if($requisicion['anexo_1_pdf'] == '')
                                                     No hay documento registrado
                                                 @else
-                                                    <a  target="_blank" href="/finanzas/anexo1/{{ $requisicion['anexo_1_pdf'] }}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a>
+                                                    <a  target="_blank" href="/finanzas/anexo1/{{ $requisicion['anexo_1_pdf'] }}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"><i class="fa fa-book em56" title="Ver PDF"></i></a>
 
                                                 @endif
                                             </td>
-                                            <td style="text-align: center">
+                                            <td class="tw:text-center">
                                                 @if($requisicion['oficio_suficiencia_presupuestal_pdf'] == '')
                                                     No hay documento registrado
                                                 @else
-                                                    <a  target="_blank" href="/finanzas/oficio_suficiencia/{{ $requisicion['oficio_suficiencia_presupuestal_pdf'] }}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a>
+                                                    <a  target="_blank" href="/finanzas/oficio_suficiencia/{{ $requisicion['oficio_suficiencia_presupuestal_pdf'] }}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"><i class="fa fa-book em56" title="Ver PDF"></i></a>
                                                 @endif
                                             </td>
-                                            <td style="text-align: center">
+                                            <td class="tw:text-center">
                                                 @if($requisicion['id_estado_justificacion'] == 0)
                                                     No se ha seleccionado respuesta
                                                 @else
                                                     @if($requisicion['id_estado_justificacion'] == 1)
                                                         No
                                                     @else
-                                                        <a  target="_blank" href="/finanzas/justificacion/{{ $requisicion['justificacion_pdf'] }}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a>
+                                                        <a  target="_blank" href="/finanzas/justificacion/{{ $requisicion['justificacion_pdf'] }}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"><i class="fa fa-book em56" title="Ver PDF"></i></a>
                                                     @endif
 
                                                 @endif
                                             </td>
-                                            <td style="text-align: center">
+                                            <td class="tw:text-center">
                                                 @if($requisicion['cotizacion_pdf'] == '')
                                                     No hay documento registrado
                                                 @else
 
-                                                    <a  target="_blank" href="/finanzas/cotizaciones/{{ $requisicion['cotizacion_pdf'] }}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a>
+                                                    <a  target="_blank" href="/finanzas/cotizaciones/{{ $requisicion['cotizacion_pdf'] }}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"><i class="fa fa-book em56" title="Ver PDF"></i></a>
 
                                                 @endif
                                             </td>
@@ -174,32 +133,29 @@
 
                                         </tbody>
                                     </table>
+</div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-10 col-md-offset-1">
+                            <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                <div class="tw:w-full tw:px-2">
                                     <hr>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading">
-                                            <div class="row">
-                                                <div class="col-md-10 col-md-offset-1">
-                                                    <h5 style="text-align: center">BIENES O SERVICIOS, ETC.</h5>
+                            <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                <div class="tw:w-full tw:lg:w-full tw:px-2">
+                                    <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+                                        <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:dark:border-gray-800 tw:bg-gray-50 tw:dark:bg-gray-900 tw:px-5 tw:py-4">
+                                            <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                                <div class="tw:w-full tw:px-2">
+                                                    <h5 class="tw:mb-2 tw:text-sm tw:font-semibold tw:text-gray-700 tw:dark:text-gray-300 tw:text-center">BIENES O SERVICIOS, ETC.</h5>
                                                 </div>
                                             </div>
 
 
-                                            <div class="row">
-                                                <div class="col-md-10 col-md-offset-1">
-                                                    <p><br></p>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-10 col-md-offset-1">
-                                                    <table class="table table-bordered">
+                                            <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                                <div class="tw:w-full tw:px-2">
+                                                    <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table class="tw-tabla tw-tabla-bordes">
                                                         <thead>
                                                         <tr>
                                                             <th>N. P</th>
@@ -218,32 +174,33 @@
                                                                 <td>{{ $i++ }}</td>
                                                                 <td>{{ $servicio['descripcion'] }}</td>
                                                                 <td>{{ $servicio['unidad_medida'] }}</td>
-                                                                <td style="text-align: right;"><h3>{{ $servicio['cantidad'] }}</h3></td>
+                                                                <td class="tw:text-right"><h3 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">{{ $servicio['cantidad'] }}</h3></td>
                                                                     <?php
                                                                     $precio_unitario=$servicio['precio_unitario'];
                                                                     $precio_unitario= "$".number_format($precio_unitario, 2, '.', ',');
                                                                     ?>
-                                                                <td style="text-align: right;"><h3>{{ $precio_unitario}}</h3></td>
+                                                                <td class="tw:text-right"><h3 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">{{ $precio_unitario}}</h3></td>
                                                                     <?php
                                                                     $importe=$servicio['importe'];
                                                                    $importe= "$".number_format($importe, 2, '.', ',');
                                                                     ?>
-                                                                <td style="text-align: right;"><h3>{{ $importe }}</h3></td>
+                                                                <td class="tw:text-right"><h3 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">{{ $importe }}</h3></td>
 
 
                                                             </tr>
 
                                                         @endforeach
                                                         <tr>
-                                                            <td colspan="5" style="text-align: right;"> <h3>Total importe</h3></td>
+                                                            <td class="tw:text-right" colspan="5"> <h3 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">Total importe</h3></td>
                                                                 <?php
 
                                                                 $total_req= "$".number_format($requisicion['total_importe'], 2, '.', ',');
                                                                 ?>
-                                                            <td  style="text-align: right;"> <h3> {{ $total_req }}</h3></td>
+                                                            <td class="tw:text-right" > <h3 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90"> {{ $total_req }}</h3></td>
                                                         </tr>
                                                         </tbody>
                                                     </table>
+</div>
                                                 </div>
                                             </div>
 
@@ -262,56 +219,41 @@
         @endif
         @if($requisicion['id_autorizacion'] == 2)
 
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <div class="panel panel-warning">
-                    <div class="panel-heading">
-                        <div class="row">
-                            <div class="col-md-2 col-md-offset-10">
-                                <button title="Modificar requisicion de materiales" id="{{ $requisicion['id_actividades_req_ante'] }}"  class="btn btn-primary editar_requisiciones" >
-                                    <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-                                </button>
-                                <button title="Eliminar requisicion de materiales" id="{{ $requisicion['id_actividades_req_ante'] }}"  class="btn btn-danger eliminar_requisiciones" >
-                                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                                </button>
+        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+            <div class="tw:w-full tw:px-2">
+                <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+                    <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:dark:border-gray-800 tw:bg-gray-50 tw:dark:bg-gray-900 tw:px-5 tw:py-4">
+                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                            <div class="tw:w-full tw:px-2">
+                                <button title="Modificar requisicion de materiales" id="{{ $requisicion['id_actividades_req_ante'] }}"  class="editar_requisiciones tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base" ><span class="fa fa-cog" aria-hidden="true"></span></button>
+                                <button title="Eliminar requisicion de materiales" id="{{ $requisicion['id_actividades_req_ante'] }}"  class="eliminar_requisiciones tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-red-600 tw:ring-1 tw:ring-red-300 tw:ring-inset tw:hover:bg-red-50 tw:dark:bg-gray-800 tw:dark:text-red-500 tw:dark:ring-red-500/40 tw:dark:hover:bg-red-500/10 tw:size-9 tw:text-base" ><span class="fa fa-trash" aria-hidden="true"></span></button>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-10 col-md-offset-1">
-                                <h4 style="text-align: center; color: #0c0c0c">PARTIDA PRESUPUESTAL: <b>{{ $requisicion['nombre_partida'] }}</b></h4>
-                                <h4 style="text-align: center; color: #0c0c0c">MES: <b>{{ $requisicion['mes'] }}</b></h4>
-                                <h5 style="text-align: center; color: #0c0c0c">JUSTIFICACIÓN: <b>{{ $requisicion['justificacion'] }}</b></h5>
-                                <h4 style="text-align: center; color: #0c0c0c">PROYECTO: <b>{{ $requisicion['nombre_proyecto'] }}</b></h4>
-                                <h5 style="text-align: center; color: #0c0c0c">META: <b>{{ $requisicion['meta'] }}</b></h5>
+                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                            <div class="tw:w-full tw:px-2">
+                                <h4 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90 tw:text-center tw:text-gray-800 tw:dark:text-white/90">PARTIDA PRESUPUESTAL: <b>{{ $requisicion['nombre_partida'] }}</b></h4>
+                                <h4 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90 tw:text-center tw:text-gray-800 tw:dark:text-white/90">MES: <b>{{ $requisicion['mes'] }}</b></h4>
+                                <h5 class="tw:mb-2 tw:text-sm tw:font-semibold tw:text-gray-700 tw:dark:text-gray-300 tw:text-center tw:text-gray-800 tw:dark:text-white/90">JUSTIFICACIÓN: <b>{{ $requisicion['justificacion'] }}</b></h5>
+                                <h4 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90 tw:text-center tw:text-gray-800 tw:dark:text-white/90">PROYECTO: <b>{{ $requisicion['nombre_proyecto'] }}</b></h4>
+                                <h5 class="tw:mb-2 tw:text-sm tw:font-semibold tw:text-gray-700 tw:dark:text-gray-300 tw:text-center tw:text-gray-800 tw:dark:text-white/90">META: <b>{{ $requisicion['meta'] }}</b></h5>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-8 col-md-offset-2">
-                                <div class="panel panel-success">
-                                    <div class="panel-heading">
-                                        <h4 style="text-align: center">Requisición para modificar <br>Comentario de modificación: <b>{{ $requisicion['comentario'] }}</b></h4>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <x-panel.alerta tipo="exito" class="tw:mb-4"><h4 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90 tw:text-center">Requisición para modificar <br>Comentario de modificación: <b>{{ $requisicion['comentario'] }}</b></h4></x-panel.alerta>
 
-                        <div class="row">
-                            <div class="col-md-3 col-md-offset-4">
-                                <button class="btn btn-primary btn-lg" onclick="window.location='{{ url('/presupuesto_anteproyecto/modificar_bienes_servicios_anteproyecto/'.$requisicion['id_actividades_req_ante'] ) }}'">Modificar documentación o bienes o servicios, etc.</button>
+                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                            <div class="tw:w-full tw:px-2">
+                                <button class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" onclick="window.location='{{ url('/presupuesto_anteproyecto/modificar_bienes_servicios_anteproyecto/'.$requisicion['id_actividades_req_ante'] ) }}'">Modificar documentación o bienes o servicios, etc.</button>
                             </div>
 
                         </div>
-                        <div class="row">
-                            <div class="col-md-10">
-                                <br>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12 ">
-                                <table class="table table-bordered">
+
+                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                            <div class="tw:w-full tw:lg:w-full tw:px-2">
+                                <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table class="tw-tabla tw-tabla-bordes">
                                     <thead>
                                     <tr>
-                                        <th colspan="4" style="text-align: center">Documentación en pdf</th>
+                                        <th class="tw:text-center" colspan="4">Documentación en pdf</th>
                                     </tr>
                                     <tr>
                                         <th>Requisición </th>
@@ -324,48 +266,48 @@
                                     </thead>
                                     <tbody>
                                     <tr>
-                                        <td style="text-align: center">
+                                        <td class="tw:text-center">
                                             @if($requisicion['requisicion_pdf'] == '')
                                                 No hay documento registrado
                                             @else
 
-                                                <a  target="_blank" href="/finanzas/requisiciones/{{ $requisicion['requisicion_pdf'] }}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a>
+                                                <a  target="_blank" href="/finanzas/requisiciones/{{ $requisicion['requisicion_pdf'] }}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"><i class="fa fa-book em56" title="Ver PDF"></i></a>
 
                                             @endif
                                         </td>
-                                        <td style="text-align: center">
+                                        <td class="tw:text-center">
                                             @if($requisicion['anexo_1_pdf'] == '')
                                                 No hay documento registrado
                                             @else
-                                                <a  target="_blank" href="/finanzas/anexo1/{{ $requisicion['anexo_1_pdf'] }}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a>
+                                                <a  target="_blank" href="/finanzas/anexo1/{{ $requisicion['anexo_1_pdf'] }}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"><i class="fa fa-book em56" title="Ver PDF"></i></a>
 
                                             @endif
                                         </td>
-                                        <td style="text-align: center">
+                                        <td class="tw:text-center">
                                             @if($requisicion['oficio_suficiencia_presupuestal_pdf'] == '')
                                                 No hay documento registrado
                                             @else
-                                                <a  target="_blank" href="/finanzas/oficio_suficiencia/{{ $requisicion['oficio_suficiencia_presupuestal_pdf'] }}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a>
+                                                <a  target="_blank" href="/finanzas/oficio_suficiencia/{{ $requisicion['oficio_suficiencia_presupuestal_pdf'] }}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"><i class="fa fa-book em56" title="Ver PDF"></i></a>
                                             @endif
                                         </td>
-                                        <td style="text-align: center">
+                                        <td class="tw:text-center">
                                             @if($requisicion['id_estado_justificacion'] == 0)
                                                 No se ha seleccionado respuesta
                                             @else
                                                 @if($requisicion['id_estado_justificacion'] == 1)
                                                     No
                                                 @else
-                                                    <a  target="_blank" href="/finanzas/justificacion/{{ $requisicion['justificacion_pdf'] }}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a>
+                                                    <a  target="_blank" href="/finanzas/justificacion/{{ $requisicion['justificacion_pdf'] }}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"><i class="fa fa-book em56" title="Ver PDF"></i></a>
                                                 @endif
 
                                             @endif
                                         </td>
-                                        <td style="text-align: center">
+                                        <td class="tw:text-center">
                                             @if($requisicion['cotizacion_pdf'] == '')
                                                 No hay documento registrado
                                             @else
 
-                                                <a  target="_blank" href="/finanzas/cotizaciones/{{ $requisicion['cotizacion_pdf'] }}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a>
+                                                <a  target="_blank" href="/finanzas/cotizaciones/{{ $requisicion['cotizacion_pdf'] }}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"><i class="fa fa-book em56" title="Ver PDF"></i></a>
 
                                             @endif
                                         </td>
@@ -373,32 +315,29 @@
 
                                     </tbody>
                                 </table>
+</div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-10 col-md-offset-1">
+                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                            <div class="tw:w-full tw:px-2">
                                 <hr>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        <div class="row">
-                                            <div class="col-md-10 col-md-offset-1">
-                                                <h5 style="text-align: center">BIENES O SERVICIOS, ETC.</h5>
+                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                            <div class="tw:w-full tw:lg:w-full tw:px-2">
+                                <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+                                    <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:dark:border-gray-800 tw:bg-gray-50 tw:dark:bg-gray-900 tw:px-5 tw:py-4">
+                                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                            <div class="tw:w-full tw:px-2">
+                                                <h5 class="tw:mb-2 tw:text-sm tw:font-semibold tw:text-gray-700 tw:dark:text-gray-300 tw:text-center">BIENES O SERVICIOS, ETC.</h5>
                                             </div>
                                         </div>
 
 
-                                        <div class="row">
-                                            <div class="col-md-10 col-md-offset-1">
-                                                <p><br></p>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-10 col-md-offset-1">
-                                                <table class="table table-bordered">
+                                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                            <div class="tw:w-full tw:px-2">
+                                                <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table class="tw-tabla tw-tabla-bordes">
                                                     <thead>
                                                     <tr>
                                                         <th>N. P</th>
@@ -417,32 +356,33 @@
                                                             <td>{{ $i++ }}</td>
                                                             <td>{{ $servicio['descripcion'] }}</td>
                                                             <td>{{ $servicio['unidad_medida'] }}</td>
-                                                            <td style="text-align: right;"><h3>{{ $servicio['cantidad'] }}</h3></td>
+                                                            <td class="tw:text-right"><h3 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">{{ $servicio['cantidad'] }}</h3></td>
                                                             <?php
                                                             $precio_unitario=$servicio['precio_unitario'];
                                                             $precio_unitario= "$".number_format($precio_unitario, 2, '.', ',');
                                                             ?>
-                                                            <td style="text-align: right;"><h3>{{ $precio_unitario}}</h3></td>
+                                                            <td class="tw:text-right"><h3 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">{{ $precio_unitario}}</h3></td>
                                                             <?php
                                                             $importe=$servicio['importe'];
                                                             $importe= "$".number_format($importe, 2, '.', ',');
                                                             ?>
-                                                            <td style="text-align: right;"><h3>{{ $importe }}</h3></td>
+                                                            <td class="tw:text-right"><h3 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">{{ $importe }}</h3></td>
 
 
                                                         </tr>
 
                                                     @endforeach
                                                     <tr>
-                                                        <td colspan="5" style="text-align: right;"> <h3>Total importe</h3></td>
+                                                        <td class="tw:text-right" colspan="5"> <h3 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">Total importe</h3></td>
                                                             <?php
 
                                                            $total_req= "$".number_format($requisicion['total_importe'], 2, '.', ',');
                                                             ?>
-                                                        <td  style="text-align: right;"> <h3> {{ $total_req }}</h3></td>
+                                                        <td class="tw:text-right" > <h3 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90"> {{ $total_req }}</h3></td>
                                                     </tr>
                                                     </tbody>
                                                 </table>
+</div>
                                             </div>
                                         </div>
 
@@ -460,40 +400,29 @@
         </div>
         @endif
         @if($requisicion['id_autorizacion'] == 3)
-            <div class="row">
-                <div class="col-md-8 col-md-offset-2">
-                    <div class="panel panel-warning">
-                        <div class="panel-heading">
-                            <div class="row">
-                                <div class="col-md-10 col-md-offset-1">
-                                    <h4 style="text-align: center; color: #0c0c0c">PARTIDA PRESUPUESTAL: <b>{{ $requisicion['nombre_partida'] }}</b></h4>
-                                    <h4 style="text-align: center; color: #0c0c0c">MES: <b>{{ $requisicion['mes'] }}</b></h4>
-                                    <h5 style="text-align: center; color: #0c0c0c">JUSTIFICACIÓN: <b>{{ $requisicion['justificacion'] }}</b></h5>
-                                    <h4 style="text-align: center; color: #0c0c0c">PROYECTO: <b>{{ $requisicion['nombre_proyecto'] }}</b></h4>
-                                    <h5 style="text-align: center; color: #0c0c0c">META: <b>{{ $requisicion['meta'] }}</b></h5>
+            <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                <div class="tw:w-full tw:px-2">
+                    <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+                        <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:dark:border-gray-800 tw:bg-gray-50 tw:dark:bg-gray-900 tw:px-5 tw:py-4">
+                            <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                <div class="tw:w-full tw:px-2">
+                                    <h4 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90 tw:text-center tw:text-gray-800 tw:dark:text-white/90">PARTIDA PRESUPUESTAL: <b>{{ $requisicion['nombre_partida'] }}</b></h4>
+                                    <h4 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90 tw:text-center tw:text-gray-800 tw:dark:text-white/90">MES: <b>{{ $requisicion['mes'] }}</b></h4>
+                                    <h5 class="tw:mb-2 tw:text-sm tw:font-semibold tw:text-gray-700 tw:dark:text-gray-300 tw:text-center tw:text-gray-800 tw:dark:text-white/90">JUSTIFICACIÓN: <b>{{ $requisicion['justificacion'] }}</b></h5>
+                                    <h4 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90 tw:text-center tw:text-gray-800 tw:dark:text-white/90">PROYECTO: <b>{{ $requisicion['nombre_proyecto'] }}</b></h4>
+                                    <h5 class="tw:mb-2 tw:text-sm tw:font-semibold tw:text-gray-700 tw:dark:text-gray-300 tw:text-center tw:text-gray-800 tw:dark:text-white/90">META: <b>{{ $requisicion['meta'] }}</b></h5>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-8 col-md-offset-2">
-                                    <div class="panel panel-danger">
-                                        <div class="panel-heading">
-                                            <h4 style="text-align: center">Requisición rechazada <br>Comentario de rechazo: <b>{{ $requisicion['comentario'] }}</b></h4>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <x-panel.alerta tipo="error" class="tw:mb-4"><h4 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90 tw:text-center">Requisición rechazada <br>Comentario de rechazo: <b>{{ $requisicion['comentario'] }}</b></h4></x-panel.alerta>
 
-                            <div class="row">
-                                <div class="col-md-10">
-                                    <br>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12 ">
-                                    <table class="table table-bordered">
+
+                            <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                <div class="tw:w-full tw:lg:w-full tw:px-2">
+                                    <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table class="tw-tabla tw-tabla-bordes">
                                         <thead>
                                         <tr>
-                                            <th colspan="4" style="text-align: center">Documentación en pdf</th>
+                                            <th class="tw:text-center" colspan="4">Documentación en pdf</th>
                                         </tr>
                                         <tr>
                                             <th>Requisición </th>
@@ -506,48 +435,48 @@
                                         </thead>
                                         <tbody>
                                         <tr>
-                                            <td style="text-align: center">
+                                            <td class="tw:text-center">
                                                 @if($requisicion['requisicion_pdf'] == '')
                                                     No hay documento registrado
                                                 @else
 
-                                                    <a  target="_blank" href="/finanzas/requisiciones/{{ $requisicion['requisicion_pdf'] }}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a>
+                                                    <a  target="_blank" href="/finanzas/requisiciones/{{ $requisicion['requisicion_pdf'] }}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"><i class="fa fa-book em56" title="Ver PDF"></i></a>
 
                                                 @endif
                                             </td>
-                                            <td style="text-align: center">
+                                            <td class="tw:text-center">
                                                 @if($requisicion['anexo_1_pdf'] == '')
                                                     No hay documento registrado
                                                 @else
-                                                    <a  target="_blank" href="/finanzas/anexo1/{{ $requisicion['anexo_1_pdf'] }}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a>
+                                                    <a  target="_blank" href="/finanzas/anexo1/{{ $requisicion['anexo_1_pdf'] }}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"><i class="fa fa-book em56" title="Ver PDF"></i></a>
 
                                                 @endif
                                             </td>
-                                            <td style="text-align: center">
+                                            <td class="tw:text-center">
                                                 @if($requisicion['oficio_suficiencia_presupuestal_pdf'] == '')
                                                     No hay documento registrado
                                                 @else
-                                                    <a  target="_blank" href="/finanzas/oficio_suficiencia/{{ $requisicion['oficio_suficiencia_presupuestal_pdf'] }}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a>
+                                                    <a  target="_blank" href="/finanzas/oficio_suficiencia/{{ $requisicion['oficio_suficiencia_presupuestal_pdf'] }}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"><i class="fa fa-book em56" title="Ver PDF"></i></a>
                                                 @endif
                                             </td>
-                                            <td style="text-align: center">
+                                            <td class="tw:text-center">
                                                 @if($requisicion['id_estado_justificacion'] == 0)
                                                     No se ha seleccionado respuesta
                                                 @else
                                                     @if($requisicion['id_estado_justificacion'] == 1)
                                                         No
                                                     @else
-                                                        <a  target="_blank" href="/finanzas/justificacion/{{ $requisicion['justificacion_pdf'] }}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a>
+                                                        <a  target="_blank" href="/finanzas/justificacion/{{ $requisicion['justificacion_pdf'] }}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"><i class="fa fa-book em56" title="Ver PDF"></i></a>
                                                     @endif
 
                                                 @endif
                                             </td>
-                                            <td style="text-align: center">
+                                            <td class="tw:text-center">
                                                 @if($requisicion['cotizacion_pdf'] == '')
                                                     No hay documento registrado
                                                 @else
 
-                                                    <a  target="_blank" href="/finanzas/cotizaciones/{{ $requisicion['cotizacion_pdf'] }}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a>
+                                                    <a  target="_blank" href="/finanzas/cotizaciones/{{ $requisicion['cotizacion_pdf'] }}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"><i class="fa fa-book em56" title="Ver PDF"></i></a>
 
                                                 @endif
                                             </td>
@@ -555,32 +484,29 @@
 
                                         </tbody>
                                     </table>
+</div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-10 col-md-offset-1">
+                            <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                <div class="tw:w-full tw:px-2">
                                     <hr>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading">
-                                            <div class="row">
-                                                <div class="col-md-10 col-md-offset-1">
-                                                    <h5 style="text-align: center">BIENES O SERVICIOS, ETC.</h5>
+                            <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                <div class="tw:w-full tw:lg:w-full tw:px-2">
+                                    <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+                                        <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:dark:border-gray-800 tw:bg-gray-50 tw:dark:bg-gray-900 tw:px-5 tw:py-4">
+                                            <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                                <div class="tw:w-full tw:px-2">
+                                                    <h5 class="tw:mb-2 tw:text-sm tw:font-semibold tw:text-gray-700 tw:dark:text-gray-300 tw:text-center">BIENES O SERVICIOS, ETC.</h5>
                                                 </div>
                                             </div>
 
 
-                                            <div class="row">
-                                                <div class="col-md-10 col-md-offset-1">
-                                                    <p><br></p>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-10 col-md-offset-1">
-                                                    <table class="table table-bordered">
+                                            <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                                <div class="tw:w-full tw:px-2">
+                                                    <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table class="tw-tabla tw-tabla-bordes">
                                                         <thead>
                                                         <tr>
                                                             <th>N. P</th>
@@ -599,32 +525,33 @@
                                                                 <td>{{ $i++ }}</td>
                                                                 <td>{{ $servicio['descripcion'] }}</td>
                                                                 <td>{{ $servicio['unidad_medida'] }}</td>
-                                                                <td style="text-align: right;"><h3>{{ $servicio['cantidad'] }}</h3></td>
+                                                                <td class="tw:text-right"><h3 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">{{ $servicio['cantidad'] }}</h3></td>
                                                                     <?php
                                                                     $precio_unitario=$servicio['precio_unitario'];
                                                                     $precio_unitario= "$".number_format($precio_unitario, 2, '.', ',');
                                                                     ?>
-                                                                <td style="text-align: right;"><h3>{{ $precio_unitario}}</h3></td>
+                                                                <td class="tw:text-right"><h3 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">{{ $precio_unitario}}</h3></td>
                                                                     <?php
                                                                     $importe=$servicio['importe'];
                                                                     $importe= "$".number_format($importe, 2, '.', ',');
                                                                     ?>
-                                                                <td style="text-align: right;"><h3>{{ $importe }}</h3></td>
+                                                                <td class="tw:text-right"><h3 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">{{ $importe }}</h3></td>
 
 
                                                             </tr>
 
                                                         @endforeach
                                                             <tr>
-                                                                <td colspan="5" style="text-align: right;"> <h3>Total importe</h3></td>
+                                                                <td class="tw:text-right" colspan="5"> <h3 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">Total importe</h3></td>
                                                                     <?php
 
                                                                     $total_req= "$".number_format($requisicion['total_importe'], 2, '.', ',');
                                                                     ?>
-                                                                <td  style="text-align: right;"> <h3>{{ $total_req }}</h3></td>
+                                                                <td class="tw:text-right" > <h3 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">{{ $total_req }}</h3></td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
+</div>
                                                 </div>
                                             </div>
 
@@ -644,118 +571,88 @@
 
             @endforeach
     @if($estado_documentacion == true)
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <div class="panel panel-danger">
-                    <div class="panel-heading">
-
-                        <h3 class="panel-title text-center">Para poder enviar las requisiciones, debe registrar la documentación de las requisiciones registradas.</h3>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <x-panel.alerta tipo="error" class="tw:mb-4">Para poder enviar las requisiciones, debe registrar la documentación de las requisiciones registradas.</x-panel.alerta>
 
     @endif
     @if($estado_material == true)
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <div class="panel panel-danger">
-                    <div class="panel-heading">
-
-                        <h3 class="panel-title text-center">Para poder enviar las requisiciones, deben tener bienes o servicios  registrados en las requisiciones registradas.</h3>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <x-panel.alerta tipo="error" class="tw:mb-4">Para poder enviar las requisiciones, deben tener bienes o servicios  registrados en las requisiciones registradas.</x-panel.alerta>
 
     @endif
     @if($estado_documentacion == false and $estado_material == false)
         @if($contar_req != 0)
-            <div class="row">
-                <div class="col-md-3 col-md-offset-5">
-                    <button  id="{{ $id_req_mat_ante }}"  class="btn btn-success btn-lg  enviar_mod_requisiciones" >Enviar  requisiciones
+            <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                <div class="tw:w-full tw:px-2">
+                    <button  id="{{ $id_req_mat_ante }}"  class="enviar_mod_requisiciones tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Enviar  requisiciones
                     </button>
                 </div>
             </div>
         @endif
     @endif
-            <div class="row">
-                <div class="col-md-10">
-                    <br>
-                </div>
-            </div>
+
 
 
 
 
             {{-- modal crear proyecto--}}
 
-            <div class="modal fade" id="modal_crear_requisicion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-                <div class="modal-dialog modal-lg" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title" id="exampleModalLabel">Agregar nueva requisición de materiales</h4>
+            <x-panel.modal id="modal_crear_requisicion" tamano="lg" sin-relleno clase-cerrar="close" aria-labelledby="exampleModalLabel">
+                        <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                            
+                            <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="exampleModalLabel">Agregar nueva requisición de materiales</h4>
                         </div>
-                        <div class="modal-body">
+                        <div class="tw-modal-cuerpo">
 
-                            <form id="form_agregar" class="form" action="{{url("/presupuesto_anteproyecto/guardar_requisicion_materiales/".$datos_req_envio->id_req_mat_ante)}}" role="form" method="POST" >
+                            <form id="form_agregar" class="" action="{{url("/presupuesto_anteproyecto/guardar_requisicion_materiales/".$datos_req_envio->id_req_mat_ante)}}" role="form" method="POST" >
                                 {{ csrf_field() }}
-                                <div class="row">
-                                    <div class="col-md-10 col-md-offset-1">
-                                        <div class="dropdown">
+                                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                    <div class="tw:w-full tw:px-2">
+                                        <div class="tw:mb-4">
                                             <label for="exampleInputEmail1">Elige partida presupuestal</label>
-                                            <select class="form-control  "placeholder="selecciona una Opcion" id="partida_presupuestal" name="partida_presupuestal" required>
+                                            <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"placeholder="selecciona una Opcion" id="partida_presupuestal" name="partida_presupuestal" required>
                                                 <option disabled selected hidden>Selecciona una opción</option>
                                                 @foreach($partidas_presupuestales as $partida)
                                                     <option value="{{$partida->id_partida_pres}}" data-esta="{{$partida->nombre_partida}}">{{$partida->clave_presupuestal }}   {{$partida->nombre_partida }}</option>
                                                 @endforeach
                                             </select>
-                                            <br>
                                         </div>
                                     </div>
-                                    <br>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-10 col-md-offset-1">
-                                        <div class="dropdown">
+                                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                    <div class="tw:w-full tw:px-2">
+                                        <div class="tw:mb-4">
                                             <label for="exampleInputEmail1">Elige mes de adquisición</label>
-                                            <select class="form-control  "placeholder="selecciona una Opcion" id="mes" name="mes" required>
+                                            <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"placeholder="selecciona una Opcion" id="mes" name="mes" required>
                                                 <option disabled selected hidden>Selecciona una opción</option>
                                                 @foreach($meses as $mes)
                                                     <option value="{{$mes->id_mes}}" data-esta="{{$mes->mes}}">{{$mes->mes}} </option>
                                                 @endforeach
                                             </select>
-                                            <br>
                                         </div>
                                     </div>
-                                    <br>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-10 col-md-offset-1 ">
-                                        <div class="form-group">
+                                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                    <div class="tw:w-full tw:px-2">
+                                        <div class="tw:mb-4">
                                             <label for="justificacion">Ingresa justificación</label>
-                                            <textarea class="form-control" id="justificacion" name="justificacion" rows="3" placeholder="Ingresa juestificación" onkeyup="javascript:this.value=this.value.toUpperCase();"></textarea>
+                                            <textarea class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500" id="justificacion" name="justificacion" rows="3" placeholder="Ingresa juestificación" onkeyup="javascript:this.value=this.value.toUpperCase();"></textarea>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-10 col-md-offset-1">
-                                        <div class="dropdown">
+                                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                    <div class="tw:w-full tw:px-2">
+                                        <div class="tw:mb-4">
                                             <label for="exampleInputEmail1">Elige proyecto</label>
-                                            <select class="form-control  "placeholder="selecciona una Opcion" id="proyecto" name="proyecto" required>
+                                            <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"placeholder="selecciona una Opcion" id="proyecto" name="proyecto" required>
                                                 <option disabled selected hidden>Selecciona una opción</option>
                                                 @foreach($proyectos as $proyecto)
                                                     <option value="{{$proyecto->id_proyecto}}" data-esta="{{$proyecto->nombre_proyecto }}">{{ $proyecto->nombre_proyecto }} </option>
                                                 @endforeach
                                             </select>
-                                            <br>
                                         </div>
                                     </div>
-                                    <br>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-10 col-md-offset-1 ">
+                                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                    <div class="tw:w-full tw:px-2">
 
                                         <label for="exampleInputEmail1">Selecciona meta</label>
                                         <div id="meta">
@@ -769,82 +666,68 @@
 
 
                             </form>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                                <button id="guardar_partida_presupuestal"  class="btn btn-primary" >Guardar</button>
+                            <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                                <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                                <button id="guardar_partida_presupuestal"  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Guardar</button>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
+                    </x-panel.modal>
             {{-- modal modificar requisicion de materiales--}}
 
-            <div class="modal fade" id="modal_modificacion_requisicion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-                <div class="modal-dialog modal-lg" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title" id="exampleModalLabel">Modificar requisición de materiales</h4>
+            <x-panel.modal id="modal_modificacion_requisicion" tamano="lg" sin-relleno clase-cerrar="close" aria-labelledby="exampleModalLabel">
+                        <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                            
+                            <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="exampleModalLabel">Modificar requisición de materiales</h4>
                         </div>
-                        <div class="modal-body">
+                        <div class="tw-modal-cuerpo">
                             <div id="contenedor_modificacion_requisicion">
 
                             </div>
 
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                                <button id="guardar_modificacion_requisicion"  class="btn btn-primary" >Guardar</button>
+                            <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                                <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                                <button id="guardar_modificacion_requisicion"  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Guardar</button>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
+                    </x-panel.modal>
             {{-- modal eliminae requisicion de materiales--}}
 
-            <div class="modal fade" id="modal_eliminar_requisicion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-                <div class="modal-dialog modal-lg" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title" id="exampleModalLabel">Eliminar requisición de materiales</h4>
+            <x-panel.modal id="modal_eliminar_requisicion" tamano="lg" sin-relleno clase-cerrar="close" aria-labelledby="exampleModalLabel">
+                        <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                            
+                            <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="exampleModalLabel">Eliminar requisición de materiales</h4>
                         </div>
-                        <div class="modal-body">
+                        <div class="tw-modal-cuerpo">
                             <div id="contenedor_eliminar_requisicion">
 
                             </div>
 
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                                <button id="guardar_eliminar_requisicion"  class="btn btn-primary" >Aceptar</button>
+                            <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                                <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                                <button id="guardar_eliminar_requisicion"  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Aceptar</button>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
+                    </x-panel.modal>
 
             {{-- modal enviar requisiciones --}}
 
-            <div class="modal fade" id="modal_enviar_requisiciones" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-                <div class="modal-dialog " role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title" id="exampleModalLabel">Enviar requisiciones</h4>
+            <x-panel.modal id="modal_enviar_requisiciones" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="exampleModalLabel">
+                        <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                            
+                            <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="exampleModalLabel">Enviar requisiciones</h4>
                         </div>
-                        <div class="modal-body">
+                        <div class="tw-modal-cuerpo">
                             <form id="form_enviar_requisiciones" action="{{url("/presupuesto_anteproyecto/enviar_modificaciones_requisiciones/")}}" method="POST" role="form" >
                                 {{ csrf_field() }}
                                 <input type="hidden" id="id_req_mat_ante" name="id_req_mat_ante" value="">
-                                <h2 style="text-align: center;">¿ Seguro(a) que quieres enviar las modificaciones de las requiciones a la Dirección de Administración y Finanzas</h2>
+                                <h2 class="tw:mb-4 tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90 tw:text-center">¿ Seguro(a) que quieres enviar las modificaciones de las requiciones a la Dirección de Administración y Finanzas</h2>
                             </form>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                                <button id="guardar_enviar_requisiciones"  class="btn btn-primary" >Aceptar</button>
+                            <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                                <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                                <button id="guardar_enviar_requisiciones"  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Aceptar</button>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
+                    </x-panel.modal>
 
 
             <script>
@@ -1020,7 +903,7 @@
                             $('#meta').empty();
                             $.each(data, function (datos_alumno, subcatObj) {
                                 //   TNotify.alert(subcatObj);
-                                $('#meta').append('<div class="radio"><label><input class="form-check-input"  type="radio" name="meta1" value="'+subcatObj.id_meta+'" required>'+subcatObj.meta+'</label></div>');
+                                $('#meta').append('<div class="tw:flex tw:items-center tw:gap-2"><label><input class="tw:size-4 tw:shrink-0 tw:cursor-pointer tw:accent-brand-500"  type="radio" name="meta1" value="'+subcatObj.id_meta+'" required>'+subcatObj.meta+'</label></div>');
 
                             });
                         });
@@ -1487,4 +1370,5 @@
 
                 });
             </script>
+</div>
 @endsection

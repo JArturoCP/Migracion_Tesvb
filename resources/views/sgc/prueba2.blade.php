@@ -1,4 +1,5 @@
-@extends('layouts.app')
+@extends('layouts.panel')
+@include('partials.panel.recursos_app', ['ordenable' => true])
 @section('title','Agendar auditorias')
 @section('content')
     <style>
@@ -13,18 +14,18 @@
         }
     </style>
 
-<div class="row">
-    <div id="draggable" class="alert alert-success col-md-6 ui-state-highlight">Drag me down</div>
+<div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+    <div id="draggable" class="ui-state-highlight tw:w-full tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-green-200 tw:bg-green-50 tw:text-green-800 tw:lg:w-6/12 tw:px-2">Drag me down</div>
 </div>
 
 
 
-<div class="row" id="sortable">
-    <div class="alert alert-success col-md-3 ui-state-default">Item 1</div>
-    <div class="alert alert-success col-md-3 ui-state-default">Item 2</div>
-    <div class="alert alert-success col-md-3 ui-state-default">Item 3</div>
-    <div class="alert alert-success col-md-3 ui-state-default">Item 4</div>
-    <div class="alert alert-success col-md-3 ui-state-default">Item 5</div>
+<div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4" id="sortable">
+    <div class="ui-state-default tw:w-full tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-green-200 tw:bg-green-50 tw:text-green-800 tw:lg:w-3/12 tw:px-2">Item 1</div>
+    <div class="ui-state-default tw:w-full tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-green-200 tw:bg-green-50 tw:text-green-800 tw:lg:w-3/12 tw:px-2">Item 2</div>
+    <div class="ui-state-default tw:w-full tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-green-200 tw:bg-green-50 tw:text-green-800 tw:lg:w-3/12 tw:px-2">Item 3</div>
+    <div class="ui-state-default tw:w-full tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-green-200 tw:bg-green-50 tw:text-green-800 tw:lg:w-3/12 tw:px-2">Item 4</div>
+    <div class="ui-state-default tw:w-full tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-green-200 tw:bg-green-50 tw:text-green-800 tw:lg:w-3/12 tw:px-2">Item 5</div>
 </div>
 
 

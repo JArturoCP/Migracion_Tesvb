@@ -12,6 +12,8 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
 @include('tutorias.partials.cabeza')
+    @include('layouts.tipografia')
+@include('partials.panel.fechas')
 </head>
 <body>
 @include('tutorias.partials.encabezado')

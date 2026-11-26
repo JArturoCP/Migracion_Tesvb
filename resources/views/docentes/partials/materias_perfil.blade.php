@@ -1,9 +1,9 @@
 @foreach($reticulas as $reti)
-<div class="tw:w-full tw:lg:w-10/12 tw:lg:ml-[8.3333%] tw:px-2" id="accordion">
+<div class="tw:w-full tw:px-2" id="accordion">
   <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white tw:dark:bg-white/3 tw:dark:border-gray-800">
     <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4 tw:dark:bg-white/3 tw:dark:border-gray-800">
       <h4 class="tw:text-base tw:font-medium tw:text-gray-800 tw:dark:text-white/90">
-        <a data-toggle="collapse" data-parent="#accordion" href="#{{ $reti ["id_reticula"]}}r">
+        <a class="tw:text-brand-500 tw:hover:underline" data-toggle="collapse" data-parent="#accordion" href="#{{ $reti ["id_reticula"]}}r">
         {{ $reti ["reticula"]}}</a>
       </h4>
     </div>
@@ -20,11 +20,12 @@
     <div class="tab-content">
         @foreach($reti["semestres"] as $semes)
             <div role="tabpanel" class="tab-pane fade" id="tab{{ $reti ["id_reticula"]}}{{ $semes["id_semestre"] }}">
-                    <div class="tw:w-full tw:lg:w-6/12 tw:lg:ml-[8.3333%] tw:px-2">
-                      <div style="margin-top:1em;" class="tw:w-full tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white tw:text-center tw:lg:w-6/12 tw:lg:ml-[25%] tw:px-2 tw:dark:bg-white/3 tw:dark:border-gray-800">
-                        <h4 >Materias {{ $semes["semestre"] }}</h4>
+                    <div class="tw:w-full tw:px-2">
+                      <div class="tw:w-full tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white tw:text-center tw:px-2 tw:dark:bg-white/3 tw:dark:border-gray-800 tw:mt-4">
+                        <h4 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" >Materias {{ $semes["semestre"] }}</h4>
                       </div>
                         <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:bg-white tw:dark:bg-white/3 tw:dark:border-gray-800">
+<div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
 <table class="pagina ml tw-tabla tw-tabla-bordes">
                           <thead>
                           <tr>
@@ -55,6 +56,7 @@
                             @endforeach
                           </tbody>
                         </table>
+</div>
 </div>   
                     </div>         
             </div>

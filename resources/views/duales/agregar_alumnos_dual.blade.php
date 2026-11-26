@@ -1,163 +1,25 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 @section('title', 'Agregar Alumnos en Plantilla')
 
+@include('partials.panel.recursos_app', ['datatables' => true])
 @section('content')
+<div class="tw-pantalla">
 
-<style>
-    .plantilla-container {
-        padding-top: 20px;
-        padding-bottom: 30px;
-    }
-
-    .titulo-principal {
-        margin-bottom: 25px;
-    }
-
-    .titulo-principal .panel-heading {
-        padding: 15px;
-    }
-
-    .titulo-principal h3 {
-        margin: 0;
-        font-weight: bold;
-    }
-
-    .panel-tabla {
-        border-radius: 4px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, .08);
-    }
-
-    .panel-tabla .panel-heading {
-        font-weight: bold;
-    }
-
-    .panel-tabla .panel-heading h4 {
-        margin: 0;
-        font-weight: bold;
-    }
-
-    .table {
-        margin-bottom: 0;
-    }
-
-    .table thead th {
-        text-align: center;
-        vertical-align: middle !important;
-    }
-
-    .table tbody td {
-        vertical-align: middle !important;
-    }
-
-    .accion {
-        cursor: pointer;
-        font-size: 18px;
-        transition: all .2s ease;
-    }
-
-    .accion-agregar {
-        color: #337ab7;
-    }
-
-    .accion-agregar:hover {
-        color: #23527c;
-        transform: scale(1.15);
-    }
-
-    .accion-eliminar {
-        color: #d9534f;
-    }
-
-    .accion-eliminar:hover {
-        color: #a94442;
-        transform: scale(1.15);
-    }
-
-    .modal-header-info {
-        background: #d9edf7;
-        color: #31708f;
-        border-radius: 4px 4px 0 0;
-    }
-
-    .modal-header-danger {
-        background: #f2dede;
-        color: #a94442;
-        border-radius: 4px 4px 0 0;
-    }
-
-    .modal-title {
-        font-weight: bold;
-        text-align: center;
-    }
-
-    .mensaje-confirmacion {
-        font-size: 16px;
-        padding: 15px 5px;
-        line-height: 1.5;
-    }
-
-    .modal-footer {
-        border-top: 1px solid #eee;
-    }
-
-    .btn-cancelar {
-        background: #d9534f;
-        color: #fff;
-        border-color: #d43f3a;
-    }
-
-    .btn-cancelar:hover,
-    .btn-cancelar:focus {
-        background: #c9302c;
-        color: #fff;
-    }
-
-    .estado-periodo {
-        margin-bottom: 15px;
-    }
-
-    .dataTables_wrapper {
-        padding-bottom: 10px;
-    }
-
-    .dataTables_filter input {
-        margin-left: 5px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        padding: 5px 8px;
-    }
-
-    .dataTables_length select {
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        padding: 4px;
-    }
-
-    @media (max-width: 991px) {
-        .columna-tabla {
-            margin-bottom: 25px;
-        }
-    }
-</style>
-<main class="col-md-12 plantilla-container">
+<main class="tw:w-full tw:lg:w-full tw:px-2">
     {{-- ===================================================== --}}
     {{-- ENCABEZADO --}}
     {{-- ===================================================== --}}
 
-    <div class="row titulo-principal">
-        <div class="col-md-10 col-md-offset-1">
+    <x-panel.encabezado titulo="Gestión de alumnos duales" :migas="['Educación dual' => null]" />
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+        <div class="tw:w-full tw:px-2">
 
-            <div class="panel panel-info">
+            <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
 
-                <div class="panel-heading text-center">
-                    <h3>
-                        <span class="glyphicon glyphicon-education"></span>
-                        GESTIÓN DE ALUMNOS DUALES
-                    </h3>
-                </div>
+                
 
-                <div class="panel-body text-center">
-                    <p class="text-muted" style="margin: 0;">
+                <div class="tw:p-5 tw:sm:p-6 tw:text-center">
+                    <p class="tw:text-gray-500 tw:dark:text-gray-400 tw:m-0">
                         Administra los alumnos candidatos y los alumnos registrados en la plantilla dual.
                     </p>
                 </div>
@@ -168,64 +30,64 @@
     </div>
 
     @if(!empty($aviso))
-        <div class="alert alert-warning text-center">
-            <span class="glyphicon glyphicon-info-sign"></span> {{ $aviso }}
-        </div>
+        <x-panel.alerta tipo="advertencia" class="tw:mb-4">
+            <span class="fa fa-info-circle"></span> {{ $aviso }}
+        </x-panel.alerta>
     @endif
 
     {{-- ===================================================== --}}
     {{-- TABLAS --}}
     {{-- ===================================================== --}}
 
-    <div class="row">
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
         {{-- ================================================= --}}
         {{-- ALUMNOS CANDIDATOS --}}
         {{-- ================================================= --}}
 
-        <div class="col-md-7 columna-tabla">
+        <div class="tw:w-full tw:lg:w-7/12 tw:px-2">
 
-            <div class="panel panel-info panel-tabla">
+            <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
 
-                <div class="panel-heading">
-                    <h4 class="text-center">
-                        <span class="glyphicon glyphicon-user"></span>
+                <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:dark:border-gray-800 tw:bg-gray-50 tw:dark:bg-gray-900 tw:px-5 tw:py-4">
+                    <h4 class="tw:text-center tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">
+                        <span class="fa fa-user"></span>
                         ALUMNOS CANDIDATOS A SER DUALES
                     </h4>
                 </div>
 
-                <div class="panel-body">
+                <div class="tw:p-5 tw:sm:p-6">
 
                     @if($estado_periodo == 1)
 
-                    <div class="alert alert-success estado-periodo">
-                        <span class="glyphicon glyphicon-ok-sign"></span>
+                    <div class="tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-green-200 tw:bg-green-50 tw:text-green-800">
+                        <span class="fa fa-check-circle"></span>
                         <strong>Periodo activo.</strong>
                         Puedes agregar alumnos a la plantilla.
                     </div>
 
                     @else
 
-                    <div class="alert alert-warning estado-periodo">
-                        <span class="glyphicon glyphicon-warning-sign"></span>
+                    <div class="tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-amber-200 tw:bg-amber-50 tw:text-amber-800">
+                        <span class="fa fa-exclamation-triangle"></span>
                         <strong>Periodo cerrado.</strong>
                         No es posible agregar alumnos.
                     </div>
 
                     @endif
 
-                    <div class="table-responsive">
+                    <div class="tw:max-w-full tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800">
 
-                        <table id="paginar_table" class="table table-bordered table-striped table-hover">
+                        <table id="paginar_table" class="tw-tabla tw-tabla-bordes tw-tabla-rayas">
 
                             <thead>
-                                <tr class="info">
+                                <tr class="tw:bg-sky-50">
 
                                     <th>No. de Cuenta</th>
                                     <th>Nombre</th>
                                     <th>Apellido Paterno</th>
                                     <th>Apellido Materno</th>
-                                    <th style="width: 90px;">Agregar</th>
+                                    <th class="tw:w-22.5">Agregar</th>
 
                                 </tr>
                             </thead>
@@ -254,21 +116,17 @@
                                         {{ $estudiante['amaterno'] }}
                                     </td>
 
-                                    <td class="text-center">
+                                    <td class="tw:text-center">
 
                                         @if($estado_periodo == 1)
 
-                                        <a href="javascript:void(0);" class="agrega accion accion-agregar"
-                                            data-id="{{ $estudiante['id_alumno'] }}" title="Agregar alumno">
-
-                                            <span class="glyphicon glyphicon-log-in"></span>
-
-                                        </a>
+                                        <a href="javascript:void(0);" class="agrega tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"
+                                            data-id="{{ $estudiante['id_alumno'] }}" title="Agregar alumno"><span class="fa fa-sign-in"></span></a>
 
                                         @else
 
-                                        <span class="text-muted">
-                                            <span class="glyphicon glyphicon-lock"></span>
+                                        <span class="tw:text-gray-500 tw:dark:text-gray-400">
+                                            <span class="fa fa-lock"></span>
                                         </span>
 
                                         @endif
@@ -295,47 +153,47 @@
         {{-- ALUMNOS EN PLANTILLA --}}
         {{-- ================================================= --}}
 
-        <div class="col-md-5 columna-tabla">
+        <div class="tw:w-full tw:lg:w-5/12 tw:px-2">
 
-            <div class="panel panel-success panel-tabla">
+            <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
 
-                <div class="panel-heading">
-                    <h4 class="text-center">
-                        <span class="glyphicon glyphicon-list-alt"></span>
+                <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:dark:border-gray-800 tw:bg-gray-50 tw:dark:bg-gray-900 tw:px-5 tw:py-4">
+                    <h4 class="tw:text-center tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">
+                        <span class="fa fa-list-alt"></span>
                         ALUMNOS DUALES EN PLANTILLA
                     </h4>
                 </div>
 
-                <div class="panel-body">
+                <div class="tw:p-5 tw:sm:p-6">
 
                     @if($estado_periodo == 1)
 
-                    <div class="alert alert-success estado-periodo">
-                        <span class="glyphicon glyphicon-ok-sign"></span>
+                    <div class="tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-green-200 tw:bg-green-50 tw:text-green-800">
+                        <span class="fa fa-check-circle"></span>
                         <strong>Periodo activo.</strong>
                         Puedes modificar la plantilla.
                     </div>
 
                     @else
 
-                    <div class="alert alert-warning estado-periodo">
-                        <span class="glyphicon glyphicon-warning-sign"></span>
+                    <div class="tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-amber-200 tw:bg-amber-50 tw:text-amber-800">
+                        <span class="fa fa-exclamation-triangle"></span>
                         <strong>Periodo cerrado.</strong>
                         No es posible modificar la plantilla.
                     </div>
 
                     @endif
 
-                    <div class="table-responsive">
+                    <div class="tw:max-w-full tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800">
 
-                        <table id="paginar_tabla" class="table table-bordered table-striped table-hover">
+                        <table id="paginar_tabla" class="tw-tabla tw-tabla-bordes tw-tabla-rayas">
 
                             <thead>
-                                <tr class="success">
+                                <tr class="tw:bg-green-50">
 
                                     <th>No. Cuenta</th>
                                     <th>Nombre del alumno</th>
-                                    <th style="width: 80px;">Eliminar</th>
+                                    <th class="tw:w-20">Eliminar</th>
 
                                 </tr>
                             </thead>
@@ -358,22 +216,18 @@
                                         {{ $plantilla->amaterno }}
                                     </td>
 
-                                    <td class="text-center">
+                                    <td class="tw:text-center">
 
                                         @if($estado_periodo == 1)
 
-                                        <a href="javascript:void(0);" class="elimina accion accion-eliminar"
+                                        <a href="javascript:void(0);" class="elimina tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-red-600 tw:ring-1 tw:ring-red-300 tw:ring-inset tw:hover:bg-red-50 tw:dark:bg-gray-800 tw:dark:text-red-500 tw:dark:ring-red-500/40 tw:dark:hover:bg-red-500/10 tw:size-9 tw:text-base"
                                             data-id_alumno="{{ $plantilla->id_duales_actuales }}"
-                                            title="Eliminar alumno">
-
-                                            <span class="glyphicon glyphicon-trash"></span>
-
-                                        </a>
+                                            title="Eliminar alumno"><span class="fa fa-trash"></span></a>
 
                                         @else
 
-                                        <span class="text-muted">
-                                            <span class="glyphicon glyphicon-lock"></span>
+                                        <span class="tw:text-gray-500 tw:dark:text-gray-400">
+                                            <span class="fa fa-lock"></span>
                                         </span>
 
                                         @endif
@@ -402,28 +256,20 @@
     {{-- MODAL AGREGAR ALUMNO --}}
     {{-- ===================================================== --}}
 
-    <div id="modal_agrega" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modalAgregarLabel">
+    <x-panel.modal id="modal_agrega" tamano="sm" sin-relleno clase-cerrar="close" aria-labelledby="modalAgregarLabel">
 
-        <div class="modal-dialog modal-sm" role="document">
+                <div class="tw:px-6 tw:pt-6 tw:pr-14">
 
-            <div class="modal-content">
+                    
 
-                <div class="modal-header modal-header-info">
-
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-
-                        <span aria-hidden="true">&times;</span>
-
-                    </button>
-
-                    <h4 class="modal-title" id="modalAgregarLabel">
-                        <span class="glyphicon glyphicon-user"></span>
+                    <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="modalAgregarLabel">
+                        <span class="fa fa-user"></span>
                         Agregar alumno
                     </h4>
 
                 </div>
 
-                <div class="modal-body text-center">
+                <div class="tw-modal-cuerpo tw:text-center">
 
                     <form action="{{ url('/duales/guardar_alumno_dual') }}" method="POST" role="form"
                         id="form_alumno_crea">
@@ -432,9 +278,9 @@
 
                         <input type="hidden" id="alumno" name="alumno" value="">
 
-                        <div class="mensaje-confirmacion">
+                        <div class="tw:text-gray-600 tw:dark:text-gray-400">
 
-                            <span class="glyphicon glyphicon-question-sign text-info" style="font-size: 35px;"></span>
+                            <span class="fa fa-question-circle tw:text-sky-600"></span>
 
                             <br><br>
 
@@ -448,56 +294,44 @@
 
                 </div>
 
-                <div class="modal-footer">
+                <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
 
-                    <button type="button" class="btn btn-cancelar" data-dismiss="modal">
+                    <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">
 
-                        <span class="glyphicon glyphicon-remove"></span>
+                        <span class="fa fa-times"></span>
                         Cancelar
 
                     </button>
 
-                    <button id="confirma_agrega" type="button" class="btn btn-success">
+                    <button id="confirma_agrega" type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap">
 
-                        <span class="glyphicon glyphicon-ok"></span>
+                        <span class="fa fa-check"></span>
                         Aceptar
 
                     </button>
 
                 </div>
 
-            </div>
-
-        </div>
-
-    </div>
+            </x-panel.modal>
 
     {{-- ===================================================== --}}
     {{-- MODAL ELIMINAR ALUMNO --}}
     {{-- ===================================================== --}}
 
-    <div id="modal_elimina" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modalEliminarLabel">
+    <x-panel.modal id="modal_elimina" tamano="sm" sin-relleno clase-cerrar="close" aria-labelledby="modalEliminarLabel">
 
-        <div class="modal-dialog modal-sm" role="document">
+                <div class="tw:px-6 tw:pt-6 tw:pr-14">
 
-            <div class="modal-content">
+                    
 
-                <div class="modal-header modal-header-danger">
-
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-
-                        <span aria-hidden="true">&times;</span>
-
-                    </button>
-
-                    <h4 class="modal-title" id="modalEliminarLabel">
-                        <span class="glyphicon glyphicon-trash"></span>
+                    <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="modalEliminarLabel">
+                        <span class="fa fa-trash"></span>
                         Eliminar alumno
                     </h4>
 
                 </div>
 
-                <div class="modal-body text-center">
+                <div class="tw-modal-cuerpo tw:text-center">
 
                     <form action="" method="POST" role="form" id="form_delete">
 
@@ -505,9 +339,9 @@
 
                         <input type="hidden" id="eliminar_alumno" name="eliminar_alumno" value="">
 
-                        <div class="mensaje-confirmacion">
+                        <div class="tw:text-gray-600 tw:dark:text-gray-400">
 
-                            <span class="glyphicon glyphicon-warning-sign text-danger" style="font-size: 35px;"></span>
+                            <span class="fa fa-exclamation-triangle tw:text-red-600"></span>
 
                             <br><br>
 
@@ -521,60 +355,48 @@
 
                 </div>
 
-                <div class="modal-footer">
+                <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
 
-                    <button type="button" class="btn btn-cancelar" data-dismiss="modal">
+                    <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">
 
-                        <span class="glyphicon glyphicon-remove"></span>
+                        <span class="fa fa-times"></span>
                         Cancelar
 
                     </button>
 
-                    <button id="confirma_elimina" type="button" class="btn btn-success">
+                    <button id="confirma_elimina" type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap">
 
-                        <span class="glyphicon glyphicon-ok"></span>
+                        <span class="fa fa-check"></span>
                         Aceptar
 
                     </button>
 
                 </div>
 
-            </div>
-
-        </div>
-
-    </div>
+            </x-panel.modal>
 
     {{-- ===================================================== --}}
     {{-- MODAL MATERIAS --}}
     {{-- ===================================================== --}}
 
-    <form id="form_ver_materias" class="form" role="form" method="POST">
+    <form id="form_ver_materias" role="form" method="POST">
 
-        <div class="modal fade" id="modal_materias" tabindex="-1" role="dialog" aria-labelledby="modalMateriasLabel">
+        <x-panel.modal id="modal_materias" tamano="lg" sin-relleno clase-cerrar="close" aria-labelledby="modalMateriasLabel">
 
-            <div class="modal-dialog modal-lg" role="document">
+                    <div class="tw:px-6 tw:pt-6 tw:pr-14">
 
-                <div class="modal-content">
+                        
 
-                    <div class="modal-header modal-header-info">
+                        <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="modalMateriasLabel">
 
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-
-                            <span aria-hidden="true">&times;</span>
-
-                        </button>
-
-                        <h4 class="modal-title" id="modalMateriasLabel">
-
-                            <span class="glyphicon glyphicon-book"></span>
+                            <span class="fa fa-book"></span>
                             MATERIAS
 
                         </h4>
 
                     </div>
 
-                    <div class="modal-body">
+                    <div class="tw-modal-cuerpo">
 
                         {{ csrf_field() }}
 
@@ -582,9 +404,9 @@
 
                         <input type="hidden" id="materias" name="materias" value="">
 
-                        <div class="row">
+                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
-                            <div class="col-md-12" id="contenedor_materias">
+                            <div class="tw:w-full tw:lg:w-full tw:px-2" id="contenedor_materias">
 
                             </div>
 
@@ -592,16 +414,16 @@
 
                     </div>
 
-                    <div class="modal-footer">
+                    <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
 
-                        <button type="button" class="btn btn-success acepta">
+                        <button type="button" class="acepta tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap">
 
-                            <span class="glyphicon glyphicon-plus"></span>
+                            <span class="fa fa-plus"></span>
                             Agregar
 
                         </button>
 
-                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                        <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">
 
                             Cerrar
 
@@ -609,11 +431,7 @@
 
                     </div>
 
-                </div>
-
-            </div>
-
-        </div>
+                </x-panel.modal>
 
     </form>
 
@@ -694,4 +512,5 @@
         });
     });
 </script>
+</div>
 @endsection

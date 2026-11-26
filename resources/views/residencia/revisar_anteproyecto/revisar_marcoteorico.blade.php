@@ -1,30 +1,11 @@
-@extends('layouts.app')
+@extends('layouts.panel')
+@include('partials.panel.recursos_app')
 @section('content')
-    <style type="text/css">
-
-        .btn-circle {
-
-            width: 25px;
-            height: 25px;
-            text-align: center;
-            padding: 3px 0;
-            font-size: 12px;
-            line-height: 1.428571429;
-            border-radius: 15px ;
-        }
-    </style>
-    <div class="row">
-        <div class="col-md-10  col-md-offset-1">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h3 class="panel-title text-center">Anteproyecto para revisar de {{ $alumno->nombre }} {{ $alumno->apaterno }} {{ $alumno->amaterno }}</h3>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-9 col-md-offset-1">
-            <ul class="nav nav-tabs">
+<div class="tw-pantalla">
+    <x-panel.encabezado :titulo="'Anteproyecto para revisar de '.$alumno->nombre.' '.$alumno->apaterno.' '.$alumno->amaterno" :migas="['Residencia profesional' => null]" />
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+        <div class="tw:w-full tw:px-2">
+            <ul class="tw-pestanas tw:mb-6 tw:flex tw:flex-wrap tw:gap-2 tw:border-b tw:border-gray-200 tw:dark:border-gray-800">
                 <li ><a href="{{ url('residencia/revisar_anteproyecto/'.$id_anteproyecto.'/'.$id_profesor ) }}">Portada</a></li>
                 <li >
                     <a href="{{ url('/residencia/revisar_objetivos/'.$id_anteproyecto.'/'.$id_profesor ) }}" >Objetivos</a>
@@ -43,33 +24,23 @@
                 </li>
                 @if($anteproyecto_calificado == 1)
                     <li>
-                        <button type="button" id="enviar_anteproyecto" class="btn btn-success " onclick="window.location='{{ url('/residencia/enviar_anteproyecto_alumno/'.$id_anteproyecto.'/'.$id_profesor ) }}'" title="Enviar">Enviar Anteproyecto</button>
+                        <button type="button" id="enviar_anteproyecto" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" onclick="window.location='{{ url('/residencia/enviar_anteproyecto_alumno/'.$id_anteproyecto.'/'.$id_profesor ) }}'" title="Enviar">Enviar Anteproyecto</button>
                     </li>
                 @endif
 
 
             </ul>
-            <br>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-6 col-md-offset-1">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <div class="row">
-                        <br>
-                        <div class="col-md-8 col-md-offset-2" style="text-align: center">
-                            <div class="panel panel-info">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title text-center">Marco teorico</h3>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <textarea class="form-control"  id="marco_teorico" name="marco_teorico" rows="25" placeholder="Ingresar marco teorico de tu anteproyecto " style="" required>{{$marco_teorico->marco_teorico }}</textarea>
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+        <div class="tw:w-full tw:lg:w-6/12 tw:lg:grow tw:px-2">
+            <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+                <div class="tw:p-5 tw:sm:p-6">
+                    <h3 class="tw:mb-4 tw:text-center tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">Marco teorico</h3>
+                    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                        <div class="tw:w-full tw:lg:w-full tw:px-2">
+                            <div class="tw:mb-4">
+                                <textarea class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500"  id="marco_teorico" name="marco_teorico" rows="25" placeholder="Ingresar marco teorico de tu anteproyecto " required>{{$marco_teorico->marco_teorico }}</textarea>
                             </div>
                         </div>
                     </div>
@@ -81,13 +52,14 @@
         </div>
         @if($comentario_marcoteorico == 0 )
 
-            <div class="col-md-4">
+            <div class="tw:w-full tw:lg:w-4/12 tw:lg:grow tw:px-2">
                 @if($autorizado_profesor ==0)
-                <div class="row">
-                  <div class="panel panel-success">
-                    <div class="panel-heading" style="text-align: center">Evaluaciòn</div>
-                    <div class="panel-body">
-                        <table id="table_enviado" class="table table-bordered table-resposive">
+                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                  <div class="tw:w-full tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+                    <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:dark:border-gray-800 tw:bg-gray-50 tw:dark:bg-gray-900 tw:px-5 tw:py-4 tw:text-center">Evaluaciòn</div>
+                    <div class="tw:p-5 tw:sm:p-6">
+                        <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table id="table_enviado" class="tw-tabla tw-tabla-bordes">
                             <thead>
                             <tr>
                                 <th>Autorizado</th>
@@ -98,128 +70,79 @@
                             <tbody>
 
                             <tr>
-                                <td style="text-align: center">
-                                    <button type="button" class="btn btn-info aceptar_marcoteorico_anteproyecto"  title="Aceptar"><i class="glyphicon glyphicon-ok" style="font-size: 20px;"></i></button>
+                                <td class="tw:text-center">
+                                    <button type="button" class="aceptar_marcoteorico_anteproyecto tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"  title="Aceptar"><i class="fa fa-check"></i></button>
 
                                 </td>
-                                <td style="text-align: center">
-                                    <button type="button" class="btn btn-warning cambios_marcoteorico_anteproyecto"  title="Aceptado con cambios"><i class=" glyphicon glyphicon-exclamation-sign " style="font-size: 20px; " ></i></button>
+                                <td class="tw:text-center">
+                                    <button type="button" class="cambios_marcoteorico_anteproyecto tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-amber-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-amber-600 tw:disabled:bg-amber-300 tw:size-9 tw:text-base"  title="Aceptado con cambios"><i class="fa fa-exclamation-circle" ></i></button>
 
                                 </td>
-                                <td style="text-align: center">
-                                    <button type="button" class="btn btn-danger rechazar_marcoteorico_anteproyecto"  title="Rechazar"><i class="glyphicon glyphicon-remove" style="font-size: 20px;"></i></button>
+                                <td class="tw:text-center">
+                                    <button type="button" class="rechazar_marcoteorico_anteproyecto tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-red-600 tw:ring-1 tw:ring-red-300 tw:ring-inset tw:hover:bg-red-50 tw:dark:bg-gray-800 tw:dark:text-red-500 tw:dark:ring-red-500/40 tw:dark:hover:bg-red-500/10 tw:size-9 tw:text-base"  title="Rechazar"><i class="fa fa-times"></i></button>
                                 </td>
                             </tr>
                             </tbody>
                         </table>
+</div>
                     </div>
                    </div>
                 </div>
                     @else
 
-                        <div class="row">
-                            <div class="col-md-10 col-md-offset-1">
-                                <div class="alert alert-danger" role="alert" style="text-align: center;">
+                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                            <div class="tw:w-full tw:px-2">
+                                <x-panel.alerta tipo="error" class="tw:mb-4">
                                     Ya autorizaste el marco teórico
-                                </div>
+                                </x-panel.alerta>
                             </div>
                         </div>
 
                 @endif
 
-                <div class="row">
-                    <div class="col-md-10 col-md-offset-1">
-                    <div class="panel panel-default">
-                        <div class="panel-heading" style="text-align: center">COMENTARIOS
-
-                        </div>
-                    </div>
-                    </div>
-                </div>
+                <h3 class="tw:mb-4 tw:text-center tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">COMENTARIOS</h3>
                     @for ($i =$numero_evaluacion; $i >0;  $i--)
                         @if($i==$numero_evaluacion)
 
-                            <div class="row" style="text-align: center;">
-                                <div class="col-md-10 col-md-offset-1">
-                                    <div class="panel panel-success">
-                                        <div class="panel-heading">
-                                            <a href="#" class="comentarios" id="{{$i}}">Ver comentarios de la evaluación {{ $i }} actual </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <x-panel.alerta tipo="exito" class="tw:mb-4"><a href="#" class="comentarios" id="{{$i}}">Ver comentarios de la evaluación {{ $i }} actual </a></x-panel.alerta>
                         @else
-                            <div class="row" style="text-align: center;">
-                                <div class="col-md-10 col-md-offset-1">
-                                    <div class="panel panel-success">
-                                        <div class="panel-heading">
-                                            <a href="#" class="comentarios" id="{{$i}}">Ver comentarios de la evaluación {{ $i }}</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <x-panel.alerta tipo="exito" class="tw:mb-4"><a href="#" class="comentarios" id="{{$i}}">Ver comentarios de la evaluación {{ $i }}</a></x-panel.alerta>
                         @endif
                     @endfor
             </div>
         @else
-            <div class="col-md-4">
+            <div class="tw:w-full tw:lg:w-4/12 tw:px-2">
                 @if($autorizado_profesor == 1)
-                    <div class="row">
-                        <div class="col-md-10 col-md-offset-1">
-                            <div class="alert alert-danger" role="alert" style="text-align: center;">
+                    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                        <div class="tw:w-full tw:px-2">
+                            <x-panel.alerta tipo="error" class="tw:mb-4">
                                 Ya autorizaste el marco teórico
-                            </div>
+                            </x-panel.alerta>
                         </div>
                     </div>
                 @endif
-                <div class="row">
-                    <div class="col-md-10 col-md-offset-1">
-                    <div class="panel panel-default">
-                        <div class="panel-heading" style="text-align: center">COMENTARIOS
-
-                        </div>
-                    </div>
-                    </div>
-                </div>
+                <h3 class="tw:mb-4 tw:text-center tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">COMENTARIOS</h3>
                 @for ($i =$numero_evaluacion; $i >0;  $i--)
                     @if($i==$numero_evaluacion)
 
-                        <div class="row" style="text-align: center;">
-                            <div class="col-md-10 col-md-offset-1">
-                                <div class="panel panel-success">
-                                    <div class="panel-heading">
-                                        <a href="#" class="comentarios" id="{{$i}}">Ver comentarios de la evaluación {{ $i }} actual </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <x-panel.alerta tipo="exito" class="tw:mb-4"><a href="#" class="comentarios" id="{{$i}}">Ver comentarios de la evaluación {{ $i }} actual </a></x-panel.alerta>
                     @else
-                        <div class="row" style="text-align: center;">
-                            <div class="col-md-10 col-md-offset-1">
-                                <div class="panel panel-success">
-                                    <div class="panel-heading">
-                                        <a href="#" class="comentarios" id="{{$i}}">Ver comentarios de la evaluación {{ $i }}</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <x-panel.alerta tipo="exito" class="tw:mb-4"><a href="#" class="comentarios" id="{{$i}}">Ver comentarios de la evaluación {{ $i }}</a></x-panel.alerta>
                     @endif
                 @endfor
             </div>
-    </div>
+    
     @endif
 
     </div>
     {{-- Modal para agregar evaluación--}}
-        <div class="modal fade bs-example-modal-lg" id="modal_agregar_comentario_marcoteorico" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-            <div class="modal-dialog " role="document">
-                <div class="modal-content">
-                    <div class="modal-header bg-info">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">Nuevo Comentario</h4>
+        <x-panel.modal id="modal_agregar_comentario_marcoteorico" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="myModalLabel">
+                    <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                        
+                        <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="myModalLabel">Nuevo Comentario</h4>
                     </div>
-                    <div class="modal-body">
-                        <form id="form_registrar" action="{{url("/residencia/guardar_comentarios_marcoteorico/")}}" class="form" role="form" method="POST">
+                    <div class="tw-modal-cuerpo">
+                        <form id="form_registrar" action="{{url("/residencia/guardar_comentarios_marcoteorico/")}}" class="" role="form" method="POST">
 
                         {{ csrf_field() }}
                         <input type="hidden" id="id_marcoteorico" name="id_marcoteorico" value="{{ $marco_teorico->id_marco_teorico }}">
@@ -228,44 +151,37 @@
                         <input type="hidden" id="id_anteproyecto" name="id_anteproyecto" value="{{$id_anteproyecto }}">
                         <input type="hidden" id="id_estado_evaluacion" name="id_estado_evaluacion" value="">
 
-                        <div class="row" >
-                            <div class="col-md-8 col-md-offset-2">
-                                <div class="form-group">
+                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4" >
+                            <div class="tw:w-full tw:px-2">
+                                <div class="tw:mb-4">
                                     <label for="descripcion">Comentario</label>
-                                    <textarea class="form-control" id="descripcion" name="descripcion" rows="3" placeholder="Ingresa el motivo " style="" required></textarea>
+                                    <textarea class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500" id="descripcion" name="descripcion" rows="3" placeholder="Ingresa el motivo " required></textarea>
                                 </div>
                             </div>
                         </div>
                         </form>
                     </div>
-                    <div class="modal-footer">
-                        <button  class="btn btn-primary " id="guardar">Aceptar</button>
+                    <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                        <button  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" id="guardar">Aceptar</button>
                     </div>
-                </div>
-            </div>
-        </div>
+                </x-panel.modal>
 
 
-    <div class="modal fade" id="modal_mostrar_marco_teorico" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header bg-info">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title text-center" id="myModalLabel">Comentarios</h4>
+    <x-panel.modal id="modal_mostrar_marco_teorico" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="myModalLabel">
+                <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                    
+                    <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="myModalLabel">Comentarios</h4>
                 </div>
                 <div id="mostrar_comentarios_marco_teorico">
 
 
                 </div>
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Aceptar</button>
+                <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                    <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Aceptar</button>
                 </div>
 
-            </div>
-
-        </div>
-    </div>
+            </x-panel.modal>
     <script type="text/javascript">
         $(document).ready(function() {
             $("#guardar").click(function(event) {
@@ -337,4 +253,5 @@
         });
     </script>
 
+</div>
 @endsection

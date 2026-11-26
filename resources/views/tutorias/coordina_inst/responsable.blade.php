@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header alert alert-info">
                 <h5 class="modal-title font-weight-bold" id="exampleModalLongTitle">Datos del reporte</h5>
-                <button type="button" class="close" @click="CancelReporte()" aria-label="Close">
+                <button type="button" class="close" @click="CancelReporte()" aria-label="Cerrar">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>

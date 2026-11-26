@@ -1,25 +1,27 @@
-@extends('layouts.app')
+@extends('layouts.panel')
+@include('partials.panel.recursos_app')
 @section('title', 'Ambiental')
 @section('content')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.18/vue.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <div id="periodoss">
-        <main class="col-md-12">
+    <div id="periodoss" x-ignore>
+        <main class="tw:w-full tw:lg:w-full tw:px-2">
 
 
-            <div class="row">
-                <div class="col-md-10 col-md-offset-1">
-                    <div class="panel panel-info">
-                        <div class="panel-heading">
-                            <h3 class="panel-title text-center">Periodos de ambiental </h3>
+            <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                <div class="tw:w-full tw:lg:w-10/12 tw:lg:ml-[8.3333%] tw:px-2">
+                    <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
+                        <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4">
+                            <h3 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:text-center">Periodos de ambiental </h3>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="row">
-                <div  class="col-md-10 col-lg-offset-1">
-                    <table id="tabla_envio" class="table table-bordered table-resposive">
+            <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                <div  class="tw:w-full tw:lg:w-10/12 tw:xl:ml-[8.3333%] tw:px-2">
+                    <div class="tw-tabla-contenedor tw:mb-4 tw:max-w-full tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200">
+<table id="tabla_envio" class="table-responsive tw-tabla tw-tabla-bordes">
                         <thead>
                         <tr>
                             <th>No</th>
@@ -39,15 +41,15 @@
                             <td v-if="periodo.fecha_mes == 1">Enero</td>
                             <td v-if="periodo.fecha_mes == 2">Junio</td>
                             <template v-if="activo == 0 ">
-                            <td  v-if="periodo.estado_periodo == 0"> <button  class="btn btn-success btn-sm" v-on:click="abrirModal_activar(periodo);" >Activar</button></td>
-                                <td  v-if="periodo.estado_periodo == 2"> <button  class="btn btn-success btn-sm" v-on:click="abrirModal_activar(periodo);" >Activar nuevamente</button></td>
+                            <td  v-if="periodo.estado_periodo == 0"> <button  class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-green-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-green-700 tw:gap-1.5 tw:px-3 tw:py-1.5 tw:text-sm" v-on:click="abrirModal_activar(periodo);" >Activar</button></td>
+                                <td  v-if="periodo.estado_periodo == 2"> <button  class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-green-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-green-700 tw:gap-1.5 tw:px-3 tw:py-1.5 tw:text-sm" v-on:click="abrirModal_activar(periodo);" >Activar nuevamente</button></td>
                             </template>
                             <template v-if="activo > 0 ">
-                                <td  v-if="periodo.estado_periodo == 1"> <button  class="btn btn-danger btn-sm" v-on:click="abrirModal_desactivar(periodo);" >Desactivar</button> Periodo Activo</td>
-                                <td  v-if="periodo.estado_periodo == 1"> <button  class="btn btn-success btn-sm" v-on:click="solicitud_documentacion(periodo);" >Solicitud de Documentación</button></td>
+                                <td  v-if="periodo.estado_periodo == 1"> <button  class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-red-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-red-700 tw:gap-1.5 tw:px-3 tw:py-1.5 tw:text-sm" v-on:click="abrirModal_desactivar(periodo);" >Desactivar</button> Periodo Activo</td>
+                                <td  v-if="periodo.estado_periodo == 1"> <button  class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-green-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-green-700 tw:gap-1.5 tw:px-3 tw:py-1.5 tw:text-sm" v-on:click="solicitud_documentacion(periodo);" >Solicitud de Documentación</button></td>
 
-                                <td  v-if="periodo.estado_periodo == 0"> <button  class="btn btn-primary btn-sm" :disabled="true">Se encuentra activo un periodo</button></td>
-                                <td  v-if="periodo.estado_periodo == 2"> <button  class="btn btn-primary btn-sm" :disabled="true">Se encuentra activo un periodo</button></td>
+                                <td  v-if="periodo.estado_periodo == 0"> <button  class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-1.5 tw:px-3 tw:py-1.5 tw:text-sm" :disabled="true">Se encuentra activo un periodo</button></td>
+                                <td  v-if="periodo.estado_periodo == 2"> <button  class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-1.5 tw:px-3 tw:py-1.5 tw:text-sm" :disabled="true">Se encuentra activo un periodo</button></td>
 
                             </template>
 
@@ -57,6 +59,7 @@
 
                         </tbody>
                     </table>
+</div>
                 </div>
             </div>
 

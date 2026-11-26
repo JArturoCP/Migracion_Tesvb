@@ -8,13 +8,32 @@
       - con $datatables: DataTables 1.13.6 local (npm, public/vendor/datatables), FixedHeader,
         accent-neutralise y tesvb-datatables (textos en español y formato común);
       - con $blockui: jquery.blockUI; con $graficas: Highcharts y su módulo de exportación;
+      - con $pickatime: pickadate (picker.js + picker.time.js, $('#x').pickatime()) con su tema default, como layouts.app;
       - con $datepicker: bootstrap-datepicker (plugin de jQuery, con su CSS "standalone" y el idioma es), como layout_ingles.
+      - con $vue y $axios: Vue 1 y Axios para las pantallas que conservan esas integraciones;
+      - con $ordenable: jQuery UI para listas ordenables; con $selectorHora: Pickadate Time.
     Ojo: si el script de la pantalla llama a un plugin (aunque sea fuera de $(document).ready), hay que
     cargarlo; si no, el error detiene todo el script.
     Uso: @include('partials.panel.recursos_app', ['datatables' => true, 'validacion' => true])
 --}}
 @push('cabeza')
     <script src="/js/jquery.min.js"></script>
+    @if ($vue ?? false)
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.18/vue.min.js"></script>
+    @endif
+    @if ($axios ?? false)
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    @endif
+    @if ($ordenable ?? false)
+        <script src="/js/jquery-ui.js"></script>
+    @endif
+    @if ($selectorHora ?? false)
+        <link rel="stylesheet" href="/css/themes/default.css">
+        <link rel="stylesheet" href="/css/themes/default.time.css">
+        <script src="/js/picker.js"></script>
+        <script src="/js/picker.time.js"></script>
+        <script src="/js/legacy.js"></script>
+    @endif
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="{{ asset('css/sweetalert2.min.css') }}?v=11.26.25">
     @if ($colorpicker ?? false)
@@ -34,6 +53,12 @@
         <link rel="stylesheet" href="{{asset('datepicker/css/bootstrap-datepicker.standalone.css')}}">
         <script src="{{asset('datepicker/js/bootstrap-datepicker.js')}}"></script>
         <script src="{{asset('datepicker/locales/bootstrap-datepicker.es.min.js')}}"></script>
+    @endif
+    @if ($pickatime ?? false)
+        <link rel="stylesheet" href="/css/themes/default.css">
+        <link rel="stylesheet" href="/css/themes/default.time.css">
+        <script src="/js/picker.js"></script>
+        <script src="/js/picker.time.js"></script>
     @endif
     @if ($blockui ?? false)
         <script src="/js/jquery.blockUI.js"></script>

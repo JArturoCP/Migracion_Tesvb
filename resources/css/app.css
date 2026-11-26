@@ -10,6 +10,6 @@
 @source "../views/dashboard.blade.php";
 @source "../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views";
 
-@theme {
-    --font-sans: Figtree, ui-sans-serif, system-ui, sans-serif;
+@theme inline {
+    --font-sans: var(--tesvb-font-family);
 }

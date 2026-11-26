@@ -93,7 +93,7 @@ it('separa la edición de la escuela del formulario de Datos del alumno', functi
         'datos' => $datosVacios(['id_alumno' => 3, 'fecha_nac' => '23/02/2007', 'promedio_preparatoria' => 8]),
         'datos_t' => $datosVacios(['id_tutor' => 6, 'fecha_nac_T' => '08/07/1982']),
         'institucion' => $datosVacios(['cct' => 'DEMO001', 'nombre_escuela' => 'Escuela de prueba']),
-        'existe' => 1, 'dat' => 0, 'ed' => 0, 'edad' => 19, 'genero' => 'M', 'sem' => 3,
+        'existe' => 1, 'dat' => 0, 'ed' => 0, 'edad' => 19, 'fechaNacimiento' => '2007-02-23', 'genero' => 'M', 'sem' => 3,
     ] + array_fill_keys(['carreras', 'grados', 'seguro', 'respuesta', 'estados_alu', 'estados_tutor', 'entidadnac', 'semestres'], []);
 
     $html = view('evaluacion_docente.Alumnos.datos_alumno', $datos)->render();
@@ -102,7 +102,7 @@ it('separa la edición de la escuela del formulario de Datos del alumno', functi
     expect($form($html, 'formgeneral')['campos'])->toBe($form($antes, 'formgeneral')['campos'])
         ->and($form($html, 'formgeneral')['action'])->toEndWith('/datos_alumno')
         ->and($form($html, 'form_escuela_cct_modal')['campos'])->toBe(['_token', 'id_escuela'])
-        ->and($html)->toContain('data-target="#editar_escuela_cct"', 'value="2007-02-23"', 'value="1982-07-08"')
+        ->and($html)->toContain('data-target="#editar_escuela_cct"', 'value="2007-02-23"', 'value="1982-07-08"', 'id="edadalu" value="19" readonly')
         ->toContain('role="progressbar"', 'Paso 1 de 5', 'id="buscar_escuela_cct"', 'id="paso_alumno_fin" hidden')
         ->and(substr_count($html, 'aria-labelledby="paso-alumno-'))->toBe(5)
         ->and($html)->toContain('data-escuela-campo="cct"', 'data-escuela-campo="nombre_escuela"')

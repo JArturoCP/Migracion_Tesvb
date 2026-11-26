@@ -5,7 +5,7 @@
                     <div v-if="estra.planeacion.id_estrategia==2">
                         <h5 class="modal-title">Ver Estrategia</h5>
                     </div>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>

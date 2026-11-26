@@ -1,489 +1,70 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 
 @section('title', 'Registrar Carga Académica de los Alumnos Duales')
 
+@include('partials.panel.recursos_app', ['datatables' => true])
 @section('content')
+<div class="tw-pantalla">
 
-<style>
-/* =========================================================
-       CONTENEDOR PRINCIPAL
-    ========================================================= */
+<main class="tw:w-full tw:lg:w-full tw:px-2">
 
-.card-dual {
-    margin-top: 25px;
-    margin-bottom: 30px;
-}
+    <x-panel.encabezado titulo="Registrar carga académica de los alumnos duales" :migas="['Educación dual' => null]" />
+    <div class="tw:w-full">
 
-.panel-dual {
-    border: 0;
-    border-radius: 10px;
-    background: #fff;
-    box-shadow: 0 3px 15px rgba(0, 0, 0, .10);
-    overflow: hidden;
-}
+        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
-/* =========================================================
-       ENCABEZADO
-    ========================================================= */
+            <div class="tw:w-full tw:lg:w-full tw:px-2">
 
-.panel-dual .panel-heading {
-    background: linear-gradient(135deg, #337ab7, #286090);
-    color: #fff;
-    padding: 20px 25px;
-    border: none;
-    border-radius: 0;
-}
-
-.panel-dual .panel-title {
-    margin: 0;
-    font-size: 19px;
-    font-weight: 600;
-    letter-spacing: .2px;
-}
-
-.panel-dual .panel-title .glyphicon {
-    font-size: 20px;
-    vertical-align: middle;
-}
-
-/* =========================================================
-       CUERPO DEL PANEL
-    ========================================================= */
-
-.panel-dual .panel-body {
-    padding: 25px;
-    background: #fff;
-}
-
-/* =========================================================
-       TABLA
-    ========================================================= */
-
-.tabla-dual {
-    margin-bottom: 0 !important;
-    border: 1px solid #e5e5e5;
-    background: #fff;
-}
-
-.tabla-dual thead th {
-    background: #337ab7 !important;
-    color: #fff !important;
-    vertical-align: middle !important;
-    text-align: center;
-    font-weight: 600;
-    font-size: 13px;
-    padding: 13px 10px !important;
-    border-color: #286090 !important;
-    white-space: nowrap;
-}
-
-.tabla-dual thead th .glyphicon {
-    margin-right: 4px;
-    font-size: 13px;
-}
-
-.tabla-dual tbody td {
-    vertical-align: middle !important;
-    padding: 12px 10px !important;
-    border-color: #e9e9e9 !important;
-    color: #444;
-    background: #fff;
-}
-
-.tabla-dual tbody tr {
-    transition: background-color .2s ease;
-}
-
-.tabla-dual tbody tr:hover td {
-    background-color: #f5f9fd !important;
-}
-
-.tabla-dual tbody tr:nth-child(even) td {
-    background-color: #fafafa;
-}
-
-.tabla-dual tbody tr:nth-child(even):hover td {
-    background-color: #f5f9fd !important;
-}
-
-/* =========================================================
-       DATOS DEL ALUMNO
-    ========================================================= */
-
-.tabla-dual tbody td:first-child {
-    color: #337ab7;
-    font-size: 14px;
-    white-space: nowrap;
-}
-
-.nombre-alumno {
-    font-weight: 500;
-    color: #333;
-}
-
-.tabla-dual .text-muted {
-    color: #999;
-}
-
-.tabla-dual .glyphicon-user {
-    margin-right: 6px;
-    color: #999;
-}
-
-/* =========================================================
-       BOTONES DE ACCIÓN
-    ========================================================= */
-
-.accion {
-    display: inline-block;
-    width: 40px;
-    height: 40px;
-    line-height: 40px;
-    border-radius: 50%;
-    text-align: center;
-    cursor: pointer;
-    text-decoration: none !important;
-    transition: all .2s ease;
-    border: 1px solid transparent;
-}
-
-.accion:hover,
-.accion:focus {
-    transform: translateY(-2px);
-    text-decoration: none !important;
-    box-shadow: 0 4px 9px rgba(0, 0, 0, .12);
-}
-
-.accion:active {
-    transform: translateY(0);
-    box-shadow: none;
-}
-
-.accion .glyphicon {
-    font-size: 16px;
-}
-
-/* =========================================================
-       BOTÓN CARGA
-    ========================================================= */
-
-.accion-carga {
-    background: #e8f5e9;
-    color: #388e3c;
-    border-color: #c8e6c9;
-}
-
-.accion-carga:hover,
-.accion-carga:focus {
-    background: #43a047;
-    color: #fff;
-}
-
-/* =========================================================
-       BOTÓN VALIDAR
-    ========================================================= */
-
-.accion-validar {
-    background: #e3f2fd;
-    color: #1976d2;
-    border-color: #bbdefb;
-}
-
-.accion-validar:hover,
-.accion-validar:focus {
-    background: #1976d2;
-    color: #fff;
-}
-
-/* =========================================================
-       BOTÓN ELIMINAR
-    ========================================================= */
-
-.accion-eliminar {
-    background: #ffebee;
-    color: #e53935;
-    border-color: #ffcdd2;
-}
-
-.accion-eliminar:hover,
-.accion-eliminar:focus {
-    background: #e53935;
-    color: #fff;
-}
-
-/* =========================================================
-       ACCIÓN BLOQUEADA
-    ========================================================= */
-
-.accion-bloqueada {
-    display: inline-block;
-    width: 40px;
-    height: 40px;
-    line-height: 40px;
-    border-radius: 50%;
-    text-align: center;
-    background: #f3f3f3;
-    color: #aaa;
-    border: 1px solid #e5e5e5;
-}
-
-.accion-bloqueada .glyphicon {
-    font-size: 15px;
-}
-
-/* =========================================================
-       MODALES
-    ========================================================= */
-
-.modal-content {
-    border: 0;
-    border-radius: 8px;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, .20);
-    overflow: hidden;
-}
-
-.modal-header-dual {
-    background: linear-gradient(135deg, #337ab7, #286090);
-    color: #fff;
-    border: none;
-    padding: 18px 22px;
-    border-radius: 0;
-}
-
-.modal-header-dual .modal-title {
-    font-size: 17px;
-    font-weight: 600;
-    text-align: center;
-    margin: 0;
-}
-
-.modal-header-dual .modal-title .glyphicon {
-    margin-right: 5px;
-}
-
-.modal-header-dual .close {
-    color: #fff;
-    opacity: .9;
-    text-shadow: none;
-    font-size: 25px;
-    transition: opacity .2s ease;
-}
-
-.modal-header-dual .close:hover {
-    color: #fff;
-    opacity: 1;
-}
-
-.modal-body {
-    padding: 25px;
-}
-
-.modal-footer {
-    padding: 15px 20px;
-    background: #fafafa;
-    border-top: 1px solid #eee;
-}
-
-/* =========================================================
-       MODAL ELIMINAR
-    ========================================================= */
-
-.mensaje-eliminar {
-    font-size: 16px;
-    color: #555;
-    padding: 8px 0 5px;
-}
-
-.mensaje-eliminar>.glyphicon-trash {
-    width: 65px;
-    height: 65px;
-    line-height: 65px;
-    border-radius: 50%;
-    background: #ffebee;
-    color: #e53935 !important;
-    font-size: 28px !important;
-    margin: 0 auto 18px !important;
-}
-
-.mensaje-eliminar strong {
-    display: block;
-    color: #444;
-    font-size: 16px;
-}
-
-.mensaje-eliminar p {
-    font-size: 13px;
-    margin-top: 10px !important;
-}
-
-/* =========================================================
-       BOTONES
-    ========================================================= */
-
-.modal-footer .btn {
-    border-radius: 5px;
-    padding: 8px 16px;
-    font-weight: 500;
-    transition: all .2s ease;
-}
-
-.modal-footer .btn-default:hover {
-    background: #f1f1f1;
-}
-
-.btn-agregar {
-    min-width: 120px;
-}
-
-.btn-success {
-    background: #43a047;
-    border-color: #388e3c;
-}
-
-.btn-success:hover,
-.btn-success:focus {
-    background: #388e3c;
-    border-color: #2e7d32;
-}
-
-/* =========================================================
-       RESPONSIVE
-    ========================================================= */
-
-@media (max-width: 767px) {
-
-    .card-dual {
-        margin-top: 15px;
-    }
-
-    .panel-dual {
-        border-radius: 7px;
-    }
-
-    .panel-dual .panel-heading {
-        padding: 16px 15px;
-    }
-
-    .panel-dual .panel-title {
-        font-size: 15px;
-        line-height: 1.5;
-    }
-
-    .panel-dual .panel-title .glyphicon {
-        font-size: 16px;
-    }
-
-    .panel-dual .panel-body {
-        padding: 12px;
-    }
-
-    .tabla-dual {
-        font-size: 12px;
-    }
-
-    .tabla-dual thead th {
-        padding: 10px 7px !important;
-        font-size: 11px;
-    }
-
-    .tabla-dual tbody td {
-        padding: 9px 7px !important;
-    }
-
-    .nombre-alumno {
-        font-size: 12px;
-    }
-
-    .accion,
-    .accion-bloqueada {
-        width: 34px;
-        height: 34px;
-        line-height: 34px;
-    }
-
-    .accion .glyphicon,
-    .accion-bloqueada .glyphicon {
-        font-size: 13px;
-    }
-
-    .modal-body {
-        padding: 20px 15px;
-    }
-
-    .modal-footer {
-        padding: 12px 15px;
-    }
-}
-</style>
-
-<main class="col-md-12">
-
-    <div class="container">
-
-        <div class="row card-dual">
-
-            <div class="col-md-12">
-
-                <div class="panel panel-dual">
+                <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
 
                     <!-- =====================================================
                          ENCABEZADO
                     ====================================================== -->
 
-                    <div class="panel-heading">
-
-                        <h3 class="panel-title text-center">
-
-                            <span class="glyphicon glyphicon-education"></span>
-
-                            &nbsp; REGISTRAR CARGA ACADÉMICA DE LOS ALUMNOS DUALES
-
-                        </h3>
-
-                    </div>
+                    
 
                     <!-- =====================================================
                          CUERPO
                     ====================================================== -->
 
-                    <div class="panel-body">
+                    <div class="tw:p-5 tw:sm:p-6">
 
-                        <div class="table-responsive">
+                        <div class="tw:max-w-full tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800">
 
-                            <table id="paginar_tabla" class="table table-bordered table-hover tabla-dual"
-                                style="text-align:center; width:100%;">
+                            <table id="paginar_tabla" class="tw-tabla-centrada tw-tabla tw-tabla-bordes"
+                               >
 
                                 <thead>
 
                                     <tr>
 
-                                        <th class="text-center">
+                                        <th class="tw:text-center">
                                             No. cuenta
                                         </th>
 
-                                        <th class="text-center">
+                                        <th class="tw:text-center">
                                             Nombre del alumno
                                         </th>
 
-                                        <th class="text-center">
+                                        <th class="tw:text-center">
 
-                                            <span class="glyphicon glyphicon-list-alt"></span>
+                                            <span class="fa fa-list-alt"></span>
 
                                             Llenar carga
 
                                         </th>
 
-                                        <th class="text-center">
+                                        <th class="tw:text-center">
 
-                                            <span class="glyphicon glyphicon-ok-circle"></span>
+                                            <span class="fa fa-check-circle-o"></span>
 
                                             Validar carga
 
                                         </th>
 
-                                        <th class="text-center">
+                                        <th class="tw:text-center">
 
-                                            <span class="glyphicon glyphicon-trash"></span>
+                                            <span class="fa fa-trash"></span>
 
                                             Eliminar
 
@@ -511,11 +92,11 @@
 
                                         <!-- NOMBRE -->
 
-                                        <td class="text-left">
+                                        <td class="tw:text-left">
 
-                                            <span class="glyphicon glyphicon-user text-muted"></span>
+                                            <span class="fa fa-user tw:text-gray-500 tw:dark:text-gray-400"></span>
 
-                                            <span class="nombre-alumno">
+                                            <span class="tw:font-medium">
 
                                                 {{ $plantilla->nombre . " " . $plantilla->apaterno . " " . $plantilla->amaterno }}
 
@@ -525,50 +106,38 @@
 
                                         <!-- LLENAR CARGA -->
 
-                                        <td class="text-center">
+                                        <td class="tw:text-center">
 
-                                            <a href="javascript:void(0);" class="materias accion accion-carga"
+                                            <a href="javascript:void(0);" class="materias tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"
                                                 data-id_duales_actuales="{{ $plantilla->id_duales_actuales }}"
-                                                title="Llenar carga académica">
-
-                                                <span class="glyphicon glyphicon-list-alt"></span>
-
-                                            </a>
+                                                title="Llenar carga académica"><span class="fa fa-list-alt"></span></a>
 
                                         </td>
 
                                         <!-- VALIDAR -->
 
-                                        <td class="text-center">
+                                        <td class="tw:text-center">
 
                                             <a href="{{ url('/duales/revision_control_escolar/'.$plantilla->id_alumno) }}"
-                                                class="accion accion-validar" title="Validar carga académica">
-
-                                                <span class="glyphicon glyphicon-ok-circle"></span>
-
-                                            </a>
+                                                class="accion accion-validar tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base" title="Validar carga académica"><span class="fa fa-check-circle-o"></span></a>
 
                                         </td>
 
                                         <!-- ELIMINAR -->
 
-                                        <td class="text-center">
+                                        <td class="tw:text-center">
 
                                             @if($estado_periodo == 1)
 
-                                            <a href="javascript:void(0);" class="elimina accion accion-eliminar"
+                                            <a href="javascript:void(0);" class="elimina tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-red-600 tw:ring-1 tw:ring-red-300 tw:ring-inset tw:hover:bg-red-50 tw:dark:bg-gray-800 tw:dark:text-red-500 tw:dark:ring-red-500/40 tw:dark:hover:bg-red-500/10 tw:size-9 tw:text-base"
                                                 data-id_alumno="{{ $plantilla->id_duales_actuales }}"
-                                                title="Eliminar alumno">
-
-                                                <span class="glyphicon glyphicon-trash"></span>
-
-                                            </a>
+                                                title="Eliminar alumno"><span class="fa fa-trash"></span></a>
 
                                             @else
 
-                                            <span class="accion-bloqueada" title="No disponible durante este periodo">
+                                            <span class="tw:inline-flex tw:size-9 tw:items-center tw:justify-center tw:rounded-full tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-400" title="No disponible durante este periodo">
 
-                                                <span class="glyphicon glyphicon-lock"></span>
+                                                <span class="fa fa-lock"></span>
 
                                             </span>
 
@@ -601,27 +170,17 @@
          MODAL ELIMINAR ALUMNO
     ============================================================== -->
 
-    <div id="modal_elimina" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modalEliminarLabel">
-
-        <div class="modal-dialog modal-sm" role="document">
-
-            <div class="modal-content">
+    <x-panel.modal id="modal_elimina" tamano="sm" sin-relleno clase-cerrar="close" aria-labelledby="modalEliminarLabel">
 
                 <!-- HEADER -->
 
-                <div class="modal-header modal-header-dual">
+                <div class="tw:px-6 tw:pt-6 tw:pr-14">
 
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                    
 
-                        <span aria-hidden="true">
-                            &times;
-                        </span>
+                    <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="modalEliminarLabel">
 
-                    </button>
-
-                    <h4 class="modal-title" id="modalEliminarLabel">
-
-                        <span class="glyphicon glyphicon-warning-sign"></span>
+                        <span class="fa fa-exclamation-triangle"></span>
 
                         Confirmar eliminación
 
@@ -631,19 +190,19 @@
 
                 <!-- BODY -->
 
-                <div class="modal-body text-center">
+                <div class="tw-modal-cuerpo tw:text-center">
 
-                    <div class="mensaje-eliminar">
+                    <div class="tw:text-gray-600 tw:dark:text-gray-400">
 
-                        <span class="glyphicon glyphicon-trash"
-                            style="font-size:35px; color:#e53935; display:block; margin-bottom:15px;">
+                        <span class="fa fa-trash tw:text-3xl tw:text-red-600 tw:dark:text-red-400 tw:mb-4"
+                            style="display:block">
                         </span>
 
                         <strong>
                             ¿Realmente deseas eliminar este elemento?
                         </strong>
 
-                        <p class="text-muted">
+                        <p class="tw:text-gray-500 tw:dark:text-gray-400">
 
                             Esta acción no podrá deshacerse.
 
@@ -665,19 +224,19 @@
 
                 <!-- FOOTER -->
 
-                <div class="modal-footer">
+                <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
 
-                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                    <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">
 
-                        <span class="glyphicon glyphicon-remove"></span>
+                        <span class="fa fa-times"></span>
 
                         Cancelar
 
                     </button>
 
-                    <button id="confirma_elimina" type="button" class="btn btn-danger">
+                    <button id="confirma_elimina" type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-red-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-red-700 tw:disabled:bg-red-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap">
 
-                        <span class="glyphicon glyphicon-trash"></span>
+                        <span class="fa fa-trash"></span>
 
                         Eliminar
 
@@ -685,40 +244,26 @@
 
                 </div>
 
-            </div>
-
-        </div>
-
-    </div>
+            </x-panel.modal>
 
 
     <!-- =============================================================
          MODAL MATERIAS
     ============================================================== -->
 
-    <form id="form_ver_materias" class="form" role="form" method="POST">
+    <form id="form_ver_materias" role="form" method="POST">
 
-        <div class="modal fade" id="modal_materias" tabindex="-1" role="dialog" aria-labelledby="modalMateriasLabel">
-
-            <div class="modal-dialog modal-lg" role="document">
-
-                <div class="modal-content">
+        <x-panel.modal id="modal_materias" tamano="lg" sin-relleno clase-cerrar="close" aria-labelledby="modalMateriasLabel">
 
                     <!-- HEADER -->
 
-                    <div class="modal-header modal-header-dual">
+                    <div class="tw:px-6 tw:pt-6 tw:pr-14">
 
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                        
 
-                            <span aria-hidden="true">
-                                &times;
-                            </span>
+                        <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="modalMateriasLabel">
 
-                        </button>
-
-                        <h4 class="modal-title" id="modalMateriasLabel">
-
-                            <span class="glyphicon glyphicon-book"></span>
+                            <span class="fa fa-book"></span>
 
                             &nbsp; MATERIAS
 
@@ -728,7 +273,7 @@
 
                     <!-- BODY -->
 
-                    <div class="modal-body">
+                    <div class="tw-modal-cuerpo">
 
                         {{ csrf_field() }}
 
@@ -736,15 +281,15 @@
 
                         <input type="hidden" id="materias" name="materias" value="">
 
-                        <div class="row">
+                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
-                            <div class="col-md-12">
+                            <div class="tw:w-full tw:lg:w-full tw:px-2">
 
                                 <div id="contenedor_materias">
 
-                                    <div class="text-center text-muted" style="padding:30px;">
+                                    <div class="tw:text-center tw:text-gray-500 tw:dark:text-gray-400 tw:p-7.5">
 
-                                        <span class="glyphicon glyphicon-refresh"></span>
+                                        <span class="fa fa-refresh"></span>
 
                                         Cargando materias...
 
@@ -760,19 +305,19 @@
 
                     <!-- FOOTER -->
 
-                    <div class="modal-footer">
+                    <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
 
-                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                        <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">
 
-                            <span class="glyphicon glyphicon-remove"></span>
+                            <span class="fa fa-times"></span>
 
                             Cancelar
 
                         </button>
 
-                        <button type="button" class="btn btn-success acepta btn-agregar">
+                        <button type="button" class="acepta tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap">
 
-                            <span class="glyphicon glyphicon-save"></span>
+                            <span class="fa fa-download"></span>
 
                             Agregar
 
@@ -780,11 +325,7 @@
 
                     </div>
 
-                </div>
-
-            </div>
-
-        </div>
+                </x-panel.modal>
 
     </form>
 
@@ -899,9 +440,9 @@ $(document).ready(function() {
 
         $('#contenedor_materias').html(
 
-            '<div class="text-center text-muted" style="padding:30px;">' +
+            '<div class="tw:text-center tw:text-gray-500" style="padding:30px;">' +
 
-            '<span class="glyphicon glyphicon-refresh"></span> ' +
+            '<span class="fa fa-refresh"></span> ' +
 
             'Cargando materias...' +
 
@@ -967,7 +508,7 @@ $(document).ready(function() {
         $(".acepta")
             .prop('disabled', true)
             .html(
-                '<span class="glyphicon glyphicon-refresh"></span> Guardando...'
+                '<span class="fa fa-refresh"></span> Guardando...'
             );
 
 
@@ -989,7 +530,7 @@ $(document).ready(function() {
             $(".acepta")
                 .prop('disabled', false)
                 .html(
-                    '<span class="glyphicon glyphicon-save"></span> Agregar'
+                    '<span class="fa fa-download"></span> Agregar'
                 );
 
             TNotify.alert(
@@ -1003,4 +544,5 @@ $(document).ready(function() {
 });
 </script>
 
+</div>
 @endsection

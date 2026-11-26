@@ -1,8 +1,9 @@
-@extends('layouts.app')
+@extends('layouts.panel')
+@include('partials.panel.recursos_app')
 
 @section('content')
 
-<div class="container" style="margin-top:30px;">
+<div class="tw:w-full" style="margin-top:30px;">
 
     <!-- ========================= -->
     <!-- TÍTULO ESTILIZADO -->
@@ -18,14 +19,14 @@
     ">
 
         <div style="font-size:18px; font-weight:600;">
-            <span class="glyphicon glyphicon-list-alt"></span>
+            <span class="fa fa-list-alt"></span>
             Preguntas del examen: {{ $examen->nombre }}
         </div>
 
     </div>
 
-    <a href="{{ route('admin.examenes_generales.index') }}" class="btn btn-default">
-        <span class="glyphicon glyphicon-arrow-left"></span>
+    <a href="{{ route('admin.examenes_generales.index') }}" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm">
+        <span class="fa fa-arrow-left"></span>
         Regresar
     </a>
 
@@ -36,43 +37,43 @@
     <!-- ========================= -->
     <!-- SECCIÓN -->
     <!-- ========================= -->
-    <div class="panel panel-primary" style="margin-bottom:25px;">
+    <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white" style="margin-bottom:25px;">
 
-        <div class="panel-heading">
+        <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4">
             <strong>
-                <span class="glyphicon glyphicon-folder-open"></span>
+                <span class="fa fa-folder-open"></span>
                 {{ $s->nombre }}
             </strong>
         </div>
 
-        <div class="panel-body">
+        <div class="tw:p-5 tw:sm:p-6">
 
-            <div class="row">
+            <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
                 @foreach($modulos->where('id_seccion', $s->id_seccion) as $m)
 
                 <!-- ========================= -->
                 <!-- MÓDULO -->
                 <!-- ========================= -->
-                <div class="col-md-6" style="margin-bottom:20px;">
+                <div class="tw:w-full tw:lg:w-6/12 tw:px-2" style="margin-bottom:20px;">
 
-                    <div class="panel panel-info">
+                    <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
 
-                        <div class="panel-heading">
+                        <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4">
                             <strong>
-                                <span class="glyphicon glyphicon-book"></span>
+                                <span class="fa fa-book"></span>
                                 {{ $m->nombre }}
                             </strong>
                         </div>
 
-                        <div class="panel-body">
+                        <div class="tw:p-5 tw:sm:p-6">
 
                             @foreach($preguntas->where('id_modulo', $m->id_modulo) as $p)
 
                             <!-- ========================= -->
                             <!-- PREGUNTA -->
                             <!-- ========================= -->
-                            <div class="well well-sm" style="margin-bottom:15px;">
+                            <div class="well-sm tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-gray-50 tw:p-5" style="margin-bottom:15px;">
 
                                 <div class="math-content" style="font-size:16px;">
                                     <strong>{{ $p->numero_pregunta }}.</strong>
@@ -80,16 +81,16 @@
                                 </div>
 
                                 <!-- BOTONES PREGUNTA -->
-                                <div class="text-right" style="margin:8px 0;">
+                                <div class="tw:text-right" style="margin:8px 0;">
                                     <a href="{{ route('admin.examen_general.pregunta.edit', $p->id_pregunta) }}"
-                                       class="btn btn-success btn-xs">
-                                        <span class="glyphicon glyphicon-pencil"></span>
+                                       class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-green-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-green-700 tw:gap-1 tw:px-2 tw:py-1 tw:text-xs">
+                                        <span class="fa fa-pencil"></span>
                                     </a>
 
                                     <a href="{{ route('admin.examen_general.pregunta.delete', $p->id_pregunta) }}"
-                                       class="btn btn-danger btn-xs"
+                                       class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-red-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-red-700 tw:gap-1 tw:px-2 tw:py-1 tw:text-xs"
                                        onclick="return TNotify.confirmAction(event, this, '¿Eliminar pregunta?')">
-                                        <span class="glyphicon glyphicon-trash"></span>
+                                        <span class="fa fa-trash"></span>
                                     </a>
                                 </div>
 
@@ -98,7 +99,7 @@
                                 <!-- ========================= -->
                                 @foreach($p->respuestas as $r)
 
-                                    <div class="radio" style="margin-left:10px;">
+                                    <div class="tw:flex tw:items-center tw:gap-2" style="margin-left:10px;">
                                         <label>
                                             <input type="radio"
                                                    name="pregunta_{{ $p->id_pregunta }}"
@@ -109,20 +110,20 @@
                                             {{ $r->respuesta }}
 
                                             @if($r->es_correcta)
-                                                <span class="text-success">(Correcta)</span>
+                                                <span class="tw:text-green-600">(Correcta)</span>
                                             @endif
                                         </label>
 
-                                        <div class="text-right">
+                                        <div class="tw:text-right">
                                             <a href="{{ route('admin.examen_general.respuesta.edit', $r->id_respuesta) }}"
-                                               class="btn btn-success btn-xs">
-                                                <span class="glyphicon glyphicon-pencil"></span>
+                                               class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-green-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-green-700 tw:gap-1 tw:px-2 tw:py-1 tw:text-xs">
+                                                <span class="fa fa-pencil"></span>
                                             </a>
 
                                             <a href="{{ route('admin.examen_general.respuesta.delete', ['id_respuesta' => $r->id_respuesta,'id_examen_egel' => $p->id_examen_egel]) }}"
-                                               class="btn btn-danger btn-xs"
+                                               class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-red-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-red-700 tw:gap-1 tw:px-2 tw:py-1 tw:text-xs"
                                                onclick="return TNotify.confirmAction(event, this, '¿Estás seguro de eliminar esta respuesta?')">
-                                                <span class="glyphicon glyphicon-trash"></span>
+                                                <span class="fa fa-trash"></span>
                                             </a>
                                         </div>
                                     </div>

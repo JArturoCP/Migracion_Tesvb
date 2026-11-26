@@ -1,54 +1,47 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 @section('title', 'Calificaciones')
+@include('partials.panel.recursos_app')
 @section('content')
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h3 class="panel-title text-center">REGISTRO DE CALIFICACIONES DE <br> {{$nombre_alumno}}</h3>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-4 col-md-offset-8">
-            <input type="{{ ($calificar_dual==0 ? 'button' : 'hidden') }}" class="btn btn-success tooltip-options " id="cal_dual" name="cal_duales" data-toggle="tooltip" data-placement="top" title="Terminar calificar dual" target="_blank" value="Terminar de calificar dual">
+<div class="tw-pantalla">
+    <x-panel.encabezado :titulo="'Registro de calificaciones de '.$nombre_alumno" :migas="['Educación dual' => null]" />
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+        <div class="tw:w-full tw:lg:max-w-2xl tw:px-2">
+            <input type="{{ ($calificar_dual==0 ? 'button' : 'hidden') }}" class="tooltip-options tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" id="cal_dual" name="cal_duales" data-toggle="tooltip" data-placement="top" title="Terminar calificar dual" target="_blank" value="Terminar de calificar dual">
 
             @if($calificar_dual == 1)
-                <button type="button" class="btn btn-primary center" onclick="window.open('{{url('/acta_dual_actual/'.$id_alumno.'/'.$id_periodo)}}')">
+                <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" onclick="window.open('{{url('/acta_dual_actual/'.$id_alumno.'/'.$id_periodo)}}')">
                     Acta dual
-                <span class="glyphicon glyphicon glyphicon-print"></span>
+                <span class="fa fa-print"></span>
                 </button>
             @endif
-            <br>
-            <br>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-10 col-md-offset-1">
-            <table class="table text-center col-md-12">
-                <thead class="bg-info" >
-                <tr style="border: 2px solid #3097d1">
-                    <th class="text-center ">MATERIA</th>
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+        <div class="tw:w-full tw:px-2">
+            <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table class="tw-tabla-centrada tw:w-full tw-tabla tw:lg:w-full tw:px-2">
+                <thead class="tw:bg-sky-100" >
+                <tr class="tw:border-2 tw:border-blue-500">
+                    <th class="tw:text-center">MATERIA</th>
                     @for ($i = 0; $i < $mayor_unidades; $i++)
-                        <th class="text-center">
+                        <th class="tw:text-center">
                             {{($i==0 ? 'I' : ($i==1 ? 'II' :($i==2 ? 'III' :($i==3 ? 'IV' :($i==4 ? 'V' :($i==5 ? 'VI' :($i==6 ? 'VII' :($i==7 ? 'VIII' :($i==8 ? 'IX' :($i==9 ? 'X' :($i==10 ? 'XI' :($i==11 ? 'XII' :($i==12 ? 'XIII' :($i==13 ? 'XIV' :($i==14 ? 'XV' : ' ' )))))))))))))))}}
                         </th>
                     @endfor
-                    <th class="text-center">PROMEDIO</th>
-                    <th class="text-center"> T.E.</th>
+                    <th class="tw:text-center">PROMEDIO</th>
+                    <th class="tw:text-center"> T.E.</th>
                     @if($calificar_dual == 0)
-                        <th class="text-center">Calificar</th>
+                        <th class="tw:text-center">Calificar</th>
                     @endif
 
                 </tr>
                 </thead>
-                <tbody style="border: 2px solid #3097d1">
+                <tbody class="tw:border-2 tw:border-blue-500">
                 <?php $promedio_sum=0; $num_materias=0;?>
                 @foreach($array_materias as $materias)
                         <?php $cont_res=0;?>
                     <tr>
-                        <th class="text-center">{{ $materias['materia'] }}</th>
+                        <th class="tw:text-center">{{ $materias['materia'] }}</th>
                         @foreach($materias['calificaciones'] as $calificaciones)
                             @if($calificaciones != null)
                                 <td style="background: {{ $calificaciones['calificacion']>=70 ? ' ' : '#FFEE62' }}">
@@ -60,7 +53,7 @@
                         @endforeach
                         @for ($i = 0; $i < ($mayor_unidades-$cont_res); $i++)
                             @if($materias['unidades'] <= ($cont_res+$i) )
-                                <td class="bg-info"></td>
+                                <td class="tw:bg-sky-100"></td>
                             @else
                                 <td>0</td>
                             @endif
@@ -69,66 +62,59 @@
                             <?php $materias['promedio'] !=0 ? $promedio_sum+=$materias['promedio']  : 0 ; $num_materias++; ?>
                         <td>{!! $materias['curso']=='NORMAL' && $materias['esc_alumno'] ? 'ESC'  : ( $materias['curso']=='NORMAL' ? 'O'  : ($materias['curso']=='REPETICION' && $materias['esc_alumno'] ? 'ESC2' : ($materias['curso']=='REPETICION' ? 'O2' : ($materias['curso']=='ESPECIAL' ? 'CE' : ($materias['curso']=='GLOBAL' ? 'EG': '' )))))!!}</td>
                         @if($calificar_dual == 0)
-                            <td class="text-center"><input style="width: 7em" type="button" class="btn btn-primary calificar_dual" data-id_carga="{{$materias['id_carga_academica']}}"   value="Calificar"></td>
+                            <td class="tw:text-center"><input type="button" class="calificar_dual tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap" data-id_carga="{{$materias['id_carga_academica']}}"   value="Calificar"></td>
                         @endif
                     </tr>
 
                 @endforeach
                 <tr>
                     <td colspan="1" ></td>
-                    <td colspan="{{$mayor_unidades}}" class="text-center"><strong>PROMEDIO</strong></td>
+                    <td colspan="{{$mayor_unidades}}" class="tw:text-center"><strong>PROMEDIO</strong></td>
                     <?php $promedio=$promedio_sum/($num_materias==0 ? 1 : $num_materias) ?>
                     <td>{{ $pro=number_format($promedio, 2, '.', '') }}</td>
                     <td></td>
                 </tr>
                 </tbody>
             </table>
+</div>
         </div>
     </div>
 
-    <div class="modal fade" id="modal_calificar_dual_actual" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <form id="calificar_duales_actuales" class="form"  action="{{url("/registrar_cal_duales/")}}" role="form" method="POST" >
+    <x-panel.modal id="modal_calificar_dual_actual" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="myModalLabel">
+                <form id="calificar_duales_actuales" class=""  action="{{url("/registrar_cal_duales/")}}" role="form" method="POST" >
                     {{ csrf_field() }}
-                    <div class="modal-header bg-info">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title text-center" id="myModalLabel">Calificar a estudiante dual</h4>
+                    <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                        
+                        <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="myModalLabel">Calificar a estudiante dual</h4>
                     </div>
                     <div id="contenedor_cal_dual_actual">
 
                     </div>
-                    <div class="row">
-                        <div class="col-md-8 col-md-offset-2">
-                            <div class="modal-footer">
-                                <button type="button" class="btn" data-dismiss="modal" style="background:crimson;color:whitesmoke">Cancelar <span class="glyphicon glyphicon-remove-sign"></span></button>
-                                <button  id="calificacion_duales_actuales" type="button"   class="btn btn-primary " >Guardar <span class="glyphicon glyphicon-saved"></span></button>
+                    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                        <div class="tw:w-full tw:px-2">
+                            <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                                <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar <span class="fa fa-times-circle"></span></button>
+                                <button  id="calificacion_duales_actuales" type="button"   class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Guardar <span class="fa fa-check"></span></button>
                             </div>
                         </div>
                     </div>
                 </form>
-            </div>
-        </div>
-    </div>
-    <div id="modal_termino_calificar_dual" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-        <div class="modal-dialog modal-content" role="document">
-            <div class="modal-content">
+            </x-panel.modal>
+    <x-panel.modal id="modal_termino_calificar_dual" tamano="md" sin-relleno aria-labelledby="mySmallModalLabel">
                 <form action="" method="POST"  role="form" id="form_termino_calificar_actuales">
                     {{ csrf_field() }}
                     <!-- Agrega un input hidden para mentor con valor null cuando no esté presente -->
                     <input type="hidden" name="mentor" value="{{ $mentor ?? null }}">
 
-                    <div class="modal-body text-center">
-                        <b>¿Ya termino de evaluar al estudiante dual?</b>
+                    <div class="tw-modal-cuerpo tw:pt-14 tw:text-center">
+                        <b>¿Ya terminó de evaluar al estudiante dual?</b>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn" data-dismiss="modal" style="background: crimson;color: white;">Cancelar <span class="glyphicon glyphicon-remove-circle"></span></button>
-                        <button id="confirma_termino_dual" type="button" class="btn btn-success">Aceptar <span class="glyphicon glyphicon-save-file"></span></button>
+                    <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                        <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar <span class="fa fa-times-circle-o"></span></button>
+                        <button id="confirma_termino_dual" type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap">Aceptar <span class="fa fa-download"></span></button>
                     </div>
                 </form>
-            </div>
-        </div>
-    </div>
+            </x-panel.modal>
     <script type="text/javascript">
         $(document).ready(function() {
             $(".calificar_dual").click(function (event) {
@@ -161,4 +147,5 @@
             });
         });
     </script>
+</div>
 @endsection

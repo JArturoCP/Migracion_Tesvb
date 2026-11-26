@@ -1,26 +1,27 @@
-@extends('layouts.app')
+@extends('layouts.panel')
+@include('partials.panel.recursos_app')
 @section('title', 'Cronograma')
 @section('content')
 
 
 
-    <main class="col-md-12">
-        <div class="row">
-            <div class="col-md-5 col-md-offset-3">
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title text-center">Cronograma de acciones</h3>
+    <main class="tw:w-full tw:lg:w-full tw:px-2">
+        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+            <div class="tw:w-full tw:lg:w-5/12 tw:lg:ml-[25%] tw:px-2">
+                <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
+                    <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4">
+                        <h3 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:text-center">Cronograma de acciones</h3>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-10 col-md-offset-1">
+        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+            <div class="tw:w-full tw:lg:w-10/12 tw:lg:ml-[8.3333%] tw:px-2">
 
                 <div>
 
                     <!-- Nav tabs -->
-                    <ul class="nav nav-tabs" role="tablist">
+                    <ul class="tw-pestanas tw:mb-6 tw:flex tw:flex-wrap tw:gap-2 tw:border-b tw:border-gray-200" role="tablist">
                         @foreach($array_full as $data)
 
                           {{--  @if(count($data[2]["datos_oportunidad"])!=0) --}}
@@ -38,7 +39,8 @@
                         --}}
 
                     <div role="tabpanel" class="tab-pane" id="tab{{$data[1]}}">
-                        <table class="table table-hover">
+                        <div class="tw-tabla-contenedor tw:mb-4 tw:max-w-full tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200">
+<table class="tw-tabla">
                             <thead>
                             <tr>
                                 <th>Area Administrativa</th>
@@ -65,17 +67,17 @@
                                             @method("PUT")
                                                 <input type="hidden" name="action" value="oportunidad">
                                             @if(!$oportunidad->released)
-                                                <div class="form-group"><button  class="btn-success btn"><span class="glyphicon glyphicon-ok"></span></button></div>
-                                                <div class="form-group">
+                                                <div class="tw:mb-4"><button  class="tw:bg-green-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-green-700 tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm"><span class="fa fa-check"></span></button></div>
+                                                <div class="tw:mb-4">
                                                     <label for="comments">Descripción: </label>
-                                                    <input type="text" class="form-control" name="comments" id="comments">
+                                                    <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="comments" id="comments">
                                                 </div>
                                             @else
-                                                <div class="form-group"><button  class="btn-danger btn"><span class="glyphicon glyphicon-remove"></span></button></div>
-                                                <div class="form-group">
+                                                <div class="tw:mb-4"><button  class="tw:bg-red-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-red-700 tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm"><span class="fa fa-times"></span></button></div>
+                                                <div class="tw:mb-4">
                                                     <label for="comments">Descripción: </label>
                                                     <span>{{$oportunidad->comments}}</span>
-                                                    <input type="hidden" class="form-control" name="comments" id="comments" value="" disabled>
+                                                    <input type="hidden" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="comments" id="comments" value="" disabled>
                                                 </div>
                                             @endif
 
@@ -94,14 +96,14 @@
                                                 @method("PUT")
                                                 <input type="hidden" name="action" value="oportunidad">
                                                 <input type="hidden" name="value" value="1">
-                                                <div class="form-group"><button  class="btn-success btn" data-toggle="tooltip" data-placement="top" data-original-title="Aprobar"><span class="glyphicon glyphicon-ok"></span></button></div>
+                                                <div class="tw:mb-4"><button  class="tw:bg-green-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-green-700 tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" data-toggle="tooltip" data-placement="top" data-original-title="Aprobar"><span class="fa fa-check"></span></button></div>
                                             </form>
                                             <form action="{{url("riesgos/seguimiento/tabla_update/".$oportunidad->id_planseguimiento)}}" method="post">
                                                 @csrf
                                                 @method("PUT")
                                                 <input type="hidden" name="action" value="oportunidad">
                                                 <input type="hidden" name="value" value="0">
-                                                <div class="form-group"><button  class="btn-danger btn"><span class="glyphicon glyphicon-remove" data-toggle="tooltip" data-placement="top" data-original-title="Rechazar"></span></button></div>
+                                                <div class="tw:mb-4"><button  class="tw:bg-red-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-red-700 tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm"><span class="fa fa-times" data-toggle="tooltip" data-placement="top" data-original-title="Rechazar"></span></button></div>
                                             </form>
                                         @endif
                                     </td>
@@ -120,17 +122,17 @@
                                             @method("PUT")
                                             <input type="hidden" name="action" value="riesgo">
                                             @if(!$riesgo->released)
-                                                <div class="form-group"><button  class="btn-success btn"><span class="glyphicon glyphicon-ok"></span></button></div>
-                                                <div class="form-group">
+                                                <div class="tw:mb-4"><button  class="tw:bg-green-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-green-700 tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm"><span class="fa fa-check"></span></button></div>
+                                                <div class="tw:mb-4">
                                                     <label for="comments">Descripción: </label>
-                                                    <input type="text" class="form-control" name="comments" id="comments">
+                                                    <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="comments" id="comments">
                                                 </div>
                                             @else
-                                                <div class="form-group"><button  class="btn-danger btn"><span class="glyphicon glyphicon-remove"></span></button></div>
-                                                <div class="form-group">
+                                                <div class="tw:mb-4"><button  class="tw:bg-red-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-red-700 tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm"><span class="fa fa-times"></span></button></div>
+                                                <div class="tw:mb-4">
                                                     <label for="comments">Descripción: </label>
                                                     <span>{{$riesgo->comments}}</span>
-                                                    <input type="hidden" class="form-control" name="comments" id="comments" value="" disabled>
+                                                    <input type="hidden" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="comments" id="comments" value="" disabled>
                                                 </div>
                                             @endif
 
@@ -151,14 +153,14 @@
                                                 @method("PUT")
                                                 <input type="hidden" name="action" value="riesgo">
                                                 <input type="hidden" name="value" value="1">
-                                                <div class="form-group"><button  class="btn-success btn" data-toggle="tooltip" data-placement="top" data-original-title="Aprobar"><span class="glyphicon glyphicon-ok"></span></button></div>
+                                                <div class="tw:mb-4"><button  class="tw:bg-green-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-green-700 tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" data-toggle="tooltip" data-placement="top" data-original-title="Aprobar"><span class="fa fa-check"></span></button></div>
                                             </form>
                                             <form action="{{url("riesgos/seguimiento/tabla_update/".$riesgo->id_estrategia_a)}}" method="post">
                                                 @csrf
                                                 @method("PUT")
                                                 <input type="hidden" name="action" value="riesgo">
                                                 <input type="hidden" name="value" value="0">
-                                                <div class="form-group"><button  class="btn-danger btn"><span class="glyphicon glyphicon-remove" data-toggle="tooltip" data-placement="top" data-original-title="Rechazar"></span></button></div>
+                                                <div class="tw:mb-4"><button  class="tw:bg-red-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-red-700 tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm"><span class="fa fa-times" data-toggle="tooltip" data-placement="top" data-original-title="Rechazar"></span></button></div>
                                             </form>
                                         @endif
                                     </td>
@@ -166,6 +168,7 @@
                             @endforeach
                             </tbody>
                         </table>
+</div>
 
                     </div>
                             {{--       @endif --}}

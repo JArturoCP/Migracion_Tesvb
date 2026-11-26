@@ -1,45 +1,35 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 @section('title', 'Laboratorios')
+@include('partials.panel.recursos_app', ['datepicker' => true, 'validacion' => true])
 @section('content')
-    <main class="col-md-12">
+<div class="tw-pantalla">
+    <main class="tw:w-full tw:lg:w-full tw:px-2">
 
-        <div class="row">
-            <div class="col-md-6 col-md-offset-3">
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class=" text-center">Horario del <b>{{$laboratorio->descripcion}}</b> del <?php  $fecha_1=date("d-m-Y ",strtotime($fecha_inicial)) ?><?php  $fecha_2=date("d-m-Y ",strtotime($fecha_final)) ?> {{$fecha_1}} al {{$fecha_2}}  </h3>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-2 col-md-offset-5">
+        <x-panel.encabezado :titulo="'Horario del '.$laboratorio->descripcion.' del '.$fecha_1.' al '.$fecha_2" :migas="['Laboratorios' => null]" />
+        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+            <div class="tw:w-full tw:lg:w-6/12 tw:px-2">
                 <a href="/pdf-lab-horarios/{{ $laboratorio->id_laboratorio }}/{{ $fecha_inicial }}/{{ $fecha_final }}"
-                   target="_blank" class="btn btn-warning btn-lg">
-                    <span class="glyphicon glyphicon-print"></span> Imprimir
+                   target="_blank" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap">
+                    <span class="fa fa-print"></span> Imprimir
                 </a>
             </div>
-            <div class="col-md-2">
-                <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#consultar_lab">Consultar otro laboratorio</button>
+            <div class="tw:w-full tw:lg:w-6/12 tw:px-2">
+                <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-toggle="modal" data-target="#consultar_lab">Consultar otro laboratorio</button>
             </div>
         </div>
 
-        <div class="modal fade" id="consultar_lab" role="dialog">
-            <div class="modal-dialog">
-
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Consultar otro laboratorio</h4>
+        <x-panel.modal id="consultar_lab" tamano="md" sin-relleno clase-cerrar="close">
+                    <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                        
+                        <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">Consultar otro laboratorio</h4>
                     </div>
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-md-8 col-md-offset-2">
-                                <div class="form-group">
-                                    <div class="dropdown">
+                    <div class="tw-modal-cuerpo">
+                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                            <div class="tw:w-full tw:px-2">
+                                <div class="tw:mb-4">
+                                    <div class="tw:mb-4">
                                         <label for="laboratorio">Laboratorios</label>
-                                        <select name="laboratorio" id="laboratorio" class="form-control " >
+                                        <select name="laboratorio" id="laboratorio" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" >
                                             <option  disabled selected hidden>Selecciona Laboratorio</option>
                                             @foreach($lab as $lab)
                                                 @if($lab->id_laboratorio==$laboratorio->id_laboratorio)
@@ -49,19 +39,18 @@
                                                 @endif
                                             @endforeach
                                         </select>
-                                        <br>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-5 col-md-offset-1">
-                                <div class="form-group">
+                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                            <div class="tw:w-full tw:lg:max-w-2xl tw:px-2">
+                                <div class="tw:mb-4">
                                     <label for="deparamento">Selecciona fecha Inicial</label>
-                                    <div class='input-group date' data-date-format="yyyy/mm/dd" id='datetimepicker11' >
-                                        <input type='text' id="fecha_inicial" value="{{ $fecha_inicial }}" class="form-control" required />
-                                        <span class="input-group-addon">
-                                        <span class="glyphicon glyphicon-calendar">
+                                    <div class='date tw:flex tw:w-full tw:items-stretch' data-date-format="yyyy/mm/dd" id='datetimepicker11' >
+                                        <input type='text' id="fecha_inicial" value="{{ $fecha_inicial }}" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" required />
+                                        <span class="input-group-addon tw:inline-flex tw:items-center tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-gray-50 tw:dark:bg-gray-900 tw:px-3 tw:text-sm tw:text-gray-600 tw:dark:text-gray-400">
+                                        <span class="fa fa-calendar">
                                      </span>
                                     </span>
                                     </div>
@@ -78,32 +67,28 @@
 
                                 </script>
                             </div>
-                            <div id="mostrar_fecha_f" >
-                                <div class="col-md-5">
+                            <div class="tw:w-full" id="mostrar_fecha_f" >
+                                <div class="tw:w-full tw:lg:w-5/12 tw:px-2">
                                     <label for="fecha final">Fecha final</label>
-                                    <div id="soli" class="form-group">
-                                        <input class="form-control" id="fecha_final" disabled value="{{ $fecha_final }}"/>
+                                    <div id="soli" class="tw:mb-4">
+                                        <input class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="fecha_final" disabled value="{{ $fecha_final }}"/>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button id="guardar_solicitud" class="btn btn-primary">Mostrar</button>
-                        <button type="button" class="btn btn-danger" data-dismiss="modal"> Cerrar</button>
+                    <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                        <button id="guardar_solicitud" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap">Mostrar</button>
+                        <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal"> Cerrar</button>
 
                     </div>
-                </div>
+                </x-panel.modal>
 
-            </div>
-        </div>
+        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+            <div class="tw:w-full tw:px-2">
 
-        <br>
-        <br>
-        <div class="row">
-            <div class="col-md-11 col-md-offset-1">
-
-                <table id="table_enviado" class="table table-bordered text-center" style="table-layout:fixed;">
+                <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table id="table_enviado" class="tw-tabla-centrada tw-tabla tw-tabla-bordes">
                     <thead>
                     <tr>
                         <th>Hora/Día</th>
@@ -133,22 +118,22 @@
                     @foreach($semanas as $semana)
                         @if($contador==1)
                             <tr>
-                                <td class="horario" style="size: 20px">{{ $semana->hora }}</td>
+                                <td class="horario">{{ $semana->hora }}</td>
                                 @endif
                                 <td id="{{ $semana->id_semana }}" class="horario">
                                     @foreach($array_laboratorios as $horario)
                                         @if($horario['id_semana']==$semana->id_semana)
                                             @if($horario['ofp'] ==2)
-                                                <div class="bg-primary">{{$horario['nombre']}}<br>{{$horario['carrera']}}</div>
-                                                <a class="eliminar_profesor" id="{{ $horario['registro']}}"><span class="glyphicon glyphicon-trash em2" aria-hidden="true"></span></a>
+                                                <div class="tw:bg-brand-500 tw:text-white">{{$horario['nombre']}}<br>{{$horario['carrera']}}</div>
+                                                <a class="eliminar_profesor tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-red-600 tw:ring-1 tw:ring-red-300 tw:ring-inset tw:hover:bg-red-50 tw:dark:bg-gray-800 tw:dark:text-red-500 tw:dark:ring-red-500/40 tw:dark:hover:bg-red-500/10 tw:size-9 tw:text-base" id="{{ $horario['registro']}}"><span class="fa fa-trash " aria-hidden="true"></span></a>
 
                                             @elseif($horario['ofp'] == 3)
-                                                <div class="">  <button class="btn btn-success agregar" id="{{ $horario['id_semana'] }}"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
-                                                    <button class="btn btn btn-primary profesor" id="{{ $horario['id_semana'] }}"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
+                                                <div>  <button class="agregar tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base" id="{{ $horario['id_semana'] }}"><span class="fa fa-plus" aria-hidden="true"></span></button>
+                                                    <button class="profesor tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base" id="{{ $horario['id_semana'] }}"><span class="fa fa-plus" aria-hidden="true"></span></button>
                                                 </div>
                                             @elseif($horario['ofp'] == 4)
-                                                <div class="bg-info">{{$horario['nombre']}}<br>{{$horario['carrera']}}</div>
-                                                <a class="eliminar" id="{{ $horario['registro']}}"><span class="glyphicon glyphicon-trash em2" aria-hidden="true"></span></a>
+                                                <div class="tw:bg-sky-100">{{$horario['nombre']}}<br>{{$horario['carrera']}}</div>
+                                                <a class="eliminar tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-red-600 tw:ring-1 tw:ring-red-300 tw:ring-inset tw:hover:bg-red-50 tw:dark:bg-gray-800 tw:dark:text-red-500 tw:dark:ring-red-500/40 tw:dark:hover:bg-red-500/10 tw:size-9 tw:text-base" id="{{ $horario['registro']}}"><span class="fa fa-trash " aria-hidden="true"></span></a>
                                             @endif
 
 
@@ -173,89 +158,74 @@
 
                     </tbody>
                 </table>
+</div>
             </div>
         </div>
 
 {{--registrar  en un periodo --}}
 
-            <div class="modal fade bs-example-modal-lg" id="modal_profesor_periodo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                <div class="modal-dialog " role="document">
-                    <div class="modal-content">
-                        <div class="modal-header bg-primary">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title" id="myModalLabel">REGISTRAR EN PERIODO</h4>
+            <x-panel.modal id="modal_profesor_periodo" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="myModalLabel">
+                        <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                            
+                            <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="myModalLabel">REGISTRAR EN PERIODO</h4>
                         </div>
-                        <form id="form_registrar_profesor" action="{{url("/laboratorios/registrar/profesor/materia")}}" class="form" role="form" method="POST">
-                        <div class="modal-body">
+                        <form id="form_registrar_profesor" action="{{url("/laboratorios/registrar/profesor/materia")}}" class="" role="form" method="POST">
+                        <div class="tw-modal-cuerpo">
                             <div id="contenedor_profesor_periodo">
                             </div>
                         </div>
                         </form>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-primary " id="guardar_profesor">Agregar</button>
+                        <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                            <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" id="guardar_profesor">Agregar</button>
                         </div>
-                    </div>
-                </div>
-            </div>
+                    </x-panel.modal>
 
 
         {{-- Modal para agragegar comicionados EN FECHA DETERMINADA--}}
-        <form id="form_registrar" action="{{url("/laboratorios/registrar")}}" class="form" role="form" method="POST">
-            <div class="modal fade bs-example-modal-lg" id="modal_agregar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                <div class="modal-dialog " role="document">
-                    <div class="modal-content">
-                        <div class="modal-header bg-success">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title" id="myModalLabel">REGISTRAR EN FECHA DETERMINADA</h4>
+        <form id="form_registrar" action="{{url("/laboratorios/registrar")}}" class="" role="form" method="POST">
+            <x-panel.modal id="modal_agregar" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="myModalLabel">
+                        <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                            
+                            <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="myModalLabel">REGISTRAR EN FECHA DETERMINADA</h4>
                         </div>
-                        <div class="modal-body">
+                        <div class="tw-modal-cuerpo">
                             <div id="contenedor_agregar">
 
                             </div>
 
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-primary " id="guardar">Agregar</button>
+                        <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                            <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" id="guardar">Agregar</button>
                         </div>
-                    </div>
-                </div>
-            </div>
+                    </x-panel.modal>
         </form>
     </main>
-    <div id="modal_eliminado" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-        <div class="modal-dialog modal-sm" role="document">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <form action="" method="POST" role="form" id="form_delete">
+    <x-panel.modal id="modal_eliminado" tamano="sm" sin-relleno aria-labelledby="mySmallModalLabel">
+                <form action="" method="POST" role="form" id="form_delete"><div class="tw-modal-cuerpo tw:pt-14">
+                    
                         {{method_field('DELETE') }}
                         {{ csrf_field() }}
                         ¿Realmente deseas eliminar éste elemento?
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                    <input id="confirma_eliminado" type="button" class="btn btn-danger" value="Aceptar"></input>
+                <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                    <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                    <input id="confirma_eliminado" type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-red-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-red-700 tw:disabled:bg-red-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" value="Aceptar"></input>
                 </div>
                 </form>
-            </div>
-        </div>
-    </div>
-    <div id="modal_eliminado_profesor" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-        <div class="modal-dialog modal-sm" role="document">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <form action="" method="POST" role="form" id="form_delete_profesor">
+            </x-panel.modal>
+    <x-panel.modal id="modal_eliminado_profesor" tamano="sm" sin-relleno aria-labelledby="mySmallModalLabel">
+                <form action="" method="POST" role="form" id="form_delete_profesor"><div class="tw-modal-cuerpo tw:pt-14">
+                    
                         {{method_field('DELETE') }}
                         {{ csrf_field() }}
                         ¿Realmente deseas eliminar éste elemento?
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                    <input id="confirma_eliminado_profesor" type="button" class="btn btn-danger" value="Aceptar"></input>
+                <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                    <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                    <input id="confirma_eliminado_profesor" type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-red-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-red-700 tw:disabled:bg-red-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" value="Aceptar"></input>
                 </div>
                 </form>
-            </div>
-        </div>
-    </div>
+            </x-panel.modal>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js"></script>
     <script type="text/javascript">
 
@@ -296,7 +266,7 @@
                 var  resultado = TuFecha.getFullYear() + '/' +
                     (TuFecha.getMonth() + 1) + '/' + TuFecha.getDate();
                 $('#soli').empty();
-                $('#soli').append('<input class="form-control" id="fecha_final" disabled value="'+resultado+'"/>');
+                $('#soli').append('<input class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="fecha_final" disabled value="'+resultado+'"/>');
                 // TNotify.alert(resultado);
 
             });
@@ -447,4 +417,5 @@
             });
         });
     </script>
+</div>
 @endsection

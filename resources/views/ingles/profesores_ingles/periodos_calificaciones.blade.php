@@ -8,7 +8,7 @@
 --}}
 @extends('layouts.panel')
 @section('title', 'Periodos de calificaciones')
-@include('partials.panel.recursos_app', ['datepicker' => true])
+@include('partials.panel.recursos_app')
 @section('content')
     <?php
     $moduloIngles = true;

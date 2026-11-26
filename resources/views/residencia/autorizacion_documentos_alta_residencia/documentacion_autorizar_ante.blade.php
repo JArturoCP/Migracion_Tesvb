@@ -1,34 +1,27 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 @section('title', 'Autorizar documentación Anteproyecto')
+@include('partials.panel.recursos_app', ['datatables' => true])
 @section('content')
-    <div class="row">
-        <div class="col-md-10 col-xs-10 col-md-offset-1">
+<div class="tw-pantalla">
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+        <div class="tw:w-full tw:px-2">
             <p>
-                <span class="glyphicon glyphicon-arrow-right"></span>
-                <a href="{{url("/residencia/autorizar_documentacion_anteproyecto")}}">Programas de Estudios</a>
-                <span class="glyphicon glyphicon-chevron-right"></span>
+                <span class="fa fa-arrow-right"></span>
+                <a class="tw:text-brand-500 tw:hover:underline" href="{{url("/residencia/autorizar_documentacion_anteproyecto")}}">Programas de Estudios</a>
+                <span class="fa fa-chevron-right"></span>
                 <span>Autorizar documentación</span>
 
             </p>
-            <br>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-8  col-md-offset-2">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h3 class="panel-title text-center">Autorizar documentación de Alta de Residencia del periodo {{ $nombre_periodo }}<br>Carrreras</h3>
-                </div>
+    <x-panel.encabezado :titulo="'Autorizar documentación de Alta de Residencia del periodo '.$nombre_periodo.' Carrreras'" :migas="['Residencia profesional' => null]" />
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+        <div class="tw:w-full tw:px-2">
+            <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+                <div class="tw:p-5 tw:sm:p-6">
 
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-10 col-md-offset-1">
-            <div class="panel panel-primary">
-                <div class="panel-body">
-
-                    <table id="table_anteproyecto" class="table table-bordered table-resposive">
+                    <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table id="table_anteproyecto" class="tw-tabla tw-tabla-bordes">
                         <thead>
                         <tr>
                             <th>No. cuenta</th>
@@ -50,7 +43,7 @@
                                 @if($anteproyecto['autorizacion_departamento'] == 0)
                                 @if($anteproyecto['estado_empresa']== 2)
                                     <td>
-                                        <button class="btn btn-primary autorizar_documentos" id="{{ $anteproyecto['id_anteproyecto'] }}">Autorizar</button>
+                                        <button class="autorizar_documentos tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap" id="{{ $anteproyecto['id_anteproyecto'] }}">Autorizar</button>
                                     </td>
                                 @elseif($anteproyecto['estado_empresa']== 1)
                                     <td>
@@ -72,34 +65,30 @@
                         @endforeach
                         </tbody>
                     </table>
+</div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="modal fade" id="modal_enviar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
+    <x-panel.modal id="modal_enviar" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="myModalLabel">
 
-                    <div class="modal-header bg-info">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title text-center" id="myModalLabel">Autorizar documentación de Alta de Residencia</h4>
+                    <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                        
+                        <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="myModalLabel">Autorizar documentación de Alta de Residencia</h4>
                     </div>
-                <form class="form" action="{{url("/residencia/guardar_autorizacion_documentacion_alumn/")}}" role="form" method="POST" >
+                <form action="{{url("/residencia/guardar_autorizacion_documentacion_alumn/")}}" role="form" method="POST" >
                     {{ csrf_field() }}
                     <div id="contenedor_enviar">
 
 
                     </div>
 
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <input  type="submit" class="btn btn-primary" value="Aceptar"/>
+                    <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                        <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                        <input  type="submit" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" value="Aceptar"/>
                     </div>
                 </form>
-            </div>
-
-        </div>
-    </div>
+            </x-panel.modal>
     <script type="text/javascript">
         $(document).ready(function() {
             $('#table_anteproyecto').DataTable( {
@@ -116,5 +105,6 @@
 
         });
     </script>
+</div>
 @endsection
 

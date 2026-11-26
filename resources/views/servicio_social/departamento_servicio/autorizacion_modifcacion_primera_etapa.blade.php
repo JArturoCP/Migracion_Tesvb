@@ -1,9 +1,9 @@
 
-<div class="row">
-    <div class="col-md-10 col-md-offset-1">
-        <div class="panel panel-success">
+<div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+    <div class="tw:w-full tw:px-2">
+        <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
 
-            <div class="panel-body">
+            <div class="tw:p-5 tw:sm:p-6">
                 <label>No. Cuenta : {{ $registro_tipo_empresa[0]->cuenta }}</label>
                 <label>Nombre de  Estudiante: {{ $registro_tipo_empresa[0]->nombre }} {{ $registro_tipo_empresa[0]->apaterno }} {{ $registro_tipo_empresa[0]->amaterno }} </label>
                 <label>Tipo de Empresa: {{ $registro_tipo_empresa[0]->tipo_empresa }}</label>
@@ -13,28 +13,28 @@
     </div>
 </div>
 @if($tipo_empresa == 1)
-    <form class="form" action="{{url("/servicio_social/enviar_primeraetapa/".$registro_tipo_empresa[0]->id_datos_alumnos)}}"  id="formulario_empresa_privada" role="form" method="POST" >
+    <form action="{{url("/servicio_social/enviar_primeraetapa/".$registro_tipo_empresa[0]->id_datos_alumnos)}}"  id="formulario_empresa_privada" role="form" method="POST" >
         {{ csrf_field() }}
-        <div class="row">
-            <div class="col-md-12">
-                <div class="panel panel-success">
-                    <div class="panel-body">
+        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+            <div class="tw:w-full tw:lg:w-full tw:px-2">
+                <div class="tw:flex tw:flex-wrap tw:gap-y-4 tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+                    <div class="tw:w-full tw:p-5 tw:sm:p-6">
                         @if($documentacion[0]->est_carta_aceptacion == 2)
-                            <div class="col-md-10 col-md-offset-1" style="color: #FF0000">
+                            <div class="tw:w-full tw:px-2 tw:text-red-600 tw:dark:text-red-400">
                                 <label>Carta de aceptación (solo empresa privada): Autorizado </label>
-                                 <a  target="_blank" href="{{asset('/servicio_social_pdf/primera_etapa/'.$documentacion[0]->pdf_carta_aceptacion)}}" class="btn btn-success">Ver PDF</a>
+                                 <a  target="_blank" href="{{asset('/servicio_social_pdf/primera_etapa/'.$documentacion[0]->pdf_carta_aceptacion)}}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap">Ver PDF</a>
 
                             </div>
                             <input type="hidden" name="carta_aceptacion" id="carta_aceptacion" value="{{$documentacion[0]->est_carta_aceptacion}}" >
                     </div>
                             @else
-                               <div class="col-md-7 col-md-offset-1">
-                                 <label>Carta de aceptación (solo empresa privada):  <a  target="_blank" href="{{asset('/servicio_social_pdf/primera_etapa/'.$documentacion[0]->pdf_carta_aceptacion)}}" class="btn btn-success">Ver PDF</a> </label>
+                               <div class="tw:w-full tw:lg:w-7/12 tw:lg:grow tw:px-2">
+                                 <label>Carta de aceptación (solo empresa privada):  <a  target="_blank" href="{{asset('/servicio_social_pdf/primera_etapa/'.$documentacion[0]->pdf_carta_aceptacion)}}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap">Ver PDF</a> </label>
 
                               </div>
-                        <div class="col-md-3" style="text-align: left">
+                        <div class="tw:w-full tw:lg:w-3/12 tw:lg:grow tw:px-2 tw:text-left">
 
-                            <select name="carta_aceptacion" id="carta_aceptacion" class="form-control" required>
+                            <select name="carta_aceptacion" id="carta_aceptacion" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" required>
                                 @if($documentacion[0]->est_carta_aceptacion  == 1)
                                     <option value=1 selected="selected">Rechazado</option>
                                     <option value="2">Autorizado</option>
@@ -43,11 +43,11 @@
                         </div>
                     </div>
 
-                    <div class="row" id="comentario_carta" style="">
-                        <div class="col-md-10 col-md-offset-1 ">
-                            <div class="form-group">
+                    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4" id="comentario_carta">
+                        <div class="tw:w-full tw:px-2">
+                            <div class="tw:mb-4">
                              <label for="domicilio3">Comentario para la modificación de la Carta de aceptacion</label>
-                            <textarea class="form-control" id="comentario_carta" name="comentario_carta" rows="2"   required>{{ $documentacion[0]->coment_carta_aceptacion }}</textarea>
+                            <textarea class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500" id="comentario_carta" name="comentario_carta" rows="2"   required>{{ $documentacion[0]->coment_carta_aceptacion }}</textarea>
                             </div>
                         </div>
                     </div>
@@ -56,23 +56,23 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-md-12">
-                <div class="panel panel-success">
-                    <div class="panel-body">
+        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+            <div class="tw:w-full tw:lg:w-full tw:px-2">
+                <div class="tw:flex tw:flex-wrap tw:gap-y-4 tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+                    <div class="tw:w-full tw:p-5 tw:sm:p-6">
                         @if($documentacion[0]->est_anexo_tecnico == 2)
-                            <div class="col-md-10 col-md-offset-1" style="color: #FF0000">
-                                <label>Anexo Tecnico (solo empresa privada): Autorizado <a  target="_blank" href="{{asset('/servicio_social_pdf/primera_etapa/'.$documentacion[0]->pdf_anexo_tecnico)}}" class="btn btn-success">Ver PDF</a></label>
+                            <div class="tw:w-full tw:px-2 tw:text-red-600 tw:dark:text-red-400">
+                                <label>Anexo Tecnico (solo empresa privada): Autorizado <a  target="_blank" href="{{asset('/servicio_social_pdf/primera_etapa/'.$documentacion[0]->pdf_anexo_tecnico)}}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap">Ver PDF</a></label>
                                 <input type="hidden" name="anexo_tecnico" id="anexo_tecnico" value="{{$documentacion[0]->est_anexo_tecnico}}" >
 
                             </div>
                     </div>
                         @else
-                        <div class="col-md-7 col-md-offset-1">
-                            <label>Anexo Tecnico (solo empresa privada): <a  target="_blank" href="{{asset('/servicio_social_pdf/primera_etapa/'.$documentacion[0]->pdf_anexo_tecnico)}}" class="btn btn-success">Ver PDF</a></label>
+                        <div class="tw:w-full tw:lg:w-7/12 tw:lg:grow tw:px-2">
+                            <label>Anexo Tecnico (solo empresa privada): <a  target="_blank" href="{{asset('/servicio_social_pdf/primera_etapa/'.$documentacion[0]->pdf_anexo_tecnico)}}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap">Ver PDF</a></label>
                         </div>
-                        <div class="col-md-3" style="text-align: left">
-                            <select name="anexo_tecnico" id="anexo_tecnico" class="form-control" required>
+                        <div class="tw:w-full tw:lg:w-3/12 tw:lg:grow tw:px-2 tw:text-left">
+                            <select name="anexo_tecnico" id="anexo_tecnico" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" required>
                                 @if($documentacion[0]->est_anexo_tecnico  == 1)
 
                                     <option value=1 selected="selected">Rechazado</option>
@@ -81,11 +81,11 @@
                             </select>
                         </div>
                     </div>
-                    <div class="row" id="comentario_anexo" >
-                        <div class="col-md-10 col-md-offset-1 ">
-                            <div class="form-group">
+                    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4" id="comentario_anexo" >
+                        <div class="tw:w-full tw:px-2">
+                            <div class="tw:mb-4">
                                 <label for="domicilio3">Comentario para la modificación del Anexo Tecnico</label>
-                                <textarea class="form-control" id="comentario_anexo" name="comentario_anexo" rows="2"   required>{{ $documentacion[0]->coment_anexo_tecnico }}</textarea>
+                                <textarea class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500" id="comentario_anexo" name="comentario_anexo" rows="2"   required>{{ $documentacion[0]->coment_anexo_tecnico }}</textarea>
                             </div>
                         </div>
                     </div>
@@ -94,25 +94,25 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-md-12">
-                <div class="panel panel-success">
-                    <div class="panel-body">
+        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+            <div class="tw:w-full tw:lg:w-full tw:px-2">
+                <div class="tw:flex tw:flex-wrap tw:gap-y-4 tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+                    <div class="tw:w-full tw:p-5 tw:sm:p-6">
                         @if($documentacion[0]->est_curp  == 2)
-                            <div class="col-md-10 col-md-offset-1" style="color: #FF0000">
-                                <label>Copia de tu CURP: Autorizado <a  target="_blank" href="{{asset('/servicio_social_pdf/primera_etapa/'.$documentacion[0]->pdf_curp)}}" class="btn btn-success">Ver PDF</a></label>
+                            <div class="tw:w-full tw:px-2 tw:text-red-600 tw:dark:text-red-400">
+                                <label>Copia de tu CURP: Autorizado <a  target="_blank" href="{{asset('/servicio_social_pdf/primera_etapa/'.$documentacion[0]->pdf_curp)}}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap">Ver PDF</a></label>
                                 <input type="hidden" name="curp" id="curp"  value="{{$documentacion[0]->est_curp }}" >
 
 
                             </div>
                     </div>
                         @else
-                        <div class="col-md-7 col-md-offset-1">
-                            <label>Copia de tu CURP: <a  target="_blank" href="{{asset('/servicio_social_pdf/primera_etapa/'.$documentacion[0]->pdf_curp)}}" class="btn btn-success">Ver PDF</a></label>
+                        <div class="tw:w-full tw:lg:w-7/12 tw:lg:grow tw:px-2">
+                            <label>Copia de tu CURP: <a  target="_blank" href="{{asset('/servicio_social_pdf/primera_etapa/'.$documentacion[0]->pdf_curp)}}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap">Ver PDF</a></label>
 
                         </div>
-                        <div class="col-md-3" style="text-align: left">
-                            <select name="curp" id="curp" class="form-control" required>
+                        <div class="tw:w-full tw:lg:w-3/12 tw:lg:grow tw:px-2 tw:text-left">
+                            <select name="curp" id="curp" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" required>
                                 @if($documentacion[0]->est_curp   == 1)
 
                                     <option value=1 selected="selected">Rechazado</option>
@@ -125,11 +125,11 @@
                             </select>
                         </div>
                     </div>
-                    <div class="row" id="comentario_curp" style="">
-                        <div class="col-md-10 col-md-offset-1 ">
-                            <div class="form-group">
+                    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4" id="comentario_curp">
+                        <div class="tw:w-full tw:px-2">
+                            <div class="tw:mb-4">
                                 <label for="domicilio3">Comentario para la modificación de la Copia de tu CURP:</label>
-                                <textarea class="form-control" id="comentario_curp" name="comentario_curp" rows="2"   required>{{ $documentacion[0]->coment_curp }}</textarea>
+                                <textarea class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500" id="comentario_curp" name="comentario_curp" rows="2"   required>{{ $documentacion[0]->coment_curp }}</textarea>
                             </div>
                         </div>
                     </div>
@@ -138,25 +138,25 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-md-12">
-                <div class="panel panel-success">
-                    <div class="panel-body">
+        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+            <div class="tw:w-full tw:lg:w-full tw:px-2">
+                <div class="tw:flex tw:flex-wrap tw:gap-y-4 tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+                    <div class="tw:w-full tw:p-5 tw:sm:p-6">
                         @if($documentacion[0]->est_carnet == 2)
-                            <div class="col-md-10 col-md-offset-1" style="color: #FF0000">
-                                <label>Copia de tu Carnet: Autorizado <a  target="_blank" href="{{asset('/servicio_social_pdf/primera_etapa/'.$documentacion[0]->pdf_carnet)}}" class="btn btn-success">Ver PDF</a></label>
+                            <div class="tw:w-full tw:px-2 tw:text-red-600 tw:dark:text-red-400">
+                                <label>Copia de tu Carnet: Autorizado <a  target="_blank" href="{{asset('/servicio_social_pdf/primera_etapa/'.$documentacion[0]->pdf_carnet)}}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap">Ver PDF</a></label>
                                 <input type="hidden" name="carnet" id="carnet"  value="{{$documentacion[0]->est_carnet }}" >
 
 
                             </div>
                     </div>
                         @else
-                        <div class="col-md-7 col-md-offset-1">
-                            <label>Copia de tu Carnet: <a  target="_blank" href="{{asset('/servicio_social_pdf/primera_etapa/'.$documentacion[0]->pdf_carnet)}}" class="btn btn-success">Ver PDF</a> </label>
+                        <div class="tw:w-full tw:lg:w-7/12 tw:lg:grow tw:px-2">
+                            <label>Copia de tu Carnet: <a  target="_blank" href="{{asset('/servicio_social_pdf/primera_etapa/'.$documentacion[0]->pdf_carnet)}}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap">Ver PDF</a> </label>
 
                         </div>
-                        <div class="col-md-3" style="text-align: left">
-                            <select name="carnet" id="carnet" class="form-control" required>
+                        <div class="tw:w-full tw:lg:w-3/12 tw:lg:grow tw:px-2 tw:text-left">
+                            <select name="carnet" id="carnet" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" required>
                                 @if($documentacion[0]->est_carnet == 1)
                                     <option value=1 selected="selected">Rechazado</option>
                                     <option value="2">Autorizado</option>
@@ -164,11 +164,11 @@
                             </select>
                         </div>
                     </div>
-                    <div class="row" id="comentario_carnet" style="">
-                        <div class="col-md-10 col-md-offset-1 ">
-                            <div class="form-group">
+                    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4" id="comentario_carnet">
+                        <div class="tw:w-full tw:px-2">
+                            <div class="tw:mb-4">
                                 <label for="domicilio3">Comentario para la modificación de la Copia de tu Carnet:</label>
-                                <textarea class="form-control" id="comentario_carnet" name="comentario_carnet" rows="2"   required>{{ $documentacion[0]->coment_carnet }}</textarea>
+                                <textarea class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500" id="comentario_carnet" name="comentario_carnet" rows="2"   required>{{ $documentacion[0]->coment_carnet }}</textarea>
                             </div>
                         </div>
 
@@ -178,24 +178,24 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-md-12">
-                <div class="panel panel-success">
-                    <div class="panel-body">
+        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+            <div class="tw:w-full tw:lg:w-full tw:px-2">
+                <div class="tw:flex tw:flex-wrap tw:gap-y-4 tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+                    <div class="tw:w-full tw:p-5 tw:sm:p-6">
                         @if($documentacion[0]->est_constancia_creditos == 2)
-                            <div class="col-md-10 col-md-offset-1" style="color: #FF0000">
-                                <label>Constancia original del 50% de creditos: Autorizado <a  target="_blank" href="{{asset('/servicio_social_pdf/primera_etapa/'.$documentacion[0]->pdf_constancia_creditos)}}" class="btn btn-success">Ver PDF</a></label>
+                            <div class="tw:w-full tw:px-2 tw:text-red-600 tw:dark:text-red-400">
+                                <label>Constancia original del 50% de creditos: Autorizado <a  target="_blank" href="{{asset('/servicio_social_pdf/primera_etapa/'.$documentacion[0]->pdf_constancia_creditos)}}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap">Ver PDF</a></label>
                                 <input type="hidden" name="constancia_creditos" id="constancia_creditos"  value="{{$documentacion[0]->est_constancia_creditos }}" >
 
                             </div>
                     </div>
                         @else
-                        <div class="col-md-7 col-md-offset-1">
-                            <label>Constancia original del 50% de creditos: <a  target="_blank" href="{{asset('/servicio_social_pdf/primera_etapa/'.$documentacion[0]->pdf_constancia_creditos)}}" class="btn btn-success">Ver PDF</a></label>
+                        <div class="tw:w-full tw:lg:w-7/12 tw:lg:grow tw:px-2">
+                            <label>Constancia original del 50% de creditos: <a  target="_blank" href="{{asset('/servicio_social_pdf/primera_etapa/'.$documentacion[0]->pdf_constancia_creditos)}}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap">Ver PDF</a></label>
 
                         </div>
-                        <div class="col-md-3" style="text-align: left">
-                            <select name="constancia_creditos" id="constancia_creditos" class="form-control" required>
+                        <div class="tw:w-full tw:lg:w-3/12 tw:lg:grow tw:px-2 tw:text-left">
+                            <select name="constancia_creditos" id="constancia_creditos" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" required>
                                 @if($documentacion[0]->est_constancia_creditos == 1)
                                     <option value=1 selected="selected">Rechazado</option>
                                     <option value="2">Autorizado</option>
@@ -203,11 +203,11 @@
                             </select>
                         </div>
                     </div>
-                    <div class="row" id="comentario_constancia_creditos" style="">
-                        <div class="col-md-10 col-md-offset-1 ">
-                            <div class="form-group">
+                    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4" id="comentario_constancia_creditos">
+                        <div class="tw:w-full tw:px-2">
+                            <div class="tw:mb-4">
                                 <label for="domicilio3">Comentario para la modificación de la Constancia original del 50% de creditos :</label>
-                                <textarea class="form-control" id="comentario_constancia_creditos" name="comentario_constancia_creditos" rows="2"   required>{{ $documentacion[0]->coment_costancia_creditos }}</textarea>
+                                <textarea class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500" id="comentario_constancia_creditos" name="comentario_constancia_creditos" rows="2"   required>{{ $documentacion[0]->coment_costancia_creditos }}</textarea>
                             </div>
                         </div>
 
@@ -217,25 +217,25 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-md-12">
-                <div class="panel panel-success">
-                    <div class="panel-body">
+        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+            <div class="tw:w-full tw:lg:w-full tw:px-2">
+                <div class="tw:flex tw:flex-wrap tw:gap-y-4 tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+                    <div class="tw:w-full tw:p-5 tw:sm:p-6">
                         @if($documentacion[0]->est_solicitud_reg_autori == 2)
-                            <div class="col-md-10 col-md-offset-1" style="color: #FF0000">
-                                <label>Solicitud de registro de autorización: Autorizado <a  target="_blank" href="{{asset('/servicio_social_pdf/primera_etapa/'.$documentacion[0]->pdf_solicitud_reg_autori)}}" class="btn btn-success">Ver PDF</a></label>
+                            <div class="tw:w-full tw:px-2 tw:text-red-600 tw:dark:text-red-400">
+                                <label>Solicitud de registro de autorización: Autorizado <a  target="_blank" href="{{asset('/servicio_social_pdf/primera_etapa/'.$documentacion[0]->pdf_solicitud_reg_autori)}}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap">Ver PDF</a></label>
                                 <input type="hidden" name="solicitud_registro" id="solicitud_registro"  value="{{$documentacion[0]->est_solicitud_reg_autori }}" >
 
 
                             </div>
                     </div>
                         @else
-                        <div class="col-md-7 col-md-offset-1">
-                            <label>Solicitud de registro de autorización: <a  target="_blank" href="{{asset('/servicio_social_pdf/primera_etapa/'.$documentacion[0]->pdf_solicitud_reg_autori)}}" class="btn btn-success">Ver PDF</a></label>
+                        <div class="tw:w-full tw:lg:w-7/12 tw:lg:grow tw:px-2">
+                            <label>Solicitud de registro de autorización: <a  target="_blank" href="{{asset('/servicio_social_pdf/primera_etapa/'.$documentacion[0]->pdf_solicitud_reg_autori)}}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap">Ver PDF</a></label>
 
                         </div>
-                        <div class="col-md-3" style="text-align: left">
-                            <select name="solicitud_registro" id="solicitud_registro" class="form-control" required>
+                        <div class="tw:w-full tw:lg:w-3/12 tw:lg:grow tw:px-2 tw:text-left">
+                            <select name="solicitud_registro" id="solicitud_registro" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" required>
                                 @if($documentacion[0]->est_solicitud_reg_autori == 1)
                                     <option value=1 selected="selected">Rechazado</option>
                                     <option value="2">Autorizado</option>
@@ -243,11 +243,11 @@
                             </select>
                         </div>
                     </div>
-                    <div class="row" id="comentario_solicitud_registro" style="">
-                        <div class="col-md-10 col-md-offset-1 ">
-                            <div class="form-group">
+                    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4" id="comentario_solicitud_registro">
+                        <div class="tw:w-full tw:px-2">
+                            <div class="tw:mb-4">
                                 <label for="domicilio3">Comentario para la modificación de la solicitud de Registro :</label>
-                                <textarea class="form-control" id="comentario_solicitud_registro" name="comentario_solicitud_registro" rows="2"   required>{{ $documentacion[0]->coment_solicitud_reg_autori }}</textarea>
+                                <textarea class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500" id="comentario_solicitud_registro" name="comentario_solicitud_registro" rows="2"   required>{{ $documentacion[0]->coment_solicitud_reg_autori }}</textarea>
                             </div>
                         </div>
                     </div>
@@ -258,37 +258,36 @@
 
 
 
-        <div class="row" >
-            <div class="col-md-2 col-md-offset-5">
-                <button  id="aceptar_empresa_privada"  class="btn btn-primary" >Enviar</button>
+        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4" >
+            <div class="tw:w-full tw:px-2">
+                <button  id="aceptar_empresa_privada"  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Enviar</button>
             </div>
-            <br>
-            <br><p></p>
+            <p class="tw:w-full"></p>
         </div>
     </form>
 
 @elseif($tipo_empresa == 2)
-    <form class="form" action="{{url("/servicio_social/enviar_primeraetapa/".$registro_tipo_empresa[0]->id_datos_alumnos)}}"  id="formulario_empresa_publica" role="form" method="POST" >
+    <form action="{{url("/servicio_social/enviar_primeraetapa/".$registro_tipo_empresa[0]->id_datos_alumnos)}}"  id="formulario_empresa_publica" role="form" method="POST" >
         {{ csrf_field() }}
-        <div class="row">
-            <div class="col-md-12">
-                <div class="panel panel-success">
-                    <div class="panel-body">
+        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+            <div class="tw:w-full tw:lg:w-full tw:px-2">
+                <div class="tw:flex tw:flex-wrap tw:gap-y-4 tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+                    <div class="tw:w-full tw:p-5 tw:sm:p-6">
                         @if($documentacion[0]->est_curp  == 2)
-                            <div class="col-md-10 col-md-offset-1" style="color: #FF0000">
-                                <label>Copia de tu CURP: Autorizado <a  target="_blank" href="{{asset('/servicio_social_pdf/primera_etapa/'.$documentacion[0]->pdf_curp)}}" class="btn btn-success">Ver PDF</a></label>
+                            <div class="tw:w-full tw:px-2 tw:text-red-600 tw:dark:text-red-400">
+                                <label>Copia de tu CURP: Autorizado <a  target="_blank" href="{{asset('/servicio_social_pdf/primera_etapa/'.$documentacion[0]->pdf_curp)}}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap">Ver PDF</a></label>
                                 <input type="hidden" name="curp" id="curp"  value="{{$documentacion[0]->est_curp }}" >
 
 
                             </div>
                     </div>
                     @else
-                        <div class="col-md-7 col-md-offset-1">
-                            <label>Copia de tu CURP: <a  target="_blank" href="{{asset('/servicio_social_pdf/primera_etapa/'.$documentacion[0]->pdf_curp)}}" class="btn btn-success">Ver PDF</a></label>
+                        <div class="tw:w-full tw:lg:w-7/12 tw:lg:grow tw:px-2">
+                            <label>Copia de tu CURP: <a  target="_blank" href="{{asset('/servicio_social_pdf/primera_etapa/'.$documentacion[0]->pdf_curp)}}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap">Ver PDF</a></label>
 
                         </div>
-                        <div class="col-md-3" style="text-align: left">
-                            <select name="curp" id="curp" class="form-control" required>
+                        <div class="tw:w-full tw:lg:w-3/12 tw:lg:grow tw:px-2 tw:text-left">
+                            <select name="curp" id="curp" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" required>
                                 @if($documentacion[0]->est_curp   == 1)
 
                                     <option value=1 selected="selected">Rechazado</option>
@@ -301,11 +300,11 @@
                             </select>
                         </div>
                 </div>
-                <div class="row" id="comentario_curp" style="">
-                    <div class="col-md-10 col-md-offset-1 ">
-                        <div class="form-group">
+                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4" id="comentario_curp">
+                    <div class="tw:w-full tw:px-2">
+                        <div class="tw:mb-4">
                             <label for="domicilio3">Comentario para la modificación de la Copia de tu CURP:</label>
-                            <textarea class="form-control" id="comentario_curp" name="comentario_curp" rows="2"   required>{{ $documentacion[0]->coment_curp }}</textarea>
+                            <textarea class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500" id="comentario_curp" name="comentario_curp" rows="2"   required>{{ $documentacion[0]->coment_curp }}</textarea>
                         </div>
                     </div>
                 </div>
@@ -314,25 +313,25 @@
         </div>
         </div>
 
-        <div class="row">
-            <div class="col-md-12">
-                <div class="panel panel-success">
-                    <div class="panel-body">
+        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+            <div class="tw:w-full tw:lg:w-full tw:px-2">
+                <div class="tw:flex tw:flex-wrap tw:gap-y-4 tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+                    <div class="tw:w-full tw:p-5 tw:sm:p-6">
                         @if($documentacion[0]->est_carnet == 2)
-                            <div class="col-md-10 col-md-offset-1" style="color: #FF0000">
-                                <label>Copia de tu Carnet: Autorizado <a  target="_blank" href="{{asset('/servicio_social_pdf/primera_etapa/'.$documentacion[0]->pdf_carnet)}}" class="btn btn-success">Ver PDF</a></label>
+                            <div class="tw:w-full tw:px-2 tw:text-red-600 tw:dark:text-red-400">
+                                <label>Copia de tu Carnet: Autorizado <a  target="_blank" href="{{asset('/servicio_social_pdf/primera_etapa/'.$documentacion[0]->pdf_carnet)}}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap">Ver PDF</a></label>
                                 <input type="hidden" name="carnet" id="carnet"  value="{{$documentacion[0]->est_carnet }}" >
 
 
                             </div>
                     </div>
                     @else
-                        <div class="col-md-7 col-md-offset-1">
-                            <label>Copia de tu Carnet: <a  target="_blank" href="{{asset('/servicio_social_pdf/primera_etapa/'.$documentacion[0]->pdf_carnet)}}" class="btn btn-success">Ver PDF</a></label>
+                        <div class="tw:w-full tw:lg:w-7/12 tw:lg:grow tw:px-2">
+                            <label>Copia de tu Carnet: <a  target="_blank" href="{{asset('/servicio_social_pdf/primera_etapa/'.$documentacion[0]->pdf_carnet)}}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap">Ver PDF</a></label>
 
                         </div>
-                        <div class="col-md-3" style="text-align: left">
-                            <select name="carnet" id="carnet" class="form-control" required>
+                        <div class="tw:w-full tw:lg:w-3/12 tw:lg:grow tw:px-2 tw:text-left">
+                            <select name="carnet" id="carnet" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" required>
                                 @if($documentacion[0]->est_carnet == 1)
                                     <option value=1 selected="selected">Rechazado</option>
                                     <option value="2">Autorizado</option>
@@ -340,11 +339,11 @@
                             </select>
                         </div>
                 </div>
-                <div class="row" id="comentario_carnet" style="">
-                    <div class="col-md-10 col-md-offset-1 ">
-                        <div class="form-group">
+                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4" id="comentario_carnet">
+                    <div class="tw:w-full tw:px-2">
+                        <div class="tw:mb-4">
                             <label for="domicilio3">Comentario para la modificación de la Copia de tu Carnet:</label>
-                            <textarea class="form-control" id="comentario_carnet" name="comentario_carnet" rows="2"   required>{{ $documentacion[0]->coment_carnet }}</textarea>
+                            <textarea class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500" id="comentario_carnet" name="comentario_carnet" rows="2"   required>{{ $documentacion[0]->coment_carnet }}</textarea>
                         </div>
                     </div>
 
@@ -354,24 +353,24 @@
         </div>
         </div>
 
-        <div class="row">
-            <div class="col-md-12">
-                <div class="panel panel-success">
-                    <div class="panel-body">
+        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+            <div class="tw:w-full tw:lg:w-full tw:px-2">
+                <div class="tw:flex tw:flex-wrap tw:gap-y-4 tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+                    <div class="tw:w-full tw:p-5 tw:sm:p-6">
                         @if($documentacion[0]->est_constancia_creditos == 2)
-                            <div class="col-md-10 col-md-offset-1" style="color: #FF0000">
-                                <label>Constancia original del 50% de creditos: Autorizado <a  target="_blank" href="{{asset('/servicio_social_pdf/primera_etapa/'.$documentacion[0]->pdf_carnet)}}" class="btn btn-success">Ver PDF</a> </label>
+                            <div class="tw:w-full tw:px-2 tw:text-red-600 tw:dark:text-red-400">
+                                <label>Constancia original del 50% de creditos: Autorizado <a  target="_blank" href="{{asset('/servicio_social_pdf/primera_etapa/'.$documentacion[0]->pdf_carnet)}}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap">Ver PDF</a> </label>
                                 <input type="hidden" name="constancia_creditos" id="constancia_creditos"  value="{{$documentacion[0]->est_constancia_creditos }}" >
 
                             </div>
                           </div>
                     @else
-                        <div class="col-md-7 col-md-offset-1">
-                            <label>Constancia original del 50% de creditos: <a  target="_blank" href="{{asset('/servicio_social_pdf/primera_etapa/'.$documentacion[0]->pdf_carnet)}}" class="btn btn-success">Ver PDF</a></label>
+                        <div class="tw:w-full tw:lg:w-7/12 tw:lg:grow tw:px-2">
+                            <label>Constancia original del 50% de creditos: <a  target="_blank" href="{{asset('/servicio_social_pdf/primera_etapa/'.$documentacion[0]->pdf_carnet)}}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap">Ver PDF</a></label>
 
                         </div>
-                        <div class="col-md-3" style="text-align: left">
-                            <select name="constancia_creditos" id="constancia_creditos" class="form-control" required>
+                        <div class="tw:w-full tw:lg:w-3/12 tw:lg:grow tw:px-2 tw:text-left">
+                            <select name="constancia_creditos" id="constancia_creditos" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" required>
                                 @if($documentacion[0]->est_constancia_creditos == 1)
                                     <option value=1 selected="selected">Rechazado</option>
                                     <option value="2">Autorizado</option>
@@ -379,11 +378,11 @@
                             </select>
                         </div>
                 </div>
-                <div class="row" id="comentario_constancia_creditos" style="">
-                    <div class="col-md-10 col-md-offset-1 ">
-                        <div class="form-group">
+                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4" id="comentario_constancia_creditos">
+                    <div class="tw:w-full tw:px-2">
+                        <div class="tw:mb-4">
                             <label for="domicilio3">Comentario para la modificación de la Constancia original del 50% de creditos :</label>
-                            <textarea class="form-control" id="comentario_constancia_creditos" name="comentario_constancia_creditos" rows="2"   required>{{ $documentacion[0]->coment_constancia_creditos }}</textarea>
+                            <textarea class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500" id="comentario_constancia_creditos" name="comentario_constancia_creditos" rows="2"   required>{{ $documentacion[0]->coment_constancia_creditos }}</textarea>
                         </div>
                     </div>
 
@@ -393,25 +392,25 @@
         </div>
         </div>
 
-        <div class="row">
-            <div class="col-md-12">
-                <div class="panel panel-success">
-                    <div class="panel-body">
+        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+            <div class="tw:w-full tw:lg:w-full tw:px-2">
+                <div class="tw:flex tw:flex-wrap tw:gap-y-4 tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+                    <div class="tw:w-full tw:p-5 tw:sm:p-6">
                         @if($documentacion[0]->est_solicitud_reg_autori  == 2)
-                            <div class="col-md-10 col-md-offset-1" style="color: #FF0000">
-                                <label>Solicitud de registro de autorización: Autorizado <a  target="_blank" href="{{asset('/servicio_social_pdf/primera_etapa/'.$documentacion[0]->pdf_solicitud_reg_autori)}}" class="btn btn-success">Ver PDF</a></label>
+                            <div class="tw:w-full tw:px-2 tw:text-red-600 tw:dark:text-red-400">
+                                <label>Solicitud de registro de autorización: Autorizado <a  target="_blank" href="{{asset('/servicio_social_pdf/primera_etapa/'.$documentacion[0]->pdf_solicitud_reg_autori)}}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap">Ver PDF</a></label>
                                 <input type="hidden" name="solicitud_registro" id="solicitud_registro"  value="{{$documentacion[0]->est_solicitud_reg_autori   }}" >
 
 
                             </div>
                     </div>
                     @else
-                        <div class="col-md-7 col-md-offset-1">
-                            <label>Solicitud de registro de autorización: <a  target="_blank" href="{{asset('/servicio_social_pdf/primera_etapa/'.$documentacion[0]->pdf_solicitud_reg_autori)}}" class="btn btn-success">Ver PDF</a></label>
+                        <div class="tw:w-full tw:lg:w-7/12 tw:lg:grow tw:px-2">
+                            <label>Solicitud de registro de autorización: <a  target="_blank" href="{{asset('/servicio_social_pdf/primera_etapa/'.$documentacion[0]->pdf_solicitud_reg_autori)}}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap">Ver PDF</a></label>
 
                         </div>
-                        <div class="col-md-3" style="text-align: left">
-                            <select name="solicitud_registro" id="solicitud_registro" class="form-control" required>
+                        <div class="tw:w-full tw:lg:w-3/12 tw:lg:grow tw:px-2 tw:text-left">
+                            <select name="solicitud_registro" id="solicitud_registro" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" required>
                                 @if($documentacion[0]->est_solicitud_reg_autori  == 1)
                                     <option value=1 selected="selected">Rechazado</option>
                                     <option value="2">Autorizado</option>
@@ -419,11 +418,11 @@
                             </select>
                         </div>
                 </div>
-                <div class="row" id="comentario_solicitud_registro" style="">
-                    <div class="col-md-10 col-md-offset-1 ">
-                        <div class="form-group">
+                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4" id="comentario_solicitud_registro">
+                    <div class="tw:w-full tw:px-2">
+                        <div class="tw:mb-4">
                             <label for="domicilio3">Comentario para la modificación de la solicitud de Registro :</label>
-                            <textarea class="form-control" id="comentario_solicitud_registro" name="comentario_solicitud_registro" rows="2"   required>{{ $documentacion[0]->coment_solicitud_reg_autori }}</textarea>
+                            <textarea class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500" id="comentario_solicitud_registro" name="comentario_solicitud_registro" rows="2"   required>{{ $documentacion[0]->coment_solicitud_reg_autori }}</textarea>
                         </div>
                     </div>
                 </div>
@@ -435,12 +434,11 @@
 
 
 
-        <div class="row" >
-            <div class="col-md-2 col-md-offset-5">
-                <button  id="aceptar_empresa_publica"  class="btn btn-primary" >Enviar</button>
+        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4" >
+            <div class="tw:w-full tw:px-2">
+                <button  id="aceptar_empresa_publica"  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Enviar</button>
             </div>
-            <br>
-            <br><p></p>
+            <p class="tw:w-full"></p>
         </div>
     </form>
 

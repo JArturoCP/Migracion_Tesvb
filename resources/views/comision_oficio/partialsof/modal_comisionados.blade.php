@@ -1,15 +1,16 @@
 
 <div>
-    <div class="row">
-        <div class="col-md-10 col-md-offset-1" >
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+        <div class="tw:w-full tw:px-2" >
             <p>Nombre: <b>{{$personales->titulo}} </b> {{$personales->nombre}}</p>
         </div>
     </div>
     @if($personales->automovil == 2)
-        <div class="row">
-            <div class="col-md-10 col-md-offset-1" >
+        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+            <div class="tw:w-full tw:px-2" >
                 <p>Automovil</p>
-                <table  class="table table-bordered table-resposive">
+                <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table  class="tw-tabla tw-tabla-bordes">
                     <thead>
                     <tr>
                         <th>Placas</th>
@@ -30,16 +31,18 @@
 
                     </tbody>
                 </table>
+</div>
             </div>
         </div>
     @endif
-    <div class="row">
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
-        <div class="col-md-10 col-md-offset-1" >
+        <div class="tw:w-full tw:px-2" >
             <p align="justify"><b>Motivo de la comisión:</b> <br>{{ $oficios->desc_comision }}</p>
         </div>
-        <div class="col-md-10 col-md-offset-1" >
-            <table id="table_envio" class="table table-bordered table-resposive">
+        <div class="tw:w-full tw:px-2" >
+            <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table id="table_envio" class="tw-tabla tw-tabla-bordes">
                 <thead>
                 <tr>
                     <th>Dependencias de la comisión</th>
@@ -61,18 +64,19 @@
 
                 </tbody>
             </table>
+</div>
         </div>
-        <div class="col-md-4 col-md-offset-1" >
-            <p align="center"><b>Fecha de salida:</b> <br>{{ $oficios->fecha_salida }}<br><b>Hora: </b>{{$oficios->hora_s}}</p>
+        <div class="tw:w-full tw:lg:w-6/12 tw:px-2" >
+            <p class="tw:text-center"><b>Fecha de salida:</b> <br>{{ $oficios->fecha_salida }}<br><b>Hora: </b>{{$oficios->hora_s}}</p>
         </div>
-        <div class="col-md-4 col-md-offset-1" >
-            <p align="center"><b>Fecha de regreso:</b> <br>{{ $oficios->fecha_regreso }}<br><b>Hora: </b>{{$oficios->hora_r}}</p>
+        <div class="tw:w-full tw:lg:w-6/12 tw:px-2" >
+            <p class="tw:text-center"><b>Fecha de regreso:</b> <br>{{ $oficios->fecha_regreso }}<br><b>Hora: </b>{{$oficios->hora_r}}</p>
         </div>
-        <div class="col-md-4 col-md-offset-1" >
-            <p align="center"><b>Lugar salida:</b> {{ $lugar_s->descripcion }}</p>
+        <div class="tw:w-full tw:lg:w-6/12 tw:px-2" >
+            <p class="tw:text-center"><b>Lugar salida:</b> {{ $lugar_s->descripcion }}</p>
         </div>
-        <div class="col-md-4 col-md-offset-1" >
-            <p align="center"><b>Lugar regreso:</b> {{ $lugar_r->descripcion }}</p>
+        <div class="tw:w-full tw:lg:w-6/12 tw:px-2" >
+            <p class="tw:text-center"><b>Lugar regreso:</b> {{ $lugar_r->descripcion }}</p>
         </div>
 
 

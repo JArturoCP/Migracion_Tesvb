@@ -13,7 +13,7 @@
             </x-panel.boton>
         </x-slot:acciones>
 
-        <x-panel.tabla id="paginacion" class="tabla-grande2"> 
+        <x-panel.tabla id="paginacion" class="tabla-grande2">
             <thead>
                 <tr>
                     <th>Nombre de Actividad</th>

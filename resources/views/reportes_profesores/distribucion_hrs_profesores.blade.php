@@ -1,23 +1,17 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 @section('title', 'Distribución de hrs')
+@include('partials.panel.recursos_app', ['datatables' => true])
 @section('content')
+<div class="tw-pantalla">
 
-    <main class="col-md-12">
-        <div class="row">
-            <div class="col-md-5 col-md-offset-3">
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title text-center">Distribución de horas profesores</h3>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <main class="tw:w-full tw:lg:w-full tw:px-2">
+        <x-panel.encabezado titulo="Distribución de horas profesores" :migas="['Reportes de profesores' => null]" />
         @if($estado == 0)
-            <div class="row">
-                <div class="col-md-4 col-md-offset-4" >
+            <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                <div class="tw:w-full tw:lg:max-w-2xl tw:px-2" >
                     <div class="dropdown-center">
                         <label for="selectCargo">Categoria</label>
-                        <select name="id_categoria" id="id_categoria" class="form-control ">
+                        <select name="id_categoria" id="id_categoria" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11">
                             <option disabled selected>Selecciona cargo...</option>
                             @foreach($categorias as $categoria)
                                 <option value="{{$categoria->id_cargo}}" >{{$categoria->cargo}}</option>
@@ -26,14 +20,14 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <p><br></p>
+            <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                <p class="tw:w-full"><br></p>
             </div>
             @else
-            <div class="col-md-4 col-md-offset-4 " >
+            <div class="tw:w-full tw:px-2" >
                 <div class="dropdown-center">
                     <label for="selectCargo">Categoria</label>
-                    <select name="id_categoria" id="id_categoria" class="form-control ">
+                    <select name="id_categoria" id="id_categoria" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11">
                         <option disabled selected>Selecciona cargo...</option>
                         @foreach($categorias as $categoria)
                             @if($categoria->id_cargo==$id_categoria)
@@ -45,10 +39,11 @@
                     </select>
                 </div>
             </div>
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
+        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+            <div class="tw:w-full tw:px-2">
                 <?php $i=1; ?>
-                <table id="tabla_empresa" class="table table-bordered table-resposive">
+                <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table id="tabla_empresa" class="tw-tabla tw-tabla-bordes">
                     <thead>
                     <tr>
                         <th>No.</th>
@@ -68,7 +63,7 @@
                             <td>{{$docentes['cargo']  }}</td>
                             <td>{{$docentes['perfil']  }}</td>
                             <td>
-                                <button class="btn btn-primary ver_materia" data-id="{{ $docentes['id_personal'] }}">Mostrar</button>
+                                <button class="ver_materia tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap" data-id="{{ $docentes['id_personal'] }}">Mostrar</button>
 
                             </td>
 
@@ -77,6 +72,7 @@
 
                     </tbody>
                 </table>
+</div>
             </div>
         </div>
             @endif
@@ -98,4 +94,5 @@
             });
         });
     </script>
+</div>
 @endsection

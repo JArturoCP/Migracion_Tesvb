@@ -60,7 +60,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-info">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
                         <span aria-hidden="true">&times;</span>
                     </button>
                     <h3 class="modal-title text-center" id="myModalLabel">Asignar Docente</h3>
@@ -115,7 +115,7 @@
             </div>
         </div>
     </div>
-</form> 
+</form>
 
 <!-- MODAL PARA ELIMINAR -->
 <div id="modal_elimina" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
@@ -171,14 +171,14 @@ $(document).ready(function(){
                     $('#actividad_docente').append(
                         '<option value="'+subCatObj.id_actividad_comple+'" data-horas="'+subCatObj.horas+'">'+subCatObj.descripcion+ ' </option>'
                     );
-                }         
+                }
             });
         });
     });
 
     $('#actividad_docente').click(function(){
         var selected = $(this).find('option:selected');
-        var extra = selected.data('horas'); 
+        var extra = selected.data('horas');
         document.getElementById("horas_docente").value = extra+" Horas";
     });
 
@@ -186,7 +186,7 @@ $(document).ready(function(){
         var id_sit=($(this).data('id'));
         $("#form_delete").attr("action","/docente_actividad/"+id_sit);
         $("#form_delete").submit();
-    });  
+    });
 });
 </script>
 

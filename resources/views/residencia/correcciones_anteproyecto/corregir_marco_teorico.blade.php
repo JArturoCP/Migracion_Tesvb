@@ -1,6 +1,8 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 @section('title', 'Registrar Anteproyecto')
+@include('partials.panel.recursos_app')
 @section('content')
+<div class="tw-pantalla">
 
 @php
 /*OBTENER ESTADO DEL ANTEPROYECTO*/
@@ -69,7 +71,7 @@ $marco_teorico_autorizado = true;
 @endphp
 
 
-<div class="container-fluid">
+<div class="tw:w-full">
 
     {{-- =========================================================
   MENSAJE DE PERMISO ESPECIAL
@@ -77,17 +79,13 @@ $marco_teorico_autorizado = true;
 
     @if($tiene_permiso)
 
-    <div class="row">
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
-        <div class="col-md-10 col-md-offset-1">
+        <div class="tw:w-full tw:px-2">
 
-            <div class="alert alert-warning text-center" style="
-            border-radius:8px;
-            margin-top:15px;
-            border-left:5px solid #f0ad4e;
-         ">
+            <x-panel.alerta tipo="advertencia" class="tw:mb-4">
 
-                <span class="glyphicon glyphicon-pencil" style="font-size:20px;">
+                <span class="fa fa-pencil tw:text-lg">
                 </span>
 
                 <strong>
@@ -103,7 +101,7 @@ $marco_teorico_autorizado = true;
                 Realiza las correcciones necesarias y presiona
                 <strong>Guardar</strong>.
 
-            </div>
+            </x-panel.alerta>
 
         </div>
 
@@ -118,17 +116,13 @@ $marco_teorico_autorizado = true;
 
     @if($marco_teorico_autorizado)
 
-    <div class="row">
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
-        <div class="col-md-10 col-md-offset-1">
+        <div class="tw:w-full tw:px-2">
 
-            <div class="alert alert-success text-center" style="
-            border-radius:8px;
-            margin-top:15px;
-            border-left:5px solid #5cb85c;
-         ">
+            <x-panel.alerta tipo="exito" class="tw:mb-4">
 
-                <span class="glyphicon glyphicon-ok-circle" style="font-size:20px;">
+                <span class="fa fa-check-circle-o tw:text-lg">
                 </span>
 
                 <strong>
@@ -142,7 +136,7 @@ $marco_teorico_autorizado = true;
                 El Departamento de Servicio Social y Residencia Profesional
                 ha validado nuevamente tu Marco Teórico.
 
-            </div>
+            </x-panel.alerta>
 
         </div>
 
@@ -155,56 +149,39 @@ $marco_teorico_autorizado = true;
   CONTENEDOR PRINCIPAL
   ========================================================== --}}
 
-    <div class="row">
+    <x-panel.encabezado titulo="Corregir Marco Teórico" :migas="['Residencia profesional' => null]" />
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
-        <div class="col-md-10 col-md-offset-1 col-xs-12">
+        <div class="tw:w-full tw:px-2">
 
-            <div class="panel panel-info" style="
-            border-radius:8px;
-            box-shadow:0 2px 8px rgba(0,0,0,.08);
-         ">
+            <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
 
 
                 {{-- =================================================
         ENCABEZADO
         ================================================== --}}
 
-                <div class="panel-heading" style="
-                text-align:center;
-                font-size:18px;
-                font-weight:bold;
-             ">
-
-                    <span class="glyphicon glyphicon-edit"></span>
-
-                    Corregir Marco Teórico
-
-                </div>
+                
 
 
-                <div class="panel-body">
+                <div class="tw:p-5 tw:sm:p-6">
 
 
                     {{-- =================================================
           NAVEGACIÓN
           ================================================== --}}
 
-                    <div class="row">
+                    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
                         {{-- ATRÁS --}}
 
-                        <div class="col-md-2 col-md-offset-3" style="text-align:center;">
+                        <div class="tw:w-full tw:lg:w-6/12 tw:px-2 tw:text-center">
 
-                            <a href="{{url('/residencia/anteproyecto/corregir_justificacion')}}" class="btn btn-link"
-                                style="font-weight:bold;">
+                            <a href="{{url('/residencia/anteproyecto/corregir_justificacion')}}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap"
+                               >
 
-                                <span class="glyphicon glyphicon-arrow-left" style="
-                                font-size:45px;
-                                color:#458acc;
-                              ">
+                                <span class="fa fa-arrow-left">
                                 </span>
-
-                                <br>
 
                                 Atrás
 
@@ -215,18 +192,13 @@ $marco_teorico_autorizado = true;
 
                         {{-- SIGUIENTE --}}
 
-                        <div class="col-md-2 col-md-offset-2" style="text-align:center;">
+                        <div class="tw:w-full tw:lg:w-6/12 tw:px-2 tw:text-center">
 
-                            <a href="{{url('/residencia/anteproyecto/corregir_cronograma')}}" class="btn btn-link"
-                                style="font-weight:bold;">
+                            <a href="{{url('/residencia/anteproyecto/corregir_cronograma')}}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap"
+                               >
 
-                                <span class="glyphicon glyphicon-arrow-right" style="
-                                font-size:45px;
-                                color:#458acc;
-                              ">
+                                <span class="fa fa-arrow-right">
                                 </span>
-
-                                <br>
 
                                 Siguiente
 
@@ -236,39 +208,35 @@ $marco_teorico_autorizado = true;
 
                     </div>
 
-                    <br>
 
 
                     {{-- =================================================
           CONTENIDO
           ================================================== --}}
 
-                    <div class="row">
+                    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
 
                         {{-- =================================================
             FORMULARIO
             ================================================== --}}
 
-                        <div class="col-md-7 col-md-offset-1">
+                        <div class="tw:w-full tw:lg:w-7/12 tw:lg:grow tw:px-2">
 
-                            <div class="panel panel-primary" style="
-                            border-radius:8px;
-                            box-shadow:0 2px 6px rgba(0,0,0,.08);
-                         ">
+                            <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
 
-                                <div class="panel-heading text-center">
+                                <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:dark:border-gray-800 tw:bg-gray-50 tw:dark:bg-gray-900 tw:px-5 tw:py-4 tw:text-center">
 
-                                    <span class="glyphicon glyphicon-list-alt"></span>
+                                    <span class="fa fa-list-alt"></span>
 
                                     Marco Teórico del Anteproyecto
 
                                 </div>
 
 
-                                <div class="panel-body">
+                                <div class="tw:p-5 tw:sm:p-6">
 
-                                    <form class="form" id="form_marco_teorico" role="form" method="POST"
+                                    <form id="form_marco_teorico" role="form" method="POST"
                                         action="{{url('/residencia/guardar_correciones_marco_teorico/')}}">
 
                                         {{ csrf_field() }}
@@ -286,21 +254,21 @@ $marco_teorico_autorizado = true;
                     MARCO TEÓRICO
                     ================================================== --}}
 
-                                        <div class="row">
+                                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
-                                            <div class="col-md-12">
+                                            <div class="tw:w-full tw:lg:w-full tw:px-2">
 
-                                                <div class="form-group">
+                                                <div class="tw:mb-4">
 
                                                     <label for="marco_teorico">
 
-                                                        <span class="glyphicon glyphicon-book"></span>
+                                                        <span class="fa fa-book"></span>
 
                                                         MARCO TEÓRICO
 
                                                     </label>
 
-                                                    <textarea class="form-control" id="marco_teorico"
+                                                    <textarea class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500" id="marco_teorico"
                                                         name="marco_teorico" rows="25"
                                                         placeholder="Ingresa el Marco Teórico de tu anteproyecto"
                                                         required @if($marco_teorico_autorizado) readonly
@@ -317,9 +285,9 @@ $marco_teorico_autorizado = true;
                     BOTÓN GUARDAR
                     ================================================== --}}
 
-                                        <div class="row">
+                                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
-                                            <div class="col-md-12 text-center">
+                                            <div class="tw:w-full tw:lg:w-full tw:text-center tw:px-2">
 
                                                 @if($marco_teorico_autorizado)
 
@@ -327,13 +295,10 @@ $marco_teorico_autorizado = true;
                         MARCO TEÓRICO AUTORIZADO
                         ================================================== --}}
 
-                                                <button id="guardar_marco_teorico" type="button" class="btn btn-success"
-                                                    disabled style="
-                            min-width:190px;
-                            border-radius:5px;
-                          ">
+                                                <button id="guardar_marco_teorico" type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-green-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-green-700 tw:disabled:bg-green-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap"
+                                                    disabled>
 
-                                                    <span class="glyphicon glyphicon-ok"></span>
+                                                    <span class="fa fa-check"></span>
 
                                                     Marco Teórico autorizado
 
@@ -345,13 +310,10 @@ $marco_teorico_autorizado = true;
                         PUEDE MODIFICAR
                         ================================================== --}}
 
-                                                <button id="guardar_marco_teorico" type="button" class="btn btn-primary"
-                                                    style="
-                            min-width:150px;
-                            border-radius:5px;
-                          ">
+                                                <button id="guardar_marco_teorico" type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap"
+                                                   >
 
-                                                    <span class="glyphicon glyphicon-floppy-disk"></span>
+                                                    <span class="fa fa-floppy-o"></span>
 
                                                     Guardar
 
@@ -376,23 +338,20 @@ $marco_teorico_autorizado = true;
             COMENTARIOS
             ================================================== --}}
 
-                        <div class="col-md-4">
+                        <div class="tw:w-full tw:lg:w-4/12 tw:lg:grow tw:px-2">
 
-                            <div class="panel panel-default" style="
-                            border-radius:8px;
-                            box-shadow:0 2px 6px rgba(0,0,0,.08);
-                         ">
+                            <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
 
-                                <div class="panel-heading text-center" style="font-weight:bold;">
+                                <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:dark:border-gray-800 tw:bg-gray-50 tw:dark:bg-gray-900 tw:px-5 tw:py-4 tw:text-center">
 
-                                    <span class="glyphicon glyphicon-comment"></span>
+                                    <span class="fa fa-comment"></span>
 
                                     COMENTARIOS DE LOS REVISORES
 
                                 </div>
 
 
-                                <div class="panel-body">
+                                <div class="tw:p-5 tw:sm:p-6">
 
 
                                     {{-- =================================================
@@ -401,9 +360,9 @@ $marco_teorico_autorizado = true;
 
                                     @if($marco_teorico_autorizado)
 
-                                    <div class="alert alert-success text-center">
+                                    <x-panel.alerta tipo="exito" class="tw:mb-4">
 
-                                        <span class="glyphicon glyphicon-ok-circle"></span>
+                                        <span class="fa fa-check-circle-o"></span>
 
                                         <strong>
 
@@ -416,14 +375,14 @@ $marco_teorico_autorizado = true;
                                         El Marco Teórico corregido fue
                                         registrado correctamente.
 
-                                    </div>
+                                    </x-panel.alerta>
 
 
                                     @elseif($tiene_permiso)
 
-                                    <div class="alert alert-warning text-center">
+                                    <x-panel.alerta tipo="advertencia" class="tw:mb-4">
 
-                                        <span class="glyphicon glyphicon-pencil"></span>
+                                        <span class="fa fa-pencil"></span>
 
                                         <strong>
 
@@ -437,14 +396,14 @@ $marco_teorico_autorizado = true;
                                         Realiza las correcciones necesarias y presiona
                                         <strong>Guardar</strong>.
 
-                                    </div>
+                                    </x-panel.alerta>
 
 
                                     @else
 
-                                    <div class="alert alert-danger text-center">
+                                    <x-panel.alerta tipo="error" class="tw:mb-4">
 
-                                        <span class="glyphicon glyphicon-warning-sign"></span>
+                                        <span class="fa fa-exclamation-triangle"></span>
 
                                         <strong>
 
@@ -453,7 +412,7 @@ $marco_teorico_autorizado = true;
 
                                         </strong>
 
-                                    </div>
+                                    </x-panel.alerta>
 
                                     @endif
 
@@ -469,9 +428,9 @@ $marco_teorico_autorizado = true;
 
                                     @if($comentario->id_estado_evaluacion == 1)
 
-                                    <div class="panel panel-success">
+                                    <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
 
-                                        <div class="panel-heading text-center">
+                                        <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:dark:border-gray-800 tw:bg-gray-50 tw:dark:bg-gray-900 tw:px-5 tw:py-4 tw:text-center">
 
                                             <strong>
                                                 NOMBRE DEL DOCENTE:
@@ -489,7 +448,7 @@ $marco_teorico_autorizado = true;
 
                                         </div>
 
-                                        <div class="panel-body">
+                                        <div class="tw:p-5 tw:sm:p-6">
 
                                             {{$comentario->comentario}}
 
@@ -502,9 +461,9 @@ $marco_teorico_autorizado = true;
 
                                     @elseif($comentario->id_estado_evaluacion == 2)
 
-                                    <div class="panel panel-warning">
+                                    <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
 
-                                        <div class="panel-heading text-center">
+                                        <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:dark:border-gray-800 tw:bg-gray-50 tw:dark:bg-gray-900 tw:px-5 tw:py-4 tw:text-center">
 
                                             <strong>
                                                 NOMBRE DEL DOCENTE:
@@ -522,7 +481,7 @@ $marco_teorico_autorizado = true;
 
                                         </div>
 
-                                        <div class="panel-body">
+                                        <div class="tw:p-5 tw:sm:p-6">
 
                                             {{$comentario->comentario}}
 
@@ -535,9 +494,9 @@ $marco_teorico_autorizado = true;
 
                                     @elseif($comentario->id_estado_evaluacion == 3)
 
-                                    <div class="panel panel-danger">
+                                    <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
 
-                                        <div class="panel-heading text-center">
+                                        <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:dark:border-gray-800 tw:bg-gray-50 tw:dark:bg-gray-900 tw:px-5 tw:py-4 tw:text-center">
 
                                             <strong>
                                                 NOMBRE DEL DOCENTE:
@@ -555,7 +514,7 @@ $marco_teorico_autorizado = true;
 
                                         </div>
 
-                                        <div class="panel-body">
+                                        <div class="tw:p-5 tw:sm:p-6">
 
                                             {{$comentario->comentario}}
 
@@ -590,18 +549,13 @@ $marco_teorico_autorizado = true;
 MODAL ENVIAR ANTEPROYECTO
 ============================================================= --}}
 
-<div id="modal_enviar" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog"
-    aria-labelledby="mySmallModalLabel">
-
-    <div class="modal-dialog modal-sm" role="document">
-
-        <div class="modal-content">
+<x-panel.modal id="modal_enviar" tamano="sm" sin-relleno aria-labelledby="mySmallModalLabel">
 
             <form action="{{url('/residencia/enviar_anteproyecto_corregido/')}}" method="POST" role="form">
 
                 {{ csrf_field() }}
 
-                <div class="modal-body">
+                <div class="tw-modal-cuerpo tw:pt-14">
 
                     <p>
                         ¿Realmente deseas enviar tu anteproyecto?
@@ -611,25 +565,21 @@ MODAL ENVIAR ANTEPROYECTO
 
                 </div>
 
-                <div class="modal-footer">
+                <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
 
-                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                    <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">
 
                         Cancelar
 
                     </button>
 
-                    <input id="confirma_elimina_oficio" type="submit" class="btn btn-danger" value="Aceptar">
+                    <input id="confirma_elimina_oficio" type="submit" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-red-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-red-700 tw:disabled:bg-red-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" value="Aceptar">
 
                 </div>
 
             </form>
 
-        </div>
-
-    </div>
-
-</div>
+        </x-panel.modal>
 
 
 {{-- =============================================================
@@ -715,4 +665,5 @@ $(document).ready(function() {
 });
 </script>
 
+</div>
 @endsection

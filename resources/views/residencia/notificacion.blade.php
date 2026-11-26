@@ -1,25 +1,23 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 @section('title', 'Notificacion de anteproyecto')
+@include('partials.panel.recursos_app')
 @section('content')
+<div class="tw-pantalla">
 
 <main>
 <!-- Modal de notificación de anteproyecto -->
-<div class="modal fade" id="modal_notificacion" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header bg-info">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title text-center" id="myModalLabel">Notificación de Dictamen de anteproyecto</h4>
+<x-panel.modal id="modal_notificacion" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="myModalLabel">
+      <div class="tw:px-6 tw:pt-6 tw:pr-14">
+        
+        <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="myModalLabel">Notificación de Dictamen de anteproyecto</h4>
       </div>
-      <div class="modal-body">
-        <h4 class="text-center">Se encuentra en actualización.</h4>
+      <div class="tw-modal-cuerpo">
+        <h4 class="tw:text-center tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">Se encuentra en actualización.</h4>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
+      <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+        <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Aceptar</button>
       </div>
-    </div>
-  </div>
-</div>
+    </x-panel.modal>
 </main>
 
 <script>
@@ -31,4 +29,5 @@
 
 </script>
 
+</div>
 @endsection

@@ -1,36 +1,21 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 @section('title', 'Requisiciones del departamento')
+@include('partials.panel.recursos_app')
 @section('content')
-    <div class="row">
-        <div class="col-md-6  col-md-offset-3">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h5 style="text-align:center">Agregar presupuesto a la requisición del departamento o jefatura de división  del año {{ $year }}</h5>
-                    <h5 style="text-align: center">Nombre del departamento o jefatura: {{ $unidad->nom_departamento }}</h5>
-                    <h5 style="text-align: center">Nombre del jefe: {{ $unidad->titulo }} {{ $unidad->nombre }}</h5>
-                </div>
-            </div>
-        </div>
-    </div>
+<div class="tw-pantalla">
+    <x-panel.encabezado :titulo="'Agregar presupuesto a la requisición del departamento o jefatura de división del año '.$year.' Nombre del departamento o jefatura: '.$unidad->nom_departamento.' Nombre del jefe: '.$unidad->titulo.' '.$unidad->nombre" :migas="['Finanzas' => null]" />
 
     @if($estado_anteproyecto == 1)
-        <div class="row">
-            <div class="col-md-6  col-md-offset-3">
-                <div class="panel panel-warning">
-                    <div class="panel-heading">
-                       <h4 style="text-align: center">Sin requisiciones autorizadas del anteproyecto {{ $year }}</h4>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <x-panel.alerta tipo="advertencia" class="tw:mb-4"><h4 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90 tw:text-center">Sin requisiciones autorizadas del anteproyecto {{ $year }}</h4></x-panel.alerta>
     @endif
     @if($estado_anteproyecto == 2)
-    <div class="row">
-        <div class="col-md-10  col-md-offset-1">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 style="text-align: center">Requisiciones autorizadas del anteproyecto {{ $year }}</h4>
-                    <table class="table table-bordered">
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+        <div class="tw:w-full tw:px-2">
+            <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+                <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:dark:border-gray-800 tw:bg-gray-50 tw:dark:bg-gray-900 tw:px-5 tw:py-4">
+                    <h4 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90 tw:text-center">Requisiciones autorizadas del anteproyecto {{ $year }}</h4>
+                    <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table class="tw-tabla tw-tabla-bordes">
                         <thead>
                         <tr>
                             <th>CLAVE PRESUPUESTAL</th>
@@ -55,7 +40,7 @@
                                             $importe=$material['cantidad']*$material['precio_unitario'];
                                         $total_req=$total_req+$importe;
                                         ?>
-                                    <div class="alert alert-success"><b style="color: black">Materiales o servicios:  </b> <i style="font-size: 16px; color: blue">{{ $material['descripcion'] }}</i> <b style="color: black">Cantidad:  </b> <i style="font-size: 18px; color: blue">{{ $material['cantidad'] }} </i><b style="color: black; ">Precio unitario: </b> <i style="font-size: 18px; color: blue">{{ number_format($material['precio_unitario'], 2, '.', ',')  }}</i> <b style="color: red">Importe:</b><i style="font-size: 18px; color: blue">{{ number_format($importe, 2, '.', ',')  }}</i></div>
+                                    <x-panel.alerta tipo="exito" class="tw:mb-4"><b class="tw:text-gray-800 tw:dark:text-white/90">Materiales o servicios:  </b> <i class="tw:text-base tw:text-blue-700 tw:dark:text-blue-400">{{ $material['descripcion'] }}</i> <b class="tw:text-gray-800 tw:dark:text-white/90">Cantidad:  </b> <i class="tw:text-lg tw:text-blue-700 tw:dark:text-blue-400">{{ $material['cantidad'] }} </i><b class="tw:text-gray-800 tw:dark:text-white/90">Precio unitario: </b> <i class="tw:text-lg tw:text-blue-700 tw:dark:text-blue-400">{{ number_format($material['precio_unitario'], 2, '.', ',')  }}</i> <b class="tw:text-red-600 tw:dark:text-red-400">Importe:</b><i class="tw:text-lg tw:text-blue-700 tw:dark:text-blue-400">{{ number_format($importe, 2, '.', ',')  }}</i></x-panel.alerta>
                                     @endforeach
                                 </ul>
                             </td>
@@ -97,7 +82,7 @@
                                 @if($requisicion['id_mes'] == 12)
                                     <td>Diciembre</td>
                                 @endif
-                            <td> <button data-toggle="tooltip" data-placement="top" id="{{$requisicion['id_actividades_req_ante'] }}" title="Autorizar requisición" class="btn btn btn-success h-primary_m  autorizar_req">Autorizar requisición</button>
+                            <td> <button data-toggle="tooltip" data-placement="top" id="{{$requisicion['id_actividades_req_ante'] }}" title="Autorizar requisición" class="h-primary_m autorizar_req tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap">Autorizar requisición</button>
                             </td>
 
                         </tr>
@@ -105,34 +90,26 @@
 
                         </tbody>
                     </table>
+</div>
                 </div>
             </div>
         </div>
     </div>
     @endif
-<div class="row">
-    <div class="col-md-6">
-        <p><br></p>
-    </div>
-</div>
-    <div class="row">
-        <div class="col-md-1 col-md-offset-2">
-            <button data-toggle="modal"  data-tooltip="true" data-placement="left" title="Agregar nueva solicitud" data-target="#modal_agregar_solicitud" type="button" class="btn btn-success btn-lg flotante">
-                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+        <div class="tw:w-full tw:px-2">
+            <button data-toggle="modal"  data-tooltip="true" data-placement="left" title="Agregar nueva solicitud" data-target="#modal_agregar_solicitud" type="button" class="flotante tw:fixed tw:right-6 tw:bottom-6 tw:z-40 tw:inline-flex tw:size-14 tw:items-center tw:justify-center tw:rounded-full tw:bg-brand-500 tw:text-xl tw:text-white tw:shadow-theme-lg tw:hover:bg-brand-600">
+                <span class="fa fa-plus" aria-hidden="true"></span>
             </button>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-6">
-            <p><br></p>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-10 col-md-offset-1">
-            <div class="panel panel-success">
-                <div class="panel-body">
-                    <h4 style="text-align: center">Solicitudes de partidas presupuestales</h4>
-                    <table class="table table-bordered">
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+        <div class="tw:w-full tw:px-2">
+            <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+                <div class="tw:p-5 tw:sm:p-6">
+                    <h4 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90 tw:text-center">Solicitudes de partidas presupuestales</h4>
+                    <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table class="tw-tabla tw-tabla-bordes">
                         <thead>
                         <tr>
                             <th>NO. SOLICITUD</th>
@@ -145,9 +122,9 @@
                         @foreach($array_solicitudes as $solicitud)
                         <tr>
 
-                            <td style=" ">
+                            <td>
                                 @if($solicitud['id_estado_enviado'] == 0)
-                                <p style="text-align:right "> <button class="eliminar_solicitud"  data-id="{{ $solicitud['id_solicitud']}}"><span class="glyphicon glyphicon-trash em8"data-toggle="tooltip" title="Eliminar solicitud" style="color: red" aria-hidden="true"></span></button></p>
+                                <p class="tw:text-right"> <button class="eliminar_solicitud tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-red-600 tw:ring-1 tw:ring-red-300 tw:ring-inset tw:hover:bg-red-50 tw:dark:bg-gray-800 tw:dark:text-red-500 tw:dark:ring-red-500/40 tw:dark:hover:bg-red-500/10 tw:size-9 tw:text-base"  data-id="{{ $solicitud['id_solicitud']}}"><span class="fa fa-trash em8"data-toggle="tooltip" title="Eliminar solicitud" aria-hidden="true"></span></button></p>
                                 @endif
                                 NÚMERO DE SOLICITUD: <b>{{ $solicitud['numero_solicitud'] }}</b> <br>
                             NOMBRE DEL PROYECTO: <b>{{ $solicitud['nombre_proyecto'] }} </b><br>
@@ -159,34 +136,32 @@
                         </td>
                         <td>
                             @if($solicitud['id_estado_enviado'] == 0)
-                            <p style="text-align: right">  <button title="Agregar partida presupuestal" id="{{ $solicitud['id_solicitud'] }}"   type="button" class="btn btn-success agregar_partida">
-                                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                                </button></p>
+                            <p class="tw:text-right">  <button title="Agregar partida presupuestal" id="{{ $solicitud['id_solicitud'] }}"   type="button" class="agregar_partida tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"><span class="fa fa-plus" aria-hidden="true"></span></button></p>
                             @endif
                                 @if($solicitud['contar_partidas'] == 0)
                                     <?php $suma_total=0; ?>
-                                 <p><div class="alert alert-danger">
+                                 <p><x-panel.alerta tipo="error" class="tw:mb-4">
                                No se ha agregado ninguna partida.
-                                </div></p>
+                                </x-panel.alerta></p>
                                 @else
                                     <?php $suma_total=0; ?>
                                 @foreach($solicitud['partidas'] as $partida)
                                         <?php $suma_total=$suma_total+$partida['presupuesto_dado']; ?>
-                                    <div class="panel panel-success">
-                                        <div class="panel-body" style="background: #e6ebf5">
+                                    <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+                                        <div class="tw:p-5 tw:sm:p-6">
                                             <p>{{ $partida['clave_presupuestal'] }} {{ $partida['nombre_partida'] }}</p>
                                             @if($partida['id_tipo_requisicion'] == 1)
                                                 <p>PRESUPUESTO PEDIDO: <b>${{ number_format( $partida['importe_total'], 2, '.', ',')}}</b></p>
                                             @endif
                                             <p>PRESUPUESTO DADO: <b>${{ number_format( $partida['presupuesto_dado'], 2, '.', ',')}}</b>
                                                 @if($solicitud['id_estado_enviado'] == 0)
-                                                <a class="editar" data-id="{{ $partida['id_solicitud_partida']}}"><span class="glyphicon glyphicon-edit em2" aria-hidden="true"></span></a>
+                                                <a class="editar tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base" data-id="{{ $partida['id_solicitud_partida']}}"><span class="fa fa-pencil-square-o " aria-hidden="true"></span></a>
                                                 @endif
                                             </p>
                                             <p>TIPO DE SOLICITUD: @if($partida['id_tipo_requisicion'] == 1)<b>ANTEPROYECTO</b>@endif @if($partida['id_tipo_requisicion'] == 2)<b>PROYECTO AUTORIZADO</b>@endif
                                             </p>
                                             @if($solicitud['id_estado_enviado'] == 0)
-                                            <p style="text-align: center"> <button class="eliminar" data-id="{{ $partida['id_solicitud_partida']}}"><span class="glyphicon glyphicon-trash em8"data-toggle="tooltip" title="Eliminar partida" style="color: red" aria-hidden="true"></span></button></p>
+                                            <p class="tw:text-center"> <button class="eliminar tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-red-600 tw:ring-1 tw:ring-red-300 tw:ring-inset tw:hover:bg-red-50 tw:dark:bg-gray-800 tw:dark:text-red-500 tw:dark:ring-red-500/40 tw:dark:hover:bg-red-500/10 tw:size-9 tw:text-base" data-id="{{ $partida['id_solicitud_partida']}}"><span class="fa fa-trash em8"data-toggle="tooltip" title="Eliminar partida" aria-hidden="true"></span></button></p>
                                             @endif
                                         </div>
                                     </div>
@@ -195,7 +170,7 @@
                         </td>
                         <td> <b>${{   number_format( $suma_total, 2, '.', ',')}} </b></td>
                             @if($solicitud['id_estado_enviado'] == 0)
-                        <td><button data-toggle="tooltip" data-placement="top" id="{{$solicitud['id_solicitud'] }}" title="Enviar solicitud" class="btn btn btn-primary h-primary_m  enviar_solicitud">Enviar solicitud</button>
+                        <td><button data-toggle="tooltip" data-placement="top" id="{{$solicitud['id_solicitud'] }}" title="Enviar solicitud" class="h-primary_m enviar_solicitud tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap">Enviar solicitud</button>
                         </td>
                             @endif
                             @if($solicitud['id_estado_enviado'] == 1)
@@ -206,84 +181,75 @@
                             @endforeach
                         </tbody>
                     </table>
+</div>
                 </div>
             </div>
         </div>
     </div>
     {{-- modal autorizacion de requisición--}}
 
-    <div class="modal  fade" id="modal_aut_req" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="exampleModalLabel">Autorizar requisición</h4>
+    <x-panel.modal id="modal_aut_req" tamano="lg" sin-relleno clase-cerrar="close" aria-labelledby="exampleModalLabel">
+                <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                    
+                    <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="exampleModalLabel">Autorizar requisición</h4>
                 </div>
-                <div class="modal-body">
+                <div class="tw-modal-cuerpo">
                     <div id="contenedor_aut_req">
 
                     </div>
 
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <button id="aceptar_aut_req"  class="btn btn-primary" >Aceptar</button>
+                    <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                        <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                        <button id="aceptar_aut_req"  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Aceptar</button>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
+            </x-panel.modal>
     {{-- modal agregar solicitud--}}
 
-    <div class="modal fullscreen-modal fade" id="modal_agregar_solicitud" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="exampleModalLabel">Agregar solicitud</h4>
+    <x-panel.modal id="modal_agregar_solicitud" tamano="xl" sin-relleno clase-cerrar="close" aria-labelledby="exampleModalLabel">
+                <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                    
+                    <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="exampleModalLabel">Agregar solicitud</h4>
                 </div>
-                <div class="modal-body">
-                    <form id="form_guardar_nueva_solicitud" class="form" action="{{url("/presupuesto_autorizado/guardar_nueva_solicitud/".$year."/".$id_unidad_admin )}}" role="form" method="POST" >
+                <div class="tw-modal-cuerpo">
+                    <form id="form_guardar_nueva_solicitud" class="" action="{{url("/presupuesto_autorizado/guardar_nueva_solicitud/".$year."/".$id_unidad_admin )}}" role="form" method="POST" >
                         {{ csrf_field() }}
-                        <div class="row">
-                            <div class="col-md-10 col-md-offset-1">
-                                <div class="form-group">
+                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                            <div class="tw:w-full tw:px-2">
+                                <div class="tw:mb-4">
                                     <label>Ingresar descripcion solicitud</label>
-                                    <textarea class="form-control" id="descripcion_solicitud" name="descripcion_solicitud" rows="3" onkeyup="javascript:this.value=this.value.toUpperCase();" required></textarea>
+                                    <textarea class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500" id="descripcion_solicitud" name="descripcion_solicitud" rows="3" onkeyup="javascript:this.value=this.value.toUpperCase();" required></textarea>
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-10 col-md-offset-1">
-                                <div class="dropdown">
+                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                            <div class="tw:w-full tw:px-2">
+                                <div class="tw:mb-4">
                                     <label for="exampleInputEmail1">Selecciona mes</label>
-                                    <select class="form-control  "placeholder="selecciona una Opcion" id="id_mes" name="id_mes" required>
+                                    <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"placeholder="selecciona una Opcion" id="id_mes" name="id_mes" required>
                                         <option disabled selected hidden>Selecciona una opción</option>
                                         @foreach($meses as $mes)
                                             <option value="{{ $mes->id_mes }}" data-esta="{{ $mes->mes }}">{{ $mes->mes }} </option>
                                         @endforeach
                                     </select>
-                                    <br>
                                 </div>
                             </div>
-                            <br>
                         </div>
-                        <div class="row">
-                            <div class="col-md-10 col-md-offset-1">
-                                <div class="dropdown">
+                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                            <div class="tw:w-full tw:px-2">
+                                <div class="tw:mb-4">
                                     <label for="exampleInputEmail1">Selecciona proyecto</label>
-                                    <select class="form-control  "placeholder="selecciona una Opcion" id="id_proyecto" name="id_proyecto" required>
+                                    <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"placeholder="selecciona una Opcion" id="id_proyecto" name="id_proyecto" required>
                                         <option disabled selected hidden>Selecciona una opción</option>
                                         @foreach($proyectos as $proyecto)
                                             <option value="{{ $proyecto->id_proyecto }}" data-esta="{{ $proyecto->nombre_proyecto }}">{{ $proyecto->nombre_proyecto }} </option>
                                         @endforeach
                                     </select>
-                                    <br>
                                 </div>
                             </div>
-                            <br>
                         </div>
-                        <div class="row">
-                            <div class="col-md-10 col-md-offset-1 ">
+                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                            <div class="tw:w-full tw:px-2">
 
                                 <label for="exampleInputEmail1">Selecciona meta</label>
                                 <div id="meta">
@@ -294,136 +260,114 @@
                         </div>
 
                     </form>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <button id="guardar_agregar_solicitud"  class="btn btn-primary" >Aceptar</button>
+                    <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                        <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                        <button id="guardar_agregar_solicitud"  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Aceptar</button>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
+            </x-panel.modal>
     {{-- modal agregar partida--}}
 
-    <div class="modal fullscreen-modal fade" id="modal_agregar_partida" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="exampleModalLabel">Agregar partida presupuestal a la solicitud</h4>
+    <x-panel.modal id="modal_agregar_partida" tamano="xl" sin-relleno clase-cerrar="close" aria-labelledby="exampleModalLabel">
+                <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                    
+                    <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="exampleModalLabel">Agregar partida presupuestal a la solicitud</h4>
                 </div>
-                <div class="modal-body">
-                    <form id="form_agregar_partida_solicitud" class="form" action="{{url("/presupuesto_autorizado/guardar_partida_solicitud/")}}" role="form" method="POST" >
+                <div class="tw-modal-cuerpo">
+                    <form id="form_agregar_partida_solicitud" class="" action="{{url("/presupuesto_autorizado/guardar_partida_solicitud/")}}" role="form" method="POST" >
                         {{ csrf_field() }}
                     <div id="contenedor_agregar_partida">
 
                     </div>
                     </form>
 
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <button id="aceptar_agregar_partida"  class="btn btn-primary" >Aceptar</button>
+                    <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                        <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                        <button id="aceptar_agregar_partida"  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Aceptar</button>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
+            </x-panel.modal>
     {{-- modal enviar solicitud--}}
 
-    <div class="modal fullscreen-modal fade" id="modal_enviar_solicitud" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="exampleModalLabel">Enviar solicitud</h4>
+    <x-panel.modal id="modal_enviar_solicitud" tamano="xl" sin-relleno clase-cerrar="close" aria-labelledby="exampleModalLabel">
+                <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                    
+                    <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="exampleModalLabel">Enviar solicitud</h4>
                 </div>
-                <div class="modal-body">
+                <div class="tw-modal-cuerpo">
 
                         <div id="contenedor_enviar_solicitud">
 
                         </div>
 
 
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <button id="aceptar_enviar_solicitud"  class="btn btn-primary" >Aceptar</button>
+                    <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                        <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                        <button id="aceptar_enviar_solicitud"  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Aceptar</button>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
+            </x-panel.modal>
 
     {{-- modal editar presupuesto--}}
 
-    <div class="modal fullscreen-modal fade" id="modal_editar_pre" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="exampleModalLabel">Editar presupuesto dado</h4>
+    <x-panel.modal id="modal_editar_pre" tamano="xl" sin-relleno clase-cerrar="close" aria-labelledby="exampleModalLabel">
+                <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                    
+                    <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="exampleModalLabel">Editar presupuesto dado</h4>
                 </div>
-                <div class="modal-body">
+                <div class="tw-modal-cuerpo">
 
                     <div id="contenedor_editar_pre">
 
                     </div>
 
 
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <button id="aceptar_editar_pre"  class="btn btn-primary" >Aceptar</button>
+                    <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                        <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                        <button id="aceptar_editar_pre"  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Aceptar</button>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
+            </x-panel.modal>
     {{-- modal eliminar partida--}}
 
-    <div class="modal fullscreen-modal fade" id="modal_eliminar_partida" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="exampleModalLabel">Eliminar partida presupuestal de la solicitud</h4>
+    <x-panel.modal id="modal_eliminar_partida" tamano="xl" sin-relleno clase-cerrar="close" aria-labelledby="exampleModalLabel">
+                <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                    
+                    <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="exampleModalLabel">Eliminar partida presupuestal de la solicitud</h4>
                 </div>
-                <div class="modal-body">
+                <div class="tw-modal-cuerpo">
 
                     <div id="contenedor_eliminar_partida">
 
                     </div>
 
 
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <button id="aceptar_eliminar_partida_sol"  class="btn btn-primary" >Aceptar</button>
+                    <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                        <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                        <button id="aceptar_eliminar_partida_sol"  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Aceptar</button>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
+            </x-panel.modal>
     {{-- modal eliminar solicitud--}}
 
-    <div class="modal fullscreen-modal fade" id="modal_eliminar_solicitud" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="exampleModalLabel">Eliminar solicitud</h4>
+    <x-panel.modal id="modal_eliminar_solicitud" tamano="xl" sin-relleno clase-cerrar="close" aria-labelledby="exampleModalLabel">
+                <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                    
+                    <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="exampleModalLabel">Eliminar solicitud</h4>
                 </div>
-                <div class="modal-body">
+                <div class="tw-modal-cuerpo">
 
                     <div id="contenedor_eliminar_solicitud">
 
                     </div>
 
 
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <button id="aceptar_eliminar_solicitud"  class="btn btn-primary" >Aceptar</button>
+                    <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                        <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                        <button id="aceptar_eliminar_solicitud"  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Aceptar</button>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
+            </x-panel.modal>
     <script>
         $(document).ready(function() {
             $(".eliminar_solicitud").click(function (){
@@ -501,7 +445,7 @@
                     $('#meta').empty();
                     $.each(data, function (datos_alumno, subcatObj) {
                         //   TNotify.alert(subcatObj);
-                        $('#meta').append('<div class="radio"><label><input class="form-check-input"  type="radio" name="meta1" value="'+subcatObj.id_meta+'" required>'+subcatObj.meta+'</label></div>');
+                        $('#meta').append('<div class="tw:flex tw:items-center tw:gap-2"><label><input class="tw:size-4 tw:shrink-0 tw:cursor-pointer tw:accent-brand-500"  type="radio" name="meta1" value="'+subcatObj.id_meta+'" required>'+subcatObj.meta+'</label></div>');
 
                     });
                 });
@@ -688,4 +632,5 @@
     </script>
 
 
+</div>
 @endsection

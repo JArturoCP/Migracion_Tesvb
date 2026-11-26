@@ -6,6 +6,7 @@ import selectorPeriodo from './panel/periodos';
 import registrarModalPeriodoIngles from './panel/modal_periodo_ingles';
 import iniciarGraficas from './panel/graficas';
 import sidebar from './panel/sidebar';
+import './carga'; // Indicador de carga al cambiar de pantalla o enviar formularios.
 
 Alpine.data('dropdown', dropdown);
 Alpine.data('selectorPeriodo', selectorPeriodo);

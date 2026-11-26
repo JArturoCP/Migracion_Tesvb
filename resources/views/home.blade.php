@@ -14,7 +14,9 @@
     <link rel="icon" href="{{ asset('favicon.ico') }}">
     <script>window.location.replace('/inicio');</script>
 
+    @include('layouts.tipografia')
     @vite(['resources/css/marco.css'])
+    @include('partials.panel.tema_estudiantil')
 </head>
 <body class="tw-modulo tw:bg-gray-50">
     <main class="tw:flex tw:min-h-screen tw:flex-col tw:items-center tw:justify-center tw:gap-8 tw:p-6" role="status" aria-live="polite" data-panel-cargando>

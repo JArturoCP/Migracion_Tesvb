@@ -105,7 +105,7 @@ function complementariasComparar($prueba, string $ruta): string
     $clasesUsadas = array_intersect(CompararVistas::clasesDeScripts($a), CompararVistas::clases($a));
     expect(array_values(array_diff($clasesUsadas, CompararVistas::clases($b))))->toBe([], "clases de scripts en $ruta");
     $textoNuevo = CompararVistas::textoPlano(CompararVistas::region($nuevo, '//body'));
-    expect(array_values(array_filter(CompararVistas::textos($a), fn ($t) => ! str_contains($textoNuevo, $t))))->toBe([], "textos de $ruta");
+    expect(CompararVistas::textosFaltantes($a, $textoNuevo, $vista->name()))->toBe([], "textos de $ruta");
 
     return $nuevo;
 }

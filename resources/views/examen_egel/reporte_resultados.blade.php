@@ -35,7 +35,7 @@
                 <tr>
                     <th class="tw:text-center">Módulo</th>
                     <th class="tw:text-center">Puntos obtenidos</th>
-                    <th class="tw:text-center">Total puntos</th>
+                    <th class="tw:text-center">Total de puntos</th>
                     <th class="tw:text-center">%</th>
                 </tr>
             </thead>

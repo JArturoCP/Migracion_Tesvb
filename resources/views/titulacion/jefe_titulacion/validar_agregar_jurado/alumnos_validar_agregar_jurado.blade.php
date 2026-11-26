@@ -90,7 +90,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-info">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title text-center" id="myModalLabel">Autorizar los datos del estudiante registrados</h4>
                 </div>
                 <form id="form__autorizar_agregar_jurado" class="form" action="{{url("/titulacion/guardar_autorizar_agregar_jurado/")}}" role="form" method="POST" enctype="multipart/form-data" >

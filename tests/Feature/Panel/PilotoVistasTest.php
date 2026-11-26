@@ -120,7 +120,7 @@ it('conserva formularios, campos, ids, clases de scripts y datos', function (str
 
     // Los datos se buscan en toda la página nueva (algunas vistas anteriores, con HTML sin balancear, dejaban el pie dentro del contenido).
     $textoNuevo = CompararVistas::textoPlano(CompararVistas::region($nuevo, '//body'));
-    $faltan = array_values(array_filter(CompararVistas::textos($a), fn ($t) => ! str_contains($textoNuevo, $t)));
+    $faltan = CompararVistas::textosFaltantes($a, $textoNuevo, $vista);
     expect($faltan)->toBe([]);
 })->with('vistas_piloto');
 

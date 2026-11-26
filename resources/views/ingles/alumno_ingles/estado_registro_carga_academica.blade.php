@@ -1,27 +1,20 @@
 @extends('ingles.inicio_ingles.layout_ingles')
 @section('title', 'Revisión de Carga academica ingles')
 @section('content')
-    <main class="col-md-12">
-        <div class="row">
-            <div class="col-md-6 col-md-offset-3">
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title text-center">Carga Academica Ingles</h3>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-3 col-md-offset-5">
-                <form id="form_carga" class="form" action="{{url("/ingles_horarios/guardar_iniciar_carga_academica/")}}" role="form" method="POST" >
+    @include('ingles.alumno_ingles.estilos')
+    <main class="ingles-estudiante ingles-inicio">
+        <h1 class="ingles-titulo">Carga académica de inglés</h1>
+
+        <div class="ingles-tarjeta">
+            <form id="form_carga" class="form" action="{{url("/ingles_horarios/guardar_iniciar_carga_academica/")}}" role="form" method="POST" >
 
                 {{ csrf_field() }}
                 <input type="hidden" id="id_periodo" name="id_periodo" value="{{ $periodo_ingles }}">
                 <input type="hidden" id="id_alumno" name="id_alumno" value="{{ $alumno }}">
                 </form>
-                Dar clic para iniciar con el registro de carga académica<br>
-                <button class="btn btn-primary iniciar_registro">Iniciar registro de carga académica</button>
-                <br><p><br></p>
+            <p>Da clic para iniciar con el registro de carga académica.</p>
+            <div class="ingles-acciones">
+                <button class="btn btn-primary iniciar_registro ingles-boton">Iniciar registro de carga académica</button>
             </div>
         </div>
     </main>

@@ -39,19 +39,7 @@
     <link href="/css/bootstrap-colorpicker.css" rel="stylesheet">
     <link href="/css/jquery.timepicker.css" rel="stylesheet">
 
-    <!-- Tipografía accesible: Atkinson Hyperlegible Next -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;500;600;700&display=swap"
-        rel="stylesheet"
-    >
-
-    <link
-        rel="stylesheet"
-        href="{{ asset('css/tesvb-typography.css') }}?v={{ filemtime(public_path('css/tesvb-typography.css')) }}"
-    >
+    @include('layouts.tipografia')
 
     @stack('styles')
 
@@ -93,6 +81,11 @@
     <!-- Notificaciones TESVB (reemplazo de alert/confirm/prompt) -->
     <script src="{{ asset('js/tesvb-notify.js') }}?v={{ filemtime(public_path('js/tesvb-notify.js')) }}"></script>
 
+@include('partials.panel.fechas')
+    @include('partials.panel.tema_estudiantil')
+    {{-- Indicador de carga al cambiar de pantalla o enviar formularios (resources/js/carga.js). --}}
+    <meta name="tesvb-logo" content="{{ asset(config('tesvb.logo')) }}">
+    @vite('resources/js/carga.js')
 </head>
 
 <body class="@yield('body_class')">
@@ -115,7 +108,7 @@
     @endif
 @show
 
-<div class="tesvb-contenido">
+<div class="tesvb-contenido" data-tema-estudiantil="bootstrap">
 @yield('content')
 </div>
 

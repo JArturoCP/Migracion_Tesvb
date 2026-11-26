@@ -1,59 +1,60 @@
-@extends('layouts.app')
+@extends('layouts.panel')
+@include('partials.panel.recursos_app', ['datepicker' => true])
 @section('title', 'Incidencias')
 @section('content')
-    <main class="col-md-12">
-        <div class="row">
-            <div class="col-md-6 col-md-offset-3">
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h1 class="panel-title text-center">SUBIR EVIDENCIA DE CONOCIMIENTO QUE NO REQUIERE AUTORIZACIÓN DE JEFE INMEDIATO<br><br>
+    <main class="tw:w-full tw:lg:w-full tw:px-2">
+        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+            <div class="tw:w-full tw:lg:w-6/12 tw:lg:ml-[25%] tw:px-2">
+                <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
+                    <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4">
+                        <h1 class="tw:text-base tw:font-medium tw:text-gray-800 tw:text-center">SUBIR EVIDENCIA DE CONOCIMIENTO QUE NO REQUIERE AUTORIZACIÓN DE JEFE INMEDIATO<br><br>
                             Tipo de evidencia: {{ $tipo_evidencia->nombre_evidencia }}</h1>
                     </div>
                 </div>
             </div>
             <form id="form_enviar_evidencia" action="{{url('/incidencias/guardar_evid_fecha_solicita2/'.$tipo_evidencia->id_tipo_evid.'/'.$tipo_fecha)}}" role="form" method="POST" enctype="multipart/form-data">
                 {{ csrf_field() }}
-                <div class="row">
-                    <div class="col-md-8 col-md-offset-3">
+                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                    <div class="tw:w-full tw:lg:w-8/12 tw:lg:ml-[25%] tw:px-2">
                         <label>Instrucciones: </label><br>
                         <label> Para poder subir la evidencia correspondiente es necesario que su archivo, que desea subir este en formato PDF y que este legible.</label>
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col-md-2  col-md-offset-3 ">
+                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                    <div class="tw:w-full tw:lg:w-2/12 tw:lg:ml-[25%] tw:px-2">
                         <label for="fecha_requerida">Fecha inicial:</label>
-                        <div class="form-group">
-                            <input class="form-control datepicker fecha_requerida1"   type="text"  id="fecha_req1" name="fecha_req1" data-date-format="yyyy/mm/dd" placeholder="DD/MM/AAAA" >
+                        <div class="tw:mb-4">
+                            <input class="datepicker fecha_requerida1 tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"   type="text"  id="fecha_req1" name="fecha_req1" data-date-format="yyyy/mm/dd" placeholder="DD/MM/AAAA" >
                         </div>
                     </div>
-                    <div class="col-md-2  col-md-offset-1 ">
+                    <div class="tw:w-full tw:lg:w-2/12 tw:lg:ml-[8.3333%] tw:px-2">
                         <label for="fecha_requerida">Fecha final:</label>
-                        <div class="form-group">
-                            <input class="form-control datepicker fecha_requerida2"   type="text"  id="fecha_req2" name="fecha_req2" data-date-format="yyyy/mm/dd" placeholder="DD/MM/AAAA" >
+                        <div class="tw:mb-4">
+                            <input class="datepicker fecha_requerida2 tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"   type="text"  id="fecha_req2" name="fecha_req2" data-date-format="yyyy/mm/dd" placeholder="DD/MM/AAAA" >
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-5 col-md-offset-3">
+                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                    <div class="tw:w-full tw:lg:w-5/12 tw:lg:ml-[25%] tw:px-2">
                         <span><label for="archivo_subir">Archivo a subir:</label></span>
-                        <input  class="form-control" id="arch_evidencia" name="arch_evidencia" type="file" accept="application/pdf"    required />
+                        <input  class="tw:h-11 tw:w-full tw:overflow-hidden tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:text-sm tw:text-gray-500 tw:shadow-theme-xs tw:file:mr-5 tw:file:border-0 tw:file:border-r tw:file:border-solid tw:file:border-gray-200 tw:file:bg-gray-50 tw:file:py-3 tw:file:pr-3 tw:file:pl-3.5 tw:file:text-sm tw:file:text-gray-700 tw:hover:file:bg-gray-100 tw:focus:outline-hidden" id="arch_evidencia" name="arch_evidencia" type="file" accept="application/pdf"    required />
                     </div>
                 </div>
                 @if($tipo_evidencia->id_tipo_evid == 1 || $tipo_evidencia->id_tipo_evid == 3 ||  $tipo_evidencia->id_tipo_evid == 5  ||  $tipo_evidencia->id_tipo_evid == 6)
-                    <div class="row">
-                        <div class="col-md-5 col-md-offset-3">
+                    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                        <div class="tw:w-full tw:lg:w-5/12 tw:lg:ml-[25%] tw:px-2">
                             <label for="archivo_subir">Número de folio:</label>
-                            <input class="form-control" onkeyup="javascript:this.value=this.value.toUpperCase();"  id="no_folio" name="no_folio" type="text" placeholder="Ingresa numero de folio" style="" required></input>
+                            <input class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" onkeyup="javascript:this.value=this.value.toUpperCase();"  id="no_folio" name="no_folio" type="text" placeholder="Ingresa numero de folio" style="" required></input>
                         </div>
                     </div>
                 @endif
 
             </form>
-            <div class="row" style="display: inline" id="subir">
+            <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4" style="display: inline" id="subir">
                 <br>
-                <div class="col-md-4 col-md-offset-5">
-                    <button id="enviar_evidencia" type="button" class="btn btn-success btn-lg">Guardar Evidencia</button>
+                <div class="tw:w-full tw:lg:w-4/12 tw:lg:ml-[41.6667%] tw:px-2">
+                    <button id="enviar_evidencia" type="button" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-green-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-green-700 tw:gap-2 tw:px-5 tw:py-3.5 tw:text-base">Guardar Evidencia</button>
                 </div>
             </div>
         </div>

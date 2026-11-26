@@ -46,7 +46,7 @@ function compararVistaComplementarias(string $vista, array $datos): string
     $clasesUsadas = array_intersect(CompararVistas::clasesDeScripts($a), CompararVistas::clases($a));
     expect(array_values(array_diff($clasesUsadas, CompararVistas::clases($b))))->toBe([], "clases de scripts en $vista");
     $texto = CompararVistas::textoPlano(CompararVistas::region($nuevo, '//body'));
-    expect(array_values(array_filter(CompararVistas::textos($a), fn ($t) => ! str_contains($texto, $t))))->toBe([], "textos de $vista");
+    expect(CompararVistas::textosFaltantes($a, $texto, $vista))->toBe([], "textos de $vista");
 
     return $nuevo;
 }
