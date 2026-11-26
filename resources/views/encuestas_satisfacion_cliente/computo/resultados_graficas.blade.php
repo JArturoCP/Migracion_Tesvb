@@ -1,177 +1,71 @@
-@extends('layouts.app')
-@section('title', 'Analisis de Encuestas de Satisfacción del Cliente')
+@extends('layouts.panel')
+@section('title', 'Resultados de encuestas de Cómputo')
+@include('partials.panel.recursos_app', ['graficas' => true])
+
+@use('App\View\EncuestaMantenimiento')
+
 @section('content')
-    <?php
-    $historial = Session::get('historial_enc_c');
-    ?>
-    <main class="col-md-12">
-        @if($historial == 1)
-        <div class="row">
-            <div class="col-md-10 col-xs-10 col-md-offset-1">
-                <p>
-                    <span class="glyphicon glyphicon-arrow-right"></span>
-                    <a href="{{url("/encuestas_satisfaccion/menu_historial_mantenimiento")}}">Historial de encuestas de satisfacción del cliente </a>
-                    <span class="glyphicon glyphicon-arrow-right"></span>
-                    <a href="{{url("/encuestas_satisfaccion/menu_historial_mantenimiento_year/".$year)}}">Periodos de las encuestas</a>
-                    <span class="glyphicon glyphicon-chevron-right"></span>
-                    <span>Ver resultados</span>
-                </p>
-                <br>
-            </div>
-        </div>
-        @else
-            <div class="row">
-                <div class="col-md-10 col-xs-10 col-md-offset-1">
-                    <p>
-                        <span class="glyphicon glyphicon-arrow-right"></span>
-                        <a href="{{url("/encuestas_satisfaccion/periodo_mantenimiento")}}">Periodos de las encuestas</a>
-                        <span class="glyphicon glyphicon-chevron-right"></span>
-                        <span>Ver resultados</span>
-                    </p>
-                    <br>
-                </div>
-            </div>
-        @endif
-        <div class="row">
-            <div class="col-md-6 col-md-offset-3 ">
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title text-center">Ver resultados de Encuestas de Satisfacción del Cliente interno<br>(Centro de computo) <br>@if($mes == 1) Enero @else Julio @endif del {{ $year }}</h3>
+    @php
+        $historial = session('historial_enc_c') == 1;
+        $base = '/encuestas_satisfaccion/';
+        $migas = $historial ? ['Historial de encuestas' => url($base.'menu_historial_mantenimiento')] : [];
+        $migas['Periodos de las encuestas'] = $historial
+            ? url($base.'menu_historial_mantenimiento_year/'.$year)
+            : url($base.'periodo_mantenimiento');
+        $periodo = ($mes == 1 ? 'Enero' : 'Julio').' de '.$year;
+        $total_valor_encuestas = $total_encuestas * 20;
+        $porcentaje_final = $total_valor_encuestas ? $resultado_final / $total_valor_encuestas * 100 : 0;
+        $total_resultado = $total_preg_1 + $total_preg_2 + $total_preg_3 + $total_preg_4;
+    @endphp
+    <x-panel.encabezado titulo="Resultados de encuestas de Cómputo" :migas="$migas" />
 
+    <div class="tw:space-y-5">
+        <x-panel.tarjeta titulo="Indicador de satisfacción" :subtitulo="$periodo">
+            <dl class="tw:grid tw:gap-4 tw:text-sm tw:sm:grid-cols-2 tw:xl:grid-cols-4">
+                @foreach (['Satisfacción del cliente' => $porcentaje_final.' %', 'Total de encuestas' => $total_encuestas, 'Valor por encuesta' => 20, 'Puntos esperados' => $total_valor_encuestas] as $etiqueta => $valor)
+                    <div class="tw:rounded-lg tw:bg-gray-50 tw:p-3 tw:dark:bg-white/5">
+                        <dt>{{ $etiqueta }}</dt><dd class="tw:font-semibold">{{ $valor }}</dd>
                     </div>
-                </div>
-            </div>
+                @endforeach
+            </dl>
+        </x-panel.tarjeta>
+        <x-panel.tarjeta titulo="Respuestas por pregunta">
+            <x-panel.tabla compacta>
+                <thead>
+                    <tr><th scope="col">Calificación</th><th scope="col">Valor</th><th scope="col">P1</th><th scope="col">P2</th><th scope="col">P3</th><th scope="col">P4</th><th scope="col">Total</th></tr>
+                </thead>
+                <tbody>
+                    @foreach ([1 => 'malo', 2 => 'regular', 3 => 'bueno', 4 => 'muy_bueno', 5 => 'excelente'] as $valor => $clave)
+                        <tr>
+                            <th scope="row">{{ EncuestaMantenimiento::OPCIONES[$valor] }}</th>
+                            <td>{{ $valor }}</td>
+                            @foreach (range(1, 4) as $numero)
+                                <td>{{ ${'preg_'.$numero.'_'.$clave} }}</td>
+                            @endforeach
+                            <td>{{ ${'total_'.$clave} }}</td>
+                        </tr>
+                    @endforeach
+                    <tr>
+                        <th scope="row" colspan="2">Puntos por pregunta</th>
+                        @foreach ([$total_preg_1, $total_preg_2, $total_preg_3, $total_preg_4, $total_resultado] as $total)
+                            <td>{{ $total }}</td>
+                        @endforeach
+                    </tr>
+                </tbody>
+            </x-panel.tabla>
+        </x-panel.tarjeta>
+        <div class="tw:grid tw:min-w-0 tw:gap-5 tw:xl:grid-cols-2">
+        <x-panel.tarjeta titulo="Resumen general" class="tw:xl:col-span-2">
+            <div id="container" class="tw:min-w-0 tw:rounded-lg tw:bg-white"></div>
+        </x-panel.tarjeta>
+        @foreach (EncuestaMantenimiento::PREGUNTAS as $numero => $pregunta)
+            <x-panel.tarjeta :titulo="$numero.'. '.$pregunta">
+                <div id="pregunta{{ $numero }}" class="tw:min-w-0 tw:rounded-lg tw:bg-white"></div>
+            </x-panel.tarjeta>
+        @endforeach
         </div>
-        <div class="row">
-            <div class="col-md-6 col-md-offset-3">
-                <table id="tabla_envio" class="table table-bordered table-resposive">
-                    <thead>
-                    <tr>
-                        <th></th>
-                        <th>VALOR P/PREGUNTA</th>
-                        <th>P1</th>
-                        <th>P2</th>
-                        <th>P3</th>
-                        <th>P4</th>
-                        <th>TOTAL</th>
+    </div>
 
-                    </tr>
-                    </thead>
-                    <tbody>
-
-                    <tr>
-                        <td ><b>MALO</b></td>
-                        <td ><b>1</b></td>
-                        <td>{{ $preg_1_malo }}</td>
-                        <td>{{ $preg_2_malo }}</td>
-                        <td>{{ $preg_3_malo }}</td>
-                        <td>{{ $preg_4_malo }}</td>
-                        <td>{{ $total_malo }}</td>
-
-                    </tr>
-                    <tr>
-                        <td ><b>REGULAR</b></td>
-                        <td ><b>2</b></td>
-                        <td>{{ $preg_1_regular }}</td>
-                        <td>{{ $preg_2_regular }}</td>
-                        <td>{{ $preg_3_regular }}</td>
-                        <td>{{ $preg_4_regular }}</td>
-                        <td>{{ $total_regular }}</td>
-
-                    </tr>
-                    <tr>
-                        <td ><b>BUENO</b></td>
-                        <td ><b>3</b></td>
-                        <td>{{ $preg_1_bueno }}</td>
-                        <td>{{ $preg_2_bueno }}</td>
-                        <td>{{ $preg_3_bueno }}</td>
-                        <td>{{ $preg_4_bueno }}</td>
-                        <td>{{ $total_bueno }}</td>
-
-                    </tr>
-                    <tr>
-                        <td ><b>MUY BUENO</b></td>
-                        <td ><b>4</b></td>
-                        <td>{{ $preg_1_muy_bueno }}</td>
-                        <td>{{ $preg_2_muy_bueno }}</td>
-                        <td>{{ $preg_3_muy_bueno }}</td>
-                        <td>{{ $preg_4_muy_bueno }}</td>
-                        <td>{{ $total_muy_bueno }}</td>
-
-                    </tr>
-                    <tr>
-                        <td ><b>EXCELENTE</b></td>
-                        <td ><b>5</b></td>
-                        <td>{{ $preg_1_excelente }}</td>
-                        <td>{{ $preg_2_excelente }}</td>
-                        <td>{{ $preg_3_excelente }}</td>
-                        <td>{{ $preg_4_excelente }}</td>
-                        <td>{{ $total_excelente }}</td>
-
-                    </tr>
-                    <tr>
-                        <td colspan="2" ><b>TOTAL P/ PREGUNTA</b></td>
-                        <td>{{ $total_preg_1 }}</td>
-                        <td>{{ $total_preg_2 }}</td>
-                        <td>{{ $total_preg_3 }}</td>
-                        <td>{{ $total_preg_4 }}</td>
-                        <?php  $total_resultado=$total_preg_1+$total_preg_2+$total_preg_3+$total_preg_4 ?>
-                        <td>{{ $total_resultado }}</td>
-
-                    </tr>
-
-
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-2 col-md-offset-5">
-                <table id="tabla_envio" class="table table-bordered table-resposive">
-                    <tbody>
-                    <tr>
-                        <td ><b>TOTAL DE ENCUESTAS</b></td>
-                        <td>{{ $total_encuestas }}</td>
-
-                    </tr>
-                    <tr>
-                        <td ><b>VALOR POR ENCUESTA</b></td>
-                        <td>20</td>
-                    </tr>
-                    <tr>
-                        <?php $total_valor_encuestas=$total_encuestas*20; ?>
-                        <td ><b>ESPERADO</b></td>
-                        <td>{{ $total_valor_encuestas }}</td>
-                    </tr>
-
-
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-2 col-md-offset-5">
-                <table id="tabla_envio" class="table table-bordered table-resposive">
-                    <tbody>
-                    <tr>
-                        <td ><b>INDICADOR DE SATISFACCIÓN DEL CLIENTE</b></td>
-                        <?php
-                        if($resultado_final == 0){
-                            $porcentaje_final= 0;
-                        }else{
-                            $porcentaje_final= ($resultado_final/$total_valor_encuestas)*100 ;
-                        }
-
-                        ?>
-                        <td>{{ $porcentaje_final }} %</td>
-
-                    </tr>
-
-
-                    </tbody>
-                </table>
-            </div>
-        </div>
         <?php
         $total_puntos_preg= $total_encuestas*5;
 
@@ -312,52 +206,10 @@
 
         }
         ?>
+@endsection
 
-        <div class="row">
-            <div class="col-md-6 col-md-offset-3">
-                <h4 style="text-align: center">GRAFICA GENERAL DE RESULTADOS DE SOLICITUDES DE SERVICIOS DE MENTENIMIENTO</h4>
-                <div  id="container"></div>
-
-
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6 col-md-offset-3 ">
-                <p style="text-align: center">El tiempo de respuesta a su Solicitud fue el adecuado.</p>
-                <div  id="pregunta1"></div>
-
-
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6 col-md-offset-3">
-                <p style="text-align: center">La atención proporcionada por el personal de Mantenimiento fue la adecuada</p>
-                <div  id="pregunta2"></div>
-
-
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6 col-md-offset-3 ">
-                <p style="text-align: center">El personal   técnico resolvió sus necesidades y dio respuesta a sus requerimientos</p>
-                <div  id="pregunta3"></div>
-
-
-            </div>
-
-        </div>
-        <div class="row">
-            <div class="col-md-6 col-md-offset-3">
-                <p style="text-align: center">El Equipo al que se le dio mantenimiento se le entrego limpio.</p>
-                <div  id="pregunta4"></div>
-
-
-            </div>
-        </div>
-
-
-
-        <script>
+@push('scripts')
+<script>
             $(document).ready(function() {
 
 // Build the chart
@@ -666,8 +518,4 @@
             });
 
         </script>
-
-
-    </main>
-
-@endsection
+@endpush

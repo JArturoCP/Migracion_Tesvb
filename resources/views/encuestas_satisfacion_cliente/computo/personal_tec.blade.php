@@ -1,334 +1,117 @@
-@extends('layouts.app')
-@section('title', 'Encuestas de Satisfacción de Cliente')
+@extends('layouts.panel')
+@section('title', 'Gestión de encuestas de Cómputo')
+@include('partials.panel.recursos_app', ['datatables' => true, 'datepicker' => true])
+@include('partials.panel.formularios')
+
 @section('content')
+    @php
+        $historial = session('historial_enc_c') == 1;
+        $base = '/encuestas_satisfaccion/';
+        $migas = $historial ? ['Historial de encuestas' => url($base.'menu_historial_mantenimiento')] : [];
+        $migas['Periodos de las encuestas'] = $historial
+            ? url($base.'menu_historial_mantenimiento_year/'.$year)
+            : url($base.'periodo_mantenimiento');
+        $periodo = ($mes == 1 ? 'Enero' : 'Julio').' de '.$year;
+    @endphp
+    @php
+        $abierto = $estado_periodo->contar == 0;
+        $estados = [0 => ['Pendiente de envío', 'advertencia'], 1 => ['Enviada', 'info'], 2 => ['Contestada', 'exito'], 3 => ['Rechazada', 'gris']];
+        $confirmaciones = [
+            ['enviar', 'Enviar encuesta', 'form_enviar_encuesta', 'guardar_envio_enc_mante', 'Confirmar envío', 'primario'],
+            ['eliminar', 'Eliminar encuesta', 'form_eliminar_encuesta', 'guardar_eliminacion_enc_mante', 'Confirmar eliminación', 'peligro'],
+        ];
+    @endphp
 
-    <?php
-    $historial = Session::get('historial_enc_c');
-    ?>
-    <main class="col-md-12">
-        @if($historial == 1)
-        <div class="row">
-            <div class="col-md-10 col-xs-10 col-md-offset-1">
-                <p>
-                    <span class="glyphicon glyphicon-arrow-right"></span>
-                    <a href="{{url("/encuestas_satisfaccion/menu_historial_mantenimiento")}}">Historial de encuestas de satisfacción del cliente</a>
-                    <span class="glyphicon glyphicon-arrow-right"></span>
-                    <a href="{{url("/encuestas_satisfaccion/menu_historial_mantenimiento_year/".$year)}}">Periodos de las encuestas</a>
-                    <span class="glyphicon glyphicon-chevron-right"></span>
-                    <span>Encuestas</span>
-                </p>
-                <br>
-            </div>
-        </div>
-        @else
-            <div class="row">
-                <div class="col-md-10 col-xs-10 col-md-offset-1">
-                    <p>
-                        <span class="glyphicon glyphicon-arrow-right"></span>
-                        <a href="{{url("/encuestas_satisfaccion/periodo_mantenimiento")}}">Periodos de las encuestas</a>
-                        <span class="glyphicon glyphicon-chevron-right"></span>
-                        <span>Encuestas</span>
-                    </p>
-                    <br>
-                </div>
-            </div>
-
-        @endif
-        <div class="row">
-            <div class="col-md-5 col-md-offset-3">
-
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h2 class="panel-title text-center">Encuestas de Satisfacción de Cliente interno<br>(Centro de computo)<br>@if($mes == 1)Enero  @else Julio @endif del {{ $year }}</h2>
-                    </div>
-                </div>
-            </div>
-        </div>
-        @if($estado_periodo->contar == 0)
-        <div class="row">
-            <div class="col-md-2 col-md-offset-5">
-                <button data-toggle="modal"  data-tooltip="true" data-placement="left" title="Agregar nueva encuesta" data-target="#modal_agregar" type="button" class="btn btn-success btn-lg flotante">
-                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                </button>
-            </div>
-        </div>
-        @endif
-        <div class="row">
-            <p><br></p>
-        </div>
-
-        <div class="row">
-            <div class="col-md-10 col-md-offset-1">
-                <table id="table_enviado" class="table table-bordered table-resposive">
-                    <thead>
-                    <tr>
-                        <th>Fecha de la solicitud</th>
-                        <th>Nombre de quien lo solicita</th>
-                        <th>Servicio que solicita</th>
-                        <th>Enviar encuesta</th>
-
-                    </tr>
-                    </thead>
-                    <tbody>
-
+    <x-panel.encabezado titulo="Gestión de encuestas de Cómputo" :migas="$migas" />
+    <x-panel.tarjeta titulo="Solicitudes de mantenimiento" :subtitulo="$periodo">
+        <x-slot:acciones>
+            @if ($abierto)
+                <x-panel.boton data-toggle="modal" data-target="#modal_agregar">Agregar encuesta</x-panel.boton>
+            @endif
+        </x-slot:acciones>
+        @if (count($mantenimientos))
+            <x-panel.tabla id="table_enviado">
+                <thead><tr><th scope="col">Fecha de la solicitud</th><th scope="col">Solicitante</th><th scope="col">Servicio solicitado</th><th scope="col">Estado</th><th scope="col">Acciones</th></tr></thead>
+                <tbody>
                     @foreach ($mantenimientos as $servicio)
-
+                        @php
+                            [$estado, $tono] = $estados[$servicio->id_estado] ?? ['Sin estado', 'gris'];
+                            $id = $servicio->id_servicio_mantenimiento;
+                        @endphp
                         <tr>
-                            <?php  $fecha_solicita=date("d-m-Y",strtotime($servicio->fecha_solicita)) ?>
-
-                            <td>{{ $fecha_solicita }}</td>
+                            <td data-order="{{ $servicio->fecha_solicita }}">{{ date('d-m-Y', strtotime($servicio->fecha_solicita)) }}</td>
                             <td>{{ $servicio->nombre }}</td>
                             <td>{{ $servicio->servicio_solicita }}</td>
-                            @if($servicio->id_estado == 0)
-                                <td style="text-align: center;"><button type="button" class="btn btn-primary enviar_encuesta" data-id="{{ $servicio->id_servicio_mantenimiento }}">Enviar encuesta</button><br><br>
-                                    <a class="elimina" id="{{ $servicio->id_servicio_mantenimiento}}"><span class="glyphicon glyphicon-trash em6" aria-hidden="true" ></span></a></td>
-                            @elseif($servicio->id_estado == 1)
-                                <td>Encuesta enviada</td>
-                                @elseif($servicio->id_estado == 2)
-                                    <td style="background: #b8daff; text-align: center">
-                                        <button type="button" class="btn btn-success ver_encuesta" data-id="{{ $servicio->id_servicio_mantenimiento }}">ver_encuesta</button><br>
-                                        Encuesta contestada</td>
-                                @elseif($servicio->id_estado == 3)
-                                    <td style="background: #8c8c8c">Encuesta rechazada</td>
-                            @endif
+                            <td><x-panel.badge :tono="$tono">{{ $estado }}</x-panel.badge></td>
+                            <td>
+                                <div class="tw:flex tw:flex-wrap tw:gap-2">
+                                    @if ($servicio->id_estado == 0)
+                                        <x-panel.boton tamano="sm" variante="contorno-primario" :data-url="url($base.'notificacion_enviar_enc_mantenimiento/'.$id)"
+                                            data-modal-remoto="#modal_enviar" data-contenedor="#contenedor_enviar">Enviar encuesta</x-panel.boton>
+                                        <x-panel.boton tamano="sm" variante="contorno-peligro" :data-url="url($base.'eliminar_enc_mantenimiento/'.$id)"
+                                            data-modal-remoto="#modal_eliminar" data-contenedor="#contenedor_eliminar">Eliminar</x-panel.boton>
+                                    @elseif ($servicio->id_estado == 2)
+                                        <x-panel.boton tamano="sm" variante="contorno-primario" :data-url="url($base.'ver_enc_mantenimiento/'.$id)"
+                                            data-modal-remoto="#modal_ver" data-contenedor="#contenedor_ver">Ver respuestas</x-panel.boton>
+                                    @endif
+                                </div>
+                            </td>
                         </tr>
-
                     @endforeach
-                    </tbody>
-                </table>
-                <br>
-            </div>
-        </div>
+                </tbody>
+            </x-panel.tabla>
+        @else
+            <x-panel.vacio titulo="Sin solicitudes de mantenimiento" />
+        @endif
+    </x-panel.tarjeta>
 
-
-
-
-    </main>
-    <div class="modal fade" id="modal_agregar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="exampleModalLabel">Nueva encuesta  de satisfacción al cliente interno</h4>
+    @if ($abierto)
+        <x-panel.modal id="modal_agregar" titulo="Agregar encuesta" aria-label="Agregar encuesta" sin-relleno>
+            <form id="form_agregar" method="POST" action="{{ url($base.'guardar_registro_mantemiento_computo/'.$mes.'/'.$year) }}" data-panel-envio>
+                @csrf
+                <div class="tw-modal-cuerpo tw:space-y-4">
+                    <x-panel.select id="selectPersonal" name="selectPersonal" etiqueta="Personal del Tecnológico" required>
+                        <option value="">Selecciona una opción</option>
+                        @foreach ($personales as $personal)
+                            <option value="{{ $personal->id_personal }}">{{ $personal->nombre }}</option>
+                        @endforeach
+                    </x-panel.select>
+                    <x-panel.textarea id="servicio" name="servicio" etiqueta="Servicio solicitado" rows="3" required />
+                    <x-panel.input id="fecha_s" name="fecha_s" etiqueta="Fecha de la solicitud" data-date-format="yyyy/mm/dd" placeholder="aaaa/mm/dd" required />
                 </div>
-                <div class="modal-body">
-                    <form id="form_agregar" class="form" action="{{url("/encuestas_satisfaccion/guardar_registro_mantemiento_computo/".$mes."/".$year)}}" role="form" method="POST" >
-                        {{ csrf_field() }}
-                        <div class="row">
-                            <div class="col-md-10 col-md-offset-1">
-                                <div class="dropdown">
-                                    <label for="selectPersonal">Personal del Tecnológico</label>
-                                    <select class="form-control" id="selectPersonal" name="selectPersonal" >
-                                        <option disabled selected hidden>Selecciona una opción</option>
-                                        @foreach($personales as $personal)
-                                            <option value="{{$personal->id_personal}}"> {{$personal->nombre}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-10 col-md-offset-1">
-                                <div class="form-group">
-                                    <label for="dependencia">Servicio que solicita</label>
-                                    <textarea class="form-control" id="servicio" name="servicio" rows="3"  placeholder="Ingresa el servicio que solicita" style=""></textarea>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-10 col-md-offset-1">
-                                <div class="form-group">
-                                    <label for="dependencia">Fecha que solicita el servicio</label>
-                                    <input class="form-control datepicker fecha_s"   type="text"  id="fecha_s" name="fecha_s" data-date-format="yyyy/mm/dd" placeholder="yyyy/mm/dd" >
-                                </div>
-                            </div>
-                        </div>
+                <x-panel.modal-pie>
+                    <x-panel.boton variante="secundario" data-dismiss="modal">Cancelar</x-panel.boton>
+                    <x-panel.boton type="submit">Guardar</x-panel.boton>
+                </x-panel.modal-pie>
+            </form>
+        </x-panel.modal>
+    @endif
 
+    @foreach ($confirmaciones as [$accion, $titulo, $formulario, $ruta, $boton, $variante])
+        <x-panel.modal :id="'modal_'.$accion" :titulo="$titulo" :aria-label="$titulo" sin-relleno>
+            <form id="{{ $formulario }}" method="POST" action="{{ url($base.$ruta.'/') }}" data-panel-envio>
+                @csrf
+                <div class="tw-modal-cuerpo" id="{{ 'contenedor_'.$accion }}"></div>
+                <x-panel.modal-pie>
+                    <x-panel.boton variante="secundario" data-dismiss="modal">Cancelar</x-panel.boton>
+                    <x-panel.boton type="submit" :variante="$variante">{{ $boton }}</x-panel.boton>
+                </x-panel.modal-pie>
+            </form>
+        </x-panel.modal>
+    @endforeach
 
-                    </form>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <button id="guardar_agregado"  class="btn btn-primary" >Guardar</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <x-panel.modal id="modal_ver" titulo="Respuestas de la encuesta" aria-label="Respuestas de la encuesta" tamano="lg">
+        <div id="contenedor_ver"></div>
+        <x-slot:pie><x-panel.boton variante="secundario" data-dismiss="modal">Cerrar</x-panel.boton></x-slot:pie>
+    </x-panel.modal>
+@endsection
 
-    <div class="modal fade" id="modal_enviar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="exampleModalLabel">Enviar encuesta  de satisfacción al cliente interno</h4>
-                </div>
-                <div class="modal-body">
-                    <form id="form_enviar_encuesta" class="form" action="{{url("/encuestas_satisfaccion/guardar_envio_enc_mante/")}}" role="form" method="POST" >
-                        {{ csrf_field() }}
-                        <div id="contenedor_enviar">
-
-                        </div>
-                    </form>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <button id="enviar"  class="btn btn-primary" >Aceptar</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="modal_ver" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="exampleModalLabel">Ver encuesta  de satisfacción al cliente interno</h4>
-                </div>
-                <div class="modal-body">
-                        <div id="contenedor_ver">
-
-                        </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <div class="modal fade" id="modal_eliminar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="exampleModalLabel">Eliminar encuesta  de satisfacción al cliente interno</h4>
-                </div>
-                <div class="modal-body">
-                    <form id="form_eliminar_encuesta" class="form" action="{{url("/encuestas_satisfaccion/guardar_eliminacion_enc_mante/")}}" role="form" method="POST" >
-                        {{ csrf_field() }}
-                        <div id="contenedor_eliminar">
-
-                        </div>
-                    </form>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <button id="eliminar_encuesta"  class="btn btn-primary" >Aceptar</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('#table_enviado').DataTable( {
-
-            } );
-            $("#table_enviado").on('click','.elimina',function(){
-                var id=$(this).attr('id');
-
-                $.get("/encuestas_satisfaccion/eliminar_enc_mantenimiento/"+id,function (request) {
-                    $("#contenedor_eliminar").html(request);
-                    $("#modal_eliminar").modal('show');
-                });
-            });
-
-
-            $('#fecha_s').datepicker({
-
-                autoclose: true,
-                //startDate: '+0d',
-                language: 'es'
-            });
-
-            $("#table_enviado").on('click','.enviar_encuesta',function(){
-                var id=$(this).data('id');
-                $.get("/encuestas_satisfaccion/notificacion_enviar_enc_mantenimiento/"+id,function (request) {
-                    $("#contenedor_enviar").html(request);
-                    $("#modal_enviar").modal('show');
-                });
-            });
-            $("#enviar").click(function (){
-                $("#enviar").attr("disabled", true);
-                $("#form_enviar_encuesta").submit();
-                swal({
-                    position: "top",
-                    type: "success",
-                    title: "Se envio correctamente su encuesta.",
-                    showConfirmButton: false,
-                    timer: 3500
-                });
-            });
-            $("#guardar_agregado").click(function (){
-                var id_personal = $("#selectPersonal").val();
-                if(id_personal != null){
-                    var servicio = $("#servicio").val();
-                    if(servicio != ""){
-                        var fecha_s = $("#fecha_s").val();
-                        if(fecha_s !=""){
-                            $("#guardar_agregado").attr("disabled", true);
-                            $("#form_agregar").submit();
-                            swal({
-                                position: "top",
-                                type: "success",
-                                title: "Se envio correctamente su encuesta.",
-                                showConfirmButton: false,
-                                timer: 3500
-                            });
-                        }else{
-                            swal({
-                                position: "top",
-                                type: "warning",
-                                title: "Selecciona fecha que solicita el servicio",
-                                showConfirmButton: false,
-                                timer: 3500
-                            });
-                        }
-
-                    }else{
-                        swal({
-                            position: "top",
-                            type: "warning",
-                            title: "Ingresa el servicio que solicita",
-                            showConfirmButton: false,
-                            timer: 3500
-                        });
-                    }
-
-                }else{
-                    swal({
-                        position: "top",
-                        type: "warning",
-                        title: "Selecciona el nombre del personal",
-                        showConfirmButton: false,
-                        timer: 3500
-                    });
-                }
-            });
-            $("#eliminar_encuesta").click(function (){
-                $("#eliminar_encuesta").attr("disabled", true);
-                $("#form_eliminar_encuesta").submit();
-                swal({
-                    position: "top",
-                    type: "success",
-                    title: "Eliminar encuesta.",
-                    showConfirmButton: false,
-                    timer: 3500
-                });
-            });
-            $("#table_enviado").on('click','.ver_encuesta',function(){
-                var id=$(this).data('id');
-                $.get("/encuestas_satisfaccion/ver_enc_mantenimiento/"+id,function (request) {
-                    $("#contenedor_ver").html(request);
-                    $("#modal_ver").modal('show');
-                });
-              //  TNotify.alert(id);
-                //  TNotify.alert("hola");
-
-            });
-
-
+@push('scripts')
+    @include('encuestas_satisfacion_cliente.partials.cargar_modal')
+    <script>
+        $(function () {
+            $('#table_enviado').DataTable({columnDefs: [{targets: -1, orderable: false, searchable: false}]});
+            $('#fecha_s').datepicker({autoclose: true, language: 'es'});
         });
     </script>
-@endsection
+@endpush

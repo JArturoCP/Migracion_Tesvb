@@ -1,10 +1,4 @@
-<div class="row">
-    <input type="hidden" id="id_periodo_serv" name="id_periodo_serv" value="{{$registro->id_periodo_serv}}">
-    <div class="col-md-10">
-        @if($registro->mes == 1)
-            <h2>Dar por terminado el periodo del mes de Enero del {{ $registro->year }}.</h2>
-        @else
-            <h2>Dar por terminado el periodo del mes de Julio del {{ $registro->year }}.</h2>
-        @endif
-    </div>
-</div>
+<input type="hidden" id="id_periodo_serv" name="id_periodo_serv" value="{{ $registro->id_periodo_serv }}">
+<p class="tw:text-sm tw:text-gray-700 tw:dark:text-gray-300">
+    ¿Confirmas el cierre del periodo de {{ $registro->mes == 1 ? 'enero' : 'julio' }} de {{ $registro->year }}? Las encuestas sin contestar se marcarán como rechazadas.
+</p>

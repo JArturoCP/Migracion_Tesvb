@@ -528,6 +528,7 @@ public function registrar_periodo_year_titulacion(Request $request){
         ]);
 
         DB:: table('enc_incripcion')
+            ->where('id_periodo', $periodo)
             ->where('id_estado',0)
             ->update([
                 'fecha_encuesta'=>$fecha_actual,
@@ -790,6 +791,7 @@ public function registrar_periodo_year_titulacion(Request $request){
         ]);
 
         DB:: table('enc_reinscripcion')
+            ->where('id_periodo', $periodo)
             ->where('id_estado',0)
             ->update([
                 'fecha_encuesta'=>$fecha_actual,
