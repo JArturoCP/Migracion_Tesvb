@@ -1,18 +1,10 @@
 @extends('ingles.inicio_ingles.layout_ingles')
 @section('title', 'Carga academica ingles')
 @section('content')
-    <main class="col-md-12">
+    @include('ingles.alumno_ingles.estilos')
+    <main class="ingles-estudiante ingles-carga">
 
-        <div class="row">
-
-            <div class="col-md-6 col-md-offset-3">
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title text-center">Llenar Carga Academica Ingles</h3>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <h1 class="ingles-titulo">Llenar carga académica de inglés</h1>
 
         {{--Si no ha subido voucher de pago--}}
         @if($id_estado_valida_voucher==0)
@@ -101,11 +93,11 @@
                                 </div>
                             </div>
                         @else
-                            <div class="row">
+                            <div class="row ingles-selectores ingles-tarjeta">
                                 <div class="col-md-2 col-md-offset-4">
                                     <div class="form-group">
                                         <div class="dropdown">
-                                            <label for="nivel_ingles">Niveles disponibles</label>
+                                            <label for="id_niveles">Niveles disponibles</label>
                                             <select name="id_niveles" id="id_niveles" class="form-control " required>
                                                 <option disabled selected hidden>Selecciona una opción</option>
                                                 @foreach($niveles as $nivel)
@@ -119,7 +111,7 @@
                                 </div>
                                 <div class="col-md-2  "  id="grupo_ingles" style="display: none;">
                                     <div class="dropdown" >
-                                        <label for="exampleInputEmail1">Grupos</label>
+                                        <label for="grupos">Grupos</label>
                                         <select class="form-control  "placeholder="selecciona una Opcion" id="grupos" name="grupos" value="" required>
 
                                         </select>
@@ -129,10 +121,10 @@
                         @endif
                     @endif
                 @elseif($disponibilidad=1)
-                    <div class="row">
+                    <div class="row ingles-selectores ingles-tarjeta">
                         <div class="col-md-2 col-md-offset-4  "id="niveles_ingles">
                             <div class="dropdown">
-                                <label for="exampleInputEmail1">Niveles</label>
+                                <label for="id_niveles">Niveles</label>
                                 <select name="id_niveles" id="id_niveles" class="form-control " required>
                                     @foreach($niveles as $nivel)
                                         @if($nivel->id_nivel==$id_nivel)
@@ -146,7 +138,7 @@
                         </div>
                         <div class="col-md-2 " id="grupo_ingles">
                             <div class="dropdown" >
-                                <label for="exampleInputEmail1">Grupos</label>
+                                <label for="grupos">Grupos</label>
                                 <select class="form-control  "placeholder="selecciona una Opcion" id="grupos" name="grupos" value="" required>
                                     @foreach($grupos as $grupo)
                                         @if($grupo->id_hrs_ingles_profesor==$id_hrs_niveles_grupo)
@@ -159,32 +151,28 @@
                             </div>
                         </div>
                         @if($registrado == 0)
-                            <div class="col-md-2 ">
-                                <br>
-                                <button type="button" class="btn btn-primary envia1" id="{{$id_hrs_niveles_grupo}}"  ><i class="glyphicon glyphicon-ok em2"></i></button>
+                            <div class="ingles-elegir">
+                                <button type="button" class="btn btn-primary ingles-boton envia1" id="{{$id_hrs_niveles_grupo}}"  ><i class="glyphicon glyphicon-ok em2" aria-hidden="true"></i> Seleccionar grupo</button>
                             </div>
                         @else
-                            <div class="col-md-2 ">
-                                <br>
-                                <button type="button" class="btn btn-primary envia2" id="{{$id_hrs_niveles_grupo}}"><i class="glyphicon glyphicon-ok em2"></i></button>
+                            <div class="ingles-elegir">
+                                <button type="button" class="btn btn-primary ingles-boton envia2" id="{{$id_hrs_niveles_grupo}}"><i class="glyphicon glyphicon-ok em2" aria-hidden="true"></i> Seleccionar grupo</button>
                             </div>
                         @endif
                     </div>
 
                     <div class="row" id="consultar">
-                        <div class="col-md-8 col-md-offset-2">
-                            <br><br>
-
-                            <table id="table_enviado" class="table table-bordered text-center" style="table-layout:fixed;">
+                        <div class="ingles-tabla tesvb-tabla-scroll" tabindex="0" role="region" aria-label="Horario semanal de inglés">
+                            <table id="table_enviado" class="table table-bordered text-center">
                                 <thead>
                                 <tr>
-                                    <th>Hora/Día</th>
-                                    <th>Lunes </th>
-                                    <th>Martes</th>
-                                    <th>Miercoles</th>
-                                    <th>Jueves</th>
-                                    <th>Viernes</th>
-                                    <th>Sabado</th>
+                                    <th scope="col">Hora/Día</th>
+                                    <th scope="col">Lunes </th>
+                                    <th scope="col">Martes</th>
+                                    <th scope="col">Miercoles</th>
+                                    <th scope="col">Jueves</th>
+                                    <th scope="col">Viernes</th>
+                                    <th scope="col">Sabado</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -216,9 +204,6 @@
                                                 <?php $contador++?>
                                             @if($contador==7)
                                                     <?php $contador=1 ?>
-                                                </td>
-
-
                                         </tr>
                                     @endif
 

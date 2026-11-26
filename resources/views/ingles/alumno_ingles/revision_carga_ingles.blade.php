@@ -1,7 +1,9 @@
 @extends('ingles.inicio_ingles.layout_ingles')
 @section('title', 'Revisión de Carga academica ingles')
 @section('content')
-    <main class="col-md-12">
+    @include('ingles.alumno_ingles.estilos')
+    <main class="ingles-estudiante ingles-carga">
+        <h1 class="ingles-titulo">Carga académica de inglés</h1>
  @if($registrado == 0)
             <div class="row">
 
@@ -14,15 +16,6 @@
                 </div>
             </div>
      @else
-            <div class="row">
-            <div class="col-md-6 col-md-offset-3">
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title text-center">Carga académica de inglés</h3>
-                    </div>
-                </div>
-            </div>
-        </div>
              @if($comentario[0]->id_estado == 3 || $comentario[0]->id_estado == 0)
                  @if($comentario[0]->comentario != "")
                 <div class="row">
@@ -42,8 +35,8 @@
                 <div class="col-md-2 col-md-offset-5">
                     <div class="panel panel-info">
                         <div class="panel-heading">
-                    <p style="text-align: center">
-                        <a href="#" onclick="window.open('{{url('/ingles/pdf_carga_academica_ingles/'.$carga_academica->id_grupo.'/'.$carga_academica->id_nivel)}}')"><strong ><span class="glyphicon glyphicon-print em"  aria-hidden="true"></span><br>Imprimir</strong></a>
+                    <p class="ingles-acciones">
+                        <a class="btn ingles-boton" href="#" onclick="window.open('{{url('/ingles/pdf_carga_academica_ingles/'.$carga_academica->id_grupo.'/'.$carga_academica->id_nivel)}}')"><strong ><span class="glyphicon glyphicon-print em"  aria-hidden="true"></span> Imprimir</strong></a>
                     </p>
                         </div>
                     </div>
@@ -63,18 +56,17 @@
             </div>
         </div>
         <div class="row" id="consultar">
-            <div class="col-md-10 col-md-offset-1">
-                <br>
-                <table id="table_enviado" class="table table-bordered text-center" style="table-layout:fixed;">
+            <div class="ingles-tabla tesvb-tabla-scroll" tabindex="0" role="region" aria-label="Horario semanal de inglés">
+                <table id="table_enviado" class="table table-bordered text-center">
                     <thead>
                     <tr>
-                        <th>Hora/Día</th>
-                        <th>Lunes </th>
-                        <th>Martes</th>
-                        <th>Miércoles</th>
-                        <th>Jueves</th>
-                        <th>Viernes</th>
-                        <th>Sábado</th>
+                        <th scope="col">Hora/Día</th>
+                        <th scope="col">Lunes </th>
+                        <th scope="col">Martes</th>
+                        <th scope="col">Miércoles</th>
+                        <th scope="col">Jueves</th>
+                        <th scope="col">Viernes</th>
+                        <th scope="col">Sábado</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -110,9 +102,6 @@
                                 <?php $contador++?>
                                 @if($contador==7)
                                 <?php $contador=1 ?>
-                                </td>
-
-
                             </tr>
                         @endif
 
@@ -127,20 +116,20 @@
              @if($comentario[0]->id_estado == 3)
                 <div class="row">
                     <div class="col-md-2 col-md-offset-5">
-                        <button type="button" class="btn btn-success btn-lg" onclick="window.location='{{ url('/ingles_horarios/enviar_carga_academica_ingles/'.$carga_academica->id_nivel.'/'.$carga_academica->id_grupo.'/1' ) }}'" disabled>Enviar carga académica de inglés</button>
-                        <br>
-                        <br>
+                        <button type="button" class="btn btn-success btn-lg ingles-boton" onclick="window.location='{{ url('/ingles_horarios/enviar_carga_academica_ingles/'.$carga_academica->id_nivel.'/'.$carga_academica->id_grupo.'/1' ) }}'" disabled>Enviar carga académica de inglés</button>
+
+
                     </div>
-                    <br>
-                    <br>
+
+
                 </div>
             @else
                         {{ csrf_field() }}
                         <div class="row">
                             <input  class="form-control" type="hidden"  id="id_nivel" name="id_nivel"  value="{{ $carga_academica->id_nivel }}">
                             <input  class="form-control" type="hidden"  id="id_grupo" name="id_grupo"  value="{{ $carga_academica->id_grupo }}">
-                            <div class="col-md-2 col-md-offset-5">
-                                <label>Tipo de curso</label>
+                            <div class="col-md-2 col-md-offset-5 ingles-tipo-curso">
+                                <label for="id_tipo_curso">Tipo de curso</label>
                                 <select name="id_tipo_curso" id="id_tipo_curso" class="form-control " required>
                                 @foreach($eva_tipo_curso as $eva_tipo_curso)
                                         <option disabled selected hidden>Selecciona una opción</option>
@@ -151,22 +140,22 @@
                                 @endif
                                 @endforeach
                         </select>
-                                <br>
-                                <br>
+
+
                             </div>
-                            <br>
-                            <br>
+
+
                         </div>
 
                 <div class="row">
 
-                    <div class="col-md-2 col-md-offset-5">
-                        <button type="button" id="enviar_carga" class="btn btn-success btn-lg">Enviar carga académica de inglés</button>
-                        <br>
-                        <br>
+                    <div class="col-md-2 col-md-offset-5 ingles-acciones">
+                        <button type="button" id="enviar_carga" class="btn btn-success btn-lg ingles-boton">Enviar carga académica de inglés</button>
+
+
                     </div>
-                    <br>
-                    <br>
+
+
                 </div>
 
                 @endif
