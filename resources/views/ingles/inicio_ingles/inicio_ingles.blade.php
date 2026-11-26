@@ -91,21 +91,28 @@
         }
     ?>
 
-    @if($inicioEstudiante)
+    @if($inicioEstudiante || $profesor_ingles)
         @push('cabeza')
             <link rel="stylesheet" href="{{ asset('css/ingles-inicio.css') }}">
         @endpush
+    @endif
+
+    @if($inicioEstudiante)
         @include('ingles.inicio_ingles.partials.inicio_estudiante')
     @else
 
     <div class="tw:grid tw:grid-cols-12 tw:gap-4 tw:md:gap-6">
 
-        {{-- Bienvenida (mismo parcial que /inicio): el "!!!!!Bienvenido(a)!!!!!" de antes, con el nombre de las
-             insignias del menú de inglés (nombre_ingles del profesor; nombre del alumno y de la unidad 19) --}}
-        @include('panel.dashboard.bienvenida', [
-            'nombre' => $profesor_ingles == true ? Session::get('nombre_ingles') : (($palumno == true || $unidad == 19) ? $nombre : null),
-            'periodo' => 'Periodo de Inglés: ' . $nombre_periodo,
-        ])
+        @if($profesor_ingles)
+            <div class="ingles-estudiante tw:col-span-12">
+                @include('ingles.inicio_ingles.partials.bienvenida', ['nombre' => session('nombre_ingles')])
+            </div>
+        @else
+            @include('panel.dashboard.bienvenida', [
+                'nombre' => ($palumno || $unidad == 19) ? $nombre : null,
+                'periodo' => 'Periodo de Inglés: ' . $nombre_periodo,
+            ])
+        @endif
 
         {{-- Avisos generales: mensaje global de la sesión (como /inicio) --}}
         <div class="tw:col-span-12 tw:flex tw:flex-col tw:gap-4" data-panel-avisos>
