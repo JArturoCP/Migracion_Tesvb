@@ -255,39 +255,59 @@ return $data;
     }
     public function registrar_inicio_expediente(){
         $id_usuario = Session::get('usuario_alumno');
-        $alumn=DB::selectOne('SELECT * FROM `gnral_alumnos` WHERE id_usuario = ?', [$id_usuario]);
+        $alumn = DB::selectOne('SELECT * FROM `gnral_alumnos` WHERE id_usuario = ?', [$id_usuario]);
 
-            DB:: table('exp_generales')
-                 ->insert([
-                'id_alumno' => $alumn->id_alumno,
+        // Obtener id_grupo a partir del número de grupo del alumno o asignar uno válido
+        $id_grupo = null;
+        if (!empty($alumn->grupo)) {
+            $grupoRow = DB::selectOne('SELECT id_grupo FROM gnral_grupos WHERE grupo = ? LIMIT 1', [$alumn->grupo]);
+            if ($grupoRow) {
+                $id_grupo = $grupoRow->id_grupo;
+            }
+        }
+        if (!$id_grupo) {
+            $primerGrupo = DB::selectOne('SELECT id_grupo FROM gnral_grupos LIMIT 1');
+            $id_grupo = $primerGrupo ? $primerGrupo->id_grupo : 1;
+        }
+
+        // Obtener id_periodo actual
+        $periodoActual = DB::selectOne('SELECT id_periodo FROM gnral_periodos WHERE estado = 1 LIMIT 1');
+        $id_periodo = $periodoActual ? $periodoActual->id_periodo : Session::get('periodo_actual');
+
+        DB::table('exp_generales')
+            ->insert([
+                'id_alumno'  => $alumn->id_alumno,
+                'id_carrera' => $alumn->id_carrera,
+                'id_grupo'   => $id_grupo,
+                'id_periodo' => $id_periodo,
+                'no_cuenta'  => $alumn->cuenta,
             ]);
 
-            DB:: table('exp_antecedentes_academicos')
+        DB::table('exp_antecedentes_academicos')
             ->insert([
                 'id_alumno' => $alumn->id_alumno,
             ]);
 
-            DB:: table('exp_datos_familiares')
+        DB::table('exp_datos_familiares')
             ->insert([
                 'id_alumno' => $alumn->id_alumno,
             ]);
 
-            DB:: table('exp_habitos_estudio')
-            ->insert([
-                'id_alumno' => $alumn->id_alumno,
-            ]);
-            DB:: table('exp_formacion_integral')
+        DB::table('exp_habitos_estudio')
             ->insert([
                 'id_alumno' => $alumn->id_alumno,
             ]);
 
-           DB:: table('exp_area_psicopedagogica')
+        DB::table('exp_formacion_integral')
             ->insert([
                 'id_alumno' => $alumn->id_alumno,
             ]);
 
-          return redirect('/tutorias/inicioalu');
+        DB::table('exp_area_psicopedagogica')
+            ->insert([
+                'id_alumno' => $alumn->id_alumno,
+            ]);
 
-
+        return redirect('/tutorias/inicioalu');
     }
 }
