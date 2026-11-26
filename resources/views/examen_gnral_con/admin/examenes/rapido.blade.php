@@ -1,4 +1,5 @@
-@extends('layouts.app')
+@extends('layouts.panel')
+@include('partials.panel.recursos_app')
 
 @section('content')
 
@@ -76,18 +77,18 @@
   }
 </style>
 
-<div class="container" style="margin-top: 40px;">
+<div class="tw:w-full" style="margin-top: 40px;">
 
-  <div class="row">
-    <div class="col-md-8 col-md-offset-2">
+  <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+    <div class="tw:w-full tw:lg:w-8/12 tw:lg:ml-[16.6667%] tw:px-2">
 
-      <div class="panel panel-custom">
+      <div class="panel-custom tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
 
-        <div class="panel-heading">
-          <i class="glyphicon glyphicon-edit"></i> Cargar Examen Rápido
+        <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4">
+          <i class="fa fa-pencil-square-o"></i> Cargar Examen Rápido
         </div>
 
-        <div class="panel-body">
+        <div class="tw:p-5 tw:sm:p-6">
 
           <form method="POST" action="{{ route('admin.examen_general.guardarRapido') }}">
             @csrf
@@ -96,28 +97,28 @@
             <input type="hidden" name="id_examen_egel" value="{{ $examen->id_examen_egel }}">
 
             {{-- CARRERA --}}
-            <div class="form-group">
+            <div class="tw:mb-4">
               <label><strong>Carrera</strong></label>
-              <input type="text" class="form-control" value="{{ $examen->carrera }}" readonly>
+              <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" value="{{ $examen->carrera }}" readonly>
               <input type="hidden" name="id_carrera" value="{{ $examen->id_carrera }}">
             </div>
 
             {{-- NOMBRE --}}
-            <div class="form-group">
+            <div class="tw:mb-4">
               <label><strong>Nombre del examen</strong></label>
-              <input type="text" name="nombre" class="form-control" value="{{ $examen->nombre }}">
+              <input type="text" name="nombre" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" value="{{ $examen->nombre }}">
             </div>
 
             {{-- SECCIÓN --}}
-            <div class="form-group">
+            <div class="tw:mb-4">
               <label><strong>Sección</strong></label>
-              <input type="text" name="seccion" class="form-control" placeholder="Ej: Área 1">
+              <input type="text" name="seccion" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" placeholder="Ej: Área 1">
             </div>
 
             {{-- MÓDULO --}}
-            <div class="form-group">
+            <div class="tw:mb-4">
               <label><strong>Módulo</strong></label>
-              <input type="text" name="modulo" class="form-control" placeholder="Ej: Legislación">
+              <input type="text" name="modulo" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" placeholder="Ej: Legislación">
             </div>
 
             {{-- EJEMPLO --}}
@@ -137,29 +138,29 @@ D) 75%
             </div>
 
             {{-- PREGUNTAS --}}
-            <div class="form-group">
+            <div class="tw:mb-4">
               <label><strong>Preguntas</strong></label>
 
               <textarea 
                 name="contenido" 
                 id="contenido"
                 rows="15" 
-                class="form-control"
+                class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500"
                 placeholder="Escribe preguntas usando fórmulas LaTeX..."
               ></textarea>
             </div>
 
             {{-- VISTA PREVIA --}}
-            <div class="form-group">
+            <div class="tw:mb-4">
               <label><strong>Vista previa</strong></label>
 
               <div id="preview"></div>
             </div>
 
             {{-- BOTÓN --}}
-            <div class="text-center">
-              <button class="btn btn-success btn-lg">
-                <i class="glyphicon glyphicon-floppy-disk"></i> Guardar
+            <div class="tw:text-center">
+              <button class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-green-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-green-700 tw:gap-2 tw:px-5 tw:py-3.5 tw:text-base">
+                <i class="fa fa-floppy-o"></i> Guardar
               </button>
             </div>
 

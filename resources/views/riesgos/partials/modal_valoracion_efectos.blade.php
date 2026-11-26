@@ -1,15 +1,15 @@
 @section('modal_valoracion_efectos')
 
-    <div class="modal fade" id="modal_efectos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade tw-modal-compat" id="modal_efectos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-panel-modal hidden>
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Evaluación de riesgos</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                    <button type="button" class="tw:text-2xl tw:leading-none tw:text-gray-400 tw:hover:text-gray-700" data-dismiss="modal" aria-label="Cerrar">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form id="form_valoracion_efectos" class="form" role="form" method="POST" action="{{url('riesgos/valoracion_efectos')."/".$datos_registro_riesgo[0]->valEfectos[0]->id_val_efecto}}">
+                <form id="form_valoracion_efectos" class="" role="form" method="POST" action="{{url('riesgos/valoracion_efectos')."/".$datos_registro_riesgo[0]->valEfectos[0]->id_val_efecto}}">
                     <div class="modal-body">
                         {{ csrf_field() }}
                         {{ method_field('PUT') }}
@@ -18,25 +18,25 @@
                         @foreach($datos_registro_riesgo[0]->estrategiaRiesgo as $estrategia)
                             <input type="hidden" name="id_estrategia_r" id="id_estrategia_r" value="{{$estrategia->id_estrategia_r}}">
                         @endforeach
-                        <div class="form-group">
-                            <label for="descripcion_efecto" class="col-form-label">Posibles efectos del riesgo</label>
-                            <textarea class="form-control" name="descripcion_efecto" id="descripcion_efecto" cols="3" rows="3"> {{isset($datos_registro_riesgo[0]->valEfectos[0])?$datos_registro_riesgo[0]->valEfectos[0]->efecto:""}}</textarea>
+                        <div class="tw:mb-4">
+                            <label for="descripcion_efecto" class="tw:mb-1.5 tw:block tw:text-sm tw:font-medium tw:text-gray-700">Posibles efectos del riesgo</label>
+                            <textarea class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500" name="descripcion_efecto" id="descripcion_efecto" cols="3" rows="3"> {{isset($datos_registro_riesgo[0]->valEfectos[0])?$datos_registro_riesgo[0]->valEfectos[0]->efecto:""}}</textarea>
                         </div>
                         <hr>
-                        <h5 class="text-center">Valoracion inicial</h5>
-                        <div class="row">
-                            <div class="form-group col-md-6">
-                                <label for="grado_impacto" class="col-form-label">Grado de impacto</label>
-                                <select class="form-control" name="grado_impacto" id="grado_impacto">
+                        <h5 class="text-center tw:text-center">Valoracion inicial</h5>
+                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                            <div class="tw:w-full tw:mb-4 tw:lg:w-6/12 tw:px-2">
+                                <label for="grado_impacto" class="tw:mb-1.5 tw:block tw:text-sm tw:font-medium tw:text-gray-700">Grado de impacto</label>
+                                <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="grado_impacto" id="grado_impacto">
                                     <option value="" disabled="true" selected="true">Seleccione una opción</option>
                                     @for($i=1;$i<=10;$i++)
                                         <option {{($datos_registro_riesgo[0]->valEfectos[0]->grado_impacto==$i)?"selected":""}} value="{{$i}}">{{$i}}</option>
                                     @endfor
                                 </select>
                             </div>
-                            <div class="form-group col-md-6">
-                                <label for="probabilidad_ocurrencia" class="col-form-label">Probabilidad de ocurrencia</label>
-                                <select class="form-control" name="probabilidad_ocurrencia" id="probabilidad_ocurrencia">
+                            <div class="tw:w-full tw:mb-4 tw:lg:w-6/12 tw:px-2">
+                                <label for="probabilidad_ocurrencia" class="tw:mb-1.5 tw:block tw:text-sm tw:font-medium tw:text-gray-700">Probabilidad de ocurrencia</label>
+                                <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="probabilidad_ocurrencia" id="probabilidad_ocurrencia">
                                     <option value="" disabled="true" selected="true">Seleccione una opción</option>
                                     @for($i=1;$i<=10;$i++)
                                         <option {{($datos_registro_riesgo[0]->valEfectos[0]->probabilidad==$i)?"selected":""}} value="{{$i}}">{{$i}}</option>
@@ -44,14 +44,14 @@
                                 </select>
                             </div>
                         </div>
-                        <div hidden class="row cuadrantes">
-                            <div class="form-group col-md-6">
-                                <label for="" class="col-form-label">Cuadrante</label>
-                                <h4 class="cuadrante text-center"></h4>
+                        <div hidden class="cuadrantes tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                            <div class="tw:w-full tw:mb-4 tw:lg:w-6/12 tw:px-2">
+                                <label for="" class="tw:mb-1.5 tw:block tw:text-sm tw:font-medium tw:text-gray-700">Cuadrante</label>
+                                <h4 class="cuadrante text-center tw:text-center"></h4>
                             </div>
-                            <div class="form-group col-md-6">
-                                <label for="id_estrategia" class="col-form-label">Estrategias</label>
-                                <select class="form-control" name="id_estrategia" id="id_estrategia">
+                            <div class="tw:w-full tw:mb-4 tw:lg:w-6/12 tw:px-2">
+                                <label for="id_estrategia" class="tw:mb-1.5 tw:block tw:text-sm tw:font-medium tw:text-gray-700">Estrategias</label>
+                                <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="id_estrategia" id="id_estrategia">
                                     <option value="" disabled="true" selected="true">Seleccione una opción</option>
                                     
                                     @foreach($ri_estrategia as $estrategias)
@@ -62,43 +62,43 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary h-secondary_m" data-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-primary h-primary_m">Aceptar</button>
+                        <button type="button" class="h-secondary_m tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" data-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="h-primary_m tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm">Aceptar</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 
-    <div class="modal fade" id="modal_efectos_final" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade tw-modal-compat" id="modal_efectos_final" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-panel-modal hidden>
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Valoracion Final</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                    <button type="button" class="tw:text-2xl tw:leading-none tw:text-gray-400 tw:hover:text-gray-700" data-dismiss="modal" aria-label="Cerrar">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form id="form_valoracion_efectos" class="form" role="form" method="POST" action="{{url('riesgos/valoracion_efectos')."/".(isset($datos_registro_riesgo[0]->valEfectos[0])?$datos_registro_riesgo[0]->valEfectos[0]->id_val_efecto:"")}}">
+                <form id="form_valoracion_efectos" class="" role="form" method="POST" action="{{url('riesgos/valoracion_efectos')."/".(isset($datos_registro_riesgo[0]->valEfectos[0])?$datos_registro_riesgo[0]->valEfectos[0]->id_val_efecto:"")}}">
                     <div class="modal-body">
                         {{ csrf_field() }}
                         {{ method_field('PUT') }}
 
                         <input type="hidden" name="id_reg_riesgo_val_efec" id="id_reg_riesgo_val_efec" value="{{$datos_registro_riesgo[0]->id_reg_riesgo}}">
-                        <h5 class="text-center">Valoracion final</h5>
-                        <div class="row">
-                            <div class="form-group col-md-6">
-                                <label for="impacto_final" class="col-form-label">Grado de impacto</label>
-                                <select class="form-control" name="impacto_final" id="impacto_final">
+                        <h5 class="text-center tw:text-center">Valoracion final</h5>
+                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                            <div class="tw:w-full tw:mb-4 tw:lg:w-6/12 tw:px-2">
+                                <label for="impacto_final" class="tw:mb-1.5 tw:block tw:text-sm tw:font-medium tw:text-gray-700">Grado de impacto</label>
+                                <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="impacto_final" id="impacto_final">
                                     <option value="" disabled="true" selected="true">Seleccione una opción</option>
                                     @for($i=1;$i<=10;$i++)
                                         <option {{($datos_registro_riesgo[0]->valEfectos[0]->impacto_final==$i)?"selected":""}} value="{{$i}}">{{$i}}</option>
                                     @endfor
                                 </select>
                             </div>
-                            <div class="form-group col-md-6">
-                                <label for="ocurrencia_final" class="col-form-label">Probabilidad de ocurrencia</label>
-                                <select class="form-control" name="ocurrencia_final" id="ocurrencia_final">
+                            <div class="tw:w-full tw:mb-4 tw:lg:w-6/12 tw:px-2">
+                                <label for="ocurrencia_final" class="tw:mb-1.5 tw:block tw:text-sm tw:font-medium tw:text-gray-700">Probabilidad de ocurrencia</label>
+                                <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="ocurrencia_final" id="ocurrencia_final">
                                     <option value="" disabled="true" selected="true">Seleccione una opción</option>
                                     @for($i=1;$i<=10;$i++)
                                         <option {{($datos_registro_riesgo[0]->valEfectos[0]->ocurrencia_final==$i)?"selected":""}} value="{{$i}}">{{$i}}</option>
@@ -109,8 +109,8 @@
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary h-secondary_m" data-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-primary h-primary_m">Aceptar</button>
+                        <button type="button" class="h-secondary_m tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" data-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="h-primary_m tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm">Aceptar</button>
                     </div>
                 </form>
             </div>

@@ -59,6 +59,7 @@
         m.classList.add('show', 'in');
         document.body.classList.add('tw-modal-abierto', 'modal-open');
         abiertos.push(m);
+        if (relacionado && relacionado.focus) { m.panelDisparador = relacionado; }
         try { m.focus({ preventScroll: true }); } catch (e) {}
         despues(function () { disparar(m, 'shown.bs.modal', relacionado); });
     }
@@ -71,6 +72,8 @@
         m.classList.remove('show', 'in');
         abiertos = abiertos.filter(function (a) { return a !== m; });
         if (!abiertos.length) { document.body.classList.remove('tw-modal-abierto', 'modal-open'); }
+        if (m.panelDisparador && m.panelDisparador.isConnected) { m.panelDisparador.focus(); }
+        m.panelDisparador = null;
         despues(function () { disparar(m, 'hidden.bs.modal'); });
     }
     function alternar(x, relacionado) {
@@ -146,6 +149,10 @@
     document.addEventListener('click', function (ev) {
         var t = ev.target;
         if (!t || !t.closest) { return; }
+        if (t.matches('.tw-modal-compat[data-panel-modal]')) {
+            if (t.getAttribute('data-backdrop') !== 'static') { cerrar(t); }
+            return;
+        }
 
         var fondo = t.closest('[data-panel-modal-fondo]');
         if (fondo) {

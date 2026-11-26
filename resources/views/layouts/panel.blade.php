@@ -33,6 +33,7 @@
     @vite(['resources/css/marco.css', 'resources/js/panel.js'])
 @include('partials.panel.fechas')
     @include('partials.panel.tema_estudiantil')
+    @stack('styles')
 </head>
 <body
     x-data="{ page: 'inicio', loaded: true, darkMode: false, stickyMenu: false, sidebarToggle: false, scrollTop: false }"
@@ -40,7 +41,7 @@
         try { darkMode = JSON.parse(localStorage.getItem('darkMode')) ?? false; } catch (e) { darkMode = false; }
         $watch('darkMode', value => { try { localStorage.setItem('darkMode', JSON.stringify(value)); } catch (e) {} });
     })()"
-    class="tw-modulo tw:bg-gray-50"
+    class="tw-modulo tw:bg-gray-50 @yield('body_class')"
     :class="{ 'dark tw:bg-gray-900': darkMode === true }"
 >
     <div class="tw:flex tw:min-h-screen" data-panel-marco>
@@ -67,5 +68,6 @@
     @endif
 
     @stack('scripts')
+    @yield('scripts')
 </body>
 </html>

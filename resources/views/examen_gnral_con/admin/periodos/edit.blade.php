@@ -1,4 +1,5 @@
-@extends('layouts.app')
+@extends('layouts.panel')
+@include('partials.panel.recursos_app')
 @section('content')
 
 <div class="main">
@@ -70,23 +71,23 @@
 
 </style>
 
-<div class="container" style="margin-top:30px;">
+<div class="tw:w-full" style="margin-top:30px;">
 
     <!-- Encabezado -->
-    <div class="row">
-        <div class="row">
-        <div class="col-md-6">
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+        <div class="tw:w-full tw:lg:w-6/12 tw:px-2">
             <div class="title-box">
-                <h3 class="text-primary" style="margin:0;">
-                    <span class="glyphicon glyphicon-calendar"></span>
+                <h3 class="tw:text-brand-500" style="margin:0;">
+                    <span class="fa fa-calendar"></span>
                     Editar Periodo Examen de Conocimientos Generales
                 </h3>
             </div>
         </div>
 
-        <div class="col-md-6 text-right">
-            <a href="{{ route('admin.examen_general.periodos.index') }}" class="btn btn-default btn-sm">
-                <span class="glyphicon glyphicon-arrow-left"></span>
+        <div class="tw:w-full tw:lg:w-6/12 tw:text-right tw:px-2">
+            <a href="{{ route('admin.examen_general.periodos.index') }}" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:gap-1.5 tw:px-3 tw:py-1.5 tw:text-sm">
+                <span class="fa fa-arrow-left"></span>
                 Regresar
             </a>
         </div>
@@ -96,13 +97,13 @@
 
     <!-- Mensajes -->
     @if(session('success'))
-        <div class="alert alert-success text-center">
+        <div class="tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-green-200 tw:bg-green-50 tw:text-green-800 tw:text-center">
             {{ session('success') }}
         </div>
     @endif
 
     @if($errors->any())
-        <div class="alert alert-danger">
+        <div class="tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-red-200 tw:bg-red-50 tw:text-red-700">
             <ul style="margin-bottom:0;">
                 @foreach($errors->all() as $error)
                     <li>{{ $error }}</li>
@@ -112,45 +113,45 @@
     @endif
 
     <!-- PANEL -->
-    <div class="panel panel-default">
-        <div class="panel-heading text-center">
+    <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
+        <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4 tw:text-center">
             Actualizar periodo
         </div>
 
-        <div class="panel-body">
+        <div class="tw:p-5 tw:sm:p-6">
 
             <form action="{{ route('admin.examen_general.periodos.update', $examen_gnral_periodo->id_periodo_examen) }}" method="POST">
                 @csrf
                 @method('PUT')
 
-                <div class="form-group">
+                <div class="tw:mb-4">
                     <label>Nombre del periodo</label>
-                    <input type="text" name="periodo" class="form-control"
+                    <input type="text" name="periodo" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"
                            value="{{ $examen_gnral_periodo->periodo }}" required>
                 </div>
 
-                <div class="row">
+                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
                     <!-- Aplicación -->
-                    <div class="col-md-6">
-                        <div class="panel panel-primary">
-                            <div class="panel-heading text-center">
+                    <div class="tw:w-full tw:lg:w-6/12 tw:px-2">
+                        <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
+                            <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4 tw:text-center">
                                 Periodo de Aplicación
                             </div>
 
-                            <div class="panel-body">
-                                <div class="form-group">
+                            <div class="tw:p-5 tw:sm:p-6">
+                                <div class="tw:mb-4">
                                     <label>Inicio</label>
                                     <input type="date" name="periodo_examen_inicio"
-                                           class="form-control"
+                                           class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"
                                            value="{{ \Carbon\Carbon::parse($examen_gnral_periodo->fecha_inicio)->format('Y-m-d') }}"
                                            required>
                                 </div>
 
-                                <div class="form-group">
+                                <div class="tw:mb-4">
                                     <label>Fin</label>
                                     <input type="date" name="periodo_examen_fin"
-                                           class="form-control"
+                                           class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"
                                            value="{{ \Carbon\Carbon::parse($examen_gnral_periodo->fecha_fin)->format('Y-m-d') }}"
                                            required>
                                 </div>
@@ -159,25 +160,25 @@
                     </div>
 
                     <!-- Resultados -->
-                    <div class="col-md-6">
-                        <div class="panel panel-success">
-                            <div class="panel-heading text-center">
+                    <div class="tw:w-full tw:lg:w-6/12 tw:px-2">
+                        <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
+                            <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4 tw:text-center">
                                 Publicación de Resultados
                             </div>
 
-                            <div class="panel-body">
-                                <div class="form-group">
+                            <div class="tw:p-5 tw:sm:p-6">
+                                <div class="tw:mb-4">
                                     <label>Inicio</label>
                                     <input type="date" name="periodo_resultado_inicio"
-                                           class="form-control"
+                                           class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"
                                            value="{{ \Carbon\Carbon::parse($examen_periodo_resultados->fecha_inicio)->format('Y-m-d') }}"
                                            required>
                                 </div>
 
-                                <div class="form-group">
+                                <div class="tw:mb-4">
                                     <label>Fin</label>
                                     <input type="date" name="periodo_resultado_fin"
-                                           class="form-control"
+                                           class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"
                                            value="{{ \Carbon\Carbon::parse($examen_periodo_resultados->fecha_fin)->format('Y-m-d') }}"
                                            required>
                                 </div>
@@ -191,8 +192,8 @@
                 <div style="margin-top:25px; display:flex; justify-content:center; gap:15px;">
 
                     <!-- GUARDAR -->
-                    <button type="submit" class="btn btn-primary btn-lg">
-                        <span class="glyphicon glyphicon-save"></span>
+                    <button type="submit" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-2 tw:px-5 tw:py-3.5 tw:text-base">
+                        <span class="fa fa-floppy-o"></span>
                     </button>
 
             </form>
@@ -205,8 +206,8 @@
                         @csrf
                         @method('DELETE')
 
-                        <button class="btn btn-danger btn-lg">
-                            <span class="glyphicon glyphicon-trash"></span>
+                        <button class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-red-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-red-700 tw:gap-2 tw:px-5 tw:py-3.5 tw:text-base">
+                            <span class="fa fa-trash"></span>
                         </button>
                     </form>
 

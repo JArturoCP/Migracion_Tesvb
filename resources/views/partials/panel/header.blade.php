@@ -23,7 +23,7 @@
             </button>
 
             {{-- Logo en móvil --}}
-            <a href="{{ !empty($vistaPreviaDashboard) ? '#main-content' : url('/inicio') }}" class="tw:xl:hidden">
+            <a href="{{ !empty($vistaPreviaDashboard) ? '#main-content' : url(Auth::guest() ? '/login' : '/inicio') }}" class="tw:xl:hidden">
                 <span class="tw:inline-block tw:rounded-md tw:dark:bg-white tw:dark:p-1">
                     <img class="tw:h-8 tw:w-auto" src="{{ asset(config('tesvb.logo')) }}" alt="TESVB">
                 </span>
@@ -47,9 +47,9 @@
 
             {{-- Buscador (escritorio): filtra los enlaces del sidebar en el navegador --}}
             <div class="tw:hidden tw:xl:block">
-                @empty($vistaPreviaDashboard)
+                @if(empty($vistaPreviaDashboard) && Auth::check())
                     @include('partials.panel.buscador')
-                @endempty
+                @endif
             </div>
         </div>
 
@@ -59,19 +59,19 @@
             :class="isApplicationMenuOpen ? 'tw:flex' : 'tw:hidden'"
         >
             <div class="tw:flex tw:items-center tw:gap-2 tw:2xsm:gap-3">
-                @empty($vistaPreviaDashboard)
+                @if(empty($vistaPreviaDashboard) && Auth::check())
                     @include('partials.panel.periodo_ingles_header')
                     @include('partials.panel.periodo_header')
-                @endempty
+                @endif
                 {{-- Modo oscuro: siempre, en el mismo lugar (en el marco solo cambia el sidebar y el header). --}}
                 @include('partials.panel.tema')
             </div>
 
-            @empty($vistaPreviaDashboard)
-                @include('partials.panel.usuario')
-            @else
+            @if(!empty($vistaPreviaDashboard))
                 <span class="tw:text-sm tw:text-gray-700 tw:dark:text-gray-300">Cuenta de muestra</span>
-            @endempty
+            @elseif(Auth::check())
+                @include('partials.panel.usuario')
+            @endif
         </div>
     </div>
 </header>

@@ -1,25 +1,26 @@
-@extends('layouts.app')
+@extends('layouts.panel')
+@include('partials.panel.recursos_app')
 
 @section('content')
 
-<div class="container">
-<h3>Crear Examen Completo</h3>
+<div class="tw:w-full">
+<h3 class="tw:mb-4 tw:text-lg tw:font-semibold">Crear Examen Completo</h3>
 
 <form action="{{ route('admin.examen.guardarCompleto') }}" method="POST">
 @csrf
 
 <!-- EXAMEN -->
-<div class="card mb-3">
-<div class="card-header">Datos del Examen</div>
-<div class="card-body">
+<div class="tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white tw:mb-4">
+<div class="tw:border-b tw:border-gray-100 tw:px-5 tw:py-4">Datos del Examen</div>
+<div class="tw:p-5 tw:sm:p-6">
 
-<select name="id_carrera" class="form-control mb-2">
+<select name="id_carrera" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:mb-2">
 @foreach($carreras as $c)
 <option value="{{ $c->id_carrera }}">{{ $c->nombre }}</option>
 @endforeach
 </select>
 
-<input type="text" name="nombre_examen" class="form-control" placeholder="Nombre del examen">
+<input type="text" name="nombre_examen" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" placeholder="Nombre del examen">
 
 </div>
 </div>
@@ -27,11 +28,11 @@
 <!-- SECCIONES -->
 <div id="secciones"></div>
 
-<button type="button" class="btn btn-primary" onclick="agregarSeccion()">+ Sección</button>
+<button type="button" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" onclick="agregarSeccion()">+ Sección</button>
 
 <hr>
 
-<button class="btn btn-success">Guardar TODO</button>
+<button class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-green-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-green-700 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm">Guardar TODO</button>
 
 </form>
 </div>
@@ -47,14 +48,14 @@ let indexSeccion = 0;
 function agregarSeccion() {
 
     let html = `
-    <div class="card mt-3 p-3">
+    <div class="tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white tw:mt-4 tw:p-4">
         <input type="text" name="secciones[${indexSeccion}][nombre]" 
-        placeholder="Nombre sección" class="form-control mb-2">
+        placeholder="Nombre sección" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:mb-2">
 
         <div id="modulos_${indexSeccion}"></div>
 
         <button type="button" onclick="agregarModulo(${indexSeccion})" 
-        class="btn btn-info btn-sm">+ Módulo</button>
+        class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-sky-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-sky-600 tw:gap-1.5 tw:px-3 tw:py-1.5 tw:text-sm">+ Módulo</button>
     </div>
     `;
 
@@ -68,15 +69,15 @@ function agregarModulo(sec) {
     let indexModulo = document.querySelectorAll(`#modulos_${sec} .modulo`).length;
 
     let html = `
-    <div class="card mt-2 p-2 modulo">
+    <div class="modulo tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white tw:mt-2 tw:p-2">
 
         <input type="text" name="secciones[${sec}][modulos][${indexModulo}][nombre]" 
-        placeholder="Nombre módulo" class="form-control mb-2">
+        placeholder="Nombre módulo" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:mb-2">
 
         <div id="preguntas_${sec}_${indexModulo}"></div>
 
         <button type="button" onclick="agregarPregunta(${sec},${indexModulo})"
-        class="btn btn-warning btn-sm">+ Pregunta</button>
+        class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-amber-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-amber-600 tw:gap-1.5 tw:px-3 tw:py-1.5 tw:text-sm">+ Pregunta</button>
 
     </div>
     `;
@@ -89,17 +90,17 @@ function agregarPregunta(sec, mod) {
     let indexPregunta = document.querySelectorAll(`#preguntas_${sec}_${mod} .pregunta`).length;
 
     let html = `
-    <div class="card mt-2 p-2 pregunta">
+    <div class="pregunta tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white tw:mt-2 tw:p-2">
 
         <input type="text" 
         name="secciones[${sec}][modulos][${mod}][preguntas][${indexPregunta}][pregunta]" 
-        placeholder="Pregunta" class="form-control mb-2">
+        placeholder="Pregunta" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:mb-2">
 
         <div id="respuestas_${sec}_${mod}_${indexPregunta}"></div>
 
         <button type="button" 
         onclick="agregarRespuesta(${sec},${mod},${indexPregunta})"
-        class="btn btn-secondary btn-sm">
+        class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:gap-1.5 tw:px-3 tw:py-1.5 tw:text-sm">
         + Respuesta
         </button>
 
@@ -115,11 +116,11 @@ function agregarRespuesta(sec, mod, pre) {
     let indexResp = document.querySelectorAll(`#respuestas_${sec}_${mod}_${pre} .respuesta`).length;
 
     let html = `
-    <div class="respuesta mt-1">
+    <div class="respuesta tw:mt-1">
 
         <input type="text" 
         name="secciones[${sec}][modulos][${mod}][preguntas][${pre}][respuestas][${indexResp}][texto]" 
-        placeholder="Respuesta" class="form-control">
+        placeholder="Respuesta" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11">
 
         <label>
             Correcta

@@ -1,17 +1,18 @@
-@extends('layouts.app')
+@extends('layouts.panel')
+@include('partials.panel.recursos_app', ['datepicker' => true, 'selectorHora' => true])
 @section('title', 'Incidencias')
 @push('styles')
     @vite('resources/css/marco.css')
 @endpush
 @section('content')
     
-<main class="col-md-12">
+<main class="tw:w-full tw:lg:w-full tw:px-2">
 
-  <div class="row">
-        <div class="col-md-5 col-md-offset-4">
-          <div class="panel panel-info">
-                <div class="panel-heading">
-                  <h3 class="panel-title text-center">SOLICITUD DE OFICIOS</h3>
+  <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+        <div class="tw:w-full tw:lg:w-5/12 tw:lg:ml-[33.3333%] tw:px-2">
+          <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
+                <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4">
+                  <h3 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:text-center">SOLICITUD DE OFICIOS</h3>
                 </div>
           </div>  
         </div>
@@ -23,22 +24,22 @@
   {{ csrf_field() }}
     <section id="incidencia-paso-0" data-stepper-seccion  class="tw:space-y-4 tw:motion-safe:animate-in tw:motion-safe:fade-in tw:motion-safe:duration-200">
         <h4 data-stepper-titulo tabindex="-1" class="tw:text-sm tw:font-semibold tw:text-gray-800">Motivo y artículo</h4>
-             <div class="row">
-                <div class="col-md-8 col-md-offset-2">
-                     <div class="form-group">
+             <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                <div class="tw:w-full tw:lg:w-8/12 tw:lg:ml-[16.6667%] tw:px-2">
+                     <div class="tw:mb-4">
                          <label for="motivo_oficio">Motivo del oficio:</label>
-                         <textarea class="form-control" id="motivo_oficio" name="motivo_oficio" data-stepper-requerido="Ingresa el motivo del oficio." rows="3" placeholder="Ingresa el motivo del oficio (La primera letra debe de ser en minusculas, debes tambien utilizar letras mayusculas y minusculas), por ejemplo: entregar documentación" style=""></textarea>
+                         <textarea class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500" id="motivo_oficio" name="motivo_oficio" data-stepper-requerido="Ingresa el motivo del oficio." rows="3" placeholder="Ingresa el motivo del oficio (La primera letra debe de ser en minusculas, debes tambien utilizar letras mayusculas y minusculas), por ejemplo: entregar documentación" style=""></textarea>
                      </div>
                 </div>
              </div>
                 
-  <div class="row">
+  <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
-      <div class="col-md-4 col-md-offset-2">
+      <div class="tw:w-full tw:lg:w-4/12 tw:lg:ml-[16.6667%] tw:px-2">
           <div class= "dropdown">
              <label for="Tipo_of">Tipo de articulo/clausula aplicada:</label>
              <input type="hidden" id="estado_profesor" name="estado_profesor" value="{{$estado_profesor}}">
-             <select class="form-control" placeholder="Seleciona una opción" id="id_articulo" name="id_articulo" data-stepper-requerido="Selecciona el artículo." required>
+             <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" placeholder="Seleciona una opción" id="id_articulo" name="id_articulo" data-stepper-requerido="Selecciona el artículo." required>
                 <option disabled selected hidden> Selecciona una opción </option>
                 @foreach($articulos as $articulo)
                 <option value="{{$articulo->id_articulo}}" data-art="{{$articulo->nombre_articulo}}"> {{$articulo->nombre_articulo}} </option>
@@ -52,31 +53,31 @@
     </section>
     <section id="incidencia-paso-1" data-stepper-seccion  class="tw:space-y-4 tw:motion-safe:animate-in tw:motion-safe:fade-in tw:motion-safe:duration-200">
         <h4 data-stepper-titulo tabindex="-1" class="tw:text-sm tw:font-semibold tw:text-gray-800">Fecha y horario</h4>
-      <div class="row">
-                     <div style="display: none;" id="fecha_r1" class="col-md-2  col-md-offset-1 ">
+      <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                     <div style="display: none;" id="fecha_r1" class="tw:w-full tw:lg:w-2/12 tw:lg:ml-[8.3333%] tw:px-2">
                         <label for="fecha_requerida">Fecha requerida:</label>
-                        <div class="form-group">
-                            <input class="form-control datepicker fecha_requerida1"   type="text"  id="fecha_req1" name="fecha_req1" data-stepper-requerido="Selecciona la fecha requerida." data-stepper-omitir data-date-format="yyyy/mm/dd" placeholder="DD/MM/AAAA" >
+                        <div class="tw:mb-4">
+                            <input class="datepicker fecha_requerida1 tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"   type="text"  id="fecha_req1" name="fecha_req1" data-stepper-requerido="Selecciona la fecha requerida." data-stepper-omitir data-date-format="yyyy/mm/dd" placeholder="DD/MM/AAAA" >
                         </div>
                      </div>
-                      <div style="display: none;" id="fecha_r2" class="col-md-2  col-md-offset-1 ">
+                      <div style="display: none;" id="fecha_r2" class="tw:w-full tw:lg:w-2/12 tw:lg:ml-[8.3333%] tw:px-2">
                           <label for="fecha_requerida">Fecha requerida:</label>
-                          <div class="form-group">
-                              <input class="form-control datepicker fecha_requerida2"   type="text"  id="fecha_req2" name="fecha_req2" data-stepper-requerido="Selecciona la fecha requerida." data-stepper-omitir data-date-format="yyyy/mm/dd" placeholder="DD/MM/AAAA" >
+                          <div class="tw:mb-4">
+                              <input class="datepicker fecha_requerida2 tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"   type="text"  id="fecha_req2" name="fecha_req2" data-stepper-requerido="Selecciona la fecha requerida." data-stepper-omitir data-date-format="yyyy/mm/dd" placeholder="DD/MM/AAAA" >
                           </div>
                       </div>
   </div>
-      <div class="row">
+      <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
           <div id="message" style="display:none">
-              <div class="col-md-3 col-md-offset-2">
-                  <div class="alert alert-danger">
+              <div class="tw:w-full tw:lg:w-3/12 tw:lg:ml-[16.6667%] tw:px-2">
+                  <div class="tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-red-200 tw:bg-red-50 tw:text-red-700">
                       <strong>Sin días disponibles </strong>
                   </div>
               </div>
           </div>
           <div id="message2" style="display:none">
-              <div class="col-md-3  col-md-offset-2">
-                  <div class="alert alert-success">
+              <div class="tw:w-full tw:lg:w-3/12 tw:lg:ml-[16.6667%] tw:px-2">
+                  <div class="tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-green-200 tw:bg-green-50 tw:text-green-800">
                       <strong>Puedes realizar tu solicitud </strong>
                   </div>   </div>
           </div>
@@ -86,34 +87,34 @@
             {{-----------ARTICULO 64°-----------}}
     <div style="display: none;" id="articulo_64">
 
-            <div class="row">
-                  <div class="col-md-2 col-md-offset-2">
+            <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                  <div class="tw:w-full tw:lg:w-2/12 tw:lg:ml-[16.6667%] tw:px-2">
                     <label for="horario entrada">Horario de entrada</label><br>
-                     <div class="form-group">
-                             <input id="hora_e" class="form-control time" type="text" name="hora_e" data-stepper-requerido="Selecciona el horario de entrada." data-stepper-omitir placeholder="HORA" />
+                     <div class="tw:mb-4">
+                             <input id="hora_e" class="time tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" type="text" name="hora_e" data-stepper-requerido="Selecciona el horario de entrada." data-stepper-omitir placeholder="HORA" />
                      </div>
                   </div>
-                  <div class="col-md-2 col-md-offset-1">
+                  <div class="tw:w-full tw:lg:w-2/12 tw:lg:ml-[8.3333%] tw:px-2">
                      <label for="hora salida tarde">Horario de llegada tarde</label><br>
-                     <div class="form-group">
-                             <input id="hora_st" class="form-control time" type="text" name="hora_st" data-stepper-requerido="Selecciona el horario de llegada." data-stepper-omitir placeholder="HORA" />
+                     <div class="tw:mb-4">
+                             <input id="hora_st" class="time tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" type="text" name="hora_st" data-stepper-requerido="Selecciona el horario de llegada." data-stepper-omitir placeholder="HORA" />
                      </div>     
                   </div>
             </div>
     </div>
 {{--------ARTICULO 73°----------}}
     <div style="display: none;" id="articulo_73">
-            <div class="row">
-                  <div class="col-md-3 col-md-offset-2">
+            <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                  <div class="tw:w-full tw:lg:w-3/12 tw:lg:ml-[16.6667%] tw:px-2">
                       <label for="fecha_invac">Fecha de inicio vacaciones</label>
-                     <div class="form-group">
-                         <input class="form-control datepicker fecha_invac"   type="text"  id="fecha_invac" name="fecha_invac" data-stepper-requerido="Selecciona la fecha de inicio de vacaciones." data-stepper-omitir data-date-format="yyyy/mm/dd" placeholder="AAAA/MM/DD" >
+                     <div class="tw:mb-4">
+                         <input class="datepicker fecha_invac tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"   type="text"  id="fecha_invac" name="fecha_invac" data-stepper-requerido="Selecciona la fecha de inicio de vacaciones." data-stepper-omitir data-date-format="yyyy/mm/dd" placeholder="AAAA/MM/DD" >
                      </div>
                   </div>
-                  <div class="col-md-3 col-md-offset-1">
+                  <div class="tw:w-full tw:lg:w-3/12 tw:lg:ml-[8.3333%] tw:px-2">
                      <label for="fecha_tervac">Fecha de termino de  vacaciones</label>
-                     <div class="form-group">
-                         <input class="form-control datepicker fecha_tervac"   type="text"  id="fecha_tervac" name="fecha_tervac" data-stepper-requerido="Selecciona la fecha de término de vacaciones." data-stepper-omitir data-date-format="yyyy/mm/dd" placeholder="AAAA/MM/DD" >
+                     <div class="tw:mb-4">
+                         <input class="datepicker fecha_tervac tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"   type="text"  id="fecha_tervac" name="fecha_tervac" data-stepper-requerido="Selecciona la fecha de término de vacaciones." data-stepper-omitir data-date-format="yyyy/mm/dd" placeholder="AAAA/MM/DD" >
                      </div>
                   </div>               
             </div>
@@ -121,68 +122,68 @@
       {{--------ARTICULO 56°----------}}
       <div style="display: none;" id="articulo_56">
 
-          <div class="row">
-              <div class="col-md-3 col-md-offset-2">
+          <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+              <div class="tw:w-full tw:lg:w-3/12 tw:lg:ml-[16.6667%] tw:px-2">
                   <label for="fecha_invac">Fecha inicial</label>
-                  <div class="form-group">
-                      <input class="form-control datepicker fecha_invac3"   type="text"  id="fecha_invac3" name="fecha_invac3" data-stepper-requerido="Selecciona la fecha inicial." data-stepper-omitir data-date-format="yyyy/mm/dd" placeholder="AAAA/MM/DD" >
+                  <div class="tw:mb-4">
+                      <input class="datepicker fecha_invac3 tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"   type="text"  id="fecha_invac3" name="fecha_invac3" data-stepper-requerido="Selecciona la fecha inicial." data-stepper-omitir data-date-format="yyyy/mm/dd" placeholder="AAAA/MM/DD" >
                   </div>
               </div>
-              <div class="col-md-3 col-md-offset-1">
+              <div class="tw:w-full tw:lg:w-3/12 tw:lg:ml-[8.3333%] tw:px-2">
                   <label for="fecha_tervac">Fecha de termino</label>
-                  <div class="form-group">
-                      <input class="form-control datepicker fecha_tervac3"   type="text"  id="fecha_tervac3" name="fecha_tervac3" data-stepper-requerido="Selecciona la fecha de término." data-stepper-omitir data-date-format="yyyy/mm/dd" placeholder="AAAA/MM/DD" >
+                  <div class="tw:mb-4">
+                      <input class="datepicker fecha_tervac3 tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"   type="text"  id="fecha_tervac3" name="fecha_tervac3" data-stepper-requerido="Selecciona la fecha de término." data-stepper-omitir data-date-format="yyyy/mm/dd" placeholder="AAAA/MM/DD" >
                   </div>
               </div>
           </div>
       </div>
       {{--------ARTICULO 75°----------}}
       <div style="display: none;" id="articulo_75">
-          <div class="row">
-              <div class="col-md-3 col-md-offset-2">
+          <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+              <div class="tw:w-full tw:lg:w-3/12 tw:lg:ml-[16.6667%] tw:px-2">
                   <label for="fecha_invac">Fecha de inicio vacaciones</label>
-                  <div class="form-group">
-                      <input class="form-control datepicker fecha_invac2"   type="text"  id="fecha_invac2" name="fecha_invac2" data-stepper-requerido="Selecciona la fecha de inicio de vacaciones." data-stepper-omitir data-date-format="yyyy/mm/dd" placeholder="AAAA/MM/DD" >
+                  <div class="tw:mb-4">
+                      <input class="datepicker fecha_invac2 tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"   type="text"  id="fecha_invac2" name="fecha_invac2" data-stepper-requerido="Selecciona la fecha de inicio de vacaciones." data-stepper-omitir data-date-format="yyyy/mm/dd" placeholder="AAAA/MM/DD" >
                   </div>
               </div>
-              <div class="col-md-3 col-md-offset-1">
+              <div class="tw:w-full tw:lg:w-3/12 tw:lg:ml-[8.3333%] tw:px-2">
                   <label for="fecha_tervac">Fecha de termino de  vacaciones</label>
-                  <div class="form-group">
-                      <input class="form-control datepicker fecha_tervac2"   type="text"  id="fecha_tervac2" name="fecha_tervac2" data-stepper-requerido="Selecciona la fecha de término de vacaciones." data-stepper-omitir data-date-format="yyyy/mm/dd" placeholder="AAAA/MM/DD" >
+                  <div class="tw:mb-4">
+                      <input class="datepicker fecha_tervac2 tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"   type="text"  id="fecha_tervac2" name="fecha_tervac2" data-stepper-requerido="Selecciona la fecha de término de vacaciones." data-stepper-omitir data-date-format="yyyy/mm/dd" placeholder="AAAA/MM/DD" >
                   </div>
               </div>
           </div>
       </div>
 {{------ARTICULO 68° 1/2 JORNADA SIN SINDICATO------}}
     <div style="display: none;" id="articuloM_68">
-      <div class="row">
-                  <div class="col-md-2 col-md-offset-2">
+      <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                  <div class="tw:w-full tw:lg:w-2/12 tw:lg:ml-[16.6667%] tw:px-2">
                      <label for="horario entrada">Horario de entrada</label><br>
-                     <div class="form-group">
-                             <input id="hora_e1" class="form-control time" type="text" name="hora_e1" data-stepper-requerido="Selecciona el horario de entrada." data-stepper-omitir placeholder="HORA" />
+                     <div class="tw:mb-4">
+                             <input id="hora_e1" class="time tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" type="text" name="hora_e1" data-stepper-requerido="Selecciona el horario de entrada." data-stepper-omitir placeholder="HORA" />
                      </div>
                   </div>
-        <div class="col-md-2 col-md-offset-1">
+        <div class="tw:w-full tw:lg:w-2/12 tw:lg:ml-[8.3333%] tw:px-2">
             <label for="hora salida tarde">Horario de salida</label><br>
-            <div class="form-group">
-                  <input id="hora_s1" class="form-control time" type="text" name="hora_s1" data-stepper-requerido="Selecciona el horario de salida." data-stepper-omitir placeholder="HORA" />
+            <div class="tw:mb-4">
+                  <input id="hora_s1" class="time tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" type="text" name="hora_s1" data-stepper-requerido="Selecciona el horario de salida." data-stepper-omitir placeholder="HORA" />
             </div>
         </div>
       </div>
     </div>
 {{------CLAUSULA 44° 1/2 JORNADA CON SINDICATO------}}
   <div style="display: none;" id="articuloM_44">
-    <div class="row">
-                <div class="col-md-2 col-md-offset-2">
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                <div class="tw:w-full tw:lg:w-2/12 tw:lg:ml-[16.6667%] tw:px-2">
                      <label for="horario entrada">Horario de entrada</label><br>
-                     <div class="form-group">
-                             <input id="hora_e2" class="form-control time" type="text" name="hora_e2" data-stepper-requerido="Selecciona el horario de entrada." data-stepper-omitir placeholder="HORA" />
+                     <div class="tw:mb-4">
+                             <input id="hora_e2" class="time tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" type="text" name="hora_e2" data-stepper-requerido="Selecciona el horario de entrada." data-stepper-omitir placeholder="HORA" />
                      </div>
                 </div>
-      <div class="col-md-2 col-md-offset-1">
+      <div class="tw:w-full tw:lg:w-2/12 tw:lg:ml-[8.3333%] tw:px-2">
             <label for="hora salida tarde">Horario de salida</label><br>
-            <div class="form-group">
-                <input id="hora_s2" class="form-control time" type="text" name="hora_s2" data-stepper-requerido="Selecciona el horario de salida." data-stepper-omitir placeholder="HORA" />
+            <div class="tw:mb-4">
+                <input id="hora_s2" class="time tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" type="text" name="hora_s2" data-stepper-requerido="Selecciona el horario de salida." data-stepper-omitir placeholder="HORA" />
             </div>
       </div>
     </div>
@@ -192,11 +193,11 @@
     <section id="incidencia-paso-2" data-stepper-seccion  class="tw:space-y-4 tw:motion-safe:animate-in tw:motion-safe:fade-in tw:motion-safe:duration-200">
         <h4 data-stepper-titulo tabindex="-1" class="tw:text-sm tw:font-semibold tw:text-gray-800">Responsable y datos adicionales</h4>
       @if($estado_profesor==1)
-          <div class="row">
-                    <div class="col-md-3 col-md-offset-2" id="jefes" style="display:none;">
+          <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                    <div class="tw:w-full tw:lg:w-3/12 tw:lg:ml-[16.6667%] tw:px-2" id="jefes" style="display:none;">
                         <div class="dropdown">
                             <label for="exampleInputEmail1">Dirigido a:</label>
-                            <select class="form-control" placeholder="Seleciona una opción" id="id_jefe" name="id_jefe" data-stepper-requerido="Selecciona el jefe de división." data-stepper-omitir required>
+                            <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" placeholder="Seleciona una opción" id="id_jefe" name="id_jefe" data-stepper-requerido="Selecciona el jefe de división." data-stepper-omitir required>
                               <option disabled selected hidden> Selecciona una opción </option>
                                 @foreach($array_carreras as $carrera)
                               <option value="{{$carrera['id_personal']}}" data-art="{{$carrera['nombre']}}">{{$carrera['titulo']}} {{$carrera['nombre']}}</option>
@@ -208,16 +209,16 @@
 
       @endif
     <div style="display: none;" id="descripcionD_44">
-      <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+      <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+        <div class="tw:w-full tw:lg:w-8/12 tw:lg:ml-[16.6667%] tw:px-2">
             <label for="dia economico SIND" >El personal, después de laborar un año y hasta nueve años en el TESVB disfrutarán de 4 días económicos por año con goce de sueldo íntegro, después de nueve a quince años disfrutarán de 5 días económicos por año con goce de sueldo íntegro, y más de 15 años disfrutarán de 6 días económicos por año con goce de sueldo íntegro, estos no podrán ser fraccionados.</label>
         </div>
       </div>
     </div>
 {{-------DESCRIPCIÓN ARTICULO 69 OMISIÓN DE ENTRADA------------}}
     <div style="display: none;" id="descripcion_69">
-      <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+      <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+        <div class="tw:w-full tw:lg:w-8/12 tw:lg:ml-[16.6667%] tw:px-2">
             <label for="omisión de salida" >Toda incidencia deberá justificarse ante la Dirección de Administración y Finanzas en el caso del
                 personal administrativo y a la Dirección de Académica para el personal docente, en un plazo no mayor a cinco días
                 hábiles después de ocurrida; de no respetar el plazo de presentación, esta perderá su carácter de justificable y no
@@ -227,32 +228,32 @@
     </div>
 {{-------DESCRIPCIÓN CLAUSULA 44 MEDIAS JORNADAS SINDICATO------------}}
     <div style="display: none;" id="descripcionM_44">
-      <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+      <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+        <div class="tw:w-full tw:lg:w-8/12 tw:lg:ml-[16.6667%] tw:px-2">
             <label for="media jornada SIND">Los trabajadores gozaran de 4 medias jornadas al año para atender situaciones personales que se pudieran presentar; el Tecnológico está facultado para corroborar y/o solicitar la constancia correspondiente que constante tal situación. </label>
         </div>
       </div>
     </div>
 {{-------DESCRIPCIÓN ARTICULO 68 DIAS ECONOMICOS SIN SINDICATO------------}}
     <div style="display: none;" id="descripcionD_68">
-      <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+      <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+        <div class="tw:w-full tw:lg:w-8/12 tw:lg:ml-[16.6667%] tw:px-2">
             <label for="dia economico NO SIND">El personal, después de laborar un año y hasta nueve años en el TESVB disfrutarán de 4 días económicos por año con goce de sueldo íntegro, después de nueve a quince años disfrutarán de 5 días económicos por año con goce de sueldo íntegro, y más de 15 años disfrutarán de 6 días económicos por año con goce de sueldo íntegro, estos no podrán ser fraccionados.</label>
         </div>
       </div>
     </div>
 {{-------DESCRIPCIÓN ARTICULO 68 MEDIAS JORNADAS SIN SINDICATO------------}}
     <div style="display: none;" id="descripcionM_68">
-      <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+      <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+        <div class="tw:w-full tw:lg:w-8/12 tw:lg:ml-[16.6667%] tw:px-2">
             <label for="media jornada NO SIND">Los trabajadores gozaran de 4 medias jornadas al año para atender situaciones personales que se pudieran presentar; el Tecnológico está facultado para corroborar y/o solicitar la constancia correspondiente que constante tal situación. </label>
         </div>
       </div>
     </div>
 {{-------DESCRIPCIÓN ARTICULO 56 TITULACION O GRADO------------}}
     <div style="display: none;" id="descripcion_56">
-      <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+      <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+        <div class="tw:w-full tw:lg:w-8/12 tw:lg:ml-[16.6667%] tw:px-2">
             <label for="titulacion">El personal adscrito al Tecnológico con más de un año de antigüedad, tendrán derecho a una licencia
               con goce de sueldo hasta por tres días hábiles por concepto de titulación o grado incluyendo el día de la presentación
               de la evaluación profesional o de grado, lo anterior a efecto de preparar la evaluación profesional que sustenten;
@@ -262,8 +263,8 @@
     </div>
 {{-------DESCRIPCIÓN ARTICULO 61 DIA SIN GOCE DE SUELDO------------}}
     <div style="display: none;" id="descripcion_61">
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
+        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+            <div class="tw:w-full tw:lg:w-8/12 tw:lg:ml-[16.6667%] tw:px-2">
                 <label for="dia sin goce">Para disfrutar de las licencias sin goce de sueldo, el personal adscrito al Tecnológico deberá contar con
                     la autorización de la jefatura correspondiente y con el visto bueno del Director General.
                     Las licencias podrán negarse si la ausencia del personal afecta el adecuado desempeño de las operaciones del
@@ -273,8 +274,8 @@
     </div>
 {{-------DESCRIPCIÓN ARTICULO 64 RETARDO------------}}
     <div style="display: none;" id="descripcion_64">
-      <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+      <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+        <div class="tw:w-full tw:lg:w-8/12 tw:lg:ml-[16.6667%] tw:px-2">
           <label for="retardo"> La autorización de permisos de entrada y salida fuera del horario establecido y para desempeñar
             comisiones, deberá contar con la aprobación de la jefatura correspondiente, así como del visto bueno de la Dirección
             o Subdirección a la que corresponda en los siguientes casos:
@@ -286,8 +287,8 @@
     </div>
 {{-------DESCRIPCIÓN ARTICULO 73 VACACIONES NO DISFRUTADAS------------}}
       <div style="display: none;" id="descripcion_73">
-        <div class="row">
-          <div class="col-md-8 col-md-offset-2">
+        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+          <div class="tw:w-full tw:lg:w-8/12 tw:lg:ml-[16.6667%] tw:px-2">
             <label for="dia sin goce">El personal adscrito al Tecnológico, que durante periodos de vacaciones se encuentren incapacitados
                por enfermedad o gravidez, tendrá derecho a que se le repongan los días de vacaciones que no hubieren disfrutado,
                una vez concluida la incapacidad.</label>
@@ -296,8 +297,8 @@
       </div>
       {{-------DESCRIPCIÓN ARTICULO 75 PERIODOS DE VACACIONES------------}}
       <div style="display: none;" id="descripcion_75">
-          <div class="row">
-              <div class="col-md-8 col-md-offset-2">
+          <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+              <div class="tw:w-full tw:lg:w-8/12 tw:lg:ml-[16.6667%] tw:px-2">
                   <label for="dia sin goce">Si por cualquier otro motivo, el personal no pudiera disfrutar de cualquiera de sus periodos vacacionales,
                       podrá hacerlo de manera escalonada dentro de los 12 meses siguientes a la fecha de inicio oficial del periodo vacacional,
                       en el entendido de que , de no hacerlo, los días de vacaciones no disfrutados se perderán y no se podrá exigir,
@@ -308,27 +309,27 @@
     </section>
     </form> 
 
-          <div class="row" style="display: inline" id="solicitar">
-            <div class="col-md-2 col-md-offset-6">
-                <button id="enviar_solicitud" type="submit" form="form_guardar_solicitud" class="btn btn-success btn-lg">Enviar</button>
+          <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4" style="display: inline" id="solicitar">
+            <div class="tw:w-full tw:lg:w-2/12 tw:lg:ml-[50%] tw:px-2">
+                <button id="enviar_solicitud" type="submit" form="form_guardar_solicitud" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-green-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-green-700 tw:gap-2 tw:px-5 tw:py-3.5 tw:text-base">Enviar</button>
             </div>    
           </div>
         <x-panel.stepper-navegacion />
     </div>
 </div>
-      <div class="modal fade" id="modal_mostrar2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal fade tw-modal-compat" id="modal_mostrar2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                    <div class="modal-header bg-info">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title text-center" id="myModalLabel">Informacion Adicional</h4>
+                    <div class="modal-header tw:bg-sky-100">
+                        <button type="button" class="tw:text-2xl tw:leading-none tw:text-gray-400 tw:hover:text-gray-700" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title tw:text-center" id="myModalLabel">Informacion Adicional</h4>
                     </div>
                     <div class="modal-body">
                         <div id="contenedor_mostrar2">
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                        <button type="button" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" data-dismiss="modal">Cerrar</button>
                     </div>
                 </div>
             </div>

@@ -1,56 +1,57 @@
-@extends('layouts.app')
+@extends('layouts.panel')
+@include('partials.panel.recursos_app')
 @section('title', 'Inicio')
 
 @section('content')
 
-<div class="container dashboard-container">
+<div class="dashboard-container tw:w-full">
 
-    <div class="page-header dashboard-header">
+    <div class="dashboard-header tw:mb-6 tw:border-b tw:border-gray-200 tw:pb-2">
         <h2>
-            <span class="glyphicon glyphicon-dashboard"></span>
+            <span class="fa"></span>
             Panel de Administración
         </h2>
     </div>
 
-    <div class="row">
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
-        <div class="col-xs-12 col-sm-6 col-md-3">
-            <a href="{{route('admin.examen_general.ver_resultados_docentes')}}" class="dashboard-card bg-primary">
+        <div class="tw:w-full tw:md:w-6/12 tw:lg:w-3/12 tw:px-2">
+            <a href="{{route('admin.examen_general.ver_resultados_docentes')}}" class="dashboard-card tw:bg-brand-500 tw:text-white">
                 <div class="dashboard-content">
                     <h4>Examenes</h4>
                     <small>Ver Resultados</small>
                 </div>
-                <span class="glyphicon glyphicon-stats"></span>
+                <span class="fa fa-bar-chart"></span>
             </a>
         </div>
 
-        <div class="col-xs-12 col-sm-6 col-md-3">
-            <a href="{{ route('admin.examen_general.resultados') }}" class="dashboard-card bg-success">
+        <div class="tw:w-full tw:md:w-6/12 tw:lg:w-3/12 tw:px-2">
+            <a href="{{ route('admin.examen_general.resultados') }}" class="dashboard-card tw:bg-green-100">
                 <div class="dashboard-content">
                     <h4>Docentes</h4>
                     <small>Lista de Docentes</small>
                 </div>
-                <span class="glyphicon glyphicon-user"></span>
+                <span class="fa fa-user"></span>
             </a>
         </div>
 
-        <div class="col-xs-12 col-sm-6 col-md-3">
-            <a href="{{ route('admin.examenes_generales.index') }}" class="dashboard-card bg-warning">
+        <div class="tw:w-full tw:md:w-6/12 tw:lg:w-3/12 tw:px-2">
+            <a href="{{ route('admin.examenes_generales.index') }}" class="dashboard-card tw:bg-amber-100">
                 <div class="dashboard-content">
                     <h4>Exámenes</h4>
                     <small>Administrar Exámenes</small>
                 </div>
-                <span class="glyphicon glyphicon-file"></span>
+                <span class="fa fa-file"></span>
             </a>
         </div>
 
-        <div class="col-xs-12 col-sm-6 col-md-3">
-            <a class="dashboard-card bg-info" href="{{ route('admin.examen_general.periodos.index') }}">
+        <div class="tw:w-full tw:md:w-6/12 tw:lg:w-3/12 tw:px-2">
+            <a class="dashboard-card tw:bg-sky-100" href="{{ route('admin.examen_general.periodos.index') }}">
                 <div class="dashboard-content">
                     <h4>Periodos</h4>
                     <small>Configurar Periodos</small>
                 </div>
-                <span class="glyphicon glyphicon-calendar"></span>
+                <span class="fa fa-calendar"></span>
             </a>
         </div>
 

@@ -1,4 +1,5 @@
-@extends('layouts.app')
+@extends('layouts.panel')
+@include('partials.panel.recursos_app')
 
 @section('content')
 
@@ -49,13 +50,13 @@
     }
 </style>
 
-<div class="container main">
+<div class="main tw:w-full">
 
     <!-- Título -->
-    <div class="row">
-        <div class="col-md-12 text-center">
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+        <div class="tw:w-full tw:lg:w-full tw:text-center tw:px-2">
             <h2><strong>Resultado EGEL</strong></h2>
-            <p class="text-muted">
+            <p class="tw:text-gray-500">
                 Consulta tu desempeño general y el detalle por módulos y secciones.
             </p>
             <hr>
@@ -65,15 +66,15 @@
     @if($resultado)
 
     <!-- Resumen -->
-    <div class="row">
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
-        <div class="col-md-4">
-            <div class="panel panel-info text-center panel-dashboard">
-                <div class="panel-heading">
+        <div class="tw:w-full tw:lg:w-4/12 tw:px-2">
+            <div class="panel-dashboard tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white tw:text-center">
+                <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4">
                     Calificación
                 </div>
 
-                <div class="panel-body">
+                <div class="tw:p-5 tw:sm:p-6">
                     <div class="resumen-numero">
                         {{ $resultado->calificacion_general }}%
                     </div>
@@ -81,13 +82,13 @@
             </div>
         </div>
 
-        <div class="col-md-4">
-            <div class="panel panel-success text-center panel-dashboard">
-                <div class="panel-heading">
+        <div class="tw:w-full tw:lg:w-4/12 tw:px-2">
+            <div class="panel-dashboard tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white tw:text-center">
+                <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4">
                     Nivel obtenido
                 </div>
 
-                <div class="panel-body">
+                <div class="tw:p-5 tw:sm:p-6">
                     <div class="resumen-numero">
                         {{ $resultado->nivel }}
                     </div>
@@ -95,13 +96,13 @@
             </div>
         </div>
 
-        <div class="col-md-4">
-            <div class="panel panel-warning text-center panel-dashboard">
-                <div class="panel-heading">
+        <div class="tw:w-full tw:lg:w-4/12 tw:px-2">
+            <div class="panel-dashboard tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white tw:text-center">
+                <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4">
                     Módulos evaluados
                 </div>
 
-                <div class="panel-body">
+                <div class="tw:p-5 tw:sm:p-6">
                     <div class="resumen-numero">
                         {{ count($porModulo) }}
                     </div>
@@ -115,19 +116,19 @@
 
 
     <!-- Resultado General -->
-    <div class="row">
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
-        <div class="col-md-6 col-md-offset-3">
+        <div class="tw:w-full tw:lg:w-6/12 tw:lg:ml-[25%] tw:px-2">
 
-            <div class="panel panel-primary">
+            <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
 
-                <div class="panel-heading text-center">
-                    <h3 class="panel-title">
+                <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4 tw:text-center">
+                    <h3 class="tw:text-lg tw:font-semibold tw:text-gray-800">
                         Resultado General
                     </h3>
                 </div>
 
-                <div class="panel-body text-center">
+                <div class="tw:p-5 tw:sm:p-6 tw:text-center">
 
                     @if($resultado)
 
@@ -141,13 +142,13 @@
                             Nivel alcanzado
                         </h4>
 
-                        <span class="label label-success" style="font-size:18px;padding:10px 20px;">
+                        <span class="tw:inline-flex tw:items-center tw:rounded-full tw:px-2.5 tw:py-0.5 tw:text-xs tw:font-medium tw:bg-green-50 tw:text-green-700" style="font-size:18px;padding:10px 20px;">
                             {{ $resultado->nivel }}
                         </span>
 
                     @else
 
-                        <h4 class="text-muted">
+                        <h4 class="tw:text-gray-500">
                             Aún no existe un resultado disponible.
                         </h4>
 
@@ -163,21 +164,22 @@
 
 
     <!-- Módulos -->
-    <div class="row">
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
-        <div class="col-md-12">
+        <div class="tw:w-full tw:lg:w-full tw:px-2">
 
-            <div class="panel panel-info">
+            <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
 
-                <div class="panel-heading">
+                <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4">
                     <strong>Resultados por módulo</strong>
                 </div>
 
-                <div class="panel-body">
+                <div class="tw:p-5 tw:sm:p-6">
 
-                    <div class="table-responsive">
+                    <div class="tw:max-w-full tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200">
 
-                        <table class="table table-bordered table-striped table-hover">
+                        <div class="tw-tabla-contenedor tw:mb-4 tw:max-w-full tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200">
+<table class="tw-tabla tw-tabla-bordes tw-tabla-rayas">
 
                             <thead>
 
@@ -212,20 +214,20 @@
 
                                     <td>{{ $m->nombre }}</td>
 
-                                    <td class="text-center">
+                                    <td class="tw:text-center">
                                         {{ number_format($m->puntos,2) }}
                                     </td>
 
-                                    <td class="text-center">
+                                    <td class="tw:text-center">
                                         {{ number_format($m->total_valor,2) }}
                                     </td>
 
                                     <td>
 
-                                        <div class="progress">
+                                        <div class="tw:mb-3 tw:flex tw:h-5 tw:w-full tw:overflow-hidden tw:rounded-full tw:bg-gray-200">
 
                                             <div
-                                                class="progress-bar progress-bar-{{ $color }}"
+                                                class="progress-bar-{{ $color }} tw:flex tw:h-full tw:items-center tw:justify-center tw:bg-brand-500 tw:text-xs tw:font-medium tw:text-white"
                                                 role="progressbar"
                                                 style="width:{{ $m->porcentaje }}%;">
 
@@ -244,6 +246,7 @@
                             </tbody>
 
                         </table>
+</div>
 
                     </div>
 
@@ -257,21 +260,22 @@
 
 
     <!-- Secciones -->
-    <div class="row">
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
-        <div class="col-md-12">
+        <div class="tw:w-full tw:lg:w-full tw:px-2">
 
-            <div class="panel panel-success">
+            <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
 
-                <div class="panel-heading">
+                <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4">
                     <strong>Resultados por sección</strong>
                 </div>
 
-                <div class="panel-body">
+                <div class="tw:p-5 tw:sm:p-6">
 
-                    <div class="table-responsive">
+                    <div class="tw:max-w-full tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200">
 
-                        <table class="table table-bordered table-striped table-hover">
+                        <div class="tw-tabla-contenedor tw:mb-4 tw:max-w-full tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200">
+<table class="tw-tabla tw-tabla-bordes tw-tabla-rayas">
 
                             <thead>
 
@@ -310,20 +314,20 @@
                                         Sección {{ $s->id_seccion }}
                                     </td>
 
-                                    <td class="text-center">
+                                    <td class="tw:text-center">
                                         {{ number_format($s->puntos,2) }}
                                     </td>
 
-                                    <td class="text-center">
+                                    <td class="tw:text-center">
                                         {{ number_format($s->total_valor,2) }}
                                     </td>
 
                                     <td>
 
-                                        <div class="progress">
+                                        <div class="tw:mb-3 tw:flex tw:h-5 tw:w-full tw:overflow-hidden tw:rounded-full tw:bg-gray-200">
 
                                             <div
-                                                class="progress-bar progress-bar-{{ $color }}"
+                                                class="progress-bar-{{ $color }} tw:flex tw:h-full tw:items-center tw:justify-center tw:bg-brand-500 tw:text-xs tw:font-medium tw:text-white"
                                                 role="progressbar"
                                                 style="width:{{ $s->porcentaje }}%;">
 
@@ -342,6 +346,7 @@
                             </tbody>
 
                         </table>
+</div>
 
                     </div>
 
@@ -355,14 +360,14 @@
 
 
     <!-- Botón -->
-    <div class="row">
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
-        <div class="col-md-12 text-center">
+        <div class="tw:w-full tw:lg:w-full tw:text-center tw:px-2">
 
             <a href="{{ route('examen_general.pdf.oficial') }}"
-               class="btn btn-primary btn-lg">
+               class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-2 tw:px-5 tw:py-3.5 tw:text-base">
 
-                <span class="glyphicon glyphicon-file"></span>
+                <span class="fa fa-file"></span>
 
                 Descargar reporte
 

@@ -1,8 +1,11 @@
-@extends('layouts.app')
+@extends('layouts.panel')
+@include('partials.panel.recursos_app')
 @section('title', 'Iniciar sesión | TESVB')
+@section('guia_registro', '1')
+@include('partials.panel.guia_registro')
 @section('content')
-<div class="container" id="container">
-    <div class="row">
+<div class="tw:w-full" id="container">
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
        
         
             <?php $controles=session()->has('controles')?session()->has('controles'):false;
@@ -22,18 +25,18 @@ else
  $activar=Session::get('acti');
  ?>
     @if (session('status'))
-    <div class="alert alert-success">
+    <div class="tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-green-200 tw:bg-green-50 tw:text-green-800">
         {{ session('status') }}
     </div>
     @endif
     @if (session('warning'))
-        <div class="alert alert-warning">
+        <div class="tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-amber-200 tw:bg-amber-50 tw:text-amber-800">
             {{ session('warning') }}
         </div>
     @endif
 
 
-<div id="modal_guia" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+<div id="modal_guia" class="modal fade bs-example-modal-lg tw-modal-compat" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" data-panel-modal hidden>
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
               <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
@@ -44,8 +47,8 @@ else
             <div class="item active col">
                     <img src="img/1.png">
               
-              <div class="text-center" style="color:black;">
-                <strong><h3>Si aún no tienes una cuenta, selecciona «Registro» en la parte superior derecha.</h3></strong>
+              <div class="tw:text-center" style="color:black;">
+                <strong><h3 class="tw:mb-4 tw:text-lg tw:font-semibold">Si aún no tienes una cuenta, selecciona «Registro» en la parte superior derecha.</h3></strong>
               </div>
           </br>
             </div>
@@ -89,62 +92,62 @@ else
 
           <!-- Controls -->
           <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
-            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
+            <span class="fa fa-chevron-left" aria-hidden="true"></span>
+            <span class="tw:sr-only">Previous</span>
           </a>
           <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
-            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
+            <span class="fa fa-chevron-right" aria-hidden="true"></span>
+            <span class="tw:sr-only">Next</span>
           </a>
         </div>
 
         <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal">Omitir</button>
+        <button type="button" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" data-dismiss="modal">Omitir</button>
       </div>
     </div>
   </div>
 </div>
 
 
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Iniciar sesión</div>
-                <div class="panel-body">
-                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/login') }}">
+        <div class="tw:w-full tw:lg:w-8/12 tw:lg:ml-[16.6667%] tw:px-2">
+            <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
+                <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4">Iniciar sesión</div>
+                <div class="tw:p-5 tw:sm:p-6">
+                    <form class="" role="form" method="POST" action="{{ url('/login') }}">
                         <!-- action="{{ url('/login') }}"  -->
                         {{ csrf_field() }}
 
-                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">Correo electrónico</label>
+                        <div class="tw:mb-4 form-group{{ $errors->has('email') ? ' has-error' : '' }}">
+                            <label for="email" class="tw:w-full tw:lg:w-4/12 tw:mb-1.5 tw:block tw:text-sm tw:font-medium tw:text-gray-700 tw:px-2">Correo electrónico</label>
 
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required autofocus>
+                            <div class="tw:w-full tw:lg:w-6/12 tw:px-2">
+                                <input id="email" type="email" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="email" value="{{ old('email') }}" required autofocus>
 
                                 @if ($errors->has('email'))
-                                    <span class="help-block">
+                                    <span class="tw:mt-1 tw:block tw:text-xs tw:text-gray-500">
                                         <strong>{{ $errors->first('email') }}</strong>
                                     </span>
                                 @endif
                             </div>
                         </div>
 
-                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                            <label for="password" class="col-md-4 control-label">Contraseña</label>
+                        <div class="tw:mb-4 form-group{{ $errors->has('password') ? ' has-error' : '' }}">
+                            <label for="password" class="tw:w-full tw:lg:w-4/12 tw:mb-1.5 tw:block tw:text-sm tw:font-medium tw:text-gray-700 tw:px-2">Contraseña</label>
 
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control" name="password" required>
+                            <div class="tw:w-full tw:lg:w-6/12 tw:px-2">
+                                <input id="password" type="password" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="password" required>
 
                                 @if ($errors->has('password'))
-                                    <span class="help-block">
+                                    <span class="tw:mt-1 tw:block tw:text-xs tw:text-gray-500">
                                         <strong>{{ $errors->first('password') }}</strong>
                                     </span>
                                 @endif
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <div class="checkbox">
+                        <div class="tw:mb-4">
+                            <div class="tw:w-full tw:lg:w-6/12 tw:lg:ml-[33.3333%] tw:px-2">
+                                <div class="tw:flex tw:items-center tw:gap-2">
                                     <label>
                                         <input type="checkbox" name="remember"> Recordarme
                                     </label>
@@ -152,13 +155,13 @@ else
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <div class="col-md-8 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
+                        <div class="tw:mb-4">
+                            <div class="tw:w-full tw:lg:w-8/12 tw:lg:ml-[33.3333%] tw:px-2">
+                                <button type="submit" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm">
                                     Entrar
                                 </button>
 
-                                <a class="btn btn-link" href="{{ url('/password/reset') }}">
+                                <a class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:text-brand-500 tw:hover:underline tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" href="{{ url('/password/reset') }}">
                                     ¿Olvidaste tu contraseña?
                                 </a>
                             </div>
@@ -175,9 +178,6 @@ else
 
 @if ($activar==1)
     $("#modal_guia").modal("show");
-$('.carousel').carousel({
-  interval: 7000
-})
 @endif
   });
   

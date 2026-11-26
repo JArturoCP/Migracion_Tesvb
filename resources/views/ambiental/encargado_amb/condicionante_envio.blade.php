@@ -1,7 +1,7 @@
-<div class="row">
-    <div class="col-md-2 col-md-offset-5">
+<div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+    <div class="tw:w-full tw:lg:w-2/12 tw:lg:ml-[41.6667%] tw:px-2">
         <template v-if="status_documentacion == 1 ">
-            <button  class="btn btn-success btn-lg btn-block" v-on:click="abrirModalenviar(documentacion);" >Enviar Documentación</button>
+            <button  class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-green-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-green-700 tw:gap-2 tw:px-5 tw:py-3.5 tw:text-base tw:flex tw:w-full" v-on:click="abrirModalenviar(documentacion);" >Enviar Documentación</button>
 
         </template>
         <p><br/></p>

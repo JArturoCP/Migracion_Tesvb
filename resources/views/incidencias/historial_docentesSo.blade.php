@@ -1,32 +1,34 @@
-@extends('layouts.app')
+@extends('layouts.panel')
+@include('partials.panel.recursos_app', ['datatables' => true])
 @section('title','Incidencias')
 @section('content')
 
-<main class="col-md-12">
-    <div class="row">
-        <div class="col-md-10 col-md-offset-1">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h3 class="panel-title text-center">HISTORIAL DE OFICIOS</h3>
+<main class="tw:w-full tw:lg:w-full tw:px-2">
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+        <div class="tw:w-full tw:lg:w-10/12 tw:lg:ml-[8.3333%] tw:px-2">
+            <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
+                <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4">
+                    <h3 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:text-center">HISTORIAL DE OFICIOS</h3>
                 </div>
             </div>  
         </div>
     </div>
-<div class="row">
-    <div class="col-md-10 col-md-offset-1">
+<div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+    <div class="tw:w-full tw:lg:w-10/12 tw:lg:ml-[8.3333%] tw:px-2">
                 
-                <table id="table_enviado2" class="table table-bordered table-resposive">
+                <div class="tw-tabla-contenedor tw:mb-4 tw:max-w-full tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200">
+<table id="table_enviado2" class="table-responsive tw-tabla tw-tabla-bordes">
                   <thead>
                     <tr>
-                                    <th class="text-center">No.</th> 
-                                    <th class="text-center">Artículo aplicado</th>
-                                    <th class="text-center">Motivo de oficio</th>
-                                    <th class="text-center">Fecha de la solicitud del oficio</th>
-                                    <th class="text-center">Fecha de la incidencia</th>
-                                    <th class="text-center">Ver oficio completo</th>
-                                    <th class="text-center">Jefe(a) a autorizar</th>
-                                    <th class="text-center">Estado de oficio</th>
-                                    <th class="text-center">Agregar oficio firmado, formato de incidencia y evidencia en un pdf</th>
+                                    <th class="tw:text-center">No.</th>
+                                    <th class="tw:text-center">Artículo aplicado</th>
+                                    <th class="tw:text-center">Motivo de oficio</th>
+                                    <th class="tw:text-center">Fecha de la solicitud del oficio</th>
+                                    <th class="tw:text-center">Fecha de la incidencia</th>
+                                    <th class="tw:text-center">Ver oficio completo</th>
+                                    <th class="tw:text-center">Jefe(a) a autorizar</th>
+                                    <th class="tw:text-center">Estado de oficio</th>
+                                    <th class="tw:text-center">Agregar oficio firmado, formato de incidencia y evidencia en un pdf</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -58,7 +60,7 @@
                                                 </td>
                                         @endif
                                         <th>
-                                            <button class="btn btn-primary edita2" id="{{ $hist->id_solicitud }}"><i class="glyphicon glyphicon-list"></i></button>
+                                            <button class="edita2 tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" id="{{ $hist->id_solicitud }}"><i class="fa fa-list"></i></button>
                                         </th>
                                         @if($hist->id_articulo == 7)
                                             <td>{{ $jefe_a_d->titulo }} {{ $jefe_a_d->nombre }}</td>
@@ -89,18 +91,18 @@
                                         @if($hist->id_estado_solicitud==2)
                                             <td style="">
                                                 @if($hist->arch_solicitud=="")
-                                                    <a class="btn btn-primary agregar_oficio" data-id="{{ $hist->id_solicitud }}">Agregar</a>
+                                                    <a class="agregar_oficio tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" data-id="{{ $hist->id_solicitud }}">Agregar</a>
                                                {{--
-                                               <a class="btn btn-primary" href="{{url('incidencias/cargar_oficio',$hist->id_solicitud)}}">Agregar oficio</a>
+                                               <a class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" href="{{url('incidencias/cargar_oficio',$hist->id_solicitud)}}">Agregar oficio</a>
                                                 --}}
                                                 @else
-                                                <a  target="_blank" href="/incidencias_oficios/{{$hist->arch_solicitud}}" class="btn btn-success">Ver PDF </a>
+                                                <a  target="_blank" href="/incidencias_oficios/{{$hist->arch_solicitud}}" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-green-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-green-700 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm">Ver PDF </a>
                                                 @endif
                                                 {{--
                                                     @if($hist->arch_evidencia == null)
-                                                        <a class="btn btn-primary agregar_evidencia"   data-id="{{ $hist->id_solicitud }}" >Agregar evidencia</a>
+                                                        <a class="agregar_evidencia tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm"   data-id="{{ $hist->id_solicitud }}" >Agregar evidencia</a>
                                                     @else
-                                                        <a  target="_blank" href="/incidencias/{{ $hist->arch_evidencia }}" class="btn btn-success">Ver evidencia </a>
+                                                        <a  target="_blank" href="/incidencias/{{ $hist->arch_evidencia }}" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-green-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-green-700 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm">Ver evidencia </a>
 
                                                     @endif
                                                     --}}
@@ -120,14 +122,15 @@
                                 @endforeach
                   </tbody>
                 </table>
+</div>
         </div>
     </div>
     {{--Modal agregar  evidencia--}}
-    <div class="modal fade" id="modal_agregar_evidencia" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal fade tw-modal-compat" id="modal_agregar_evidencia" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" data-panel-modal hidden>
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="tw:text-2xl tw:leading-none tw:text-gray-400 tw:hover:text-gray-700" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="exampleModalLabel">Evidencia</h4>
                 </div>
                 <div class="modal-body">
@@ -141,19 +144,19 @@
         </div>
     </div>
 
-    <div class="modal fade" id="modal_mostrar2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal fade tw-modal-compat" id="modal_mostrar2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-info">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title text-center" id="myModalLabel">Oficio de Incidencia</h4>
+                <div class="modal-header tw:bg-sky-100">
+                    <button type="button" class="tw:text-2xl tw:leading-none tw:text-gray-400 tw:hover:text-gray-700" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title tw:text-center" id="myModalLabel">Oficio de Incidencia</h4>
                 </div>
                 <div class="modal-body">
                     <div id="contenedor_mostrar2">
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" data-dismiss="modal">Cerrar</button>
                 </div>
             </div>
         </div>
@@ -161,11 +164,11 @@
 
 
     {{--Modal agregar  oficio firmado--}}
-    <div class="modal fade" id="modal_agregar_oficio_firmado" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal fade tw-modal-compat" id="modal_agregar_oficio_firmado" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" data-panel-modal hidden>
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="tw:text-2xl tw:leading-none tw:text-gray-400 tw:hover:text-gray-700" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="exampleModalLabel">Agregar oficio firmado, formato de incidencia y evidencia en un pdf</h4>
                 </div>
                 <div class="modal-body">

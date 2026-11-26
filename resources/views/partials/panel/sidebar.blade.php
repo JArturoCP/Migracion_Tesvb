@@ -41,6 +41,18 @@
                 <ul class="tw:mb-6 tw:flex tw:flex-col tw:gap-1" data-panel-menu>
 @if(!empty($vistaPreviaDashboard))
     @include('partials.panel.sidebar-preview')
+@elseif(Auth::guest())
+    <li>
+        <a href="{{ url('/login') }}" class="tw:menu-item {{ request()->is('login') ? 'tw:menu-item-active' : 'tw:menu-item-inactive' }}" @if(request()->is('login')) aria-current="page" @endif>Iniciar sesión</a>
+    </li>
+    <li>
+        <a href="{{ url('/register') }}" class="tw:menu-item {{ request()->is('register') ? 'tw:menu-item-active' : 'tw:menu-item-inactive' }}" @if(request()->is('register')) aria-current="page" @endif>Registrarse</a>
+    </li>
+    @hasSection('guia_registro')
+        <li>
+            <button type="button" class="tw:menu-item tw:menu-item-inactive" data-toggle="modal" data-target="#modal_guia" aria-haspopup="dialog" aria-controls="modal_guia">Guía de registro</button>
+        </li>
+    @endif
 @else
 {{-- [menu_admin L2-290] Banderas, variables y consultas: copia literal. --}}
 <?php
@@ -2615,7 +2627,7 @@
     </div>
 </aside>
 
-@empty($vistaPreviaDashboard)
+@if(empty($vistaPreviaDashboard) && Auth::check())
 {{-- [menu_admin L2507-2531] Modal "Modificar periodo" (perfil de inglés): mismo formulario POST con CSRF y mismos
      ids (#modal_modificar_periodo, #contenedor_modificar_periodo). El original lo abría con jQuery al hacer clic
      en .periodo_ingles (GET /profesores_ingles/periodos/{id}); ahora lo hace resources/js/panel/modal_periodo_ingles.js.
@@ -2654,4 +2666,4 @@
         </div>
     </div>
 </div>
-@endempty
+@endif

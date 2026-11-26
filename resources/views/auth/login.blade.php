@@ -1,4 +1,5 @@
-@extends('layouts.app')
+@extends('layouts.panel')
+@include('partials.panel.recursos_app')
 @section('title', 'Iniciar sesión | Sistema Integral TESVB')
 @section('body_class', 'tesvb-login-page')
 @section('login_home_link', '1')
@@ -7,8 +8,10 @@
     <link rel="stylesheet" href="{{ asset('css/tesvb-login.css') }}?v={{ filemtime(public_path('css/tesvb-login.css')) }}">
 @endpush
 
+@section('guia_registro', '1')
+@include('partials.panel.guia_registro')
 @section('content')
-<main class="tesvb-login" id="container" aria-labelledby="tesvb-login-title">
+<div class="tesvb-login" id="container" aria-labelledby="tesvb-login-title">
     <div class="tesvb-login__stage">
         <div class="tesvb-login__mascots" aria-hidden="true">
             <div class="tesvb-login__mascot-side tesvb-login__mascot-side--left">
@@ -45,12 +48,12 @@
             </div>
 
             @if (session('status'))
-                <div class="alert alert-success tesvb-login__notice" role="status">
+                <div class="tesvb-login__notice tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-green-200 tw:bg-green-50 tw:text-green-800" role="status">
                     {{ session('status') }}
                 </div>
             @endif
             @if (session('warning'))
-                <div class="alert alert-warning tesvb-login__notice" role="alert">
+                <div class="tesvb-login__notice tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-amber-200 tw:bg-amber-50 tw:text-amber-800" role="alert">
                     {{ session('warning') }}
                 </div>
             @endif
@@ -60,7 +63,7 @@
 
                 <div class="tesvb-login__field{{ $errors->has('email') ? ' has-error' : '' }}">
                     <label for="email">Correo electrónico</label>
-                    <input id="email" type="email" class="form-control" name="email"
+                    <input id="email" type="email" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="email"
                            value="{{ old('email') }}" autocomplete="username" required autofocus
                            @if ($errors->has('email')) aria-invalid="true" aria-describedby="email-error" @endif>
                     @if ($errors->has('email'))
@@ -73,12 +76,12 @@
                 <div class="tesvb-login__field{{ $errors->has('password') ? ' has-error' : '' }}">
                     <label for="password">Contraseña</label>
                     <div class="tesvb-login__password">
-                        <input id="password" type="password" class="form-control" name="password"
+                        <input id="password" type="password" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="password"
                                autocomplete="current-password" required
                                @if ($errors->has('password')) aria-invalid="true" aria-describedby="password-error" @endif>
                         <button type="button" class="tesvb-login__password-toggle" aria-label="Mostrar contraseña"
                                 aria-controls="password" aria-pressed="false" hidden>
-                            <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+                            <span class="fa fa-eye" aria-hidden="true"></span>
                         </button>
                     </div>
                     @if ($errors->has('password'))
@@ -96,7 +99,7 @@
                     <a class="tesvb-login__recovery" href="{{ url('/password/reset') }}">¿Olvidaste tu contraseña?</a>
                 </div>
 
-                <button type="submit" class="btn btn-primary tesvb-login__submit">Entrar</button>
+                <button type="submit" class="tesvb-login__submit tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm">Entrar</button>
             </form>
         </section>
     </div>
@@ -109,13 +112,13 @@
         <p>Usted puede conocer los términos y alcances de nuestros Avisos de Privacidad Integral en:</p>
         <a href="http://tesvb.edomex.gob.mx/proteccion-datos-personales">http://tesvb.edomex.gob.mx/proteccion-datos-personales</a>
     </section>
-</main>
+</div>
 
-<div id="modal_guia" class="modal bs-example-modal-lg tesvb-login__guide" tabindex="-1" role="dialog" aria-labelledby="tesvb-login-guide-title" aria-modal="true">
+<div id="modal_guia" class="modal bs-example-modal-lg tesvb-login__guide tw-modal-compat" tabindex="-1" role="dialog" aria-labelledby="tesvb-login-guide-title" aria-modal="true" data-panel-modal hidden>
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar guía de registro"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="tw:text-2xl tw:leading-none tw:text-gray-400 tw:hover:text-gray-700" data-dismiss="modal" aria-label="Cerrar guía de registro"><span aria-hidden="true">&times;</span></button>
                 <h2 class="modal-title" id="tesvb-login-guide-title">Guía de registro</h2>
             </div>
 
@@ -154,7 +157,7 @@
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
+                <button type="button" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" data-dismiss="modal">Aceptar</button>
             </div>
         </div>
     </div>
@@ -164,14 +167,14 @@
 (function () {
     var password = document.getElementById('password');
     var toggle = document.querySelector('.tesvb-login__password-toggle');
-    var icon = toggle.querySelector('.glyphicon');
+    var icon = toggle.querySelector('.fa');
 
     function setPasswordVisibility(visible) {
         password.type = visible ? 'text' : 'password';
         toggle.setAttribute('aria-label', visible ? 'Ocultar contraseña' : 'Mostrar contraseña');
         toggle.setAttribute('aria-pressed', visible ? 'true' : 'false');
-        icon.classList.toggle('glyphicon-eye-open', !visible);
-        icon.classList.toggle('glyphicon-eye-close', visible);
+        icon.classList.toggle('fa-eye', !visible);
+        icon.classList.toggle('fa-eye-slash', visible);
     }
 
     setPasswordVisibility(false);

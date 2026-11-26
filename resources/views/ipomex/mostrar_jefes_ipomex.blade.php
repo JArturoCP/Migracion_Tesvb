@@ -1,23 +1,25 @@
-@extends('layouts.app')
+@extends('layouts.panel')
+@include('partials.panel.recursos_app', ['datatables' => true])
 @section('title', 'Ipomex')
 @section('content')
-    <main class="col-md-12">
+    <main class="tw:w-full tw:lg:w-full tw:px-2">
 
-        <div class="row">
+        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
-            <div class="col-md-6 col-md-offset-3">
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title text-center">Tabla general de Ipomex</h3>
+            <div class="tw:w-full tw:lg:w-6/12 tw:lg:ml-[25%] tw:px-2">
+                <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
+                    <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4">
+                        <h3 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:text-center">Tabla general de Ipomex</h3>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="row">
+        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
-            <div class="col-md-10 col-md-offset-1">
-                <table id="tabla" class="table table-bordered ">
+            <div class="tw:w-full tw:lg:w-10/12 tw:lg:ml-[8.3333%] tw:px-2">
+                <div class="tw-tabla-contenedor tw:mb-4 tw:max-w-full tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200">
+<table id="tabla" class="tw-tabla tw-tabla-bordes">
                     <thead>
                     <tr>
                         <th>NOMBRE DEL JEFE(A) DEL DEP. O DE LA JEFATURA</th>
@@ -77,6 +79,7 @@
                     @endforeach
                     </tbody>
                 </table>
+</div>
             </div>
         </div>
     </main>

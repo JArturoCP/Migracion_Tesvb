@@ -282,8 +282,31 @@ public function updatePregunta(Request $request, $id_pregunta)
 
 public function deletePregunta($id_pregunta)
 {
-    DB::table('egel_preguntas')->where('id_pregunta', $id_pregunta)->delete();
-    return back()->with('success', 'Pregunta eliminada');
+    DB::transaction(function () use ($id_pregunta) {
+        // 1. Obtener los IDs de las respuestas asociadas a la pregunta
+        $respuestasIds = DB::table('egel_respuestas')
+            ->where('id_pregunta', $id_pregunta)
+            ->pluck('id_respuesta')
+            ->toArray();
+
+        // 2. Eliminar intentos/respuestas de alumnos y docentes asociados
+        if (!empty($respuestasIds)) {
+            DB::table('egel_respuestas_alumno')->whereIn('id_respuesta', $respuestasIds)->delete();
+            DB::table('egel_respuestas_docente')->whereIn('id_respuesta', $respuestasIds)->delete();
+        }
+
+        // Por seguridad, eliminar también cualquier registro directo por id_pregunta
+        DB::table('egel_respuestas_alumno')->where('id_pregunta', $id_pregunta)->delete();
+        DB::table('egel_respuestas_docente')->where('id_pregunta', $id_pregunta)->delete();
+
+        // 3. Eliminar las respuestas de la pregunta
+        DB::table('egel_respuestas')->where('id_pregunta', $id_pregunta)->delete();
+
+        // 4. Eliminar la pregunta
+        DB::table('egel_preguntas')->where('id_pregunta', $id_pregunta)->delete();
+    });
+
+    return back()->with('success', 'Pregunta y sus respuestas asociadas eliminadas correctamente');
 }
 
 // Mostrar formulario para editar respuesta

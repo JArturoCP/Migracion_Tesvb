@@ -1,4 +1,5 @@
-@extends('layouts.app')
+@extends('layouts.panel')
+@include('partials.panel.recursos_app')
 @section('title', 'Inicio')
 @section('content')
 
@@ -175,18 +176,18 @@ body { background-color: #f5f7fa; }
 }
 </style>
 
-<div class="container main">
+<div class="main tw:w-full">
 
     {{-- ================= MENSAJE ================= --}}
     @if(!$enAplicacion)
-        <div class="alert text-center"
+        <div class="tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:text-center"
              style="background:crimson; color:white; padding:15px 20px; border-radius:10px;">
             ⚠️ El examen no está disponible en este momento.
         </div>
     @endif
 
     {{-- ================= SECCIONES ================= --}}
-    <div class="row">
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
         @foreach($secciones as $index => $seccion)
 
@@ -201,11 +202,11 @@ body { background-color: #f5f7fa; }
                 }
             @endphp
 
-            <div class="col-sm-6">
+            <div class="tw:w-full tw:md:w-6/12 tw:px-2">
 
-                <div class="panel panel-default exam-panel {{ $completada ? 'locked' : '' }}">
+                <div class="exam-panel {{ $completada ? 'locked' : '' }} tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
 
-                    <div class="panel-body text-center">
+                    <div class="tw:p-5 tw:sm:p-6 tw:text-center">
 
                         <div class="exam-title">Examen General de Conocimientos</div>
 
@@ -216,26 +217,26 @@ body { background-color: #f5f7fa; }
                         {{-- ================= BOTONES ================= --}}
                         @if($completada)
 
-                            <button class="btn btn-default btn-exam" disabled>
+                            <button class="btn-exam tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" disabled>
                                 🔒 Sección finalizada
                             </button>
 
                         @elseif($bloqueada)
 
-                            <button class="btn btn-warning btn-exam" disabled>
+                            <button class="btn-exam tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-amber-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-amber-600 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" disabled>
                                 ⛔ Bloqueada
                             </button>
 
                         @elseif(!$enAplicacion)
 
-                            <button class="btn btn-default btn-exam" disabled>
+                            <button class="btn-exam tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" disabled>
                                 ⏳ Fuera de periodo
                             </button>
 
                         @else
 
                             <a href="{{ route('examen_general.seccion', $seccion->id_seccion) }}"
-                               class="btn btn-primary btn-exam">
+                               class="btn-exam tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm">
                                 📘 Iniciar Sección
                             </a>
 

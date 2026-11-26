@@ -1,4 +1,5 @@
-@extends('layouts.app')
+@extends('layouts.panel')
+@include('partials.panel.recursos_app')
 
 @section('content')
 
@@ -61,33 +62,33 @@ body {
 }
 </style>
 
-<div class="container py-4">
+<div class="tw:w-full tw:py-6">
 
     {{-- TÍTULO --}}
-    <h2 class="text-center page-title">
+    <h2 class="page-title tw:text-center">
         📄 Reporte Final EGEL
     </h2>
 
     {{-- INFO ALUMNO --}}
     <div class="card-eval">
-        <p class="mb-1"><b>Estudiante:</b></p>
+        <p class="tw:mb-1"><b>Estudiante:</b></p>
         <h4>
             {{ $alumno->nombre }} {{ $alumno->apaterno }} {{ $alumno->amaterno }}
         </h4>
 
         @if($resultado)
             <hr>
-            <div class="row text-center">
-                <div class="col-md-6">
-                    <p class="mb-1"><b>Calificación general</b></p>
-                    <span class="badge bg-primary badge-soft">
+            <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4 tw:text-center">
+                <div class="tw:w-full tw:lg:w-6/12 tw:px-2">
+                    <p class="tw:mb-1"><b>Calificación general</b></p>
+                    <span class="badge-soft tw:inline-flex tw:items-center tw:rounded-full tw:px-2.5 tw:py-0.5 tw:text-sm tw:font-medium tw:bg-brand-500 tw:text-white">
                         {{ $resultado->calificacion_general }}%
                     </span>
                 </div>
 
-                <div class="col-md-6">
-                    <p class="mb-1"><b>Nivel</b></p>
-                    <span class="badge bg-success badge-soft">
+                <div class="tw:w-full tw:lg:w-6/12 tw:px-2">
+                    <p class="tw:mb-1"><b>Nivel</b></p>
+                    <span class="badge-soft tw:inline-flex tw:items-center tw:rounded-full tw:px-2.5 tw:py-0.5 tw:text-sm tw:font-medium tw:bg-green-100">
                         {{ $resultado->nivel }}
                     </span>
                 </div>
@@ -97,9 +98,10 @@ body {
 
     {{-- RESULTADOS --}}
     <div class="card-eval">
-        <h4 class="text-center mb-3">📊 Resultados por módulo</h4>
+        <h4 class="tw:text-center tw:mb-4">📊 Resultados por módulo</h4>
 
-        <table class="table table-custom table-hover text-center">
+        <div class="tw-tabla-contenedor tw:mb-4 tw:max-w-full tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200">
+<table class="table-custom tw-tabla tw:text-center">
             <thead>
                 <tr>
                     <th>Módulo</th>
@@ -116,7 +118,7 @@ body {
                     <td>{{ number_format($m->puntos, 2) }}</td>
                     <td>{{ number_format($m->total_valor, 2) }}</td>
                     <td>
-                        <span class="badge bg-info text-dark">
+                        <span class="tw:inline-flex tw:items-center tw:rounded-full tw:px-2.5 tw:py-0.5 tw:text-sm tw:font-medium tw:bg-sky-100 tw:text-gray-800">
                             {{ $m->porcentaje }}%
                         </span>
                     </td>
@@ -124,13 +126,14 @@ body {
             @endforeach
             </tbody>
         </table>
+</div>
     </div>
 
     {{-- BOTÓN --}}
-    <div class="text-center">
+    <div class="tw:text-center">
         <a href="{{ route('egel.pdf.oficial') }}"
            target="_blank"
-           class="btn btn-danger btn-lg btn-imprimir">
+           class="btn-imprimir tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-red-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-red-700 tw:gap-2 tw:px-5 tw:py-3.5 tw:text-base">
             Descargar Reporte Oficial
         </a>
     </div>

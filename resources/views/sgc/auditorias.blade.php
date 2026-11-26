@@ -1,29 +1,31 @@
-@extends('layouts.app')
+@extends('layouts.panel')
+@include('partials.panel.recursos_app')
 @section('title', 'Auditorias')
 @section('content')
-    <main class="col-md-12">
-        <div class="row">
-            <div class="col-md-6 col-md-offset-3">
+    <main class="tw:w-full tw:lg:w-full tw:px-2">
+        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+            <div class="tw:w-full tw:lg:w-6/12 tw:lg:ml-[25%] tw:px-2">
                 @if (session()->has('flash_notification.message'))
-                    <div class="alert alert-{{ session('flash_notification.level') }}">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <div class="alert alert-{{ session('flash_notification.level') }} tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm">
+                        <button type="button" class="tw:text-2xl tw:leading-none tw:text-gray-400 tw:hover:text-gray-700" data-dismiss="alert" aria-hidden="true">&times;</button>
                         {!! session('flash_notification.message') !!}
                     </div>
                 @endif
             </div>
         </div>
-        <div class="col-md-10 col-md-offset-1">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h3 class="panel-title text-center">Auditorias Internas</h3>
+        <div class="tw:w-full tw:lg:w-10/12 tw:lg:ml-[8.3333%] tw:px-2">
+            <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
+                <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4">
+                    <h3 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:text-center">Auditorias Internas</h3>
                 </div>
-                <div class="panel-body">
-                    <table class="table">
+                <div class="tw:p-5 tw:sm:p-6">
+                    <div class="tw-tabla-contenedor tw:mb-4 tw:max-w-full tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200">
+<table class="tw-tabla">
                         <thead>
                         <tr>
-                            <th class="col-md-4">Numero de Auditoria</th>
-                            <th class="col-md-6">Periodo</th>
-                            <th class="col-md-2 text-center">Acciones</th>
+                            <th class="tw:w-full tw:lg:w-4/12 tw:px-2">Numero de Auditoria</th>
+                            <th class="tw:w-full tw:lg:w-6/12 tw:px-2">Periodo</th>
+                            <th class="tw:w-full tw:lg:w-2/12 tw:text-center tw:px-2">Acciones</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -36,55 +38,56 @@
                                 <td>
                                     <p>{{$data_auditoria->fecha_i}}  al  {{$data_auditoria->fecha_f}}</p>
                                 </td>
-                                <td class="text-center">
-                                    {{--<a href="#" class="pull-left btn_add_auditores" data-id="{{$data_auditoria->id_auditoria}}" data-toggle="modal" data-target="#modal_add_auditores"><span class="glyphicon glyphicon-plus" data-toggle="tooltip" title="Agregar Auditores"></span></a>--}}
-                                    {{--<a href="#" class="btn-edit-plan" data-all="{{$data_auditoria}}"><span class="glyphicon glyphicon-cog" data-toggle="tooltip" title="Editar plan"></span></a>--}}
-                                    <a href="#" class="btn_delete_plan" data-id="{{$data_auditoria->id_auditoria}}"><span class="glyphicon glyphicon-trash" data-toggle="tooltip" title="Eliminar Plan de Auditoria"></span></a>
+                                <td class="tw:text-center">
+                                    {{--<a href="#" class="btn_add_auditores tw:float-left" data-id="{{$data_auditoria->id_auditoria}}" data-toggle="modal" data-target="#modal_add_auditores"><span class="fa fa-plus" data-toggle="tooltip" title="Agregar Auditores"></span></a>--}}
+                                    {{--<a href="#" class="btn-edit-plan" data-all="{{$data_auditoria}}"><span class="fa fa-cog" data-toggle="tooltip" title="Editar plan"></span></a>--}}
+                                    <a href="#" class="btn_delete_plan" data-id="{{$data_auditoria->id_auditoria}}"><span class="fa fa-trash" data-toggle="tooltip" title="Eliminar Plan de Auditoria"></span></a>
                                 </td>
                             </tr>
                         @endforeach
                         </tbody>
                     </table>
+</div>
                 </div>
             </div>
         </div>
-        <div class="col-md-10 col-md-offset-1">
-            {{--<div id="accordion" class="panel-group">--}}
+        <div class="tw:w-full tw:lg:w-10/12 tw:lg:ml-[8.3333%] tw:px-2">
+            {{--<div id="accordion" class="">--}}
                 {{--@foreach($auditorias as $data_auditoria)--}}
-                    {{--<div class="panel ">--}}
-                        {{--<div class="panel-heading btn-default">--}}
+                    {{--<div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">--}}
+                        {{--<div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50">--}}
                             {{--<a data-toggle="collapse" data-parent="#accordion" href="#collapse{{$data_auditoria->id_auditoria}}" data-id="{{$data_auditoria->id_auditoria}}" class="btn_open_panel"><span data-toggle="tooltip" title="Mostrar detalles">Plan de auditoria {{date('Y',strtotime($data_auditoria->fecha_i)).'-'.$data_auditoria->id_auditoria}}</span></span></a>--}}
-                            {{--<a href="#!" class="pull-right btn_delete_plan" data-id="{{$data_auditoria->id_auditoria}}"><span class="glyphicon glyphicon-trash" data-toggle="tooltip" title="Eliminar Plan de Auditoria"></span></a>--}}
+                            {{--<a href="#!" class="btn_delete_plan tw:float-right" data-id="{{$data_auditoria->id_auditoria}}"><span class="fa fa-trash" data-toggle="tooltip" title="Eliminar Plan de Auditoria"></span></a>--}}
                         {{--</div>--}}
-                        {{--<div id="collapse{{$data_auditoria->id_auditoria}}" class="panel-collapse collapse ">--}}
-                            {{--<div class="panel-body">--}}
-                                {{--<div class="col-md-3">--}}
+                        {{--<div id="collapse{{$data_auditoria->id_auditoria}}" class="collapse">--}}
+                            {{--<div class="tw:p-5 tw:sm:p-6">--}}
+                                {{--<div class="tw:w-full tw:lg:w-3/12 tw:px-2">--}}
                                     {{--<strong>Objetivo</strong>--}}
                                     {{--<p>{{$data_auditoria->objetivo}}</p>--}}
                                 {{--</div>--}}
-                                {{--<div class="col-md-3">--}}
+                                {{--<div class="tw:w-full tw:lg:w-3/12 tw:px-2">--}}
                                     {{--<strong>Alcance</strong>--}}
                                     {{--<p>{{$data_auditoria->alcance}}</p>--}}
                                 {{--</div>--}}
-                                {{--<div class="col-md-3">--}}
+                                {{--<div class="tw:w-full tw:lg:w-3/12 tw:px-2">--}}
                                     {{--<strong>Criterios</strong>--}}
                                     {{--<p>{{$data_auditoria->criterios}}</p>--}}
                                 {{--</div>--}}
-                                {{--<div class="col-md-3">--}}
-                                    {{--<div class="row">--}}
-                                        {{--<div class="col-md-6">--}}
+                                {{--<div class="tw:w-full tw:lg:w-3/12 tw:px-2">--}}
+                                    {{--<div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">--}}
+                                        {{--<div class="tw:w-full tw:lg:w-6/12 tw:px-2">--}}
                                             {{--<strong>Fecha de inicio</strong>--}}
                                             {{--<p>{{$data_auditoria->fecha_i}}</p>--}}
                                         {{--</div>--}}
-                                        {{--<div class="col-md-6">--}}
+                                        {{--<div class="tw:w-full tw:lg:w-6/12 tw:px-2">--}}
                                             {{--<strong>Fecha de termino</strong>--}}
                                             {{--<p>{{$data_auditoria->fecha_f}}</p>--}}
                                             {{--<br>--}}
                                             {{--<h4>--}}
-                                                {{--<a href="#" class="pull-left btn-edit-plan" data-all="{{$data_auditoria}}"><span class="glyphicon glyphicon-cog" data-toggle="tooltip" title="Editar plan"></span></a>--}}
+                                                {{--<a href="#" class="btn-edit-plan tw:float-left" data-all="{{$data_auditoria}}"><span class="fa fa-cog" data-toggle="tooltip" title="Editar plan"></span></a>--}}
                                             {{--</h4>--}}
                                             {{--<h4>--}}
-                                                {{--<a href="#" class="pull-right btn_add_auditores" data-id="{{$data_auditoria->id_auditoria}}" data-toggle="modal" data-target="#modal_add_auditores"><span class="glyphicon glyphicon-plus" data-toggle="tooltip" title="Agregar Auditores"></span></a>--}}
+                                                {{--<a href="#" class="btn_add_auditores tw:float-right" data-id="{{$data_auditoria->id_auditoria}}" data-toggle="modal" data-target="#modal_add_auditores"><span class="fa fa-plus" data-toggle="tooltip" title="Agregar Auditores"></span></a>--}}
                                             {{--</h4>--}}
                                         {{--</div>--}}
                                     {{--</div>--}}
@@ -98,114 +101,114 @@
     </main>
 
     <div>
-        <button data-toggle="modal"  data-tooltip="true" data-placement="left" title="Agregar nueva auditoria" data-target="#modal_crea_aud" type="button" class="btn btn-success btn-lg flotante">
-            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+        <button data-toggle="modal"  data-tooltip="true" data-placement="left" title="Agregar nueva auditoria" data-target="#modal_crea_aud" type="button" class="flotante tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-green-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-green-700 tw:gap-2 tw:px-5 tw:py-3.5 tw:text-base">
+            <span class="fa fa-plus" aria-hidden="true"></span>
         </button>
     </div>
 
-    <form id="form_add_aud" class="form" role="form" method="POST" action="{{url("/sgc/auditorias")}}">
-        <div class="modal fade" id="modal_crea_aud" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <form id="form_add_aud" class="" role="form" method="POST" action="{{url("/sgc/auditorias")}}">
+        <div class="modal fade tw-modal-compat" id="modal_crea_aud" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" data-panel-modal hidden>
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
+                        <button type="button" class="tw:text-2xl tw:leading-none tw:text-gray-400 tw:hover:text-gray-700" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title" id="exampleModalLabel">Registro de plan de auditorias</h4>
                     </div>
                     <div class="modal-body">
                         {{ csrf_field() }}
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
+                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                            <div class="tw:w-full tw:lg:w-full tw:px-2">
+                                <div class="tw:mb-4">
                                     <label for="objetivo">Objetivo</label>
-                                    <textarea class="form-control"name="objetivo" placeholder="Objetivo del plan de auditorias"></textarea>
+                                    <textarea class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500"name="objetivo" placeholder="Objetivo del plan de auditorias"></textarea>
                                 </div>
-                                <div class="form-group">
+                                <div class="tw:mb-4">
                                     <label for="alcance">Alcance</label>
-                                    <textarea class="form-control"name="alcance" placeholder="Alcance del plan de auditorias"></textarea>
+                                    <textarea class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500"name="alcance" placeholder="Alcance del plan de auditorias"></textarea>
                                 </div>
-                                {{--<div class="form-group">--}}
+                                {{--<div class="tw:mb-4">--}}
                                     {{--<label for="criterios">Criterios</label>--}}
-                                    {{--<textarea class="form-control"name="criterios" placeholder="Criterios del plan de auditorias"></textarea>--}}
+                                    {{--<textarea class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500"name="criterios" placeholder="Criterios del plan de auditorias"></textarea>--}}
                                 {{--</div>--}}
                             </div>
-                            <div class="col-md-6">
+                            <div class="tw:w-full tw:lg:w-6/12 tw:px-2">
                                 <label for="fecha_i">Fecha de inicio</label>
                                 <input name="fecha_i" type="date">
                             </div>
-                            <div class="col-md-6">
+                            <div class="tw:w-full tw:lg:w-6/12 tw:px-2">
                                 <label for="fecha_f">Fecha de termino</label>
                                 <input name="fecha_f" type="date">
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <input type="submit" class="btn btn-primary" value="Guardar"/>
+                        <button type="button" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" data-dismiss="modal">Cancelar</button>
+                        <input type="submit" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" value="Guardar"/>
                     </div>
                 </div>
             </div>
         </div>
     </form>
 
-    <form id="form_edit_aud" class="form" role="form" method="POST" action="">
-        <div class="modal fade" id="modal_edit_aud" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <form id="form_edit_aud" class="" role="form" method="POST" action="">
+        <div class="modal fade tw-modal-compat" id="modal_edit_aud" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" data-panel-modal hidden>
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
+                        <button type="button" class="tw:text-2xl tw:leading-none tw:text-gray-400 tw:hover:text-gray-700" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title" id="exampleModalLabel">Registro de plan de auditorias</h4>
                     </div>
                     <div class="modal-body">
                         @csrf
                         @method("PUT")
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
+                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                            <div class="tw:w-full tw:lg:w-full tw:px-2">
+                                <div class="tw:mb-4">
                                     <label for="objetivo">Objetivo</label>
-                                    <textarea class="form-control" id="objetivo" name="objetivo" placeholder="Objetivo del plan de auditorias"></textarea>
+                                    <textarea class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500" id="objetivo" name="objetivo" placeholder="Objetivo del plan de auditorias"></textarea>
                                 </div>
-                                <div class="form-group">
+                                <div class="tw:mb-4">
                                     <label for="alcance">Alcance</label>
-                                    <textarea class="form-control" id="alcance" name="alcance" placeholder="Alcance del plan de auditorias"></textarea>
+                                    <textarea class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500" id="alcance" name="alcance" placeholder="Alcance del plan de auditorias"></textarea>
                                 </div>
-                                <div class="form-group">
+                                <div class="tw:mb-4">
                                     <label for="criterios">Criterios</label>
-                                    <textarea class="form-control" id="criterios" name="criterios" placeholder="Criterios del plan de auditorias"></textarea>
+                                    <textarea class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500" id="criterios" name="criterios" placeholder="Criterios del plan de auditorias"></textarea>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="tw:w-full tw:lg:w-6/12 tw:px-2">
                                 <label for="fecha_i">Fecha de inicio</label>
                                 <input id="fecha_i" name="fecha_i" type="date">
                             </div>
-                            <div class="col-md-6">
+                            <div class="tw:w-full tw:lg:w-6/12 tw:px-2">
                                 <label for="fecha_f">Fecha de termino</label>
                                 <input id="fecha_f" name="fecha_f" type="date">
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <input type="submit" class="btn btn-primary" value="Guardar"/>
+                        <button type="button" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" data-dismiss="modal">Cancelar</button>
+                        <input type="submit" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" value="Guardar"/>
                     </div>
                 </div>
             </div>
         </div>
     </form>
 
-    <form id="form_add_auditores" class="form" role="form" method="POST" action="{{url("/sgc/asignaAudi")}}">
-        <div class="modal fade" id="modal_add_auditores" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <form id="form_add_auditores" class="" role="form" method="POST" action="{{url("/sgc/asignaAudi")}}">
+        <div class="modal fade tw-modal-compat" id="modal_add_auditores" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" data-panel-modal hidden>
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
+                        <button type="button" class="tw:text-2xl tw:leading-none tw:text-gray-400 tw:hover:text-gray-700" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title" id="exampleModalLabel">Registro de auditores</h4>
                     </div>
                     <div class="modal-body">
                         {{ csrf_field() }}
                         <input type="text" name="id_auditoria" id="id_auditoria" hidden>
-                        <div class="form-group">
+                        <div class="tw:mb-4">
                             <label for="">Lider de la Auditoria</label>
-                            <select class="form-control" name="lider">
+                            <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="lider">
                                 <option value="" selected="true" disabled="true">Selecciona...</option>
                                 @foreach($personas as $auditores)
                                     <option value="{{$auditores->id_personal}}">{{$auditores->nombre}}</option>
@@ -213,15 +216,15 @@
                             </select>
                         </div>
                         <hr>
-                        <div class="row">
-                            <div class="col-md-6">
+                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                            <div class="tw:w-full tw:lg:w-6/12 tw:px-2">
                                 <label for="">Equipo de Auditores</label>
                             </div>
-                            <div class="col-xs-3 text-right">
+                            <div class="tw:w-3/12 tw:text-right tw:px-2">
                                 <label for="">Número de auditores:</label>
                             </div>
-                            <div class="col-xs-3">
-                                <select class="form-control" name="num_auditores" id="num_auditores">
+                            <div class="tw:w-3/12 tw:px-2">
+                                <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="num_auditores" id="num_auditores">
                                     <option value="" selected="true" disabled="true">Selecciona...</option>
                                     @for($i = 1; $i<=10; $i++)
                                         <option value="{{$i}}">{{$i}}</option>
@@ -229,23 +232,23 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="row" id="auditores">
+                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4" id="auditores">
 
                         </div>
                         <hr>
-                        <div class="checkbox">
+                        <div class="tw:flex tw:items-center tw:gap-2">
                             <label>
                                 <input type="checkbox" name="en_entrenamiento" id="en_entrenamiento">
                                 ¿Agregar auditores en entrenamiento?
                             </label>
                         </div>
                         <div hidden class="entrenamiento">
-                            <div class="row">
-                                <div class="col-xs-6">
+                            <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                <div class="tw:w-6/12 tw:px-2">
                                     <label for="">Número de auditores en entrenamiento:</label>
                                 </div>
-                                <div class="col-xs-4">
-                                    <select class="form-control" name="num_auditores_ent" id="num_auditores_ent">
+                                <div class="tw:w-4/12 tw:px-2">
+                                    <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="num_auditores_ent" id="num_auditores_ent">
                                         <option value="" selected="true" disabled="true">Selecciona...</option>
                                         @for($i = 1; $i<=10; $i++)
                                             <option value="{{$i}}">{{$i}}</option>
@@ -253,14 +256,14 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="row" id="auditores_ent">
+                            <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4" id="auditores_ent">
 
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default cancelar" data-dismiss="modal">Cancelar</button>
-                        <input type="submit" class="btn btn-primary" value="Guardar"/>
+                        <button type="button" class="cancelar tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" data-dismiss="modal">Cancelar</button>
+                        <input type="submit" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" value="Guardar"/>
                     </div>
                 </div>
             </div>
