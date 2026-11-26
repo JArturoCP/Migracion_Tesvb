@@ -128,7 +128,7 @@ class In_voucher_pagoController extends Controller
             $newvoucher->save();
 
             //return view("ingles.cargas_ingles.cargar_baucher_pago", compact('id_estado_carga_baucher','ruta'));
-            return redirect()->action('In_voucher_pagoController@index');
+            return redirect()->route('cargar_voucher_pago.index');
 
 
 
