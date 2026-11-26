@@ -1,7 +1,7 @@
-<div class="row">
-    <input class="form-control"  id="id_anteproyecto" name="id_anteproyecto" type="hidden"   value="{{$datos_alumno->id_anteproyecto}}" required/>
-    <div class="col-md-8 col-md-offset-2">
-        <h4>No. Cuenta: {{ $datos_alumno->cuenta }}</h4>
-        <h4>Nombre del estudiante: {{ $datos_alumno->nombre }} {{ $datos_alumno->apaterno }} {{ $datos_alumno->amaterno }}</h4>
+<div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+    <input class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"  id="id_anteproyecto" name="id_anteproyecto" type="hidden"   value="{{$datos_alumno->id_anteproyecto}}" required/>
+    <div class="tw:w-full tw:px-2">
+        <h4 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">No. Cuenta: {{ $datos_alumno->cuenta }}</h4>
+        <h4 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">Nombre del estudiante: {{ $datos_alumno->nombre }} {{ $datos_alumno->apaterno }} {{ $datos_alumno->amaterno }}</h4>
     </div>
 </div>

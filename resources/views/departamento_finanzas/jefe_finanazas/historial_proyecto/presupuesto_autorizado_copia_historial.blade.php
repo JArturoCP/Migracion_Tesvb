@@ -1,33 +1,26 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 @section('title', 'Historial presupuesto autorizado modificado')
+@include('partials.panel.recursos_app')
 @section('content')
-    <div class="row">
-        <div class="col-md-10 col-xs-10 col-md-offset-1">
+<div class="tw-pantalla">
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+        <div class="tw:w-full tw:px-2">
             <p>
-                <span class="glyphicon glyphicon-arrow-right"></span>
-                <a href="{{url("/presupuesto_autorizado/inicio_presupuesto_autorizado_historial")}}">Años de los historiales de los presupuestos autorizados</a>
-                <span class="glyphicon glyphicon-arrow-right"></span>
-                <a href="{{url("/presupuesto_autorizado/menu_presupuesto_autorizado_historial/".$id_year)}}">Historial del presupuesto autorizado del {{ $year }} </a>
-                <span class="glyphicon glyphicon-chevron-right"></span>
+                <span class="fa fa-arrow-right"></span>
+                <a class="tw:text-brand-500 tw:hover:underline" href="{{url("/presupuesto_autorizado/inicio_presupuesto_autorizado_historial")}}">Años de los historiales de los presupuestos autorizados</a>
+                <span class="fa fa-arrow-right"></span>
+                <a class="tw:text-brand-500 tw:hover:underline" href="{{url("/presupuesto_autorizado/menu_presupuesto_autorizado_historial/".$id_year)}}">Historial del presupuesto autorizado del {{ $year }} </a>
+                <span class="fa fa-chevron-right"></span>
                 <span>Presupuesto autorizado del {{ $year }} que fue modificado</span>
             </p>
-            <br>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-8  col-md-offset-2">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h3 class="panel-title text-center">Historial presupuesto autorizado del {{ $year }} que fue modificado</h3>
-                </div>
-            </div>
-        </div>
-    </div>
+    <x-panel.encabezado :titulo="'Historial presupuesto autorizado del '.$year.' que fue modificado'" :migas="['Finanzas' => null]" />
 
 
 
-        <div class="row">
-            <div class="col-md-10 col-md-offset-1">
+        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+            <div class="tw:w-full tw:px-2">
                 <p>PRESUPUESTO DEL MES <b>(PM)</b></p>
                 <p>PRESUPUESTO SOBRANTE <b>(PS)</b></p>
             </div>
@@ -36,11 +29,6 @@
 
 
 
-        <div class="row">
-            <div class="col-md-1 col-md-offset-2">
-                <p><br></p>
-            </div>
-        </div>
         <style type="text/css">
             #tabla_presupuesto thead tr th {
                 position: sticky;
@@ -53,123 +41,124 @@
 
 
         </style>
-        <div class="row">
-            <div class="col-md-10 col-md-offset-1">
-                <table class="table table-bordered" id="tabla_presupuesto">
+        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+            <div class="tw:w-full tw:px-2">
+                <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table class="tw-tabla tw-tabla-bordes" id="tabla_presupuesto">
                     <thead>
                     <tr>
-                        <th style="background: grey; color: black;">Partida</th>
-                        <th style="background: grey; color: black;">Denominaciòn</th>
-                        <th style="background: grey; color: black;">Total</th>
-                        <th style="background: #b0d4f1; color: black;">Enero</th>
-                        <th style="background: #b0d4f1; color: black;">Febrero</th>
-                        <th style="background: #b0d4f1; color: black;">Marzo</th>
-                        <th style="background: #b0d4f1; color: black;">Abril</th>
-                        <th style="background: #b0d4f1; color: black;">Mayo</th>
-                        <th style="background: #b0d4f1; color: black;">Junio</th>
-                        <th style="background: #b0d4f1; color: black;">Julio</th>
-                        <th style="background: #b0d4f1; color: black;">Agosto</th>
-                        <th style="background: #b0d4f1; color: black;">Septiembre</th>
-                        <th style="background: #b0d4f1; color: black;">Octubre</th>
-                        <th style="background: #b0d4f1; color: black;">Noviembre</th>
-                        <th style="background: #b0d4f1; color: black;">Diciembre</th>
+                        <th class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90">Partida</th>
+                        <th class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90">Denominaciòn</th>
+                        <th class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90">Total</th>
+                        <th class="tw:bg-sky-100 tw:dark:bg-sky-500/15 tw:text-gray-800 tw:dark:text-white/90">Enero</th>
+                        <th class="tw:bg-sky-100 tw:dark:bg-sky-500/15 tw:text-gray-800 tw:dark:text-white/90">Febrero</th>
+                        <th class="tw:bg-sky-100 tw:dark:bg-sky-500/15 tw:text-gray-800 tw:dark:text-white/90">Marzo</th>
+                        <th class="tw:bg-sky-100 tw:dark:bg-sky-500/15 tw:text-gray-800 tw:dark:text-white/90">Abril</th>
+                        <th class="tw:bg-sky-100 tw:dark:bg-sky-500/15 tw:text-gray-800 tw:dark:text-white/90">Mayo</th>
+                        <th class="tw:bg-sky-100 tw:dark:bg-sky-500/15 tw:text-gray-800 tw:dark:text-white/90">Junio</th>
+                        <th class="tw:bg-sky-100 tw:dark:bg-sky-500/15 tw:text-gray-800 tw:dark:text-white/90">Julio</th>
+                        <th class="tw:bg-sky-100 tw:dark:bg-sky-500/15 tw:text-gray-800 tw:dark:text-white/90">Agosto</th>
+                        <th class="tw:bg-sky-100 tw:dark:bg-sky-500/15 tw:text-gray-800 tw:dark:text-white/90">Septiembre</th>
+                        <th class="tw:bg-sky-100 tw:dark:bg-sky-500/15 tw:text-gray-800 tw:dark:text-white/90">Octubre</th>
+                        <th class="tw:bg-sky-100 tw:dark:bg-sky-500/15 tw:text-gray-800 tw:dark:text-white/90">Noviembre</th>
+                        <th class="tw:bg-sky-100 tw:dark:bg-sky-500/15 tw:text-gray-800 tw:dark:text-white/90">Diciembre</th>
 
                     </tr>
 
                     </thead>
                     <tbody>
                     <tr>
-                        <th colspan="2" style="text-align: center">Total autorizado</th>
-                        <th style="text-align: right">{{number_format($total_presupuesto, 2, '.', ',') }}</th>
-                        <th style="text-align: right">{{number_format($total_enero, 2, '.', ',') }}</th>
-                        <th style="text-align: right">{{number_format($total_febrero, 2, '.', ',') }}</th>
-                        <th style="text-align: right">{{number_format($total_marzo, 2, '.', ',') }}</th>
-                        <th style="text-align: right">{{number_format($total_abril, 2, '.', ',') }}</th>
-                        <th style="text-align: right">{{number_format($total_mayo, 2, '.', ',') }}</th>
-                        <th style="text-align: right">{{number_format($total_junio, 2, '.', ',') }}</th>
-                        <th style="text-align: right">{{number_format($total_julio, 2, '.', ',') }}</th>
-                        <th style="text-align: right">{{number_format($total_agosto, 2, '.', ',') }}</th>
-                        <th style="text-align: right">{{number_format($total_septiembre, 2, '.', ',') }}</th>
-                        <th style="text-align: right">{{number_format($total_octubre, 2, '.', ',') }}</th>
-                        <th style="text-align: right">{{number_format($total_noviembre, 2, '.', ',') }}</th>
-                        <th style="text-align: right">{{number_format($total_diciembre, 2, '.', ',') }}</th>
+                        <th class="tw:text-center" colspan="2">Total autorizado</th>
+                        <th class="tw:text-right">{{number_format($total_presupuesto, 2, '.', ',') }}</th>
+                        <th class="tw:text-right">{{number_format($total_enero, 2, '.', ',') }}</th>
+                        <th class="tw:text-right">{{number_format($total_febrero, 2, '.', ',') }}</th>
+                        <th class="tw:text-right">{{number_format($total_marzo, 2, '.', ',') }}</th>
+                        <th class="tw:text-right">{{number_format($total_abril, 2, '.', ',') }}</th>
+                        <th class="tw:text-right">{{number_format($total_mayo, 2, '.', ',') }}</th>
+                        <th class="tw:text-right">{{number_format($total_junio, 2, '.', ',') }}</th>
+                        <th class="tw:text-right">{{number_format($total_julio, 2, '.', ',') }}</th>
+                        <th class="tw:text-right">{{number_format($total_agosto, 2, '.', ',') }}</th>
+                        <th class="tw:text-right">{{number_format($total_septiembre, 2, '.', ',') }}</th>
+                        <th class="tw:text-right">{{number_format($total_octubre, 2, '.', ',') }}</th>
+                        <th class="tw:text-right">{{number_format($total_noviembre, 2, '.', ',') }}</th>
+                        <th class="tw:text-right">{{number_format($total_diciembre, 2, '.', ',') }}</th>
                     </tr>
                     <tr>
 
-                        <td style="text-align: right"></td>
-                        <td style="text-align: right"></td>
-                        <td style="text-align: right"></td>
-                        <td style="text-align: right"></td>
-                        <td style="text-align: right"></td>
-                        <td style="text-align: right"></td>
-                        <td style="text-align: right"></td>
-                        <td style="text-align: right"></td>
-                        <td style="text-align: right"></td>
-                        <td style="text-align: right"></td>
-                        <td style="text-align: right"></td>
-                        <td style="text-align: right"></td>
-                        <td style="text-align: right"></td>
-                        <td style="text-align: right"></td>
-                        <td style="text-align: right"></td>
+                        <td class="tw:text-right"></td>
+                        <td class="tw:text-right"></td>
+                        <td class="tw:text-right"></td>
+                        <td class="tw:text-right"></td>
+                        <td class="tw:text-right"></td>
+                        <td class="tw:text-right"></td>
+                        <td class="tw:text-right"></td>
+                        <td class="tw:text-right"></td>
+                        <td class="tw:text-right"></td>
+                        <td class="tw:text-right"></td>
+                        <td class="tw:text-right"></td>
+                        <td class="tw:text-right"></td>
+                        <td class="tw:text-right"></td>
+                        <td class="tw:text-right"></td>
+                        <td class="tw:text-right"></td>
 
                     </tr>
                     @foreach($array_partidas as $partida)
                         <tr>
 
-                            <td style="text-align: right">{{$partida['clave_presupuestal']}}</td>
-                            <td style="text-align: right">{{$partida['nombre_partida'] }}</td>
-                            <td style="text-align: right">{{number_format($partida['total_presupuesto'], 2, '.', ',') }}</td>
+                            <td class="tw:text-right">{{$partida['clave_presupuestal']}}</td>
+                            <td class="tw:text-right">{{$partida['nombre_partida'] }}</td>
+                            <td class="tw:text-right">{{number_format($partida['total_presupuesto'], 2, '.', ',') }}</td>
 
-                            <td style="text-align: right">
-                                <p style="color: red"><b>PM = </b> {{number_format($partida['enero_pres'], 2, '.', ',') }}</p>
+                            <td class="tw:text-right">
+                                <p class="tw:text-red-600 tw:dark:text-red-400"><b>PM = </b> {{number_format($partida['enero_pres'], 2, '.', ',') }}</p>
                                 <p><b>PS = </b>{{number_format($partida['enero_pres_total'], 2, '.', ',') }}</p>
 
                             </td>
-                            <td style="text-align: right">
-                                <p style="color: red"><b>PM = </b>  {{number_format($partida['febrero_pres'], 2, '.', ',') }}</p>
+                            <td class="tw:text-right">
+                                <p class="tw:text-red-600 tw:dark:text-red-400"><b>PM = </b>  {{number_format($partida['febrero_pres'], 2, '.', ',') }}</p>
                                 <p><b>PS = </b>{{number_format($partida['febrero_pres_total'], 2, '.', ',') }}</p>
                               </td>
-                            <td style="text-align: right">
-                                <p style="color: red"><b>PM = </b> {{number_format($partida['marzo_pres'], 2, '.', ',') }}</p>
+                            <td class="tw:text-right">
+                                <p class="tw:text-red-600 tw:dark:text-red-400"><b>PM = </b> {{number_format($partida['marzo_pres'], 2, '.', ',') }}</p>
                                 <p>{{number_format($partida['marzo_pres_total'], 2, '.', ',') }}</p>
 
                             </td>
-                            <td style="text-align: right">
-                                <p style="color: red"><b>PM = </b>  {{number_format($partida['abril_pres'], 2, '.', ',') }}</p>
+                            <td class="tw:text-right">
+                                <p class="tw:text-red-600 tw:dark:text-red-400"><b>PM = </b>  {{number_format($partida['abril_pres'], 2, '.', ',') }}</p>
                                 <p><b>PS = </b>{{number_format($partida['abril_pres_total'], 2, '.', ',') }}</p>
                               </td>
-                            <td style="text-align: right">
-                                <p style="color: red"><b>PM = </b>  {{number_format($partida['mayo_pres'], 2, '.', ',') }}</p>
+                            <td class="tw:text-right">
+                                <p class="tw:text-red-600 tw:dark:text-red-400"><b>PM = </b>  {{number_format($partida['mayo_pres'], 2, '.', ',') }}</p>
                                 <p><b>PS = </b>{{number_format($partida['mayo_pres_total'], 2, '.', ',') }}</p>
                                  </td>
-                            <td style="text-align: right">
-                                <p style="color: red"><b>PM = </b> {{number_format($partida['junio_pres'], 2, '.', ',') }}</p>
+                            <td class="tw:text-right">
+                                <p class="tw:text-red-600 tw:dark:text-red-400"><b>PM = </b> {{number_format($partida['junio_pres'], 2, '.', ',') }}</p>
                                 <p><b>PS = </b>{{number_format($partida['junio_pres_total'], 2, '.', ',') }}</p>
 
                             </td>
-                            <td style="text-align: right">
-                                <p style="color: red"><b>PM = </b>  {{number_format($partida['julio_pres'], 2, '.', ',') }}</p>
+                            <td class="tw:text-right">
+                                <p class="tw:text-red-600 tw:dark:text-red-400"><b>PM = </b>  {{number_format($partida['julio_pres'], 2, '.', ',') }}</p>
                                 <p><b>PS = </b>{{number_format($partida['julio_pres_total'], 2, '.', ',') }}</p>
                                   </td>
-                            <td style="text-align: right">
-                                <p style="color: red"><b>PM = </b>  {{number_format($partida['agosto_pres'], 2, '.', ',') }}</p>
+                            <td class="tw:text-right">
+                                <p class="tw:text-red-600 tw:dark:text-red-400"><b>PM = </b>  {{number_format($partida['agosto_pres'], 2, '.', ',') }}</p>
                                 <p><b>PS = </b>{{number_format($partida['agosto_pres_total'], 2, '.', ',') }}</p>
                                 </td>
-                            <td style="text-align: right">
-                                <p style="color: red"><b>PM = </b> {{number_format($partida['septiembre_pres'], 2, '.', ',') }}</p>
+                            <td class="tw:text-right">
+                                <p class="tw:text-red-600 tw:dark:text-red-400"><b>PM = </b> {{number_format($partida['septiembre_pres'], 2, '.', ',') }}</p>
                                 <p><b>PS = </b>{{number_format($partida['septiembre_pres_total'], 2, '.', ',') }}</p>
                                   </td>
-                            <td style="text-align: right">
-                                <p style="color: red"><b>PM = </b>  {{number_format($partida['octubre_pres'], 2, '.', ',') }}</p>
+                            <td class="tw:text-right">
+                                <p class="tw:text-red-600 tw:dark:text-red-400"><b>PM = </b>  {{number_format($partida['octubre_pres'], 2, '.', ',') }}</p>
                                 <p><b>PS = </b>{{number_format($partida['octubre_pres_total'], 2, '.', ',') }}</p>
 
                             </td>
-                            <td style="text-align: right">
-                                <p style="color: red"><b>PM = </b> {{number_format($partida['noviembre_pres'], 2, '.', ',') }}</p>
+                            <td class="tw:text-right">
+                                <p class="tw:text-red-600 tw:dark:text-red-400"><b>PM = </b> {{number_format($partida['noviembre_pres'], 2, '.', ',') }}</p>
                                 <p><b>PS = </b>{{number_format($partida['noviembre_pres_total'], 2, '.', ',') }}</p>
                                   </td>
-                            <td style="text-align: right">
-                                <p style="color: red"><b>PM = </b> {{number_format($partida['diciembre_pres'], 2, '.', ',') }}</p>
+                            <td class="tw:text-right">
+                                <p class="tw:text-red-600 tw:dark:text-red-400"><b>PM = </b> {{number_format($partida['diciembre_pres'], 2, '.', ',') }}</p>
                                 <p><b>PS = </b>{{number_format($partida['diciembre_pres_total'], 2, '.', ',') }}</p>
                                 </td>
 
@@ -177,6 +166,7 @@
                     @endforeach
                     </tbody>
                 </table>
+</div>
             </div>
         </div>
 
@@ -184,32 +174,6 @@
 
 
 
-    <style>
-        /*
-Full screen Modal
-*/
-        .fullscreen-modal .modal-dialog {
-            margin: 0;
-            margin-right: auto;
-            margin-left: auto;
-            width: 100%;
-        }
-        @media (min-width: 768px) {
-            .fullscreen-modal .modal-dialog {
-                width: 750px;
-            }
-        }
-        @media (min-width: 992px) {
-            .fullscreen-modal .modal-dialog {
-                width: 970px;
-            }
-        }
-        @media (min-width: 1200px) {
-            .fullscreen-modal .modal-dialog {
-                width: 1170px;
-            }
-        }
-    </style>
     <script>
         $(document).ready(function() {
             $(".edita_enero").click(function (){
@@ -874,4 +838,5 @@ Full screen Modal
 
 
 
+</div>
 @endsection

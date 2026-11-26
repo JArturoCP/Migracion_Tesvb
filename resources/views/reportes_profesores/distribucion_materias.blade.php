@@ -1,33 +1,27 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 @section('title', 'Distribución de hrs del profesor')
+@include('partials.panel.recursos_app', ['datatables' => true])
 @section('content')
+<div class="tw-pantalla">
 
-    <main class="col-md-12">
-        <div class="row">
-            <div class="col-md-10 col-xs-10 col-md-offset-1">
+    <main class="tw:w-full tw:lg:w-full tw:px-2">
+        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+            <div class="tw:w-full tw:px-2">
                 <p>
-                    <span class="glyphicon glyphicon-arrow-right"></span>
-                    <a href="{{url("/distribucion_horas_profesores/profesores_categoria/".$id_categoria)}}">Docentes</a>
-                    <span class="glyphicon glyphicon-chevron-right"></span>
+                    <span class="fa fa-arrow-right"></span>
+                    <a class="tw:text-brand-500 tw:hover:underline" href="{{url("/distribucion_horas_profesores/profesores_categoria/".$id_categoria)}}">Docentes</a>
+                    <span class="fa fa-chevron-right"></span>
                     <span>Distribución de horas del docente</span>
 
                 </p>
-                <br>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <div class="panel panel-info">
-                    <div class="panel-heading text-center">
-                        <h3 >Distribución de horas del docente<br><br>Perfil: {{ $profesor->perfil }} <br>Nombre del docente: {{ $profesor->titulo }} {{ $profesor->nombre }}<br>Categoria: {{ $profesor->cargo }}</h3>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
+        <x-panel.encabezado :titulo="'Distribución de horas del docente Perfil: '.$profesor->perfil.' Nombre del docente: '.$profesor->titulo.' '.$profesor->nombre.' Categoria: '.$profesor->cargo" :migas="['Reportes de profesores' => null]" />
+        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+            <div class="tw:w-full tw:px-2">
                 <?php $i=1; ?>
-                <table class="table table-bordered table-resposive">
+                <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table class="tw-tabla tw-tabla-bordes">
                     <thead>
                     <tr>
                         <th>No.</th>
@@ -61,12 +55,13 @@
                         @if($suma <=19)
                         <td>{{ $suma }}</td>
                         @else
-                            <td style="background: lightblue; color: #0c0c0c"><h4>{{ $suma }}</h4><br></td>
+                            <td class="tw:bg-sky-100 tw:dark:bg-sky-500/15 tw:text-gray-800 tw:dark:text-white/90" ><h4 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">{{ $suma }}</h4><br></td>
                         @endif
                     </tr>
 
                     </tbody>
                 </table>
+</div>
             </div>
         </div>
     </main>
@@ -82,4 +77,5 @@
             });
         });
     </script>
+</div>
 @endsection

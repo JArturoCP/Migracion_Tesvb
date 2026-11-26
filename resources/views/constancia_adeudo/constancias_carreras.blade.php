@@ -1,42 +1,32 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 @section('title', 'Constancias de no adeudo')
+@include('partials.panel.recursos_app', ['datatables' => true])
 @section('content')
-    <main class="col-md-12">
+<div class="tw-pantalla">
+    <main class="tw:w-full tw:lg:w-full tw:px-2">
 
-        <div class="row">
-
-            <div class="col-md-6 col-md-offset-3 ">
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title text-center">Descargar constancias de no adeudo</h3>
-                    </div>
-                </div>
-            </div>
-
-        </div>
+        <x-panel.encabezado titulo="Descargar constancias de no adeudo" :migas="['Constancias de no adeudo' => null]" />
 
         @if($estado == 1)
-            <div class="row">
-                <div class="col-md-4 col-md-offset-4">
-                    <div class="dropdown">
-                        <label for="exampleInputEmail1">Elige una carrera<b style="color:red; font-size:23px;">*</b></label>
-                        <select class="form-control  "placeholder="selecciona una Opcion" id="carrera" name="carrera" required>
+            <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                <div class="tw:w-full tw:lg:max-w-2xl tw:px-2">
+                    <div class="tw:mb-4">
+                        <label for="exampleInputEmail1">Elige una carrera<b class="tw:text-red-600 tw:dark:text-red-400 tw:text-lg" >*</b></label>
+                        <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"placeholder="selecciona una Opcion" id="carrera" name="carrera" required>
                             <option disabled selected hidden>Selecciona una opción</option>
                             @foreach($carreras as $carrera)
                                 <option value="{{$carrera->id_carrera}}" data-esta="{{$carrera->nombre}}">{{$carrera->nombre}}</option>
                             @endforeach
                         </select>
-                        <br>
                     </div>
                 </div>
-                <br>
             </div>
         @elseif($estado == 2)
-            <div class="row">
-                <div class="col-md-4 col-md-offset-4">
-                    <div class="dropdown">
-                        <label for="exampleInputEmail1">Elige una carrera<b style="color:red; font-size:23px;">*</b></label>
-                        <select class="form-control  "placeholder="selecciona una Opcion" id="carrera" name="carrera" required>
+            <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                <div class="tw:w-full tw:lg:max-w-2xl tw:px-2">
+                    <div class="tw:mb-4">
+                        <label for="exampleInputEmail1">Elige una carrera<b class="tw:text-red-600 tw:dark:text-red-400 tw:text-lg" >*</b></label>
+                        <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"placeholder="selecciona una Opcion" id="carrera" name="carrera" required>
                             <option disabled selected hidden>Selecciona una opción</option>
                             @foreach($carreras as $carrera)
                                 @if($carrera->id_carrera==$id_carrera)
@@ -46,22 +36,17 @@
                                 @endif
                             @endforeach
                         </select>
-                        <br>
                     </div>
                 </div>
-                <br>
             </div>
-            <div class="row">
-                <div class="col-md-10 col-md-offset-1 ">
-                    <div class="panel panel-info">
-                        <div class="panel-heading">
-                            <h3 class="panel-title text-center">Estudiantes de la carrera</h3>
-                        </div>
-                    </div>
-                    <div class="panel panel-primary">
-                        <div class="panel-body">
+            <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                <div class="tw:w-full tw:px-2">
+                    <h3 class="tw:mb-4 tw:text-center tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">Estudiantes de la carrera</h3>
+                    <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+                        <div class="tw:p-5 tw:sm:p-6">
 
-                            <table id="table_enviado" class="table table-bordered table-resposive">
+                            <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table id="table_enviado" class="tw-tabla tw-tabla-bordes">
                                 <thead>
                                 <tr>
                                     <th>No. Cuenta</th>
@@ -79,11 +64,12 @@
                                         <td> {{ $alumno->apaterno }} {{ $alumno->amaterno }} {{ $alumno->nombre }}</td>
                                         <td>{{ $alumno->semestre }}</td>
                                         <td>{{ $alumno->carrera }}</td>
-                                        <td style="text-align: center">  <button type="button" class="btn btn-primary  btn-small enviar" data-id_alumno="{{$alumno->id_alumno}}" ><i class="glyphicon glyphicon-pencil em2"></i></button></td>
+                                        <td class="tw:text-center" >  <button type="button" class="btn-small enviar tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base" data-id_alumno="{{$alumno->id_alumno}}" ><i class="fa fa-pencil "></i></button></td>
                                     </tr>
                                 @endforeach
                                 </tbody>
                             </table>
+</div>
                         </div>
                     </div>
                 </div>
@@ -93,13 +79,11 @@
         @endif
 
 
-        <div class="modal fade" id="modal_constancia" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
+        <x-panel.modal id="modal_constancia" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="myModalLabel">
 
-                    <div class="modal-header bg-info">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title text-center" id="myModalLabel">Constancias de no adeudo</h4>
+                    <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                        
+                        <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="myModalLabel">Constancias de no adeudo</h4>
                     </div>
                     <div id="contenedor_constancia">
 
@@ -108,12 +92,7 @@
 
 
 
-                </div>
-
-
-            </div>
-
-        </div>
+                </x-panel.modal>
 
     </main>
     <script type="text/javascript">
@@ -145,4 +124,5 @@
         });
     </script>
 
+</div>
 @endsection

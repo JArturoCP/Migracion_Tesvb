@@ -1,6 +1,8 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 @section('title', 'Corregir Anteproyecto')
+@include('partials.panel.recursos_app', ['datepicker' => true])
 @section('content')
+<div class="tw-pantalla">
 
 @php
 
@@ -89,7 +91,7 @@ if (isset($cronograma) && count($cronograma) > 0) {
 @endphp
 
 
-<div class="container-fluid">
+<div class="tw:w-full">
 
     {{-- =========================================================
     MENSAJE DE PERMISO ESPECIAL
@@ -97,19 +99,14 @@ if (isset($cronograma) && count($cronograma) > 0) {
 
     @if($tiene_permiso)
 
-    <div class="row">
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
-        <div class="col-md-10 col-md-offset-1">
+        <div class="tw:w-full tw:px-2">
 
-            <div class="alert alert-warning text-center"
-                 style="
-                    border-radius:8px;
-                    margin-top:15px;
-                    border-left:5px solid #f0ad4e;
-                 ">
+            <x-panel.alerta tipo="advertencia" class="tw:mb-4">
 
-                <span class="glyphicon glyphicon-pencil"
-                      style="font-size:20px;">
+                <span class="fa fa-pencil tw:text-lg"
+                     >
                 </span>
 
                 <strong>
@@ -123,7 +120,7 @@ if (isset($cronograma) && count($cronograma) > 0) {
                 Realiza las correcciones necesarias y presiona
                 <strong>Guardar</strong>.
 
-            </div>
+            </x-panel.alerta>
 
         </div>
 
@@ -138,19 +135,14 @@ if (isset($cronograma) && count($cronograma) > 0) {
 
     @if($cronograma_autorizado)
 
-    <div class="row">
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
-        <div class="col-md-10 col-md-offset-1">
+        <div class="tw:w-full tw:px-2">
 
-            <div class="alert alert-success text-center"
-                 style="
-                    border-radius:8px;
-                    margin-top:15px;
-                    border-left:5px solid #5cb85c;
-                 ">
+            <x-panel.alerta tipo="exito" class="tw:mb-4">
 
-                <span class="glyphicon glyphicon-ok-circle"
-                      style="font-size:20px;">
+                <span class="fa fa-check-circle-o tw:text-lg"
+                     >
                 </span>
 
                 <strong>
@@ -162,7 +154,7 @@ if (isset($cronograma) && count($cronograma) > 0) {
                 El Departamento de Servicio Social y Residencia Profesional
                 ha validado nuevamente tu cronograma.
 
-            </div>
+            </x-panel.alerta>
 
         </div>
 
@@ -175,57 +167,39 @@ if (isset($cronograma) && count($cronograma) > 0) {
     CONTENEDOR PRINCIPAL
     ========================================================== --}}
 
-    <div class="row">
+    <x-panel.encabezado titulo="Corregir Cronograma" :migas="['Residencia profesional' => null]" />
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
-        <div class="col-md-10 col-md-offset-1 col-xs-12">
+        <div class="tw:w-full tw:px-2">
 
-            <div class="panel panel-info"
-                 style="
-                    border-radius:8px;
-                    box-shadow:0 2px 8px rgba(0,0,0,.08);
-                 ">
+            <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]"
+                >
 
                 {{-- ENCABEZADO --}}
 
-                <div class="panel-heading"
-                     style="
-                        text-align:center;
-                        font-size:18px;
-                        font-weight:bold;
-                     ">
-
-                    <span class="glyphicon glyphicon-edit"></span>
-
-                    Corregir Cronograma
-
-                </div>
+                
 
 
-                <div class="panel-body">
+                <div class="tw:p-5 tw:sm:p-6">
 
                     {{-- =================================================
                     NAVEGACIÓN
                     ================================================== --}}
 
-                    <div class="row">
+                    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
                         {{-- ATRÁS --}}
 
-                        <div class="col-md-2 col-md-offset-3"
-                             style="text-align:center;">
+                        <div class="tw:w-full tw:lg:w-6/12 tw:px-2 tw:text-center"
+                            >
 
                             <a href="{{url('/residencia/anteproyecto/corregir_marco_teorico')}}"
-                               class="btn btn-link"
-                               style="font-weight:bold;">
+                               class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap"
+                              >
 
-                                <span class="glyphicon glyphicon-arrow-left"
-                                      style="
-                                        font-size:45px;
-                                        color:#458acc;
-                                      ">
+                                <span class="fa fa-arrow-left"
+                                     >
                                 </span>
-
-                                <br>
 
                                 Atrás
 
@@ -236,21 +210,16 @@ if (isset($cronograma) && count($cronograma) > 0) {
 
                         {{-- SIGUIENTE --}}
 
-                        <div class="col-md-2 col-md-offset-2"
-                             style="text-align:center;">
+                        <div class="tw:w-full tw:lg:w-6/12 tw:px-2 tw:text-center"
+                            >
 
                             <a href="{{url('/residencia/anteproyecto/corregir_enviar_anteproyecto')}}"
-                               class="btn btn-link"
-                               style="font-weight:bold;">
+                               class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap"
+                              >
 
-                                <span class="glyphicon glyphicon-arrow-right"
-                                      style="
-                                        font-size:45px;
-                                        color:#458acc;
-                                      ">
+                                <span class="fa fa-arrow-right"
+                                     >
                                 </span>
-
-                                <br>
 
                                 Siguiente
 
@@ -260,38 +229,34 @@ if (isset($cronograma) && count($cronograma) > 0) {
 
                     </div>
 
-                    <br>
 
 
                     {{-- =================================================
                     CONTENIDO
                     ================================================== --}}
 
-                    <div class="row">
+                    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
 
                         {{-- =================================================
                         CRONOGRAMA
                         ================================================== --}}
 
-                        <div class="col-md-8">
+                        <div class="tw:w-full tw:lg:w-8/12 tw:px-2">
 
-                            <div class="panel panel-primary"
-                                 style="
-                                    border-radius:8px;
-                                    box-shadow:0 2px 6px rgba(0,0,0,.08);
-                                 ">
+                            <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]"
+                                >
 
-                                <div class="panel-heading text-center">
+                                <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:dark:border-gray-800 tw:bg-gray-50 tw:dark:bg-gray-900 tw:px-5 tw:py-4 tw:text-center">
 
-                                    <span class="glyphicon glyphicon-calendar"></span>
+                                    <span class="fa fa-calendar"></span>
 
                                     Cronograma de Actividades
 
                                 </div>
 
 
-                                <div class="panel-body">
+                                <div class="tw:p-5 tw:sm:p-6">
 
                                     @foreach($cronograma as $semana)
 
@@ -312,18 +277,14 @@ if (isset($cronograma) && count($cronograma) > 0) {
                                     @endphp
 
 
-                                    <div class="col-md-12 text-center"
-                                         style="margin-bottom:10px;">
+                                    <div class="tw:w-full tw:lg:w-full tw:text-center tw:px-2 tw:mb-2.5"
+                                        >
 
-                                        <div style="
-                                            border:3px solid #d9edf7;
-                                            border-radius:5px;
-                                            padding:10px;
-                                        ">
+                                        <div class="tw:border-3 tw:border-sky-100 tw:dark:border-sky-500/20 tw:rounded-md tw:p-2.5">
 
                                             {{-- SEMANA --}}
 
-                                            <h5>
+                                            <h5 class="tw:mb-2 tw:text-sm tw:font-semibold tw:text-gray-700 tw:dark:text-gray-300">
 
                                                 <strong>
                                                     SEMANA {{$semana->no_semana}}
@@ -372,11 +333,11 @@ if (isset($cronograma) && count($cronograma) > 0) {
 
                                                 <button
                                                     type="button"
-                                                    class="btn btn-success"
+                                                    class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-green-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-green-700 tw:disabled:bg-green-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap"
                                                     disabled
-                                                    style="min-width:130px;">
+                                                   >
 
-                                                    <span class="glyphicon glyphicon-ok"></span>
+                                                    <span class="fa fa-check"></span>
 
                                                     Autorizado
 
@@ -386,14 +347,14 @@ if (isset($cronograma) && count($cronograma) > 0) {
 
                                                 <button
                                                     type="button"
-                                                    class="btn btn-primary modificar_actividad"
+                                                    class="modificar_actividad tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap"
                                                     data-id="{{$semana->id_cronograma}}"
                                                     data-semana="{{$semana->no_semana}}"
                                                     data-fecha-inicial="{{$semana->f_inicio}}"
                                                     data-fecha-final="{{$semana->f_termino}}"
                                                     data-actividad="{{htmlspecialchars($semana->actividad, ENT_QUOTES, 'UTF-8')}}">
 
-                                                    <span class="glyphicon glyphicon-cog"></span>
+                                                    <span class="fa fa-cog"></span>
 
                                                     Modificar
 
@@ -407,7 +368,7 @@ if (isset($cronograma) && count($cronograma) > 0) {
 
                                     @endforeach
 
-                                    <div style="clear:both;"></div>
+                                    <div class="tw:clear-both"></div>
 
                                 </div>
 
@@ -420,34 +381,31 @@ if (isset($cronograma) && count($cronograma) > 0) {
                         COMENTARIOS
                         ================================================== --}}
 
-                        <div class="col-md-4">
+                        <div class="tw:w-full tw:lg:w-4/12 tw:px-2">
 
-                            <div class="panel panel-default"
-                                 style="
-                                    border-radius:8px;
-                                    box-shadow:0 2px 6px rgba(0,0,0,.08);
-                                 ">
+                            <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]"
+                                >
 
-                                <div class="panel-heading text-center"
-                                     style="font-weight:bold;">
+                                <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:dark:border-gray-800 tw:bg-gray-50 tw:dark:bg-gray-900 tw:px-5 tw:py-4 tw:text-center"
+                                    >
 
-                                    <span class="glyphicon glyphicon-comment"></span>
+                                    <span class="fa fa-comment"></span>
 
                                     COMENTARIOS DE LOS REVISORES
 
                                 </div>
 
 
-                                <div class="panel-body">
+                                <div class="tw:p-5 tw:sm:p-6">
 
 
                                     {{-- MENSAJE DE ESTADO --}}
 
                                     @if($cronograma_autorizado)
 
-                                        <div class="alert alert-success text-center">
+                                        <x-panel.alerta tipo="exito" class="tw:mb-4">
 
-                                            <span class="glyphicon glyphicon-ok-circle"></span>
+                                            <span class="fa fa-check-circle-o"></span>
 
                                             <strong>
                                                 Ya te autorizaron el cronograma.
@@ -458,14 +416,14 @@ if (isset($cronograma) && count($cronograma) > 0) {
                                             El cronograma corregido fue
                                             registrado correctamente.
 
-                                        </div>
+                                        </x-panel.alerta>
 
 
                                     @elseif($tiene_permiso)
 
-                                        <div class="alert alert-warning text-center">
+                                        <x-panel.alerta tipo="advertencia" class="tw:mb-4">
 
-                                            <span class="glyphicon glyphicon-pencil"></span>
+                                            <span class="fa fa-pencil"></span>
 
                                             <strong>
                                                 Tienes permiso para modificar
@@ -477,21 +435,21 @@ if (isset($cronograma) && count($cronograma) > 0) {
                                             Realiza las correcciones necesarias
                                             y presiona <strong>Guardar</strong>.
 
-                                        </div>
+                                        </x-panel.alerta>
 
 
                                     @else
 
-                                        <div class="alert alert-danger text-center">
+                                        <x-panel.alerta tipo="error" class="tw:mb-4">
 
-                                            <span class="glyphicon glyphicon-warning-sign"></span>
+                                            <span class="fa fa-exclamation-triangle"></span>
 
                                             <strong>
                                                 Corrige lo que se te pide en los
                                                 comentarios de los revisores.
                                             </strong>
 
-                                        </div>
+                                        </x-panel.alerta>
 
                                     @endif
 
@@ -507,9 +465,9 @@ if (isset($cronograma) && count($cronograma) > 0) {
 
                                         @if($comentario->id_estado_evaluacion == 1)
 
-                                            <div class="panel panel-success">
+                                            <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
 
-                                                <div class="panel-heading text-center">
+                                                <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:dark:border-gray-800 tw:bg-gray-50 tw:dark:bg-gray-900 tw:px-5 tw:py-4 tw:text-center">
 
                                                     <strong>
                                                         NOMBRE DEL DOCENTE:
@@ -527,7 +485,7 @@ if (isset($cronograma) && count($cronograma) > 0) {
 
                                                 </div>
 
-                                                <div class="panel-body">
+                                                <div class="tw:p-5 tw:sm:p-6">
 
                                                     {{$comentario->comentario}}
 
@@ -540,9 +498,9 @@ if (isset($cronograma) && count($cronograma) > 0) {
 
                                         @elseif($comentario->id_estado_evaluacion == 2)
 
-                                            <div class="panel panel-warning">
+                                            <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
 
-                                                <div class="panel-heading text-center">
+                                                <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:dark:border-gray-800 tw:bg-gray-50 tw:dark:bg-gray-900 tw:px-5 tw:py-4 tw:text-center">
 
                                                     <strong>
                                                         NOMBRE DEL DOCENTE:
@@ -560,7 +518,7 @@ if (isset($cronograma) && count($cronograma) > 0) {
 
                                                 </div>
 
-                                                <div class="panel-body">
+                                                <div class="tw:p-5 tw:sm:p-6">
 
                                                     {{$comentario->comentario}}
 
@@ -573,9 +531,9 @@ if (isset($cronograma) && count($cronograma) > 0) {
 
                                         @elseif($comentario->id_estado_evaluacion == 3)
 
-                                            <div class="panel panel-danger">
+                                            <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
 
-                                                <div class="panel-heading text-center">
+                                                <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:dark:border-gray-800 tw:bg-gray-50 tw:dark:bg-gray-900 tw:px-5 tw:py-4 tw:text-center">
 
                                                     <strong>
                                                         NOMBRE DEL DOCENTE:
@@ -593,7 +551,7 @@ if (isset($cronograma) && count($cronograma) > 0) {
 
                                                 </div>
 
-                                                <div class="panel-body">
+                                                <div class="tw:p-5 tw:sm:p-6">
 
                                                     {{$comentario->comentario}}
 
@@ -628,24 +586,11 @@ if (isset($cronograma) && count($cronograma) > 0) {
 MODAL MODIFICAR ACTIVIDAD
 ============================================================= --}}
 
-<div class="modal fade"
-     id="modal_modificar_actividad"
-     tabindex="-1"
-     role="dialog"
-     aria-labelledby="modalActividad">
-
-    <div class="modal-dialog" role="document">
-
-        <div class="modal-content"
-             style="
-                border-radius:8px;
-                overflow:hidden;
-                box-shadow:0 5px 20px rgba(0,0,0,.25);
-             ">
+<x-panel.modal id="modal_modificar_actividad" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="modalActividad">
 
             <form
                 id="form_modificar_actividades"
-                class="form"
+                class=""
                 action="{{url('/residencia/guardar_correciones_cronograma/')}}"
                 method="POST">
 
@@ -655,35 +600,14 @@ MODAL MODIFICAR ACTIVIDAD
                 ENCABEZADO
                 ================================================== --}}
 
-                <div class="modal-header"
-                     style="
-                        background:linear-gradient(135deg,#337ab7,#286090);
-                        color:white;
-                        border-bottom:none;
-                        padding:18px 20px;
-                     ">
+                <div class="tw:px-6 tw:pt-6 tw:pr-14 tw:text-white tw:bg-brand-500 tw:text-white tw:border-b-0 tw:py-4.5 tw:px-5"
+                    >
 
-                    <button
-                        type="button"
-                        class="close"
-                        data-dismiss="modal"
-                        style="
-                            color:white;
-                            opacity:.9;
-                            font-size:28px;
-                        ">
+                    
 
-                        <span>&times;</span>
+                    <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">
 
-                    </button>
-
-                    <h4 class="modal-title text-center"
-                        style="
-                            font-weight:bold;
-                            margin:0;
-                        ">
-
-                        <span class="glyphicon glyphicon-edit"></span>
+                        <span class="fa fa-pencil-square-o"></span>
 
                         &nbsp;Modificar actividad
 
@@ -696,11 +620,8 @@ MODAL MODIFICAR ACTIVIDAD
                 CUERPO
                 ================================================== --}}
 
-                <div class="modal-body"
-                     style="
-                        padding:25px;
-                        background:#f8f9fa;
-                     ">
+                <div class="tw-modal-cuerpo tw:bg-gray-50 tw:dark:bg-gray-800 tw:p-6.25"
+                    >
 
                     {{-- ID CRONOGRAMA --}}
 
@@ -715,12 +636,12 @@ MODAL MODIFICAR ACTIVIDAD
                     FECHA INICIAL
                     ================================================== --}}
 
-                    <div class="form-group">
+                    <div class="tw:mb-4">
 
                         <label for="modal_fecha_inicial">
 
-                            <span class="glyphicon glyphicon-calendar"
-                                  style="color:#337ab7;">
+                            <span class="fa fa-calendar tw:text-blue-700 tw:dark:text-blue-400"
+                                 >
                             </span>
 
                             Fecha inicial
@@ -729,18 +650,13 @@ MODAL MODIFICAR ACTIVIDAD
 
                         <input
                             type="date"
-                            class="form-control"
+                            class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:bg-gray-50 tw:dark:bg-gray-800 tw:cursor-not-allowed tw:h-10.5 tw:rounded-md"
                             id="modal_fecha_inicial"
                             name="fecha_inicial"
                             readonly
-                            style="
-                                height:42px;
-                                border-radius:5px;
-                                background:#eeeeee;
-                                cursor:not-allowed;
-                            ">
+                           >
 
-                        <small class="text-muted">
+                        <small class="tw:text-gray-500 tw:dark:text-gray-400">
                             La fecha de inicio de la semana no puede modificarse.
                         </small>
 
@@ -751,12 +667,12 @@ MODAL MODIFICAR ACTIVIDAD
                     FECHA FINAL
                     ================================================== --}}
 
-                    <div class="form-group">
+                    <div class="tw:mb-4">
 
                         <label for="modal_fecha_final">
 
-                            <span class="glyphicon glyphicon-calendar"
-                                  style="color:#337ab7;">
+                            <span class="fa fa-calendar tw:text-blue-700 tw:dark:text-blue-400"
+                                 >
                             </span>
 
                             Fecha final
@@ -765,18 +681,13 @@ MODAL MODIFICAR ACTIVIDAD
 
                         <input
                             type="date"
-                            class="form-control"
+                            class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:bg-gray-50 tw:dark:bg-gray-800 tw:cursor-not-allowed tw:h-10.5 tw:rounded-md"
                             id="modal_fecha_final"
                             name="fecha_s"
                             readonly
-                            style="
-                                height:42px;
-                                border-radius:5px;
-                                background:#eeeeee;
-                                cursor:not-allowed;
-                            ">
+                           >
 
-                        <small class="text-muted">
+                        <small class="tw:text-gray-500 tw:dark:text-gray-400">
                             La fecha de término de la semana no puede modificarse.
                         </small>
 
@@ -787,12 +698,12 @@ MODAL MODIFICAR ACTIVIDAD
                     ACTIVIDAD
                     ================================================== --}}
 
-                    <div class="form-group">
+                    <div class="tw:mb-4">
 
                         <label for="modal_actividades">
 
-                            <span class="glyphicon glyphicon-tasks"
-                                  style="color:#337ab7;">
+                            <span class="fa fa-tasks tw:text-blue-700 tw:dark:text-blue-400"
+                                 >
                             </span>
 
                             Actividad(es)
@@ -800,18 +711,15 @@ MODAL MODIFICAR ACTIVIDAD
                         </label>
 
                         <textarea
-                            class="form-control"
+                            class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:rounded-md tw:resize-y"
                             id="modal_actividades"
                             name="actividades"
                             rows="8"
                             placeholder="Ingresa la actividad correspondiente a esta semana"
                             required
-                            style="
-                                border-radius:5px;
-                                resize:vertical;
-                            "></textarea>
+                           ></textarea>
 
-                        <small class="text-muted">
+                        <small class="tw:text-gray-500 tw:dark:text-gray-400">
 
                             Aquí puedes corregir las actividades
                             correspondientes únicamente a esta semana.
@@ -827,23 +735,16 @@ MODAL MODIFICAR ACTIVIDAD
                 PIE DEL MODAL
                 ================================================== --}}
 
-                <div class="modal-footer"
-                     style="
-                        background:#f5f5f5;
-                        border-top:1px solid #ddd;
-                        padding:15px 20px;
-                     ">
+                <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6 tw:bg-gray-50 tw:dark:bg-gray-800 tw:border-t tw:border-gray-200 tw:dark:border-gray-800 tw:py-3.75 tw:px-5"
+                    >
 
                     <button
                         type="button"
-                        class="btn btn-default"
+                        class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap"
                         data-dismiss="modal"
-                        style="
-                            min-width:110px;
-                            border-radius:5px;
-                        ">
+                       >
 
-                        <span class="glyphicon glyphicon-remove"></span>
+                        <span class="fa fa-times"></span>
 
                         Cancelar
 
@@ -852,13 +753,10 @@ MODAL MODIFICAR ACTIVIDAD
                     <button
                         type="button"
                         id="guarda_actividades"
-                        class="btn btn-primary"
-                        style="
-                            min-width:110px;
-                            border-radius:5px;
-                        ">
+                        class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap"
+                       >
 
-                        <span class="glyphicon glyphicon-floppy-disk"></span>
+                        <span class="fa fa-floppy-o"></span>
 
                         Guardar
 
@@ -868,13 +766,9 @@ MODAL MODIFICAR ACTIVIDAD
 
             </form>
 
-        </div>
+        </x-panel.modal>
 
-    </div>
 
-</div>
-
-</div>
 
 
 {{-- =============================================================
@@ -1158,4 +1052,5 @@ $(document).ready(function() {
 
 </script>
 
+</div>
 @endsection

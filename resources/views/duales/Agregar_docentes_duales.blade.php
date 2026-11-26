@@ -1,42 +1,37 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 @section('title', 'Agregar Mentores duales en Plantilla')
 
+@include('partials.panel.recursos_app', ['datatables' => true])
 @section('content')
+<div class="tw-pantalla">
 
-<style> /* CONTENEDOR PRINCIPAL */ .dual-container { width: 95%; max-width: 1400px; margin: 20px auto; } /* ENCABEZADO */ .dual-header { margin-bottom: 15px; } .dual-header .panel-heading { padding: 12px 15px; } .dual-header h3 { margin: 0; font-size: 18px; } /* BOTÓN AGREGAR */ .dual-actions { text-align: right; margin-bottom: 15px; } .btn-dual { background: #198754; border-color: #157347; color: white; border-radius: 25px; padding: 9px 18px; font-weight: bold; } .btn-dual:hover { background: #157347; color: white; } /* TABLA */ .dual-table-container { width: 100%; overflow-x: auto; } #paginar_table { width: 100% !important; margin-bottom: 0; } #paginar_table th { text-align: center; vertical-align: middle; white-space: nowrap; } #paginar_table td { text-align: center; vertical-align: middle; } /* ICONO ELIMINAR */ .elimina { cursor: pointer; } .icon-delete { color: crimson; font-size: 18px; } /* MODAL */ .modal-header-dual { background: #337ab7; color: white; padding: 12px 15px; } .modal-header-dual .close { color: white; opacity: 1; } .modal-header-dual h4 { margin: 0; text-align: center; } .dual-form-group { margin-bottom: 18px; } .dual-form-group label { margin-bottom: 7px; font-weight: bold; } .dual-select { height: 38px; } .btn-modal-save { border-radius: 20px; padding: 8px 18px; } .btn-modal-close { border-radius: 20px; padding: 8px 18px; background: crimson; color: white; } .btn-modal-close:hover { background: #a94442; color: white; } /* MODAL ELIMINAR */ #modal_elimina .modal-dialog { margin-top: 120px; } #modal_elimina .modal-body { padding: 25px; } /* EN PANTALLAS PEQUEÑAS */ @media (max-width: 768px) { .dual-container { width: 98%; margin: 10px auto; } .dual-actions { text-align: center; } .dual-header h3 { font-size: 16px; } .btn-dual { width: 100%; } } </style> <main>
-<div class="dual-container">
+<main>
+<div>
 
     {{-- ============================= --}}
     {{-- ENCABEZADO --}}
     {{-- ============================= --}}
-    <div class="panel panel-info dual-header">
-        <div class="panel-heading">
-            <h3 class="text-center">
-                <span class="glyphicon glyphicon-education"></span>
-                AGREGAR PROFESORES DUALES A ALUMNOS
-            </h3>
-        </div>
-    </div>
+    <x-panel.encabezado titulo="Agregar profesores duales a alumnos" :migas="['Educación dual' => null]" />
 
 
     @if(!empty($aviso))
-        <div class="alert alert-warning text-center">
-            <span class="glyphicon glyphicon-info-sign"></span> {{ $aviso }}
-        </div>
+        <x-panel.alerta tipo="advertencia" class="tw:mb-4">
+            <span class="fa fa-info-circle"></span> {{ $aviso }}
+        </x-panel.alerta>
     @endif
 
     {{-- ============================= --}}
     {{-- BOTÓN AGREGAR --}}
     {{-- ============================= --}}
     @if($estado_periodo == 1)
-        <div class="dual-actions">
+        <div class="tw:mb-4 tw:text-right">
 
             <button type="button"
-                    class="btn btn-dual"
+                    class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap"
                     data-toggle="modal"
                     data-target="#myModal">
 
-                <span class="glyphicon glyphicon-plus"></span>
+                <span class="fa fa-plus"></span>
                 Agregar Mentor al Alumno Dual
 
             </button>
@@ -48,24 +43,25 @@
     {{-- ============================= --}}
     {{-- TABLA --}}
     {{-- ============================= --}}
-    <div class="panel panel-default">
+    <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
 
-        <div class="panel-heading">
+        <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:dark:border-gray-800 tw:bg-gray-50 tw:dark:bg-gray-900 tw:px-5 tw:py-4">
             <strong>
-                <span class="glyphicon glyphicon-list"></span>
+                <span class="fa fa-list"></span>
                 Mentores asignados
             </strong>
         </div>
 
-        <div class="panel-body" style="padding: 10px;">
+        <div class="tw:p-5 tw:sm:p-6">
 
-            <div class="dual-table-container">
+            <div>
 
-                <table id="paginar_table"
-                       class="table table-bordered table-striped table-hover">
+                <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table id="paginar_table"
+                       class="tw-tabla tw-tabla-bordes tw-tabla-rayas">
 
                     <thead>
-                    <tr class="info">
+                    <tr class="tw:bg-sky-50">
 
                         <th>Nombre del Docente</th>
                         <th>No. Cuenta</th>
@@ -107,17 +103,13 @@
 
                                 @if($estado_periodo == 1)
 
-                                    <a class="elimina"
-                                       data-id_duales_actuales="{{ $dato->id_duales_actuales }}">
-
-                                        <span class="glyphicon glyphicon-trash icon-delete"></span>
-
-                                    </a>
+                                    <a class="elimina tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-red-600 tw:ring-1 tw:ring-red-300 tw:ring-inset tw:hover:bg-red-50 tw:dark:bg-gray-800 tw:dark:text-red-500 tw:dark:ring-red-500/40 tw:dark:hover:bg-red-500/10 tw:size-9 tw:text-base"
+                                       data-id_duales_actuales="{{ $dato->id_duales_actuales }}"><span class="fa fa-trash tw:text-lg tw:text-red-600"></span></a>
 
                                 @else
 
-                                    <span class="text-muted">
-                                        <span class="glyphicon glyphicon-lock"></span>
+                                    <span class="tw:text-gray-500 tw:dark:text-gray-400">
+                                        <span class="fa fa-lock"></span>
                                     </span>
 
                                 @endif
@@ -131,6 +123,7 @@
                     </tbody>
 
                 </table>
+</div>
 
             </div>
 
@@ -145,34 +138,21 @@
 {{-- MODAL AGREGAR MENTOR --}}
 {{-- ================================================= --}}
 
-<div class="modal fade"
-     id="myModal"
-     tabindex="-1"
-     role="dialog">
+<x-panel.modal id="myModal" tamano="md" sin-relleno clase-cerrar="close">
 
-    <div class="modal-dialog">
+            <div class="tw:px-6 tw:pt-6 tw:pr-14">
 
-        <div class="modal-content">
+                
 
-            <div class="modal-header modal-header-dual">
-
-                <button type="button"
-                        class="close"
-                        data-dismiss="modal">
-
-                    &times;
-
-                </button>
-
-                <h4>
-                    <span class="glyphicon glyphicon-education"></span>
+                <h4 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">
+                    <span class="fa fa-graduation-cap"></span>
                     Agregar Mentor Dual
                 </h4>
 
             </div>
 
 
-            <div class="modal-body">
+            <div class="tw-modal-cuerpo">
 
                 <form action="{{ url('/duales/guardar_mentor_dual') }}"
                       method="POST"
@@ -182,16 +162,16 @@
 
 
                     {{-- DOCENTE --}}
-                    <div class="dual-form-group">
+                    <div class="tw:mb-4">
 
                         <label for="id_profesor">
 
-                            <span class="glyphicon glyphicon-user"></span>
+                            <span class="fa fa-user"></span>
                             Seleccione el docente que será mentor dual
 
                         </label>
 
-                        <select class="form-control dual-select"
+                        <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"
                                 id="id_profesor"
                                 name="id_profesor"
                                 required>
@@ -216,16 +196,16 @@
 
 
                     {{-- ALUMNO --}}
-                    <div class="dual-form-group">
+                    <div class="tw:mb-4">
 
                         <label for="id_alumno">
 
-                            <span class="glyphicon glyphicon-education"></span>
+                            <span class="fa fa-graduation-cap"></span>
                             Seleccione el alumno Dual
 
                         </label>
 
-                        <select class="form-control dual-select"
+                        <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"
                                 id="id_alumno"
                                 name="id_alumno"
                                 required>
@@ -255,49 +235,38 @@
             </div>
 
 
-            <div class="modal-footer">
+            <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
 
                 <button type="button"
-                        class="btn btn-success btn-modal-save"
+                        class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap"
                         id="btn_guardar">
 
-                    <span class="glyphicon glyphicon-floppy-disk"></span>
+                    <span class="fa fa-floppy-o"></span>
                     Guardar
 
                 </button>
 
                 <button type="button"
-                        class="btn btn-modal-close"
+                        class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap"
                         data-dismiss="modal">
 
-                    <span class="glyphicon glyphicon-remove"></span>
+                    <span class="fa fa-times"></span>
                     Salir
 
                 </button>
 
             </div>
 
-        </div>
-
-    </div>
-
-</div>
+        </x-panel.modal>
 
 
 {{-- ================================================= --}}
 {{-- MODAL ELIMINAR --}}
 {{-- ================================================= --}}
 
-<div id="modal_elimina"
-     class="modal fade"
-     tabindex="-1"
-     role="dialog">
+<x-panel.modal id="modal_elimina" tamano="sm" sin-relleno>
 
-    <div class="modal-dialog modal-sm">
-
-        <div class="modal-content">
-
-            <div class="modal-body text-center">
+            <div class="tw-modal-cuerpo tw:pt-14 tw:text-center">
 
                 <form method="POST"
                       role="form"
@@ -310,8 +279,8 @@
                            name="eliminar_alumno"
                            value="">
 
-                    <span class="glyphicon glyphicon-trash"
-                          style="font-size:40px;color:crimson;">
+                    <span class="fa fa-trash"
+                         >
                     </span>
 
                     <br>
@@ -322,22 +291,22 @@
                     </strong>
 
 
-                    <div class="modal-footer">
+                    <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
 
                         <button type="button"
-                                class="btn btn-default"
+                                class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap"
                                 data-dismiss="modal">
 
-                            <span class="glyphicon glyphicon-remove"></span>
+                            <span class="fa fa-times"></span>
                             Cancelar
 
                         </button>
 
                         <button id="confirma_elimina"
                                 type="button"
-                                class="btn btn-danger">
+                                class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-red-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-red-700 tw:disabled:bg-red-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap">
 
-                            <span class="glyphicon glyphicon-ok"></span>
+                            <span class="fa fa-check"></span>
                             Aceptar
 
                         </button>
@@ -348,12 +317,9 @@
 
             </div>
 
-        </div>
-
-    </div>
-
-</div>
+        </x-panel.modal>
 
 </main> <script> $(document).ready(function () { /* |-------------------------------------------------------------------------- | DATATABLE |-------------------------------------------------------------------------- */ $('#paginar_table').DataTable({ pageLength: 10, language: { search: "Buscar:", lengthMenu: "Mostrar _MENU_ registros", info: "Mostrando _START_ a _END_ de _TOTAL_ registros", infoEmpty: "No hay registros", zeroRecords: "No se encontraron registros", paginate: { first: "Primero", last: "Último", next: "Siguiente", previous: "Anterior" } } }); /* |-------------------------------------------------------------------------- | GUARDAR MENTOR |-------------------------------------------------------------------------- */ $("#btn_guardar").click(function () { var id_profesor = $("#id_profesor").val(); var id_alumno = $("#id_alumno").val(); if (!id_profesor) { swal({ position: "top", type: "warning", title: "Selecciona un docente", showConfirmButton: false, timer: 2500 }); return false; } if (!id_alumno) { swal({ position: "top", type: "warning", title: "Selecciona un alumno", showConfirmButton: false, timer: 2500 }); return false; } $("#btn_guardar").prop("disabled", true); $("#form_guardar_dual").submit(); }); /* |-------------------------------------------------------------------------- | ABRIR MODAL ELIMINAR |-------------------------------------------------------------------------- */ $("#paginar_table").on("click", ".elimina", function () { var id_duales_actuales = $(this).data("id_duales_actuales"); $("#eliminar_alumno").val(id_duales_actuales); $("#modal_elimina").modal("show"); }); /* |-------------------------------------------------------------------------- | CONFIRMAR ELIMINACIÓN |-------------------------------------------------------------------------- */ $("#confirma_elimina").click(function () { var eliminar_alumno = $("#eliminar_alumno").val(); if (!eliminar_alumno) { return false; } $("#confirma_elimina").prop("disabled", true); $("#form_delete") .attr( "action", "/duales/eliminacion_dual/" + eliminar_alumno ); $("#form_delete").submit(); }); }); </script>
 
+</div>
 @endsection

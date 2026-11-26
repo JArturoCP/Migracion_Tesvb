@@ -1,38 +1,31 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 @section('title', 'Calificaciones')
+@include('partials.panel.recursos_app')
 @section('content')
+<div class="tw-pantalla">
 
     @php
         $numeros_romanos = ['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII','XIII','XIV','XV'];
     @endphp
 
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h3 class="panel-title text-center">
-                        REGISTRO DE CALIFICACIONES DE <br> {{$nombre_alumno}}
-                    </h3>
-                </div>
-            </div>
-        </div>
-    </div>
+    <x-panel.encabezado :titulo="'Registro de calificaciones de '.$nombre_alumno" :migas="['Cómputo' => null]" />
 
-    <div class="row">
-        <div class="col-md-10 col-md-offset-1">
-            <table class="table text-center col-md-12">
-                <thead class="bg-info">
-                <tr style="border: 2px solid #3097d1">
-                    <th class="text-center">MATERIA</th>
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+        <div class="tw:w-full tw:px-2">
+            <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table class="tw-tabla-centrada tw:w-full tw-tabla tw:lg:w-full tw:px-2">
+                <thead class="tw:bg-sky-100">
+                <tr class="tw:border-2 tw:border-blue-500">
+                    <th class="tw:text-center">MATERIA</th>
                     @for ($i = 0; $i < $mayor_unidades; $i++)
-                        <th class="text-center">{{ $numeros_romanos[$i] ?? '' }}</th>
+                        <th class="tw:text-center">{{ $numeros_romanos[$i] ?? '' }}</th>
                     @endfor
-                    <th class="text-center">PROMEDIO</th>
-                    <th class="text-center">T.E.</th>
-                    <th class="text-center">Calificar</th>
+                    <th class="tw:text-center">PROMEDIO</th>
+                    <th class="tw:text-center">T.E.</th>
+                    <th class="tw:text-center">Calificar</th>
                 </tr>
                 </thead>
-                <tbody style="border: 2px solid #3097d1">
+                <tbody class="tw:border-2 tw:border-blue-500">
                 <?php $promedio_sum=0; $num_materias=0;?>
                 @foreach($array_materias as $materias)
                         <?php $cont_res = 0; ?>
@@ -44,7 +37,7 @@
                     @endif
 
                     <tr>
-                        <th class="text-center">{{ $materias['materia'] }}</th>
+                        <th class="tw:text-center">{{ $materias['materia'] }}</th>
                         @foreach($materias['calificaciones'] as $calificaciones)
                             @if($calificaciones != null)
                                 <td style="background: {{ $calificaciones['calificacion']>=70 ? ' ' : '#FFEE62' }}">
@@ -57,7 +50,7 @@
 
                         @for ($i = 0; $i < ($mayor_unidades - $cont_res); $i++)
                             @if($materias['unidades'] <= ($cont_res + $i))
-                                <td class="bg-info"></td>
+                                <td class="tw:bg-sky-100"></td>
                             @else
                                 <td>0</td>
                             @endif
@@ -74,46 +67,43 @@
                                 ($materias['curso'] == 'GLOBAL' ? 'EG' : ''))))) !!}
                         </td>
 
-                        <td class="text-center">
-                            <input style="width: 7em" type="button" class="btn btn-primary calificar_dual" data-id_carga="{{ $materias['id_carga_academica'] }}" value="Calificar">
+                        <td class="tw:text-center">
+                            <input type="button" class="calificar_dual tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap" data-id_carga="{{ $materias['id_carga_academica'] }}" value="Calificar">
                         </td>
                     </tr>
                 @endforeach
 
                 <tr>
                     <td colspan="1"></td>
-                    <td colspan="{{ $mayor_unidades }}" class="text-center"><strong>PROMEDIO</strong></td>
+                    <td colspan="{{ $mayor_unidades }}" class="tw:text-center"><strong>PROMEDIO</strong></td>
                     <?php $promedio = $promedio_sum / ($num_materias == 0 ? 1 : $num_materias); ?>
                     <td>{{ number_format($promedio, 2, '.', '') }}</td>
                     <td></td>
                 </tr>
                 </tbody>
             </table>
+</div>
         </div>
     </div>
 
-    <div class="modal fade" id="modal_calificar_dual_actual" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <form id="calificar_duales_actuales" class="form" action="{{url("/registrar_cal_duales/")}}" method="POST">
+    <x-panel.modal id="modal_calificar_dual_actual" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="myModalLabel">
+                <form id="calificar_duales_actuales" class="" action="{{url("/registrar_cal_duales/")}}" method="POST">
                     {{ csrf_field() }}
-                    <div class="modal-header bg-info">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title text-center" id="myModalLabel">Calificar a estudiante dual</h4>
+                    <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                        
+                        <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="myModalLabel">Calificar a estudiante dual</h4>
                     </div>
                     <div id="contenedor_cal_dual_actual"></div>
-                    <div class="row">
-                        <div class="col-md-8 col-md-offset-2">
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                                <button id="calificacion_duales_actuales" type="button" class="btn btn-primary">Guardar</button>
+                    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                        <div class="tw:w-full tw:px-2">
+                            <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                                <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                                <button id="calificacion_duales_actuales" type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap">Guardar</button>
                             </div>
                         </div>
                     </div>
                 </form>
-            </div>
-        </div>
-    </div>
+            </x-panel.modal>
 
    <script type="text/javascript">
 $(document).ready(function () {
@@ -229,4 +219,5 @@ $(document).ready(function () {
 });
 </script>
 
+</div>
 @endsection

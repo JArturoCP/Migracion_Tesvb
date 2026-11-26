@@ -1,20 +1,13 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 @section('title', 'Residencia')
+@include('partials.panel.recursos_app', ['graficas' => true])
 @section('content')
-    <div class="row">
-        <div class="col-md-4 col-md-offset-4">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <h3 class="panel-title text-center">Estadisticas Institucional</h3>
-                </div>
+<div class="tw-pantalla">
+    <x-panel.encabezado titulo="Estadisticas Institucional" :migas="['Residencia profesional' => null]" />
 
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-9 col-md-offset-1">
-            <ul class="nav nav-tabs">
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+        <div class="tw:w-full tw:px-2">
+            <ul class="tw-pestanas tw:mb-6 tw:flex tw:flex-wrap tw:gap-2 tw:border-b tw:border-gray-200 tw:dark:border-gray-800">
                 <li>
                     <a href="{{url('/residencia/institucional_estadisticas')}}">Carreras</a>
                 </li>
@@ -26,18 +19,18 @@
                 </li>
                 <li class="active"><a href="#">Por Empresa</a></li>
             </ul>
-            <br>
         </div>
     </div>
 
 
 
-            <div class="row">
-                <div class="col-md-10 col-md-offset-1">
-                    <div class="panel panel-primary">
-                        <div class="panel-body">
+            <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                <div class="tw:w-full tw:px-2">
+                    <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+                        <div class="tw:p-5 tw:sm:p-6">
 
-                            <table id="table_enviado" class="table table-bordered table-resposive">
+                            <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table id="table_enviado" class="tw-tabla tw-tabla-bordes">
                                 <thead>
                                 <tr>
                                     <th>Nombre de la empresa</th>
@@ -77,19 +70,17 @@
                                 </tr>
                                 </tbody>
                             </table>
+</div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-8 col-md-offset-2" id="container">
+            <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                <div class="tw:w-full tw:px-2" id="container">
 
                 </div>
             </div>
-            <div class="row">
-                <br>
-                <br>
-            </div>
+
             <script language="JavaScript">
                 $(document).ready(function() {
 
@@ -153,4 +144,5 @@
             </script>
 
 
+</div>
 @endsection

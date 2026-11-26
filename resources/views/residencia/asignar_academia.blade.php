@@ -1,18 +1,16 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 @section('title', 'Academia')
+@include('partials.panel.recursos_app')
 @section('content')
+<div class="tw-pantalla">
 
-    <main class="col-md-12">
-        <div class="row">
-            <div class="col-md-5 col-md-offset-3">
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title text-center">Academia</h3>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-7 col-md-offset-2">
-                <table class="table table-bordered table-resposive">
+    <main class="tw:w-full tw:lg:w-full tw:px-2">
+        <x-panel.encabezado titulo="Academia" :migas="['Residencia profesional' => null]" />
+<div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+            
+            <div class="tw:w-full tw:px-2">
+                <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table class="tw-tabla tw-tabla-bordes">
                     <thead>
                     <tr>
                         <th>Nombre del docente</th>
@@ -28,7 +26,7 @@
                             <td>{{$academia->cargo}}</td>
 
                             <td>
-                                <a href="#!" class="modificar" data-id="{{ $academia->id_academia}}"><span class="glyphicon glyphicon-cog em2" aria-hidden="true"></span></a>
+                                <a href="#!" class="modificar tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base" data-id="{{ $academia->id_academia}}"><span class="fa fa-cog " aria-hidden="true"></span></a>
                             </td>
 
                         </tr>
@@ -36,41 +34,38 @@
 
                     </tbody>
                 </table>
+</div>
             </div>
         </div>
-        <div class="row">
+        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
             @if($maximo_academia==1)
             @else
-            <div class="col-md-1 col-md-offset-2">
-                <button data-toggle="modal"  data-tooltip="true" data-placement="left" title="Agregar " data-target="#modal_agregar_academia" type="button" class="btn btn-success btn-lg flotante">
-                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+            <div class="tw:w-full tw:px-2">
+                <button data-toggle="modal"  data-tooltip="true" data-placement="left" title="Agregar " data-target="#modal_agregar_academia" type="button" class="flotante tw:fixed tw:right-6 tw:bottom-6 tw:z-40 tw:inline-flex tw:size-14 tw:items-center tw:justify-center tw:rounded-full tw:bg-brand-500 tw:text-xl tw:text-white tw:shadow-theme-lg tw:hover:bg-brand-600">
+                    <span class="fa fa-plus" aria-hidden="true"></span>
                 </button>
             </div>
             @endif
- <br><br>
         </div>
-        <br>
     </main>
 
 
 
-    <div class="modal fade" id="modal_agregar_academia" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="exampleModalLabel">Agregar comisionado</h4>
+    <x-panel.modal id="modal_agregar_academia" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="exampleModalLabel">
+                <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                    
+                    <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="exampleModalLabel">Agregar comisionado</h4>
                 </div>
-                <div class="modal-body">
+                <div class="tw-modal-cuerpo">
 
-                    <form id="form_agregar" class="form" action="{{url("/residencia/agregar_academia")}}" role="form" method="POST" >
+                    <form id="form_agregar" class="" action="{{url("/residencia/agregar_academia")}}" role="form" method="POST" >
                         {{ csrf_field() }}
-                          <div class="row">
-                            <div class="col-md-6 col-md-offset-3">
+                          <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                            <div class="tw:w-full tw:lg:max-w-2xl tw:px-2">
 
-                                <div class="dropdown">
+                                <div class="tw:mb-4">
                                     <label for="selectPersonal">Plantilla de docentes</label>
-                                    <select class="form-control" id="id_profesor" name="id_profesor" required>
+                                    <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="id_profesor" name="id_profesor" required>
                                         <option disabled selected hidden>Selecciona una opción</option>
                                         @foreach($plantillas as $plantilla)
                                             <option value="{{$plantilla->id_personal}}"> {{$plantilla->nombre}}</option>
@@ -79,12 +74,12 @@
                                 </div>
                             </div>
                              </div>
-                        <div class="row">
-                            <div class="col-md-6 col-md-offset-3">
+                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                            <div class="tw:w-full tw:lg:max-w-2xl tw:px-2">
 
-                                <div class="dropdown">
+                                <div class="tw:mb-4">
                                     <label for="selectPersonal">Cargos de academia</label>
-                                    <select class="form-control" id="id_cargo" name="id_cargo" required>
+                                    <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="id_cargo" name="id_cargo" required>
                                         <option disabled selected hidden>Selecciona una opción</option>
                                         @foreach($cargos_academia as $cargo_academia)
                                             <option value="{{$cargo_academia->id_cargo_academia}}"> {{$cargo_academia->cargo}}</option>
@@ -95,41 +90,34 @@
                         </div>
 
 
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <button type="submit"  class="btn btn-primary" >Guardar</button>
+                    <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                        <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                        <button type="submit"  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Guardar</button>
                     </div>
                     </form>
                 </div>
-            </div>
-        </div>
-    </div>
+            </x-panel.modal>
 
 
     {{---modificar miembro de academia--}}
-    <div class="modal fade" id="modal_modificar_academia" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <form class="form" action="{{url("/residencia/modificacion_academia/")}}" role="form" method="POST" >
+    <x-panel.modal id="modal_modificar_academia" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="myModalLabel">
+                <form action="{{url("/residencia/modificacion_academia/")}}" role="form" method="POST" >
                     {{ csrf_field() }}
-                    <div class="modal-header bg-info">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title text-center" id="myModalLabel">Modificar Academia</h4>
+                    <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                        
+                        <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="myModalLabel">Modificar Academia</h4>
                     </div>
                     <div id="contenedor_modificar_academia">
 
 
                     </div>
 
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <input  type="submit" class="btn btn-primary" value="Guardar"/>
+                    <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                        <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                        <input  type="submit" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" value="Guardar"/>
                     </div>
                 </form>
-            </div>
-
-        </div>
-    </div>
+            </x-panel.modal>
 
 
 
@@ -151,4 +139,5 @@
             });
         });
     </script>
+</div>
 @endsection

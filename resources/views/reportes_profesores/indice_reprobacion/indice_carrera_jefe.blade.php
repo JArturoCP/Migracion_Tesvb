@@ -1,35 +1,30 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 @section('title', 'Indice de reprobación')
+@include('partials.panel.recursos_app')
 @section('content')
+<div class="tw-pantalla">
+    <x-panel.encabezado titulo="Índices de reprobación" :migas="['Reportes de profesores' => null]" />
     <?php
     $jefe_division = session()->has('jefe_division') ? session()->has('jefe_division') : false;
     ?>
 
     @if($estado == 1)
-        <div class="row">
-            <div class="col-md-8  col-md-offset-2">
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title text-center">Indices de Reprobación<br><b>@foreach($carreras as $carrera) {{ $carrera->nombre }} @endforeach</b></h3>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-3 col-md-offset-2" style="display: none" >
+        <h3 class="tw:mb-4 tw:text-center tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">Indices de Reprobación<br><b>@foreach($carreras as $carrera) {{ $carrera->nombre }} @endforeach</b></h3>
+        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+            <div class="tw:w-full tw:lg:max-w-2xl tw:px-2" style="display: none" >
                 <div class="dropdown-center">
                     <label for="selectCargo"></label>
-                    <select name="id_carrera" id="id_carrera" class="form-control ">
+                    <select name="id_carrera" id="id_carrera" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11">
                         @foreach($carreras as $carrera)
                             <option value="{{$carrera->id_carrera}}" selected="selected" >{{$carrera->nombre}}</option>
                         @endforeach
                     </select>
                 </div>
             </div>
-            <div class="col-md-3 col-md-offset-5" >
+            <div class="tw:w-full tw:lg:max-w-2xl tw:px-2" >
                 <div class="dropdown-center">
                     <label for="selectCargo">Categoria</label>
-                    <select name="id_categoria" id="id_categoria" class="form-control ">
+                    <select name="id_categoria" id="id_categoria" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11">
                         <option disabled selected>Selecciona cargo...</option>
                         @foreach($categorias as $categoria)
                             <option value="{{$categoria->id_cargo}}" >{{$categoria->cargo}}</option>
@@ -40,50 +35,41 @@
         </div>
     @else
         @if($jefe_division != true)
-        <div class="row">
-            <div class="col-md-10 col-xs-10 col-md-offset-1">
+        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+            <div class="tw:w-full tw:px-2">
                 <p>
-                    <span class="glyphicon glyphicon-arrow-right"></span>
-                    <a href="{{url("/indices_repro_prof/")}}">Planes de Estudios</a>
-                    <span class="glyphicon glyphicon-chevron-right"></span>
+                    <span class="fa fa-arrow-right"></span>
+                    <a class="tw:text-brand-500 tw:hover:underline" href="{{url("/indices_repro_prof/")}}">Planes de Estudios</a>
+                    <span class="fa fa-chevron-right"></span>
                     <span>Indice Reprobación docentes</span>
 
                 </p>
-                <br>
             </div>
         </div>
         @endif
-        <div class="row">
-            <div class="col-md-2 col-md-offset-8">
+        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+            <div class="tw:w-full tw:px-2">
                 @foreach($carreras as $carrera)
-                    <a href="/indices_repro_prof/excel_indice_rep_prof/{{$carrera->id_carrera}}/{{$id_categoria}}" class="btn btn-success">Exportar concentrado <span class="oi oi-document p-1"></span></a>
+                    <a href="/indices_repro_prof/excel_indice_rep_prof/{{$carrera->id_carrera}}/{{$id_categoria}}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap">Exportar concentrado <span class="oi oi-document tw:p-1"></span></a>
                 @endforeach
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-8  col-md-offset-2">
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title text-center">Indices de Reprobación<br><b>@foreach($carreras as $carrera) {{ $carrera->nombre }} @endforeach</b></h3>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-3 col-md-offset-2" style="display: none" >
+        <h3 class="tw:mb-4 tw:text-center tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">Indices de Reprobación<br><b>@foreach($carreras as $carrera) {{ $carrera->nombre }} @endforeach</b></h3>
+        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+            <div class="tw:w-full tw:lg:w-6/12 tw:px-2" style="display: none" >
                 <div class="dropdown-center">
                     <label for="selectCargo">Carrera</label>
-                    <select name="id_carrera" id="id_carrera" class="form-control ">
+                    <select name="id_carrera" id="id_carrera" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11">
                         @foreach($carreras as $carrera)
                             <option value="{{$carrera->id_carrera}}" selected="selected" >{{$carrera->nombre}}</option>
                         @endforeach
                     </select>
                 </div>
             </div>
-            <div class="col-md-3 col-md-offset-4" >
+            <div class="tw:w-full tw:lg:w-6/12 tw:px-2" >
                 <div class="dropdown-center">
                     <label for="selectCargo">Categoria</label>
-                    <select name="id_categoria" id="id_categoria" class="form-control ">
+                    <select name="id_categoria" id="id_categoria" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11">
                         @foreach($categorias as $categoria)
                             @if($categoria->id_cargo==$id_categoria)
                                 <option value="{{$categoria->id_cargo}}" selected="selected">{{$categoria->cargo}}</option>
@@ -95,15 +81,16 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <p><br></p>
+        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+            <p class="tw:w-full"><br></p>
         </div>
-        <div class="row">
-            <div class="col-md-10 col-md-offset-1">
-                <div class="panel panel-info">
-                    <div class="panel-body">
+        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+            <div class="tw:w-full tw:px-2">
+                <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+                    <div class="tw:p-5 tw:sm:p-6">
                         <?php $i=1; ?>
-                        <table class="table table-bordered table-resposive">
+                        <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table class="tw-tabla tw-tabla-bordes">
                             <thead>
                             <tr>
                                 <th>No.</th>
@@ -136,7 +123,7 @@
                                     <td>{{$materia['total_estudiantes'] }}</td>
                                     @if($materia['max_unidad'] == 1)
                                         @foreach($materia['unidades'] as $unidades)
-                                            <td style="background: lightblue">{{ $unidades['porcentaje_reprobacion'].'%' }}</td>
+                                            <td class="tw:bg-sky-100 tw:dark:bg-sky-500/15" >{{ $unidades['porcentaje_reprobacion'].'%' }}</td>
                                         @endforeach
                                         <td></td>
                                         <td></td>
@@ -149,7 +136,7 @@
                                         <td></td>
                                     @elseif($materia['max_unidad'] == 2)
                                         @foreach($materia['unidades'] as $unidades)
-                                            <td style="background: lightblue">{{ $unidades['porcentaje_reprobacion'].'%' }}</td>
+                                            <td class="tw:bg-sky-100 tw:dark:bg-sky-500/15" >{{ $unidades['porcentaje_reprobacion'].'%' }}</td>
                                         @endforeach
                                         <td></td>
                                         <td></td>
@@ -161,7 +148,7 @@
                                         <td></td>
                                     @elseif($materia['max_unidad'] == 3)
                                         @foreach($materia['unidades'] as $unidades)
-                                            <td style="background: lightblue">{{ $unidades['porcentaje_reprobacion'].'%' }}</td>
+                                            <td class="tw:bg-sky-100 tw:dark:bg-sky-500/15" >{{ $unidades['porcentaje_reprobacion'].'%' }}</td>
                                         @endforeach
                                         <td></td>
                                         <td></td>
@@ -172,7 +159,7 @@
                                         <td></td>
                                     @elseif($materia['max_unidad'] == 4)
                                         @foreach($materia['unidades'] as $unidades)
-                                            <td style="background: lightblue">{{ $unidades['porcentaje_reprobacion'].'%' }}</td>
+                                            <td class="tw:bg-sky-100 tw:dark:bg-sky-500/15" >{{ $unidades['porcentaje_reprobacion'].'%' }}</td>
                                         @endforeach
                                         <td></td>
                                         <td></td>
@@ -182,7 +169,7 @@
                                         <td></td>
                                     @elseif($materia['max_unidad'] == 5)
                                         @foreach($materia['unidades'] as $unidades)
-                                            <td style="background: lightblue">{{ $unidades['porcentaje_reprobacion'].'%' }}</td>
+                                            <td class="tw:bg-sky-100 tw:dark:bg-sky-500/15" >{{ $unidades['porcentaje_reprobacion'].'%' }}</td>
                                         @endforeach
                                         <td></td>
                                         <td></td>
@@ -191,7 +178,7 @@
                                         <td></td>
                                     @elseif($materia['max_unidad'] == 6)
                                         @foreach($materia['unidades'] as $unidades)
-                                            <td style="background: lightblue">{{ $unidades['porcentaje_reprobacion'].'%' }}</td>
+                                            <td class="tw:bg-sky-100 tw:dark:bg-sky-500/15" >{{ $unidades['porcentaje_reprobacion'].'%' }}</td>
                                         @endforeach
                                         <td></td>
                                         <td></td>
@@ -199,25 +186,25 @@
                                         <td></td>
                                     @elseif($materia['max_unidad'] == 7)
                                         @foreach($materia['unidades'] as $unidades)
-                                            <td style="background: lightblue">{{ $unidades['porcentaje_reprobacion'].'%' }}</td>
+                                            <td class="tw:bg-sky-100 tw:dark:bg-sky-500/15" >{{ $unidades['porcentaje_reprobacion'].'%' }}</td>
                                         @endforeach
                                         <td></td>
                                         <td></td>
                                         <td></td>
                                     @elseif($materia['max_unidad'] == 8)
                                         @foreach($materia['unidades'] as $unidades)
-                                            <td style="background: lightblue">{{ $unidades['porcentaje_reprobacion'].'%' }}</td>
+                                            <td class="tw:bg-sky-100 tw:dark:bg-sky-500/15" >{{ $unidades['porcentaje_reprobacion'].'%' }}</td>
                                         @endforeach
                                         <td></td>
                                         <td></td>
                                     @elseif($materia['max_unidad'] == 9)
                                         @foreach($materia['unidades'] as $unidades)
-                                            <td style="background: lightblue">{{ $unidades['porcentaje_reprobacion'].'%' }}</td>
+                                            <td class="tw:bg-sky-100 tw:dark:bg-sky-500/15" >{{ $unidades['porcentaje_reprobacion'].'%' }}</td>
                                         @endforeach
                                         <td></td>
                                     @elseif($materia['max_unidad'] == 10)
                                         @foreach($materia['unidades'] as $unidades)
-                                            <td style="background: lightblue">{{ $unidades['porcentaje_reprobacion'].'%' }}</td>
+                                            <td class="tw:bg-sky-100 tw:dark:bg-sky-500/15" >{{ $unidades['porcentaje_reprobacion'].'%' }}</td>
                                         @endforeach
 
                                     @else
@@ -239,14 +226,15 @@
 
                             </tbody>
                         </table>
+</div>
                     </div>
                 </div>
             </div>
         </div>
 
     @endif
-    <div class="row">
-        <p><br></p>
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+        <p class="tw:w-full"><br></p>
     </div>
 
     <script type="text/javascript">
@@ -269,4 +257,5 @@
     </script>
 
 
+</div>
 @endsection

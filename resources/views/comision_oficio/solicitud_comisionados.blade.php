@@ -1,31 +1,22 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 @section('title', 'Personal comisionado')
+@include('partials.panel.recursos_app', ['validacion' => true, 'pickatime' => true])
 @section('content')
-    <main class="col-md-12">
-        <div class="row">
-            <div class="col-md-5 col-md-offset-3">
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title text-center">Datos de la solicitud de la comisión</h3>
-                    </div>
-                </div>
-            </div>
-        </div>
+<div class="tw-pantalla">
+    <main class="tw:w-full tw:lg:w-full tw:px-2">
+        <x-panel.encabezado titulo="Datos de la solicitud de la comisión" :migas="['Oficios de comisión' => null]" />
 
-                <div class="row">
+                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
                     @if($dependencias_r->dependenciasr == 3)
-                        <p style="text-align: center">Agregar otra dependencia <button data-toggle="modal"  data-tooltip="true" data-placement="left" title="Agregar otra dependencia" data-target="#modal_dependencia_agregar" type="button" class="btn btn-success" disabled="disabled">
-                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                            </button></p>
+                        <p class="tw:w-full tw:text-center">Agregar otra dependencia <button data-toggle="modal"  data-tooltip="true" data-placement="left" title="Agregar otra dependencia" data-target="#modal_dependencia_agregar" type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base" disabled="disabled"><span class="fa fa-plus" aria-hidden="true"></span></button></p>
                         @elseif($dependencias_r->dependenciasr == 0 || $dependencias_r->dependenciasr == 1|| $dependencias_r->dependenciasr == 2)
 
 
-<p style="text-align: center">Agregar otra dependencia <button data-toggle="modal"  data-tooltip="true" data-placement="left" title="Agregar otra dependencia" data-target="#modal_dependencia_agregar" type="button" class="btn btn-success">
-        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-    </button></p>
+<p class="tw:w-full tw:text-center">Agregar otra dependencia <button data-toggle="modal"  data-tooltip="true" data-placement="left" title="Agregar otra dependencia" data-target="#modal_dependencia_agregar" type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"><span class="fa fa-plus" aria-hidden="true"></span></button></p>
                     @endif
-                    <div class="col-md-10 col-md-offset-1">
-                        <table class="table table-bordered table-resposive">
+                    <div class="tw:w-full tw:px-2">
+                        <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table class="tw-tabla tw-tabla-bordes">
                             <thead>
                             <tr>
                                 <th>Dependencia </th>
@@ -45,11 +36,11 @@
                                     <td>{{$dependencias->nombre_municipio }}</td>
                                     <td>{{$dependencias->nombre_estado }}</td>
                                     <td>
-                                        <a href="#!" class="modificar_dependencia" data-id="{{ $dependencias->id_depend_domicilio}}"><span class="glyphicon glyphicon-cog em2" aria-hidden="true"></span></a>
+                                        <a href="#!" class="modificar_dependencia tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base" data-id="{{ $dependencias->id_depend_domicilio}}"><span class="fa fa-cog " aria-hidden="true"></span></a>
                                     </td>
 
                                     <td>
-                                        <a class="eliminar_dependencia" data-id="{{ $dependencias->id_depend_domicilio}}"><span class="glyphicon glyphicon-trash em2" aria-hidden="true"></span></a>
+                                        <a class="eliminar_dependencia tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-red-600 tw:ring-1 tw:ring-red-300 tw:ring-inset tw:hover:bg-red-50 tw:dark:bg-gray-800 tw:dark:text-red-500 tw:dark:ring-red-500/40 tw:dark:hover:bg-red-500/10 tw:size-9 tw:text-base" data-id="{{ $dependencias->id_depend_domicilio}}"><span class="fa fa-trash " aria-hidden="true"></span></a>
                                     </td>
 
                                 </tr>
@@ -57,8 +48,10 @@
                             </tbody>
 
                         </table>
+</div>
 
-                        <table class="table table-bordered table-resposive">
+                        <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table class="tw-tabla tw-tabla-bordes">
                     <thead>
                     <tr>
                         <th>Motivo de la comisión </th>
@@ -85,36 +78,32 @@
                             <td>{{$lugar_salida->descripcion}}</td>
                             <td>{{$lugar_regreso->descripcion}}</td>
                             <td>
-                                <a href="#!" class="modificar_oficio" data-id="{{ $solicitudes->id_oficio }}"><span class="glyphicon glyphicon-cog em2" aria-hidden="true"></span></a>
+                                <a href="#!" class="modificar_oficio tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base" data-id="{{ $solicitudes->id_oficio }}"><span class="fa fa-cog " aria-hidden="true"></span></a>
                             </td>
 
                             <td>
-                                <a class="eliminar" data-id="{{ $solicitudes->id_oficio}}"><span class="glyphicon glyphicon-trash em2" aria-hidden="true"></span></a>
+                                <a class="eliminar tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-red-600 tw:ring-1 tw:ring-red-300 tw:ring-inset tw:hover:bg-red-50 tw:dark:bg-gray-800 tw:dark:text-red-500 tw:dark:ring-red-500/40 tw:dark:hover:bg-red-500/10 tw:size-9 tw:text-base" data-id="{{ $solicitudes->id_oficio}}"><span class="fa fa-trash " aria-hidden="true"></span></a>
                             </td>
 
                         </tr>
                     </tbody>
 
                 </table>
+</div>
             </div>
 
 
         </div>
-        <div class="row">
-            <div class="col-md-5 col-md-offset-3">
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title text-center">Personal comisionado</h3>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-1" >
-            <button data-toggle="modal"  data-tooltip="true" data-placement="left" title="Agregar comisionado" data-target="#modal_crear" type="button" class="btn btn-success btn-lg flotante">
-                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+            <h3 class="tw:mb-4 tw:text-center tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">Personal comisionado</h3>
+            <div class="tw:w-full tw:lg:w-1/12 tw:lg:grow tw:px-2" >
+            <button data-toggle="modal"  data-tooltip="true" data-placement="left" title="Agregar comisionado" data-target="#modal_crear" type="button" class="flotante tw:fixed tw:right-6 tw:bottom-6 tw:z-40 tw:inline-flex tw:size-14 tw:items-center tw:justify-center tw:rounded-full tw:bg-brand-500 tw:text-xl tw:text-white tw:shadow-theme-lg tw:hover:bg-brand-600">
+                <span class="fa fa-plus" aria-hidden="true"></span>
             </button>
             </div>
-            <div class="col-md-6 col-md-offset-3">
-                <table class="table table-bordered table-resposive">
+            <div class="tw:w-full tw:lg:w-6/12 tw:lg:grow tw:px-2">
+                <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table class="tw-tabla tw-tabla-bordes">
                     <thead>
                     <tr>
                         <th>Nombre</th>
@@ -141,51 +130,48 @@
                             @endif
 
                             <td>
-                                <a class="eliminado" data-id="{{ $comisionado->id_oficio_personal}}"><span class="glyphicon glyphicon-trash em2" aria-hidden="true"></span></a>
+                                <a class="eliminado tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-red-600 tw:ring-1 tw:ring-red-300 tw:ring-inset tw:hover:bg-red-50 tw:dark:bg-gray-800 tw:dark:text-red-500 tw:dark:ring-red-500/40 tw:dark:hover:bg-red-500/10 tw:size-9 tw:text-base" data-id="{{ $comisionado->id_oficio_personal}}"><span class="fa fa-trash " aria-hidden="true"></span></a>
                             </td>
                         </tr>
                     @endforeach
 
                     </tbody>
                 </table>
+</div>
             </div>
         </div>
-<div class="row">
-    <div class="col-md-2 col-md-offset-5">
+<div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+    <div class="tw:w-full tw:px-2 tw:text-right">
         @if($encontrado ==1 and $dependencias_r->dependenciasr > 0 )
-        <td class="text-center">
-            <button type="button" class="btn btn-success btn-lg btn-block" onclick="window.location='{{ url('/oficios/solicitudenviar/'. $solicitudes->id_oficio ) }}'" title="Enviar">Enviar</button>
+        <td class="tw:text-center">
+            <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap" onclick="window.location='{{ url('/oficios/solicitudenviar/'. $solicitudes->id_oficio ) }}'" title="Enviar">Enviar</button>
         </td>
         @endif
         @if($encontrado ==0 || $dependencias_r->dependenciasr == 0 )
-                <td class="text-center">
-                    <button id="mensaje" type="button" class="btn btn-success btn-lg btn-block" title="Enviar">Enviar</button>
+                <td class="tw:text-center">
+                    <button id="mensaje" type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap" title="Enviar">Enviar</button>
                 </td>
             @endif
-        <br>
     </div>
-    <br>
 </div>
 
 
-            <div class="modal fade" id="modal_crear" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title" id="exampleModalLabel">Agregar comisionado</h4>
+            <x-panel.modal id="modal_crear" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="exampleModalLabel">
+                        <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                            
+                            <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="exampleModalLabel">Agregar comisionado</h4>
                         </div>
-                        <div class="modal-body">
+                        <div class="tw-modal-cuerpo">
 
-                            <form id="form_agregar" class="form" action="{{url("/oficios/comisionado/agregarcomisionados")}}" role="form" method="POST" >
+                            <form id="form_agregar" class="" action="{{url("/oficios/comisionado/agregarcomisionados")}}" role="form" method="POST" >
                                 {{ csrf_field() }}
                             <input type="hidden" id="id_oficio" name="id_oficio" value="{{$oficios->id_oficio}}">
-                            <div class="row">
-                                <div class="col-md-6 col-md-offset-3">
+                            <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                <div class="tw:w-full tw:lg:max-w-2xl tw:px-2">
 
-                                    <div class="dropdown">
+                                    <div class="tw:mb-4">
                                         <label for="selectPersonal">Personal comisionado</label>
-                                        <select class="form-control" id="selectPersonal" name="selectPersonal" >
+                                        <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="selectPersonal" name="selectPersonal" >
                                             <option disabled selected hidden>Selecciona una opción</option>
                                             @foreach($personales as $personal)
                                                 <option value="{{$personal->id_personal}}"> {{$personal->nombre}}</option>
@@ -195,20 +181,20 @@
                                 </div>
 
                             </div>
-                            <div class="row">
-                                <div class="col-md-4 col-md-offset-1">
-                                    <div class="dropdown">
+                            <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                <div class="tw:w-full tw:lg:w-6/12 tw:px-2">
+                                    <div class="tw:mb-4">
                                         <label for="selectViatico">Requiere viaticos</label>
-                                        <select name="selectViatico" id="selectViatico" class="form-control ">
+                                        <select name="selectViatico" id="selectViatico" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11">
 
 
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-4 col-md-offset-1">
-                                    <div class="dropdown">
+                                <div class="tw:w-full tw:lg:w-6/12 tw:px-2">
+                                    <div class="tw:mb-4">
                                         <label for="selectAutomovil">Requiere automovil</label>
-                                        <select name="selectAutomovil" id="selectAutomovil" class="form-control ">
+                                        <select name="selectAutomovil" id="selectAutomovil" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11">
                                             <option disabled selected>Selecciona...</option>
                                             <option value="2">SI</option>
                                             <option value="1">NO</option>
@@ -216,71 +202,65 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row" style="display: none" id="siguiente">
-                                <div class="col-md-4 col-md-offset-1">
-                                    <div class="dropdown">
+                            <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4" style="display: none" id="siguiente">
+                                <div class="tw:w-full tw:lg:w-6/12 tw:px-2">
+                                    <div class="tw:mb-4">
                                         <label for="automovil">Automovil</label>
-                                        <select class="form-control required" id="automoviles" name="automoviles" >
+                                        <select class="required tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="automoviles" name="automoviles" >
                                             <option disabled selected>Selecciona...</option>
                                         </select>
                                     </div>
-                                    <br>
                                 </div>
-                                <div class="col-md-4 col-md-offset-1">
-                                    <div class="form-group">
+                                <div class="tw:w-full tw:lg:w-6/12 tw:px-2">
+                                    <div class="tw:mb-4">
                                         <label for="licencia">licencia</label>
-                                        <input class="form-control required" id="licencia" name="licencia" />
+                                        <input class="required tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="licencia" name="licencia" />
                                     </div>
-                                    <br>
                                 </div>
                             </div>
                             </form>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                                <button id="guardar_agregado"  class="btn btn-primary" >Guardar</button>
+                            <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                                <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                                <button id="guardar_agregado"  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Guardar</button>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
+                    </x-panel.modal>
 {{---agregar dependencia----}}
-        <div class="modal fade" id="modal_dependencia_agregar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <form id="form_agregar" class="form" action="{{url("/oficio/dependencia/crear/")}}" role="form" method="POST" >
+        <x-panel.modal id="modal_dependencia_agregar" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="exampleModalLabel">
+                    <form id="form_agregar" class="" action="{{url("/oficio/dependencia/crear/")}}" role="form" method="POST" >
                         {{ csrf_field() }}
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="exampleModalLabel">Agregar otra dependencia</h4>
+                    <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                        
+                        <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="exampleModalLabel">Agregar otra dependencia</h4>
                     </div>
-                    <div class="modal-body">
+                    <div class="tw-modal-cuerpo">
 
 
                             <input type="hidden" id="id_oficio" name="id_oficio" value="{{$oficios->id_oficio}}">
-                            <div class="row">
-                                <div class="col-md-10 col-md-offset-1">
-                                    <div class="form-group">
+                            <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                <div class="tw:w-full tw:px-2">
+                                    <div class="tw:mb-4">
                                         <label for="dependencia">Dependencia de la  comisión</label>
-                                        <textarea class="form-control" id="dependencia" name="dependencia" rows="2" placeholder="Ingresa la dependencia de la comisión:
- en la Dirección de institutos Tecnologicos Descentralizados" style="" required></textarea>
+                                        <textarea class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500" id="dependencia" name="dependencia" rows="2" placeholder="Ingresa la dependencia de la comisión:
+ en la Dirección de institutos Tecnologicos Descentralizados" required></textarea>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-10 col-md-offset-1 ">
-                                    <div class="form-group">
+                            <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                <div class="tw:w-full tw:px-2">
+                                    <div class="tw:mb-4">
                                         <label for="domicilio3">Dirección de la dependencia de la comisión (calle y numero)</label>
-                                        <textarea class="form-control" id="domicilio" name="domicilio" rows="2" placeholder="Ingresa el domicilio de la comisión:
- en Felipe Villanueva No. 535, Col. Centro. " style="" required></textarea>
+                                        <textarea class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500" id="domicilio" name="domicilio" rows="2" placeholder="Ingresa el domicilio de la comisión:
+ en Felipe Villanueva No. 535, Col. Centro. " required></textarea>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row" >
+                            <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4" >
 
-                                <div class="col-md-5 col-md-offset-1">
-                                    <div class="dropdown">
-                                        <label for="exampleInputEmail1">Estado de la comisión<b style="color:red; font-size:23px;">*</b></label>
-                                        <select class="form-control  "placeholder="selecciona una Opcion" id="estados" name="estados" required>
+                                <div class="tw:w-full tw:lg:w-6/12 tw:px-2">
+                                    <div class="tw:mb-4">
+                                        <label for="exampleInputEmail1">Estado de la comisión<b class="tw:text-red-600 tw:dark:text-red-400 tw:text-lg">*</b></label>
+                                        <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"placeholder="selecciona una Opcion" id="estados" name="estados" required>
                                             <option disabled selected hidden>Selecciona una opción</option>
                                             @foreach($estados as $estados)
                                                 <option value="{{$estados->id_estado}}" data-esta="{{$estados->nombre_estado}}">{{$estados->nombre_estado}}</option>
@@ -289,10 +269,10 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-5 ">
-                                    <div class="dropdown">
-                                        <label for="exampleInputEmail1">Municipio o Ciudad de dependencia la comisión<b style="color:red; font-size:23px;">*</b></label>
-                                        <select class="form-control  "placeholder="selecciona una Opcion" id="municipio" name="municipio" value="" required>
+                                <div class="tw:w-full tw:lg:w-6/12 tw:px-2">
+                                    <div class="tw:mb-4">
+                                        <label for="exampleInputEmail1">Municipio o Ciudad de dependencia la comisión<b class="tw:text-red-600 tw:dark:text-red-400 tw:text-lg">*</b></label>
+                                        <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"placeholder="selecciona una Opcion" id="municipio" name="municipio" value="" required>
                                             <option disabled selected hidden>Selecciona una opción</option>
                                         </select>
                                     </div>
@@ -301,121 +281,97 @@
                             </div>
 
                     </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                            <button type="submit"  class="btn btn-primary" >Guardar</button>
+                        <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                            <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                            <button type="submit"  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Guardar</button>
                         </div>
                     </form>
-                    </div>
-                </div>
-            </div>
-        </div>
+                    </x-panel.modal>
+        
         {{----fin deendencia---}}
-        <div class="modal fade" id="modal_modificar_dependencia" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <form class="form" action="{{url("/oficios/dependencia/editar")}}" role="form" method="POST" >
+        <x-panel.modal id="modal_modificar_dependencia" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="myModalLabel">
+                    <form action="{{url("/oficios/dependencia/editar")}}" role="form" method="POST" >
                         {{ csrf_field() }}
-                        <div class="modal-header bg-info">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title text-center" id="myModalLabel">Modificar oficio</h4>
+                        <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                            
+                            <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="myModalLabel">Modificar oficio</h4>
                         </div>
                         <div id="contenedor_modificar_dependencia">
 
 
                         </div>
 
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                            <input  type="submit" class="btn btn-primary" value="Guardar"/>
+                        <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                            <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                            <input  type="submit" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" value="Guardar"/>
                         </div>
                     </form>
-                </div>
-
-            </div>
-        </div>
+                </x-panel.modal>
         {{---modificar oficio--}}
-        <div class="modal fade" id="modal_modificar_oficio" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <form class="form" action="{{url("/oficios/solicitud/modificar")}}" role="form" method="POST" >
+        <x-panel.modal id="modal_modificar_oficio" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="myModalLabel">
+                    <form action="{{url("/oficios/solicitud/modificar")}}" role="form" method="POST" >
                         {{ csrf_field() }}
-                        <div class="modal-header bg-info">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title text-center" id="myModalLabel">Modificar solicitud de oficio</h4>
+                        <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                            
+                            <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="myModalLabel">Modificar solicitud de oficio</h4>
                         </div>
                         <div id="contenedor_modificar_oficio">
 
 
                         </div>
 
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                            <input  type="submit" class="btn btn-primary" value="Guardar"/>
+                        <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                            <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                            <input  type="submit" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" value="Guardar"/>
                         </div>
                     </form>
-                </div>
-
-            </div>
-        </div>
+                </x-panel.modal>
         <form action="" method="POST" role="form" id="">
             {{method_field('DELETE') }}
             {{ csrf_field() }}
         </form>
         <!-- eliminar dependencia -->
-        <div id="modal_eliminar_dependencia" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-            <div class="modal-dialog modal-sm" role="document">
-                <div class="modal-content">
+        <x-panel.modal id="modal_eliminar_dependencia" tamano="sm" sin-relleno aria-labelledby="mySmallModalLabel">
                     <form action="{{url("/oficios/eliminar_dependencia/")}}" method="POST" role="form" id="form_eliminar_dependencia">
-                    <div class="modal-body">
+                    <div class="tw-modal-cuerpo tw:pt-14">
                         {{method_field('DELETE') }}
                             {{ csrf_field() }}
                             ¿Realmente deseas eliminar esta dependencia?
                         <input type="hidden" id="id_dependencia" name="id_dependencia" value="">
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <input id="confirma_elimina_dependencia" type="submit" class="btn btn-danger" value="Aceptar"/>
+                    <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                        <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                        <input id="confirma_elimina_dependencia" type="submit" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-red-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-red-700 tw:disabled:bg-red-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" value="Aceptar"/>
                     </div>
                     </form>
-                </div>
-            </div>
-        </div>
+                </x-panel.modal>
         <!-- eliminar oficio -->
-        <div id="modal_eliminar_oficio" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-            <div class="modal-dialog modal-sm" role="document">
-                <div class="modal-content">
+        <x-panel.modal id="modal_eliminar_oficio" tamano="sm" sin-relleno aria-labelledby="mySmallModalLabel">
                     <form action="{{url("/oficios/eliminar/")}}" method="POST" role="form" >
-                        <div class="modal-body">
+                        <div class="tw-modal-cuerpo tw:pt-14">
                             {{method_field('DELETE') }}
                             {{ csrf_field() }}
                             ¿Realmente deseas eliminar esta dependencia?
                             <input type="hidden" id="id_oficio_dep" name="id_oficio_dep" value="">
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                            <input id="confirma_elimina_oficio" type="submit" class="btn btn-danger" value="Aceptar"/>
+                        <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                            <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                            <input id="confirma_elimina_oficio" type="submit" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-red-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-red-700 tw:disabled:bg-red-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" value="Aceptar"/>
                         </div>
                     </form>
-                </div>
-            </div>
-        </div>
+                </x-panel.modal>
 
         <!-- Mensaje de no agregar comisionado -->
-        <div id="modal_agrega" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-            <div class="modal-dialog modal-sm" role="document">
-                <div class="modal-content">
-                    <div class="modal-body">
+        <x-panel.modal id="modal_agrega" tamano="sm" sin-relleno aria-labelledby="mySmallModalLabel">
+                    <div class="tw-modal-cuerpo tw:pt-14">
 
-                        <p class="text-center">No se a agregado <br> ningun comisionado o <br> ninguna dependencia</p>
+                        <p class="tw:text-center">No se a agregado <br> ningun comisionado o <br> ninguna dependencia</p>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                        <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cerrar</button>
 
                     </div>
-                </div>
-            </div>
-        </div>
+                </x-panel.modal>
 
     </main>
     <form action="" method="POST" role="form" id="form_eliminado">
@@ -551,4 +507,5 @@
 
         });
     </script>
+</div>
 @endsection

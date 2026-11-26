@@ -1,8 +1,8 @@
 <div>
 
 
-    <div class="row">
-        <div class="col-md-10 col-md-offset-1" >
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+        <div class="tw:w-full tw:px-2" >
             <p align="justify"><b>No. cuenta: </b> {{ $datos->cuenta }} <b>
                     <br> Nombre del alumno:</b> {{ $datos->nombre }} {{ $datos->apaterno}} {{ $datos->amaterno}}
                     <br><b>Curp:</b> {{ $datos->curp_al }}
@@ -63,10 +63,11 @@
 
     </div>
 
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+        <div class="tw:w-full tw:px-2">
             <p>Domicilio:</p>
-            <table id="table_envio" class="table table-bordered table-resposive">
+            <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table id="table_envio" class="tw-tabla tw-tabla-bordes">
                 <thead>
                 <tr>
                     <th>Estado</th>
@@ -108,6 +109,7 @@
                 </tr>
                 </tbody>
             </table>
+</div>
         </div>
     </div>
 

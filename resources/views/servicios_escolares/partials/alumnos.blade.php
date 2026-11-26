@@ -1,6 +1,8 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 @section('title', 'Estadisticas por Genero')
+@include('partials.panel.recursos_app', ['graficas' => true])
 @section('content')
+<div class="tw-pantalla">
 <?php 
     $totg_masc = 0; 
     $totg_fem = 0; 
@@ -14,32 +16,25 @@
     ?>
 @endforeach
 
-<div class="row">
-    <div class="col-md-4 col-md-offset-4">
-        <div class="panel panel-primary">
-            <div class="panel-heading text-center">
-                DATOS ESTADISTICOS DE LOS ESTUDIANTES DEL TESVB POR GENERO
-            </div>
-        </div>
-    </div>
-</div>
+<x-panel.encabezado titulo="Datos estadísticos de los estudiantes del TESVB por género" :migas="['Servicios escolares' => null]" />
 
-<div class="row">
-    <div class="col-md-8 col-md-offset-2">
-        <div class="panel panel-info" style="margin:5px 0;">
-            <div class="panel-heading">
-                <h4 class="panel-title">
-                    <a data-toggle="collapse" data-parent="#accordion" href="#ca_generales" style="text-decoration: none;">
+<div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+    <div class="tw:w-full tw:px-2">
+        <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+            <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:dark:border-gray-800 tw:bg-gray-50 tw:dark:bg-gray-900 tw:px-5 tw:py-4">
+                <h4 class="tw:text-base tw:font-medium tw:text-gray-800 tw:dark:text-white/90">
+                    <a class="tw:text-brand-500 tw:hover:underline tw:no-underline" data-toggle="collapse" data-parent="#accordion" href="#ca_generales">
                         DATOS GENERALES
                     </a>
                 </h4>
             </div>
-            <div id="ca_generales" class="panel-collapse collapse">
-                <div class="panel-body">
-                    <div class="col-md-6" style="padding-top: 5%;">
-                        <table class="table table-hover text-center my-0 border-table">
+            <div id="ca_generales" class="collapse">
+                <div class="tw:flex tw:flex-wrap tw:gap-y-4 tw:p-5 tw:sm:p-6">
+                    <div class="tw:w-full tw:lg:w-6/12 tw:px-2 tw:pt-[5%]">
+                        <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table class="tw-tabla-centrada border-table tw-tabla tw:my-0">
                             <thead>
-                                <tr class="text-center">
+                                <tr class="tw:text-center">
                                     <th></th>
                                     <th>MASCULINO</th>
                                     <th>FEMENINO</th>
@@ -55,13 +50,14 @@
                                 </tr>
                             </tbody>
                         </table>
-                        <div class="col-md-12 text-center">
-                            <a href="/generar_excel/alumnos" class="btn btn-success">
-                                Exportar información <span class="oi oi-document p-1"></span>
+</div>
+                        <div class="tw:w-full tw:lg:w-full tw:text-center tw:px-2">
+                            <a href="/generar_excel/alumnos" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap">
+                                Exportar información <span class="oi oi-document tw:p-1"></span>
                             </a>
                         </div>
                     </div>
-                    <div class="col-md-4" id="container_al"></div>
+                    <div class="tw:w-full tw:lg:w-4/12 tw:px-2" id="container_al"></div>
                 </div>
             </div>
         </div>
@@ -70,18 +66,19 @@
             @php
                 $total_carrera = $carrera['tot_masculino'] + $carrera['tot_femenino'];
             @endphp
-            <div class="panel panel-info" style="margin:5px 0;">
-                <div class="panel-heading">
-                    <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#ca_{{ $carrera['id_carrera'] }}" style="text-decoration: none;">
+            <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+                <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:dark:border-gray-800 tw:bg-gray-50 tw:dark:bg-gray-900 tw:px-5 tw:py-4">
+                    <h4 class="tw:text-base tw:font-medium tw:text-gray-800 tw:dark:text-white/90">
+                        <a class="tw:text-brand-500 tw:hover:underline tw:no-underline" data-toggle="collapse" data-parent="#accordion" href="#ca_{{ $carrera['id_carrera'] }}">
                             {{ $carrera['nom_carrera'] }}
                         </a>
                     </h4>
                 </div>
-                <div id="ca_{{ $carrera['id_carrera'] }}" class="panel-collapse collapse">
-                    <div class="panel-body">
-                        <div class="col-md-6">
-                            <table class="table table-hover text-center my-0 border-table">
+                <div id="ca_{{ $carrera['id_carrera'] }}" class="collapse">
+                    <div class="tw:flex tw:flex-wrap tw:gap-y-4 tw:p-5 tw:sm:p-6">
+                        <div class="tw:w-full tw:lg:w-6/12 tw:px-2">
+                            <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table class="tw-tabla-centrada border-table tw-tabla tw:my-0">
                                 <thead>
                                     <tr>
                                         <th>SEMESTRE</th>
@@ -114,8 +111,9 @@
                                     </tr>
                                 </tbody>
                             </table>
+</div>
                         </div>
-                        <div class="col-md-6" id="content_chart_{{ $carrera['id_carrera'] }}"></div>
+                        <div class="tw:w-full tw:lg:w-6/12 tw:px-2" id="content_chart_{{ $carrera['id_carrera'] }}"></div>
                     </div>
                 </div>
             </div>
@@ -167,4 +165,5 @@ $(document).ready(function() {
     @endforeach
 });
 </script>
+</div>
 @endsection

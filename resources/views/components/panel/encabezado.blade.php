@@ -3,7 +3,7 @@
     <x-panel.encabezado titulo="Actividades" :migas="['Tutorías' => url('/tutorias/inicioalu')]">
         <x-slot:extra><x-panel.badge>Periodo 2026-1</x-panel.badge></x-slot:extra>
     </x-panel.encabezado>
-    migas: [texto => url] entre "Inicio" (/inicio, siempre primero) y el título.
+    migas: [texto => url] entre "Inicio" (/inicio, siempre primero) y el título; url null = texto sin enlace (sección del módulo).
     extra (opcional): insignias o botones junto al título.
 --}}
 @props(['titulo', 'migas' => []])
@@ -18,10 +18,17 @@
         <ol class="tw:flex tw:flex-wrap tw:items-center tw:gap-1.5">
             @foreach (['Inicio' => url('/inicio')] + $migas as $texto => $url)
                 <li>
-                    <a class="tw:inline-flex tw:items-center tw:gap-1.5 tw:text-sm tw:text-gray-500 tw:hover:text-brand-500 tw:dark:text-gray-400" href="{{ $url }}">
-                        {{ $texto }}
-                        <svg class="tw:stroke-current" width="17" height="16" viewBox="0 0 17 16" fill="none" aria-hidden="true"><path d="M6.0765 12.667L10.2432 8.50033L6.0765 4.33366" stroke="" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" /></svg>
-                    </a>
+                    @if ($url)
+                        <a class="tw:inline-flex tw:items-center tw:gap-1.5 tw:text-sm tw:text-gray-500 tw:hover:text-brand-500 tw:dark:text-gray-400" href="{{ $url }}">
+                            {{ $texto }}
+                            <svg class="tw:stroke-current" width="17" height="16" viewBox="0 0 17 16" fill="none" aria-hidden="true"><path d="M6.0765 12.667L10.2432 8.50033L6.0765 4.33366" stroke="" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                        </a>
+                    @else
+                        <span class="tw:inline-flex tw:items-center tw:gap-1.5 tw:text-sm tw:text-gray-500 tw:dark:text-gray-400">
+                            {{ $texto }}
+                            <svg class="tw:stroke-current" width="17" height="16" viewBox="0 0 17 16" fill="none" aria-hidden="true"><path d="M6.0765 12.667L10.2432 8.50033L6.0765 4.33366" stroke="" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                        </span>
+                    @endif
                 </li>
             @endforeach
             <li class="tw:text-sm tw:text-gray-800 tw:dark:text-white/90">{{ $titulo }}</li>

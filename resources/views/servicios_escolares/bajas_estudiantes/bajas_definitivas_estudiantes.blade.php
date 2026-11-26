@@ -1,23 +1,16 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 @section('title', 'Bajas Definitivas Estudiantes')
+@include('partials.panel.recursos_app', ['datatables' => true])
 @section('content')
+<div class="tw-pantalla">
     @if($ver == 0)
         <!-- Selección de carrera -->
-        <div class="row">
-            <div class="col-md-10 col-xs-10 col-md-offset-1">
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title text-center">BAJAS DEFINITIVAS DE LOS ESTUDIANTES</h3>
-                        <h5 class="panel-title text-center">(PROGRAMAS DE ESTUDIO)</h5>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-4 col-md-offset-4">
-                <div class="dropdown">
-                    <label>Elige carrera<b style="color:red; font-size:23px;">*</b></label>
-                    <select class="form-control" id="carrera" name="carrera" required>
+        <x-panel.encabezado titulo="Bajas definitivas de los estudiantes (programas de estudio)" :migas="['Servicios escolares' => null]" />
+        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+            <div class="tw:w-full tw:lg:max-w-2xl tw:px-2">
+                <div class="tw:mb-4">
+                    <label>Elige carrera<b class="tw:text-red-600 tw:dark:text-red-400 tw:text-lg" >*</b></label>
+                    <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="carrera" name="carrera" required>
                         <option disabled selected hidden>Selecciona una opción</option>
                         @foreach($carreras as $carrera)
                             <option value="{{$carrera->id_carrera}}" data-esta="{{$carrera->nombre}}">{{$carrera->nombre}}</option>
@@ -28,21 +21,13 @@
         </div>
     @else
         <!-- Carrera seleccionada -->
-        <div class="row">
-            <div class="col-md-10 col-xs-10 col-md-offset-1">
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title text-center">BAJAS DEFINITIVAS DE LOS ESTUDIANTES</h3>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <x-panel.encabezado titulo="Bajas definitivas de los estudiantes" :migas="['Servicios escolares' => null]" />
 
-        <div class="row">
-            <div class="col-md-4 col-md-offset-4">
-                <div class="dropdown">
-                    <label>Elige carrera<b style="color:red; font-size:23px;">*</b></label>
-                    <select class="form-control" id="carrera" name="carrera" required>
+        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+            <div class="tw:w-full tw:lg:max-w-2xl tw:px-2">
+                <div class="tw:mb-4">
+                    <label>Elige carrera<b class="tw:text-red-600 tw:dark:text-red-400 tw:text-lg" >*</b></label>
+                    <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="carrera" name="carrera" required>
                         <option disabled hidden>Selecciona una opción</option>
                         @foreach($carreras as $carrera)
                             <option value="{{$carrera->id_carrera}}" {{ $carrera->id_carrera == $id_carrera ? 'selected' : '' }}>{{$carrera->nombre}}</option>
@@ -53,28 +38,29 @@
         </div>
 
         <!-- Tabla de alumnos -->
-        <div class="row">
-            <div class="col-md-6 col-md-offset-3">
-                <div class="panel panel-primary">
-                    <div class="panel-body">
-                        <table id="table_enviado" class="table table-bordered table-responsive">
+        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+            <div class="tw:w-full tw:px-2">
+                <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+                    <div class="tw:p-5 tw:sm:p-6">
+                        <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table id="table_enviado" class="tw-tabla tw-tabla-bordes tw:max-w-full tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800">
                             <thead>
                             <tr>
-                                <th class="text-center">#</th>
-                                <th class="text-center">NO.CUENTA</th>
-                                <th class="text-center">NOMBRE DEL ALUMNO</th>
-                                <th class="text-center">ACCIONES</th>
-                                <th class="text-center">SOLICITUD DE BAJA</th>
+                                <th class="tw:text-center">#</th>
+                                <th class="tw:text-center">NO.CUENTA</th>
+                                <th class="tw:text-center">NOMBRE DEL ALUMNO</th>
+                                <th class="tw:text-center">ACCIONES</th>
+                                <th class="tw:text-center">SOLICITUD DE BAJA</th>
                             </tr>
                             </thead>
                             <tbody>
                             @foreach($alumnos as $alumno)
                                 <tr>
-                                    <td class="text-center">{{$loop->iteration}}</td>
-                                    <td class="text-center">{{ $alumno->cuenta }}</td>
-                                    <td class="text-center">{{ $alumno->nombre }} {{ $alumno->apaterno }} {{ $alumno->amaterno }}</td>
-                                    <td style="text-align: center">
-                                        <button class="btn btn-primary btn-xs btn-round btn-edit"
+                                    <td class="tw:text-center">{{$loop->iteration}}</td>
+                                    <td class="tw:text-center">{{ $alumno->cuenta }}</td>
+                                    <td class="tw:text-center">{{ $alumno->nombre }} {{ $alumno->apaterno }} {{ $alumno->amaterno }}</td>
+                                    <td class="tw:text-center" >
+                                        <button class="btn-edit tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"
                                                 data-toggle="modal"
                                                 data-target="#modalEditar"
                                                 data-cuenta="{{ $alumno->cuenta }}"
@@ -82,128 +68,98 @@
                                                 data-apaterno="{{ $alumno->apaterno }}"
                                                 data-amaterno="{{ $alumno->amaterno }}"
                                                 data-id = "{{$alumno->id}}"
-                                                data-id-alumno = "{{$alumno->id_alumno}}">
-                                            <span class="glyphicon glyphicon-pencil"></span>
-                                        </button>
+                                                data-id-alumno = "{{$alumno->id_alumno}}"><span class="fa fa-pencil"></span></button>
 
-                                        <style>
-                                            .btn-round {
-                                                border-radius: 50%;
-                                                width: 30px;
-                                                height: 30px;
-                                                padding: 5px 0;
-                                                text-align: center;
-                                            }
-                                        </style>
                                     </td>
-                                    <td style="text-align: center">
-                                        <button type="button" class="btn btn-default btn-imprimir-baja"
+                                    <td class="tw:text-center" >
+                                        <button type="button" class="btn-imprimir-baja tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:size-9 tw:text-base"
                                                 data-id-alumno="{{ $alumno->id_alumno }}"
                                                 data-id="{{ $alumno->id }}"
-                                                data-tipo="definitiva">
-                                            <span class="glyphicon glyphicon-print"></span>
-                                        </button>
+                                                data-tipo="definitiva"><span class="fa fa-print"></span></button>
                                     </td>
 
                                 </tr>
                             @endforeach
                             </tbody>
                         </table>
+</div>
                     </div>
                 </div>
             </div>
         </div>
         <!-- Modal para registrar observación -->
-        <div class="modal fade" id="modalEditar" tabindex="-1" role="dialog" aria-labelledby="modalEditarLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
+        <x-panel.modal id="modalEditar" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="modalEditarLabel">
                 <form action="{{ url('/guardar-baja-definitiva') }}" method="POST">
                     @csrf
                     <div class="modal-content">
 
-                        <div class="modal-header bg-info">
-                            <h4 class="modal-title" style="text-align: center">Registrar Oficio para activacion de Alumnos</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+                        <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                            <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">Registrar Oficio para activacion de Alumnos</h4>
+                            
                         </div>
 
-                        <div class="modal-body">
+                        <div class="tw-modal-cuerpo">
                             <input type="hidden" name="id_alumno" id="idAlumnoHidden">
                             <input type="hidden" name="id" id="idHidden">
 
-                            <div class="form-group">
+                            <div class="tw:mb-4">
                                 <label>No. Cuenta:</label>
-                                <input type="text" class="form-control" id="editcuenta" disabled>
+                                <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="editcuenta" disabled>
                             </div>
-                            <div class="form-group">
+                            <div class="tw:mb-4">
                                 <label>Nombre:</label>
-                                <input type="text" class="form-control" id="editnombre" disabled>
+                                <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="editnombre" disabled>
                             </div>
-                            <div class="form-group">
+                            <div class="tw:mb-4">
                                 <label>Apellido Paterno:</label>
-                                <input type="text" class="form-control" id="editApaterno" disabled>
+                                <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="editApaterno" disabled>
                             </div>
-                            <div class="form-group">
+                            <div class="tw:mb-4">
                                 <label>Apellido Materno:</label>
-                                <input type="text" class="form-control" id="editAmaterno" disabled>
+                                <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="editAmaterno" disabled>
                             </div>
-                            <div class="form-group">
+                            <div class="tw:mb-4">
                                 <label>Número de Oficio:</label>
-                                <input type="text" class="form-control" name="observacion" id="observacion" required placeholder="Porfavor ingresa el número de oficio para activacion de alumno">
+                                <input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="observacion" id="observacion" required placeholder="Porfavor ingresa el número de oficio para activacion de alumno">
                             </div>
                         </div>
 
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-                            <button type="submit" class="btn btn-success">
-                                <span class="glyphicon glyphicon-floppy-disk"></span> Guardar Cambios
+                        <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                            <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap">
+                                <span class="fa fa-floppy-o"></span> Guardar Cambios
                             </button>
                         </div>
 
                     </div> 
                 </form>
-            </div> 
-        </div>
+            </x-panel.modal>
 
         <!-- Modal de Adeudo -->
-        <div class="modal fade" id="modalAdeudo" tabindex="-1" role="dialog" aria-labelledby="modalAdeudoLabel">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content" style="border-radius: 6px; border: none; box-shadow: 0 4px 20px rgba(0,0,0,0.15);">
+        <x-panel.modal id="modalAdeudo" tamano="md" sin-relleno aria-labelledby="modalAdeudoLabel">
 
-                    <div class="modal-body" style="text-align: center; padding: 30px 25px 20px;">
-                        <span class="glyphicon glyphicon-remove-circle" style="font-size: 48px; color: #d9534f;"></span>
-                        <h4 style="margin-top: 15px; margin-bottom: 5px; font-weight: 600; color: #333;">
+                    <div class="tw-modal-cuerpo tw:pt-14 tw:text-center tw:pt-7.5 tw:px-6.25 tw:pb-5">
+                        <span class="fa fa-times-circle-o"></span>
+                        <h4 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90 tw:mb-1 tw:mt-3.75 tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">
                             Adeudo pendiente
                         </h4>
-                        <p style="color: #777; font-size: 13px; margin-bottom: 18px;">
+                        <p class="tw:text-gray-500 tw:dark:text-gray-400 tw:text-[13px] tw:mb-4.5">
                             No se puede generar la solicitud de baja
                         </p>
-                        <p id="contadorAdeudos" style="color: #d9534f; font-size: 12px; font-weight: 600; margin-bottom: 8px;"></p>
+                        <p class="tw:text-xs tw:text-red-600 tw:dark:text-red-400 tw:font-semibold tw:mb-2" id="contadorAdeudos"></p>
 
-                        <ul id="listaDepartamentosAdeudo" style="
-                            list-style: none;
-                            padding: 0;
-                            margin: 0 0 5px;
-                            text-align: left;
-                            background: #f9f9f9;
-                            border-radius: 4px;
-                            border: 1px solid #eee;
-                            max-height: 260px;
-                            overflow-y: auto;
-                        ">
+                        <ul class="tw:text-left tw:list-none tw:p-0 tw:m-0 tw:mb-1.25 tw:bg-gray-50 tw:dark:bg-gray-900 tw:rounded tw:border tw:border-gray-100 tw:dark:border-gray-800 tw:max-h-65 tw:overflow-y-auto" id="listaDepartamentosAdeudo">
                             <!-- Se llena por JS -->
                         </ul>
                     </div>
 
-                    <div class="modal-footer" style="border-top: 1px solid #eee; text-align: center; padding: 12px;">
-                        <button type="button" class="btn btn-default btn-sm" data-dismiss="modal" style="min-width: 100px;">
+                    <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6 tw:text-center tw:border-t tw:border-gray-100 tw:dark:border-gray-800 tw:p-3">
+                        <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">
                             Cerrar
                         </button>
                     </div>
 
-                </div>
-            </div>
-        </div>
+                </x-panel.modal>
 
     @endif
 
@@ -255,7 +211,7 @@
                             data.departamentos.forEach(function (depto) {
                                 $lista.append(
                                     '<li style="padding: 8px 12px; border-bottom: 1px solid #eee; font-size: 13px; color: #555;">' +
-                                    '<span class="glyphicon glyphicon-exclamation-sign" style="color: #d9534f; margin-right: 6px; font-size: 11px;"></span>' +
+                                    '<span class="fa fa-exclamation-circle" style="color: #d9534f; margin-right: 6px; font-size: 11px;"></span>' +
                                     depto +
                                     '</li>'
                                 );
@@ -278,4 +234,5 @@
             });
         });
     </script>
+</div>
 @endsection

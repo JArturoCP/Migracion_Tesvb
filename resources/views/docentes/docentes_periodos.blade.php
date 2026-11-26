@@ -1,34 +1,34 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 @section('title', 'Periodos Docente')
+@include('partials.panel.recursos_app')
 @section('content')
-    <div class="row">
-        <div class="col-md-10 col-xs-10 col-md-offset-1">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h3 class="panel-title text-center">Periodos para evaluar unidades</h3>
-                </div>
-                <div class="panel-body">
-                    <div class="row col-md-12">
-                        <label for="" class="col-md-12 text-center">{{$nom_carrera}}</label>
-                        <label for="" class="col-md-6 text-left">
+<div class="tw-pantalla">
+    <x-panel.encabezado titulo="Periodos para evaluar unidades" :migas="['Docentes' => null]" />
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+        <div class="tw:w-full tw:px-2">
+            <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+                
+                <div class="tw:p-5 tw:sm:p-6">
+                    <div class="tw:w-full tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4 tw:lg:w-full tw:px-2">
+                        <label for="" class="tw:w-full tw:lg:w-full tw:text-center tw:px-2">{{$nom_carrera}}</label>
+                        <label for="" class="tw:w-full tw:lg:w-6/12 tw:text-left tw:px-2">
                             Materia: {{ $tot_unidades->nombre }}
                             <br>
                             Grupo: {{$grupo}}
                         </label>
-                        <label for="" class="col-md-6 text-right">
+                        <label for="" class="tw:w-full tw:lg:w-6/12 tw:text-right tw:px-2">
                             Clave: {{ $tot_unidades->clave }}
                             <br>
                             No. Unidades: {{ $tot_unidades->unidades }}
                         </label>
                     </div>
-                    <br><br><br>
-                    <hr style="border: 1px solid black"/>
-                    <div class="row col-md-12">
+                    <hr class="tw:border tw:border-gray-400 tw:dark:border-gray-600"/>
+                    <div class="tw:w-full tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4 tw:lg:w-full tw:px-2">
                         @foreach( $array_perio as $periodo)
-                            <div class="col-md-3 text-center" style="margin-bottom: 5px">
-                                <div style="border: 3px solid #d9edf7;border-radius: 5px; padding: 5px">
-                                    <div class="card-body">
-                                        <h5 class="card-title">
+                            <div class="tw:w-full tw:lg:w-3/12 tw:text-center tw:px-2 tw:mb-1" >
+                                <div class="tw:border-3 tw:border-sky-100 tw:dark:border-sky-500/20 tw:rounded-md tw:p-1.25">
+                                    <div class="tw:p-5 tw:sm:p-6">
+                                        <h5 class="tw:text-base tw:font-medium tw:text-gray-800 tw:dark:text-white/90">
                                             <strong>UNIDAD {{($periodo['id_unidad']==1 ? 'I' :
                                                 ($periodo['id_unidad']==2 ? 'II' :
                                                     ($periodo['id_unidad']==3 ? 'III' :
@@ -46,25 +46,25 @@
                                                                                                     ($periodo['id_unidad']==15 ? 'XV' : ' ' )))))))))))))))}}
                                             </strong>
                                         </h5>
-                                        <p class="card-text">
-                                        <h5><strong>Fecha limite para cargar  calificaciones de la unidad</strong></h5>
+                                        <p class="tw:text-sm tw:text-gray-500 tw:dark:text-gray-400">
+                                        <h5 class="tw:mb-2 tw:text-sm tw:font-semibold tw:text-gray-700 tw:dark:text-gray-300"><strong>Fecha limite para cargar  calificaciones de la unidad</strong></h5>
                                         @if($periodo['status']==1)
                                             <?php  $fecha_periodo=date("d-m-Y ",strtotime($periodo['fecha'])) ?>
-                                            <h6>{{$fecha_periodo }}</h6>
+                                            <h6 class="tw:mb-2 tw:text-sm tw:font-semibold tw:text-gray-700 tw:dark:text-gray-300">{{$fecha_periodo }}</h6>
                                             @if($periodo['evaluada']==1)
-                                                <a href="#!" class="btn btn-success tooltip-options link" data-toggle="tooltip" data-placement="top" title="Evaluación realizada"><span class="oi oi-check p-1"></span></a>
+                                                <a href="#!" class="tooltip-options link tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base" data-toggle="tooltip" data-placement="top" title="Evaluación realizada"><span class="oi oi-check tw:p-1"></span></a>
                                             @elseif($periodo['evaluada']==0)
-                                                <a href="#!" class="btn btn-danger text-white tooltip-options link" data-toggle="tooltip" data-placement="top" title="Evaluación pendiente"><span class="oi oi-clock"></span></a>
+                                                <a href="#!" class="tooltip-options link tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-red-600 tw:ring-1 tw:ring-red-300 tw:ring-inset tw:hover:bg-red-50 tw:dark:bg-gray-800 tw:dark:text-red-500 tw:dark:ring-red-500/40 tw:dark:hover:bg-red-500/10 tw:size-9 tw:text-base" data-toggle="tooltip" data-placement="top" title="Evaluación pendiente"><span class="oi oi-clock"></span></a>
                                             @endif
 
                                         @elseif($periodo['status']==2)
-                                            <h6 class="text-danger">No asignado</h6>
-                                            <button data-toggle="tooltip" data-placement="top" id="{{$periodo['id_unidad'] }}" title="Modificar fecha" class="btn btn btn-primary h-primary_m pl-5 pr-5 agregar">Asignar fecha</button></span>
-                                            {{--     <span data-toggle="modal" data-target="#{{$periodo['id_materia']  }}modal_evaluaciones{{$periodo['id_unidad']}}"><button data-toggle="tooltip" data-placement="top" title="Modificar fecha" class="btn btn btn-primary h-primary_m pl-5 pr-5" {{ ($i!=0 && isset($uni_asignadas[$i-1]) ? 'enable' : ($i==0) ? 'enable':'disabled') }}>Asignar fecha</button></span>
+                                            <h6 class="tw:text-red-600 tw:mb-2 tw:text-sm tw:font-semibold tw:text-gray-700 tw:dark:text-gray-300">No asignado</h6>
+                                            <button data-toggle="tooltip" data-placement="top" id="{{$periodo['id_unidad'] }}" title="Modificar fecha" class="h-primary_m agregar tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap">Asignar fecha</button></span>
+                                            {{--     <span data-toggle="modal" data-target="#{{$periodo['id_materia']  }}modal_evaluaciones{{$periodo['id_unidad']}}"><button data-toggle="tooltip" data-placement="top" title="Modificar fecha" class="h-primary_m tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:pl-12 tw:pr-12 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" {{ ($i!=0 && isset($uni_asignadas[$i-1]) ? 'enable' : ($i==0) ? 'enable':'disabled') }}>Asignar fecha</button></span>
                                             --}}
                                         @elseif($periodo['status']==3)
-                                            <h6 class="text-danger">No asignado</h6>
-                                            <button data-toggle="tooltip" data-placement="top"  title="Modificar fecha" class="btn btn btn-primary h-primary_m pl-5 pr-5" disabled>Asignar fecha</button></span>
+                                            <h6 class="tw:text-red-600 tw:mb-2 tw:text-sm tw:font-semibold tw:text-gray-700 tw:dark:text-gray-300">No asignado</h6>
+                                            <button data-toggle="tooltip" data-placement="top"  title="Modificar fecha" class="h-primary_m tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" disabled>Asignar fecha</button></span>
 
                                             @endif
                                             </p>
@@ -76,31 +76,25 @@
                 </div>
             </div>
         </div>
-        <div>
 
-        </div>
     </div>
-    <div class="modal fade" id="modal_registro" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <form id="form_agregar_periodo" class="form" action="{{url("/docente/acciones/crear_periodos")}}" role="form" method="POST" >
+    <x-panel.modal id="modal_registro" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="myModalLabel">
+                <form id="form_agregar_periodo" class="" action="{{url("/docente/acciones/crear_periodos")}}" role="form" method="POST" >
                     {{ csrf_field() }}
-                    <div class="modal-header bg-info">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title text-center" id="myModalLabel">Asignar fecha de evaluación</h4>
+                    <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                        
+                        <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="myModalLabel">Asignar fecha de evaluación</h4>
                     </div>
-                    <div class="modal-body">
+                    <div class="tw-modal-cuerpo">
                         <div id="contenedor_registro">
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <button  id="guardar_peri" type="button" style="" class="btn btn-primary"  >Guardar</button>
+                    <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                        <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                        <button  id="guardar_peri" type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap"  >Guardar</button>
                     </div>
                 </form>
-            </div>
-        </div>
-    </div>
+            </x-panel.modal>
 
 
     <script type="text/javascript">
@@ -137,4 +131,5 @@
 
         });
     </script>
+</div>
 @endsection

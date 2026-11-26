@@ -1,21 +1,21 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 @section('title', 'S.Escolares')
+@include('partials.panel.recursos_app')
 @section('content')
-    <div class="row">
-        <div class="col-md-10 col-xs-10 col-md-offset-1">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h3 class="panel-title text-center">Especialidades</h3>
-                    <h5 class="panel-title text-center">Programas de estudio</h5>
-                </div>
-                <div class="panel-body">
+<div class="tw-pantalla">
+    <x-panel.encabezado titulo="Especialidades Programas de estudio" :migas="['Servicios escolares' => null]" />
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+        <div class="tw:w-full tw:px-2">
+            <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+                
+                <div class="tw:p-5 tw:sm:p-6">
 
 
-                        <div class="row">
-                            <div class="col-md-4 col-md-offset-4">
-                                <div class="dropdown">
-                                    <label for="exampleInputEmail1">Elige carrrera<b style="color:red; font-size:23px;">*</b></label>
-                                    <select class="form-control  "placeholder="selecciona una Opcion" id="carrera" name="carrera" required>
+                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                            <div class="tw:w-full tw:lg:max-w-2xl tw:px-2">
+                                <div class="tw:mb-4">
+                                    <label for="exampleInputEmail1">Elige carrrera<b class="tw:text-red-600 tw:dark:text-red-400 tw:text-lg" >*</b></label>
+                                    <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"placeholder="selecciona una Opcion" id="carrera" name="carrera" required>
                                         <option disabled selected hidden>Selecciona una opción</option>
                                         @foreach($carreras as $carrera)
                                             @if($carrera->id_carrera==$id_carrera)
@@ -25,28 +25,23 @@
                                             @endif
                                         @endforeach
                                     </select>
-                                    <br>
                                 </div>
                             </div>
-                            <br>
                         </div>
                     @if($no_seleccion == 0)
                           @else
-                        <div class="row">
-                            <div class="col-md-2 col-md-offset-5" style="text-align: center;" >
-                                <button data-toggle="modal"  data-tooltip="true" data-placement="left" title="Agregar especialidad" data-target="#modal_crear" type="button" class="btn btn-success btn-lg flotante">
-                                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                            <div class="tw:w-full tw:px-2 tw:text-center"  >
+                                <button data-toggle="modal"  data-tooltip="true" data-placement="left" title="Agregar especialidad" data-target="#modal_crear" type="button" class="flotante tw:fixed tw:right-6 tw:bottom-6 tw:z-40 tw:inline-flex tw:size-14 tw:items-center tw:justify-center tw:rounded-full tw:bg-brand-500 tw:text-xl tw:text-white tw:shadow-theme-lg tw:hover:bg-brand-600">
+                                    <span class="fa fa-plus" aria-hidden="true"></span>
                                 </button>
-                                <br>
                             </div>
-                            <br>
                         </div>
-                    <div class="row">
-                        <br>
-                    </div>
-                        <div class="row">
-                        <div class="col-md-8 col-md-offset-2">
-                            <table id="tabla_especialidades" class="table table-bordered ">
+
+                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                        <div class="tw:w-full tw:px-2">
+                            <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table id="tabla_especialidades" class="tw-tabla tw-tabla-bordes">
                                 <thead>
                                 <tr>
                                     <th>No.</th>
@@ -64,13 +59,14 @@
                                         <th>{{$i++}}</th>
                                         <td>{{ $especialidad->especialidad }}</td>
                                         <td>{{ $especialidad->nombre }}</td>
-                                        <td class="text-center">
-                                            <a class="modificar" id="{{ $especialidad->id_especialidad }}"><span class="glyphicon glyphicon-edit em2" aria-hidden="true"></span></a>
+                                        <td class="tw:text-center">
+                                            <a class="modificar tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base" id="{{ $especialidad->id_especialidad }}"><span class="fa fa-pencil-square-o " aria-hidden="true"></span></a>
                                         </td>
                                     </tr>
                                 @endforeach
                                 </tbody>
                             </table>
+</div>
                         </div>
                         </div>
 
@@ -80,58 +76,49 @@
             </div>
         </div>
     </div>
-    <div>
-    </div>
 
-    <div class="modal fade" id="modal_modificar_especialidades" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
 
-                    <div class="modal-header bg-info">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title text-center" id="myModalLabel">Modificar nombre de la especialidad</h4>
+    <x-panel.modal id="modal_modificar_especialidades" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="myModalLabel">
+
+                    <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                        
+                        <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="myModalLabel">Modificar nombre de la especialidad</h4>
                     </div>
-                    <div class="modal-body">
+                    <div class="tw-modal-cuerpo">
                         <div id="contenedor_modificar_especialidades">
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <button     id="guardar_modificacion_especialidad"  style="" class="btn btn-primary"  >Guardar</button>
+                    <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                        <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                        <button     id="guardar_modificacion_especialidad"  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap"  >Guardar</button>
                     </div>
 
-            </div>
-        </div>
-    </div>
+            </x-panel.modal>
 
-    <div class="modal fade" id="modal_crear" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="exampleModalLabel">Agregar especialidad</h4>
+    <x-panel.modal id="modal_crear" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="exampleModalLabel">
+                <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                    
+                    <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="exampleModalLabel">Agregar especialidad</h4>
                 </div>
-                <div class="modal-body">
+                <div class="tw-modal-cuerpo">
 
-                    <form id="form_agregar" class="form" action="{{url("/registrar/especialidad/$id_carrera")}}" role="form" method="POST" >
+                    <form id="form_agregar" class="" action="{{url("/registrar/especialidad/$id_carrera")}}" role="form" method="POST" >
                         {{ csrf_field() }}
-                        <div class="row">
-                            <div class="col-md-10 col-md-offset-1">
-                                <div class="form-group">
+                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                            <div class="tw:w-full tw:px-2">
+                                <div class="tw:mb-4">
                                     <label for="nombre_escuela">Nombre de la especialidad</label>
-                                    <input class="form-control" id="nombre_especialidad" name="nombre_especialidad"   required/>
+                                    <input class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="nombre_especialidad" name="nombre_especialidad"   required/>
                                 </div>
                             </div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                            <button type="submit" class="btn btn-primary" >Guardar</button>
+                        <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                            <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Guardar</button>
                         </div>
                     </form>
                 </div>
-            </div>
-        </div>
-    </div>
+            </x-panel.modal>
     <script type="text/javascript">
         $(document).ready(function() {
 
@@ -174,4 +161,5 @@
             });
         });
     </script>
+</div>
 @endsection

@@ -1,51 +1,48 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 @section('title', 'Inicio')
+@include('partials.panel.recursos_app', ['datatables' => true, 'validacion' => true])
 @section('content')
+<div class="tw-pantalla">
 
     <main>
 
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title text-center">VALIDACIÓN DE CARGAS ACADEMICAS</h3>
-                    </div>
-                </div>
-            </div>
+        <x-panel.encabezado titulo="Validación de cargas académicas" :migas="['Evaluación docente' => null]" />
+<div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+            
             {{--
                     @if($activar_periodo_carga->descripcion==2)
-                        <div class="col-md-2 col-md-offset-8">
+                        <div class="tw:w-full tw:px-2">
 
-                            <a class=" btn btn-success activar_periodo_carga" id="{{$activar_periodo_carga->id_validacion_carga}}" type="button" >Activar periodo de remplazo de carga <span class="glyphicon glyphicon-ok " aria-hidden="true" /></a>
+                            <a class="activar_periodo_carga tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-green-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-green-700 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" id="{{$activar_periodo_carga->id_validacion_carga}}" type="button" >Activar periodo de remplazo de carga <span class="fa fa-check" aria-hidden="true" /></a>
           </div>
           @endif
           @if($activar_periodo_carga->descripcion==4)
-          <div class="col-md-2 col-md-offset-8">
+          <div class="tw:w-full tw:px-2">
 
-            <a class=" btn btn btn-danger desactivar_periodo_carga" id="{{$activar_periodo_carga->id_validacion_carga}}" type="button">Desactivar periodo de remplazo de carga <span class="glyphicon glyphicon-remove " aria-hidden="true" /></a>
+            <a class="desactivar_periodo_carga tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-red-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-red-700 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" id="{{$activar_periodo_carga->id_validacion_carga}}" type="button">Desactivar periodo de remplazo de carga <span class="fa fa-times" aria-hidden="true" /></a>
           </div>
           @endif
           --}}
             {{--@if($activar==1)
-          <div class="col-md-3 col-md-offset-9">
+          <div class="tw:w-full tw:px-2">
 
-              <a class=" btn btn-danger" id="enviar" type="button" href="/desactivar">Desactivar Cargas <span class="glyphicon glyphicon-remove " aria-hidden="true"
+              <a class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-red-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-red-700 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" id="enviar" type="button" href="/desactivar">Desactivar Cargas <span class="fa fa-times" aria-hidden="true"
                 ></a>
           </div>
           @else
-          <div class="col-md-3 col-md-offset-9">
+          <div class="tw:w-full tw:px-2">
 
-              <a class=" btn btn-success " id="enviar" type="button" href="/desactivar">Activar Cargas <span class="glyphicon glyphicon-ok " aria-hidden="true"
+              <a class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-green-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-green-700 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" id="enviar" type="button" href="/desactivar">Activar Cargas <span class="fa fa-check" aria-hidden="true"
                 ></a>
           </div>
           @endif
           --}}
-            <div class="row col-md-10 col-md-offset-1">
+            <div class="tw:w-full tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4 tw:px-2">
 
             <?php $escolar = session()->has('escolar') ? session()->has('escolar') : false;  ?>
 
             <!-- Nav tabs -->
-                <ul class="nav nav-tabs" role="tablist">
+                <ul class="tw:w-full tw-pestanas tw:mb-6 tw:flex tw:flex-wrap tw:gap-2 tw:border-b tw:border-gray-200 tw:dark:border-gray-800" role="tablist">
                     <li role="presentation" class="active"><a href="#uno" aria-controls="home" role="tab" data-toggle="tab">Pendientes</a></li>
                     <li role="presentation"><a href="#dos" aria-controls="dos" role="tab" data-toggle="tab">Aceptados (Normal)</a></li>
                     <li role="presentation"><a href="#tres" aria-controls="dos" role="tab" data-toggle="tab">Aceptados (Duales nueva versión)</a></li>
@@ -54,14 +51,13 @@
                 </ul>
 
                 <!-- Tab panes -->
-                <div class="tab-content ">
+                <div class="tab-content tw:w-full">
                     <div role="tabpanel" class="tab-pane active" id="uno">
 
-                        <div class=" col-md-10 col-md-offset-1">
+                        <div class="tw:w-full tw:px-2">
 
-                            </br></br></br>
-
-                            <table class="table table-bordered " Style="background: white;" id="no_aceptados">
+                            <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table class="tw-tabla tw-tabla-bordes" Style="background: white;" id="no_aceptados">
                                 <thead>
                                 <tr>
                                     <th>No. CUENTA</th>
@@ -80,7 +76,7 @@
                                         <td>{{$consulta->carreras}}</td>
                                         <td>
 
-                                            <a onclick="window.open('{{ url('/revicion_control_escolar/'.$consulta->id ) }}')"><span class="glyphicon glyphicon-list-alt em5" aria-hidden="true"></span></a>
+                                            <a class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base" onclick="window.open('{{ url('/revicion_control_escolar/'.$consulta->id ) }}')"><span class="fa fa-list-alt em5" aria-hidden="true"></span></a>
 
                                         </td>
 
@@ -89,15 +85,15 @@
 
                                 </tbody>
                             </table>
+</div>
 
                         </div>
                     </div>
                     <div role="tabpanel" class="tab-pane" id="dos">
-                        <div class=" col-md-10 col-md-offset-1">
+                        <div class="tw:w-full tw:px-2">
 
-                            </br></br></br>
-
-                            <table class="table table-bordered " Style="background: white;" id="aceptados">
+                            <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table class="tw-tabla tw-tabla-bordes" Style="background: white;" id="aceptados">
                                 <thead>
                                 <tr>
                                     <th>No. CUENTA</th>
@@ -120,17 +116,17 @@
                                         <td>{{$consulta2->semestre}}</td>
                                         <td>{{$consulta2->carreras}}</td>
                                         <td>
-                                            <a onclick="window.open('{{ url('/revicion_control_escolar/'.$consulta2->id ) }}')"><span class="glyphicon glyphicon-list-alt em5" aria-hidden="true"></span></a>
+                                            <a class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base" onclick="window.open('{{ url('/revicion_control_escolar/'.$consulta2->id ) }}')"><span class="fa fa-list-alt em5" aria-hidden="true"></span></a>
                                         </td>
                                         @if($periodo_activo == 1)
                                             <td>
                                                 @if($escolar == true)
-                                                    <a class=" btn btn-success activar_periodo_carga" id="{{$consulta2->id}}" type="button">Modificar estado del alumno<span class="glyphicon glyphicon-ok " aria-hidden="true" /></a>
+                                                    <a class="activar_periodo_carga tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap" id="{{$consulta2->id}}" type="button">Modificar estado del alumno<span class="fa fa-check" aria-hidden="true" /></a>
                                                 @endif
                                             </td>
                                             <td>
                                                 @if($escolar == true)
-                                                    <a class=" btn btn-danger baja" id="{{$consulta2->id}}" type="button">Dar de baja<span class="glyphicon glyphicon-edit " aria-hidden="true" /></a>
+                                                    <a class="baja tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-red-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-red-700 tw:disabled:bg-red-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap" id="{{$consulta2->id}}" type="button">Dar de baja<span class="fa fa-pencil-square-o" aria-hidden="true" /></a>
                                                 @endif
                                             </td>
                                         @endif
@@ -140,14 +136,14 @@
 
                                 </tbody>
                             </table>
+</div>
                         </div>
                     </div>
                     <div role="tabpanel" class="tab-pane" id="tres">
-                        <div class=" col-md-10 col-md-offset-1">
+                        <div class="tw:w-full tw:px-2">
 
-                            </br></br></br>
-
-                            <table class="table table-bordered " Style="background: white;" id="version_actual">
+                            <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table class="tw-tabla tw-tabla-bordes" Style="background: white;" id="version_actual">
                                 <thead>
                                 <tr>
                                     <th>No. CUENTA</th>
@@ -170,23 +166,23 @@
                                         <td>{{$consulta3->semestre}}</td>
                                         <td>{{$consulta3->carreras}}</td>
                                         <td>
-                                            <a onclick="window.open('{{ url('/revicion_control_escolar/'.$consulta3->id ) }}')"><span class="glyphicon glyphicon-list-alt em5" aria-hidden="true"></span></a>
+                                            <a class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base" onclick="window.open('{{ url('/revicion_control_escolar/'.$consulta3->id ) }}')"><span class="fa fa-list-alt em5" aria-hidden="true"></span></a>
                                         </td>
                                         @if($periodo_activo == 1)
                                             <td>
                                                 @if($escolar == true)
-                                                    <a class=" btn btn-success activar_periodo_carga" id="{{$consulta3->id}}" type="button">Modificar estado del alumno<span class="glyphicon glyphicon-ok " aria-hidden="true" /></a>
+                                                    <a class="activar_periodo_carga tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap" id="{{$consulta3->id}}" type="button">Modificar estado del alumno<span class="fa fa-check" aria-hidden="true" /></a>
                                                 @endif
                                             </td>
 
-                                            <td style="text-align: center">
+                                            <td class="tw:text-center" >
                                                 @if($escolar == true)
-                                                    <a href="#" onclick="window.open('{{ url('/calificar_estudiante/'.$consulta3->id ) }}')"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>Calificar</a>
+                                                    <a class="tw:text-brand-500 tw:hover:underline" href="#" onclick="window.open('{{ url('/calificar_estudiante/'.$consulta3->id ) }}')"><span class="fa fa-pencil" aria-hidden="true"></span>Calificar</a>
                                                 @endif
                                             </td>
                                             <td>
                                                 @if($escolar == true)
-                                                    <a class=" btn btn-danger baja" id="{{$consulta3->id}}" type="button">Dar de baja<span class="glyphicon glyphicon-edit " aria-hidden="true" /></a>
+                                                    <a class="baja tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-red-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-red-700 tw:disabled:bg-red-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap" id="{{$consulta3->id}}" type="button">Dar de baja<span class="fa fa-pencil-square-o" aria-hidden="true" /></a>
                                                 @endif
                                             </td>
                                         @endif
@@ -195,15 +191,14 @@
 
                                 </tbody>
                             </table>
+</div>
                         </div>
                     </div>
                     {{--
                       <div role="tabpanel" class="tab-pane" id="cuatro">
-                          <div class=" col-md-10 col-md-offset-1">
+                          <div class="tw:w-full tw:px-2">
 
-                              </br></br></br>
-
-                              <table class="table table-bordered " Style="background: white;" id="version_antigua">
+                              <table class="tw-tabla tw-tabla-bordes" Style="background: white;" id="version_antigua">
                                   <thead>
                                   <tr>
                                       <th>No. CUENTA</th>
@@ -226,17 +221,17 @@
                     <td>{{$consulta4->semestre}}</td>
                     <td>{{$consulta4->carreras}}</td>
                     <td>
-                      <a onclick="window.open('{{ url('/revicion_control_escolar/'.$consulta4->id ) }}')"><span class="glyphicon glyphicon-list-alt em5" aria-hidden="true"></span></a>
+                      <a onclick="window.open('{{ url('/revicion_control_escolar/'.$consulta4->id ) }}')"><span class="fa fa-list-alt em5" aria-hidden="true"></span></a>
                     </td>
                     @if($periodo_activo == 1)
                     <td>
                       @if($escolar == true)
-                      <a class=" btn btn-success activar_periodo_carga" id="{{$consulta4->id}}" type="button">Modificar estado del alumno<span class="glyphicon glyphicon-ok " aria-hidden="true" /></a>
+                      <a class="activar_periodo_carga tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-green-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-green-700 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" id="{{$consulta4->id}}" type="button">Modificar estado del alumno<span class="fa fa-check" aria-hidden="true" /></a>
                       @endif
                     </td>
                     <td>
                       @if($escolar == true)
-                      <a class=" btn btn-danger baja" id="{{$consulta4->id}}" type="button">Dar de baja<span class="glyphicon glyphicon-edit " aria-hidden="true" /></a>
+                      <a class="baja tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-red-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-red-700 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" id="{{$consulta4->id}}" type="button">Dar de baja<span class="fa fa-pencil-square-o" aria-hidden="true" /></a>
                       @endif
                     </td>
                     @endif
@@ -259,23 +254,21 @@
     <form method="POST" role="form" id="form_modificar">
         {{ csrf_field() }}
     </form>
-    <form id="form_agregar" class="form" action="/modificar/estado_carga/" role="form" method="POST">
-        <div class="modal fade" id="modal_agregar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="exampleModalLabel">Modificar estado del alumno</h4>
+    <form id="form_agregar" class="" action="/modificar/estado_carga/" role="form" method="POST">
+        <x-panel.modal id="modal_agregar" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="exampleModalLabel">
+                    <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                        
+                        <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="exampleModalLabel">Modificar estado del alumno</h4>
                     </div>
-                    <div class="modal-body">
-                        <div class="row">
+                    <div class="tw-modal-cuerpo">
+                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
                             {{ csrf_field() }}
                             <input type="hidden" id="id_carga" name="id_carga" value="">
 
-                            <div class="col-md-8 col-md-offset-1">
+                            <div class="tw:w-full tw:px-2">
 
-                                <label for="exampleInputEmail1">Estado del alumno<b style="color:red; font-size:23px;">*</b></label>
-                                <select class="form-control " name="estado" id="estado" required>
+                                <label for="exampleInputEmail1">Estado del alumno<b class="tw:text-red-600 tw:dark:text-red-400 tw:text-lg" >*</b></label>
+                                <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="estado" id="estado" required>
                                     <option disabled selected hidden>Selecciona una opción</option>
                                     <option value="1">NORMAL</option>
                                     <option value="2">DUAL NUEVA VERSIÓN</option>
@@ -285,33 +278,28 @@
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <button id="guardar_agregado" class="btn btn-primary">Aceptar</button>
+                    <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                        <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                        <button id="guardar_agregado" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap">Aceptar</button>
                     </div>
-                </div>
-
-            </div>
-        </div>
-        </div>
+                </x-panel.modal>
+        
     </form>
-    <form id="form_baja" class="form" action="/baja/alumno_baja/" role="form" method="POST">
-        <div class="modal fade" id="modal_baja" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="exampleModalLabel">Dar de baja alumno</h4>
+    <form id="form_baja" class="" action="/baja/alumno_baja/" role="form" method="POST">
+        <x-panel.modal id="modal_baja" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="exampleModalLabel">
+                    <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                        
+                        <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="exampleModalLabel">Dar de baja alumno</h4>
                     </div>
-                    <div class="modal-body">
-                        <div class="row">
+                    <div class="tw-modal-cuerpo">
+                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
                             {{ csrf_field() }}
                             <input type="hidden" id="id_carga_a" name="id_carga_a" value="">
 
-                            <div class="col-md-8 col-md-offset-1">
+                            <div class="tw:w-full tw:px-2">
 
-                                <label for="exampleInputEmail1">Dar de baja alumno<b style="color:red; font-size:23px;">*</b></label>
-                                <select class="form-control " name="estado" id="estado" required>
+                                <label for="exampleInputEmail1">Dar de baja alumno<b class="tw:text-red-600 tw:dark:text-red-400 tw:text-lg" >*</b></label>
+                                <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="estado" id="estado" required>
                                     <option disabled selected hidden>Selecciona una opción</option>
                                     <option value="1">BAJA TEMPORAL (SIN ELIMINACION DE CARGA)</option>
                                     <option value="2">BAJA TEMPORAL (ELIMINACION DE CARGA)</option>
@@ -319,10 +307,10 @@
   
                                 </select>
                             </div>
-                            <div class="col-md-8 col-md-offset-1">
+                            <div class="tw:w-full tw:px-2">
     <label for="obser">Motivo de la baja:</label>
 
-    <select class="form-control rounded-0" id="obser" name="obser" required>
+    <select class="rounded-0 tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="obser" name="obser" required>
         <option value="">Seleccione un motivo</option>
         <option value="Económicas">Económicas</option>
         <option value="Salud">Salud</option>
@@ -340,15 +328,12 @@
 
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <button id="guardar_baja" class="btn btn-primary">Aceptar</button>
+                    <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                        <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                        <button id="guardar_baja" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap">Aceptar</button>
                     </div>
-                </div>
-
-            </div>
-        </div>
-        </div>
+                </x-panel.modal>
+        
     </form>
     <script type="text/javascript">
         $(document).ready(function() {
@@ -420,4 +405,5 @@
             });
         });
     </script>
+</div>
 @endsection

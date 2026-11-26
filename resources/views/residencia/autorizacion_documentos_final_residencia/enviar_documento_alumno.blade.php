@@ -1,49 +1,43 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 @section('title', 'Documentación final de residenciaa')
+@include('partials.panel.recursos_app')
 @section('content')
-    <main class="col-md-12">
-        <div class="row">
-            <div class="col-md-6 col-md-offset-3">
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title text-center">Enviar Documentación de Liberación de Residencia</h3>
-                    </div>
-                </div>
-            </div>
-        </div>
+<div class="tw-pantalla">
+    <main class="tw:w-full tw:lg:w-full tw:px-2">
+        <x-panel.encabezado titulo="Enviar Documentación de Liberación de Residencia" :migas="['Residencia profesional' => null]" />
         @if( $estado_enviado == 0)
         @if( $estado_documentacion->correo_electronico == "")
-         <div class="row">
-             <div class="col-md-6 col-md-offset-3">
-                 <div class="panel panel-info">
-                     <div class="panel-body">
-                         <form class="form" id="formulario_modificar_correo" action="{{url("/residencia/modificar_correo_documentacionfinal/alumno")}}" role="form" method="POST" >
+         <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+             <div class="tw:w-full tw:px-2">
+                 <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+                     <div class="tw:p-5 tw:sm:p-6">
+                         <form id="formulario_modificar_correo" action="{{url("/residencia/modificar_correo_documentacionfinal/alumno")}}" role="form" method="POST" >
                              {{ csrf_field() }}
-                             <div class="panel-body">
-                                 <div class="row">
-                                     <div class="col-md-10 col-md-offset-1">
-                                         <div class="form-group">
+                             <div class="tw:p-5 tw:sm:p-6">
+                                 <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                     <div class="tw:w-full tw:px-2">
+                                         <div class="tw:mb-4">
                                              <label for="nombre_proyecto">Nombre del alumno:</label>
                                              <p>{{$datosalumno->nombre}} {{$datosalumno->apaterno}} {{$datosalumno->amaterno}}</p>
                                          </div>
                                      </div>
                                  </div>
 
-                                 <div class="row">
-                                     <div class="col-md-10 col-md-offset-1">
-                                         <div class="form-group">
+                                 <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                     <div class="tw:w-full tw:px-2">
+                                         <div class="tw:mb-4">
                                              <label for="nombre_proyecto">Ingresar tu correo electronico.</label>
-                                             <input class="form-control"  id="id_liberacion_documentos" name="id_liberacion_documentos" type="hidden"   value="{{$estado_documentacion->id_liberacion_documentos}}" required/>
-                                             <input class="form-control"  id="correo_electronico_doc" name="correo_electronico_doc" type="email"  placeholder="Ingresa tu correo electronico" value="{{$estado_documentacion->correo_electronico}}" required/>
+                                             <input class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"  id="id_liberacion_documentos" name="id_liberacion_documentos" type="hidden"   value="{{$estado_documentacion->id_liberacion_documentos}}" required/>
+                                             <input class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"  id="correo_electronico_doc" name="correo_electronico_doc" type="email"  placeholder="Ingresa tu correo electronico" value="{{$estado_documentacion->correo_electronico}}" required/>
                                          </div>
                                      </div>
                                  </div>
 
 
 
-                                 <div class="row">
-                                     <div class="col-md-1 col-md-offset-5 ">
-                                         <button id="modificar_correo_alta" class="btn btn-primary">Guardar</button>
+                                 <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                     <div class="tw:w-full tw:px-2">
+                                         <button id="modificar_correo_alta" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap">Guardar</button>
                                      </div>
                                  </div>
 
@@ -56,37 +50,37 @@
              </div>
          </div>
             @else
-                <div class="row">
-                    <div class="col-md-6 col-md-offset-3">
-                        <div class="panel panel-info">
-                            <div class="panel-body">
-                                <form class="form" id="formulario_modificar_correo" action="{{url("/residencia/modificar_correo_documentacionfinal/alumno")}}" role="form" method="POST" >
+                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                    <div class="tw:w-full tw:px-2">
+                        <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+                            <div class="tw:p-5 tw:sm:p-6">
+                                <form id="formulario_modificar_correo" action="{{url("/residencia/modificar_correo_documentacionfinal/alumno")}}" role="form" method="POST" >
                                     {{ csrf_field() }}
-                                    <div class="panel-body">
-                                        <div class="row">
-                                            <div class="col-md-10 col-md-offset-1">
-                                                <div class="form-group">
+                                    <div class="tw:p-5 tw:sm:p-6">
+                                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                            <div class="tw:w-full tw:px-2">
+                                                <div class="tw:mb-4">
                                                     <label for="nombre_proyecto">Nombre del alumno:</label>
                                                     <p>{{$datosalumno->nombre}} {{$datosalumno->apaterno}} {{$datosalumno->amaterno}}</p>
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div class="row">
-                                            <div class="col-md-10 col-md-offset-1">
-                                                <div class="form-group">
+                                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                            <div class="tw:w-full tw:px-2">
+                                                <div class="tw:mb-4">
                                                     <label for="nombre_proyecto">Modificar tu correo electronico.</label>
-                                                    <input class="form-control"  id="id_liberacion_documentos" name="id_liberacion_documentos" type="hidden"   value="{{$estado_documentacion->id_liberacion_documentos}}" required/>
-                                                    <input class="form-control"  id="correo_electronico_doc" name="correo_electronico_doc" type="email"  placeholder="Ingresa tu correo electronico" value="{{$estado_documentacion->correo_electronico}}" required/>
+                                                    <input class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"  id="id_liberacion_documentos" name="id_liberacion_documentos" type="hidden"   value="{{$estado_documentacion->id_liberacion_documentos}}" required/>
+                                                    <input class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"  id="correo_electronico_doc" name="correo_electronico_doc" type="email"  placeholder="Ingresa tu correo electronico" value="{{$estado_documentacion->correo_electronico}}" required/>
                                                 </div>
                                             </div>
                                         </div>
 
 
 
-                                        <div class="row">
-                                            <div class="col-md-1 col-md-offset-5 ">
-                                                <button id="modificar_correo_alta" class="btn btn-success">Modificar correo</button>
+                                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                            <div class="tw:w-full tw:px-2">
+                                                <button id="modificar_correo_alta" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap">Modificar correo</button>
                                             </div>
                                         </div>
 
@@ -98,14 +92,15 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-12 ">
-                        <div class="panel panel-success">
-                            <div class="panel-body" style="text-align: justify">
-                                <p style="color: #FF0000"><b>Nota: El documento se deben escanear y guardar en un pdf legible,<br>
+                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                    <div class="tw:w-full tw:lg:w-full tw:px-2">
+                        <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+                            <div class="tw:p-5 tw:sm:p-6">
+                                <p class="tw:text-red-600 tw:dark:text-red-400"><b>Nota: El documento se deben escanear y guardar en un pdf legible,<br>
                                        Tambien igual el Proyecto Completo de Residencia Profesional se debe enviar al correo del Depto. de Servicio Social y Residencia Profesional</b></p>
 
-                                <table class="table table-bordered">
+                                <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table class="tw-tabla tw-tabla-bordes">
                                     <thead>
                                     <tr>
                                         <th>Nombre del documento</th>
@@ -119,20 +114,20 @@
                                         <td>Acta de Calificación de Residencia Profesional</td>
                                         @if($estado_documentacion->pdf_acta_calificacion  == "" )
                                             <td>
-                                                <form class="form" id="form_acta_calificacion" action="{{url("/residencia/acta_calificacion/documentacionfinal/".$estado_documentacion->id_liberacion_documentos)}}" role="form" method="POST" enctype="multipart/form-data" >
+                                                <form id="form_acta_calificacion" action="{{url("/residencia/acta_calificacion/documentacionfinal/".$estado_documentacion->id_liberacion_documentos)}}" role="form" method="POST" enctype="multipart/form-data" >
                                                     {{ csrf_field() }}
-                                                    <input class="form-control"  id="acta_calificacion" name="acta_calificacion" type="file"   accept="application/pdf" required/>
+                                                    <input class="tw:h-11 tw:w-full tw:overflow-hidden tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:text-sm tw:text-gray-500 tw:dark:text-gray-400 tw:shadow-theme-xs tw:file:mr-5 tw:file:border-0 tw:file:border-r tw:file:border-solid tw:file:border-gray-200 tw:file:bg-gray-50 tw:file:py-3 tw:file:pr-3 tw:file:pl-3.5 tw:file:text-sm tw:file:text-gray-700 tw:hover:file:bg-gray-100 tw:focus:outline-hidden"  id="acta_calificacion" name="acta_calificacion" type="file"   accept="application/pdf" required/>
                                                 </form>
                                             </td>
                                             <td>
-                                                <button  id="guardar_acta_calificacion" class="btn btn-primary" >Guardar</button>
+                                                <button  id="guardar_acta_calificacion" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap" >Guardar</button>
                                             </td>
                                         @else
 
-                                            <td><a  target="_blank" href="{{asset('/residencia_pdf_doc_final/'.$estado_documentacion->pdf_acta_calificacion)}}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a></td>
+                                            <td><a  target="_blank" href="{{asset('/residencia_pdf_doc_final/'.$estado_documentacion->pdf_acta_calificacion)}}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"><i class="fa fa-book em56" title="Ver PDF"></i></a></td>
 
                                             <td>
-                                                <button   id="id_acta_calificacion"  class="btn btn-primary" >Modificar</button>
+                                                <button   id="id_acta_calificacion"  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap" >Modificar</button>
 
                                             </td>
                                         @endif
@@ -141,20 +136,20 @@
                                         <td>Portada del Proyecto de Residencia Profesional</td>
                                         @if($estado_documentacion->pdf_portada   == "" )
                                             <td>
-                                                <form class="form" id="form_portada" action="{{url("/residencia/portada/documentacionfinal/".$estado_documentacion->id_liberacion_documentos)}}" role="form" method="POST" enctype="multipart/form-data" >
+                                                <form id="form_portada" action="{{url("/residencia/portada/documentacionfinal/".$estado_documentacion->id_liberacion_documentos)}}" role="form" method="POST" enctype="multipart/form-data" >
                                                     {{ csrf_field() }}
-                                                    <input class="form-control"  id="portada" name="portada" type="file"   accept="application/pdf" required/>
+                                                    <input class="tw:h-11 tw:w-full tw:overflow-hidden tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:text-sm tw:text-gray-500 tw:dark:text-gray-400 tw:shadow-theme-xs tw:file:mr-5 tw:file:border-0 tw:file:border-r tw:file:border-solid tw:file:border-gray-200 tw:file:bg-gray-50 tw:file:py-3 tw:file:pr-3 tw:file:pl-3.5 tw:file:text-sm tw:file:text-gray-700 tw:hover:file:bg-gray-100 tw:focus:outline-hidden"  id="portada" name="portada" type="file"   accept="application/pdf" required/>
                                                 </form>
                                             </td>
                                             <td>
-                                                <button  id="guardar_portada" class="btn btn-primary" >Guardar</button>
+                                                <button  id="guardar_portada" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap" >Guardar</button>
                                             </td>
                                         @else
 
-                                            <td><a  target="_blank" href="{{asset('/residencia_pdf_doc_final/'.$estado_documentacion->pdf_portada)}}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a></td>
+                                            <td><a  target="_blank" href="{{asset('/residencia_pdf_doc_final/'.$estado_documentacion->pdf_portada)}}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"><i class="fa fa-book em56" title="Ver PDF"></i></a></td>
 
                                             <td>
-                                                <button   id="id_portada"  class="btn btn-primary" >Modificar</button>
+                                                <button   id="id_portada"  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap" >Modificar</button>
 
                                             </td>
                                         @endif
@@ -163,20 +158,20 @@
                                         <td>Evaluación Final de Residencia Profesional</td>
                                         @if($estado_documentacion->pdf_evaluacion_final_residencia   == "" )
                                             <td>
-                                                <form class="form" id="form_evaluacion_final_residencia" action="{{url("/residencia/evaluacion_final_residencia/documentacionfinal/".$estado_documentacion->id_liberacion_documentos)}}" role="form" method="POST" enctype="multipart/form-data" >
+                                                <form id="form_evaluacion_final_residencia" action="{{url("/residencia/evaluacion_final_residencia/documentacionfinal/".$estado_documentacion->id_liberacion_documentos)}}" role="form" method="POST" enctype="multipart/form-data" >
                                                     {{ csrf_field() }}
-                                                    <input class="form-control"  id="evaluacion_final_residencia" name="evaluacion_final_residencia" type="file"   accept="application/pdf" required/>
+                                                    <input class="tw:h-11 tw:w-full tw:overflow-hidden tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:text-sm tw:text-gray-500 tw:dark:text-gray-400 tw:shadow-theme-xs tw:file:mr-5 tw:file:border-0 tw:file:border-r tw:file:border-solid tw:file:border-gray-200 tw:file:bg-gray-50 tw:file:py-3 tw:file:pr-3 tw:file:pl-3.5 tw:file:text-sm tw:file:text-gray-700 tw:hover:file:bg-gray-100 tw:focus:outline-hidden"  id="evaluacion_final_residencia" name="evaluacion_final_residencia" type="file"   accept="application/pdf" required/>
                                                 </form>
                                             </td>
                                             <td>
-                                                <button  id="guardar_evaluacion_final_residencia" class="btn btn-primary" >Guardar</button>
+                                                <button  id="guardar_evaluacion_final_residencia" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap" >Guardar</button>
                                             </td>
                                         @else
 
-                                            <td><a  target="_blank" href="{{asset('/residencia_pdf_doc_final/'.$estado_documentacion->pdf_evaluacion_final_residencia)}}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a></td>
+                                            <td><a  target="_blank" href="{{asset('/residencia_pdf_doc_final/'.$estado_documentacion->pdf_evaluacion_final_residencia)}}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"><i class="fa fa-book em56" title="Ver PDF"></i></a></td>
 
                                             <td>
-                                                <button   id="id_evaluacion_final_residencia"  class="btn btn-primary" >Modificar</button>
+                                                <button   id="id_evaluacion_final_residencia"  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap" >Modificar</button>
 
                                             </td>
                                         @endif
@@ -185,20 +180,20 @@
                                         <td>Oficio de Aceptación de Informe Final del Asesor Interno</td>
                                         @if($estado_documentacion->pdf_oficio_aceptacion_informe_interno    == "" )
                                             <td>
-                                                <form class="form" id="form_oficio_aceptacion_informe_interno" action="{{url("/residencia/oficio_aceptacion_informe_interno/documentacionfinal/".$estado_documentacion->id_liberacion_documentos)}}" role="form" method="POST" enctype="multipart/form-data" >
+                                                <form id="form_oficio_aceptacion_informe_interno" action="{{url("/residencia/oficio_aceptacion_informe_interno/documentacionfinal/".$estado_documentacion->id_liberacion_documentos)}}" role="form" method="POST" enctype="multipart/form-data" >
                                                     {{ csrf_field() }}
-                                                    <input class="form-control"  id="oficio_aceptacion_informe_interno" name="oficio_aceptacion_informe_interno" type="file"   accept="application/pdf" required/>
+                                                    <input class="tw:h-11 tw:w-full tw:overflow-hidden tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:text-sm tw:text-gray-500 tw:dark:text-gray-400 tw:shadow-theme-xs tw:file:mr-5 tw:file:border-0 tw:file:border-r tw:file:border-solid tw:file:border-gray-200 tw:file:bg-gray-50 tw:file:py-3 tw:file:pr-3 tw:file:pl-3.5 tw:file:text-sm tw:file:text-gray-700 tw:hover:file:bg-gray-100 tw:focus:outline-hidden"  id="oficio_aceptacion_informe_interno" name="oficio_aceptacion_informe_interno" type="file"   accept="application/pdf" required/>
                                                 </form>
                                             </td>
                                             <td>
-                                                <button  id="guardar_oficio_aceptacion_informe_interno" class="btn btn-primary" >Guardar</button>
+                                                <button  id="guardar_oficio_aceptacion_informe_interno" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap" >Guardar</button>
                                             </td>
                                         @else
 
-                                            <td><a  target="_blank" href="{{asset('/residencia_pdf_doc_final/'.$estado_documentacion->pdf_oficio_aceptacion_informe_interno)}}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a></td>
+                                            <td><a  target="_blank" href="{{asset('/residencia_pdf_doc_final/'.$estado_documentacion->pdf_oficio_aceptacion_informe_interno)}}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"><i class="fa fa-book em56" title="Ver PDF"></i></a></td>
 
                                             <td>
-                                                <button   id="id_oficio_aceptacion_informe_interno"  class="btn btn-primary" >Modificar</button>
+                                                <button   id="id_oficio_aceptacion_informe_interno"  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap" >Modificar</button>
 
                                             </td>
                                         @endif
@@ -207,20 +202,20 @@
                                         <td>Formato de Evaluación</td>
                                         @if($estado_documentacion->pdf_formato_evaluacion     == "" )
                                             <td>
-                                                <form class="form" id="form_formato_evaluacion" action="{{url("/residencia/formato_evaluacion/documentacionfinal/".$estado_documentacion->id_liberacion_documentos)}}" role="form" method="POST" enctype="multipart/form-data" >
+                                                <form id="form_formato_evaluacion" action="{{url("/residencia/formato_evaluacion/documentacionfinal/".$estado_documentacion->id_liberacion_documentos)}}" role="form" method="POST" enctype="multipart/form-data" >
                                                     {{ csrf_field() }}
-                                                    <input class="form-control"  id="formato_evaluacion" name="formato_evaluacion" type="file"   accept="application/pdf" required/>
+                                                    <input class="tw:h-11 tw:w-full tw:overflow-hidden tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:text-sm tw:text-gray-500 tw:dark:text-gray-400 tw:shadow-theme-xs tw:file:mr-5 tw:file:border-0 tw:file:border-r tw:file:border-solid tw:file:border-gray-200 tw:file:bg-gray-50 tw:file:py-3 tw:file:pr-3 tw:file:pl-3.5 tw:file:text-sm tw:file:text-gray-700 tw:hover:file:bg-gray-100 tw:focus:outline-hidden"  id="formato_evaluacion" name="formato_evaluacion" type="file"   accept="application/pdf" required/>
                                                 </form>
                                             </td>
                                             <td>
-                                                <button  id="guardar_formato_evaluacion" class="btn btn-primary" >Guardar</button>
+                                                <button  id="guardar_formato_evaluacion" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap" >Guardar</button>
                                             </td>
                                         @else
 
-                                            <td><a  target="_blank" href="{{asset('/residencia_pdf_doc_final/'.$estado_documentacion->pdf_formato_evaluacion)}}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a></td>
+                                            <td><a  target="_blank" href="{{asset('/residencia_pdf_doc_final/'.$estado_documentacion->pdf_formato_evaluacion)}}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"><i class="fa fa-book em56" title="Ver PDF"></i></a></td>
 
                                             <td>
-                                                <button   id="id_formato_evaluacion"  class="btn btn-primary" >Modificar</button>
+                                                <button   id="id_formato_evaluacion"  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap" >Modificar</button>
 
                                             </td>
                                         @endif
@@ -229,19 +224,19 @@
                                         <td>Oficio de Aceptación de Informe Final del Revisor</td>
                                         @if($estado_documentacion->pdf_oficio_aceptacion_informe_revisor == "" )
                                             <td>
-                                                <form class="form" id="form_oficio_aceptacion_informe_revisor" action="{{url("/residencia/oficio_aceptacion_informe_revisor/documentacionfinal/".$estado_documentacion->id_liberacion_documentos)}}" role="form" method="POST" enctype="multipart/form-data" >
+                                                <form id="form_oficio_aceptacion_informe_revisor" action="{{url("/residencia/oficio_aceptacion_informe_revisor/documentacionfinal/".$estado_documentacion->id_liberacion_documentos)}}" role="form" method="POST" enctype="multipart/form-data" >
                                                     {{ csrf_field() }}
-                                                    <input class="form-control"  id="oficio_aceptacion_informe_revisor" name="oficio_aceptacion_informe_revisor" type="file"   accept="application/pdf" required/>
+                                                    <input class="tw:h-11 tw:w-full tw:overflow-hidden tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:text-sm tw:text-gray-500 tw:dark:text-gray-400 tw:shadow-theme-xs tw:file:mr-5 tw:file:border-0 tw:file:border-r tw:file:border-solid tw:file:border-gray-200 tw:file:bg-gray-50 tw:file:py-3 tw:file:pr-3 tw:file:pl-3.5 tw:file:text-sm tw:file:text-gray-700 tw:hover:file:bg-gray-100 tw:focus:outline-hidden"  id="oficio_aceptacion_informe_revisor" name="oficio_aceptacion_informe_revisor" type="file"   accept="application/pdf" required/>
                                                 </form>
                                             </td>
                                             <td>
-                                                <button  id="guardar_oficio_aceptacion_informe_revisor" class="btn btn-primary" >Guardar</button>
+                                                <button  id="guardar_oficio_aceptacion_informe_revisor" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap" >Guardar</button>
                                             </td>
                                         @else
-                                            <td><a  target="_blank" href="{{asset('/residencia_pdf_doc_final/'.$estado_documentacion->pdf_oficio_aceptacion_informe_revisor)}}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a></td>
+                                            <td><a  target="_blank" href="{{asset('/residencia_pdf_doc_final/'.$estado_documentacion->pdf_oficio_aceptacion_informe_revisor)}}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"><i class="fa fa-book em56" title="Ver PDF"></i></a></td>
 
                                             <td>
-                                                <button   id="id_oficio_aceptacion_informe_revisor"  class="btn btn-primary" >Modificar</button>
+                                                <button   id="id_oficio_aceptacion_informe_revisor"  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap" >Modificar</button>
                                             </td>
                                         @endif
                                     </tr>
@@ -249,19 +244,19 @@
                                         <td>Oficio de Aceptación de Informe Final del Asesor Externo</td>
                                         @if($estado_documentacion->pdf_oficio_aceptacion_informe_externo == "" )
                                             <td>
-                                                <form class="form" id="form_oficio_aceptacion_informe_externo" action="{{url("/residencia/oficio_aceptacion_informe_externo/documentacionfinal/".$estado_documentacion->id_liberacion_documentos)}}" role="form" method="POST" enctype="multipart/form-data" >
+                                                <form id="form_oficio_aceptacion_informe_externo" action="{{url("/residencia/oficio_aceptacion_informe_externo/documentacionfinal/".$estado_documentacion->id_liberacion_documentos)}}" role="form" method="POST" enctype="multipart/form-data" >
                                                     {{ csrf_field() }}
-                                                    <input class="form-control"  id="oficio_aceptacion_informe_externo" name="oficio_aceptacion_informe_externo" type="file"   accept="application/pdf" required/>
+                                                    <input class="tw:h-11 tw:w-full tw:overflow-hidden tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:text-sm tw:text-gray-500 tw:dark:text-gray-400 tw:shadow-theme-xs tw:file:mr-5 tw:file:border-0 tw:file:border-r tw:file:border-solid tw:file:border-gray-200 tw:file:bg-gray-50 tw:file:py-3 tw:file:pr-3 tw:file:pl-3.5 tw:file:text-sm tw:file:text-gray-700 tw:hover:file:bg-gray-100 tw:focus:outline-hidden"  id="oficio_aceptacion_informe_externo" name="oficio_aceptacion_informe_externo" type="file"   accept="application/pdf" required/>
                                                 </form>
                                             </td>
                                             <td>
-                                                <button  id="guardar_oficio_aceptacion_informe_externo" class="btn btn-primary" >Guardar</button>
+                                                <button  id="guardar_oficio_aceptacion_informe_externo" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap" >Guardar</button>
                                             </td>
                                         @else
-                                            <td><a  target="_blank" href="{{asset('/residencia_pdf_doc_final/'.$estado_documentacion->pdf_oficio_aceptacion_informe_externo)}}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a></td>
+                                            <td><a  target="_blank" href="{{asset('/residencia_pdf_doc_final/'.$estado_documentacion->pdf_oficio_aceptacion_informe_externo)}}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"><i class="fa fa-book em56" title="Ver PDF"></i></a></td>
 
                                             <td>
-                                                <button   id="id_oficio_aceptacion_informe_externo"  class="btn btn-primary" >Modificar</button>
+                                                <button   id="id_oficio_aceptacion_informe_externo"  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap" >Modificar</button>
                                             </td>
                                         @endif
                                     </tr>
@@ -269,19 +264,19 @@
                                         <td>Formato de Horas</td>
                                         @if($estado_documentacion->pdf_formato_hora == "" )
                                             <td>
-                                                <form class="form" id="form_formato_hora" action="{{url("/residencia/formato_hora/documentacionfinal/".$estado_documentacion->id_liberacion_documentos)}}" role="form" method="POST" enctype="multipart/form-data" >
+                                                <form id="form_formato_hora" action="{{url("/residencia/formato_hora/documentacionfinal/".$estado_documentacion->id_liberacion_documentos)}}" role="form" method="POST" enctype="multipart/form-data" >
                                                     {{ csrf_field() }}
-                                                    <input class="form-control"  id="formato_hora" name="formato_hora" type="file"   accept="application/pdf" required/>
+                                                    <input class="tw:h-11 tw:w-full tw:overflow-hidden tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:text-sm tw:text-gray-500 tw:dark:text-gray-400 tw:shadow-theme-xs tw:file:mr-5 tw:file:border-0 tw:file:border-r tw:file:border-solid tw:file:border-gray-200 tw:file:bg-gray-50 tw:file:py-3 tw:file:pr-3 tw:file:pl-3.5 tw:file:text-sm tw:file:text-gray-700 tw:hover:file:bg-gray-100 tw:focus:outline-hidden"  id="formato_hora" name="formato_hora" type="file"   accept="application/pdf" required/>
                                                 </form>
                                             </td>
                                             <td>
-                                                <button  id="guardar_formato_hora" class="btn btn-primary" >Guardar</button>
+                                                <button  id="guardar_formato_hora" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap" >Guardar</button>
                                             </td>
                                         @else
-                                            <td><a  target="_blank" href="{{asset('/residencia_pdf_doc_final/'.$estado_documentacion->pdf_formato_hora)}}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a></td>
+                                            <td><a  target="_blank" href="{{asset('/residencia_pdf_doc_final/'.$estado_documentacion->pdf_formato_hora)}}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"><i class="fa fa-book em56" title="Ver PDF"></i></a></td>
 
                                             <td>
-                                                <button   id="id_formato_hora"  class="btn btn-primary" >Modificar</button>
+                                                <button   id="id_formato_hora"  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap" >Modificar</button>
                                             </td>
                                         @endif
                                     </tr>
@@ -289,19 +284,19 @@
                                         <td>Formato de Seguimiento Interno</td>
                                         @if($estado_documentacion->pdf_seguimiento_interno  == "" )
                                             <td>
-                                                <form class="form" id="form_seguimiento_interno" action="{{url("/residencia/seguimiento_interno/documentacionfinal/".$estado_documentacion->id_liberacion_documentos)}}" role="form" method="POST" enctype="multipart/form-data" >
+                                                <form id="form_seguimiento_interno" action="{{url("/residencia/seguimiento_interno/documentacionfinal/".$estado_documentacion->id_liberacion_documentos)}}" role="form" method="POST" enctype="multipart/form-data" >
                                                     {{ csrf_field() }}
-                                                    <input class="form-control"  id="seguimiento_interno" name="seguimiento_interno" type="file"   accept="application/pdf" required/>
+                                                    <input class="tw:h-11 tw:w-full tw:overflow-hidden tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:text-sm tw:text-gray-500 tw:dark:text-gray-400 tw:shadow-theme-xs tw:file:mr-5 tw:file:border-0 tw:file:border-r tw:file:border-solid tw:file:border-gray-200 tw:file:bg-gray-50 tw:file:py-3 tw:file:pr-3 tw:file:pl-3.5 tw:file:text-sm tw:file:text-gray-700 tw:hover:file:bg-gray-100 tw:focus:outline-hidden"  id="seguimiento_interno" name="seguimiento_interno" type="file"   accept="application/pdf" required/>
                                                 </form>
                                             </td>
                                             <td>
-                                                <button  id="guardar_seguimiento_interno" class="btn btn-primary" >Guardar</button>
+                                                <button  id="guardar_seguimiento_interno" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap" >Guardar</button>
                                             </td>
                                         @else
-                                            <td><a  target="_blank" href="{{asset('/residencia_pdf_doc_final/'.$estado_documentacion->pdf_seguimiento_interno)}}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a></td>
+                                            <td><a  target="_blank" href="{{asset('/residencia_pdf_doc_final/'.$estado_documentacion->pdf_seguimiento_interno)}}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"><i class="fa fa-book em56" title="Ver PDF"></i></a></td>
 
                                             <td>
-                                                <button   id="id_seguimiento_interno"  class="btn btn-primary" >Modificar</button>
+                                                <button   id="id_seguimiento_interno"  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap" >Modificar</button>
                                             </td>
                                         @endif
                                     </tr>
@@ -309,25 +304,26 @@
                                         <td>Formato de Seguimiento Externo</td>
                                         @if($estado_documentacion->pdf_seguimiento_externo  == "" )
                                             <td>
-                                                <form class="form" id="form_seguimiento_externo" action="{{url("/residencia/seguimiento_externo/documentacionfinal/".$estado_documentacion->id_liberacion_documentos)}}" role="form" method="POST" enctype="multipart/form-data" >
+                                                <form id="form_seguimiento_externo" action="{{url("/residencia/seguimiento_externo/documentacionfinal/".$estado_documentacion->id_liberacion_documentos)}}" role="form" method="POST" enctype="multipart/form-data" >
                                                     {{ csrf_field() }}
-                                                    <input class="form-control"  id="seguimiento_externo" name="seguimiento_externo" type="file"   accept="application/pdf" required/>
+                                                    <input class="tw:h-11 tw:w-full tw:overflow-hidden tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:text-sm tw:text-gray-500 tw:dark:text-gray-400 tw:shadow-theme-xs tw:file:mr-5 tw:file:border-0 tw:file:border-r tw:file:border-solid tw:file:border-gray-200 tw:file:bg-gray-50 tw:file:py-3 tw:file:pr-3 tw:file:pl-3.5 tw:file:text-sm tw:file:text-gray-700 tw:hover:file:bg-gray-100 tw:focus:outline-hidden"  id="seguimiento_externo" name="seguimiento_externo" type="file"   accept="application/pdf" required/>
                                                 </form>
                                             </td>
                                             <td>
-                                                <button  id="guardar_seguimiento_externo" class="btn btn-primary" >Guardar</button>
+                                                <button  id="guardar_seguimiento_externo" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap" >Guardar</button>
                                             </td>
                                         @else
-                                            <td><a  target="_blank" href="{{asset('/residencia_pdf_doc_final/'.$estado_documentacion->pdf_seguimiento_externo)}}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a></td>
+                                            <td><a  target="_blank" href="{{asset('/residencia_pdf_doc_final/'.$estado_documentacion->pdf_seguimiento_externo)}}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"><i class="fa fa-book em56" title="Ver PDF"></i></a></td>
 
                                             <td>
-                                                <button   id="id_seguimiento_externo"  class="btn btn-primary" >Modificar</button>
+                                                <button   id="id_seguimiento_externo"  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap" >Modificar</button>
                                             </td>
                                         @endif
                                     </tr>
                                     </tbody>
                                 </table>
-                                <div class="row">
+</div>
+                                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
                                     @if($estado_documentacion->pdf_acta_calificacion  != "" &&
                                          $estado_documentacion->pdf_portada   != "" &&
                                          $estado_documentacion->pdf_evaluacion_final_residencia  != "" &&
@@ -338,8 +334,8 @@
                                          $estado_documentacion->pdf_formato_hora   != "" &&
                                          $estado_documentacion->pdf_seguimiento_interno   != "" &&
                                          $estado_documentacion->pdf_seguimiento_externo   != "" )
-                                        <div class="col-md-2 col-md-offset-5">
-                                            <button   class="btn btn-success  " title="Enviar documentacion" data-toggle="modal" data-target="#enviar_documentacion_residencia_final">Enviar documentación</button>
+                                        <div class="tw:w-full tw:px-2">
+                                            <button   class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" title="Enviar documentacion" data-toggle="modal" data-target="#enviar_documentacion_residencia_final">Enviar documentación</button>
 
                                         </div>
                                     @endif
@@ -359,328 +355,282 @@
      @endif
  </main>
     {{--modificar acta de calificacion --}}
-    <div class="modal fade" id="modal_modificar_acta_calificacion" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
+    <x-panel.modal id="modal_modificar_acta_calificacion" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="myModalLabel">
 
-                <div class="modal-header bg-info">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title text-center" id="myModalLabel">Modificar la Acta de Calificación de Residencia Profesional</h4>
+                <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                    
+                    <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="myModalLabel">Modificar la Acta de Calificación de Residencia Profesional</h4>
                 </div>
-                <div class="row">
-                    <div class="col-md-10 col-md-offset-1">
+                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                    <div class="tw:w-full tw:px-2">
                         <p>
-                            <label for="acta_calificacion">Ingresar nuevo PDF con la Acta de Calificación de Residencia Profesional<b style="color:red; font-size:23px;">*</b></label>
-                        <form class="form" id="form_modificar_acta_calificacion" action="{{url("/residencia/acta_calificacion/documentacionfinal/".$estado_documentacion->id_liberacion_documentos)}}" role="form" method="POST" enctype="multipart/form-data" >
+                            <label for="acta_calificacion">Ingresar nuevo PDF con la Acta de Calificación de Residencia Profesional<b class="tw:text-red-600 tw:dark:text-red-400 tw:text-lg">*</b></label>
+                        <form id="form_modificar_acta_calificacion" action="{{url("/residencia/acta_calificacion/documentacionfinal/".$estado_documentacion->id_liberacion_documentos)}}" role="form" method="POST" enctype="multipart/form-data" >
                             {{ csrf_field() }}
-                            <input class="form-control"  id="acta_calificacion" name="acta_calificacion" type="file"   accept="application/pdf" required/>
+                            <input class="tw:h-11 tw:w-full tw:overflow-hidden tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:text-sm tw:text-gray-500 tw:dark:text-gray-400 tw:shadow-theme-xs tw:file:mr-5 tw:file:border-0 tw:file:border-r tw:file:border-solid tw:file:border-gray-200 tw:file:bg-gray-50 tw:file:py-3 tw:file:pr-3 tw:file:pl-3.5 tw:file:text-sm tw:file:text-gray-700 tw:hover:file:bg-gray-100 tw:focus:outline-hidden"  id="acta_calificacion" name="acta_calificacion" type="file"   accept="application/pdf" required/>
                         </form>
                         </p>
                     </div>
                 </div>
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                    <button  id="modificar_acta_calificacion" class="btn btn-primary" >Modificar</button>
+                <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                    <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                    <button  id="modificar_acta_calificacion" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Modificar</button>
 
                 </div>
-            </div>
-        </div>
-    </div>
+            </x-panel.modal>
     {{--modificar acta de calificacion--}}
     {{--modificar portada --}}
-    <div class="modal fade" id="modal_modificar_portada" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
+    <x-panel.modal id="modal_modificar_portada" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="myModalLabel">
 
-                <div class="modal-header bg-info">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title text-center" id="myModalLabel">Modificar la Portada del Proyecto de Residencia Profesional</h4>
+                <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                    
+                    <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="myModalLabel">Modificar la Portada del Proyecto de Residencia Profesional</h4>
                 </div>
-                <div class="row">
-                    <div class="col-md-10 col-md-offset-1">
+                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                    <div class="tw:w-full tw:px-2">
                         <p>
-                            <label for="acta_calificacion">Ingresar nuevo PDF con la Portada del Proyecto de Residencia Profesional<b style="color:red; font-size:23px;">*</b></label>
-                        <form class="form" id="form_modificar_portada" action="{{url("/residencia/portada/documentacionfinal/".$estado_documentacion->id_liberacion_documentos)}}" role="form" method="POST" enctype="multipart/form-data" >
+                            <label for="acta_calificacion">Ingresar nuevo PDF con la Portada del Proyecto de Residencia Profesional<b class="tw:text-red-600 tw:dark:text-red-400 tw:text-lg">*</b></label>
+                        <form id="form_modificar_portada" action="{{url("/residencia/portada/documentacionfinal/".$estado_documentacion->id_liberacion_documentos)}}" role="form" method="POST" enctype="multipart/form-data" >
                             {{ csrf_field() }}
-                            <input class="form-control"  id="portada" name="portada" type="file"   accept="application/pdf" required/>
+                            <input class="tw:h-11 tw:w-full tw:overflow-hidden tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:text-sm tw:text-gray-500 tw:dark:text-gray-400 tw:shadow-theme-xs tw:file:mr-5 tw:file:border-0 tw:file:border-r tw:file:border-solid tw:file:border-gray-200 tw:file:bg-gray-50 tw:file:py-3 tw:file:pr-3 tw:file:pl-3.5 tw:file:text-sm tw:file:text-gray-700 tw:hover:file:bg-gray-100 tw:focus:outline-hidden"  id="portada" name="portada" type="file"   accept="application/pdf" required/>
                         </form>
                         </p>
                     </div>
                 </div>
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                    <button  id="modificar_portada" class="btn btn-primary" >Modificar</button>
+                <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                    <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                    <button  id="modificar_portada" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Modificar</button>
 
                 </div>
-            </div>
-        </div>
-    </div>
+            </x-panel.modal>
     {{--modificar portada--}}
     {{--modificar evaluacion final --}}
-    <div class="modal fade" id="modal_modificar_evaluacion_final_residencia" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
+    <x-panel.modal id="modal_modificar_evaluacion_final_residencia" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="myModalLabel">
 
-                <div class="modal-header bg-info">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title text-center" id="myModalLabel">Modificar la Evaluación Final de Residencia Profesional</h4>
+                <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                    
+                    <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="myModalLabel">Modificar la Evaluación Final de Residencia Profesional</h4>
                 </div>
-                <div class="row">
-                    <div class="col-md-10 col-md-offset-1">
+                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                    <div class="tw:w-full tw:px-2">
                         <p>
-                            <label for="evaluacion_final_residencia">Ingresar nuevo PDF con la Evaluación Final de Residencia Profesional<b style="color:red; font-size:23px;">*</b></label>
-                        <form class="form" id="form_modificar_evaluacion_final_residencia" action="{{url("/residencia/evaluacion_final_residencia/documentacionfinal/".$estado_documentacion->id_liberacion_documentos)}}" role="form" method="POST" enctype="multipart/form-data" >
+                            <label for="evaluacion_final_residencia">Ingresar nuevo PDF con la Evaluación Final de Residencia Profesional<b class="tw:text-red-600 tw:dark:text-red-400 tw:text-lg">*</b></label>
+                        <form id="form_modificar_evaluacion_final_residencia" action="{{url("/residencia/evaluacion_final_residencia/documentacionfinal/".$estado_documentacion->id_liberacion_documentos)}}" role="form" method="POST" enctype="multipart/form-data" >
                             {{ csrf_field() }}
-                            <input class="form-control"  id="evaluacion_final_residencia" name="evaluacion_final_residencia" type="file"   accept="application/pdf" required/>
+                            <input class="tw:h-11 tw:w-full tw:overflow-hidden tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:text-sm tw:text-gray-500 tw:dark:text-gray-400 tw:shadow-theme-xs tw:file:mr-5 tw:file:border-0 tw:file:border-r tw:file:border-solid tw:file:border-gray-200 tw:file:bg-gray-50 tw:file:py-3 tw:file:pr-3 tw:file:pl-3.5 tw:file:text-sm tw:file:text-gray-700 tw:hover:file:bg-gray-100 tw:focus:outline-hidden"  id="evaluacion_final_residencia" name="evaluacion_final_residencia" type="file"   accept="application/pdf" required/>
                         </form>
                         </p>
                     </div>
                 </div>
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                    <button  id="modificar_evaluacion_final_residencia" class="btn btn-primary" >Modificar</button>
+                <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                    <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                    <button  id="modificar_evaluacion_final_residencia" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Modificar</button>
 
                 </div>
-            </div>
-        </div>
-    </div>
+            </x-panel.modal>
     {{--modificar evaluacion final--}}
     {{--modificar oficio_aceptacion_informe_interno --}}
-    <div class="modal fade" id="modal_modificar_oficio_aceptacion_informe_interno" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
+    <x-panel.modal id="modal_modificar_oficio_aceptacion_informe_interno" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="myModalLabel">
 
-                <div class="modal-header bg-info">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title text-center" id="myModalLabel">Modificar el Oficio de Aceptación de Informe Final del Asesor Interno</h4>
+                <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                    
+                    <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="myModalLabel">Modificar el Oficio de Aceptación de Informe Final del Asesor Interno</h4>
                 </div>
-                <div class="row">
-                    <div class="col-md-10 col-md-offset-1">
+                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                    <div class="tw:w-full tw:px-2">
                         <p>
-                            <label for="oficio_aceptacion_informe_interno">Ingresar nuevo PDF con el Oficio de Aceptación de Informe Final del Asesor Interno<b style="color:red; font-size:23px;">*</b></label>
-                        <form class="form" id="form_modificar_oficio_aceptacion_informe_interno" action="{{url("/residencia/oficio_aceptacion_informe_interno/documentacionfinal/".$estado_documentacion->id_liberacion_documentos)}}" role="form" method="POST" enctype="multipart/form-data" >
+                            <label for="oficio_aceptacion_informe_interno">Ingresar nuevo PDF con el Oficio de Aceptación de Informe Final del Asesor Interno<b class="tw:text-red-600 tw:dark:text-red-400 tw:text-lg">*</b></label>
+                        <form id="form_modificar_oficio_aceptacion_informe_interno" action="{{url("/residencia/oficio_aceptacion_informe_interno/documentacionfinal/".$estado_documentacion->id_liberacion_documentos)}}" role="form" method="POST" enctype="multipart/form-data" >
                             {{ csrf_field() }}
-                            <input class="form-control"  id="oficio_aceptacion_informe_interno" name="oficio_aceptacion_informe_interno" type="file"   accept="application/pdf" required/>
+                            <input class="tw:h-11 tw:w-full tw:overflow-hidden tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:text-sm tw:text-gray-500 tw:dark:text-gray-400 tw:shadow-theme-xs tw:file:mr-5 tw:file:border-0 tw:file:border-r tw:file:border-solid tw:file:border-gray-200 tw:file:bg-gray-50 tw:file:py-3 tw:file:pr-3 tw:file:pl-3.5 tw:file:text-sm tw:file:text-gray-700 tw:hover:file:bg-gray-100 tw:focus:outline-hidden"  id="oficio_aceptacion_informe_interno" name="oficio_aceptacion_informe_interno" type="file"   accept="application/pdf" required/>
                         </form>
                         </p>
                     </div>
                 </div>
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                    <button  id="modificar_oficio_aceptacion_informe_interno" class="btn btn-primary" >Modificar</button>
+                <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                    <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                    <button  id="modificar_oficio_aceptacion_informe_interno" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Modificar</button>
 
                 </div>
-            </div>
-        </div>
-    </div>
+            </x-panel.modal>
     {{--modificar oficio_aceptacion_informe_interno--}}
     {{--modificar formato_evaluacion --}}
-    <div class="modal fade" id="modal_modificar_formato_evaluacion" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
+    <x-panel.modal id="modal_modificar_formato_evaluacion" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="myModalLabel">
 
-                <div class="modal-header bg-info">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title text-center" id="myModalLabel">Modificar el Formato de Evaluación</h4>
+                <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                    
+                    <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="myModalLabel">Modificar el Formato de Evaluación</h4>
                 </div>
-                <div class="row">
-                    <div class="col-md-10 col-md-offset-1">
+                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                    <div class="tw:w-full tw:px-2">
                         <p>
-                            <label for="formato_evaluacion">Ingresar nuevo PDF con el Formato de Evaluación<b style="color:red; font-size:23px;">*</b></label>
-                        <form class="form" id="form_modificar_formato_evaluacion" action="{{url("/residencia/formato_evaluacion/documentacionfinal/".$estado_documentacion->id_liberacion_documentos)}}" role="form" method="POST" enctype="multipart/form-data" >
+                            <label for="formato_evaluacion">Ingresar nuevo PDF con el Formato de Evaluación<b class="tw:text-red-600 tw:dark:text-red-400 tw:text-lg">*</b></label>
+                        <form id="form_modificar_formato_evaluacion" action="{{url("/residencia/formato_evaluacion/documentacionfinal/".$estado_documentacion->id_liberacion_documentos)}}" role="form" method="POST" enctype="multipart/form-data" >
                             {{ csrf_field() }}
-                            <input class="form-control"  id="formato_evaluacion" name="formato_evaluacion" type="file"   accept="application/pdf" required/>
+                            <input class="tw:h-11 tw:w-full tw:overflow-hidden tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:text-sm tw:text-gray-500 tw:dark:text-gray-400 tw:shadow-theme-xs tw:file:mr-5 tw:file:border-0 tw:file:border-r tw:file:border-solid tw:file:border-gray-200 tw:file:bg-gray-50 tw:file:py-3 tw:file:pr-3 tw:file:pl-3.5 tw:file:text-sm tw:file:text-gray-700 tw:hover:file:bg-gray-100 tw:focus:outline-hidden"  id="formato_evaluacion" name="formato_evaluacion" type="file"   accept="application/pdf" required/>
                         </form>
                         </p>
                     </div>
                 </div>
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                    <button  id="modificar_formato_evaluacion" class="btn btn-primary" >Modificar</button>
+                <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                    <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                    <button  id="modificar_formato_evaluacion" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Modificar</button>
 
                 </div>
-            </div>
-        </div>
-    </div>
+            </x-panel.modal>
     {{--modificar formato_evaluacion--}}
     {{--modificar oficio_aceptacion_informe_revisor --}}
-    <div class="modal fade" id="modal_modificar_oficio_aceptacion_informe_revisor" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
+    <x-panel.modal id="modal_modificar_oficio_aceptacion_informe_revisor" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="myModalLabel">
 
-                <div class="modal-header bg-info">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title text-center" id="myModalLabel">Modificar el Oficio de Aceptación de Informe Final del Revisor</h4>
+                <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                    
+                    <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="myModalLabel">Modificar el Oficio de Aceptación de Informe Final del Revisor</h4>
                 </div>
-                <div class="row">
-                    <div class="col-md-10 col-md-offset-1">
+                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                    <div class="tw:w-full tw:px-2">
                         <p>
-                            <label for="oficio_aceptacion_informe_revisor">Ingresar nuevo PDF con el Oficio de Aceptación de Informe Final del Revisor<b style="color:red; font-size:23px;">*</b></label>
-                        <form class="form" id="form_modificar_oficio_aceptacion_informe_revisor" action="{{url("/residencia/oficio_aceptacion_informe_revisor/documentacionfinal/".$estado_documentacion->id_liberacion_documentos)}}" role="form" method="POST" enctype="multipart/form-data" >
+                            <label for="oficio_aceptacion_informe_revisor">Ingresar nuevo PDF con el Oficio de Aceptación de Informe Final del Revisor<b class="tw:text-red-600 tw:dark:text-red-400 tw:text-lg">*</b></label>
+                        <form id="form_modificar_oficio_aceptacion_informe_revisor" action="{{url("/residencia/oficio_aceptacion_informe_revisor/documentacionfinal/".$estado_documentacion->id_liberacion_documentos)}}" role="form" method="POST" enctype="multipart/form-data" >
                             {{ csrf_field() }}
-                            <input class="form-control"  id="oficio_aceptacion_informe_revisor" name="oficio_aceptacion_informe_revisor" type="file"   accept="application/pdf" required/>
+                            <input class="tw:h-11 tw:w-full tw:overflow-hidden tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:text-sm tw:text-gray-500 tw:dark:text-gray-400 tw:shadow-theme-xs tw:file:mr-5 tw:file:border-0 tw:file:border-r tw:file:border-solid tw:file:border-gray-200 tw:file:bg-gray-50 tw:file:py-3 tw:file:pr-3 tw:file:pl-3.5 tw:file:text-sm tw:file:text-gray-700 tw:hover:file:bg-gray-100 tw:focus:outline-hidden"  id="oficio_aceptacion_informe_revisor" name="oficio_aceptacion_informe_revisor" type="file"   accept="application/pdf" required/>
                         </form>
                         </p>
                     </div>
                 </div>
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                    <button  id="modificar_oficio_aceptacion_informe_revisor" class="btn btn-primary" >Modificar</button>
+                <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                    <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                    <button  id="modificar_oficio_aceptacion_informe_revisor" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Modificar</button>
 
                 </div>
-            </div>
-        </div>
-    </div>
+            </x-panel.modal>
     {{--modificar oficio_aceptacion_informe_revisor--}}
     {{--modificar oficio_aceptacion_informe_externo --}}
-    <div class="modal fade" id="modal_modificar_oficio_aceptacion_informe_externo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
+    <x-panel.modal id="modal_modificar_oficio_aceptacion_informe_externo" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="myModalLabel">
 
-                <div class="modal-header bg-info">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title text-center" id="myModalLabel">Modificar el Oficio de Aceptación de Informe Final del Asesor Externo</h4>
+                <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                    
+                    <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="myModalLabel">Modificar el Oficio de Aceptación de Informe Final del Asesor Externo</h4>
                 </div>
-                <div class="row">
-                    <div class="col-md-10 col-md-offset-1">
+                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                    <div class="tw:w-full tw:px-2">
                         <p>
-                            <label for="oficio_aceptacion_informe_externo">Ingresar nuevo PDF con el Oficio de Aceptación de Informe Final del Asesor Externo<b style="color:red; font-size:23px;">*</b></label>
-                        <form class="form" id="form_modificar_oficio_aceptacion_informe_externo" action="{{url("/residencia/oficio_aceptacion_informe_externo/documentacionfinal/".$estado_documentacion->id_liberacion_documentos)}}" role="form" method="POST" enctype="multipart/form-data" >
+                            <label for="oficio_aceptacion_informe_externo">Ingresar nuevo PDF con el Oficio de Aceptación de Informe Final del Asesor Externo<b class="tw:text-red-600 tw:dark:text-red-400 tw:text-lg">*</b></label>
+                        <form id="form_modificar_oficio_aceptacion_informe_externo" action="{{url("/residencia/oficio_aceptacion_informe_externo/documentacionfinal/".$estado_documentacion->id_liberacion_documentos)}}" role="form" method="POST" enctype="multipart/form-data" >
                             {{ csrf_field() }}
-                            <input class="form-control"  id="oficio_aceptacion_informe_externo" name="oficio_aceptacion_informe_externo" type="file"   accept="application/pdf" required/>
+                            <input class="tw:h-11 tw:w-full tw:overflow-hidden tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:text-sm tw:text-gray-500 tw:dark:text-gray-400 tw:shadow-theme-xs tw:file:mr-5 tw:file:border-0 tw:file:border-r tw:file:border-solid tw:file:border-gray-200 tw:file:bg-gray-50 tw:file:py-3 tw:file:pr-3 tw:file:pl-3.5 tw:file:text-sm tw:file:text-gray-700 tw:hover:file:bg-gray-100 tw:focus:outline-hidden"  id="oficio_aceptacion_informe_externo" name="oficio_aceptacion_informe_externo" type="file"   accept="application/pdf" required/>
                         </form>
                         </p>
                     </div>
                 </div>
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                    <button  id="modificar_oficio_aceptacion_informe_externo" class="btn btn-primary" >Modificar</button>
+                <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                    <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                    <button  id="modificar_oficio_aceptacion_informe_externo" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Modificar</button>
 
                 </div>
-            </div>
-        </div>
-    </div>
+            </x-panel.modal>
     {{--modificar oficio_aceptacion_informe_revisor--}}
     {{--modificar formato_hora --}}
-    <div class="modal fade" id="modal_modificar_formato_hora" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
+    <x-panel.modal id="modal_modificar_formato_hora" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="myModalLabel">
 
-                <div class="modal-header bg-info">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title text-center" id="myModalLabel">Modificar el Oficio de Aceptación de Informe Final del Asesor Externo</h4>
+                <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                    
+                    <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="myModalLabel">Modificar el Oficio de Aceptación de Informe Final del Asesor Externo</h4>
                 </div>
-                <div class="row">
-                    <div class="col-md-10 col-md-offset-1">
+                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                    <div class="tw:w-full tw:px-2">
                         <p>
-                            <label for="formato_hora">Ingresar nuevo PDF con el Oficio de Aceptación de Informe Final del Asesor Externo<b style="color:red; font-size:23px;">*</b></label>
-                        <form class="form" id="form_modificar_formato_hora" action="{{url("/residencia/formato_hora/documentacionfinal/".$estado_documentacion->id_liberacion_documentos)}}" role="form" method="POST" enctype="multipart/form-data" >
+                            <label for="formato_hora">Ingresar nuevo PDF con el Oficio de Aceptación de Informe Final del Asesor Externo<b class="tw:text-red-600 tw:dark:text-red-400 tw:text-lg">*</b></label>
+                        <form id="form_modificar_formato_hora" action="{{url("/residencia/formato_hora/documentacionfinal/".$estado_documentacion->id_liberacion_documentos)}}" role="form" method="POST" enctype="multipart/form-data" >
                             {{ csrf_field() }}
-                            <input class="form-control"  id="formato_hora" name="formato_hora" type="file"   accept="application/pdf" required/>
+                            <input class="tw:h-11 tw:w-full tw:overflow-hidden tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:text-sm tw:text-gray-500 tw:dark:text-gray-400 tw:shadow-theme-xs tw:file:mr-5 tw:file:border-0 tw:file:border-r tw:file:border-solid tw:file:border-gray-200 tw:file:bg-gray-50 tw:file:py-3 tw:file:pr-3 tw:file:pl-3.5 tw:file:text-sm tw:file:text-gray-700 tw:hover:file:bg-gray-100 tw:focus:outline-hidden"  id="formato_hora" name="formato_hora" type="file"   accept="application/pdf" required/>
                         </form>
                         </p>
                     </div>
                 </div>
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                    <button  id="modificar_formato_hora" class="btn btn-primary" >Modificar</button>
+                <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                    <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                    <button  id="modificar_formato_hora" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Modificar</button>
 
                 </div>
-            </div>
-        </div>
-    </div>
+            </x-panel.modal>
     {{--modificar formato_hora--}}
     {{--modificar seguimiento_interno --}}
-    <div class="modal fade" id="modal_modificar_seguimiento_interno" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
+    <x-panel.modal id="modal_modificar_seguimiento_interno" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="myModalLabel">
 
-                <div class="modal-header bg-info">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title text-center" id="myModalLabel">Modificar el Formato de Seguimiento Interno</h4>
+                <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                    
+                    <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="myModalLabel">Modificar el Formato de Seguimiento Interno</h4>
                 </div>
-                <div class="row">
-                    <div class="col-md-10 col-md-offset-1">
+                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                    <div class="tw:w-full tw:px-2">
                         <p>
-                            <label for="seguimiento_interno">Ingresar nuevo PDF con el Formato de Seguimiento Interno<b style="color:red; font-size:23px;">*</b></label>
-                        <form class="form" id="form_modificar_seguimiento_interno" action="{{url("/residencia/seguimiento_interno/documentacionfinal/".$estado_documentacion->id_liberacion_documentos)}}" role="form" method="POST" enctype="multipart/form-data" >
+                            <label for="seguimiento_interno">Ingresar nuevo PDF con el Formato de Seguimiento Interno<b class="tw:text-red-600 tw:dark:text-red-400 tw:text-lg">*</b></label>
+                        <form id="form_modificar_seguimiento_interno" action="{{url("/residencia/seguimiento_interno/documentacionfinal/".$estado_documentacion->id_liberacion_documentos)}}" role="form" method="POST" enctype="multipart/form-data" >
                             {{ csrf_field() }}
-                            <input class="form-control"  id="seguimiento_interno" name="seguimiento_interno" type="file"   accept="application/pdf" required/>
+                            <input class="tw:h-11 tw:w-full tw:overflow-hidden tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:text-sm tw:text-gray-500 tw:dark:text-gray-400 tw:shadow-theme-xs tw:file:mr-5 tw:file:border-0 tw:file:border-r tw:file:border-solid tw:file:border-gray-200 tw:file:bg-gray-50 tw:file:py-3 tw:file:pr-3 tw:file:pl-3.5 tw:file:text-sm tw:file:text-gray-700 tw:hover:file:bg-gray-100 tw:focus:outline-hidden"  id="seguimiento_interno" name="seguimiento_interno" type="file"   accept="application/pdf" required/>
                         </form>
                         </p>
                     </div>
                 </div>
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                    <button  id="modificar_seguimiento_interno" class="btn btn-primary" >Modificar</button>
+                <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                    <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                    <button  id="modificar_seguimiento_interno" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Modificar</button>
 
                 </div>
-            </div>
-        </div>
-    </div>
+            </x-panel.modal>
     {{--modificar seguimiento_interno--}}
     {{--modificar seguimiento_externo --}}
-    <div class="modal fade" id="modal_modificar_seguimiento_externo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
+    <x-panel.modal id="modal_modificar_seguimiento_externo" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="myModalLabel">
 
-                <div class="modal-header bg-info">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title text-center" id="myModalLabel">Modificar el Formato de Seguimiento Externo</h4>
+                <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                    
+                    <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="myModalLabel">Modificar el Formato de Seguimiento Externo</h4>
                 </div>
-                <div class="row">
-                    <div class="col-md-10 col-md-offset-1">
+                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                    <div class="tw:w-full tw:px-2">
                         <p>
-                            <label for="seguimiento_externo">Ingresar nuevo PDF con el Formato de Seguimiento Externo<b style="color:red; font-size:23px;">*</b></label>
-                        <form class="form" id="form_modificar_seguimiento_externo" action="{{url("/residencia/seguimiento_externo/documentacionfinal/".$estado_documentacion->id_liberacion_documentos)}}" role="form" method="POST" enctype="multipart/form-data" >
+                            <label for="seguimiento_externo">Ingresar nuevo PDF con el Formato de Seguimiento Externo<b class="tw:text-red-600 tw:dark:text-red-400 tw:text-lg">*</b></label>
+                        <form id="form_modificar_seguimiento_externo" action="{{url("/residencia/seguimiento_externo/documentacionfinal/".$estado_documentacion->id_liberacion_documentos)}}" role="form" method="POST" enctype="multipart/form-data" >
                             {{ csrf_field() }}
-                            <input class="form-control"  id="seguimiento_externo" name="seguimiento_externo" type="file"   accept="application/pdf" required/>
+                            <input class="tw:h-11 tw:w-full tw:overflow-hidden tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:text-sm tw:text-gray-500 tw:dark:text-gray-400 tw:shadow-theme-xs tw:file:mr-5 tw:file:border-0 tw:file:border-r tw:file:border-solid tw:file:border-gray-200 tw:file:bg-gray-50 tw:file:py-3 tw:file:pr-3 tw:file:pl-3.5 tw:file:text-sm tw:file:text-gray-700 tw:hover:file:bg-gray-100 tw:focus:outline-hidden"  id="seguimiento_externo" name="seguimiento_externo" type="file"   accept="application/pdf" required/>
                         </form>
                         </p>
                     </div>
                 </div>
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                    <button  id="modificar_seguimiento_externo" class="btn btn-primary" >Modificar</button>
+                <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                    <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                    <button  id="modificar_seguimiento_externo" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Modificar</button>
 
                 </div>
-            </div>
-        </div>
-    </div>
+            </x-panel.modal>
     {{--modificar seguimiento_externo--}}
-    <div class="modal fade" id="enviar_documentacion_residencia_final" role="dialog">
-
-        <div class="modal-dialog modal-sm">
-            <div class="modal-content">
+    <x-panel.modal id="enviar_documentacion_residencia_final" tamano="sm" sin-relleno clase-cerrar="close">
                 <form method="POST" id="enviar_doc" action="{{url("/residencia/envio_documento_residencia_final/".$estado_documentacion->id_liberacion_documentos)}}">
                     @csrf
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Enviar documentos</h4>
+                    <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                        
+                        <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">Enviar documentos</h4>
                     </div>
-                    <div class="modal-body">
+                    <div class="tw-modal-cuerpo">
                         <p>¿Seguro que quieres, enviar tus documentos al Departamento de Servicio Social y Residencia Profesional para su revisión?</p>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <button  type="submit" class="btn btn-primary" >Aceptar</button>
+                    <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                        <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                        <button  type="submit" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Aceptar</button>
                     </div>
                 </form>
 
-            </div>
-        </div>
-
-    </div>
+            </x-panel.modal>
     <script type="text/javascript">
         $(document).ready( function() {
 
@@ -1045,4 +995,5 @@
             });
         });
     </script>
+</div>
 @endsection

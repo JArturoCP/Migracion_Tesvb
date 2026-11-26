@@ -1,133 +1,132 @@
-<form id="form_guardar_partida_mod" class="form" action="{{url("/presupuesto_autorizado/guardar_mod_presupesto_partida/".$partida_reg->	id_presupuesto_aut)}}" role="form" method="POST" >
+<form id="form_guardar_partida_mod" class="" action="{{url("/presupuesto_autorizado/guardar_mod_presupesto_partida/".$partida_reg->	id_presupuesto_aut)}}" role="form" method="POST" >
     {{ csrf_field() }}
-    <div class="row">
-        <div class="col-md-6 col-md-offset-3">
-            <h3>Partida presupuestal: {{ $partida_reg->clave_presupuestal }}  {{ $partida_reg->nombre_partida }}</h3>
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+        <div class="tw:w-full tw:px-2">
+            <h3 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">Partida presupuestal: {{ $partida_reg->clave_presupuestal }}  {{ $partida_reg->nombre_partida }}</h3>
         </div>
-        <br>
     </div>
-    <div class="row">
-        <div class="col-md-5 col-md-offset-1">
-            <div class="form-group">
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+        <div class="tw:w-full tw:lg:w-6/12 tw:px-2">
+            <div class="tw:mb-4">
                 <label>Ingresa presupuesto del mes de enero</label>
-                <input class="form-control" id="enero_pres_mod" name="enero_pres_mod" type="number" step=".01" value="{{ $partida_reg->enero_pres }}" required></input>
+                <input class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="enero_pres_mod" name="enero_pres_mod" type="number" step=".01" value="{{ $partida_reg->enero_pres }}" required></input>
             </div>
             <div id="pesos_enero_mod">
-                <h2> {{ "$".number_format($partida_reg->enero_pres, 2, '.', ',') }}</h2>
+                <h2 class="tw:mb-4 tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90"> {{ "$".number_format($partida_reg->enero_pres, 2, '.', ',') }}</h2>
             </div>
         </div>
-        <div class="col-md-5">
-            <div class="form-group">
+        <div class="tw:w-full tw:lg:w-6/12 tw:px-2">
+            <div class="tw:mb-4">
                 <label>Ingresa presupuesto del mes de febrero</label>
-                <input class="form-control" id="febrero_pres_mod" name="febrero_pres_mod" type="number" step=".01" value="{{ $partida_reg->febrero_pres }}" required></input>
+                <input class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="febrero_pres_mod" name="febrero_pres_mod" type="number" step=".01" value="{{ $partida_reg->febrero_pres }}" required></input>
             </div>
             <div id="pesos_febrero_mod">
-                <h2> {{ "$".number_format($partida_reg->febrero_pres, 2, '.', ',') }}</h2>
+                <h2 class="tw:mb-4 tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90"> {{ "$".number_format($partida_reg->febrero_pres, 2, '.', ',') }}</h2>
             </div>
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-md-5 col-md-offset-1">
-            <div class="form-group">
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+        <div class="tw:w-full tw:lg:w-6/12 tw:px-2">
+            <div class="tw:mb-4">
                 <label>Ingresa presupuesto del mes de marzo</label>
-                <input class="form-control" id="marzo_pres_mod" name="marzo_pres_mod" type="number" step=".01" value="{{ $partida_reg->marzo_pres }}" required></input>
+                <input class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="marzo_pres_mod" name="marzo_pres_mod" type="number" step=".01" value="{{ $partida_reg->marzo_pres }}" required></input>
             </div>
             <div id="pesos_marzo_mod">
-                <h2> {{ "$".number_format($partida_reg->marzo_pres, 2, '.', ',') }}</h2>
+                <h2 class="tw:mb-4 tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90"> {{ "$".number_format($partida_reg->marzo_pres, 2, '.', ',') }}</h2>
             </div>
         </div>
-        <div class="col-md-5">
-            <div class="form-group">
+        <div class="tw:w-full tw:lg:w-6/12 tw:px-2">
+            <div class="tw:mb-4">
                 <label>Ingresa presupuesto del mes de abril</label>
-                <input class="form-control" id="abril_pres_mod" name="abril_pres_mod" type="number" step=".01" value="{{ $partida_reg->abril_pres }}" required></input>
+                <input class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="abril_pres_mod" name="abril_pres_mod" type="number" step=".01" value="{{ $partida_reg->abril_pres }}" required></input>
             </div>
             <div id="pesos_abril_mod">
-                <h2> {{ "$".number_format($partida_reg->abril_pres, 2, '.', ',') }}</h2>
+                <h2 class="tw:mb-4 tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90"> {{ "$".number_format($partida_reg->abril_pres, 2, '.', ',') }}</h2>
             </div>
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-md-5 col-md-offset-1">
-            <div class="form-group">
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+        <div class="tw:w-full tw:lg:w-6/12 tw:px-2">
+            <div class="tw:mb-4">
                 <label>Ingresa presupuesto del mes de mayo</label>
-                <input class="form-control" id="mayo_pres_mod" name="mayo_pres_mod" type="number" step=".01" value="{{ $partida_reg->mayo_pres }}" required></input>
+                <input class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="mayo_pres_mod" name="mayo_pres_mod" type="number" step=".01" value="{{ $partida_reg->mayo_pres }}" required></input>
             </div>
             <div id="pesos_mayo_mod">
-                <h2> {{ "$".number_format($partida_reg->mayo_pres, 2, '.', ',') }}</h2>
+                <h2 class="tw:mb-4 tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90"> {{ "$".number_format($partida_reg->mayo_pres, 2, '.', ',') }}</h2>
             </div>
         </div>
-        <div class="col-md-5">
-            <div class="form-group">
+        <div class="tw:w-full tw:lg:w-6/12 tw:px-2">
+            <div class="tw:mb-4">
                 <label>Ingresa presupuesto del mes de junio</label>
-                <input class="form-control" id="junio_pres_mod" name="junio_pres_mod" type="number" step=".01" value="{{ $partida_reg->junio_pres }}" required></input>
+                <input class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="junio_pres_mod" name="junio_pres_mod" type="number" step=".01" value="{{ $partida_reg->junio_pres }}" required></input>
             </div>
             <div id="pesos_junio_mod">
-                <h2> {{ "$".number_format($partida_reg->junio_pres, 2, '.', ',') }}</h2>
+                <h2 class="tw:mb-4 tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90"> {{ "$".number_format($partida_reg->junio_pres, 2, '.', ',') }}</h2>
             </div>
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-md-5 col-md-offset-1">
-            <div class="form-group">
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+        <div class="tw:w-full tw:lg:w-6/12 tw:px-2">
+            <div class="tw:mb-4">
                 <label>Ingresa presupuesto del mes de julio</label>
-                <input class="form-control" id="julio_pres_mod" name="julio_pres_mod" type="number" step=".01" value="{{ $partida_reg->julio_pres }}" required></input>
+                <input class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="julio_pres_mod" name="julio_pres_mod" type="number" step=".01" value="{{ $partida_reg->julio_pres }}" required></input>
             </div>
             <div id="pesos_julio_mod">
-                <h2> {{ "$".number_format($partida_reg->julio_pres, 2, '.', ',') }}</h2>
+                <h2 class="tw:mb-4 tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90"> {{ "$".number_format($partida_reg->julio_pres, 2, '.', ',') }}</h2>
             </div>
         </div>
-        <div class="col-md-5 ">
-            <div class="form-group">
+        <div class="tw:w-full tw:lg:w-6/12 tw:px-2">
+            <div class="tw:mb-4">
                 <label>Ingresa presupuesto del mes de agosto</label>
-                <input class="form-control" id="agosto_pres_mod" name="agosto_pres_mod" type="number" step=".01" value="{{ $partida_reg->agosto_pres }}" required></input>
+                <input class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="agosto_pres_mod" name="agosto_pres_mod" type="number" step=".01" value="{{ $partida_reg->agosto_pres }}" required></input>
             </div>
             <div id="pesos_agosto_mod">
-                <h2> {{ "$".number_format($partida_reg->agosto_pres, 2, '.', ',') }}</h2>
+                <h2 class="tw:mb-4 tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90"> {{ "$".number_format($partida_reg->agosto_pres, 2, '.', ',') }}</h2>
             </div>
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-md-5 col-md-offset-1">
-            <div class="form-group">
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+        <div class="tw:w-full tw:lg:w-6/12 tw:px-2">
+            <div class="tw:mb-4">
                 <label>Ingresa presupuesto del mes de septiembre</label>
-                <input class="form-control" id="septiembre_pres_mod" name="septiembre_pres_mod" type="number" step=".01" value="{{ $partida_reg->septiembre_pres }}" required></input>
+                <input class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="septiembre_pres_mod" name="septiembre_pres_mod" type="number" step=".01" value="{{ $partida_reg->septiembre_pres }}" required></input>
             </div>
             <div id="pesos_septiembre_mod">
-                <h2> {{ "$".number_format($partida_reg->septiembre_pres, 2, '.', ',') }}</h2>
+                <h2 class="tw:mb-4 tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90"> {{ "$".number_format($partida_reg->septiembre_pres, 2, '.', ',') }}</h2>
             </div>
         </div>
-        <div class="col-md-5">
-            <div class="form-group">
+        <div class="tw:w-full tw:lg:w-6/12 tw:px-2">
+            <div class="tw:mb-4">
                 <label>Ingresa presupuesto del mes de octubre</label>
-                <input class="form-control" id="octubre_pres_mod" name="octubre_pres_mod" type="number" step=".01" value="{{ $partida_reg->octubre_pres }}" required></input>
+                <input class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="octubre_pres_mod" name="octubre_pres_mod" type="number" step=".01" value="{{ $partida_reg->octubre_pres }}" required></input>
             </div>
             <div id="pesos_octubre_mod">
-                <h2> {{ "$".number_format($partida_reg->octubre_pres, 2, '.', ',') }}</h2>
+                <h2 class="tw:mb-4 tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90"> {{ "$".number_format($partida_reg->octubre_pres, 2, '.', ',') }}</h2>
             </div>
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-md-5 col-md-offset-1">
-            <div class="form-group">
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+        <div class="tw:w-full tw:lg:w-6/12 tw:px-2">
+            <div class="tw:mb-4">
                 <label>Ingresa presupuesto del mes de noviembre</label>
-                <input class="form-control" id="noviembre_pres_mod" name="noviembre_pres_mod" type="number" step=".01" value="{{ $partida_reg->noviembre_pres }}" required></input>
+                <input class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="noviembre_pres_mod" name="noviembre_pres_mod" type="number" step=".01" value="{{ $partida_reg->noviembre_pres }}" required></input>
             </div>
             <div id="pesos_noviembre_mod">
-                <h2> {{ "$".number_format($partida_reg->noviembre_pres, 2, '.', ',') }}</h2>
+                <h2 class="tw:mb-4 tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90"> {{ "$".number_format($partida_reg->noviembre_pres, 2, '.', ',') }}</h2>
             </div>
         </div>
-        <div class="col-md-5">
-            <div class="form-group">
+        <div class="tw:w-full tw:lg:w-6/12 tw:px-2">
+            <div class="tw:mb-4">
                 <label>Ingresa presupuesto del mes de diciembre</label>
-                <input class="form-control" id="diciembre_pres_mod" name="diciembre_pres_mod" type="number" step=".01" value="{{ $partida_reg->diciembre_pres }}" required></input>
+                <input class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="diciembre_pres_mod" name="diciembre_pres_mod" type="number" step=".01" value="{{ $partida_reg->diciembre_pres }}" required></input>
             </div>
             <div id="pesos_diciembre_mod">
-             <h2> {{ "$".number_format($partida_reg->diciembre_pres, 2, '.', ',') }}</h2>
+             <h2 class="tw:mb-4 tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90"> {{ "$".number_format($partida_reg->diciembre_pres, 2, '.', ',') }}</h2>
             </div>
         </div>
     </div>

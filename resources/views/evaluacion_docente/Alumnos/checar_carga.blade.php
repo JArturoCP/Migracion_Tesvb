@@ -1,6 +1,8 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 @section('title', 'Inicio')
+@include('partials.panel.recursos_app', ['validacion' => true])
 @section('content')
+<div class="tw-pantalla">
 
 <?php
 $ver_carga = session()->has('ver_carga') ? session()->has('ver_carga') : false;
@@ -202,46 +204,37 @@ $escolar = session()->has('escolar') ? session()->has('escolar') : false;
     });
 </script>
 
-<main>
+<main class="tw:flex tw:flex-wrap tw:gap-y-4">
 
     {{-- ===================================================== --}}
     {{-- MODAL AUTORIZAR SEMESTRE --}}
     {{-- ===================================================== --}}
 
-    <div class="modal fade" id="modal_autorizar_estudiante" tabindex="-1" role="dialog"
-        aria-labelledby="exampleModalLabel">
+    <x-panel.modal id="modal_autorizar_estudiante" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="exampleModalLabel">
 
-        <div class="modal-dialog" role="document">
+                <div class="tw:px-6 tw:pt-6 tw:pr-14">
 
-            <div class="modal-content">
+                    
 
-                <div class="modal-header">
-
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
-
-                        <span aria-hidden="true">&times;</span>
-
-                    </button>
-
-                    <h4 class="modal-title">
+                    <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">
                         Autorizar registro del estudiante
                     </h4>
 
                 </div>
 
-                <div class="modal-body">
+                <div class="tw-modal-cuerpo">
 
                     <div id="contenedor_autorizar_estudiante"></div>
 
-                    <div class="modal-footer">
+                    <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
 
-                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                        <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">
 
                             Cancelar
 
                         </button>
 
-                        <button id="guardar_autorizar_estudiante" class="btn btn-primary">
+                        <button id="guardar_autorizar_estudiante" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap">
 
                             Aceptar
 
@@ -251,50 +244,37 @@ $escolar = session()->has('escolar') ? session()->has('escolar') : false;
 
                 </div>
 
-            </div>
-
-        </div>
-
-    </div>
+            </x-panel.modal>
 
     {{-- ===================================================== --}}
     {{-- MODAL ACTUALIZAR SEMESTRE --}}
     {{-- ===================================================== --}}
 
-    <div class="modal fade" id="modal_actualizar_estudiante" tabindex="-1" role="dialog"
-        aria-labelledby="exampleModalLabel">
+    <x-panel.modal id="modal_actualizar_estudiante" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="exampleModalLabel">
 
-        <div class="modal-dialog" role="document">
+                <div class="tw:px-6 tw:pt-6 tw:pr-14">
 
-            <div class="modal-content">
+                    
 
-                <div class="modal-header">
-
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
-
-                        <span aria-hidden="true">&times;</span>
-
-                    </button>
-
-                    <h4 class="modal-title">
+                    <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">
                         Modificar registro del estudiante
                     </h4>
 
                 </div>
 
-                <div class="modal-body">
+                <div class="tw-modal-cuerpo">
 
                     <div id="contenedor_actualizar_estudiante"></div>
 
-                    <div class="modal-footer">
+                    <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
 
-                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                        <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">
 
                             Cancelar
 
                         </button>
 
-                        <button id="guardar_actualizar_estudiante" class="btn btn-primary">
+                        <button id="guardar_actualizar_estudiante" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap">
 
                             Aceptar
 
@@ -304,35 +284,13 @@ $escolar = session()->has('escolar') ? session()->has('escolar') : false;
 
                 </div>
 
-            </div>
-
-        </div>
-
-    </div>
+            </x-panel.modal>
 
     {{-- ===================================================== --}}
     {{-- TITULO --}}
     {{-- ===================================================== --}}
 
-    <div class="row">
-
-        <div class="col-md-6 col-md-offset-3">
-
-            <div class="panel panel-info">
-
-                <div class="panel-heading">
-
-                    <h3 class="panel-title text-center">
-                        VER CARGA ACADÉMICA
-                    </h3>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
+    <x-panel.encabezado titulo="Ver carga académica" :migas="['Estudiantes' => null]" />
 
     {{-- ===================================================== --}}
     {{-- ALUMNO --}}
@@ -348,11 +306,11 @@ $escolar = session()->has('escolar') ? session()->has('escolar') : false;
 
     @if($validaciones[0]->estado_validacion == 100)
 
-    <div class="col-md-8 col-md-offset-2">
+    <div class="tw:w-full tw:px-2">
 
-        <div class="panel panel-info carga-alerta">
+        <div class="carga-alerta tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
 
-            <div class="panel-heading">
+            <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:dark:border-gray-800 tw:bg-gray-50 tw:dark:bg-gray-900 tw:px-5 tw:py-4">
 
                 <i class="fa fa-info-circle"></i>
 
@@ -360,7 +318,7 @@ $escolar = session()->has('escolar') ? session()->has('escolar') : false;
 
             </div>
 
-            <div class="panel-body text-center">
+            <div class="tw:p-5 tw:sm:p-6 tw:text-center">
 
                 <div class="icono-estado estado-info">
 
@@ -368,7 +326,7 @@ $escolar = session()->has('escolar') ? session()->has('escolar') : false;
 
                 </div>
 
-                <h4>
+                <h4 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">
                     ¡Carga académica enviada correctamente!
                 </h4>
 
@@ -382,7 +340,7 @@ $escolar = session()->has('escolar') ? session()->has('escolar') : false;
                     Una vez aprobada, podrás imprimirla.
                 </p>
 
-                <span class="label label-info">
+                <span class="tw:inline-flex tw:items-center tw:rounded-full tw:px-2.5 tw:py-0.5 tw:text-xs tw:font-medium tw:bg-sky-50 tw:text-sky-600">
                     En proceso de revisión
                 </span>
 
@@ -398,11 +356,11 @@ $escolar = session()->has('escolar') ? session()->has('escolar') : false;
 
     @elseif($validaciones[0]->estado_validacion == 3)
 
-    <div class="col-md-8 col-md-offset-2">
+    <div class="tw:w-full tw:px-2">
 
-        <div class="panel panel-danger carga-alerta">
+        <div class="carga-alerta tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
 
-            <div class="panel-heading">
+            <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:dark:border-gray-800 tw:bg-gray-50 tw:dark:bg-gray-900 tw:px-5 tw:py-4">
 
                 <i class="fa fa-exclamation-triangle"></i>
 
@@ -412,7 +370,7 @@ $escolar = session()->has('escolar') ? session()->has('escolar') : false;
 
             </div>
 
-            <div class="panel-body text-center">
+            <div class="tw:p-5 tw:sm:p-6 tw:text-center">
 
                 <div class="icono-estado estado-error">
 
@@ -420,7 +378,7 @@ $escolar = session()->has('escolar') ? session()->has('escolar') : false;
 
                 </div>
 
-                <h4>
+                <h4 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">
                     Tu carga académica tiene observaciones
                 </h4>
 
@@ -428,14 +386,14 @@ $escolar = session()->has('escolar') ? session()->has('escolar') : false;
                     {{ $validaciones[0]->descripcion }}
                 </p>
 
-                <div class="alert alert-warning">
+                <x-panel.alerta tipo="advertencia" class="tw:mb-4">
 
                     <i class="fa fa-lightbulb-o"></i>
 
                     Modifica tu carga académica de acuerdo con
                     la observación antes de volver a enviarla.
 
-                </div>
+                </x-panel.alerta>
 
             </div>
 
@@ -451,11 +409,11 @@ $escolar = session()->has('escolar') ? session()->has('escolar') : false;
 
     @if($creditoss == 1)
 
-    <div class="col-md-8 col-md-offset-2">
+    <div class="tw:w-full tw:px-2">
 
-        <div class="panel panel-danger carga-alerta">
+        <div class="carga-alerta tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
 
-            <div class="panel-heading">
+            <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:dark:border-gray-800 tw:bg-gray-50 tw:dark:bg-gray-900 tw:px-5 tw:py-4">
 
                 <i class="fa fa-ban"></i>
 
@@ -465,7 +423,7 @@ $escolar = session()->has('escolar') ? session()->has('escolar') : false;
 
             </div>
 
-            <div class="panel-body text-center">
+            <div class="tw:p-5 tw:sm:p-6 tw:text-center">
 
                 <div class="icono-estado estado-error">
 
@@ -473,7 +431,7 @@ $escolar = session()->has('escolar') ? session()->has('escolar') : false;
 
                 </div>
 
-                <h4>
+                <h4 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">
                     Has excedido el máximo de créditos
                 </h4>
 
@@ -495,11 +453,11 @@ $escolar = session()->has('escolar') ? session()->has('escolar') : false;
 
     @elseif($creditoss == 2)
 
-    <div class="col-md-8 col-md-offset-2">
+    <div class="tw:w-full tw:px-2">
 
-        <div class="panel panel-warning carga-alerta">
+        <div class="carga-alerta tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
 
-            <div class="panel-heading">
+            <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:dark:border-gray-800 tw:bg-gray-50 tw:dark:bg-gray-900 tw:px-5 tw:py-4">
 
                 <i class="fa fa-exclamation-triangle"></i>
 
@@ -509,7 +467,7 @@ $escolar = session()->has('escolar') ? session()->has('escolar') : false;
 
             </div>
 
-            <div class="panel-body text-center">
+            <div class="tw:p-5 tw:sm:p-6 tw:text-center">
 
                 <div class="icono-estado estado-warning">
 
@@ -517,7 +475,7 @@ $escolar = session()->has('escolar') ? session()->has('escolar') : false;
 
                 </div>
 
-                <h4>
+                <h4 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">
                     No alcanzas el mínimo de créditos
                 </h4>
 
@@ -538,11 +496,11 @@ $escolar = session()->has('escolar') ? session()->has('escolar') : false;
 
     @elseif($creditoss == 4)
 
-    <div class="col-md-8 col-md-offset-2">
+    <div class="tw:w-full tw:px-2">
 
-        <div class="panel panel-danger carga-alerta">
+        <div class="carga-alerta tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
 
-            <div class="panel-heading">
+            <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:dark:border-gray-800 tw:bg-gray-50 tw:dark:bg-gray-900 tw:px-5 tw:py-4">
 
                 <i class="fa fa-book"></i>
 
@@ -552,7 +510,7 @@ $escolar = session()->has('escolar') ? session()->has('escolar') : false;
 
             </div>
 
-            <div class="panel-body text-center">
+            <div class="tw:p-5 tw:sm:p-6 tw:text-center">
 
                 <div class="icono-estado estado-error">
 
@@ -560,7 +518,7 @@ $escolar = session()->has('escolar') ? session()->has('escolar') : false;
 
                 </div>
 
-                <h4>
+                <h4 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">
                     Has excedido el límite permitido
                 </h4>
 
@@ -582,11 +540,11 @@ $escolar = session()->has('escolar') ? session()->has('escolar') : false;
 
     @elseif($creditoss == 5)
 
-    <div class="col-md-8 col-md-offset-2">
+    <div class="tw:w-full tw:px-2">
 
-        <div class="panel panel-danger carga-alerta">
+        <div class="carga-alerta tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
 
-            <div class="panel-heading">
+            <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:dark:border-gray-800 tw:bg-gray-50 tw:dark:bg-gray-900 tw:px-5 tw:py-4">
 
                 <i class="fa fa-bookmark"></i>
 
@@ -596,7 +554,7 @@ $escolar = session()->has('escolar') ? session()->has('escolar') : false;
 
             </div>
 
-            <div class="panel-body text-center">
+            <div class="tw:p-5 tw:sm:p-6 tw:text-center">
 
                 <div class="icono-estado estado-error">
 
@@ -604,7 +562,7 @@ $escolar = session()->has('escolar') ? session()->has('escolar') : false;
 
                 </div>
 
-                <h4>
+                <h4 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">
                     Has excedido el número de materias especiales
                 </h4>
 
@@ -625,11 +583,11 @@ $escolar = session()->has('escolar') ? session()->has('escolar') : false;
 
     @elseif($creditoss == 6)
 
-    <div class="col-md-8 col-md-offset-2">
+    <div class="tw:w-full tw:px-2">
 
-        <div class="panel panel-danger carga-alerta">
+        <div class="carga-alerta tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
 
-            <div class="panel-heading">
+            <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:dark:border-gray-800 tw:bg-gray-50 tw:dark:bg-gray-900 tw:px-5 tw:py-4">
 
                 <i class="fa fa-bookmark-o"></i>
 
@@ -639,7 +597,7 @@ $escolar = session()->has('escolar') ? session()->has('escolar') : false;
 
             </div>
 
-            <div class="panel-body text-center">
+            <div class="tw:p-5 tw:sm:p-6 tw:text-center">
 
                 <div class="icono-estado estado-error">
 
@@ -647,7 +605,7 @@ $escolar = session()->has('escolar') ? session()->has('escolar') : false;
 
                 </div>
 
-                <h4>
+                <h4 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">
                     Límite de materias especiales
                 </h4>
 
@@ -674,11 +632,11 @@ $escolar = session()->has('escolar') ? session()->has('escolar') : false;
 
     @else
 
-    <div class="col-md-8 col-md-offset-2">
+    <div class="tw:w-full tw:px-2">
 
-        <div class="panel panel-success carga-alerta">
+        <div class="carga-alerta tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
 
-            <div class="panel-heading">
+            <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:dark:border-gray-800 tw:bg-gray-50 tw:dark:bg-gray-900 tw:px-5 tw:py-4">
 
                 <i class="fa fa-check"></i>
 
@@ -688,7 +646,7 @@ $escolar = session()->has('escolar') ? session()->has('escolar') : false;
 
             </div>
 
-            <div class="panel-body text-center">
+            <div class="tw:p-5 tw:sm:p-6 tw:text-center">
 
                 <div class="icono-estado estado-success">
 
@@ -696,7 +654,7 @@ $escolar = session()->has('escolar') ? session()->has('escolar') : false;
 
                 </div>
 
-                <h4>
+                <h4 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">
                     ¡Todo está correcto!
                 </h4>
 
@@ -705,7 +663,7 @@ $escolar = session()->has('escolar') ? session()->has('escolar') : false;
                     necesarias para ser enviada.
                 </p>
 
-                <div class="alert alert-success">
+                <x-panel.alerta tipo="exito" class="tw:mb-4">
 
                     <i class="fa fa-send"></i>
 
@@ -714,7 +672,7 @@ $escolar = session()->has('escolar') ? session()->has('escolar') : false;
                         al departamento de Servicios Escolares.
                     </strong>
 
-                </div>
+                </x-panel.alerta>
 
             </div>
 
@@ -728,11 +686,11 @@ $escolar = session()->has('escolar') ? session()->has('escolar') : false;
 
     @else
 
-    <div class="col-md-8 col-md-offset-2">
+    <div class="tw:w-full tw:px-2">
 
-        <div class="panel panel-warning carga-alerta">
+        <div class="carga-alerta tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
 
-            <div class="panel-heading">
+            <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:dark:border-gray-800 tw:bg-gray-50 tw:dark:bg-gray-900 tw:px-5 tw:py-4">
 
                 <i class="fa fa-question-circle"></i>
 
@@ -742,7 +700,7 @@ $escolar = session()->has('escolar') ? session()->has('escolar') : false;
 
             </div>
 
-            <div class="panel-body text-center">
+            <div class="tw:p-5 tw:sm:p-6 tw:text-center">
 
                 <div class="icono-estado estado-warning">
 
@@ -750,7 +708,7 @@ $escolar = session()->has('escolar') ? session()->has('escolar') : false;
 
                 </div>
 
-                <h4>
+                <h4 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">
                     No se encontró información de validación
                 </h4>
 
@@ -774,13 +732,13 @@ $escolar = session()->has('escolar') ? session()->has('escolar') : false;
 
     @if($usuario == 2)
 
-    <div class="row">
+    <div class="tw:w-full tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
-        <div class="col-md-8 col-md-offset-2">
+        <div class="tw:w-full tw:px-2">
 
-            <div class="panel panel-primary">
+            <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
 
-                <h4 style="text-align: center;">
+                <h4 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90 tw:text-center" >
                     {{ $cuenta_y_nom }}
                 </h4>
 
@@ -799,42 +757,26 @@ $escolar = session()->has('escolar') ? session()->has('escolar') : false;
 
     @if($adeudo == 0)
 
-    <div class="col-md-6 col-md-offset-3">
+    <div class="tw:w-full tw:px-2">
 
-        <div class="panel panel-success">
-
-            <div class="panel-heading">
-
-                <h3 class="panel-title text-center">
-                    No tiene adeudo
-                </h3>
-
-            </div>
-
-        </div>
+        <x-panel.alerta tipo="exito" class="tw:mb-4">No tiene adeudo</x-panel.alerta>
 
     </div>
 
     @else
 
-    <div class="col-md-6 col-md-offset-3">
+    <div class="tw:w-full tw:px-2">
 
-        <div class="panel panel-danger">
-
-            <div class="panel-heading">
-
-                <h3 class="panel-title text-center">
-
-                    Tiene adeudo con los siguientes
+        <x-panel.alerta tipo="error" class="tw:mb-4">Tiene adeudo con los siguientes
                     departamentos o carreras:
 
-                </h3>
+                
 
                 <br>
 
                 @foreach($departamento_carrera as $departamento_carrera)
 
-                <p style="text-align: center">
+                <p class="tw:text-center" >
 
                     {{ $departamento_carrera['nombre'] }}
                     :-
@@ -842,11 +784,7 @@ $escolar = session()->has('escolar') ? session()->has('escolar') : false;
 
                 </p>
 
-                @endforeach
-
-            </div>
-
-        </div>
+                @endforeach</x-panel.alerta>
 
     </div>
 
@@ -860,13 +798,13 @@ $escolar = session()->has('escolar') ? session()->has('escolar') : false;
 
     @if($estado_sem_act == 0)
 
-    <div class="row">
+    <div class="tw:w-full tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
-        <div class="col-md-6 col-md-offset-3">
+        <div class="tw:w-full tw:px-2">
 
-            <div class="panel panel-primary">
+            <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
 
-                <div class="panel-body">
+                <div class="tw:p-5 tw:sm:p-6">
 
                     <form id="form_guardar_semestre"
                         action="{{ url('/servicios_escolares/guardar_semestre_al/'.$alumno.'/2') }}" role="form"
@@ -874,16 +812,16 @@ $escolar = session()->has('escolar') ? session()->has('escolar') : false;
 
                         {{ csrf_field() }}
 
-                        <div class="row">
+                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
-                            <div class="col-md-10 col-md-offset-1">
+                            <div class="tw:w-full tw:px-2">
 
                                 <label>
                                     Selecciona periodo que ingreso
                                     el estudiante al TESVB
                                 </label>
 
-                                <select class="form-control" id="id_periodo" name="id_periodo" required>
+                                <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="id_periodo" name="id_periodo" required>
 
                                     <option disabled selected hidden>
                                         Selecciona una opción
@@ -901,22 +839,21 @@ $escolar = session()->has('escolar') ? session()->has('escolar') : false;
 
                                 </select>
 
-                                <br>
 
                             </div>
 
                         </div>
 
-                        <div class="row">
+                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
-                            <div class="col-md-10 col-md-offset-1">
+                            <div class="tw:w-full tw:px-2">
 
                                 <label>
                                     Selecciona el semestre que ingreso
                                     el estudiante al TESVB
                                 </label>
 
-                                <select class="form-control" id="id_semestre" name="id_semestre" required>
+                                <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="id_semestre" name="id_semestre" required>
 
                                     <option disabled selected hidden>
                                         Selecciona una opción
@@ -934,7 +871,6 @@ $escolar = session()->has('escolar') ? session()->has('escolar') : false;
 
                                 </select>
 
-                                <br>
 
                             </div>
 
@@ -942,11 +878,11 @@ $escolar = session()->has('escolar') ? session()->has('escolar') : false;
 
                     </form>
 
-                    <div class="row">
+                    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
-                        <div class="col-md-2 col-md-offset-5">
+                        <div class="tw:w-full tw:px-2">
 
-                            <button id="guardar_agregar_semestre" class="btn btn-primary">
+                            <button id="guardar_agregar_semestre" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap">
 
                                 Guardar
 
@@ -968,37 +904,33 @@ $escolar = session()->has('escolar') ? session()->has('escolar') : false;
 
     @if($datos_actu->id_estado_rev == 2)
 
-    <div class="row">
+    <div class="tw:w-full tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
-        <div class="col-md-6 col-md-offset-3">
+        <div class="tw:w-full tw:px-2">
 
-            <div class="panel panel-primary">
+            <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
 
-                <div class="panel-body">
+                <div class="tw:p-5 tw:sm:p-6">
 
-                    <h4>
+                    <h4 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">
                         Periodo que ingreso el estudiante al TESVB:
                         <b>{{ $datos_actu->periodo }}</b>
                     </h4>
 
-                    <h4>
+                    <h4 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">
                         Semestre que ingreso el estudiante al TESVB:
                         <b>{{ $datos_actu->semestre }}</b>
                     </h4>
 
-                    <p style="text-align: right">
+                    <p class="tw:text-right" >
 
-                        <button class="btn btn-success autorizar_semestre" id="{{ $datos_actu->id_semestres_al }}">
+                        <button class="autorizar_semestre tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" id="{{ $datos_actu->id_semestres_al }}">
 
                             Autorizar
 
                         </button>
 
-                        <button class="btn btn-primary editar_semestre" id="{{ $datos_actu->id_semestres_al }}">
-
-                            <span class="glyphicon glyphicon-cog"></span>
-
-                        </button>
+                        <button class="editar_semestre tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base" id="{{ $datos_actu->id_semestres_al }}"><span class="fa fa-cog"></span></button>
 
                     </p>
 
@@ -1012,20 +944,20 @@ $escolar = session()->has('escolar') ? session()->has('escolar') : false;
 
     @elseif($datos_actu->id_estado_rev == 1)
 
-    <form class="form-horizontal" role="form" method="POST" action="/validacion_de_carga/{{ $id }}" novalidate
+    <form class="tw:w-full" role="form" method="POST" action="/validacion_de_carga/{{ $id }}" novalidate
         id="formupdate">
 
         <input type="hidden" name="_method" value="PUT" />
 
         {{ csrf_field() }}
 
-        <div class="row">
+        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
-            <div class="col-md-4 col-md-offset-4 alert alert-success">
+            <div class="tw:w-full tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-green-200 tw:bg-green-50 tw:text-green-800 tw:px-2">
 
-                <p style="text-align: center">
+                <p class="tw:text-center" >
 
-                    <label class="radio-inline">
+                    <label class="tw:mr-4 tw:inline-flex tw:cursor-pointer tw:items-center tw:gap-2 tw:text-sm tw:text-gray-700 tw:dark:text-gray-300">
 
                         <input type="radio" id="optradio1" name="optradio" value="1">
 
@@ -1033,7 +965,7 @@ $escolar = session()->has('escolar') ? session()->has('escolar') : false;
 
                     </label>
 
-                    <label class="radio-inline">
+                    <label class="tw:mr-4 tw:inline-flex tw:cursor-pointer tw:items-center tw:gap-2 tw:text-sm tw:text-gray-700 tw:dark:text-gray-300">
 
                         <input type="radio" id="optradio2" name="optradio" value="2">
 
@@ -1047,10 +979,10 @@ $escolar = session()->has('escolar') ? session()->has('escolar') : false;
 
                     <label>
                         Estado del alumno
-                        <b style="color:red; font-size:23px;">*</b>
+                        <b class="tw:text-red-600 tw:dark:text-red-400 tw:text-lg" >*</b>
                     </label>
 
-                    <select class="form-control" name="estado" id="estado" required>
+                    <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="estado" id="estado" required>
 
                         <option disabled selected hidden>
                             Selecciona una opción
@@ -1074,13 +1006,13 @@ $escolar = session()->has('escolar') ? session()->has('escolar') : false;
                         Observaciones:
                     </label>
 
-                    <textarea class="form-control rounded-0" id="obser" rows="2" name="obser"></textarea>
+                    <textarea class="rounded-0 tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500" id="obser" rows="2" name="obser"></textarea>
 
                 </div>
 
-                <p style="text-align: center">
+                <p class="tw:text-center" >
 
-                    <button class="btn btn-primary" id="aceptar">
+                    <button class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" id="aceptar">
 
                         Aceptar
 
@@ -1113,17 +1045,17 @@ $escolar = session()->has('escolar') ? session()->has('escolar') : false;
     @if(isset($validaciones[0]) &&
     $validaciones[0]->estado_validacion == 888)
 
-    <div class="row">
+    <div class="tw:w-full tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
-        <div class="col-md-6 col-md-offset-3">
+        <div class="tw:w-full tw:px-2">
 
-            <div class="panel panel-success panel-autorizacion">
+            <div class="panel-autorizacion tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
 
-                <div class="panel-heading">
+                <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:dark:border-gray-800 tw:bg-gray-50 tw:dark:bg-gray-900 tw:px-5 tw:py-4">
 
-                    <h4 class="text-center">
+                    <h4 class="tw:text-center tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">
 
-                        <span class="glyphicon glyphicon-check"></span>
+                        <span class="fa fa-check-square-o"></span>
 
                         Autorizar Carga Académica DUAL
 
@@ -1131,15 +1063,15 @@ $escolar = session()->has('escolar') ? session()->has('escolar') : false;
 
                 </div>
 
-                <div class="panel-body text-center">
+                <div class="tw:p-5 tw:sm:p-6 tw:text-center">
 
                     <div class="icono-estado estado-success">
 
-                        <span class="glyphicon glyphicon-ok"></span>
+                        <span class="fa fa-check"></span>
 
                     </div>
 
-                    <h4>
+                    <h4 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">
                         Carga DUAL lista para autorización
                     </h4>
 
@@ -1161,9 +1093,9 @@ $escolar = session()->has('escolar') ? session()->has('escolar') : false;
 
                         {{ method_field('PUT') }}
 
-                        <button type="submit" class="btn btn-success btn-lg">
+                        <button type="submit" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap">
 
-                            <span class="glyphicon glyphicon-ok"></span>
+                            <span class="fa fa-check"></span>
 
                             Autorizar carga DUAL
 
@@ -1189,15 +1121,15 @@ $escolar = session()->has('escolar') ? session()->has('escolar') : false;
 
     @if(isset($validaciones[0]))
 
-    <div class="row">
+    <div class="tw:w-full tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
         @if($validaciones[0]->estado_validacion == 0)
 
         @if($creditoss == 3)
 
-        <div class="col-md-5 col-md-offset-3">
+        <div class="tw:w-full tw:px-2">
 
-            <label class="alert alert-success">
+            <label class="tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-green-200 tw:bg-green-50 tw:text-green-800">
 
                 Tu carga académica se creó correctamente,
                 verifica si tus materias son las que tomarás
@@ -1211,9 +1143,9 @@ $escolar = session()->has('escolar') ? session()->has('escolar') : false;
 
         @if($creditoss == 5)
 
-        <div class="col-md-5 col-md-offset-3">
+        <div class="tw:w-full tw:px-2">
 
-            <label class="alert alert-success">
+            <label class="tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-green-200 tw:bg-green-50 tw:text-green-800">
 
                 Tu carga académica se creó correctamente,
                 verifica si tus materias son las que tomarás
@@ -1241,9 +1173,9 @@ $escolar = session()->has('escolar') ? session()->has('escolar') : false;
 
     @if($validaciones[0]->estado_validacion == 1)
 
-    <div class="row">
+    <div class="tw:w-full tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
-        <div class="col-md-4 col-md-offset-4 alert alert-success">
+        <div class="tw:w-full tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-green-200 tw:bg-green-50 tw:text-green-800 tw:px-2">
 
             <strong>
 
@@ -1253,13 +1185,9 @@ $escolar = session()->has('escolar') ? session()->has('escolar') : false;
 
             </strong>
 
-            <p style="text-align: center">
+            <p class="tw:text-center" >
 
-                <button type="button" class="btn btn-default" disabled>
-
-                    <span class="glyphicon glyphicon-print"></span>
-
-                </button>
+                <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:size-9 tw:text-base" disabled><span class="fa fa-print"></span></button>
 
             </p>
 
@@ -1273,11 +1201,11 @@ $escolar = session()->has('escolar') ? session()->has('escolar') : false;
     $validaciones[0]->estado_validacion == 9
     )
 
-    <div class="row">
+    <div class="tw:w-full tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
-        <div class="col-md-3 col-md-offset-4 alert alert-success">
+        <div class="tw:w-full tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-green-200 tw:bg-green-50 tw:text-green-800 tw:px-2">
 
-            <p style="text-align: center">
+            <p class="tw:text-center" >
 
                 <strong>
                     Carga Académica Aceptada
@@ -1285,19 +1213,15 @@ $escolar = session()->has('escolar') ? session()->has('escolar') : false;
 
             </p>
 
-            <p style="text-align: center">
+            <p class="tw:text-center" >
 
-                <a href="/imprime_carga" target="_blank">
-
-                    <span class="glyphicon glyphicon-print"></span>
-
-                </a>
+                <a class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base" href="/imprime_carga" target="_blank"><span class="fa fa-print"></span></a>
 
             </p>
 
-            <p style="text-align: center">
+            <p class="tw:text-center" >
 
-                <a href="/imprime_carga">
+                <a class="tw:text-brand-500 tw:hover:underline" href="/imprime_carga">
 
                     <strong>
                         Imprimir
@@ -1321,9 +1245,9 @@ $escolar = session()->has('escolar') ? session()->has('escolar') : false;
 
     @if($ls == 2 || $ls == 8 || $ls == 9)
 
-    <div class="col-md-3 col-md-offset-4 alert alert-success">
+    <div class="tw:w-full tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-green-200 tw:bg-green-50 tw:text-green-800 tw:px-2">
 
-        <p style="text-align: center">
+        <p class="tw:text-center" >
 
             <strong>
                 Carga Académica Aceptada
@@ -1331,19 +1255,15 @@ $escolar = session()->has('escolar') ? session()->has('escolar') : false;
 
         </p>
 
-        <p style="text-align: center">
+        <p class="tw:text-center" >
 
-            <a href="/imprime_control/{{$id_alumno}}" target="_blank">
-
-                <span class="glyphicon glyphicon-print"></span>
-
-            </a>
+            <a class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base" href="/imprime_control/{{$id_alumno}}" target="_blank"><span class="fa fa-print"></span></a>
 
         </p>
 
-        <p style="text-align: center">
+        <p class="tw:text-center" >
 
-            <a href="/imprime_control/{{$id_alumno}}">
+            <a class="tw:text-brand-500 tw:hover:underline" href="/imprime_control/{{$id_alumno}}">
 
                 <strong>
                     Imprimir
@@ -1363,25 +1283,26 @@ $escolar = session()->has('escolar') ? session()->has('escolar') : false;
     {{-- TABLA DE CARGA --}}
     {{-- ===================================================== --}}
 
-    <div class="row">
+    <div class="tw:w-full tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
-        <div class="col-md-10 col-md-offset-1">
+        <div class="tw:w-full tw:px-2">
 
-            <table class="table table-bordered" style="background: white;">
+            <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table class="tw-tabla tw-tabla-bordes">
 
-                <thead class="bg bg-info">
+                <thead class="bg tw:bg-sky-100">
                     <tr>
-                        <th class="text-center">NOMBRE DEL PROFESOR</th>
-                        <th class="text-center">CLAVE DE LA MATERIA</th>
-                        <th class="text-center">NOMBRE DE LA MATERIA</th>
-                        <th class="text-center">CREDITOS</th>
-                        <th class="text-center">STATUS</th>
-                        <th class="text-center">TIPO CURSA</th>
-                        <th class="text-center">GRUPO</th>
+                        <th class="tw:text-center">NOMBRE DEL PROFESOR</th>
+                        <th class="tw:text-center">CLAVE DE LA MATERIA</th>
+                        <th class="tw:text-center">NOMBRE DE LA MATERIA</th>
+                        <th class="tw:text-center">CREDITOS</th>
+                        <th class="tw:text-center">STATUS</th>
+                        <th class="tw:text-center">TIPO CURSA</th>
+                        <th class="tw:text-center">GRUPO</th>
                         @if($validaciones[0]->estado_validacion == 0 || $validaciones[0]->estado_validacion == 3 ||
                         $validaciones[0]->estado_validacion == 4 )
-                        <th class="text-center">ELIMINAR</th>
-                        <th class="text-center">MODIFICAR</th>
+                        <th class="tw:text-center">ELIMINAR</th>
+                        <th class="tw:text-center">MODIFICAR</th>
                         @endif
                     </tr>
                 </thead>
@@ -1390,18 +1311,16 @@ $escolar = session()->has('escolar') ? session()->has('escolar') : false;
                     @if($consulta['id_materia'] == 2258)
                     <tr>
                         <th></th>
-                        <th class="text-center">{{ $consulta['clave'] }}</th>
-                        <td class="text-center">{{ $consulta['nombre'] }}</td>
+                        <th class="tw:text-center">{{ $consulta['clave'] }}</th>
+                        <td class="tw:text-center">{{ $consulta['nombre'] }}</td>
                         <td></td>
-                        <td class="text-center">ALTA</td>
+                        <td class="tw:text-center">ALTA</td>
                         <td></td>
                         <td></td>
                         @if($validaciones[0]->estado_validacion == 0 || $validaciones[0]->estado_validacion == 3 ||
                         $validaciones[0]->estado_validacion == 4)
                         <th>
-                            <a class="elimina" id="{{ $consulta['id_carga_academica'] }}">
-                                <span class="glyphicon glyphicon-trash"></span>
-                            </a>
+                            <a class="elimina tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-red-600 tw:ring-1 tw:ring-red-300 tw:ring-inset tw:hover:bg-red-50 tw:dark:bg-gray-800 tw:dark:text-red-500 tw:dark:ring-red-500/40 tw:dark:hover:bg-red-500/10 tw:size-9 tw:text-base" id="{{ $consulta['id_carga_academica'] }}"><span class="fa fa-trash"></span></a>
                         </th>
                         <th></th>
                         @endif
@@ -1410,7 +1329,7 @@ $escolar = session()->has('escolar') ? session()->has('escolar') : false;
                     <tr>
                         <th>
                             @foreach($consulta['profesores'] as $profesor)
-                            <p class="text-center">
+                            <p class="tw:text-center">
                                 @if(is_object($profesor))
                                 {{ $profesor->titulo ?? '' }}
                                 {{ $profesor->docente ?? $profesor->nombre_profesor ?? '' }}
@@ -1422,23 +1341,19 @@ $escolar = session()->has('escolar') ? session()->has('escolar') : false;
                             @endforeach
 
                         </th>
-                        <th class="text-center">{{ $consulta['clave'] }}</th>
-                        <td class="text-center">{{ $consulta['nombre'] }}</td>
-                        <td class="text-center">{{ $consulta['creditos'] }}</td>
-                        <td class="text-center">{{ $consulta['nombre_status'] }}</td>
-                        <td class="text-center">{{ $consulta['nombre_curso'] }}</td>
-                        <td class="text-center">{{ $consulta['id_semestre'] }}0{{ $consulta['grupo'] }}</td>
+                        <th class="tw:text-center">{{ $consulta['clave'] }}</th>
+                        <td class="tw:text-center">{{ $consulta['nombre'] }}</td>
+                        <td class="tw:text-center">{{ $consulta['creditos'] }}</td>
+                        <td class="tw:text-center">{{ $consulta['nombre_status'] }}</td>
+                        <td class="tw:text-center">{{ $consulta['nombre_curso'] }}</td>
+                        <td class="tw:text-center">{{ $consulta['id_semestre'] }}0{{ $consulta['grupo'] }}</td>
                         @if($validaciones[0]->estado_validacion == 0 || $validaciones[0]->estado_validacion == 3 ||
                         $validaciones[0]->estado_validacion == 4)
                         <th>
-                            <a class="elimina" id="{{ $consulta['id_carga_academica'] }}">
-                                <span class="glyphicon glyphicon-trash"></span>
-                            </a>
+                            <a class="elimina tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-red-600 tw:ring-1 tw:ring-red-300 tw:ring-inset tw:hover:bg-red-50 tw:dark:bg-gray-800 tw:dark:text-red-500 tw:dark:ring-red-500/40 tw:dark:hover:bg-red-500/10 tw:size-9 tw:text-base" id="{{ $consulta['id_carga_academica'] }}"><span class="fa fa-trash"></span></a>
                         </th>
                         <th>
-                            <a href="/checar_carga/{{ $consulta['id_carga_academica'] }}/edit">
-                                <span class="glyphicon glyphicon-cog"></span>
-                            </a>
+                            <a class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base" href="/checar_carga/{{ $consulta['id_carga_academica'] }}/edit"><span class="fa fa-cog"></span></a>
                         </th>
                         @endif
                     </tr>
@@ -1447,8 +1362,8 @@ $escolar = session()->has('escolar') ? session()->has('escolar') : false;
                     <tr>
                         <th></th>
                         <th></th>
-                        <td class="text-center"><strong>Total de creditos:</strong></td>
-                        <td class="text-center">{{ $suma }}</td>
+                        <td class="tw:text-center"><strong>Total de creditos:</strong></td>
+                        <td class="tw:text-center">{{ $suma }}</td>
                         <td></td>
                         @if($validaciones[0]->estado_validacion == 0 || $validaciones[0]->estado_validacion == 3 ||
                         $validaciones[0]->estado_validacion == 4)
@@ -1467,6 +1382,7 @@ $escolar = session()->has('escolar') ? session()->has('escolar') : false;
                     </tr>
                 </tbody>
             </table>
+</div>
         </div>
     </div>
 
@@ -1486,13 +1402,13 @@ $escolar = session()->has('escolar') ? session()->has('escolar') : false;
 
     @if($datos_alumn->id_carrera == 3)
 
-    <div class="row">
+    <div class="tw:w-full tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
-        <div class="col-md-2 col-md-offset-5">
+        <div class="tw:w-full tw:px-2">
 
-            <div class="text-center">
+            <div class="tw:text-center">
 
-                <button type="button" class="btn btn-success btn-lg btn-block"
+                <button type="button" class="tw:w-full tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap"
                     onclick="window.location='{{ url('/enviar_carga_jefe_division/'.$id_alu) }}'" title="Enviar">
 
                     Enviar al jefe de división
@@ -1507,13 +1423,13 @@ $escolar = session()->has('escolar') ? session()->has('escolar') : false;
 
     @else
 
-    <div class="row">
+    <div class="tw:w-full tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
-        <div class="col-md-2 col-md-offset-5">
+        <div class="tw:w-full tw:px-2">
 
-            <div class="text-center">
+            <div class="tw:text-center">
 
-                <button type="button" class="btn btn-success btn-lg btn-block"
+                <button type="button" class="tw:w-full tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap"
                     onclick="window.location='{{ url('/enviar_carga/'.$id_alu) }}'" title="Enviar">
 
                     Enviar
@@ -1538,13 +1454,13 @@ $escolar = session()->has('escolar') ? session()->has('escolar') : false;
     $creditoss == 6
     )
 
-    <div class="row">
+    <div class="tw:w-full tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
-        <div class="col-md-2 col-md-offset-5">
+        <div class="tw:w-full tw:px-2">
 
-            <div class="text-center">
+            <div class="tw:text-center">
 
-                <button type="button" class="btn btn-success btn-lg btn-block" title="Enviar" disabled>
+                <button type="button" class="tw:w-full tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" title="Enviar" disabled>
 
                     Enviar
 
@@ -1582,14 +1498,9 @@ $escolar = session()->has('escolar') ? session()->has('escolar') : false;
 {{-- MODAL ELIMINAR --}}
 {{-- ===================================================== --}}
 
-<div id="modal_elimina" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog"
-    aria-labelledby="mySmallModalLabel">
+<x-panel.modal id="modal_elimina" tamano="sm" sin-relleno aria-labelledby="mySmallModalLabel">
 
-    <div class="modal-dialog modal-sm" role="document">
-
-        <div class="modal-content">
-
-            <div class="modal-body">
+            <div class="tw-modal-cuerpo tw:pt-14">
 
                 <form action="" method="POST" role="form" id="form_delete">
 
@@ -1601,25 +1512,21 @@ $escolar = session()->has('escolar') ? session()->has('escolar') : false;
 
             </div>
 
-            <div class="modal-footer">
+            <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
 
-                <button type="button" class="btn btn-default" data-dismiss="modal">
+                <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">
 
                     Cancelar
 
                 </button>
 
-                <input id="confirma_elimina" type="button" class="btn btn-danger" value="Aceptar">
+                <input id="confirma_elimina" type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-red-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-red-700 tw:disabled:bg-red-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" value="Aceptar">
 
             </div>
 
             </form>
 
-        </div>
-
-    </div>
-
-</div>
+        </x-panel.modal>
 
 {{-- ===================================================== --}}
 {{-- BOTON FLOTANTE --}}
@@ -1633,14 +1540,11 @@ $validaciones[0]->estado_validacion == 4
 
 <div>
 
-    <a class="btn btn-primary flotante" id="enviar" type="button" href="/carga_academica">
-
-        <span class="glyphicon glyphicon-plus"></span>
-
-    </a>
+    <a class="flotante tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base" id="enviar" type="button" href="/carga_academica"><span class="fa fa-plus"></span></a>
 
 </div>
 
 @endif
 
+</div>
 @endsection

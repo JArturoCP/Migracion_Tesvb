@@ -1,62 +1,39 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 
 @section('title', 'Status de los Anteproyectos')
 
+@include('partials.panel.recursos_app', ['datatables' => true])
 @section('content')
+<div class="tw-pantalla">
 
 <div class = "main">
-    <div class="residencia-container">
+    <div>
 
     {{-- =========================================================
          ENCABEZADO PRINCIPAL
     ========================================================== --}}
 
-    <div class="page-header-custom">
-
-        <div class="header-icon">
-            <span class="glyphicon glyphicon-education"></span>
-        </div>
-
-        <div class="header-info">
-
-            <h2>
-                Status de los Anteproyectos
-            </h2>
-
-            <p>
-                Gestión y seguimiento de los anteproyectos de los alumnos
-            </p>
-
-            <span class="periodo-badge">
-
-                <span class="glyphicon glyphicon-calendar"></span>
-
-                Periodo {{ $nombre_periodo }}
-
-            </span>
-
-        </div>
-
-    </div>
+    <x-panel.encabezado titulo="Status de los Anteproyectos" :migas="['Residencia profesional' => null]"><x-slot:extra><x-panel.badge>Periodo {{ $nombre_periodo }}</x-panel.badge></x-slot:extra></x-panel.encabezado>
+    <p class="tw:mb-6 tw:text-sm tw:text-gray-500 tw:dark:text-gray-400">Gestión y seguimiento de los anteproyectos de los alumnos</p>
 
 
     {{-- =========================================================
          SELECTOR DE CARRERA
     ========================================================== --}}
 
-    <div class="card-custom">
+    <div class="tw:mb-6 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
 
-        <div class="card-header-custom">
+        <div class="tw:flex tw:items-center tw:gap-3 tw:border-b tw:border-gray-100 tw:dark:border-gray-800 tw:px-5 tw:py-4">
 
-            <div class="card-header-icon">
+            <div class="tw:flex tw:size-10 tw:shrink-0 tw:items-center tw:justify-center tw:rounded-full tw:bg-brand-50 tw:text-brand-500">
 
-                <span class="glyphicon glyphicon-education"></span>
+                <span class="fa fa-graduation-cap"></span>
 
             </div>
 
             <div>
 
-                <h4>
+                <h4 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">
                     Selección de carrera
                 </h4>
 
@@ -69,29 +46,29 @@
         </div>
 
 
-        <div class="card-body-custom">
+        <div class="tw:p-5 tw:sm:p-6">
 
-            <div class="row">
+            <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
-                <div class="col-md-6 col-md-offset-3">
+                <div class="tw:w-full tw:lg:max-w-2xl tw:px-2">
 
-                    <div class="form-group">
+                    <div class="tw:mb-4">
 
                         <label for="carrera">
 
                             Carrera
 
-                            <span class="required">*</span>
+                            <span class="tw:text-red-600">*</span>
 
                         </label>
 
 
-                        <div class="select-wrapper">
+                        <div class="tw:relative tw:[&>.fa]:absolute tw:[&>.fa]:top-3.5 tw:[&>.fa]:left-3 tw:[&>.fa]:text-gray-400">
 
-                            <span class="glyphicon glyphicon-education"></span>
+                            <span class="fa fa-graduation-cap"></span>
 
                             <select
-                                class="form-control select-custom"
+                                class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:pl-10"
                                 id="carrera"
                                 name="carrera"
                                 required>
@@ -140,15 +117,15 @@
              RESUMEN
         ====================================================== --}}
 
-        <div class="row resumen-row">
+        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4 tw:mb-6">
 
-            <div class="col-md-4">
+            <div class="tw:w-full tw:lg:w-4/12 tw:px-2">
 
-                <div class="resumen-card resumen-blue">
+                <div class="tw:flex tw:items-center tw:gap-3 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03] tw:p-4 tw:[&_span]:block tw:[&_span]:text-xs tw:[&_span]:text-gray-500 tw:[&_.fa]:text-brand-500">
 
-                    <div class="resumen-icon">
+                    <div class="tw:flex tw:size-10 tw:shrink-0 tw:items-center tw:justify-center tw:rounded-full tw:text-white">
 
-                        <span class="glyphicon glyphicon-search"></span>
+                        <span class="fa fa-search"></span>
 
                     </div>
 
@@ -169,13 +146,13 @@
             </div>
 
 
-            <div class="col-md-4">
+            <div class="tw:w-full tw:lg:w-4/12 tw:px-2">
 
-                <div class="resumen-card resumen-orange">
+                <div class="tw:flex tw:items-center tw:gap-3 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03] tw:p-4 tw:[&_span]:block tw:[&_span]:text-xs tw:[&_span]:text-gray-500 tw:[&_.fa]:text-amber-500">
 
-                    <div class="resumen-icon">
+                    <div class="tw:flex tw:size-10 tw:shrink-0 tw:items-center tw:justify-center tw:rounded-full tw:text-white">
 
-                        <span class="glyphicon glyphicon-edit"></span>
+                        <span class="fa fa-pencil-square-o"></span>
 
                     </div>
 
@@ -196,13 +173,13 @@
             </div>
 
 
-            <div class="col-md-4">
+            <div class="tw:w-full tw:lg:w-4/12 tw:px-2">
 
-                <div class="resumen-card resumen-green">
+                <div class="tw:flex tw:items-center tw:gap-3 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03] tw:p-4 tw:[&_span]:block tw:[&_span]:text-xs tw:[&_span]:text-gray-500 tw:[&_.fa]:text-green-600">
 
-                    <div class="resumen-icon">
+                    <div class="tw:flex tw:size-10 tw:shrink-0 tw:items-center tw:justify-center tw:rounded-full tw:text-white">
 
-                        <span class="glyphicon glyphicon-ok"></span>
+                        <span class="fa fa-check"></span>
 
                     </div>
 
@@ -229,13 +206,13 @@
              TABS PRINCIPALES
         ====================================================== --}}
 
-        <div class="tabs-container">
+        <div>
 
-            <div class="tabs-header">
+            <div class="tw:mb-2">
 
-                <div class="tabs-title">
+                <div class="tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">
 
-                    <span class="glyphicon glyphicon-tasks"></span>
+                    <span class="fa fa-tasks"></span>
 
                     Seguimiento de anteproyectos
 
@@ -244,7 +221,7 @@
             </div>
 
 
-            <ul class="nav nav-tabs tabs-custom">
+            <ul class="tw-pestanas tw:mb-6 tw:flex tw:flex-wrap tw:gap-2 tw:border-b tw:border-gray-200 tw:dark:border-gray-800">
 
                 {{-- TAB 1 --}}
 
@@ -253,13 +230,13 @@
                     <a
                         href="{{ url('/residencia/proceso_revision_anteproyecto/'.$id_carrera) }}">
 
-                        <span class="tab-icon tab-blue">
+                        <span class="tw:mr-2 tw:inline-flex tw:size-8 tw:items-center tw:justify-center tw:rounded-full tw:bg-brand-50 tw:text-brand-500">
 
-                            <span class="glyphicon glyphicon-search"></span>
+                            <span class="fa fa-search"></span>
 
                         </span>
 
-                        <span class="tab-content-text">
+                        <span class="tw:inline-block tw:text-left tw:[&_strong]:block tw:[&_small]:text-gray-500">
 
                             <strong>
                                 En revisión
@@ -283,13 +260,13 @@
                     <a
                         href="{{ url('/residencia/proceso_mod_anteproyecto/'.$id_carrera) }}">
 
-                        <span class="tab-icon tab-orange">
+                        <span class="tw:mr-2 tw:inline-flex tw:size-8 tw:items-center tw:justify-center tw:rounded-full tw:bg-amber-50 tw:text-amber-600">
 
-                            <span class="glyphicon glyphicon-edit"></span>
+                            <span class="fa fa-pencil-square-o"></span>
 
                         </span>
 
-                        <span class="tab-content-text">
+                        <span class="tw:inline-block tw:text-left tw:[&_strong]:block tw:[&_small]:text-gray-500">
 
                             <strong>
                                 En modificación
@@ -312,13 +289,13 @@
 
                     <a href="#">
 
-                        <span class="tab-icon tab-green">
+                        <span class="tw:mr-2 tw:inline-flex tw:size-8 tw:items-center tw:justify-center tw:rounded-full tw:bg-green-50 tw:text-green-600">
 
-                            <span class="glyphicon glyphicon-ok"></span>
+                            <span class="fa fa-check"></span>
 
                         </span>
 
-                        <span class="tab-content-text">
+                        <span class="tw:inline-block tw:text-left tw:[&_strong]:block tw:[&_small]:text-gray-500">
 
                             <strong>
                                 Autorizados
@@ -343,11 +320,11 @@
              INFORMACIÓN
         ====================================================== --}}
 
-        <div class="information-box">
+        <div class="tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:flex tw:items-start tw:gap-3">
 
-            <div class="information-icon">
+            <div class="tw:text-xl">
 
-                <span class="glyphicon glyphicon-info-sign"></span>
+                <span class="fa fa-info-circle"></span>
 
             </div>
 
@@ -375,13 +352,13 @@
              TABLA
         ====================================================== --}}
 
-        <div class="table-card">
+        <div class="tw:mb-6 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
 
-            <div class="table-card-header">
+            <div class="tw:flex tw:flex-wrap tw:items-center tw:justify-between tw:gap-3 tw:border-b tw:border-gray-100 tw:dark:border-gray-800 tw:px-5 tw:py-4">
 
                 <div>
 
-                    <span class="glyphicon glyphicon-list-alt"></span>
+                    <span class="fa fa-list-alt"></span>
 
                     <strong>
                         Lista de anteproyectos autorizados
@@ -389,9 +366,9 @@
 
                 </div>
 
-                <span class="status-general">
+                <span class="tw:inline-flex tw:items-center tw:gap-1 tw:rounded-full tw:bg-green-50 tw:px-2.5 tw:py-0.5 tw:text-xs tw:font-medium tw:text-green-700">
 
-                    <span class="glyphicon glyphicon-ok-circle"></span>
+                    <span class="fa fa-check-circle-o"></span>
 
                     Autorizados
 
@@ -400,40 +377,40 @@
             </div>
 
 
-            <div class="table-card-body">
+            <div class="tw:p-5 tw:sm:p-6">
 
-                <div class="table-responsive">
+                <div class="tw:max-w-full tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800">
 
                     <table
                         id="table_autorizar_doc_final"
-                        class="table table-bordered table-hover tabla-custom">
+                        class="tw-tabla tw-tabla-bordes">
 
                         <thead>
 
                         <tr>
 
                             <th>
-                                <span class="glyphicon glyphicon-credit-card"></span>
+                                <span class="fa fa-credit-card"></span>
                                 No. cuenta
                             </th>
 
                             <th>
-                                <span class="glyphicon glyphicon-user"></span>
+                                <span class="fa fa-user"></span>
                                 Alumno
                             </th>
 
                             <th>
-                                <span class="glyphicon glyphicon-book"></span>
+                                <span class="fa fa-book"></span>
                                 Anteproyecto
                             </th>
 
                             <th>
-                                <span class="glyphicon glyphicon-file"></span>
+                                <span class="fa fa-file"></span>
                                 Documento
                             </th>
 
                             <th>
-                                <span class="glyphicon glyphicon-edit"></span>
+                                <span class="fa fa-pencil-square-o"></span>
                                 Permiso de modificación
                             </th>
 
@@ -453,9 +430,9 @@
                                      CUENTA
                                 ================================================= --}}
 
-                                <td class="text-center">
+                                <td class="tw:text-center">
 
-                                    <span class="cuenta-badge">
+                                    <span class="tw:inline-flex tw:rounded-full tw:bg-brand-50 tw:px-2.5 tw:py-0.5 tw:font-medium tw:text-brand-500">
 
                                         {{ $anteproyecto['cuenta'] }}
 
@@ -470,11 +447,11 @@
 
                                 <td>
 
-                                    <div class="alumno-row">
+                                    <div class="tw:flex tw:items-center tw:gap-3 tw:[&_strong]:block tw:[&_small]:text-gray-500">
 
-                                        <div class="avatar">
+                                        <div class="tw:flex tw:size-10 tw:shrink-0 tw:items-center tw:justify-center tw:rounded-full tw:bg-brand-50 tw:text-brand-500">
 
-                                            <span class="glyphicon glyphicon-user"></span>
+                                            <span class="fa fa-user"></span>
 
                                         </div>
 
@@ -503,9 +480,9 @@
 
                                 <td>
 
-                                    <div class="proyecto-row">
+                                    <div class="tw:flex tw:items-start tw:gap-2">
 
-                                        <span class="glyphicon glyphicon-book"></span>
+                                        <span class="fa fa-book"></span>
 
                                         <span>
 
@@ -522,16 +499,16 @@
                                      DOCUMENTO
                                 ================================================= --}}
 
-                                <td class="text-center">
+                                <td class="tw:text-center">
 
                                     @if($anteproyecto['estado_empresa'] == 2)
 
                                         <button
                                             type="button"
-                                            class="action-btn btn-print"
+                                            class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap"
                                             onclick="window.open('{{ url('/pdf_documento_presentacion_residencia/'.$anteproyecto['id_anteproyecto']) }}')">
 
-                                            <span class="glyphicon glyphicon-print"></span>
+                                            <span class="fa fa-print"></span>
 
                                             Imprimir
 
@@ -540,9 +517,9 @@
 
                                     @elseif($anteproyecto['estado_empresa'] == 1)
 
-                                        <span class="status-label status-warning">
+                                        <span class="tw:inline-flex tw:items-center tw:gap-1 tw:rounded-full tw:px-2.5 tw:py-0.5 tw:text-xs tw:font-medium tw:bg-amber-50 tw:text-amber-700">
 
-                                            <span class="glyphicon glyphicon-warning-sign"></span>
+                                            <span class="fa fa-exclamation-triangle"></span>
 
                                             Sin asesor interno
 
@@ -551,9 +528,9 @@
 
                                     @elseif($anteproyecto['estado_empresa'] == 0)
 
-                                        <span class="status-label status-danger">
+                                        <span class="tw:inline-flex tw:items-center tw:gap-1 tw:rounded-full tw:px-2.5 tw:py-0.5 tw:text-xs tw:font-medium tw:bg-red-50 tw:text-red-600">
 
-                                            <span class="glyphicon glyphicon-remove"></span>
+                                            <span class="fa fa-times"></span>
 
                                             Sin empresa
 
@@ -561,9 +538,9 @@
 
                                     @else
 
-                                        <span class="status-label status-default">
+                                        <span class="tw:inline-flex tw:items-center tw:gap-1 tw:rounded-full tw:px-2.5 tw:py-0.5 tw:text-xs tw:font-medium tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-700 tw:dark:text-gray-300">
 
-                                            <span class="glyphicon glyphicon-minus"></span>
+                                            <span class="fa fa-minus"></span>
 
                                             No disponible
 
@@ -578,20 +555,20 @@
                                      PERMISO
                                 ================================================= --}}
 
-                                <td class="text-center">
+                                <td class="tw:text-center">
 
                                     @if(
                                         isset($anteproyecto['permiso_modificacion']) &&
                                         $anteproyecto['permiso_modificacion'] == 1
                                     )
 
-                                        <div class="permission-card permission-active">
+                                        <div class="tw:rounded-xl tw:border tw:p-3 tw:border-green-200 tw:bg-green-50">
 
-                                            <div class="permission-status">
+                                            <div class="tw:mb-2 tw:flex tw:items-center tw:justify-center tw:gap-2 tw:text-left tw:[&_strong]:block tw:[&_small]:block">
 
-                                                <span class="permission-icon permission-green">
+                                                <span class="tw:flex tw:size-10 tw:shrink-0 tw:items-center tw:justify-center tw:rounded-full tw:text-white tw:bg-green-600">
 
-                                                    <span class="glyphicon glyphicon-ok"></span>
+                                                    <span class="fa fa-check"></span>
 
                                                 </span>
 
@@ -612,11 +589,11 @@
 
                                             <button
                                                 type="button"
-                                                class="action-btn btn-danger-custom btn-quitar-permiso"
+                                                class="btn-quitar-permiso tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-red-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-red-700 tw:disabled:bg-red-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap"
                                                 data-id="{{ $anteproyecto['id_anteproyecto'] }}"
                                                 data-nombre="{{ $anteproyecto['nombre'] }}">
 
-                                                <span class="glyphicon glyphicon-lock"></span>
+                                                <span class="fa fa-lock"></span>
 
                                                 Quitar permiso
 
@@ -627,13 +604,13 @@
 
                                     @else
 
-                                        <div class="permission-card permission-inactive">
+                                        <div class="tw:rounded-xl tw:border tw:p-3 tw:border-gray-200 tw:dark:border-gray-800 tw:bg-gray-50 tw:dark:bg-gray-900">
 
-                                            <div class="permission-status">
+                                            <div class="tw:mb-2 tw:flex tw:items-center tw:justify-center tw:gap-2 tw:text-left tw:[&_strong]:block tw:[&_small]:block">
 
-                                                <span class="permission-icon permission-gray">
+                                                <span class="tw:flex tw:size-10 tw:shrink-0 tw:items-center tw:justify-center tw:rounded-full tw:text-white tw:bg-gray-500">
 
-                                                    <span class="glyphicon glyphicon-lock"></span>
+                                                    <span class="fa fa-lock"></span>
 
                                                 </span>
 
@@ -654,12 +631,12 @@
 
                                            <button
     type="button"
-    class="action-btn btn-warning-custom btn-permiso-modificacion"
+    class="btn-permiso-modificacion tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap"
     data-id="{{ $anteproyecto['id_anteproyecto'] }}"
     data-nombre="{{ $anteproyecto['nombre'] }}"
     data-proyecto="{{ $anteproyecto['nom_proyecto'] }}">
 
-    <span class="glyphicon glyphicon-pencil"></span>
+    <span class="fa fa-pencil"></span>
 
     Dar permiso
 
@@ -694,29 +671,15 @@
          MODAL DAR PERMISO
     ========================================================== --}}
 
-    <div
-        class="modal fade"
-        id="modalPermisoModificacion"
-        tabindex="-1">
+    <x-panel.modal id="modalPermisoModificacion" tamano="md" sin-relleno clase-cerrar="close">
 
-        <div class="modal-dialog">
+                <div class="tw:px-6 tw:pt-6 tw:pr-14">
 
-            <div class="modal-content modal-custom">
+                    
 
-                <div class="modal-header modal-warning">
+                    <h4 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">
 
-                    <button
-                        type="button"
-                        class="close"
-                        data-dismiss="modal">
-
-                        <span>&times;</span>
-
-                    </button>
-
-                    <h4>
-
-                        <span class="glyphicon glyphicon-edit"></span>
+                        <span class="fa fa-pencil-square-o"></span>
 
                         Dar permiso de modificación
 
@@ -725,34 +688,34 @@
                 </div>
 
 
-                <div class="modal-body">
+                <div class="tw-modal-cuerpo">
 
-                    <div class="modal-big-icon modal-icon-warning">
+                    <div class="tw:mx-auto tw:mb-4 tw:flex tw:size-16 tw:items-center tw:justify-center tw:rounded-full tw:text-2xl tw:bg-amber-50 tw:text-amber-600">
 
-                        <span class="glyphicon glyphicon-pencil"></span>
+                        <span class="fa fa-pencil"></span>
 
                     </div>
 
 
-                    <h3 class="text-center">
+                    <h3 class="tw:text-center tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">
 
                         ¿Dar permiso de modificación?
 
                     </h3>
 
 
-                    <p class="text-center text-muted">
+                    <p class="tw:text-center tw:text-gray-500 tw:dark:text-gray-400">
 
                         El alumno podrá modificar su anteproyecto.
 
                     </p>
 
 
-                    <div class="modal-alumno">
+                    <div class="tw:my-4 tw:flex tw:items-center tw:gap-3 tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-gray-50 tw:dark:bg-gray-900 tw:p-4 tw:[&_strong]:block tw:[&_small]:block">
 
-                        <div class="modal-avatar">
+                        <div class="tw:flex tw:size-10 tw:shrink-0 tw:items-center tw:justify-center tw:rounded-full tw:bg-brand-500 tw:text-white">
 
-                            <span class="glyphicon glyphicon-user"></span>
+                            <span class="fa fa-user"></span>
 
                         </div>
 
@@ -771,16 +734,16 @@
                     </div>
 
 
-                    <div class="alert alert-warning">
+                    <x-panel.alerta tipo="advertencia" class="tw:mb-4">
 
-                        <span class="glyphicon glyphicon-warning-sign"></span>
+                        <span class="fa fa-exclamation-triangle"></span>
 
                         <strong>Importante:</strong>
 
                         Al otorgar el permiso, el alumno podrá realizar
                         modificaciones a su anteproyecto.
 
-                    </div>
+                    </x-panel.alerta>
 
 
                     <input
@@ -790,14 +753,14 @@
                 </div>
 
 
-                <div class="modal-footer">
+                <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
 
                     <button
                         type="button"
-                        class="action-btn btn-cancel"
+                        class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap"
                         data-dismiss="modal">
 
-                        <span class="glyphicon glyphicon-remove"></span>
+                        <span class="fa fa-times"></span>
 
                         Cancelar
 
@@ -806,10 +769,10 @@
 
                     <button
                         type="button"
-                        class="action-btn btn-warning-custom"
+                        class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-amber-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-amber-600 tw:disabled:bg-amber-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap"
                         id="btnConfirmarPermiso">
 
-                        <span class="glyphicon glyphicon-ok"></span>
+                        <span class="fa fa-check"></span>
 
                         Sí, dar permiso
 
@@ -817,40 +780,22 @@
 
                 </div>
 
-            </div>
-
-        </div>
-
-    </div>
+            </x-panel.modal>
 
 
     {{-- =========================================================
          MODAL QUITAR PERMISO
     ========================================================== --}}
 
-    <div
-        class="modal fade"
-        id="modalQuitarPermiso"
-        tabindex="-1">
+    <x-panel.modal id="modalQuitarPermiso" tamano="md" sin-relleno clase-cerrar="close">
 
-        <div class="modal-dialog">
+                <div class="tw:px-6 tw:pt-6 tw:pr-14">
 
-            <div class="modal-content modal-custom">
+                    
 
-                <div class="modal-header modal-danger">
+                    <h4 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">
 
-                    <button
-                        type="button"
-                        class="close"
-                        data-dismiss="modal">
-
-                        <span>&times;</span>
-
-                    </button>
-
-                    <h4>
-
-                        <span class="glyphicon glyphicon-lock"></span>
+                        <span class="fa fa-lock"></span>
 
                         Quitar permiso de modificación
 
@@ -859,34 +804,34 @@
                 </div>
 
 
-                <div class="modal-body">
+                <div class="tw-modal-cuerpo">
 
-                    <div class="modal-big-icon modal-icon-danger">
+                    <div class="tw:mx-auto tw:mb-4 tw:flex tw:size-16 tw:items-center tw:justify-center tw:rounded-full tw:text-2xl tw:bg-red-50 tw:text-red-600">
 
-                        <span class="glyphicon glyphicon-lock"></span>
+                        <span class="fa fa-lock"></span>
 
                     </div>
 
 
-                    <h3 class="text-center">
+                    <h3 class="tw:text-center tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">
 
                         ¿Quitar permiso?
 
                     </h3>
 
 
-                    <p class="text-center text-muted">
+                    <p class="tw:text-center tw:text-gray-500 tw:dark:text-gray-400">
 
                         El alumno dejará de poder modificar su anteproyecto.
 
                     </p>
 
 
-                    <div class="modal-alumno modal-alumno-danger">
+                    <div class="tw:my-4 tw:flex tw:items-center tw:gap-3 tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-gray-50 tw:dark:bg-gray-900 tw:p-4 tw:[&_strong]:block tw:[&_small]:block">
 
-                        <div class="modal-avatar">
+                        <div class="tw:flex tw:size-10 tw:shrink-0 tw:items-center tw:justify-center tw:rounded-full tw:bg-brand-500 tw:text-white">
 
-                            <span class="glyphicon glyphicon-user"></span>
+                            <span class="fa fa-user"></span>
 
                         </div>
 
@@ -905,15 +850,15 @@
                     </div>
 
 
-                    <div class="alert alert-danger">
+                    <x-panel.alerta tipo="error" class="tw:mb-4">
 
-                        <span class="glyphicon glyphicon-warning-sign"></span>
+                        <span class="fa fa-exclamation-triangle"></span>
 
                         <strong>Atención:</strong>
 
                         Se desactivará el permiso de modificación.
 
-                    </div>
+                    </x-panel.alerta>
 
 
                     <input
@@ -923,14 +868,14 @@
                 </div>
 
 
-                <div class="modal-footer">
+                <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
 
                     <button
                         type="button"
-                        class="action-btn btn-cancel"
+                        class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap"
                         data-dismiss="modal">
 
-                        <span class="glyphicon glyphicon-remove"></span>
+                        <span class="fa fa-times"></span>
 
                         Cancelar
 
@@ -939,10 +884,10 @@
 
                     <button
                         type="button"
-                        class="action-btn btn-danger-custom"
+                        class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-red-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-red-700 tw:disabled:bg-red-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap"
                         id="btnConfirmarQuitarPermiso">
 
-                        <span class="glyphicon glyphicon-lock"></span>
+                        <span class="fa fa-lock"></span>
 
                         Quitar permiso
 
@@ -950,11 +895,7 @@
 
                 </div>
 
-            </div>
-
-        </div>
-
-    </div>
+            </x-panel.modal>
 
 
 </div>
@@ -964,1299 +905,6 @@
 {{-- =============================================================
      ESTILOS
 ============================================================= --}}
-
-<style>
-
-/* =============================================================
-   CONTENEDOR
-============================================================= */
-
- .residencia-container {
-    width: 100%;
-    max-width: 1500px;
-
-    margin: 30px auto;
-
-    padding: 25px;
-
-    background: #f5f7fa;
-
-    border-radius: 12px;
-
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-
-    min-height: auto;
-}
-
-
-
-/* =============================================================
-   HEADER
-============================================================= */
-
-.page-header-custom {
-
-    background: linear-gradient(
-        135deg,
-        #337ab7,
-        #245580
-    );
-
-    color: white;
-
-    border-radius: 10px;
-
-    padding: 25px 30px;
-
-    display: flex;
-
-    align-items: center;
-
-    margin-bottom: 25px;
-
-    box-shadow:
-        0 4px 15px rgba(0,0,0,.12);
-
-}
-
-
-.header-icon {
-
-    width: 70px;
-
-    height: 70px;
-
-    background: rgba(255,255,255,.15);
-
-    border-radius: 50%;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    font-size: 32px;
-
-    margin-right: 20px;
-
-}
-
-
-.header-info h2 {
-
-    margin: 0 0 5px 0;
-
-    font-weight: 600;
-
-}
-
-
-.header-info p {
-
-    margin: 0 0 10px 0;
-
-    opacity: .85;
-
-}
-
-
-.periodo-badge {
-
-    display: inline-block;
-
-    padding: 6px 12px;
-
-    border-radius: 20px;
-
-    background: rgba(255,255,255,.15);
-
-}
-
-
-/* =============================================================
-   CARDS
-============================================================= */
-
-.card-custom {
-
-    background: white;
-
-    border-radius: 8px;
-
-    margin-bottom: 25px;
-
-    box-shadow:
-        0 2px 10px rgba(0,0,0,.06);
-
-}
-
-
-.card-header-custom {
-
-    padding: 17px 20px;
-
-    border-bottom: 1px solid #eee;
-
-    display: flex;
-
-    align-items: center;
-
-}
-
-
-.card-header-icon {
-
-    width: 42px;
-
-    height: 42px;
-
-    background: #eaf3fb;
-
-    color: #337ab7;
-
-    border-radius: 8px;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    font-size: 18px;
-
-    margin-right: 12px;
-
-}
-
-
-.card-header-custom h4 {
-
-    margin: 0 0 3px 0;
-
-}
-
-
-.card-header-custom small {
-
-    color: #999;
-
-}
-
-
-.card-body-custom {
-
-    padding: 25px;
-
-}
-
-
-/* =============================================================
-   SELECT
-============================================================= */
-
-.form-group label {
-
-    font-weight: 600;
-
-    color: #444;
-
-}
-
-
-.required {
-
-    color: #d9534f;
-
-    font-size: 18px;
-
-}
-
-
-.select-wrapper {
-
-    position: relative;
-
-}
-
-
-.select-wrapper > .glyphicon {
-
-    position: absolute;
-
-    left: 12px;
-
-    top: 12px;
-
-    color: #337ab7;
-
-    z-index: 2;
-
-}
-
-
-.select-custom {
-
-    padding-left: 35px;
-
-    height: 44px;
-
-    border-radius: 6px;
-
-}
-
-
-/* =============================================================
-   RESUMEN
-============================================================= */
-
-.resumen-row {
-
-    margin-bottom: 25px;
-
-}
-
-
-.resumen-card {
-
-    background: white;
-
-    border-radius: 8px;
-
-    padding: 15px 18px;
-
-    display: flex;
-
-    align-items: center;
-
-    box-shadow:
-        0 2px 8px rgba(0,0,0,.06);
-
-}
-
-
-.resumen-icon {
-
-    width: 45px;
-
-    height: 45px;
-
-    border-radius: 50%;
-
-    color: white;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    font-size: 18px;
-
-    margin-right: 12px;
-
-}
-
-
-.resumen-card span {
-
-    display: block;
-
-    font-size: 10px;
-
-    color: #999;
-
-    letter-spacing: 1px;
-
-}
-
-
-.resumen-card strong {
-
-    font-size: 15px;
-
-}
-
-
-.resumen-blue .resumen-icon {
-
-    background: #337ab7;
-
-}
-
-
-.resumen-orange .resumen-icon {
-
-    background: #f0ad4e;
-
-}
-
-
-.resumen-green .resumen-icon {
-
-    background: #5cb85c;
-
-}
-
-
-/* =============================================================
-   TABS
-============================================================= */
-
-.tabs-container {
-
-    background: white;
-
-    border-radius: 8px 8px 0 0;
-
-    box-shadow:
-        0 2px 8px rgba(0,0,0,.05);
-
-}
-
-
-.tabs-header {
-
-    padding: 15px 20px;
-
-    border-bottom: 1px solid #eee;
-
-}
-
-
-.tabs-title {
-
-    font-weight: 600;
-
-    color: #444;
-
-}
-
-
-.tabs-title .glyphicon {
-
-    color: #337ab7;
-
-    margin-right: 8px;
-
-}
-
-
-.tabs-custom {
-
-    border: 0;
-
-    display: flex;
-
-}
-
-
-.tabs-custom > li {
-
-    flex: 1;
-
-    text-align: center;
-
-}
-
-
-.tabs-custom > li > a {
-
-    border: 0 !important;
-
-    border-bottom: 3px solid transparent !important;
-
-    margin: 0;
-
-    padding: 15px 10px;
-
-    color: #777;
-
-    transition: all .2s ease;
-
-}
-
-
-.tabs-custom > li > a:hover {
-
-    background: #f8fafc;
-
-    color: #337ab7;
-
-}
-
-
-.tabs-custom > li.active > a {
-
-    color: #337ab7;
-
-    background: white;
-
-    border-bottom-color: #337ab7 !important;
-
-}
-
-
-/* ICONOS TABS */
-
-.tab-icon {
-
-    width: 38px;
-
-    height: 38px;
-
-    border-radius: 50%;
-
-    display: inline-flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    color: white;
-
-    margin-right: 8px;
-
-}
-
-
-.tab-blue {
-
-    background: #337ab7;
-
-}
-
-
-.tab-orange {
-
-    background: #f0ad4e;
-
-}
-
-
-.tab-green {
-
-    background: #5cb85c;
-
-}
-
-
-.tab-content-text {
-
-    display: inline-block;
-
-    text-align: left;
-
-    vertical-align: middle;
-
-}
-
-
-.tab-content-text strong {
-
-    display: block;
-
-}
-
-
-.tab-content-text small {
-
-    color: #999;
-
-}
-
-
-/* =============================================================
-   INFORMACIÓN
-============================================================= */
-
-.information-box {
-
-    background: #eef7ff;
-
-    border-left: 4px solid #337ab7;
-
-    padding: 15px 18px;
-
-    margin: 20px 0;
-
-    border-radius: 5px;
-
-    display: flex;
-
-    align-items: flex-start;
-
-}
-
-
-.information-icon {
-
-    font-size: 22px;
-
-    color: #337ab7;
-
-    margin-right: 12px;
-
-}
-
-
-.information-box p {
-
-    margin: 4px 0 0 0;
-
-    color: #666;
-
-}
-
-
-/* =============================================================
-   TABLA
-============================================================= */
-
-.table-card {
-
-    background: white;
-
-    border-radius: 8px;
-
-    overflow: hidden;
-
-    box-shadow:
-        0 2px 10px rgba(0,0,0,.07);
-
-}
-
-
-.table-card-header {
-
-    background: #fff;
-
-    padding: 17px 20px;
-
-    border-bottom: 1px solid #eee;
-
-    display: flex;
-
-    justify-content: space-between;
-
-    align-items: center;
-
-}
-
-
-.table-card-header .glyphicon {
-
-    color: #337ab7;
-
-    margin-right: 8px;
-
-}
-
-
-.status-general {
-
-    background: #e9f7ed;
-
-    color: #3c763d;
-
-    padding: 6px 12px;
-
-    border-radius: 20px;
-
-    font-size: 12px;
-
-}
-
-
-.table-card-body {
-
-    padding: 20px;
-
-}
-
-
-/* =============================================================
-   TABLA
-============================================================= */
-
-.tabla-custom {
-
-    margin-bottom: 0;
-
-}
-
-
-.tabla-custom thead th {
-
-    background: #337ab7;
-
-    color: white;
-
-    text-align: center;
-
-    vertical-align: middle;
-
-    border-color: #286090 !important;
-
-    padding: 13px 8px;
-
-    font-size: 12px;
-
-}
-
-
-.tabla-custom thead th .glyphicon {
-
-    margin-right: 4px;
-
-}
-
-
-.tabla-custom tbody td {
-
-    vertical-align: middle;
-
-    padding: 12px 10px;
-
-}
-
-
-.tabla-custom tbody tr {
-
-    transition: all .2s;
-
-}
-
-
-.tabla-custom tbody tr:hover {
-
-    background-color: #f8fbff;
-
-}
-
-
-/* =============================================================
-   CUENTA
-============================================================= */
-
-.cuenta-badge {
-
-    display: inline-block;
-
-    background: #eef5fb;
-
-    color: #337ab7;
-
-    padding: 7px 10px;
-
-    border-radius: 15px;
-
-    font-weight: 600;
-
-}
-
-
-/* =============================================================
-   ALUMNO
-============================================================= */
-
-.alumno-row {
-
-    display: flex;
-
-    align-items: center;
-
-}
-
-
-.avatar {
-
-    width: 40px;
-
-    height: 40px;
-
-    min-width: 40px;
-
-    border-radius: 50%;
-
-    background: #eaf3fb;
-
-    color: #337ab7;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    margin-right: 10px;
-
-}
-
-
-.alumno-row strong {
-
-    display: block;
-
-    color: #333;
-
-}
-
-
-.alumno-row small {
-
-    color: #999;
-
-}
-
-
-/* =============================================================
-   PROYECTO
-============================================================= */
-
-.proyecto-row {
-
-    display: flex;
-
-    align-items: flex-start;
-
-    line-height: 1.5;
-
-    color: #444;
-
-}
-
-
-.proyecto-row .glyphicon {
-
-    color: #337ab7;
-
-    margin-right: 8px;
-
-    margin-top: 3px;
-
-}
-
-
-/* =============================================================
-   ESTADOS
-============================================================= */
-
-.status-label {
-
-    display: inline-block;
-
-    padding: 7px 10px;
-
-    border-radius: 15px;
-
-    font-size: 11px;
-
-}
-
-
-.status-warning {
-
-    background: #fff4df;
-
-    color: #9a6a00;
-
-}
-
-
-.status-danger {
-
-    background: #fdeaea;
-
-    color: #a94442;
-
-}
-
-
-.status-default {
-
-    background: #eee;
-
-    color: #666;
-
-}
-
-
-/* =============================================================
-   BOTONES
-============================================================= */
-
-.action-btn {
-
-    border: 0;
-
-    border-radius: 5px;
-
-    padding: 8px 13px;
-
-    font-weight: 600;
-
-    transition: all .2s;
-
-}
-
-
-.action-btn:hover {
-
-    transform: translateY(-1px);
-
-    box-shadow:
-        0 3px 8px rgba(0,0,0,.15);
-
-}
-
-
-/* IMPRIMIR */
-
-.btn-print {
-
-    background: #337ab7;
-
-    color: white;
-
-}
-
-
-.btn-print:hover {
-
-    background: #286090;
-
-    color: white;
-
-}
-
-
-/* DAR PERMISO */
-
-.btn-warning-custom {
-
-    background: #f0ad4e;
-
-    color: white;
-
-}
-
-
-.btn-warning-custom:hover {
-
-    background: #ec971f;
-
-    color: white;
-
-}
-
-
-/* QUITAR */
-
-.btn-danger-custom {
-
-    background: #d9534f;
-
-    color: white;
-
-}
-
-
-.btn-danger-custom:hover {
-
-    background: #c9302c;
-
-    color: white;
-
-}
-
-
-/* CANCELAR */
-
-.btn-cancel {
-
-    background: #eee;
-
-    color: #555;
-
-}
-
-
-.btn-cancel:hover {
-
-    background: #ddd;
-
-}
-
-
-/* =============================================================
-   PERMISOS
-============================================================= */
-
-.permission-card {
-
-    padding: 10px;
-
-    border-radius: 6px;
-
-}
-
-
-.permission-active {
-
-    background: #f1fff4;
-
-    border: 1px solid #c8e6cf;
-
-}
-
-
-.permission-inactive {
-
-    background: #fafafa;
-
-    border: 1px solid #ddd;
-
-}
-
-
-.permission-status {
-
-    display: flex;
-
-    justify-content: center;
-
-    align-items: center;
-
-    margin-bottom: 8px;
-
-    text-align: left;
-
-}
-
-
-.permission-icon {
-
-    width: 35px;
-
-    height: 35px;
-
-    min-width: 35px;
-
-    border-radius: 50%;
-
-    color: white;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    margin-right: 8px;
-
-}
-
-
-.permission-green {
-
-    background: #5cb85c;
-
-}
-
-
-.permission-gray {
-
-    background: #777;
-
-}
-
-
-.permission-status strong {
-
-    display: block;
-
-    font-size: 10px;
-
-}
-
-
-.permission-status small {
-
-    display: block;
-
-    color: #888;
-
-    font-size: 10px;
-
-}
-
-
-/* =============================================================
-   MODALES
-============================================================= */
-
-.modal-custom {
-
-    border-radius: 8px;
-
-    overflow: hidden;
-
-}
-
-
-.modal-warning {
-
-    background: #f0ad4e;
-
-    color: white;
-
-    border: 0;
-
-}
-
-
-.modal-danger {
-
-    background: #d9534f;
-
-    color: white;
-
-    border: 0;
-
-}
-
-
-.modal-header h4 {
-
-    font-weight: 600;
-
-}
-
-
-.modal-header .close {
-
-    color: white;
-
-    opacity: .9;
-
-}
-
-
-.modal-big-icon {
-
-    width: 75px;
-
-    height: 75px;
-
-    margin: 10px auto 20px;
-
-    border-radius: 50%;
-
-    color: white;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    font-size: 30px;
-
-}
-
-
-.modal-icon-warning {
-
-    background: #f0ad4e;
-
-}
-
-
-.modal-icon-danger {
-
-    background: #d9534f;
-
-}
-
-
-/* =============================================================
-   ALUMNO MODAL
-============================================================= */
-
-.modal-alumno {
-
-    display: flex;
-
-    align-items: center;
-
-    background: #f7f9fb;
-
-    border-left: 4px solid #f0ad4e;
-
-    padding: 15px;
-
-    border-radius: 5px;
-
-    margin: 20px 0;
-
-}
-
-
-.modal-alumno-danger {
-
-    border-left-color: #d9534f;
-
-}
-
-
-.modal-avatar {
-
-    width: 45px;
-
-    height: 45px;
-
-    border-radius: 50%;
-
-    background: #337ab7;
-
-    color: white;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    margin-right: 12px;
-
-    font-size: 18px;
-
-}
-
-
-.modal-alumno small {
-
-    display: block;
-
-    color: #999;
-
-    font-size: 10px;
-
-}
-
-
-.modal-alumno strong {
-
-    display: block;
-
-    margin-top: 4px;
-
-    color: #333;
-
-}
-
-
-/* =============================================================
-   RESPONSIVE
-============================================================= */
-
-@media(max-width: 768px) {
-
-
-    .residencia-container {
-
-        padding: 10px;
-
-    }
-
-
-    .page-header-custom {
-
-        padding: 18px;
-
-    }
-
-
-    .header-icon {
-
-        width: 50px;
-
-        height: 50px;
-
-        font-size: 22px;
-
-    }
-
-
-    .header-info h2 {
-
-        font-size: 20px;
-
-    }
-
-
-    .resumen-card {
-
-        margin-bottom: 10px;
-
-    }
-
-
-    .tabs-custom {
-
-        display: block;
-
-    }
-
-
-    .tabs-custom > li {
-
-        display: block;
-
-    }
-
-
-    .tabs-custom > li > a {
-
-        text-align: left;
-
-    }
-
-
-    .tab-content-text {
-
-        text-align: left;
-
-    }
-
-
-    .table-card-body {
-
-        padding: 10px;
-
-    }
-
-
-    .permission-card {
-
-        min-width: 160px;
-
-    }
-
-
-    .action-btn {
-
-        width: 100%;
-
-        margin-bottom: 4px;
-
-    }
-
-}
-
-</style>
-
 
 {{-- =============================================================
      JAVASCRIPT
@@ -2400,7 +1048,7 @@ $(document).ready(function () {
 
 
             boton.html(
-                '<span class="glyphicon glyphicon-refresh"></span> Guardando...'
+                '<span class="fa fa-refresh"></span> Guardando...'
             );
 
 
@@ -2451,7 +1099,7 @@ $(document).ready(function () {
 
 
                     boton.html(
-                        '<span class="glyphicon glyphicon-ok"></span> Sí, dar permiso'
+                        '<span class="fa fa-check"></span> Sí, dar permiso'
                     );
 
                 }
@@ -2530,7 +1178,7 @@ $(document).ready(function () {
 
 
             boton.html(
-                '<span class="glyphicon glyphicon-refresh"></span> Guardando...'
+                '<span class="fa fa-refresh"></span> Guardando...'
             );
 
 
@@ -2581,7 +1229,7 @@ $(document).ready(function () {
 
 
                     boton.html(
-                        '<span class="glyphicon glyphicon-lock"></span> Quitar permiso'
+                        '<span class="fa fa-lock"></span> Quitar permiso'
                     );
 
                 }
@@ -2595,4 +1243,5 @@ $(document).ready(function () {
 
 </script>
 
+</div>
 @endsection

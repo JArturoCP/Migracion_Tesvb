@@ -1,11 +1,11 @@
 @if($estado_alumno->estado_validacion == 8)
 
-<div class="row">
-    <div class="col-md-10 col-md-offset-1">
+<div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+    <div class="tw:w-full tw:px-2">
 
-        <div class="alert alert-danger text-center alerta-autorizada">
+        <div class="tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-red-200 tw:bg-red-50 tw:text-red-700 tw:text-center tw:border-green-200 tw:bg-green-50 tw:text-green-800">
 
-            <span class="glyphicon glyphicon-lock icon-alerta"></span>
+            <span class="fa fa-lock tw:mb-2 tw:block tw:text-2xl"></span>
 
             <strong>La carga académica ha sido autorizada.</strong>
 
@@ -24,195 +24,28 @@
 
 <input type="hidden" id="id_duales_actuales" name="id_duales_actuales" value="{{ $id_duales_actuales }}">
 
-<style>
-    .reticula-container {
-        margin-bottom: 20px;
-    }
-
-    .reticula-container .panel-heading {
-        background: #337ab7;
-        border-color: #337ab7;
-        padding: 13px 15px;
-    }
-
-    .reticula-container .panel-heading a {
-        display: block;
-        color: #fff;
-        text-decoration: none;
-        font-weight: 600;
-        font-size: 16px;
-    }
-
-    .reticula-container .panel-heading a:hover,
-    .reticula-container .panel-heading a:focus {
-        text-decoration: none;
-        color: #fff;
-    }
-
-    .reticula-container .panel-heading .glyphicon {
-        margin-right: 8px;
-    }
-
-    .semestres {
-        padding: 10px;
-    }
-
-    .semestres .list-group {
-        margin-bottom: 0;
-    }
-
-    .semestres .list-group-item {
-        cursor: pointer;
-        transition: all .2s ease;
-        border-left: 4px solid transparent;
-        font-weight: 500;
-    }
-
-    .semestres .list-group-item:hover {
-        background-color: #f5f5f5;
-        border-left-color: #337ab7;
-    }
-
-    .semestres .list-group-item.active {
-        background-color: #337ab7;
-        border-color: #337ab7;
-        border-left-color: #23527c;
-        color: #fff;
-    }
-
-    .semestres .list-group-item .glyphicon {
-        margin-right: 7px;
-    }
-
-    .materias-container {
-        padding: 10px 20px 20px;
-    }
-
-    .titulo-semestre {
-        margin-top: 0;
-        margin-bottom: 15px;
-        padding: 10px 15px;
-        background: #f5f5f5;
-        border-left: 4px solid #337ab7;
-        border-radius: 3px;
-        color: #333;
-    }
-
-    .titulo-semestre .glyphicon {
-        color: #337ab7;
-        margin-right: 6px;
-    }
-
-    .tabla-materias {
-        margin-bottom: 0;
-    }
-
-    .tabla-materias thead th {
-        background: #337ab7;
-        color: #f8f3f3;
-        text-align: center;
-        vertical-align: middle !important;
-    }
-
-    .tabla-materias tbody td {
-        vertical-align: middle !important;
-    }
-
-    .tabla-materias tbody tr:hover {
-        background-color: #f9f9f9;
-    }
-
-    .tabla-materias .check-materia {
-        width: 50px;
-        text-align: center;
-    }
-
-    .check-materia input[type="checkbox"] {
-        width: 18px;
-        height: 18px;
-        cursor: pointer;
-    }
-
-    .materia-nombre {
-        font-weight: 500;
-    }
-
-    .materia-clave {
-        color: #777;
-        font-family: monospace;
-        font-weight: bold;
-    }
-
-    .contador-materias {
-        float: right;
-        background: #337ab7;
-        color: #fff;
-        padding: 3px 8px;
-        border-radius: 10px;
-        font-size: 11px;
-    }
-
-    .alerta-autorizada {
-        margin-top: 10px;
-        margin-bottom: 20px;
-        font-size: 15px;
-    }
-
-    .icon-alerta {
-        font-size: 25px;
-        display: block;
-        margin-bottom: 8px;
-    }
-
-    @media (max-width: 767px) {
-
-        .reticula-container {
-            margin-left: 0;
-            margin-right: 0;
-        }
-
-        .semestres {
-            margin-bottom: 15px;
-        }
-
-        .materias-container {
-            padding: 10px;
-        }
-
-        .tabla-materias {
-            font-size: 12px;
-        }
-
-        .tabla-materias th,
-        .tabla-materias td {
-            padding: 7px !important;
-        }
-
-    }
-</style>
-
 @foreach($reticulas as $reti)
 
-<div class="row">
+<div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
-    <div class="col-md-10 col-md-offset-1">
+    <div class="tw:w-full tw:px-2">
 
-        <div class="panel panel-primary reticula-container">
+        <div class="reticula-container tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
 
             <!-- ENCABEZADO RETÍCULA -->
 
-            <div class="panel-heading">
+            <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:dark:border-gray-800 tw:bg-gray-50 tw:dark:bg-gray-900 tw:px-5 tw:py-4">
 
-                <h4 class="panel-title">
+                <h4 class="tw:text-base tw:font-medium tw:text-gray-800 tw:dark:text-white/90">
 
-                    <a data-toggle="collapse" data-parent="#accordion-reticulas"
+                    <a class="tw:text-brand-500 tw:hover:underline" data-toggle="collapse" data-parent="#accordion-reticulas"
                         href="#reticula{{ $reti["id_reticula"] }}">
 
-                        <span class="glyphicon glyphicon-education"></span>
+                        <span class="fa fa-graduation-cap"></span>
 
                         {{ $reti["reticula"] }}
 
-                        <span class="glyphicon glyphicon-chevron-down pull-right"></span>
+                        <span class="fa fa-chevron-down tw:float-right"></span>
 
                     </a>
 
@@ -222,26 +55,26 @@
 
             <!-- CONTENIDO RETÍCULA -->
 
-            <div id="reticula{{ $reti["id_reticula"] }}" class="panel-collapse collapse">
+            <div id="reticula{{ $reti["id_reticula"] }}" class="collapse">
 
-                <div class="panel-body">
+                <div class="tw:p-5 tw:sm:p-6">
 
-                    <div class="row">
+                    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
                         <!-- ================================= -->
                         <!-- SEMESTRES -->
                         <!-- ================================= -->
 
-                        <div class="col-md-3 semestres">
+                        <div class="semestres tw:w-full tw:lg:w-3/12 tw:px-2 tw:p-3">
 
-                            <div class="list-group">
+                            <div class="list-group tw-lista-pestanas tw:divide-y tw:divide-gray-100 tw:rounded-lg tw:border tw:border-gray-200 tw:dark:border-gray-800">
 
                                 @foreach($reti["semestres"] as $semes)
 
                                 <a href="#tab{{ $reti["id_reticula"] }}{{ $semes["id_semestre"] }}" role="tab"
-                                    data-toggle="tab" class="list-group-item">
+                                    data-toggle="tab" class="list-group-item tw:block tw:px-4 tw:py-3">
 
-                                    <span class="glyphicon glyphicon-calendar"></span>
+                                    <span class="fa fa-calendar"></span>
 
                                     {{ $semes["semestre"] }}
 
@@ -257,7 +90,7 @@
                         <!-- MATERIAS -->
                         <!-- ================================= -->
 
-                        <div class="col-md-9">
+                        <div class="tw:w-full tw:lg:w-9/12 tw:px-2">
 
                             <div class="tab-content">
 
@@ -266,11 +99,11 @@
                                 <div role="tabpanel" class="tab-pane fade"
                                     id="tab{{ $reti["id_reticula"] }}{{ $semes["id_semestre"] }}">
 
-                                    <div class="materias-container">
+                                    <div class="tw:p-3">
 
-                                        <h4 class="titulo-semestre">
+                                        <h4 class="tw:mb-4 tw:font-semibold tw:text-gray-800 tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">
 
-                                            <span class="glyphicon glyphicon-book"></span>
+                                            <span class="fa fa-book"></span>
 
                                             Materias de
                                             <strong>
@@ -279,15 +112,15 @@
 
                                         </h4>
 
-                                        <div class="table-responsive">
+                                        <div class="tw:max-w-full tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800">
 
-                                            <table class="table table-bordered table-hover tabla-materias">
+                                            <table class="tw-tabla tw-tabla-bordes">
 
                                                 <thead>
 
                                                     <tr>
 
-                                                        <th style="width:120;">
+                                                        <th>
                                                             Seleccionar
                                                         </th>
 
@@ -295,7 +128,7 @@
                                                             Materia
                                                         </th>
 
-                                                        <th style="width:120px;">
+                                                        <th class="tw:w-30">
                                                             Clave
                                                         </th>
 
@@ -336,10 +169,10 @@
 
                                                         <td>
 
-                                                            <label for="materia{{ $materias["id_materia"] }}"
-                                                                style="cursor:pointer; margin:0; width:100%;">
+                                                            <label class="tw:cursor-pointer tw:m-0 tw:w-full" for="materia{{ $materias["id_materia"] }}"
+                                                               >
 
-                                                                <span class="materia-nombre">
+                                                                <span class="tw:font-medium">
 
                                                                     {{ $materias["materia"] }}
 
@@ -351,9 +184,9 @@
 
                                                         <!-- CLAVE -->
 
-                                                        <td class="text-center">
+                                                        <td class="tw:text-center">
 
-                                                            <span class="materia-clave">
+                                                            <span class="tw:font-semibold tw:text-gray-500 tw:dark:text-gray-400">
 
                                                                 {{ $materias["clave"] }}
 
