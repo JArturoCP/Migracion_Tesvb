@@ -1,20 +1,16 @@
 @extends('layouts.panel')
-@include('partials.panel.recursos_app', ['vue' => true, 'axios' => true])
 @section('title', 'Registro Riesgos')
+@include('partials.panel.recursos_app', ['vue' => true, 'axios' => true])
 @section('content')
-    <main class="tw:w-full tw:lg:w-full tw:px-2" id="contRegistroRiesgo">
+<div class="tw-pantalla">
+    <main class="tw:w-full tw:lg:w-full tw:px-2" id="contRegistroRiesgo" x-ignore data-carga-axios>
 
-        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
-            <div class="tw:w-full tw:lg:w-5/12 tw:lg:ml-[25%] tw:px-2">
-                <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
-                    <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4">
-                        <h3 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:text-center">Registro de riesgos</h3>
-                    </div>
-                </div>
-            </div>
-            <div class="tw:w-full tw:lg:w-full tw:lg:ml-[0%] tw:px-2" >
-                <div class="tw-tabla-contenedor tw:mb-4 tw:max-w-full tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200">
-<table class="table-responsive tw-tabla tw-tabla-bordes">
+        <x-panel.encabezado titulo="Registro de riesgos" :migas="['Riesgos y oportunidades' => null]" />
+<div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+            
+            <div class="tw:w-full tw:lg:w-full tw:px-2" >
+                <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table class="tw-tabla tw-tabla-bordes">
                     <thead>
                     <tr>
                         <th>Numero</th>
@@ -41,11 +37,11 @@
                             <td>@{{(registroRiesgo.clasificacion_riesgo[0])?registroRiesgo.clasificacion_riesgo[0].des_cl:''}}</td>
 
                             <td>
-                                <a href="{{--{{url('/riesgos/registroriesgos/'.$riesgo->id_reg_riesgo)}}--}}" class="modificar" data-id="{{--{{ $riesgo->id_reg_riesgo }}--}}"><span class="fa em2 fa-indent" aria-hidden="true"></span></a>
+                                <a href="{{--{{url('/riesgos/registroriesgos/'.$riesgo->id_reg_riesgo)}}--}}" class="modificar tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base" data-id="{{--{{ $riesgo->id_reg_riesgo }}--}}"><span class="fa fa-indent " aria-hidden="true"></span></a>
                             </td>
 
                             <td>
-                                <a class="elimina" data-id="{{--{{ $riesgo->id_reg_riesgo}}--}}"><span class="fa fa-trash em2" aria-hidden="true"></span></a>
+                                <a class="elimina tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-red-600 tw:ring-1 tw:ring-red-300 tw:ring-inset tw:hover:bg-red-50 tw:dark:bg-gray-800 tw:dark:text-red-500 tw:dark:ring-red-500/40 tw:dark:hover:bg-red-500/10 tw:size-9 tw:text-base" data-id="{{--{{ $riesgo->id_reg_riesgo}}--}}"><span class="fa fa-trash " aria-hidden="true"></span></a>
                             </td>
                         </tr>
 
@@ -57,25 +53,21 @@
         </div>
     </main>
     <div>
-        <button data-toggle="modal"  data-tooltip="true" data-placement="left" title="Registrar riesgo" data-target="#modal_registrar_riesgo" type="button" class="flotante tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-green-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-green-700 tw:gap-2 tw:px-5 tw:py-3.5 tw:text-base">
+        <button data-toggle="modal"  data-tooltip="true" data-placement="left" title="Registrar riesgo" data-target="#modal_registrar_riesgo" type="button" class="flotante tw:fixed tw:right-6 tw:bottom-6 tw:z-40 tw:inline-flex tw:size-14 tw:items-center tw:justify-center tw:rounded-full tw:bg-brand-500 tw:text-xl tw:text-white tw:shadow-theme-lg tw:hover:bg-brand-600">
             <span class="fa fa-plus" aria-hidden="true"></span>
         </button>
     </div>
-    <div class="modal fade tw-modal-compat" id="modal_registrar_riesgo" x-ignore tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-panel-modal hidden>
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Evaluación de Riesgos</h5>
-                    <button type="button" class="tw:text-2xl tw:leading-none tw:text-gray-400 tw:hover:text-gray-700" data-dismiss="modal" aria-label="Cerrar">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+    <x-panel.modal id="modal_registrar_riesgo" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="exampleModalLabel" x-ignore data-carga-axios>
+                <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                    <h5 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="exampleModalLabel">Evaluación de Riesgos</h5>
+                    
                 </div>
                 <form id="form_registrar_riesgo" class="" role="form" method="POST" @submit.prevent="onSubmit" action="{{url('api/riesgos/registroriesgos/')}}">
-                    <div class="modal-body">
+                    <div class="tw-modal-cuerpo">
                         {{ csrf_field() }}
                         <div :class="['form-group', allerros.unidad_administrativa ? 'has-error' : '']">
-                            <label for="unidad_administrativa" class="tw:mb-1.5 tw:block tw:text-sm tw:font-medium tw:text-gray-700">Unidad Administrativa</label>
-                            <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="unidad_administrativa" id="unidad_administrativa" v-model="form.unidad_administrativa">
+                            <label for="unidad_administrativa" class="tw:mb-1.5 tw:block tw:text-sm tw:font-medium tw:text-gray-700 tw:dark:text-gray-300">Unidad Administrativa</label>
+                            <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="unidad_administrativa" id="unidad_administrativa" v-model="form.unidad_administrativa">
                                 <option disabled value="">Seleccione una opción</option>
                                 @foreach($unidad_administrativa as $unidad)
                                 <option value="{{$unidad->id_unidad_admin}}">{{$unidad->nom_departamento}}</option>
@@ -84,9 +76,9 @@
                             <div v-if="allerros.unidad_administrativa" :class="['alert alert-danger']">@{{ allerros.unidad_administrativa[0] }}</div>
                         </div>
                         <div :class="['form-group', allerros.seleccion_riesgo ? 'has-error' : '']">
-                            <label for="seleccion_rieso" class="tw:mb-1.5 tw:block tw:text-sm tw:font-medium tw:text-gray-700">Alineación a Estrategias, Objetivos,
+                            <label for="seleccion_rieso" class="tw:mb-1.5 tw:block tw:text-sm tw:font-medium tw:text-gray-700 tw:dark:text-gray-300">Alineación a Estrategias, Objetivos,
                                 o Metas Institucionales</label>
-                            <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="seleccion_riesgo" id="seleccion_rieso" v-model="form.seleccion_riesgo">
+                            <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="seleccion_riesgo" id="seleccion_rieso" v-model="form.seleccion_riesgo">
                                 <option value="" disabled>Seleccione una opción</option>
                                 @foreach($seleccion_riesgo as $seleccion)
                                     <option value="{{$seleccion->id_seleccion}}">{{$seleccion->des_seleccion}}</option>
@@ -96,10 +88,10 @@
 
                         </div>
                         <div :class="['form-group', allerros.descripcion_riesgo ? 'has-error' : '']">
-                            <label for="descripcion_riesgo" class="tw:mb-1.5 tw:block tw:text-sm tw:font-medium tw:text-gray-700">Riesgo</label>
-                            <input type="text" id="descripcion_riesgo" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" placeholder="Escribe riesgo" v-model="form.descripcion_riesgo" v-on:keyup="autoComplete" >
-                            <div class="tw:border-t tw:border-gray-100 tw:px-5 tw:py-4" v-if="results.length">
-                                <ul class="tw:divide-y tw:divide-gray-100 tw:rounded-lg tw:border tw:border-gray-200">
+                            <label for="descripcion_riesgo" class="tw:mb-1.5 tw:block tw:text-sm tw:font-medium tw:text-gray-700 tw:dark:text-gray-300">Riesgo</label>
+                            <input type="text" id="descripcion_riesgo" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" placeholder="Escribe riesgo" v-model="form.descripcion_riesgo" v-on:keyup="autoComplete" >
+                            <div class="tw:border-t tw:border-gray-100 tw:dark:border-gray-800 tw:px-5 tw:py-4" v-if="results.length">
+                                <ul class="tw:divide-y tw:divide-gray-100 tw:rounded-lg tw:border tw:border-gray-200 tw:dark:border-gray-800">
                                     <li class="tw:block tw:px-4 tw:py-3" v-for="result in results" v-on:click="setRiesgo(result.des_riesgo)">
                                         @{{ result.des_riesgo }}
                                     </li>
@@ -110,17 +102,17 @@
                         </div>
 
                         <div>
-                            <label for="" class="tw:mb-1.5 tw:block tw:text-sm tw:font-medium tw:text-gray-700">Descripción</label>
-                            <textarea class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500"></textarea>
-                            <label for="" class="tw:mb-1.5 tw:block tw:text-sm tw:font-medium tw:text-gray-700">Nivel de decisión del riesgo</label>
-                            <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="" id="tipo_periodo">
+                            <label for="" class="tw:mb-1.5 tw:block tw:text-sm tw:font-medium tw:text-gray-700 tw:dark:text-gray-300">Descripción</label>
+                            <textarea class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500"></textarea>
+                            <label for="" class="tw:mb-1.5 tw:block tw:text-sm tw:font-medium tw:text-gray-700 tw:dark:text-gray-300">Nivel de decisión del riesgo</label>
+                            <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="" id="tipo_periodo">
                                 <option value="0" disabled="true" selected="true">Seleccione una opción</option>
                                 <option value="">Estratégico</option>
                                 <option value="">Directivo</option>
                                 <option value="">Operativo</option>
                             </select>
-                            <label for="" class="tw:mb-1.5 tw:block tw:text-sm tw:font-medium tw:text-gray-700">Clasificación del riesgo</label>
-                            <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="" id="tipo_periodo">
+                            <label for="" class="tw:mb-1.5 tw:block tw:text-sm tw:font-medium tw:text-gray-700 tw:dark:text-gray-300">Clasificación del riesgo</label>
+                            <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" name="" id="tipo_periodo">
                                 <option value="0" disabled="true" selected="true">Seleccione una opción</option>
                                 <option value="">Administrativo</option>
                                 <option value="">De corrupción</option>
@@ -130,14 +122,12 @@
 
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="h-secondary_m tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" data-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="h-primary_m tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm">Aceptar</button>
+                    <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                        <button type="button" class="h-secondary_m tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="h-primary_m tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap">Aceptar</button>
                     </div>
                 </form>
-            </div>
-        </div>
-    </div>
+            </x-panel.modal>
 
     <script>
         const app = new Vue({
@@ -210,6 +200,7 @@
         });
     </script>
 
+</div>
 @endsection
 
 

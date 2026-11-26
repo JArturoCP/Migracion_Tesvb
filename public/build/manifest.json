@@ -19,7 +19,7 @@
     ]
   },
   "resources/css/marco.css": {
-    "file": "assets/marco-DS3ynYZV.css",
+    "file": "assets/marco-DaqwOHsl.css",
     "src": "resources/css/marco.css",
     "isEntry": true,
     "name": "marco",
@@ -37,7 +37,7 @@
     ]
   },
   "resources/js/carga.js": {
-    "file": "assets/carga-BWdwDm1k.js",
+    "file": "assets/carga-BRV1tVSM.js",
     "name": "carga",
     "src": "resources/js/carga.js",
     "isEntry": true
@@ -52,7 +52,7 @@
     ]
   },
   "resources/js/panel.js": {
-    "file": "assets/panel-D7SIFVh7.js",
+    "file": "assets/panel-D42RPQBY.js",
     "name": "panel",
     "src": "resources/js/panel.js",
     "isEntry": true,

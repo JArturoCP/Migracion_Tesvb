@@ -5,13 +5,12 @@
 docu.evi_constancia_ss   == 1 && docu.evi_certificado_acred_ingles   == 1 && docu.evi_acta_residencia   == 1 &&
 docu.evi_opcion_titulacion   > 0 && docu.evi_pago_titulo   == 1 && docu.evi_pago_contancia   == 1
 && docu.evi_pago_derecho_ti   == 1 && docu.evi_pago_integrante_jurado   == 1">
-        <div class="row">
-            <div class="col-md-2 col-md-offset-5">
+        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+            <div class="tw:w-full tw:px-2">
 
-                    <button  class="btn btn-success btn-lg btn-block" v-on:click="abrirModalenviar();" >Enviar Documentación</button>
+                    <button  class="tw:w-full tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" v-on:click="abrirModalenviar();" >Enviar Documentación</button>
 
 
-                <p><br/></p>
             </div>
         </div>
     </template>
@@ -25,13 +24,12 @@ docu.evi_opcion_titulacion   > 0 && docu.evi_pago_titulo   == 1 && docu.evi_pago
 docu.evi_constancia_ss   == 1 && docu.evi_opcion_titulacion   > 0
 && docu.evi_pago_titulo   == 1 && docu.evi_pago_contancia   == 1
 && docu.evi_pago_derecho_ti   == 1 && docu.evi_pago_integrante_jurado   == 1 && docu.evi_pago_concepto_autenticacion    == 1 && ingles.estado_cert == 2">
-            <div class="row">
-                <div class="col-md-2 col-md-offset-5">
+            <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                <div class="tw:w-full tw:px-2">
 
-                    <button  class="btn btn-success btn-lg btn-block" v-on:click="abrirModalenviar();" >Enviar Documentación</button>
+                    <button  class="tw:w-full tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" v-on:click="abrirModalenviar();" >Enviar Documentación</button>
 
 
-                    <p><br/></p>
                 </div>
             </div>
         </template>
@@ -43,13 +41,12 @@ docu.evi_constancia_ss   == 1 && docu.evi_opcion_titulacion   > 0
 docu.evi_constancia_ss   == 1 && docu.evi_opcion_titulacion   > 0 && docu.evi_reporte_result_egel == 1
 && docu.evi_pago_titulo   == 1 && docu.evi_pago_contancia   == 1
 && docu.evi_pago_derecho_ti   == 1 && docu.evi_pago_integrante_jurado   == 1 && docu.evi_pago_concepto_autenticacion    == 1 && ingles.estado_cert == 2">
-            <div class="row">
-                <div class="col-md-2 col-md-offset-5">
+            <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                <div class="tw:w-full tw:px-2">
 
-                    <button  class="btn btn-success btn-lg btn-block" v-on:click="abrirModalenviar();" >Enviar Documentación</button>
+                    <button  class="tw:w-full tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" v-on:click="abrirModalenviar();" >Enviar Documentación</button>
 
 
-                    <p><br/></p>
                 </div>
             </div>
         </template>

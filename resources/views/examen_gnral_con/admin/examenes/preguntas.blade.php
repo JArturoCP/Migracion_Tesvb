@@ -1,31 +1,24 @@
 @extends('layouts.panel')
-@include('partials.panel.recursos_app')
 
+@include('partials.panel.recursos_app')
 @section('content')
+<div class="tw-pantalla">
 
 <div class="tw:w-full" style="margin-top:30px;">
 
     <!-- ========================= -->
     <!-- TÍTULO ESTILIZADO -->
     <!-- ========================= -->
-    <div style="
-        background: #337ab7;
-        color: white;
-        padding: 12px 18px;
-        border-radius: 6px;
-        margin-bottom: 15px;
-        display: flex;
-        align-items: center;
-    ">
+    <div class="tw:text-white tw:mb-4" style="background: #337ab7; padding: 12px 18px; border-radius: 6px; display: flex; align-items: center">
 
-        <div style="font-size:18px; font-weight:600;">
+        <div class="tw:text-lg tw:font-semibold">
             <span class="fa fa-list-alt"></span>
             Preguntas del examen: {{ $examen->nombre }}
         </div>
 
     </div>
 
-    <a href="{{ route('admin.examenes_generales.index') }}" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm">
+    <a href="{{ route('admin.examenes_generales.index') }}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap">
         <span class="fa fa-arrow-left"></span>
         Regresar
     </a>
@@ -37,14 +30,10 @@
     <!-- ========================= -->
     <!-- SECCIÓN -->
     <!-- ========================= -->
-    <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white" style="margin-bottom:25px;">
+    <x-panel.encabezado :titulo="$s->nombre" :migas="['Examen general de conocimientos' => null]" />
+    <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
 
-        <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4">
-            <strong>
-                <span class="fa fa-folder-open"></span>
-                {{ $s->nombre }}
-            </strong>
-        </div>
+        
 
         <div class="tw:p-5 tw:sm:p-6">
 
@@ -55,11 +44,11 @@
                 <!-- ========================= -->
                 <!-- MÓDULO -->
                 <!-- ========================= -->
-                <div class="tw:w-full tw:lg:w-6/12 tw:px-2" style="margin-bottom:20px;">
+                <div class="tw:w-full tw:lg:w-6/12 tw:px-2 tw:mb-5" >
 
-                    <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
+                    <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
 
-                        <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4">
+                        <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:dark:border-gray-800 tw:bg-gray-50 tw:dark:bg-gray-900 tw:px-5 tw:py-4">
                             <strong>
                                 <span class="fa fa-book"></span>
                                 {{ $m->nombre }}
@@ -73,9 +62,9 @@
                             <!-- ========================= -->
                             <!-- PREGUNTA -->
                             <!-- ========================= -->
-                            <div class="well-sm tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-gray-50 tw:p-5" style="margin-bottom:15px;">
+                            <div class="well-sm tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-gray-50 tw:dark:bg-gray-900 tw:p-5">
 
-                                <div class="math-content" style="font-size:16px;">
+                                <div class="math-content tw:text-base" >
                                     <strong>{{ $p->numero_pregunta }}.</strong>
                                     {!! $p->pregunta !!}
                                 </div>
@@ -83,15 +72,11 @@
                                 <!-- BOTONES PREGUNTA -->
                                 <div class="tw:text-right" style="margin:8px 0;">
                                     <a href="{{ route('admin.examen_general.pregunta.edit', $p->id_pregunta) }}"
-                                       class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-green-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-green-700 tw:gap-1 tw:px-2 tw:py-1 tw:text-xs">
-                                        <span class="fa fa-pencil"></span>
-                                    </a>
+                                       class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"><span class="fa fa-pencil"></span></a>
 
                                     <a href="{{ route('admin.examen_general.pregunta.delete', $p->id_pregunta) }}"
-                                       class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-red-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-red-700 tw:gap-1 tw:px-2 tw:py-1 tw:text-xs"
-                                       onclick="return TNotify.confirmAction(event, this, '¿Eliminar pregunta?')">
-                                        <span class="fa fa-trash"></span>
-                                    </a>
+                                       class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-red-600 tw:ring-1 tw:ring-red-300 tw:ring-inset tw:hover:bg-red-50 tw:dark:bg-gray-800 tw:dark:text-red-500 tw:dark:ring-red-500/40 tw:dark:hover:bg-red-500/10 tw:size-9 tw:text-base"
+                                       onclick="return TNotify.confirmAction(event, this, '¿Eliminar pregunta?')"><span class="fa fa-trash"></span></a>
                                 </div>
 
                                 <!-- ========================= -->
@@ -116,15 +101,11 @@
 
                                         <div class="tw:text-right">
                                             <a href="{{ route('admin.examen_general.respuesta.edit', $r->id_respuesta) }}"
-                                               class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-green-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-green-700 tw:gap-1 tw:px-2 tw:py-1 tw:text-xs">
-                                                <span class="fa fa-pencil"></span>
-                                            </a>
+                                               class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"><span class="fa fa-pencil"></span></a>
 
                                             <a href="{{ route('admin.examen_general.respuesta.delete', ['id_respuesta' => $r->id_respuesta,'id_examen_egel' => $p->id_examen_egel]) }}"
-                                               class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-red-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-red-700 tw:gap-1 tw:px-2 tw:py-1 tw:text-xs"
-                                               onclick="return TNotify.confirmAction(event, this, '¿Estás seguro de eliminar esta respuesta?')">
-                                                <span class="fa fa-trash"></span>
-                                            </a>
+                                               class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-red-600 tw:ring-1 tw:ring-red-300 tw:ring-inset tw:hover:bg-red-50 tw:dark:bg-gray-800 tw:dark:text-red-500 tw:dark:ring-red-500/40 tw:dark:hover:bg-red-500/10 tw:size-9 tw:text-base"
+                                               onclick="return TNotify.confirmAction(event, this, '¿Estás seguro de eliminar esta respuesta?')"><span class="fa fa-trash"></span></a>
                                         </div>
                                     </div>
 
@@ -186,4 +167,5 @@ document.addEventListener("DOMContentLoaded", function () {
 @endif
 
 @include('partials.panel.validacion_envio')
+</div>
 @endsection

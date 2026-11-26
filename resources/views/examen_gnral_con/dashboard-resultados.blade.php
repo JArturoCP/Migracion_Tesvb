@@ -1,7 +1,8 @@
 @extends('layouts.panel')
-@include('partials.panel.recursos_app')
 
+@include('partials.panel.recursos_app')
 @section('content')
+<div class="tw-pantalla">
 
 <style>
     .main{
@@ -55,8 +56,8 @@
     <!-- Título -->
     <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
         <div class="tw:w-full tw:lg:w-full tw:text-center tw:px-2">
-            <h2><strong>Resultado EGEL</strong></h2>
-            <p class="tw:text-gray-500">
+            <h2 class="tw:mb-4 tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90"><strong>Resultado EGEL</strong></h2>
+            <p class="tw:text-gray-500 tw:dark:text-gray-400">
                 Consulta tu desempeño general y el detalle por módulos y secciones.
             </p>
             <hr>
@@ -66,13 +67,12 @@
     @if($resultado)
 
     <!-- Resumen -->
+    <x-panel.encabezado titulo="Calificación" :migas="['Examen general de conocimientos' => null]" />
     <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
         <div class="tw:w-full tw:lg:w-4/12 tw:px-2">
-            <div class="panel-dashboard tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white tw:text-center">
-                <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4">
-                    Calificación
-                </div>
+            <div class="panel-dashboard tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03] tw:text-center">
+                
 
                 <div class="tw:p-5 tw:sm:p-6">
                     <div class="resumen-numero">
@@ -83,8 +83,8 @@
         </div>
 
         <div class="tw:w-full tw:lg:w-4/12 tw:px-2">
-            <div class="panel-dashboard tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white tw:text-center">
-                <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4">
+            <div class="panel-dashboard tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03] tw:text-center">
+                <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:dark:border-gray-800 tw:bg-gray-50 tw:dark:bg-gray-900 tw:px-5 tw:py-4">
                     Nivel obtenido
                 </div>
 
@@ -97,8 +97,8 @@
         </div>
 
         <div class="tw:w-full tw:lg:w-4/12 tw:px-2">
-            <div class="panel-dashboard tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white tw:text-center">
-                <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4">
+            <div class="panel-dashboard tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03] tw:text-center">
+                <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:dark:border-gray-800 tw:bg-gray-50 tw:dark:bg-gray-900 tw:px-5 tw:py-4">
                     Módulos evaluados
                 </div>
 
@@ -118,12 +118,12 @@
     <!-- Resultado General -->
     <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
-        <div class="tw:w-full tw:lg:w-6/12 tw:lg:ml-[25%] tw:px-2">
+        <div class="tw:w-full tw:px-2">
 
-            <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
+            <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
 
-                <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4 tw:text-center">
-                    <h3 class="tw:text-lg tw:font-semibold tw:text-gray-800">
+                <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:dark:border-gray-800 tw:bg-gray-50 tw:dark:bg-gray-900 tw:px-5 tw:py-4 tw:text-center">
+                    <h3 class="tw:text-base tw:font-medium tw:text-gray-800 tw:dark:text-white/90">
                         Resultado General
                     </h3>
                 </div>
@@ -138,17 +138,17 @@
 
                         <hr>
 
-                        <h4>
+                        <h4 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">
                             Nivel alcanzado
                         </h4>
 
-                        <span class="tw:inline-flex tw:items-center tw:rounded-full tw:px-2.5 tw:py-0.5 tw:text-xs tw:font-medium tw:bg-green-50 tw:text-green-700" style="font-size:18px;padding:10px 20px;">
+                        <span class="tw:inline-flex tw:items-center tw:rounded-full tw:px-2.5 tw:py-0.5 tw:text-xs tw:font-medium tw:bg-green-50 tw:text-green-700 tw:text-lg" style="padding:10px 20px">
                             {{ $resultado->nivel }}
                         </span>
 
                     @else
 
-                        <h4 class="tw:text-gray-500">
+                        <h4 class="tw:text-gray-500 tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">
                             Aún no existe un resultado disponible.
                         </h4>
 
@@ -168,18 +168,17 @@
 
         <div class="tw:w-full tw:lg:w-full tw:px-2">
 
-            <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
+            <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
 
-                <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4">
+                <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:dark:border-gray-800 tw:bg-gray-50 tw:dark:bg-gray-900 tw:px-5 tw:py-4">
                     <strong>Resultados por módulo</strong>
                 </div>
 
                 <div class="tw:p-5 tw:sm:p-6">
 
-                    <div class="tw:max-w-full tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200">
+                    <div class="tw:max-w-full tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800">
 
-                        <div class="tw-tabla-contenedor tw:mb-4 tw:max-w-full tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200">
-<table class="tw-tabla tw-tabla-bordes tw-tabla-rayas">
+                        <table class="tw-tabla tw-tabla-bordes tw-tabla-rayas">
 
                             <thead>
 
@@ -246,7 +245,6 @@
                             </tbody>
 
                         </table>
-</div>
 
                     </div>
 
@@ -264,18 +262,17 @@
 
         <div class="tw:w-full tw:lg:w-full tw:px-2">
 
-            <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
+            <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
 
-                <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4">
+                <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:dark:border-gray-800 tw:bg-gray-50 tw:dark:bg-gray-900 tw:px-5 tw:py-4">
                     <strong>Resultados por sección</strong>
                 </div>
 
                 <div class="tw:p-5 tw:sm:p-6">
 
-                    <div class="tw:max-w-full tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200">
+                    <div class="tw:max-w-full tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800">
 
-                        <div class="tw-tabla-contenedor tw:mb-4 tw:max-w-full tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200">
-<table class="tw-tabla tw-tabla-bordes tw-tabla-rayas">
+                        <table class="tw-tabla tw-tabla-bordes tw-tabla-rayas">
 
                             <thead>
 
@@ -346,7 +343,6 @@
                             </tbody>
 
                         </table>
-</div>
 
                     </div>
 
@@ -365,7 +361,7 @@
         <div class="tw:w-full tw:lg:w-full tw:text-center tw:px-2">
 
             <a href="{{ route('examen_general.pdf.oficial') }}"
-               class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-2 tw:px-5 tw:py-3.5 tw:text-base">
+               class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap">
 
                 <span class="fa fa-file"></span>
 
@@ -379,4 +375,5 @@
 
 </div>
 
+</div>
 @endsection

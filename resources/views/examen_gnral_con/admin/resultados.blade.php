@@ -1,8 +1,9 @@
 @extends('layouts.panel')
-@include('partials.panel.recursos_app', ['datatables' => true])
 @section('title', 'Agregar Docentes en Plantilla')
 
+@include('partials.panel.recursos_app', ['datatables' => true])
 @section('content')
+<div class="tw-pantalla">
 
 <style>
     .page-header{
@@ -50,12 +51,12 @@
 
 <main class="tw:w-full">
 
-<div class="tw:mb-6 tw:border-b tw:border-gray-200 tw:pb-2">
+<div class="tw:mb-6 tw:border-b tw:border-gray-200 tw:dark:border-gray-800 tw:pb-2">
 
     <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
         <div class="tw:w-full tw:lg:w-6/12 tw:px-2">
-            <h3>
+            <h3 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">
                 <i class="fa fa-users"></i>
                 Administración de Docentes
             </h3>
@@ -64,7 +65,7 @@
         <div class="tw:w-full tw:lg:w-6/12 tw:text-right tw:px-2">
 
             <a href="{{ route('admin.examen_general.nuevos_docentes') }}"
-               class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm">
+               class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm">
 
                 <i class="fa fa-user-plus"></i>
 
@@ -78,36 +79,26 @@
 
 </div>
 
-<div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+<x-panel.encabezado titulo="Docentes candidatos a plantilla" :migas="['Examen general de conocimientos' => null]" />
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
 <div class="tw:w-full tw:xl:w-6/12 tw:lg:w-6/12 tw:px-2">
 
-<div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
+<div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
 
-<div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4">
 
-<h4 class="tw:text-base tw:font-medium tw:text-gray-800 tw:text-center">
-
-<i class="fa fa-user"></i>
-
-DOCENTES CANDIDATOS A PLANTILLA
-
-</h4>
-
-</div>
 
 <div class="tw:p-5 tw:sm:p-6">
 
-<div class="tw:max-w-full tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200">
+<div class="tw:max-w-full tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800">
 
-<div class="tw-tabla-contenedor tw:mb-4 tw:max-w-full tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200">
 <table
 id="table-docentes-sin"
 class="tw-tabla tw-tabla-rayas tw-tabla-bordes">
 
 <thead>
 
-<tr class="info">
+<tr class="tw:bg-sky-50">
 
 <th width="50">#</th>
 
@@ -147,8 +138,7 @@ class="tw-tabla tw-tabla-rayas tw-tabla-bordes">
 
 <td class="tw:text-center">
 
-<button
-class="agrega tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-green-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-green-700 tw:gap-1.5 tw:px-3 tw:py-1.5 tw:text-sm"
+<button class="agrega tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap"
 data-id="{{ $docente->id_personal }}"
 title="Agregar">
 
@@ -167,7 +157,6 @@ Agregar
 </tbody>
 
 </table>
-</div>
 
 </div>
 
@@ -179,11 +168,11 @@ Agregar
 
 <div class="tw:w-full tw:xl:w-6/12 tw:lg:w-6/12 tw:px-2">
 
-<div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
+<div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
 
-<div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4">
+<div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:dark:border-gray-800 tw:bg-gray-50 tw:dark:bg-gray-900 tw:px-5 tw:py-4">
 
-<h4 class="tw:text-base tw:font-medium tw:text-gray-800 tw:text-center">
+<h4 class="tw:text-base tw:font-medium tw:text-gray-800 tw:dark:text-white/90 tw:text-center">
 
 <i class="fa fa-check-circle"></i>
 
@@ -195,16 +184,15 @@ DOCENTES EN PLANTILLA
 
 <div class="tw:p-5 tw:sm:p-6">
 
-<div class="tw:max-w-full tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200">
+<div class="tw:max-w-full tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800">
 
-<div class="tw-tabla-contenedor tw:mb-4 tw:max-w-full tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200">
 <table
 id="table-docentes-con"
 class="tw-tabla tw-tabla-rayas tw-tabla-bordes">
 
 <thead>
 
-<tr class="info">
+<tr class="tw:bg-sky-50">
 
 <th width="50">#</th>
 
@@ -244,8 +232,7 @@ class="tw-tabla tw-tabla-rayas tw-tabla-bordes">
 
 <td class="tw:text-center">
 
-<button
-class="elimina tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-red-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-red-700 tw:gap-1.5 tw:px-3 tw:py-1.5 tw:text-sm"
+<button class="elimina tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-red-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-red-700 tw:disabled:bg-red-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap"
 data-id="{{ $docente->id_personal }}"
 title="Eliminar">
 
@@ -264,7 +251,6 @@ Quitar
 </tbody>
 
 </table>
-</div>
 
 </div>
 
@@ -278,24 +264,13 @@ Quitar
 
 <!-- MODAL AGREGAR -->
 
-<div id="modal_agrega_docentes" class="modal fade tw-modal-compat" tabindex="-1" role="dialog" data-panel-modal hidden>
+<x-panel.modal id="modal_agrega_docentes" tamano="sm" sin-relleno clase-cerrar="close">
 
-<div class="modal-dialog modal-sm">
+<div class="tw:px-6 tw:pt-6 tw:pr-14">
 
-<div class="modal-content">
 
-<div class="modal-header modal-header-success">
 
-<button
-type="button"
-class="tw:text-2xl tw:leading-none tw:text-gray-400 tw:hover:text-gray-700"
-data-dismiss="modal">
-
-&times;
-
-</button>
-
-<h4 class="modal-title tw:text-center">
+<h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">
 
 <i class="fa fa-check"></i>
 
@@ -305,7 +280,7 @@ Confirmar acción
 
 </div>
 
-<div class="modal-body tw:text-center">
+<div class="tw-modal-cuerpo tw:text-center">
 
 <form
 action="{{url('/examen_gnral_con/guardar_docente_investigacion')}}"
@@ -329,10 +304,9 @@ id="docente">
 
 </div>
 
-<div class="modal-footer">
+<div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
 
-<button
-class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm"
+<button class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap"
 data-dismiss="modal">
 
 Cancelar
@@ -340,8 +314,7 @@ Cancelar
 </button>
 
 <button
-id="confirma_agrega"
-class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-green-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-green-700 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm">
+id="confirma_agrega" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap">
 
 <i class="fa fa-check"></i>
 
@@ -351,32 +324,17 @@ Agregar
 
 </div>
 
-</div>
-
-</div>
-
-</div>
+</x-panel.modal>
 
 <!-- MODAL ELIMINAR -->
 
-<div id="modal_elimina_docente" class="modal fade tw-modal-compat" tabindex="-1" role="dialog" data-panel-modal hidden>
+<x-panel.modal id="modal_elimina_docente" tamano="sm" sin-relleno clase-cerrar="close">
 
-    <div class="modal-dialog modal-sm">
+            <div class="tw:px-6 tw:pt-6 tw:pr-14">
 
-        <div class="modal-content">
+                
 
-            <div class="modal-header modal-header-danger">
-
-                <button
-                    type="button"
-                    class="tw:text-2xl tw:leading-none tw:text-gray-400 tw:hover:text-gray-700"
-                    data-dismiss="modal">
-
-                    &times;
-
-                </button>
-
-                <h4 class="modal-title tw:text-center">
+                <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">
 
                     <i class="fa fa-trash"></i>
 
@@ -386,7 +344,7 @@ Agregar
 
             </div>
 
-            <div class="modal-body tw:text-center">
+            <div class="tw-modal-cuerpo tw:text-center">
 
                 <form
                     action="{{ url('/examen_gnral_con/eliminar_docente_investigacion') }}"
@@ -410,10 +368,10 @@ Agregar
 
             </div>
 
-            <div class="modal-footer">
+            <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
 
                 <button
-                    class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm"
+                    class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap"
                     data-dismiss="modal">
 
                     Cancelar
@@ -422,7 +380,7 @@ Agregar
 
                 <button
                     id="confirma_elimina"
-                    class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-red-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-red-700 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm">
+                    class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-red-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-red-700 tw:disabled:bg-red-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap">
 
                     <i class="fa fa-trash"></i>
 
@@ -432,11 +390,7 @@ Agregar
 
             </div>
 
-        </div>
-
-    </div>
-
-</div>
+        </x-panel.modal>
 
 </main>
 
@@ -502,4 +456,5 @@ $(document).ready(function(){
 
 </script>
 
+</div>
 @endsection

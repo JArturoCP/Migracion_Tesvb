@@ -96,6 +96,14 @@
 @source "../views/computo";
 @source "../views/constancia_adeudo";
 @source "../views/prorroga";
+@source "../views/piase/estudiante";
+@source "../views/titulacion/alumno_titulacion";
+@source "../views/riesgos";
+@source "../views/incidencias";
+@source "../views/examen_gnral_con";
+@source "../views/ambiental";
+@source "../views/sgc";
+@source "../views/ipomex";
 @source "../views/vendor/pagination/panel.blade.php";
 @source "../js/panel";
 

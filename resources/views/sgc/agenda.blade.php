@@ -3,27 +3,29 @@ use Carbon\Carbon;
 setlocale(LC_ALL, 'es_ES');
 ?>
 @extends('layouts.panel')
-@include('partials.panel.recursos_app', ['selectorHora' => true])
 @foreach($auditorias as $auditoria)
     @section('title', 'Agenda auditoria '.date('Y',strtotime($auditoria->fecha_i)).'-'.$auditoria->id_auditoria)
 @endforeach
+@include('partials.panel.recursos_app', ['selectorHora' => true])
 @section('content')
+<div class="tw-pantalla">
+    <x-panel.encabezado titulo="Agenda de auditoría" :migas="['Sistema de gestión de calidad' => null]" />
     <main class="tw:w-full tw:lg:w-full tw:px-2">
         <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
-            <div class="tw:w-full tw:lg:w-10/12 tw:lg:ml-[8.3333%] tw:px-2">
+            <div class="tw:w-full tw:px-2">
                 <p>
                     <span class="fa fa-arrow-right"></span>
-                    <a href="{{url('/sgc/auditorias')}}">Planes de auditorias</a>
+                    <a class="tw:text-brand-500 tw:hover:underline" href="{{url('/sgc/auditorias')}}">Planes de auditorias</a>
                     <span class="fa fa-chevron-right"></span>
                     @foreach($auditorias as $auditoria)
-                        <a href="{{url('sgc/ver_plan_auditoria')}}/{{$auditoria->id_auditoria}}">Detalles del Plan</a>
+                        <a class="tw:text-brand-500 tw:hover:underline" href="{{url('sgc/ver_plan_auditoria')}}/{{$auditoria->id_auditoria}}">Detalles del Plan</a>
                     @endforeach
                     <span class="fa fa-chevron-right"></span>
                     <span>Agenda</span>
                 </p>
-                <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
-                    <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4">
-                        <h3 class="tw:text-lg tw:font-semibold tw:text-gray-800">
+                <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+                    <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:dark:border-gray-800 tw:bg-gray-50 tw:dark:bg-gray-900 tw:px-5 tw:py-4">
+                        <h3 class="tw:text-base tw:font-medium tw:text-gray-800 tw:dark:text-white/90">
                             <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
                                 <div class="tw:w-full tw:lg:w-4/12 tw:px-2">
                                     <a href="#" class="btn_select_aud tw:float-left">
@@ -43,10 +45,10 @@ setlocale(LC_ALL, 'es_ES');
                     </div>
                     <div class="tw:p-5 tw:sm:p-6">
                         @if(!Session::get('auditorUsed'))
-                            <div class="tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-red-200 tw:bg-red-50 tw:text-red-700" role="alert">No se ha seleccionado un auditor</div>
+                            <x-panel.alerta tipo="error" class="tw:mb-4">No se ha seleccionado un auditor</x-panel.alerta>
                         @else
                             <div id="exTab2" class="">
-                                <ul class="tw-pestanas tw:mb-6 tw:flex tw:flex-wrap tw:gap-2 tw:border-b tw:border-gray-200">
+                                <ul class="tw-pestanas tw:mb-6 tw:flex tw:flex-wrap tw:gap-2 tw:border-b tw:border-gray-200 tw:dark:border-gray-800">
                                     @foreach($fechas as $dia)
                                         <li class="{{$dia==Session::get('dateUsed')?'active':''}}"><a href="#{{$dia}}" class="tab" data-fecha="{{$dia}}" data-toggle="tab" aria-expanded="{{$dia==Session::get('dateUsed')?'true':'false'}}">{{$dia}}</a></li>
                                     @endforeach
@@ -54,10 +56,9 @@ setlocale(LC_ALL, 'es_ES');
                                 <div class="tab-content">
                                     @foreach($fechas as $dia)
                                         <div class="tab-pane {{$dia==Session::get('dateUsed')?'active':''}}" id="{{$dia}}">
-                                            <a href="#!" class="btn-add-agenda tw:float-right" data-fecha="{{$dia}}" data-toggle="tooltip" title="Agregar evento"><span class="fa fa-plus"></span></a>
-                                            <h5>Agenda del día {{$dia}}</h5>
-                                            <br>
-                                            <div class="tw-tabla-contenedor tw:mb-4 tw:max-w-full tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200">
+                                            <a href="#!" class="btn-add-agenda tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base" data-fecha="{{$dia}}" data-toggle="tooltip" title="Agregar evento"><span class="fa fa-plus"></span></a>
+                                            <h5 class="tw:mb-2 tw:text-sm tw:font-semibold tw:text-gray-700 tw:dark:text-gray-300">Agenda del día {{$dia}}</h5>
+                                            <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
 <table class="tw-tabla">
                                                 <thead>
                                                     <tr>
@@ -77,7 +78,7 @@ setlocale(LC_ALL, 'es_ES');
                                                             <td>{{$evento['procesos']}}</td>
                                                             <td>{{$evento['area']}}</td>
                                                             <td>{{$evento['auditor']}}</td>
-                                                            <td class="tw:text-center"><a href="{{url('/sgc/hoja_trabajo')}}/{{$evento['id_agenda']}}"><span class="fa fa-copy" data-toggle="tooltip" title="Hoja de trabajo"></span></a></td>
+                                                            <td class="tw:text-center"><a class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base" href="{{url('/sgc/hoja_trabajo')}}/{{$evento['id_agenda']}}"><span class="fa fa-files-o" data-toggle="tooltip" title="Hoja de trabajo"></span></a></td>
                                                         </tr>
                                                         @endif
                                                         @endif
@@ -98,15 +99,13 @@ setlocale(LC_ALL, 'es_ES');
 
     <form id="validaHoras" action='{{url("/sgc/validate")}}/2' method="PUT">@csrf</form>
 
-    <div class="modal fade tw-modal-compat" id="modal_ag" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" data-panel-modal hidden>
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="tw:text-2xl tw:leading-none tw:text-gray-400 tw:hover:text-gray-700" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="exampleModalLabel">Registro de actividad</h4>
+    <x-panel.modal id="modal_ag" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="exampleModalLabel">
+                <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                    
+                    <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="exampleModalLabel">Registro de actividad</h4>
                 </div>
                 <form id="form_add_ag" class="" role="form" method="POST" action="{{url("/sgc/guarda_evento")}}">
-                    <div class="modal-body">
+                    <div class="tw-modal-cuerpo">
                         @csrf
                         <div id="metodo"></div>
 
@@ -114,22 +113,22 @@ setlocale(LC_ALL, 'es_ES');
                             <div class="tw:w-full tw:lg:w-4/12 tw:px-2">
                                 <label for="inicio">Hora de inicio</label>
                                 <div class="tw:flex tw:w-full tw:items-stretch">
-                                    <input id="inicio" class="timepicker tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" type="text" name="inicio">
-                                    <span class="tw:inline-flex tw:items-center tw:border tw:border-gray-300 tw:bg-gray-50 tw:px-3 tw:text-sm tw:text-gray-600"><i class="fa fa-clock-o"></i></span>
+                                    <input id="inicio" class="timepicker tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" type="text" name="inicio">
+                                    <span class="tw:inline-flex tw:items-center tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-gray-50 tw:dark:bg-gray-900 tw:px-3 tw:text-sm tw:text-gray-600 tw:dark:text-gray-400"><i class="fa fa-clock-o"></i></span>
                                 </div>
                             </div>
                             <div hidden class="hora_final tw:w-full tw:lg:w-4/12 tw:px-2">
                                 <label for="fin">Hora de termino</label>
                                 <div class="tw:flex tw:w-full tw:items-stretch">
-                                    <input id="fin" class="timepicker tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" type="text" name="fin">
-                                    <span class="tw:inline-flex tw:items-center tw:border tw:border-gray-300 tw:bg-gray-50 tw:px-3 tw:text-sm tw:text-gray-600"><i class="fa fa-clock-o"></i></span>
+                                    <input id="fin" class="timepicker tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" type="text" name="fin">
+                                    <span class="tw:inline-flex tw:items-center tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-gray-50 tw:dark:bg-gray-900 tw:px-3 tw:text-sm tw:text-gray-600 tw:dark:text-gray-400"><i class="fa fa-clock-o"></i></span>
                                 </div>
                             </div>
                         </div>
                         <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
                             <div class="tw:w-full tw:lg:w-6/12 tw:px-2">
                                 <label for="">Área a auditar</label>
-                                <select name="area" id="unidad_auditoria" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11">
+                                <select name="area" id="unidad_auditoria" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11">
                                     <option value="" selected disabled="true">Selecciona...</option>
                                     @foreach($areas as $area)
                                         <option value="{{$area->id_unidad_admin}}">{{$area->nom_departamento}}</option>
@@ -139,7 +138,7 @@ setlocale(LC_ALL, 'es_ES');
                             <div class="tw:w-full tw:lg:w-full tw:px-2">
                                 <div class="tw:mb-4">
                                     <label for="procesos">Procesos</label>
-                                    <textarea class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500" name="procesos" id="procesos" ></textarea>
+                                    <textarea class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500" name="procesos" id="procesos" ></textarea>
                                 </div>
 
                             </div>
@@ -155,25 +154,21 @@ setlocale(LC_ALL, 'es_ES');
                             @endif
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" data-dismiss="modal">Cancelar</button>
-                        <input type="submit" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" value="Guardar"/>
+                    <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                        <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                        <input type="submit" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" value="Guardar"/>
                     </div>
                 </form>
-            </div>
-        </div>
-    </div>
+            </x-panel.modal>
 
-    <div class="modal fade tw-modal-compat" id="modal_auditores" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" data-panel-modal hidden>
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="tw:text-2xl tw:leading-none tw:text-gray-400 tw:hover:text-gray-700" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="exampleModalLabel">Registro de actividad</h4>
+    <x-panel.modal id="modal_auditores" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="exampleModalLabel">
+                <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                    
+                    <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="exampleModalLabel">Registro de actividad</h4>
                 </div>
                 <form id="form_selec_aud" class="" role="form" method="GET" action="">
-                    <div class="modal-body">
-                        <select id="id_set_auditor" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11">
+                    <div class="tw-modal-cuerpo">
+                        <select id="id_set_auditor" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11">
                             <option value="" selected disabled="true">Selecciona...</option>
                             @foreach($auditores as $auditor)
                                 @if(Session::get('auditorUsed'))
@@ -185,14 +180,12 @@ setlocale(LC_ALL, 'es_ES');
                             @endforeach
                         </select>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" data-dismiss="modal">Cancelar</button>
-                        <input type="submit" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" value="Ok"/>
+                    <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                        <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                        <input type="submit" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" value="Ok"/>
                     </div>
                 </form>
-            </div>
-        </div>
-    </div>
+            </x-panel.modal>
 
     <script>
         $(document).ready(function () {
@@ -265,6 +258,7 @@ setlocale(LC_ALL, 'es_ES');
 
         })
     </script>
+</div>
 @endsection
 
 
