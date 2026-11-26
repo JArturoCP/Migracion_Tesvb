@@ -1,52 +1,45 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 @section('title', 'Historial de presupuesto autorizado')
+@include('partials.panel.recursos_app')
 @section('content')
-    <div class="row">
-        <div class="col-md-10 col-xs-10 col-md-offset-1">
+<div class="tw-pantalla">
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+        <div class="tw:w-full tw:px-2">
             <p>
-                <span class="glyphicon glyphicon-arrow-right"></span>
-                <a href="{{url("/presupuesto_autorizado/inicio_presupuesto_autorizado_historial")}}">Años de los historiales de los presupuestos autorizados</a>
-                <span class="glyphicon glyphicon-chevron-right"></span>
+                <span class="fa fa-arrow-right"></span>
+                <a class="tw:text-brand-500 tw:hover:underline" href="{{url("/presupuesto_autorizado/inicio_presupuesto_autorizado_historial")}}">Años de los historiales de los presupuestos autorizados</a>
+                <span class="fa fa-chevron-right"></span>
                 <span>Menú del historial del presupuesto autorizado del {{  $year->descripcion }} </span>
             </p>
-            <br>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-8  col-md-offset-2">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h3 class="panel-title text-center">Historial del presupuesto autorizado del {{ $year->descripcion }}</h3>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-4 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-body text-center">
-                    <h5 class="card-title text-center">Presupuesto autorizado</h5>
-                    <p><button class="btn btn-primary presupuesto_autorizado" id="{{ $year->id_year }}">Ver</button></p>
+    <x-panel.encabezado :titulo="'Historial del presupuesto autorizado del '.$year->descripcion" :migas="['Finanzas' => null]" />
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+        <div class="tw:w-full tw:lg:w-6/12 tw:px-2">
+            <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+                <div class="tw:p-5 tw:sm:p-6 tw:text-center">
+                    <h5 class="tw:text-base tw:font-medium tw:text-gray-800 tw:dark:text-white/90 tw:text-center">Presupuesto autorizado</h5>
+                    <p><button class="presupuesto_autorizado tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" id="{{ $year->id_year }}">Ver</button></p>
 
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="panel panel-default">
-                <div class="panel-body text-center">
-                    <h5 class="card-title">Presupuesto autorizado modificado</h5>
-                    <p><button class="btn btn-primary presupuesto_autorizado_mod" id="{{ $year->id_year }}">Ver</button></p>
+        <div class="tw:w-full tw:lg:w-6/12 tw:px-2">
+            <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+                <div class="tw:p-5 tw:sm:p-6 tw:text-center">
+                    <h5 class="tw:text-base tw:font-medium tw:text-gray-800 tw:dark:text-white/90">Presupuesto autorizado modificado</h5>
+                    <p><button class="presupuesto_autorizado_mod tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" id="{{ $year->id_year }}">Ver</button></p>
 
                 </div>
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-4 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-body text-center">
-                    <h5 class="card-title text-center">Solicitudes autorizadas</h5>
-                    <p><button class="btn btn-primary solicitudes_autorizadas" id="{{ $year->id_year }}">Ver</button></p>
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+        <div class="tw:w-full tw:px-2">
+            <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+                <div class="tw:p-5 tw:sm:p-6 tw:text-center">
+                    <h5 class="tw:text-base tw:font-medium tw:text-gray-800 tw:dark:text-white/90 tw:text-center">Solicitudes autorizadas</h5>
+                    <p><button class="solicitudes_autorizadas tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" id="{{ $year->id_year }}">Ver</button></p>
 
                 </div>
             </div>
@@ -78,4 +71,5 @@
         });
 
     </script>
+</div>
 @endsection

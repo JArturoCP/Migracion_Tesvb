@@ -1,17 +1,11 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 @section('title', 'Solicitudes')
+@include('partials.panel.recursos_app')
 @section('content')
-    <div class="row">
-        <div class="col-md-8  col-md-offset-2">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h3 class="panel-title text-center">Revisión de las solicitudes de requisiciones de los departamentos o jefatura</h3>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row col-md-11 col-md-offset-1">
-        <ul class="nav nav-tabs">
+<div class="tw-pantalla">
+    <x-panel.encabezado titulo="Revisión de las solicitudes de requisiciones de los departamentos o jefatura" :migas="['Finanzas' => null]" />
+    <div class="tw:w-full tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4 tw:px-2">
+        <ul class="tw:w-full tw-pestanas tw:mb-6 tw:flex tw:flex-wrap tw:gap-2 tw:border-b tw:border-gray-200 tw:dark:border-gray-800">
             <li class="active"><a href="#">Revisión de solicitudes de requisiciones de los departamentos</a></li>
             <li>
                 <a href="{{ url('/presupuesto_autorizado/proceso_mod_solicitudes/') }}" >En proceso de modificación</a>
@@ -27,34 +21,34 @@
 
 
         </ul>
-        <p>
+        <p class="tw:w-full">
             <br>
         </p>
     </div>
     @foreach($solicitudes as $solicitud)
-        <div class="row">
-            <div class="col-md-8  col-md-offset-2">
-                <div class="panel panel-primary">
-                    <div class="panel-body">
-                        <p style=""><span class="glyphicon glyphicon-file" style="font-size: 30px;"></span> Solicitud: <b>{{ $solicitud->descripcion_solicitud }}</b></p>
+        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+            <div class="tw:w-full tw:px-2">
+                <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+                    <div class="tw:p-5 tw:sm:p-6">
+                        <p><span class="fa fa-file"></span> Solicitud: <b>{{ $solicitud->descripcion_solicitud }}</b></p>
                         <p>Nombre del departamento o jefatura: <b>{{ $solicitud->nom_departamento }}</b></p>
                         <p>Nombre del jefe o  de la jefa del departamento o jefatura: <b>{{ $solicitud->titulo }} {{ $solicitud->nombre_personal }}</b></p>
                            @if($solicitud->comentario_solicitud != '')
-                            <div class="row">
-                                <div class="col-md-8  col-md-offset-2">
-                                    <div class="panel panel-danger">
-                                        <div class="panel-body">
-                                          <p style="color: red;">Comentario: <b>{{ $solicitud->comentario_solicitud }}</b></p>
+                            <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                <div class="tw:w-full tw:px-2">
+                                    <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+                                        <div class="tw:p-5 tw:sm:p-6">
+                                          <p class="tw:text-red-600 tw:dark:text-red-400">Comentario: <b>{{ $solicitud->comentario_solicitud }}</b></p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             @endif
-                        <p style="">Proyecto: <b>{{ $solicitud->nombre_proyecto }}</b></p>
-                        <p style="">Meta: <b>{{ $solicitud->meta }}</b></p>
-                        <p style="">Mes: <b>{{ $solicitud->mes }}</b></p>
+                        <p>Proyecto: <b>{{ $solicitud->nombre_proyecto }}</b></p>
+                        <p>Meta: <b>{{ $solicitud->meta }}</b></p>
+                        <p>Mes: <b>{{ $solicitud->mes }}</b></p>
                         @if($solicitud->id_estado_enviado == 2)
-                            <p style="text-align: center"><button type="button" class="btn btn-primary center" onclick="window.location=('{{url('/presupuesto_autorizado/revisar_documentacion_solicitud/'.$solicitud->id_solicitud)}}')">Revisar documentacion de la solicitud</button></p>
+                            <p class="tw:text-center"><button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" onclick="window.location=('{{url('/presupuesto_autorizado/revisar_documentacion_solicitud/'.$solicitud->id_solicitud)}}')">Revisar documentacion de la solicitud</button></p>
 
                         @endif
                     </div>
@@ -76,4 +70,5 @@
     </script>
 
 
+</div>
 @endsection

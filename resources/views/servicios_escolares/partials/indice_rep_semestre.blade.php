@@ -1,18 +1,19 @@
-@extends('layouts.app')
+@extends('layouts.panel')
+@include('partials.panel.recursos_app')
 @section('content')
+<div class="tw-pantalla">
 
-    <div class="row">
-        <div class="col-md-6 col-xs-10 col-md-offset-3">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h3 class="panel-title text-center">Indice de Reprobación {{ $carreras->nombre }}<br> (Semestres) </h3>
-                </div>
-                <div class="panel-body " style="text-align: center">
+    <x-panel.encabezado :titulo="'Indice de Reprobación '.$carreras->nombre.' (Semestres)'" :migas="['Servicios escolares' => null]" />
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+        <div class="tw:w-full tw:px-2">
+            <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+                
+                <div class="tw:p-5 tw:sm:p-6 tw:text-center">
                     @if($semestres!=null)
-                        <div class="col-md-5 col-md-offset-3">
-                            <ul class="nav nav-pills nav-stacked" style="background-color:white;border: 2px solid black; border-radius: 7px; padding-right: 0px">
+                        <div class="tw:w-full tw:px-2">
+                            <ul class="tw:mb-6 tw:divide-y tw:divide-gray-100 tw:overflow-hidden tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
                                 @foreach($semestres as $semestre)
-                                    <li style="margin-top: 0px"><a style="border-bottom: 2px solid black;" data-toggle="pill" href="#" onclick="window.location='{{ url('/servicios_escolares/estadisticas/indice_reprobacion_semestre_materia/'.$carreras->id_carrera.'/'.$semestre->id_semestre ) }}'" > {{$semestre->descripcion}}</a></li>
+                                    <li><a class="tw:block tw:px-4 tw:py-3 tw:text-sm tw:font-medium tw:cursor-pointer tw:text-gray-700 tw:dark:text-gray-300 tw:hover:bg-gray-50" data-toggle="pill" href="#" onclick="window.location='{{ url('/servicios_escolares/estadisticas/indice_reprobacion_semestre_materia/'.$carreras->id_carrera.'/'.$semestre->id_semestre ) }}'"> {{$semestre->descripcion}}</a></li>
 
                                 @endforeach
                             </ul>
@@ -24,4 +25,5 @@
         </div>
     </div>
 
+</div>
 @endsection

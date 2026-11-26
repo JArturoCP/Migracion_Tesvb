@@ -1,24 +1,24 @@
-<div class="modal-body">
+<div class="tw-modal-cuerpo">
 
-    <div class="row justify-content-center">
-        <div class="col-md-9 col-lg-8">
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4 tw:justify-center">
+        <div class="tw:w-full tw:lg:w-9/12 tw:xl:w-8/12 tw:px-2">
 
-            <div class="mb-4">
+            <div class="tw:mb-6">
 
-                <label for="fecha_s" class="form-label fw-semibold">
-                    <i class="bi bi-calendar-event me-2 text-primary"></i>
+                <label for="fecha_s" class="tw:mb-1.5 tw:block tw:text-sm tw:font-medium tw:text-gray-700 tw:dark:text-gray-400">
+                    <i class="fa fa-calendar tw:mr-2 tw:text-brand-500"></i>
                     Fecha de evaluación
                 </label>
 
-                <div class="input-group">
-                    <span class="input-group-text bg-light">
-                        <i class="bi bi-calendar3"></i>
+                <div class="tw:flex tw:w-full tw:items-stretch">
+                    <span class="tw:inline-flex tw:h-full tw:items-center tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-gray-50 tw:dark:bg-gray-900 tw:px-3 tw:text-sm tw:text-gray-600 tw:dark:text-gray-400">
+                        <i class="fa fa-calendar"></i>
                     </span>
 
                     <?php $fecha_periodo = date("d-m-Y", strtotime($fecha_final)); ?>
 
                     <input
-                        class="form-control datepicker"
+                        class="datepicker tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"
                         type="text"
                         id="fecha_s"
                         name="fecha_s"
@@ -28,29 +28,29 @@
                     >
                 </div>
 
-                <div class="form-text">
+                <div class="tw:mt-1 tw:block tw:text-xs">
                     Seleccione la fecha en la que se realizará la evaluación.
                 </div>
 
             </div>
 
             {{-- OBSERVACIONES --}}
-            <div class="mb-3">
+            <div class="tw:mb-4">
 
-                <label for="observaciones" class="form-label fw-semibold">
-                    <i class="bi bi-chat-left-text me-2 text-primary"></i>
+                <label for="observaciones" class="tw:mb-1.5 tw:block tw:text-sm tw:font-medium tw:text-gray-700 tw:dark:text-gray-400">
+                    <i class="fa fa-comment-o tw:mr-2 tw:text-brand-500"></i>
                     Observaciones
                 </label>
 
                 <textarea
-                    class="form-control"
+                    class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500"
                     id="observaciones"
                     name="observaciones"
                     rows="3"
                     placeholder="Escriba las observaciones..."
                 ></textarea>
 
-                <div class="form-text">
+                <div class="tw:mt-1 tw:block tw:text-xs">
                     Agregue cualquier observación relacionada con la evaluación.
                 </div>
 
@@ -75,14 +75,14 @@
 
 </div>
 
-<div class="modal-footer bg-light">
+<div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:pb-2 tw:bg-gray-50 tw:dark:bg-gray-900">
 
     <button
         type="button"
-        class="btn btn-secondary"
+        class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap"
         data-bs-dismiss="modal"
     >
-        <i class="bi bi-x-circle me-1"></i>
+        <i class="fa fa-times-circle tw:mr-1"></i>
         Cancelar
     </button>
 
@@ -90,9 +90,9 @@
         id="modificar_periodo"
         style="display: none"
         type="submit"
-        class="btn btn-primary boton"
+        class="boton tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap"
     >
-        <i class="bi bi-check-circle me-1"></i>
+        <i class="fa fa-check-circle tw:mr-1"></i>
         Guardar
     </button>
 

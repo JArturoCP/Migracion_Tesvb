@@ -1,8 +1,10 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 
 @section('title', 'Validar Carga Académica Estudiante Dual')
 
+@include('partials.panel.recursos_app')
 @section('content')
+<div class="tw-pantalla">
 
 <?php
 
@@ -23,18 +25,18 @@ $estado = isset($validaciones[0])
 
     @if (session('error'))
 
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+        <div class="tw:w-full tw:px-2">
 
-            <div class="mensaje-adeudo">
+            <div class="tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:flex tw:items-center tw:gap-4 tw:border-red-200 tw:bg-red-50 tw:text-red-700">
 
-                <div class="mensaje-icono">
-                    <span class="glyphicon glyphicon-warning-sign"></span>
+                <div class="tw:flex tw:size-10 tw:shrink-0 tw:items-center tw:justify-center tw:rounded-full tw:bg-red-600 tw:text-xl tw:text-white">
+                    <span class="fa fa-exclamation-triangle"></span>
                 </div>
 
-                <div class="mensaje-contenido">
+                <div>
 
-                    <h3>
+                    <h3 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">
                         No se puede enviar la carga académica
                     </h3>
 
@@ -54,16 +56,16 @@ $estado = isset($validaciones[0])
 
     @if (session('success'))
 
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+        <div class="tw:w-full tw:px-2">
 
-            <div class="mensaje-exito">
+            <div class="tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:flex tw:items-center tw:gap-4 tw:border-green-200 tw:bg-green-50 tw:text-green-800">
 
-                <span class="glyphicon glyphicon-ok-sign"></span>
+                <span class="fa fa-check-circle"></span>
 
                 <div>
 
-                    <h3>
+                    <h3 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">
                         ¡Carga enviada correctamente!
                     </h3>
 
@@ -85,29 +87,7 @@ $estado = isset($validaciones[0])
     TÍTULO
     ========================================================== --}}
 
-    <div class="row">
-
-        <div class="col-md-6 col-md-offset-3">
-
-            <div class="panel panel-info">
-
-                <div class="panel-heading text-center">
-
-                    <h3 class="panel-title">
-
-                        <span class="glyphicon glyphicon-file"></span>
-
-                        &nbsp; VER CARGA ACADÉMICA
-
-                    </h3>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
+    <x-panel.encabezado titulo="Ver carga académica" :migas="['Educación dual' => null]" />
 
 
     {{-- =========================================================
@@ -116,17 +96,17 @@ $estado = isset($validaciones[0])
 
     @if ($usuario == 2)
 
-    <div class="row">
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
-        <div class="col-md-8 col-md-offset-2">
+        <div class="tw:w-full tw:px-2">
 
-            <div class="panel panel-info">
+            <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
 
-                <div class="panel-heading text-center">
+                <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:dark:border-gray-800 tw:bg-gray-50 tw:dark:bg-gray-900 tw:px-5 tw:py-4 tw:text-center">
 
-                    <h4 class="panel-title">
+                    <h4 class="tw:text-base tw:font-medium tw:text-gray-800 tw:dark:text-white/90">
 
-                        <span class="glyphicon glyphicon-user"></span>
+                        <span class="fa fa-user"></span>
 
                         &nbsp; DATOS DEL ESTUDIANTE
 
@@ -134,9 +114,9 @@ $estado = isset($validaciones[0])
 
                 </div>
 
-                <div class="panel-body text-center estudiante-panel">
+                <div class="tw:p-5 tw:sm:p-6 tw:text-center">
 
-                    <h4>
+                    <h4 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">
                         {{ $cuenta_y_nom }}
                     </h4>
 
@@ -157,19 +137,19 @@ $estado = isset($validaciones[0])
 
     @if ($estado == 0)
 
-    <div class="row">
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
-        <div class="col-md-8 col-md-offset-2">
+        <div class="tw:w-full tw:px-2">
 
-            <div class="alerta-carga-pendiente">
+            <div class="tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-amber-200 tw:bg-amber-50 tw:text-center tw:text-amber-800">
 
-                <div class="encabezado-alerta">
+                <div class="tw:mb-2 tw:flex tw:items-center tw:justify-center tw:gap-2">
 
-                    <div class="icono-alerta">
+                    <div class="tw:text-lg">
                         <i class="fa fa-clock-o"></i>
                     </div>
 
-                    <h4>
+                    <h4 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">
                         Carga Académica Pendiente
                     </h4>
 
@@ -188,19 +168,19 @@ $estado = isset($validaciones[0])
 
     @elseif ($estado == 888)
 
-    <div class="row">
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
-        <div class="col-md-8 col-md-offset-2">
+        <div class="tw:w-full tw:px-2">
 
-            <div class="alerta-carga alerta-validacion">
+            <div class="tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:text-center tw:border-amber-200 tw:bg-amber-50 tw:text-amber-800">
 
-                <div class="encabezado-alerta">
+                <div class="tw:mb-2 tw:flex tw:items-center tw:justify-center tw:gap-2">
 
-                    <div class="icono-alerta">
+                    <div class="tw:text-lg">
                         <i class="fa fa-refresh"></i>
                     </div>
 
-                    <h4>
+                    <h4 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">
                         Validación por Servicios Escolares
                     </h4>
 
@@ -220,19 +200,19 @@ $estado = isset($validaciones[0])
 
     @elseif ($estado == 1)
 
-    <div class="row">
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
-        <div class="col-md-8 col-md-offset-2">
+        <div class="tw:w-full tw:px-2">
 
-            <div class="alerta-carga alerta-jefe">
+            <div class="tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:text-center tw:border-sky-200 tw:bg-sky-50 tw:text-sky-800">
 
-                <div class="encabezado-alerta">
+                <div class="tw:mb-2 tw:flex tw:items-center tw:justify-center tw:gap-2">
 
-                    <div class="icono-alerta">
+                    <div class="tw:text-lg">
                         <i class="fa fa-user"></i>
                     </div>
 
-                    <h4>
+                    <h4 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">
                         Pendiente de autorización del Jefe de División
                     </h4>
 
@@ -251,19 +231,19 @@ $estado = isset($validaciones[0])
 
     @elseif ($estado == 2)
 
-    <div class="row">
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
-        <div class="col-md-8 col-md-offset-2">
+        <div class="tw:w-full tw:px-2">
 
-            <div class="alerta-carga alerta-autorizada">
+            <div class="tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:text-center tw:border-green-200 tw:bg-green-50 tw:text-green-800">
 
-                <div class="encabezado-alerta">
+                <div class="tw:mb-2 tw:flex tw:items-center tw:justify-center tw:gap-2">
 
-                    <div class="icono-alerta">
+                    <div class="tw:text-lg">
                         <i class="fa fa-check"></i>
                     </div>
 
-                    <h4>
+                    <h4 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">
                         Carga Académica Autorizada
                     </h4>
 
@@ -290,19 +270,19 @@ $estado = isset($validaciones[0])
 
     @if ($estado == 0 || $estado == 3 || $estado == 888)
 
-    <div class="row">
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
-        <div class="col-md-6 col-md-offset-3">
+        <div class="tw:w-full tw:px-2">
 
             @if ($adeudo == 0)
 
-            <div class="panel panel-success">
+            <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
 
-                <div class="panel-heading text-center">
+                <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:dark:border-gray-800 tw:bg-gray-50 tw:dark:bg-gray-900 tw:px-5 tw:py-4 tw:text-center">
 
-                    <h3 class="panel-title">
+                    <h3 class="tw:text-base tw:font-medium tw:text-gray-800 tw:dark:text-white/90">
 
-                        <span class="glyphicon glyphicon-ok-sign"></span>
+                        <span class="fa fa-check-circle"></span>
 
                         &nbsp; ESTADO DE ADEUDOS
 
@@ -310,16 +290,16 @@ $estado = isset($validaciones[0])
 
                 </div>
 
-                <div class="panel-body text-center estado-panel">
+                <div class="tw:p-5 tw:sm:p-6 tw:text-center">
 
-                    <span class="glyphicon glyphicon-ok-circle icon-success"></span>
+                    <span class="fa fa-check-circle-o tw:text-4xl tw:text-green-600"></span>
 
-                    <h4 class="text-success">
+                    <h4 class="tw:text-green-600 tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">
                         ¡No tiene adeudo!
                     </h4>
 
-                    <p class="text-muted">
-                        <span class="glyphicon glyphicon-check"></span>
+                    <p class="tw:text-gray-500 tw:dark:text-gray-400">
+                        <span class="fa fa-check-square-o"></span>
                         No se encontraron adeudos pendientes.
                     </p>
 
@@ -329,13 +309,13 @@ $estado = isset($validaciones[0])
 
             @else
 
-            <div class="panel panel-danger">
+            <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
 
-                <div class="panel-heading text-center">
+                <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:dark:border-gray-800 tw:bg-gray-50 tw:dark:bg-gray-900 tw:px-5 tw:py-4 tw:text-center">
 
-                    <h3 class="panel-title">
+                    <h3 class="tw:text-base tw:font-medium tw:text-gray-800 tw:dark:text-white/90">
 
-                        <span class="glyphicon glyphicon-warning-sign"></span>
+                        <span class="fa fa-exclamation-triangle"></span>
 
                         &nbsp; ESTADO DE ADEUDOS
 
@@ -343,30 +323,30 @@ $estado = isset($validaciones[0])
 
                 </div>
 
-                <div class="panel-body text-center estado-panel">
+                <div class="tw:p-5 tw:sm:p-6 tw:text-center">
 
-                    <span class="glyphicon glyphicon-remove-circle icon-danger"></span>
+                    <span class="fa fa-times-circle-o tw:text-4xl tw:text-red-600"></span>
 
-                    <h4 class="text-danger">
+                    <h4 class="tw:text-red-600 tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">
                         Tiene adeudos pendientes
                     </h4>
 
-                    <p class="text-muted">
-                        <span class="glyphicon glyphicon-info-sign"></span>
+                    <p class="tw:text-gray-500 tw:dark:text-gray-400">
+                        <span class="fa fa-info-circle"></span>
 
                         Tiene adeudo con los siguientes
                         departamentos o carreras:
                     </p>
 
-                    <div class="adeudos-container">
+                    <div class="tw:mt-4">
 
                         @foreach ($departamento_carrera as $adeudo_item)
 
-                        <div class="well adeudo-item">
+                        <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-gray-50 tw:dark:bg-gray-900 tw:p-5 tw:mb-2 tw:rounded-lg tw:border tw:border-red-200 tw:bg-red-50 tw:p-3 tw:text-center">
 
-                            <h4 class="text-danger">
+                            <h4 class="tw:text-red-600 tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">
 
-                                <span class="glyphicon glyphicon-briefcase"></span>
+                                <span class="fa fa-briefcase"></span>
 
                                 &nbsp;
                                 {{ $adeudo_item['nombre'] }}
@@ -375,7 +355,7 @@ $estado = isset($validaciones[0])
 
                             <p>
 
-                                <span class="glyphicon glyphicon-comment"></span>
+                                <span class="fa fa-comment"></span>
 
                                 &nbsp;
                                 {{ $adeudo_item['comentario'] }}
@@ -407,43 +387,44 @@ $estado = isset($validaciones[0])
     TABLA DE CARGA ACADÉMICA
     ========================================================== --}}
 
-    <div class="row">
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
-        <div class="col-md-10 col-md-offset-1">
+        <div class="tw:w-full tw:px-2">
 
-            <table class="table table-bordered" style="background:white;">
+            <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table class="tw-tabla tw-tabla-bordes">
 
                 <thead>
 
-                    <tr class="info">
+                    <tr class="tw:bg-sky-50">
 
-                        <th class="text-center">
+                        <th class="tw:text-center">
                             CLAVE DE LA MATERIA
                         </th>
 
-                        <th class="text-center">
+                        <th class="tw:text-center">
                             NOMBRE DE LA MATERIA
                         </th>
 
-                        <th class="text-center">
+                        <th class="tw:text-center">
                             CRÉDITOS
                         </th>
 
-                        <th class="text-center">
+                        <th class="tw:text-center">
                             STATUS
                         </th>
 
-                        <th class="text-center">
+                        <th class="tw:text-center">
                             TIPO CURSA
                         </th>
 
-                        <th class="text-center">
+                        <th class="tw:text-center">
                             GRUPO
                         </th>
 
                         @if ($estado == 0 || $estado == 3)
 
-                        <th class="text-center">
+                        <th class="tw:text-center">
                             ELIMINAR
                         </th>
 
@@ -463,17 +444,17 @@ $estado = isset($validaciones[0])
 
                         <th></th>
 
-                        <th class="text-center">
+                        <th class="tw:text-center">
                             {{ $consulta1['clave'] }}
                         </th>
 
-                        <td class="text-center">
+                        <td class="tw:text-center">
                             {{ $consulta1['nombre'] }}
                         </td>
 
                         <td></td>
 
-                        <td class="text-center">
+                        <td class="tw:text-center">
                             ALTA
                         </td>
 
@@ -481,15 +462,11 @@ $estado = isset($validaciones[0])
 
                         @if ($estado == 0 || $estado == 3)
 
-                        <th class="text-center">
+                        <th class="tw:text-center">
 
-                            <a href="javascript:void(0)" class="elimina"
-                                data-id_carga_academica="{{ $consulta1['id_carga_academica'] }}">
-
-                                <span class="glyphicon glyphicon-trash" style="color:crimson;">
-                                </span>
-
-                            </a>
+                            <a href="javascript:void(0)" class="elimina tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-red-600 tw:ring-1 tw:ring-red-300 tw:ring-inset tw:hover:bg-red-50 tw:dark:bg-gray-800 tw:dark:text-red-500 tw:dark:ring-red-500/40 tw:dark:hover:bg-red-500/10 tw:size-9 tw:text-base"
+                                data-id_carga_academica="{{ $consulta1['id_carga_academica'] }}"><span class="fa fa-trash">
+                                </span></a>
 
                         </th>
 
@@ -501,41 +478,37 @@ $estado = isset($validaciones[0])
 
                     <tr>
 
-                        <th class="text-center">
+                        <th class="tw:text-center">
                             {{ $consulta1['clave'] }}
                         </th>
 
-                        <td class="text-center">
+                        <td class="tw:text-center">
                             {{ $consulta1['nombre'] }}
                         </td>
 
-                        <td class="text-center">
+                        <td class="tw:text-center">
                             {{ $consulta1['creditos'] }}
                         </td>
 
-                        <td class="text-center">
+                        <td class="tw:text-center">
                             {{ $consulta1['nombre_status'] }}
                         </td>
 
-                        <td class="text-center">
+                        <td class="tw:text-center">
                             {{ $consulta1['nombre_curso'] }}
                         </td>
 
-                        <td class="text-center">
+                        <td class="tw:text-center">
                             {{ $consulta1['id_semestre'] }}0{{ $consulta1['grupo'] }}
                         </td>
 
                         @if ($estado == 0 || $estado == 3)
 
-                        <th class="text-center">
+                        <th class="tw:text-center">
 
-                            <a href="javascript:void(0)" class="elimina"
-                                data-id_carga_academica="{{ $consulta1['id_carga_academica'] }}">
-
-                                <span class="glyphicon glyphicon-trash" style="color:crimson;">
-                                </span>
-
-                            </a>
+                            <a href="javascript:void(0)" class="elimina tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-red-600 tw:ring-1 tw:ring-red-300 tw:ring-inset tw:hover:bg-red-50 tw:dark:bg-gray-800 tw:dark:text-red-500 tw:dark:ring-red-500/40 tw:dark:hover:bg-red-500/10 tw:size-9 tw:text-base"
+                                data-id_carga_academica="{{ $consulta1['id_carga_academica'] }}"><span class="fa fa-trash">
+                                </span></a>
 
                         </th>
 
@@ -555,11 +528,11 @@ $estado = isset($validaciones[0])
                         <th></th>
                         <th></th>
 
-                        <td class="text-center">
+                        <td class="tw:text-center">
                             <b>Total de créditos:</b>
                         </td>
 
-                        <td class="text-center">
+                        <td class="tw:text-center">
                             {{ $suma }}
                         </td>
 
@@ -577,6 +550,7 @@ $estado = isset($validaciones[0])
                 </tbody>
 
             </table>
+</div>
 
         </div>
 
@@ -599,17 +573,17 @@ $estado = isset($validaciones[0])
 
     @if ($estado == 0 || $estado == 3)
 
-    <div class="row">
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
-        <div class="col-md-4 col-md-offset-4">
+        <div class="tw:w-full tw:px-2">
 
-            <div class="panel panel-success">
+            <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
 
-                <div class="panel-heading text-center">
+                <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:dark:border-gray-800 tw:bg-gray-50 tw:dark:bg-gray-900 tw:px-5 tw:py-4 tw:text-center">
 
-                    <h4 class="panel-title">
+                    <h4 class="tw:text-base tw:font-medium tw:text-gray-800 tw:dark:text-white/90">
 
-                        <span class="glyphicon glyphicon-send"></span>
+                        <span class="fa fa-paper-plane"></span>
 
                         ENVIAR CARGA ACADÉMICA
 
@@ -617,29 +591,29 @@ $estado = isset($validaciones[0])
 
                 </div>
 
-                <div class="panel-body text-center">
+                <div class="tw:p-5 tw:sm:p-6 tw:text-center">
 
                     @if ($adeudo == 1)
 
-                    <div class="alert alert-danger">
+                    <x-panel.alerta tipo="error" class="tw:mb-4">
 
-                        <span class="glyphicon glyphicon-warning-sign"></span>
+                        <span class="fa fa-exclamation-triangle"></span>
 
                         <strong>
                             No puede enviar la carga.
                         </strong>
 
-                        <p style="margin-top:8px;">
+                        <p class="tw:mt-2">
                             El estudiante tiene adeudos pendientes.
                             Debe regularizar su situación antes
                             de continuar.
                         </p>
 
-                    </div>
+                    </x-panel.alerta>
 
-                    <button type="button" class="btn btn-danger btn-lg" disabled>
+                    <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-red-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-red-700 tw:disabled:bg-red-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" disabled>
 
-                        <span class="glyphicon glyphicon-lock"></span>
+                        <span class="fa fa-lock"></span>
 
                         Envío bloqueado por adeudo
 
@@ -652,10 +626,10 @@ $estado = isset($validaciones[0])
                         enviada a Servicios Escolares.
                     </p>
 
-                    <a href="{{ url('/duales/enviar_carga/' . ($id_alu ?? $alumno)) }}" class="btn btn-success btn-lg"
+                    <a href="{{ url('/duales/enviar_carga/' . ($id_alu ?? $alumno)) }}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap"
                         id="btnEnviar">
 
-                        <span class="glyphicon glyphicon-send"></span>
+                        <span class="fa fa-paper-plane"></span>
 
                         Enviar a Servicios Escolares
 
@@ -683,17 +657,17 @@ $estado = isset($validaciones[0])
 
     @if ($estado == 1)
 
-    <div class="row">
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
-        <div class="col-md-6 col-md-offset-3">
+        <div class="tw:w-full tw:px-2">
 
-            <div class="panel panel-primary">
+            <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
 
-                <div class="panel-heading text-center">
+                <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:dark:border-gray-800 tw:bg-gray-50 tw:dark:bg-gray-900 tw:px-5 tw:py-4 tw:text-center">
 
-                    <h4 class="panel-title">
+                    <h4 class="tw:text-base tw:font-medium tw:text-gray-800 tw:dark:text-white/90">
 
-                        <span class="glyphicon glyphicon-user"></span>
+                        <span class="fa fa-user"></span>
 
                         AUTORIZACIÓN DEL JEFE DE DIVISIÓN
 
@@ -701,7 +675,7 @@ $estado = isset($validaciones[0])
 
                 </div>
 
-                <div class="panel-body text-center">
+                <div class="tw:p-5 tw:sm:p-6 tw:text-center">
 
                     <p>
                         Servicios Escolares ya validó esta
@@ -721,9 +695,9 @@ $estado = isset($validaciones[0])
 
                         <input type="hidden" name="estado" value="2">
 
-                        <button type="submit" class="btn btn-success btn-lg">
+                        <button type="submit" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap">
 
-                            <span class="glyphicon glyphicon-ok"></span>
+                            <span class="fa fa-check"></span>
 
                             Autorizar Carga Académica
 
@@ -752,11 +726,11 @@ $estado = isset($validaciones[0])
 
     @if ($estado == 2 || $estado == 8 || $estado == 9)
 
-    <div class="row">
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
-        <div class="col-md-4 col-md-offset-4">
+        <div class="tw:w-full tw:px-2">
 
-            <div class="alert alert-success text-center">
+            <x-panel.alerta tipo="exito" class="tw:mb-4">
 
                 <p>
                     <strong>
@@ -764,15 +738,15 @@ $estado = isset($validaciones[0])
                     </strong>
                 </p>
 
-                <a href="/duales/imprime_control/{{ $id }}" target="_blank" class="btn btn-success">
+                <a href="/duales/imprime_control/{{ $id }}" target="_blank" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap">
 
-                    <span class="glyphicon glyphicon-print"></span>
+                    <span class="fa fa-print"></span>
 
                     Imprimir
 
                 </a>
 
-            </div>
+            </x-panel.alerta>
 
         </div>
 
@@ -787,13 +761,9 @@ $estado = isset($validaciones[0])
     MODAL ELIMINAR
     ========================================================== --}}
 
-    <div id="modal_elimina" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog">
+    <x-panel.modal id="modal_elimina" tamano="sm" sin-relleno>
 
-        <div class="modal-dialog modal-sm">
-
-            <div class="modal-content">
-
-                <div class="modal-body">
+                <div class="tw-modal-cuerpo tw:pt-14">
 
                     <form action="" method="POST" id="form_delete">
 
@@ -811,15 +781,15 @@ $estado = isset($validaciones[0])
 
                 </div>
 
-                <div class="modal-footer">
+                <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
 
-                    <button type="button" class="btn" data-dismiss="modal" style="background:crimson;color:white;">
+                    <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">
 
                         Cancelar
 
                     </button>
 
-                    <button id="confirma_elimina" type="button" class="btn btn-success">
+                    <button id="confirma_elimina" type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap">
 
                         Aceptar
 
@@ -827,11 +797,7 @@ $estado = isset($validaciones[0])
 
                 </div>
 
-            </div>
-
-        </div>
-
-    </div>
+            </x-panel.modal>
 
 </main>
 
@@ -839,246 +805,6 @@ $estado = isset($validaciones[0])
 {{-- =============================================================
 ESTILOS
 ============================================================= --}}
-
-<style>
-.panel-title {
-    font-weight: bold;
-}
-
-.panel-heading {
-    padding: 10px 15px;
-}
-
-.panel-body {
-    padding: 20px;
-}
-
-.estudiante-panel {
-    padding: 15px;
-}
-
-.estudiante-panel h4 {
-    margin: 8px 0 0;
-    font-weight: bold;
-    color: #555;
-}
-
-.estado-panel {
-    padding: 20px;
-}
-
-.estado-panel h4 {
-    font-weight: bold;
-    margin: 10px 0;
-}
-
-.icon-success {
-    font-size: 50px;
-    color: #5cb85c;
-}
-
-.icon-danger {
-    font-size: 50px;
-    color: #d9534f;
-}
-
-.adeudos-container {
-    margin-top: 15px;
-}
-
-.adeudo-item {
-    padding: 10px;
-    margin-bottom: 8px;
-    text-align: center;
-    background-color: #f9f9f9;
-    border-left: 4px solid #d9534f;
-}
-
-.adeudo-item h4 {
-    margin: 0 0 5px;
-    font-weight: bold;
-}
-
-.adeudo-item p {
-    margin: 0;
-    color: #777;
-}
-
-
-/* ============================================================
-   ALERTAS
-============================================================ */
-
-.alerta-carga {
-    border-radius: 8px;
-    padding: 15px 20px;
-    margin: 15px 0;
-    text-align: center;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, .08);
-}
-
-.alerta-carga-pendiente {
-    background: #fff8e1;
-    border-left: 4px solid #f0ad4e;
-    border-radius: 8px;
-    padding: 15px 20px;
-    margin: 15px 0;
-    text-align: center;
-    color: #856404;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, .08);
-}
-
-.alerta-validacion {
-    background: #fff8e1;
-    border-left: 4px solid #f0ad4e;
-    color: #856404;
-}
-
-.alerta-jefe {
-    background: #e8f4fd;
-    border-left: 4px solid #337ab7;
-    color: #31708f;
-}
-
-.alerta-autorizada {
-    background: #eaf7ed;
-    border-left: 4px solid #5cb85c;
-    color: #3c763d;
-}
-
-.encabezado-alerta {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 7px;
-}
-
-.icono-alerta {
-    width: 38px;
-    height: 38px;
-    line-height: 38px;
-    border-radius: 50%;
-    font-size: 19px;
-    text-align: center;
-    flex-shrink: 0;
-}
-
-.alerta-carga-pendiente .icono-alerta,
-.alerta-validacion .icono-alerta {
-    background: #fff3cd;
-    color: #f0ad4e;
-}
-
-.alerta-jefe .icono-alerta {
-    background: #d9edf7;
-    color: #337ab7;
-}
-
-.alerta-autorizada .icono-alerta {
-    background: #dff0d8;
-    color: #5cb85c;
-}
-
-.encabezado-alerta h4 {
-    margin: 0;
-    font-size: 17px;
-    font-weight: 600;
-}
-
-.alerta-carga-pendiente p,
-.alerta-carga p {
-    margin: 0;
-    font-size: 13px;
-    line-height: 1.4;
-}
-
-
-/* ============================================================
-   MENSAJE DE ADEUDO
-============================================================ */
-
-.mensaje-adeudo {
-    display: flex;
-    align-items: center;
-    background: #fff1f0;
-    border: 1px solid #f5c6cb;
-    border-left: 6px solid #d9534f;
-    border-radius: 10px;
-    padding: 18px 22px;
-    margin: 20px 0;
-    box-shadow: 0 3px 10px rgba(217, 83, 79, .12);
-}
-
-.mensaje-icono {
-    width: 55px;
-    height: 55px;
-    min-width: 55px;
-    border-radius: 50%;
-    background: #d9534f;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 28px;
-    margin-right: 18px;
-}
-
-.mensaje-contenido h3 {
-    margin: 0 0 7px;
-    color: #a94442;
-    font-weight: bold;
-}
-
-.mensaje-contenido p {
-    margin: 0;
-    color: #843534;
-    line-height: 1.5;
-}
-
-
-/* ============================================================
-   MENSAJE DE ÉXITO
-============================================================ */
-
-.mensaje-exito {
-    display: flex;
-    align-items: center;
-    background: #f0fff4;
-    border: 1px solid #c3e6cb;
-    border-left: 6px solid #5cb85c;
-    border-radius: 10px;
-    padding: 18px 22px;
-    margin: 20px 0;
-    color: #3c763d;
-}
-
-.mensaje-exito>span {
-    font-size: 45px;
-    margin-right: 18px;
-}
-
-.mensaje-exito h3 {
-    margin: 0 0 7px;
-    font-weight: bold;
-}
-
-.mensaje-exito p {
-    margin: 0;
-}
-
-
-/* ============================================================
-   BOTÓN
-============================================================ */
-
-#btnEnviar {
-    min-width: 260px;
-    font-weight: bold;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, .15);
-}
-</style>
-
 
 {{-- =============================================================
 JAVASCRIPT
@@ -1144,7 +870,7 @@ $(document).ready(function() {
         );
 
         boton.html(
-            '<span class="glyphicon glyphicon-refresh"></span> Enviando...'
+            '<span class="fa fa-refresh"></span> Enviando...'
         );
 
     });
@@ -1167,4 +893,5 @@ $(document).ready(function() {
 });
 </script>
 
+</div>
 @endsection

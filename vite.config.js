@@ -29,6 +29,8 @@ export default defineConfig({
                 'resources/css/marco.css',
                 'resources/js/panel.js',
                 'resources/js/fechas.js',
+                // Indicador de carga para las pantallas que siguen en layouts/app (en el panel lo importa panel.js).
+                'resources/js/carga.js',
             ],
             refresh: true,
         }),

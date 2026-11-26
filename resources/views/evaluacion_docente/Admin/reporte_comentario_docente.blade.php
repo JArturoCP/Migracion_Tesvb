@@ -1,62 +1,56 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 @section('title', 'Evaluacion Docente')
+@include('partials.panel.recursos_app', ['datatables' => true])
 @section('content')
+<div class="tw-pantalla">
 
-    <main>
+    <main class="tw:flex tw:flex-wrap tw:gap-y-4">
 
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h3 class="panel-title text-center"><strong>EVALUACIÓN DOCENTE DE: {{ $docentes[0]->nombre }}</strong></h3>
-                    <h3 class="panel-title text-center"><strong>CARRERA PERTENECIENTE: {{$carreras[0]->carrera}}</strong></h3>
-                </div>
-            </div>
-        </div>
-        </br></br></br></br></br>
+        <x-panel.encabezado :titulo="'Evaluación docente de: '.$docentes[0]->nombre.' carrera perteneciente: '.$carreras[0]->carrera" :migas="['Evaluación docente' => null]" />
 
-        <div class="row col-md-10 col-md-offset-1">
-            <div class="panel-group" id="semes_box">
+        <div class="tw:w-full tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4 tw:px-2">
+            <div class="tw:w-full" id="semes_box">
                 @foreach($semestres as $semestre)
-                    <div class="panel panel-info">
-                        <div class="panel-heading">
-                            <h4 class="panel-title">
-                                <a data-toggle="collapse" href="#semestre_{{$semestre->id_semestre}}_materia_{{$loop->index}}">
+                    <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+                        <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:dark:border-gray-800 tw:bg-gray-50 tw:dark:bg-gray-900 tw:px-5 tw:py-4">
+                            <h4 class="tw:text-base tw:font-medium tw:text-gray-800 tw:dark:text-white/90">
+                                <a class="tw:text-brand-500 tw:hover:underline" data-toggle="collapse" href="#semestre_{{$semestre->id_semestre}}_materia_{{$loop->index}}">
                                     {{ $semestre->semestre }} - {{ $semestre->materia }}
                                 </a>
                             </h4>
                         </div>
 
-                        <div id="semestre_{{$semestre->id_semestre}}_materia_{{$loop->index}}" class="panel-collapse collapse">
-                            <div class="panel-body">
-                                <div class="container col-md-12">
-                                    <ul class="nav nav-tabs">
+                        <div id="semestre_{{$semestre->id_semestre}}_materia_{{$loop->index}}" class="collapse">
+                            <div class="tw:p-5 tw:sm:p-6">
+                                <div class="tw:w-full tw:lg:w-full tw:px-2">
+                                    <ul class="tw-pestanas tw:mb-6 tw:flex tw:flex-wrap tw:gap-2 tw:border-b tw:border-gray-200 tw:dark:border-gray-800">
                                         <li><a data-toggle="tab" href="#materia{{$semestre->id_semestre }}">Grupos</a></li>
                                     </ul>
-                                    </br></br></br>
                                     <div class="tab-content">
                                         <div id="materia{{$semestre->id_semestre}}">
-                                            <table id="table_mate{{$semestre->id_semestre}}" class="table table-bordered">
+                                            <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table id="table_mate{{$semestre->id_semestre}}" class="tw-tabla tw-tabla-bordes">
                                                 <thead>
                                                 <tr>
-                                                    <th style="text-align: center">#</th>
-                                                    <th style="text-align: center">Grupos a Cargo</th>
-                                                    <th style="text-align: center">Ver Comentarios de la Evaluación Docente</th>
+                                                    <th class="tw:text-center" >#</th>
+                                                    <th class="tw:text-center" >Grupos a Cargo</th>
+                                                    <th class="tw:text-center" >Ver Comentarios de la Evaluación Docente</th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
                                                 @foreach($datos_grupos as $grupo)
                                                     @if($grupo['id_semestre'] == $semestre->id_semestre && $grupo['id_materia'] == $semestre->id_materia)
                                                         <tr data-id-materia="{{ $grupo['id_materia'] }}" data-semestre="{{ $semestre->id_semestre }}">
-                                                            <th style="text-align: center">{{ $loop->iteration }}</th>
-                                                            <th style="text-align: center">{{ $grupo['id_semestre'] }}0{{$grupo['id_grupo']}}</th>
-                                                            <th style="text-align: center">
+                                                            <th class="tw:text-center" >{{ $loop->iteration }}</th>
+                                                            <th class="tw:text-center" >{{ $grupo['id_semestre'] }}0{{$grupo['id_grupo']}}</th>
+                                                            <th class="tw:text-center" >
                                                                 <a href="#" class="ver-comentario"
                                                                    data-id-personal="{{ $grupo['id_personal'] }}"
                                                                    data-id-grupo="{{ $grupo['id_grupo'] }}"
                                                                    data-grupo="{{ $grupo['grupo'] }}"
                                                                    data-id-materia="{{ $grupo['id_materia'] }}"
                                                                    data-semestre="{{ $semestre->id_semestre }}">
-                                                                    <span class="glyphicon glyphicon-new-window"></span>
+                                                                    <span class="fa"></span>
                                                                 </a>
                                                             </th>
                                                         </tr>
@@ -64,6 +58,7 @@
                                                 @endforeach
                                                 </tbody>
                                             </table>
+</div>
                                         </div>
                                     </div>
                                 </div>
@@ -118,4 +113,5 @@
         });
     </script>
 
+</div>
 @endsection

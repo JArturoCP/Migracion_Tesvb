@@ -1,24 +1,18 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 @section('title', 'S.Escolares')
+@include('partials.panel.recursos_app', ['datatables' => true])
 @section('content')
-    <div class="row">
-        <div class="col-md-10 col-xs-10 col-md-offset-1">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h3 class="panel-title text-center">REGISTRO DE SEMESTRE QUE INGRESO AL TESVB LOS ESTUDIANTES <br>{{$carrera->nombre}}</h3>
-                    <h5 class="panel-title text-center">(ESTUDIANTES)</h5>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-5 col-md-offset-1">
-            <div class="panel panel-info">
+<div class="tw-pantalla">
+    <x-panel.encabezado :titulo="'Registro de semestre que ingresó al TESVB los estudiantes '.$carrera->nombre.' (estudiantes)'" :migas="['Servicios escolares' => null]" />
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+        <div class="tw:w-full tw:lg:w-6/12 tw:px-2">
+            <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
 
-                <div class="panel-body">
-                    <h3 style="background: #3f9ae5; color: #0c0c0c"> Estudiantes sin semestre</h3>
+                <div class="tw:p-5 tw:sm:p-6">
+                    <h3 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90 tw:bg-blue-500 tw:text-white" > Estudiantes sin semestre</h3>
 
-                    <table class="table table-bordered " Style="background: white;" id="tablas_alumnos">
+                    <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table class="tw-tabla tw-tabla-bordes" Style="background: white;" id="tablas_alumnos">
                         <thead>
                         <tr>
                             <th>No. CUENTA</th>
@@ -36,14 +30,14 @@
                             <tr>
                                 <th>{{$alumno->cuenta}}</th>
                                 <td>{{$alumno->nombre}} {{$alumno->apaterno}} {{$alumno->amaterno}}</td>
-                                <td style="text-align: center">
-                                    <button title="Agregar semestre" id="{{ $alumno->id_alumno }}"  class="btn btn-primary agregar_semestre" >
+                                <td class="tw:text-center" >
+                                    <button title="Agregar semestre" id="{{ $alumno->id_alumno }}"  class="agregar_semestre tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap" >
                                       Agregar
                                     </button>
                                     </td>
                                 {{--
-                                <td style="text-align: center;">
-                                    <button title="Desactivar estudiante" id="{{ $alumno->id_alumno }}"  class="btn btn-danger desactivar_alumno" >
+                                <td class="tw:text-center" >
+                                    <button title="Desactivar estudiante" id="{{ $alumno->id_alumno }}"  class="desactivar_alumno tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-red-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-red-700 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" >
                                         Desactivar
                                     </button>
                                 </td>
@@ -55,16 +49,18 @@
 
                         </tbody>
                     </table>
+</div>
 
                 </div>
             </div>
         </div>
-        <div class="col-md-5 ">
-            <div class="panel panel-info">
+        <div class="tw:w-full tw:lg:w-6/12 tw:px-2">
+            <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
 
-                <div class="panel-body">
-                    <h3 style="background: #3f9ae5; color: #0c0c0c"> Estudiantes con semestre registrado</h3>
-                    <table class="table table-bordered " Style="background: white;" id="tablas_alumnos_reg">
+                <div class="tw:p-5 tw:sm:p-6">
+                    <h3 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90 tw:bg-blue-500 tw:text-white" > Estudiantes con semestre registrado</h3>
+                    <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table class="tw-tabla tw-tabla-bordes" Style="background: white;" id="tablas_alumnos_reg">
                         <thead>
                         <tr>
                             <th>No. CUENTA</th>
@@ -83,10 +79,8 @@
                                 <td>{{$alumn->nombre}} {{$alumn->apaterno}} {{$alumn->amaterno}}</td>
                                 <td>{{$alumn->semestre}}</td>
                                 <td>{{$alumn->periodo}}</td>
-                                <td style="text-align: center">
-                                    <button title="Eliminar registro" id="{{ $alumn->id_semestres_al }}"  class="btn btn-danger eliminar_registro" >
-                                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                                    </button>
+                                <td class="tw:text-center" >
+                                    <button title="Eliminar registro" id="{{ $alumn->id_semestres_al }}"  class="eliminar_registro tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-red-600 tw:ring-1 tw:ring-red-300 tw:ring-inset tw:hover:bg-red-50 tw:dark:bg-gray-800 tw:dark:text-red-500 tw:dark:ring-red-500/40 tw:dark:hover:bg-red-500/10 tw:size-9 tw:text-base" ><span class="fa fa-trash" aria-hidden="true"></span></button>
                                 </td>
                             </tr>
                         @endforeach
@@ -95,74 +89,63 @@
 
                         </tbody>
                     </table>
+</div>
 
                 </div>
             </div>
         </div>
     </div>
     {{-- agregar semestre a estudiante--}}
-    <div class="modal fade" id="modal_agregar_semestre" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="exampleModalLabel">Agregar semestre al estudiante</h4>
+    <x-panel.modal id="modal_agregar_semestre" tamano="lg" sin-relleno clase-cerrar="close" aria-labelledby="exampleModalLabel">
+                <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                    
+                    <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="exampleModalLabel">Agregar semestre al estudiante</h4>
                 </div>
-                <div class="modal-body">
+                <div class="tw-modal-cuerpo">
                     <div id="contenedor_agregar_semestre">
 
                     </div>
 
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <button id="guardar_agregar_semestre"  class="btn btn-primary" >Guardar</button>
+                    <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                        <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                        <button id="guardar_agregar_semestre"  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Guardar</button>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
+            </x-panel.modal>
     {{-- eliminar semestre a estudiante--}}
-    <div class="modal fade" id="modal_eliminar_semestre" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-        <div class="modal-dialog " role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="exampleModalLabel">Eliminar registro del estudiante</h4>
+    <x-panel.modal id="modal_eliminar_semestre" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="exampleModalLabel">
+                <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                    
+                    <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="exampleModalLabel">Eliminar registro del estudiante</h4>
                 </div>
-                <div class="modal-body">
+                <div class="tw-modal-cuerpo">
                     <div id="contenedor_eliminar_semestre">
 
                     </div>
 
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <button id="guardar_eliminar_semestre"  class="btn btn-primary" >Aceptar</button>
+                    <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                        <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                        <button id="guardar_eliminar_semestre"  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Aceptar</button>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
+            </x-panel.modal>
     {{--  desactivar estudiante--}}
-    <div class="modal fade" id="modal_desactivar_estudiante" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-        <div class="modal-dialog " role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="exampleModalLabel">Desactivar estudiante</h4>
+    <x-panel.modal id="modal_desactivar_estudiante" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="exampleModalLabel">
+                <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                    
+                    <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="exampleModalLabel">Desactivar estudiante</h4>
                 </div>
-                <div class="modal-body">
+                <div class="tw-modal-cuerpo">
                     <div id="contenedor_desactivar_estudiante">
 
                     </div>
 
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <button id="guardar_desactivar_estudiante"  class="btn btn-primary" >Aceptar</button>
+                    <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                        <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                        <button id="guardar_desactivar_estudiante"  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Aceptar</button>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
+            </x-panel.modal>
 
 
     <script type="text/javascript">
@@ -251,4 +234,5 @@
 
 
     </script>
+</div>
 @endsection

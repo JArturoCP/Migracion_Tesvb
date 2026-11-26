@@ -1,28 +1,21 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 @section('title', 'Techo presupuestal historial')
+@include('partials.panel.recursos_app')
 @section('content')
-    <div class="row">
-        <div class="col-md-10 col-xs-10 col-md-offset-1">
+<div class="tw-pantalla">
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+        <div class="tw:w-full tw:px-2">
             <p>
-                <span class="glyphicon glyphicon-arrow-right"></span>
-                <a href="{{url("/presupuesto_anteproyecto/inicio_historial_anteproyecto")}}">Años de los historiales de los anteproyectos</a>
-                <span class="glyphicon glyphicon-arrow-right"></span>
-                <a href="{{url("/presupuesto_anteproyecto/inicio_historial_anteproyecto_year/".$id_year)}}">Menú del historial del anteproyecto del presupuesto {{ $year }} </a>
-                <span class="glyphicon glyphicon-chevron-right"></span>
+                <span class="fa fa-arrow-right"></span>
+                <a class="tw:text-brand-500 tw:hover:underline" href="{{url("/presupuesto_anteproyecto/inicio_historial_anteproyecto")}}">Años de los historiales de los anteproyectos</a>
+                <span class="fa fa-arrow-right"></span>
+                <a class="tw:text-brand-500 tw:hover:underline" href="{{url("/presupuesto_anteproyecto/inicio_historial_anteproyecto_year/".$id_year)}}">Menú del historial del anteproyecto del presupuesto {{ $year }} </a>
+                <span class="fa fa-chevron-right"></span>
                 <span>Ver historial del techo presupuestal del anteproyecto {{ $year }} </span>
             </p>
-            <br>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-6 col-md-offset-3">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h2 class="panel-title text-center">Historial del techo presupuestal del Anteproyecto {{ $year }}</h2>
-                </div>
-            </div>
-        </div>
-    </div>
+    <x-panel.encabezado :titulo="'Historial del techo presupuestal del Anteproyecto '.$year" :migas="['Finanzas' => null]" />
 
 
     <?php setlocale(LC_MONETARY, 'es_MX');
@@ -30,46 +23,47 @@
 
 
     @foreach($presupuestos_anteproyectos as $presupuesto)
-        <div class="row">
-            <div class="col-md-10 col-md-offset-1">
-                <div class="panel panel-warning">
-                    <div class="panel-heading">
-                        <div class="row">
-                            <div class="col-md-1">
-                                {{--  <button type="button" class="btn btn-primary modificar_proyecto" id="{{$presupuesto['id_presupuesto'] }}" title="Modificar proyecto" > <span class="glyphicon glyphicon-cog" aria-hidden="true"></span></button>
+        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+            <div class="tw:w-full tw:px-2">
+                <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+                    <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:dark:border-gray-800 tw:bg-gray-50 tw:dark:bg-gray-900 tw:px-5 tw:py-4">
+                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                            <div class="tw:w-full tw:lg:w-1/12 tw:px-2">
+                                {{--  <button type="button" class="modificar_proyecto tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" id="{{$presupuesto['id_presupuesto'] }}" title="Modificar proyecto" > <span class="fa fa-cog" aria-hidden="true"></span></button>
 --}}
                             </div>
 
-                            <div class="col-md-9">
-                                <h5>NOMBRE DEL PROYECTO: <b>{{ $presupuesto['nombre_proyecto'] }}</b></h5>
+                            <div class="tw:w-full tw:lg:w-9/12 tw:px-2">
+                                <h5 class="tw:mb-2 tw:text-sm tw:font-semibold tw:text-gray-700 tw:dark:text-gray-300">NOMBRE DEL PROYECTO: <b>{{ $presupuesto['nombre_proyecto'] }}</b></h5>
                             </div>
 
                         </div>
                     </div>
 
-                    <div class="panel-body">
+                    <div class="tw:p-5 tw:sm:p-6">
                         @if($contar_f !== 0)
-                            <div class="row">
-                                <div class="col-md-10 col-md-offset-1">
-                                    <table class="table table-bordered">
+                            <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                <div class="tw:w-full tw:px-2">
+                                    <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table class="tw-tabla tw-tabla-bordes">
                                         <thead>
                                         <tr>
-                                            <th style=""></th>
-                                            <th style="background:grey;color: #0c0c0c;"></th>
-                                            <th style="background: grey;color: #0c0c0c;" COLSPAN="4"> FUENTE DE FINANCIAMIENTO $</th>
-                                            <th style="background: grey;color: #0c0c0c;"colspan="4">FUENTE DE FINANCIAMIENTO %</th>
+                                            <th></th>
+                                            <th class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90"></th>
+                                            <th class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90" COLSPAN="4"> FUENTE DE FINANCIAMIENTO $</th>
+                                            <th class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90" colspan="4">FUENTE DE FINANCIAMIENTO %</th>
                                         </tr>
                                         <tr>
 
-                                            <th style="background:grey;color: #0c0c0c;">CAPITULO</th>
-                                            <th style="text-align: center">ESTATAL</th>
-                                            <th style="text-align: center">FEDERAL</th>
-                                            <th style="text-align: center">PROPIOS</th>
-                                            <th style="text-align: center">TOTAL</th>
-                                            <th style="text-align: center">ESTATAL</th>
-                                            <th style="text-align: center">FEDERAL</th>
-                                            <th style="text-align: center">PROPIOS</th>
-                                            <th style="text-align: center">TOTAL</th>
+                                            <th class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90">CAPITULO</th>
+                                            <th class="tw:text-center">ESTATAL</th>
+                                            <th class="tw:text-center">FEDERAL</th>
+                                            <th class="tw:text-center">PROPIOS</th>
+                                            <th class="tw:text-center">TOTAL</th>
+                                            <th class="tw:text-center">ESTATAL</th>
+                                            <th class="tw:text-center">FEDERAL</th>
+                                            <th class="tw:text-center">PROPIOS</th>
+                                            <th class="tw:text-center">TOTAL</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -77,47 +71,47 @@
 
                                             <tr>
 
-                                                <td style="background: grey;color: #0c0c0c; text-align: center;">{{ $fuentes['nombre_capitulo'] }}</td>
+                                                <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-center">{{ $fuentes['nombre_capitulo'] }}</td>
                                                     <?php
                                                     $presupuesto_estatal=$fuentes['presupuesto_estatal'];
                                                     $presupuesto_estatal = number_format($presupuesto_estatal, 2, '.', ',');
                                                     //  $presupuesto_estatal="$ " . number_format($presupuesto_estatal, 0, ",", ".")
                                                     ?>
-                                                <td style="text-align: right">{{ $presupuesto_estatal }}</td>
+                                                <td class="tw:text-right">{{ $presupuesto_estatal }}</td>
                                                     <?php
                                                     $presupuesto_federal=$fuentes['presupuesto_federal'];
                                                     $presupuesto_federal= number_format($presupuesto_federal, 2, '.', ',');
                                                     ?>
-                                                <td style="text-align: right">{{ $presupuesto_federal }}</td>
+                                                <td class="tw:text-right">{{ $presupuesto_federal }}</td>
                                                     <?php
                                                     $presupuesto_propios=$fuentes['presupuesto_propios'];
                                                     $presupuesto_propios= number_format($presupuesto_propios, 2, '.', ',');
                                                     ?>
-                                                <td style="text-align: right">{{ $presupuesto_propios}}</td>
+                                                <td class="tw:text-right">{{ $presupuesto_propios}}</td>
                                                     <?php
                                                     $total_presupuesto=$fuentes['total_presupuesto'];
                                                     $total_presupuesto= number_format($total_presupuesto, 2, '.', ',');
                                                     ?>
-                                                <td style="text-align: right">{{ $total_presupuesto }}</td>
+                                                <td class="tw:text-right">{{ $total_presupuesto }}</td>
                                                 @if($fuentes['financiamiento_estatal'] == 0)
-                                                    <td style="text-align: right">-</td>
+                                                    <td class="tw:text-right">-</td>
                                                 @else
-                                                    <td style="text-align: right">{{ round($fuentes['financiamiento_estatal'],4) }}</td>
+                                                    <td class="tw:text-right">{{ round($fuentes['financiamiento_estatal'],4) }}</td>
                                                 @endif
                                                 @if($fuentes['financiamiento_federal'] == 0)
-                                                    <td style="text-align: right">-</td>
+                                                    <td class="tw:text-right">-</td>
                                                 @else
-                                                    <td style="text-align: right">{{ round($fuentes['financiamiento_federal'],4) }}</td>
+                                                    <td class="tw:text-right">{{ round($fuentes['financiamiento_federal'],4) }}</td>
                                                 @endif
                                                 @if($fuentes['financiamiento_propios'] == 0)
-                                                    <td style="text-align: right">-</td>
+                                                    <td class="tw:text-right">-</td>
                                                 @else
-                                                    <td style="text-align: right">{{ round($fuentes['financiamiento_propios'],4) }}</td>
+                                                    <td class="tw:text-right">{{ round($fuentes['financiamiento_propios'],4) }}</td>
                                                 @endif
                                                 @if($fuentes['total_financiamiento'] == 0)
-                                                    <td style="text-align: right">-</td>
+                                                    <td class="tw:text-right">-</td>
                                                 @else
-                                                    <td style="text-align: right">{{ $fuentes['total_financiamiento'] }}</td>
+                                                    <td class="tw:text-right">{{ $fuentes['total_financiamiento'] }}</td>
                                                 @endif
 
                                             </tr>
@@ -129,51 +123,52 @@
                                                 $total_presupuesto_estatal=$presupuesto['total_presupuesto_estatal'];
                                                 $total_presupuesto_estatal= number_format($total_presupuesto_estatal, 2, '.', ',');
                                                 ?>
-                                            <td style="text-align: right"><b>{{ $total_presupuesto_estatal }}</b></td>
+                                            <td class="tw:text-right"><b>{{ $total_presupuesto_estatal }}</b></td>
                                                 <?php
                                                 $total_presupuesto_federal=$presupuesto['total_presupuesto_federal'];
                                                 $total_presupuesto_federal= number_format($total_presupuesto_federal, 2, '.', ',');
                                                 ?>
-                                            <td  style="text-align: right"><b>{{ $total_presupuesto_federal }}</b></td>
+                                            <td class="tw:text-right" ><b>{{ $total_presupuesto_federal }}</b></td>
                                                 <?php
                                                 $total_presupuesto_propios=$presupuesto['total_presupuesto_propios'];
                                                 $total_presupuesto_propios= number_format($total_presupuesto_propios, 2, '.', ',');
                                                 ?>
-                                            <td  style="text-align: right"><b>{{ $total_presupuesto_propios }}</b></td>
+                                            <td class="tw:text-right" ><b>{{ $total_presupuesto_propios }}</b></td>
                                                 <?php
                                                 $total_total_presupuesto=$presupuesto['total_total_presupuesto'];
                                                 $total_total_presupuesto= number_format($total_total_presupuesto, 2, '.', ',');
                                                 ?>
-                                            <td  style="text-align: right"><b>{{ $total_total_presupuesto }}</b></td>
+                                            <td class="tw:text-right" ><b>{{ $total_total_presupuesto }}</b></td>
                                             @if($presupuesto['total_financiamiento_estatal'] == 0)
-                                                <td style="text-align: right">-</td>
+                                                <td class="tw:text-right">-</td>
                                             @else
-                                                <td  style="text-align: right"><b>{{ round($presupuesto['total_financiamiento_estatal'],4) }}</b></td>
+                                                <td class="tw:text-right" ><b>{{ round($presupuesto['total_financiamiento_estatal'],4) }}</b></td>
                                             @endif
                                             @if($presupuesto['total_financiamiento_federal'] == 0)
-                                                <td style="text-align: right">-</td>
+                                                <td class="tw:text-right">-</td>
                                             @else
-                                                <td  style="text-align: right"><b>{{ round($presupuesto['total_financiamiento_federal'],4) }}</b></td>
+                                                <td class="tw:text-right" ><b>{{ round($presupuesto['total_financiamiento_federal'],4) }}</b></td>
                                             @endif
                                             @if($presupuesto['total_financiamiento_propios'] == 0)
-                                                <td style="text-align: right">-</td>
+                                                <td class="tw:text-right">-</td>
                                             @else
-                                                <td  style="text-align: right"><b>{{ round($presupuesto['total_financiamiento_propios'],4) }}</b></td>
+                                                <td class="tw:text-right" ><b>{{ round($presupuesto['total_financiamiento_propios'],4) }}</b></td>
                                             @endif
-                                            <td  style="text-align: right"><b>{{ $presupuesto['total_total_financiamiento'] }}</b></td>
+                                            <td class="tw:text-right" ><b>{{ $presupuesto['total_total_financiamiento'] }}</b></td>
                                         </tr>
 
                                         </tbody>
                                     </table>
+</div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-6 col-md-offset-2">
+                            <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                <div class="tw:w-full tw:px-2">
                                         <?php
                                         $total_gastos_operativos=$presupuesto['total_gastos_operativos'] ;
                                         $total_gastos_operativos= number_format($total_gastos_operativos, 2, '.', ',');
                                         ?>
-                                    <h4 style="background: yellow;color: #0c0c0c">GASTO OPERATIVO (2000, 3000, 4000, 5000 Y 6000)     <b>{{$total_gastos_operativos }}</b> </h4>
+                                    <h4 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90 tw:bg-yellow-200 tw:dark:bg-yellow-500/20 tw:text-gray-800 tw:dark:text-white/90">GASTO OPERATIVO (2000, 3000, 4000, 5000 Y 6000)     <b>{{$total_gastos_operativos }}</b> </h4>
                                 </div>
                             </div>
                         @endif
@@ -395,33 +390,34 @@
                 $total_pocentaje_cap6= round($total_pocentaje_cap6+$porcentaje_cap6_propios,2);
             }
             ?>
-        <div class="row">
-            <div class="col-md-10 col-md-offset-1">
+        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+            <div class="tw:w-full tw:px-2">
 
-                <div class="panel panel-primary">
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="col-md-10 col-md-offset-1">
-                                <h2>TOTAL DE TECHO PRESUPUESTAL</h2>
-                                <table class="table table-bordered">
+                <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+                    <div class="tw:p-5 tw:sm:p-6">
+                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                            <div class="tw:w-full tw:px-2">
+                                <h2 class="tw:mb-4 tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">TOTAL DE TECHO PRESUPUESTAL</h2>
+                                <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table class="tw-tabla tw-tabla-bordes">
                                     <thead>
                                     <tr>
 
-                                        <th style="background:grey;color: #0c0c0c;"></th>
-                                        <th style="background: grey;color: #0c0c0c;" COLSPAN="4"> FUENTE DE FINANCIAMIENTO $</th>
-                                        <th style="background: grey;color: #0c0c0c;"colspan="4">FUENTE DE FINANCIAMIENTO %</th>
+                                        <th class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90"></th>
+                                        <th class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90" COLSPAN="4"> FUENTE DE FINANCIAMIENTO $</th>
+                                        <th class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90" colspan="4">FUENTE DE FINANCIAMIENTO %</th>
                                     </tr>
                                     <tr>
 
-                                        <th style="background:grey;color: #0c0c0c;">CAPITULO</th>
-                                        <th style="text-align: center">ESTATAL</th>
-                                        <th style="text-align: center">FEDERAL</th>
-                                        <th style="text-align: center">PROPIOS</th>
-                                        <th style="text-align: center">TOTAL</th>
-                                        <th style="text-align: center">ESTATAL</th>
-                                        <th style="text-align: center">FEDERAL</th>
-                                        <th style="text-align: center">PROPIOS</th>
-                                        <th style="text-align: center">TOTAL</th>
+                                        <th class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90">CAPITULO</th>
+                                        <th class="tw:text-center">ESTATAL</th>
+                                        <th class="tw:text-center">FEDERAL</th>
+                                        <th class="tw:text-center">PROPIOS</th>
+                                        <th class="tw:text-center">TOTAL</th>
+                                        <th class="tw:text-center">ESTATAL</th>
+                                        <th class="tw:text-center">FEDERAL</th>
+                                        <th class="tw:text-center">PROPIOS</th>
+                                        <th class="tw:text-center">TOTAL</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -434,15 +430,15 @@
                                             $total_capitulo1_total=number_format($total_capitulo1_total, 2, '.', ',');
 
                                             ?>
-                                        <td style="wibackground:grey;color: #0c0c0c;">CAPITULO 1</td>
-                                        <td style="text-align: right;">{{ $capitulo1_estatal }}</td>
-                                        <td style="text-align: right;">{{ $capitulo1_federal }}</td>
-                                        <td style="text-align: right;">{{ $capitulo1_propios }}</td>
-                                        <td style="text-align: right;">{{ $total_capitulo1_total }}</td>
-                                        <td style="text-align: right;">{{ $porcentaje_cap1_estatal }}</td>
-                                        <td style="text-align: right;">{{ $porcentaje_cap1_federal }}</td>
-                                        <td style="text-align: right;">{{ $porcentaje_cap1_propios }}</td>
-                                        <td style="text-align: right;">{{ $total_pocentaje_cap1 }}</td>
+                                        <td class="tw:text-gray-800 tw:dark:text-white/90">CAPITULO 1</td>
+                                        <td class="tw:text-right">{{ $capitulo1_estatal }}</td>
+                                        <td class="tw:text-right">{{ $capitulo1_federal }}</td>
+                                        <td class="tw:text-right">{{ $capitulo1_propios }}</td>
+                                        <td class="tw:text-right">{{ $total_capitulo1_total }}</td>
+                                        <td class="tw:text-right">{{ $porcentaje_cap1_estatal }}</td>
+                                        <td class="tw:text-right">{{ $porcentaje_cap1_federal }}</td>
+                                        <td class="tw:text-right">{{ $porcentaje_cap1_propios }}</td>
+                                        <td class="tw:text-right">{{ $total_pocentaje_cap1 }}</td>
 
                                     </tr>
                                     <tr>
@@ -454,15 +450,15 @@
                                             $total_capitulo2_total=number_format($total_capitulo2_total, 2, '.', ',');
 
                                             ?>
-                                        <td style="background:grey;color: #0c0c0c;">CAPITULO 2</td>
-                                        <td style="text-align: right;">{{ $capitulo2_estatal }}</td>
-                                        <td style="text-align: right;">{{ $capitulo2_federal }}</td>
-                                        <td style="text-align: right;">{{ $capitulo2_propios }}</td>
-                                        <td style="text-align: right;">{{ $total_capitulo2_total }}</td>
-                                        <td style="text-align: right;">{{ $porcentaje_cap2_estatal }}</td>
-                                        <td style="text-align: right;">{{ $porcentaje_cap2_federal }}</td>
-                                        <td style="text-align: right;">{{ $porcentaje_cap2_propios }}</td>
-                                        <td style="text-align: right;">{{ $total_pocentaje_cap2 }}</td>
+                                        <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90">CAPITULO 2</td>
+                                        <td class="tw:text-right">{{ $capitulo2_estatal }}</td>
+                                        <td class="tw:text-right">{{ $capitulo2_federal }}</td>
+                                        <td class="tw:text-right">{{ $capitulo2_propios }}</td>
+                                        <td class="tw:text-right">{{ $total_capitulo2_total }}</td>
+                                        <td class="tw:text-right">{{ $porcentaje_cap2_estatal }}</td>
+                                        <td class="tw:text-right">{{ $porcentaje_cap2_federal }}</td>
+                                        <td class="tw:text-right">{{ $porcentaje_cap2_propios }}</td>
+                                        <td class="tw:text-right">{{ $total_pocentaje_cap2 }}</td>
 
                                     </tr>
                                     <tr>
@@ -474,15 +470,15 @@
                                             $total_capitulo3_total=number_format($total_capitulo3_total, 2, '.', ',');
 
                                             ?>
-                                        <td style="background:grey;color: #0c0c0c;">CAPITULO 3</td>
-                                        <td style="text-align: right;">{{ $capitulo3_estatal }}</td>
-                                        <td style="text-align: right;">{{ $capitulo3_federal }}</td>
-                                        <td style="text-align: right;">{{ $capitulo3_propios }}</td>
-                                        <td style="text-align: right;">{{ $total_capitulo3_total }}</td>
-                                        <td style="text-align: right;">{{ $porcentaje_cap3_estatal }}</td>
-                                        <td style="text-align: right;">{{ $porcentaje_cap3_federal }}</td>
-                                        <td style="text-align: right;">{{ $porcentaje_cap3_propios }}</td>
-                                        <td style="text-align: right;">{{ $total_pocentaje_cap3 }}</td>
+                                        <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90">CAPITULO 3</td>
+                                        <td class="tw:text-right">{{ $capitulo3_estatal }}</td>
+                                        <td class="tw:text-right">{{ $capitulo3_federal }}</td>
+                                        <td class="tw:text-right">{{ $capitulo3_propios }}</td>
+                                        <td class="tw:text-right">{{ $total_capitulo3_total }}</td>
+                                        <td class="tw:text-right">{{ $porcentaje_cap3_estatal }}</td>
+                                        <td class="tw:text-right">{{ $porcentaje_cap3_federal }}</td>
+                                        <td class="tw:text-right">{{ $porcentaje_cap3_propios }}</td>
+                                        <td class="tw:text-right">{{ $total_pocentaje_cap3 }}</td>
 
                                     </tr>
                                     <tr>
@@ -494,15 +490,15 @@
                                             $total_capitulo4_total=number_format($total_capitulo4_total, 2, '.', ',');
 
                                             ?>
-                                        <td style="background:grey;color: #0c0c0c;">CAPITULO 4</td>
-                                        <td style="text-align: right;">{{ $capitulo4_estatal }}</td>
-                                        <td style="text-align: right;">{{ $capitulo4_federal }}</td>
-                                        <td style="text-align: right;">{{ $capitulo4_propios }}</td>
-                                        <td style="text-align: right;">{{ $total_capitulo4_total }}</td>
-                                        <td style="text-align: right;">{{ $porcentaje_cap4_estatal }}</td>
-                                        <td style="text-align: right;">{{ $porcentaje_cap4_federal }}</td>
-                                        <td style="text-align: right;">{{ $porcentaje_cap4_propios }}</td>
-                                        <td style="text-align: right;">{{ $total_pocentaje_cap4 }}</td>
+                                        <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90">CAPITULO 4</td>
+                                        <td class="tw:text-right">{{ $capitulo4_estatal }}</td>
+                                        <td class="tw:text-right">{{ $capitulo4_federal }}</td>
+                                        <td class="tw:text-right">{{ $capitulo4_propios }}</td>
+                                        <td class="tw:text-right">{{ $total_capitulo4_total }}</td>
+                                        <td class="tw:text-right">{{ $porcentaje_cap4_estatal }}</td>
+                                        <td class="tw:text-right">{{ $porcentaje_cap4_federal }}</td>
+                                        <td class="tw:text-right">{{ $porcentaje_cap4_propios }}</td>
+                                        <td class="tw:text-right">{{ $total_pocentaje_cap4 }}</td>
 
                                     </tr>
                                     <tr>
@@ -514,15 +510,15 @@
                                             $total_capitulo5_total=number_format($total_capitulo5_total, 2, '.', ',');
 
                                             ?>
-                                        <td style="background:grey;color: #0c0c0c;">CAPITULO 5</td>
-                                        <td style="text-align: right;">{{ $capitulo5_estatal }}</td>
-                                        <td style="text-align: right;">{{ $capitulo5_federal }}</td>
-                                        <td style="text-align: right;">{{ $capitulo5_propios }}</td>
-                                        <td style="text-align: right;">{{ $total_capitulo5_total }}</td>
-                                        <td style="text-align: right;">{{ $porcentaje_cap5_estatal }}</td>
-                                        <td style="text-align: right;">{{ $porcentaje_cap5_federal }}</td>
-                                        <td style="text-align: right;">{{ $porcentaje_cap5_propios }}</td>
-                                        <td style="text-align: right;">{{ $total_pocentaje_cap5 }}</td>
+                                        <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90">CAPITULO 5</td>
+                                        <td class="tw:text-right">{{ $capitulo5_estatal }}</td>
+                                        <td class="tw:text-right">{{ $capitulo5_federal }}</td>
+                                        <td class="tw:text-right">{{ $capitulo5_propios }}</td>
+                                        <td class="tw:text-right">{{ $total_capitulo5_total }}</td>
+                                        <td class="tw:text-right">{{ $porcentaje_cap5_estatal }}</td>
+                                        <td class="tw:text-right">{{ $porcentaje_cap5_federal }}</td>
+                                        <td class="tw:text-right">{{ $porcentaje_cap5_propios }}</td>
+                                        <td class="tw:text-right">{{ $total_pocentaje_cap5 }}</td>
 
                                     </tr>
                                     <tr>
@@ -533,15 +529,15 @@
                                             $total_capitulo6_total=number_format($total_capitulo6_total, 2, '.', ',');
 
                                             ?>
-                                        <td style="background:grey;color: #0c0c0c;">CAPITULO 6</td>
-                                        <td style="text-align: right;">{{ $capitulo6_estatal }}</td>
-                                        <td style="text-align: right;">{{ $capitulo6_federal }}</td>
-                                        <td style="text-align: right;">{{ $capitulo6_propios }}</td>
-                                        <td style="text-align: right;">{{ $total_capitulo6_total }}</td>
-                                        <td style="text-align: right;">{{ $porcentaje_cap6_estatal }}</td>
-                                        <td style="text-align: right;">{{ $porcentaje_cap6_federal }}</td>
-                                        <td style="text-align: right;">{{ $porcentaje_cap6_propios }}</td>
-                                        <td style="text-align: right;">{{ $total_pocentaje_cap6 }}</td>
+                                        <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90">CAPITULO 6</td>
+                                        <td class="tw:text-right">{{ $capitulo6_estatal }}</td>
+                                        <td class="tw:text-right">{{ $capitulo6_federal }}</td>
+                                        <td class="tw:text-right">{{ $capitulo6_propios }}</td>
+                                        <td class="tw:text-right">{{ $total_capitulo6_total }}</td>
+                                        <td class="tw:text-right">{{ $porcentaje_cap6_estatal }}</td>
+                                        <td class="tw:text-right">{{ $porcentaje_cap6_federal }}</td>
+                                        <td class="tw:text-right">{{ $porcentaje_cap6_propios }}</td>
+                                        <td class="tw:text-right">{{ $total_pocentaje_cap6 }}</td>
                                     </tr>
                                     <tr>
                                             <?php
@@ -550,44 +546,45 @@
                                             $total_techo_propios=number_format($total_techo_propios, 2, '.', ',');
                                             $total_presupuesto_total=number_format($total_presupuesto_total, 2, '.', ',');
                                             ?>
-                                        <td style="background:grey;color: #0c0c0c;"></td>
-                                        <td style="text-align: right;">{{ $total_techo_estatal }}</td>
-                                        <td style="text-align: right;">{{ $total_techo_federal }}</td>
-                                        <td style="text-align: right;">{{ $total_techo_propios }}</td>
-                                        <td style="text-align: right;">{{ $total_presupuesto_total }}</td>
+                                        <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90"></td>
+                                        <td class="tw:text-right">{{ $total_techo_estatal }}</td>
+                                        <td class="tw:text-right">{{ $total_techo_federal }}</td>
+                                        <td class="tw:text-right">{{ $total_techo_propios }}</td>
+                                        <td class="tw:text-right">{{ $total_presupuesto_total }}</td>
                                         @if($total_porcentaje_total_estatal == 0)
-                                            <td style="text-align: right">-</td>
+                                            <td class="tw:text-right">-</td>
                                         @else
-                                            <td style="text-align: right;">{{ $total_porcentaje_total_estatal }}</td>
+                                            <td class="tw:text-right">{{ $total_porcentaje_total_estatal }}</td>
                                         @endif
                                         @if($total_porcentaje_total_federal == 0)
-                                            <td style="text-align: right">-</td>
+                                            <td class="tw:text-right">-</td>
                                         @else
-                                            <td style="text-align: right;">{{ $total_porcentaje_total_federal }}</td>
+                                            <td class="tw:text-right">{{ $total_porcentaje_total_federal }}</td>
                                         @endif
                                         @if($total_porcentaje_total_propios == 0)
-                                            <td style="text-align: right">-</td>
+                                            <td class="tw:text-right">-</td>
                                         @else
-                                            <td style="text-align: right;">{{ $total_porcentaje_total_propios }}</td>
+                                            <td class="tw:text-right">{{ $total_porcentaje_total_propios }}</td>
                                         @endif
                                         @if($total_porcentaje_total == 0)
-                                            <td style="text-align: right">-</td>
+                                            <td class="tw:text-right">-</td>
                                         @else
-                                            <td style="text-align: right;">{{ $total_porcentaje_total }}</td>
+                                            <td class="tw:text-right">{{ $total_porcentaje_total }}</td>
                                         @endif
 
                                     </tr>
                                     </tbody>
                                 </table>
+</div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-6 col-md-offset-2">
+                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                            <div class="tw:w-full tw:px-2">
                                     <?php
 
                                     $total_gasto_operativo= number_format($total_gasto_operativo, 2, '.', ',');
                                     ?>
-                                <h4 style="background: yellow;color: #0c0c0c">GASTO OPERATIVO (2000, 3000, 4000, 5000 Y 6000)     <b>{{$total_gasto_operativo }}</b> </h4>
+                                <h4 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90 tw:bg-yellow-200 tw:dark:bg-yellow-500/20 tw:text-gray-800 tw:dark:text-white/90">GASTO OPERATIVO (2000, 3000, 4000, 5000 Y 6000)     <b>{{$total_gasto_operativo }}</b> </h4>
                             </div>
                         </div>
                     </div>
@@ -598,91 +595,74 @@
 
 
     <!-- Modal de agregar proyecto -->
-    <div class="modal fade" id="modal_agregar_proyecto" role="dialog">
-        <div class="modal-dialog">
-
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Agregar proyecto</h4>
+    <x-panel.modal id="modal_agregar_proyecto" tamano="md" sin-relleno clase-cerrar="close">
+                <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                    
+                    <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">Agregar proyecto</h4>
                 </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-10 col-md-offset-1">
-                            <form id="form_agregar_proyecto" class="form" action="{{url("/presupuesto_anteproyecto/techo_presupuestal/agregar_proyecto/")}}" role="form" method="POST" >
+                <div class="tw-modal-cuerpo">
+                    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                        <div class="tw:w-full tw:px-2">
+                            <form id="form_agregar_proyecto" class="" action="{{url("/presupuesto_anteproyecto/techo_presupuestal/agregar_proyecto/")}}" role="form" method="POST" >
                                 {{ csrf_field() }}
-                                <div class="row">
-                                    <div class="col-md-10 col-md-offset-1">
-                                        <div class="dropdown">
+                                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                                    <div class="tw:w-full tw:px-2">
+                                        <div class="tw:mb-4">
                                             <label for="exampleInputEmail1">Selecciona proyecto</label>
-                                            <select class="form-control  "placeholder="selecciona una Opcion" id="id_proyecto" name="id_proyecto" required>
+                                            <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"placeholder="selecciona una Opcion" id="id_proyecto" name="id_proyecto" required>
                                                 <option disabled selected hidden>Selecciona una opción</option>
                                                 @foreach($proyectos as $proyecto)
                                                     <option value="{{$proyecto->id_proyecto}}" data-esta="{{$proyecto->nombre_proyecto }}">{{ $proyecto->nombre_proyecto }} </option>
                                                 @endforeach
                                             </select>
-                                            <br>
                                         </div>
                                     </div>
-                                    <br>
                                 </div>
                             </form>
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                    <button id="guardar_anteproyecto"  class="btn btn-primary" >Guardar</button>
+                <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                    <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cerrar</button>
+                    <button id="guardar_anteproyecto"  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Guardar</button>
                 </div>
-            </div>
-
-        </div>
-    </div>
+            </x-panel.modal>
     {{-- modal agregar capitulo--}}
 
-    <div class="modal fade" id="modal_agregar_capitulo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="exampleModalLabel">Agregar capitulo </h4>
+    <x-panel.modal id="modal_agregar_capitulo" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="exampleModalLabel">
+                <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                    
+                    <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="exampleModalLabel">Agregar capitulo </h4>
                 </div>
-                <div class="modal-body">
+                <div class="tw-modal-cuerpo">
                     <div id="contenedor_agregar_capitulo">
 
                     </div>
 
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <button id="guardar_activacion_periodo"  class="btn btn-primary" >Aceptar</button>
+                    <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                        <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                        <button id="guardar_activacion_periodo"  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Aceptar</button>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
+            </x-panel.modal>
     {{-- modal modificar capitulo--}}
 
-    <div class="modal fade" id="modal_mod_capitulo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="exampleModalLabel">Modificar capitulo </h4>
+    <x-panel.modal id="modal_mod_capitulo" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="exampleModalLabel">
+                <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                    
+                    <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="exampleModalLabel">Modificar capitulo </h4>
                 </div>
-                <div class="modal-body">
+                <div class="tw-modal-cuerpo">
                     <div id="contenedor_mod_capitulo">
 
                     </div>
 
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <button id="guardar_mod_capitulo"  class="btn btn-primary" >Aceptar</button>
+                    <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                        <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                        <button id="guardar_mod_capitulo"  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Aceptar</button>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
+            </x-panel.modal>
     <script>
         $(document).ready( function() {
 
@@ -816,4 +796,5 @@
 
         });
     </script>
+</div>
 @endsection

@@ -19,7 +19,7 @@
     ]
   },
   "resources/css/marco.css": {
-    "file": "assets/marco-DjxsnjmL.css",
+    "file": "assets/marco-DS3ynYZV.css",
     "src": "resources/css/marco.css",
     "isEntry": true,
     "name": "marco",
@@ -36,6 +36,12 @@
       "_module.esm-BK6u66ms.js"
     ]
   },
+  "resources/js/carga.js": {
+    "file": "assets/carga-BWdwDm1k.js",
+    "name": "carga",
+    "src": "resources/js/carga.js",
+    "isEntry": true
+  },
   "resources/js/fechas.js": {
     "file": "assets/fechas-D14RjBEC.js",
     "name": "fechas",
@@ -46,12 +52,13 @@
     ]
   },
   "resources/js/panel.js": {
-    "file": "assets/panel-CUKV9wYg.js",
+    "file": "assets/panel-D7SIFVh7.js",
     "name": "panel",
     "src": "resources/js/panel.js",
     "isEntry": true,
     "imports": [
-      "_module.esm-BK6u66ms.js"
+      "_module.esm-BK6u66ms.js",
+      "resources/js/carga.js"
     ],
     "dynamicImports": [
       "node_modules/apexcharts/dist/apexcharts.esm.js"

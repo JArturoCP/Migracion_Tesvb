@@ -1,41 +1,34 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 @section('title', 'Requisiciones del proyecto')
+@include('partials.panel.recursos_app')
 @section('content')
-    <div class="row">
-        <div class="col-md-10 col-xs-10 col-md-offset-1">
+<div class="tw-pantalla">
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+        <div class="tw:w-full tw:px-2">
             <p>
-                <span class="glyphicon glyphicon-arrow-right"></span>
-                <a href="{{url("/presupuesto_anteproyecto/requisiciones_autorizadas_proyecto")}}">proyectos del anteproyecto de presupuesto {{ $proyecto->year  }} </a>
-                <span class="glyphicon glyphicon-chevron-right"></span>
+                <span class="fa fa-arrow-right"></span>
+                <a class="tw:text-brand-500 tw:hover:underline" href="{{url("/presupuesto_anteproyecto/requisiciones_autorizadas_proyecto")}}">proyectos del anteproyecto de presupuesto {{ $proyecto->year  }} </a>
+                <span class="fa fa-chevron-right"></span>
 
-                <a href="{{url("/presupuesto_anteproyecto/proyecto_inicio_anteproyecto/".$id_presupuesto)}}">Menu del proyecto seleccionado</a>
-                <span class="glyphicon glyphicon-chevron-right"></span>
+                <a class="tw:text-brand-500 tw:hover:underline" href="{{url("/presupuesto_anteproyecto/proyecto_inicio_anteproyecto/".$id_presupuesto)}}">Menu del proyecto seleccionado</a>
+                <span class="fa fa-chevron-right"></span>
                 <span>Requisiciones autorizadas por mes</span>
             </p>
-            <br>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-6  col-md-offset-3">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h3 class="panel-title text-center">Requisiciones autorizadas por mes  del presupuesto del anteproyecto {{ $proyecto->year }}  <br>  (Nombre del proyecto: {{ $proyecto->nombre_proyecto }})
-                    </h3>
-                </div>
-            </div>
-        </div>
-    </div>
+    <x-panel.encabezado :titulo="'Requisiciones autorizadas por mes del presupuesto del anteproyecto '.$proyecto->year.' (Nombre del proyecto: '.$proyecto->nombre_proyecto.')'" :migas="['Finanzas' => null]" />
 
     <?php setlocale(LC_MONETARY, 'es_MX');
 
     ?>
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <table class="table table-bordered">
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+        <div class="tw:w-full tw:px-2">
+            <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table class="tw-tabla tw-tabla-bordes">
                 <thead>
                 <tr>
-                    <th colspan="5" style="background: #6c757d; color: #0c0c0c;">FUENTE DE FINANCIAMIENTO</th>
-                    <th colspan="4" style="background: #6c757d; color: #0c0c0c;">FUENTE DE FINANCIAMIENTO %</th>
+                    <th class="tw:bg-gray-500 tw:text-white" colspan="5">FUENTE DE FINANCIAMIENTO</th>
+                    <th class="tw:bg-gray-500 tw:text-white" colspan="4">FUENTE DE FINANCIAMIENTO %</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -44,7 +37,7 @@
                     <td><b>FEDERAL</b></td>
                     <td><b>PROPIOS</b></td>
                     <td><b>TOTAL</b></td>
-                    <td style="background: #6c757d; color: #0c0c0c;"><b>CAPITULO</b></td>
+                    <td class="tw:bg-gray-500 tw:text-white"><b>CAPITULO</b></td>
                     <td><b>ESTATAL</b></td>
                     <td><b>FEDERAL</b></td>
                     <td><b>PROPIOS</b></td>
@@ -66,45 +59,45 @@
                         ?>
 
                         @if($presupuesto->presupuesto_estatal == 0)
-                            <td style=" text-align: right">-</td>
+                            <td class="tw:text-right">-</td>
                         @else
-                            <td style=" text-align: right">{{  number_format($presupuesto->presupuesto_estatal, 2, '.', ',') }}</td>
+                            <td class="tw:text-right">{{  number_format($presupuesto->presupuesto_estatal, 2, '.', ',') }}</td>
                         @endif
                         @if($presupuesto->presupuesto_federal == 0)
-                            <td style=" text-align: right">-</td>
+                            <td class="tw:text-right">-</td>
                         @else
-                            <td style=" text-align: right">{{  number_format($presupuesto->presupuesto_federal, 2, '.', ',') }}</td>
+                            <td class="tw:text-right">{{  number_format($presupuesto->presupuesto_federal, 2, '.', ',') }}</td>
                         @endif
                         @if($presupuesto->presupuesto_propios == 0)
-                            <td style=" text-align: right">-</td>
+                            <td class="tw:text-right">-</td>
                         @else
-                            <td style=" text-align: right">{{ number_format($presupuesto->presupuesto_propios, 2, '.', ',') }}</td>
+                            <td class="tw:text-right">{{ number_format($presupuesto->presupuesto_propios, 2, '.', ',') }}</td>
                         @endif
                         @if($presupuesto->total_presupuesto == 0)
-                            <td style=" text-align: right"><b>-</b></td>
+                            <td class="tw:text-right"><b>-</b></td>
                         @else
-                            <td style=" text-align: right"><b>{{ number_format($presupuesto->total_presupuesto, 2, '.', ',') }}</b></td>
+                            <td class="tw:text-right"><b>{{ number_format($presupuesto->total_presupuesto, 2, '.', ',') }}</b></td>
                         @endif
-                        <td style="background: #6c757d; color: #0c0c0c; text-align: right;"><b>{{ $presupuesto->capitulo }}</b></td>
+                        <td class="tw:bg-gray-500 tw:text-white tw:text-right"><b>{{ $presupuesto->capitulo }}</b></td>
                         @if($presupuesto->financiamiento_estatal == 0)
-                            <td style=" text-align: right"><b>-</b></td>
+                            <td class="tw:text-right"><b>-</b></td>
                         @else
-                            <td style=" text-align: right"><b>{{ round($presupuesto->financiamiento_estatal,4) }}</b></td>
+                            <td class="tw:text-right"><b>{{ round($presupuesto->financiamiento_estatal,4) }}</b></td>
                         @endif
                         @if($presupuesto->financiamiento_federal == 0)
-                            <td style=" text-align: right"><b>-</b></td>
+                            <td class="tw:text-right"><b>-</b></td>
                         @else
-                            <td style=" text-align: right"><b>{{ round($presupuesto->financiamiento_federal,4) }}</b></td>
+                            <td class="tw:text-right"><b>{{ round($presupuesto->financiamiento_federal,4) }}</b></td>
                         @endif
                         @if($presupuesto->financiamiento_propios == 0)
-                            <td style=" text-align: right"><b>-</b></td>
+                            <td class="tw:text-right"><b>-</b></td>
                         @else
-                            <td style=" text-align: right"><b>{{ round($presupuesto->financiamiento_propios,4) }}</b></td>
+                            <td class="tw:text-right"><b>{{ round($presupuesto->financiamiento_propios,4) }}</b></td>
                         @endif
                         @if($presupuesto->total_financiamiento == 0)
-                            <td style=" text-align: right"><b>-</b></td>
+                            <td class="tw:text-right"><b>-</b></td>
                         @else
-                            <td style=" text-align: right"><b>{{ $presupuesto->total_financiamiento }}</b></td>
+                            <td class="tw:text-right"><b>{{ $presupuesto->total_financiamiento }}</b></td>
                         @endif
 
                     </tr>
@@ -115,24 +108,24 @@
                 ?>
                 <tr>
                     @if($total_presupuesto_estatal == 0)
-                        <td style=" text-align: right">-</td>
+                        <td class="tw:text-right">-</td>
                     @else
-                        <td style=" text-align: right"><b>{{  number_format($total_presupuesto_estatal, 2, '.', ',') }}</b></td>
+                        <td class="tw:text-right"><b>{{  number_format($total_presupuesto_estatal, 2, '.', ',') }}</b></td>
                     @endif
                     @if($total_presupuesto_federal == 0)
-                        <td style=" text-align: right">-</td>
+                        <td class="tw:text-right">-</td>
                     @else
-                        <td style=" text-align: right"><b>{{  number_format($total_presupuesto_federal, 2, '.', ',') }}</b></td>
+                        <td class="tw:text-right"><b>{{  number_format($total_presupuesto_federal, 2, '.', ',') }}</b></td>
                     @endif
                     @if($total_presupuesto_propios == 0)
-                        <td style=" text-align: right">-</td>
+                        <td class="tw:text-right">-</td>
                     @else
-                        <td style=" text-align: right"><b>{{  number_format($total_presupuesto_propios, 2, '.', ',') }}</b></td>
+                        <td class="tw:text-right"><b>{{  number_format($total_presupuesto_propios, 2, '.', ',') }}</b></td>
                     @endif
                     @if($total_total_presupuesto == 0)
-                        <td style=" text-align: right">-</td>
+                        <td class="tw:text-right">-</td>
                     @else
-                        <td style=" text-align: right"><b>{{  number_format($total_total_presupuesto, 2, '.', ',') }}</b></td>
+                        <td class="tw:text-right"><b>{{  number_format($total_total_presupuesto, 2, '.', ',') }}</b></td>
                     @endif
                     <td></td>
                     <td></td>
@@ -144,35 +137,23 @@
                 </tr>
                 </tbody>
             </table>
+</div>
 
         </div>
     </div>
     @if($mostrar == 0)
-        <div class="row" >
-            <div class="col-md-4 col-md-offset-4">
-                <div class="panel panel-success">
-                    <div class="panel-heading">
-                        <label for="id_capitulo">Seleccionar mes del proyecto</label>
-                        <select name="id_mes" id="id_mes" class="form-control " required>
+        <x-panel.alerta tipo="exito" class="tw:mb-4"><label for="id_capitulo">Seleccionar mes del proyecto</label>
+                        <select name="id_mes" id="id_mes" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" required>
                             @foreach($meses as $mes)
                                 <option disabled selected hidden>Selecciona una opción</option>
                                 <option value="{{$mes->id_mes}}" >{{$mes->mes}} </option>
                             @endforeach
 
-                        </select>
-                    </div>
-                </div>
-
-            </div>
-        </div>
+                        </select></x-panel.alerta>
     @endif
     @if($mostrar == 1)
-        <div class="row" >
-            <div class="col-md-4 col-md-offset-4">
-                <div class="panel panel-success">
-                    <div class="panel-heading">
-                        <label for="id_capitulo">Seleccionar mes del proyecto</label>
-                        <select name="id_mes" id="id_mes" class="form-control " required>
+        <x-panel.alerta tipo="exito" class="tw:mb-4"><label for="id_capitulo">Seleccionar mes del proyecto</label>
+                        <select name="id_mes" id="id_mes" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" required>
                             @foreach($meses as $mes)
                                 @if($mes->id_mes==$id_mes)
                                     <option value="{{$mes->id_mes}}" selected="selected">{{$mes->mes}}</option>
@@ -181,24 +162,10 @@
                                 @endif
                             @endforeach
 
-                        </select>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-2 col-md-offset-6">
-                <p><br></p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-2 col-md-offset-8">
-                <a href="/presupuesto_anteproyecto/presupuesto_mes_ant_excel/{{ $id_presupuesto }}/{{ $id_mes }}" class="btn btn-primary" target="_blank"><span class="glyphicon glyphicon-export"  aria-hidden="true"></span>Exportar Excel</a>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-2 col-md-offset-6">
-                <p><br></p>
+                        </select></x-panel.alerta>
+        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+            <div class="tw:w-full tw:px-2">
+                <a href="/presupuesto_anteproyecto/presupuesto_mes_ant_excel/{{ $id_presupuesto }}/{{ $id_mes }}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" target="_blank"><span class="fa fa-external-link"  aria-hidden="true"></span>Exportar Excel</a>
             </div>
         </div>
         <style type="text/css">
@@ -213,109 +180,110 @@
 
 
         </style>
-        <div class="row">
-            <div class="col-md-10 col-md-offset-1">
-                 <table class="table table-bordered" id="tablita">
+        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+            <div class="tw:w-full tw:px-2">
+                 <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table class="tw-tabla tw-tabla-bordes" id="tablita">
 
             <thead>
             <tr>
 
-                        <th style="background: grey; color: #0c0c0c;   ">CLAVE PRESUPUESTAL</th>
-                        <th style="background: grey; color: #0c0c0c;  ">DENOMINACIÓN</th>
+                        <th class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90">CLAVE PRESUPUESTAL</th>
+                        <th class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90">DENOMINACIÓN</th>
                 @if($id_mes == 1)
-                        <th  style="background: grey; color: #0c0c0c"><b>ENERO</b></th>
-                        <th style="background: #1c7430; color: #0c0c0c;"><b>ESTATAL</b></th>
-                        <th style="background: #1c7430; color: #0c0c0c;"><b>FEDERAL</b></th>
-                        <th style="background: #1c7430; color: #0c0c0c;"><b>PROPIOS</b></th>
-                        <th style="background: #1c7430; color: #0c0c0c;"><b>TOTAL</b></th>
+                        <th class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90" ><b>ENERO</b></th>
+                        <th class="tw:bg-green-100 tw:dark:bg-green-500/15 tw:text-green-800 tw:dark:text-green-300"><b>ESTATAL</b></th>
+                        <th class="tw:bg-green-100 tw:dark:bg-green-500/15 tw:text-green-800 tw:dark:text-green-300"><b>FEDERAL</b></th>
+                        <th class="tw:bg-green-100 tw:dark:bg-green-500/15 tw:text-green-800 tw:dark:text-green-300"><b>PROPIOS</b></th>
+                        <th class="tw:bg-green-100 tw:dark:bg-green-500/15 tw:text-green-800 tw:dark:text-green-300"><b>TOTAL</b></th>
                         <th ><b></b></th>
                 @endif
                     @if($id_mes == 2)
-                    <th  style="background: grey; color: #0c0c0c"><b>FEBRERO</b></th>
-                    <th style="background: #1c7430; color: #0c0c0c;"><b>ESTATAL</b></th>
-                    <th style="background: #1c7430; color: #0c0c0c;"><b>FEDERAL</b></th>
-                    <th style="background: #1c7430; color: #0c0c0c;"><b>PROPIOS</b></th>
-                    <th style="background: #1c7430; color: #0c0c0c;"><b>TOTAL</b></th>
+                    <th class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90" ><b>FEBRERO</b></th>
+                    <th class="tw:bg-green-100 tw:dark:bg-green-500/15 tw:text-green-800 tw:dark:text-green-300"><b>ESTATAL</b></th>
+                    <th class="tw:bg-green-100 tw:dark:bg-green-500/15 tw:text-green-800 tw:dark:text-green-300"><b>FEDERAL</b></th>
+                    <th class="tw:bg-green-100 tw:dark:bg-green-500/15 tw:text-green-800 tw:dark:text-green-300"><b>PROPIOS</b></th>
+                    <th class="tw:bg-green-100 tw:dark:bg-green-500/15 tw:text-green-800 tw:dark:text-green-300"><b>TOTAL</b></th>
                     <th ><b></b></th>
                     @endif
                         @if($id_mes == 3)
-                        <th  style="background: grey; color: #0c0c0c"><b>MARZO</b></th>
-                        <th style="background: #1c7430; color: #0c0c0c;"><b>ESTATAL</b></th>
-                        <th style="background: #1c7430; color: #0c0c0c;"><b>FEDERAL</b></th>
-                        <th style="background: #1c7430; color: #0c0c0c;"><b>PROPIOS</b></th>
-                        <th style="background: #1c7430; color: #0c0c0c;"><b>TOTAL</b></th>
+                        <th class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90" ><b>MARZO</b></th>
+                        <th class="tw:bg-green-100 tw:dark:bg-green-500/15 tw:text-green-800 tw:dark:text-green-300"><b>ESTATAL</b></th>
+                        <th class="tw:bg-green-100 tw:dark:bg-green-500/15 tw:text-green-800 tw:dark:text-green-300"><b>FEDERAL</b></th>
+                        <th class="tw:bg-green-100 tw:dark:bg-green-500/15 tw:text-green-800 tw:dark:text-green-300"><b>PROPIOS</b></th>
+                        <th class="tw:bg-green-100 tw:dark:bg-green-500/15 tw:text-green-800 tw:dark:text-green-300"><b>TOTAL</b></th>
                         <th ><b></b></th>
                         @endif
                         @if($id_mes == 4)
-                <th  style="background: grey; color: #0c0c0c"><b>ABRIL</b></th>
-                <th style="background: #1c7430; color: #0c0c0c;"><b>ESTATAL</b></th>
-                <th style="background: #1c7430; color: #0c0c0c;"><b>FEDERAL</b></th>
-                <th style="background: #1c7430; color: #0c0c0c;"><b>PROPIOS</b></th>
-                <th style="background: #1c7430; color: #0c0c0c;"><b>TOTAL</b></th>
+                <th class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90" ><b>ABRIL</b></th>
+                <th class="tw:bg-green-100 tw:dark:bg-green-500/15 tw:text-green-800 tw:dark:text-green-300"><b>ESTATAL</b></th>
+                <th class="tw:bg-green-100 tw:dark:bg-green-500/15 tw:text-green-800 tw:dark:text-green-300"><b>FEDERAL</b></th>
+                <th class="tw:bg-green-100 tw:dark:bg-green-500/15 tw:text-green-800 tw:dark:text-green-300"><b>PROPIOS</b></th>
+                <th class="tw:bg-green-100 tw:dark:bg-green-500/15 tw:text-green-800 tw:dark:text-green-300"><b>TOTAL</b></th>
                 <th ><b></b></th>
                         @endif
                         @if($id_mes == 5)
-                <th  style="background: grey; color: #0c0c0c"><b>MAYO</b></th>
-                <th style="background: #1c7430; color: #0c0c0c;"><b>ESTATAL</b></th>
-                <th style="background: #1c7430; color: #0c0c0c;"><b>FEDERAL</b></th>
-                <th style="background: #1c7430; color: #0c0c0c;"><b>PROPIOS</b></th>
-                <th style="background: #1c7430; color: #0c0c0c;"><b>TOTAL</b></th>
+                <th class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90" ><b>MAYO</b></th>
+                <th class="tw:bg-green-100 tw:dark:bg-green-500/15 tw:text-green-800 tw:dark:text-green-300"><b>ESTATAL</b></th>
+                <th class="tw:bg-green-100 tw:dark:bg-green-500/15 tw:text-green-800 tw:dark:text-green-300"><b>FEDERAL</b></th>
+                <th class="tw:bg-green-100 tw:dark:bg-green-500/15 tw:text-green-800 tw:dark:text-green-300"><b>PROPIOS</b></th>
+                <th class="tw:bg-green-100 tw:dark:bg-green-500/15 tw:text-green-800 tw:dark:text-green-300"><b>TOTAL</b></th>
                 <th ><b></b></th>
                         @endif
                         @if($id_mes == 6)
-                <th  style="background: grey; color: #0c0c0c"><b>JUNIO</b></th>
-                <th style="background: #1c7430; color: #0c0c0c;"><b>ESTATAL</b></th>
-                <th style="background: #1c7430; color: #0c0c0c;"><b>FEDERAL</b></th>
-                <th style="background: #1c7430; color: #0c0c0c;"><b>PROPIOS</b></th>
-                <th style="background: #1c7430; color: #0c0c0c;"><b>TOTAL</b></th>
+                <th class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90" ><b>JUNIO</b></th>
+                <th class="tw:bg-green-100 tw:dark:bg-green-500/15 tw:text-green-800 tw:dark:text-green-300"><b>ESTATAL</b></th>
+                <th class="tw:bg-green-100 tw:dark:bg-green-500/15 tw:text-green-800 tw:dark:text-green-300"><b>FEDERAL</b></th>
+                <th class="tw:bg-green-100 tw:dark:bg-green-500/15 tw:text-green-800 tw:dark:text-green-300"><b>PROPIOS</b></th>
+                <th class="tw:bg-green-100 tw:dark:bg-green-500/15 tw:text-green-800 tw:dark:text-green-300"><b>TOTAL</b></th>
                 <th ><b></b></th>
                         @endif
                         @if($id_mes == 7)
-                <th  style="background: grey; color: #0c0c0c"><b>JULIO</b></th>
-                <th style="background: #1c7430; color: #0c0c0c;"><b>ESTATAL</b></th>
-                <th style="background: #1c7430; color: #0c0c0c;"><b>FEDERAL</b></th>
-                <th style="background: #1c7430; color: #0c0c0c;"><b>PROPIOS</b></th>
-                <th style="background: #1c7430; color: #0c0c0c;"><b>TOTAL</b></th>
+                <th class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90" ><b>JULIO</b></th>
+                <th class="tw:bg-green-100 tw:dark:bg-green-500/15 tw:text-green-800 tw:dark:text-green-300"><b>ESTATAL</b></th>
+                <th class="tw:bg-green-100 tw:dark:bg-green-500/15 tw:text-green-800 tw:dark:text-green-300"><b>FEDERAL</b></th>
+                <th class="tw:bg-green-100 tw:dark:bg-green-500/15 tw:text-green-800 tw:dark:text-green-300"><b>PROPIOS</b></th>
+                <th class="tw:bg-green-100 tw:dark:bg-green-500/15 tw:text-green-800 tw:dark:text-green-300"><b>TOTAL</b></th>
                 <th ><b></b></th>
                         @endif
                         @if($id_mes == 8)
-                <th  style="background: grey; color: #0c0c0c"><b>AGOSTO</b></th>
-                <th style="background: #1c7430; color: #0c0c0c;"><b>ESTATAL</b></th>
-                <th style="background: #1c7430; color: #0c0c0c;"><b>FEDERAL</b></th>
-                <th style="background: #1c7430; color: #0c0c0c;"><b>PROPIOS</b></th>
-                <th style="background: #1c7430; color: #0c0c0c;"><b>TOTAL</b></th>
+                <th class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90" ><b>AGOSTO</b></th>
+                <th class="tw:bg-green-100 tw:dark:bg-green-500/15 tw:text-green-800 tw:dark:text-green-300"><b>ESTATAL</b></th>
+                <th class="tw:bg-green-100 tw:dark:bg-green-500/15 tw:text-green-800 tw:dark:text-green-300"><b>FEDERAL</b></th>
+                <th class="tw:bg-green-100 tw:dark:bg-green-500/15 tw:text-green-800 tw:dark:text-green-300"><b>PROPIOS</b></th>
+                <th class="tw:bg-green-100 tw:dark:bg-green-500/15 tw:text-green-800 tw:dark:text-green-300"><b>TOTAL</b></th>
                 <th ><b></b></th>
                         @endif
                         @if($id_mes == 9)
-                <th  style="background: grey; color: #0c0c0c"><b>SEPTIEMBRE</b></th>
-                <th style="background: #1c7430; color: #0c0c0c;"><b>ESTATAL</b></th>
-                <th style="background: #1c7430; color: #0c0c0c;"><b>FEDERAL</b></th>
-                <th style="background: #1c7430; color: #0c0c0c;"><b>PROPIOS</b></th>
-                <th style="background: #1c7430; color: #0c0c0c;"><b>TOTAL</b></th>
+                <th class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90" ><b>SEPTIEMBRE</b></th>
+                <th class="tw:bg-green-100 tw:dark:bg-green-500/15 tw:text-green-800 tw:dark:text-green-300"><b>ESTATAL</b></th>
+                <th class="tw:bg-green-100 tw:dark:bg-green-500/15 tw:text-green-800 tw:dark:text-green-300"><b>FEDERAL</b></th>
+                <th class="tw:bg-green-100 tw:dark:bg-green-500/15 tw:text-green-800 tw:dark:text-green-300"><b>PROPIOS</b></th>
+                <th class="tw:bg-green-100 tw:dark:bg-green-500/15 tw:text-green-800 tw:dark:text-green-300"><b>TOTAL</b></th>
                 <th ><b></b></th>
                         @endif
                         @if($id_mes == 10)
-                <th  style="background: grey; color: #0c0c0c"><b>OCTUBRE</b></th>
-                <th style="background: #1c7430; color: #0c0c0c;"><b>ESTATAL</b></th>
-                <th style="background: #1c7430; color: #0c0c0c;"><b>FEDERAL</b></th>
-                <th style="background: #1c7430; color: #0c0c0c;"><b>PROPIOS</b></th>
-                <th style="background: #1c7430; color: #0c0c0c;"><b>TOTAL</b></th>
+                <th class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90" ><b>OCTUBRE</b></th>
+                <th class="tw:bg-green-100 tw:dark:bg-green-500/15 tw:text-green-800 tw:dark:text-green-300"><b>ESTATAL</b></th>
+                <th class="tw:bg-green-100 tw:dark:bg-green-500/15 tw:text-green-800 tw:dark:text-green-300"><b>FEDERAL</b></th>
+                <th class="tw:bg-green-100 tw:dark:bg-green-500/15 tw:text-green-800 tw:dark:text-green-300"><b>PROPIOS</b></th>
+                <th class="tw:bg-green-100 tw:dark:bg-green-500/15 tw:text-green-800 tw:dark:text-green-300"><b>TOTAL</b></th>
                 <th ><b></b></th>
                         @endif
                 @if($id_mes == 11)
-                <th  style="background: grey; color: #0c0c0c"><b>NOVIEMBRE</b></th>
-                <th style="background: #1c7430; color: #0c0c0c;"><b>ESTATAL</b></th>
-                <th style="background: #1c7430; color: #0c0c0c;"><b>FEDERAL</b></th>
-                <th style="background: #1c7430; color: #0c0c0c;"><b>PROPIOS</b></th>
-                <th style="background: #1c7430; color: #0c0c0c;"><b>TOTAL</b></th>
+                <th class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90" ><b>NOVIEMBRE</b></th>
+                <th class="tw:bg-green-100 tw:dark:bg-green-500/15 tw:text-green-800 tw:dark:text-green-300"><b>ESTATAL</b></th>
+                <th class="tw:bg-green-100 tw:dark:bg-green-500/15 tw:text-green-800 tw:dark:text-green-300"><b>FEDERAL</b></th>
+                <th class="tw:bg-green-100 tw:dark:bg-green-500/15 tw:text-green-800 tw:dark:text-green-300"><b>PROPIOS</b></th>
+                <th class="tw:bg-green-100 tw:dark:bg-green-500/15 tw:text-green-800 tw:dark:text-green-300"><b>TOTAL</b></th>
                 <th ><b></b></th>
                 @endif
                 @if($id_mes == 12)
-                <th  style="background: grey; color: #0c0c0c"><b>DICIEMBRE</b></th>
-                <th style="background: #1c7430; color: #0c0c0c;"><b>ESTATAL</b></th>
-                <th style="background: #1c7430; color: #0c0c0c;"><b>FEDERAL</b></th>
-                <th style="background: #1c7430; color: #0c0c0c;"><b>PROPIOS</b></th>
-                <th style="background: #1c7430; color: #0c0c0c;"><b>TOTAL</b></th>
+                <th class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90" ><b>DICIEMBRE</b></th>
+                <th class="tw:bg-green-100 tw:dark:bg-green-500/15 tw:text-green-800 tw:dark:text-green-300"><b>ESTATAL</b></th>
+                <th class="tw:bg-green-100 tw:dark:bg-green-500/15 tw:text-green-800 tw:dark:text-green-300"><b>FEDERAL</b></th>
+                <th class="tw:bg-green-100 tw:dark:bg-green-500/15 tw:text-green-800 tw:dark:text-green-300"><b>PROPIOS</b></th>
+                <th class="tw:bg-green-100 tw:dark:bg-green-500/15 tw:text-green-800 tw:dark:text-green-300"><b>TOTAL</b></th>
                 <th ><b></b></th>
                 @endif
             </tr>
@@ -489,23 +457,23 @@
                 ?>
                 @foreach($capitu['array_partidas'] as $partidas)
                     @if($partidas['suma_presupuestal_year'] == 0)
-                        <tr style="">
+                        <tr>
                             <td>{{ $partidas['clave_presupuestal'] }}</td>
                             <td>{{ $partidas['nombre_partida'] }}</td>
                             @foreach($partidas['array_meses'] as $meses)
-                                <td style="text-align: right">-</td>
-                                <td style="text-align: right">-</td>
-                                <td style="text-align: right">-</td>
-                                <td style="text-align: right">-</td>
-                                <td style="text-align: right">-</td>
-                                <td style="text-align: right">-</td>
+                                <td class="tw:text-right">-</td>
+                                <td class="tw:text-right">-</td>
+                                <td class="tw:text-right">-</td>
+                                <td class="tw:text-right">-</td>
+                                <td class="tw:text-right">-</td>
+                                <td class="tw:text-right">-</td>
                             @endforeach
 
                         </tr>
                     @else
-                        <tr style="color: #0c0c0c; background: #3f9ae5; text-align: right;">
-                            <td style="text-align: justify;">{{ $partidas['clave_presupuestal'] }}</td>
-                            <td style="text-align: justify;">{{ $partidas['nombre_partida'] }}</td>
+                        <tr class="tw:text-white tw:bg-blue-500 tw:text-right">
+                            <td class="tw:text-justify">{{ $partidas['clave_presupuestal'] }}</td>
+                            <td class="tw:text-justify">{{ $partidas['nombre_partida'] }}</td>
 
                             @foreach($partidas['array_meses'] as $meses)
                                 @if($meses['suma_req_mes'] == 0)
@@ -759,343 +727,343 @@
 
                 ?>
                 <tr>
-                    <td style="background: grey; color: #0c0c0c; text-align: right;" ></td>
-                    <td style="background: grey; color: #0c0c0c; text-align: right;" >TOTAL</td>
+                    <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right" ></td>
+                    <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right" >TOTAL</td>
                     @if($id_mes == 1)
                         @if($suma_total_enero == 0)
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                         @else
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_total_enero, 2, '.', ',')}}</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_total_enero, 2, '.', ',')}}</b></td>
                         @endif
                         @if($suma_estatal_enero == 0)
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                         @else
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_estatal_enero, 2, '.', ',') }}</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_estatal_enero, 2, '.', ',') }}</b></td>
                         @endif
                         @if($suma_federal_enero == 0)
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                         @else
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_federal_enero, 2, '.', ',') }}</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_federal_enero, 2, '.', ',') }}</b></td>
                         @endif
                         @if($suma_propios_enero == 0)
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                         @else
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_propios_enero, 2, '.', ',') }}</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_propios_enero, 2, '.', ',') }}</b></td>
                         @endif
                         @if($total_suma_total_enero == 0)
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                         @else
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>{{ number_format($total_suma_total_enero, 2, '.', ',') }}</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($total_suma_total_enero, 2, '.', ',') }}</b></td>
                         @endif
-                        <td style="background: grey; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                        <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                     @endif
                     @if($id_mes == 2)
                         @if($suma_total_febrero == 0)
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                         @else
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_total_febrero, 2, '.', ',') }}</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_total_febrero, 2, '.', ',') }}</b></td>
                         @endif
                         @if($suma_estatal_febrero == 0)
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                         @else
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_estatal_febrero, 2, '.', ',') }} </b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_estatal_febrero, 2, '.', ',') }} </b></td>
                         @endif
                         @if($suma_federal_febrero == 0)
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                         @else
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_federal_febrero, 2, '.', ',') }}</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_federal_febrero, 2, '.', ',') }}</b></td>
                         @endif
                         @if($suma_propios_febrero == 0)
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                         @else
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_propios_febrero, 2, '.', ',') }}</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_propios_febrero, 2, '.', ',') }}</b></td>
                         @endif
                         @if($total_suma_total_febrero == 0)
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                         @else
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>{{ number_format($total_suma_total_febrero, 2, '.', ',') }}</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($total_suma_total_febrero, 2, '.', ',') }}</b></td>
                         @endif
-                        <td style="background: grey; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                        <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                     @endif
                     @if($id_mes == 3)
                         @if($suma_total_marzo == 0)
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                         @else
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_total_marzo, 2, '.', ',') }}</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_total_marzo, 2, '.', ',') }}</b></td>
                         @endif
                         @if($suma_estatal_marzo == 0)
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                         @else
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_estatal_marzo, 2, '.', ',') }}</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_estatal_marzo, 2, '.', ',') }}</b></td>
                         @endif
                         @if($suma_federal_marzo == 0)
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                         @else
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_federal_marzo, 2, '.', ',') }}</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_federal_marzo, 2, '.', ',') }}</b></td>
                         @endif
                         @if($suma_propios_marzo == 0)
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                         @else
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_propios_marzo, 2, '.', ',') }}</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_propios_marzo, 2, '.', ',') }}</b></td>
                         @endif
                         @if($total_suma_total_marzo == 0)
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                         @else
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>{{ number_format($total_suma_total_marzo, 2, '.', ',') }}</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($total_suma_total_marzo, 2, '.', ',') }}</b></td>
                         @endif
-                        <td style="background: grey; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                        <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                     @endif
                     @if($id_mes == 4)
                         @if($suma_total_abril == 0)
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                         @else
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_total_abril, 2, '.', ',') }}</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_total_abril, 2, '.', ',') }}</b></td>
                         @endif
                         @if($suma_estatal_abril == 0)
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                         @else
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_estatal_abril, 2, '.', ',') }}</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_estatal_abril, 2, '.', ',') }}</b></td>
                         @endif
                         @if($suma_federal_abril == 0)
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                         @else
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_federal_abril, 2, '.', ',') }}</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_federal_abril, 2, '.', ',') }}</b></td>
                         @endif
                         @if($suma_propios_abril == 0)
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                         @else
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_propios_abril, 2, '.', ',') }}</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_propios_abril, 2, '.', ',') }}</b></td>
                         @endif
                         @if($total_suma_total_abril == 0)
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                         @else
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>{{ number_format($total_suma_total_abril, 2, '.', ',') }}</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($total_suma_total_abril, 2, '.', ',') }}</b></td>
                         @endif
-                        <td style="background: grey; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                        <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                     @endif
                     @if($id_mes == 5)
                         @if($suma_total_mayo == 0)
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                         @else
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_total_mayo, 2, '.', ',') }}</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_total_mayo, 2, '.', ',') }}</b></td>
                         @endif
                         @if($suma_estatal_mayo == 0)
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                         @else
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_estatal_mayo, 2, '.', ',') }}</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_estatal_mayo, 2, '.', ',') }}</b></td>
                         @endif
                         @if($suma_federal_mayo == 0)
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                         @else
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_federal_mayo, 2, '.', ',') }}</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_federal_mayo, 2, '.', ',') }}</b></td>
                         @endif
                         @if($suma_propios_mayo == 0)
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                         @else
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_propios_mayo, 2, '.', ',') }}</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_propios_mayo, 2, '.', ',') }}</b></td>
                         @endif
                         @if($total_suma_total_mayo == 0)
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                         @else
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>{{ number_format($total_suma_total_mayo, 2, '.', ',') }}</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($total_suma_total_mayo, 2, '.', ',') }}</b></td>
                         @endif
-                        <td style="background: grey; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                        <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                     @endif
                     @if($id_mes == 6)
                         @if($suma_total_junio == 0)
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                         @else
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_total_junio, 2, '.', ',') }}</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_total_junio, 2, '.', ',') }}</b></td>
                         @endif
                         @if($suma_estatal_junio == 0)
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                         @else
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_estatal_junio, 2, '.', ',') }}</b> </td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_estatal_junio, 2, '.', ',') }}</b> </td>
                         @endif
                         @if($suma_federal_junio == 0)
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                         @else
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_federal_junio, 2, '.', ',') }}</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_federal_junio, 2, '.', ',') }}</b></td>
                         @endif
                         @if($suma_propios_junio == 0)
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                         @else
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_propios_junio, 2, '.', ',') }}</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_propios_junio, 2, '.', ',') }}</b></td>
                         @endif
                         @if($total_suma_total_junio == 0)
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                         @else
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>{{ number_format($total_suma_total_junio, 2, '.', ',') }}</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($total_suma_total_junio, 2, '.', ',') }}</b></td>
                         @endif
-                        <td style="background: grey; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                        <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                     @endif
                     @if($id_mes == 7)
                         @if($suma_total_julio == 0)
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                         @else
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>{{number_format($suma_total_julio, 2, '.', ',')}}</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{number_format($suma_total_julio, 2, '.', ',')}}</b></td>
                         @endif
                         @if($suma_estatal_julio == 0)
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                         @else
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_estatal_julio, 2, '.', ',') }}</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_estatal_julio, 2, '.', ',') }}</b></td>
                         @endif
                         @if($suma_federal_julio == 0)
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                         @else
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_federal_julio, 2, '.', ',') }}</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_federal_julio, 2, '.', ',') }}</b></td>
                         @endif
                         @if($suma_propios_julio == 0)
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                         @else
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_propios_julio, 2, '.', ',') }}</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_propios_julio, 2, '.', ',') }}</b></td>
                         @endif
                         @if($total_suma_total_julio == 0)
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                         @else
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>{{ number_format($total_suma_total_julio, 2, '.', ',') }}</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($total_suma_total_julio, 2, '.', ',') }}</b></td>
                         @endif
-                        <td style="background: grey; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                        <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                     @endif
                     @if($id_mes == 8)
                         @if($suma_total_agosto == 0)
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                         @else
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_total_agosto, 2, '.', ',') }}</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_total_agosto, 2, '.', ',') }}</b></td>
                         @endif
                         @if($suma_estatal_agosto == 0)
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                         @else
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_estatal_agosto, 2, '.', ',') }}</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_estatal_agosto, 2, '.', ',') }}</b></td>
                         @endif
                         @if($suma_federal_agosto == 0)
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                         @else
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_federal_agosto, 2, '.', ',') }}</b> </td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_federal_agosto, 2, '.', ',') }}</b> </td>
                         @endif
                         @if($suma_propios_agosto == 0)
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                         @else
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_propios_agosto, 2, '.', ',') }}</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_propios_agosto, 2, '.', ',') }}</b></td>
                         @endif
                         @if($total_suma_total_agosto == 0)
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                         @else
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>{{ number_format($total_suma_total_agosto, 2, '.', ',') }}</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($total_suma_total_agosto, 2, '.', ',') }}</b></td>
                         @endif
-                        <td style="background: grey; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                        <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                     @endif
                     @if($id_mes == 9)
                         @if($suma_total_sep == 0)
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                         @else
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_total_sep, 2, '.', ',') }}</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_total_sep, 2, '.', ',') }}</b></td>
                         @endif
                         @if($suma_estatal_sep == 0)
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                         @else
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_estatal_sep, 2, '.', ',') }}</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_estatal_sep, 2, '.', ',') }}</b></td>
                         @endif
                         @if($suma_federal_sep == 0)
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                         @else
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_federal_sep, 2, '.', ',') }}</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_federal_sep, 2, '.', ',') }}</b></td>
                         @endif
                         @if($suma_propios_sep == 0)
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                         @else
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_propios_sep, 2, '.', ',') }}</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_propios_sep, 2, '.', ',') }}</b></td>
                         @endif
                         @if($total_suma_total_sep == 0)
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                         @else
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>{{ number_format($total_suma_total_sep, 2, '.', ',') }}</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($total_suma_total_sep, 2, '.', ',') }}</b></td>
                         @endif
-                        <td style="background: grey; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                        <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                     @endif
                     @if($id_mes == 10)
                         @if($suma_total_octubre == 0)
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                         @else
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_total_octubre, 2, '.', ',') }} </b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_total_octubre, 2, '.', ',') }} </b></td>
                         @endif
                         @if($suma_estatal_octubre == 0)
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                         @else
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_estatal_octubre, 2, '.', ',') }}</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_estatal_octubre, 2, '.', ',') }}</b></td>
                         @endif
                         @if($suma_federal_octubre == 0)
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                         @else
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_federal_octubre, 2, '.', ',') }}</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_federal_octubre, 2, '.', ',') }}</b></td>
                         @endif
                         @if($suma_propios_octubre == 0)
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                         @else
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>{{number_format($suma_propios_octubre, 2, '.', ',') }}</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{number_format($suma_propios_octubre, 2, '.', ',') }}</b></td>
                         @endif
                         @if($total_suma_total_octubre == 0)
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                         @else
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>{{ number_format($total_suma_total_octubre, 2, '.', ',') }}</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($total_suma_total_octubre, 2, '.', ',') }}</b></td>
                         @endif
-                        <td style="background: grey; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                        <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                     @endif
                     @if($id_mes == 11)
                         @if($suma_total_nov == 0)
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                         @else
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_total_nov, 2, '.', ',') }}</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_total_nov, 2, '.', ',') }}</b></td>
                         @endif
                         @if($suma_estatal_nov == 0)
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                         @else
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_estatal_nov, 2, '.', ',') }}</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_estatal_nov, 2, '.', ',') }}</b></td>
                         @endif
                         @if($suma_federal_nov == 0)
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                         @else
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_federal_nov, 2, '.', ',') }}</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_federal_nov, 2, '.', ',') }}</b></td>
                         @endif
                         @if($suma_propios_nov == 0)
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                         @else
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_propios_nov, 2, '.', ',') }}</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_propios_nov, 2, '.', ',') }}</b></td>
                         @endif
                         @if($total_suma_total_nov == 0)
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                         @else
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>{{ number_format($total_suma_total_nov, 2, '.', ',') }}</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($total_suma_total_nov, 2, '.', ',') }}</b></td>
                         @endif
-                        <td style="background: grey; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                        <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                     @endif
                     @if($id_mes == 12)
                         @if($suma_total_dic == 0)
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                         @else
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_total_dic, 2, '.', ',') }}</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_total_dic, 2, '.', ',') }}</b></td>
                         @endif
                         @if($suma_estatal_dic == 0)
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                         @else
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_estatal_dic, 2, '.', ',') }}</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_estatal_dic, 2, '.', ',') }}</b></td>
                         @endif
                         @if($suma_federal_dic == 0)
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                         @else
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_federal_dic, 2, '.', ',') }}</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_federal_dic, 2, '.', ',') }}</b></td>
                         @endif
                         @if($suma_propios_dic == 0)
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                         @else
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_propios_dic, 2, '.', ',') }}</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_propios_dic, 2, '.', ',') }}</b></td>
                         @endif
                         @if($total_suma_total_dic == 0)
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                         @else
-                            <td style="background: grey; color: #0c0c0c; text-align: right;"><b>{{ number_format($total_suma_total_dic, 2, '.', ',') }}</b></td>
+                            <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($total_suma_total_dic, 2, '.', ',') }}</b></td>
                         @endif
-                        <td style="background: grey; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                        <td class="tw:bg-gray-100 tw:dark:bg-gray-800 tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                     @endif
 
 
@@ -1114,343 +1082,343 @@
 
             ?>
             <tr>
-                <td style="background: white; color: #0c0c0c; text-align: right;" ></td>
-                <td style="background: white; color: #0c0c0c; text-align: right;" >TOTALES</td>
+                <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right" ></td>
+                <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right" >TOTALES</td>
                 @if($id_mes == 1)
                     @if($suma_total_enero1 == 0)
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                     @else
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_total_enero1, 2, '.', ',')}}</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_total_enero1, 2, '.', ',')}}</b></td>
                     @endif
                     @if($suma_estatal_enero1 == 0)
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                     @else
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_estatal_enero1, 2, '.', ',') }}</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_estatal_enero1, 2, '.', ',') }}</b></td>
                     @endif
                     @if($suma_federal_enero1 == 0)
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                     @else
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_federal_enero1, 2, '.', ',') }}</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_federal_enero1, 2, '.', ',') }}</b></td>
                     @endif
                     @if($suma_propios_enero1 == 0)
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                     @else
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_propios_enero1, 2, '.', ',') }}</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_propios_enero1, 2, '.', ',') }}</b></td>
                     @endif
                     @if($total_suma_total_enero1 == 0)
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                     @else
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>{{ number_format($total_suma_total_enero1, 2, '.', ',') }}</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($total_suma_total_enero1, 2, '.', ',') }}</b></td>
                     @endif
-                    <td style="background: white; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                    <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                 @endif
                 @if($id_mes == 2)
                     @if($suma_total_febrero1 == 0)
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                     @else
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_total_febrero1, 2, '.', ',') }}</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_total_febrero1, 2, '.', ',') }}</b></td>
                     @endif
                     @if($suma_estatal_febrero1 == 0)
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                     @else
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_estatal_febrero1, 2, '.', ',') }} </b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_estatal_febrero1, 2, '.', ',') }} </b></td>
                     @endif
                     @if($suma_federal_febrero1 == 0)
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                     @else
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_federal_febrero1, 2, '.', ',') }}</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_federal_febrero1, 2, '.', ',') }}</b></td>
                     @endif
                     @if($suma_propios_febrero1 == 0)
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                     @else
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_propios_febrero1, 2, '.', ',') }}</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_propios_febrero1, 2, '.', ',') }}</b></td>
                     @endif
                     @if($total_suma_total_febrero1 == 0)
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                     @else
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>{{ number_format($total_suma_total_febrero1, 2, '.', ',') }}</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($total_suma_total_febrero1, 2, '.', ',') }}</b></td>
                     @endif
-                    <td style="background: white; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                    <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                 @endif
                 @if($id_mes == 3)
                     @if($suma_total_marzo1 == 0)
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                     @else
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_total_marzo1, 2, '.', ',') }}</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_total_marzo1, 2, '.', ',') }}</b></td>
                     @endif
                     @if($suma_estatal_marzo1 == 0)
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                     @else
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_estatal_marzo1, 2, '.', ',') }}</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_estatal_marzo1, 2, '.', ',') }}</b></td>
                     @endif
                     @if($suma_federal_marzo1 == 0)
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                     @else
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_federal_marzo1, 2, '.', ',') }}</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_federal_marzo1, 2, '.', ',') }}</b></td>
                     @endif
                     @if($suma_propios_marzo1 == 0)
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                     @else
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_propios_marzo1, 2, '.', ',') }}</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_propios_marzo1, 2, '.', ',') }}</b></td>
                     @endif
                     @if($total_suma_total_marzo1 == 0)
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                     @else
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>{{ number_format($total_suma_total_marzo1, 2, '.', ',') }}</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($total_suma_total_marzo1, 2, '.', ',') }}</b></td>
                     @endif
-                    <td style="background: white; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                    <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                 @endif
                 @if($id_mes == 4)
                     @if($suma_total_abril1 == 0)
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                     @else
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_total_abril1, 2, '.', ',') }}</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_total_abril1, 2, '.', ',') }}</b></td>
                     @endif
                     @if($suma_estatal_abril1 == 0)
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                     @else
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_estatal_abril1, 2, '.', ',') }}</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_estatal_abril1, 2, '.', ',') }}</b></td>
                     @endif
                     @if($suma_federal_abril1 == 0)
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                     @else
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_federal_abril1, 2, '.', ',') }}</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_federal_abril1, 2, '.', ',') }}</b></td>
                     @endif
                     @if($suma_propios_abril1 == 0)
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                     @else
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_propios_abril1, 2, '.', ',') }}</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_propios_abril1, 2, '.', ',') }}</b></td>
                     @endif
                     @if($total_suma_total_abril1 == 0)
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                     @else
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>{{ number_format($total_suma_total_abril1, 2, '.', ',') }}</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($total_suma_total_abril1, 2, '.', ',') }}</b></td>
                     @endif
-                    <td style="background: white; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                    <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                 @endif
                 @if($id_mes == 5)
                     @if($suma_total_mayo1 == 0)
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                     @else
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_total_mayo1, 2, '.', ',') }}</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_total_mayo1, 2, '.', ',') }}</b></td>
                     @endif
                     @if($suma_estatal_mayo1 == 0)
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                     @else
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_estatal_mayo1, 2, '.', ',') }}</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_estatal_mayo1, 2, '.', ',') }}</b></td>
                     @endif
                     @if($suma_federal_mayo1 == 0)
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                     @else
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_federal_mayo1, 2, '.', ',') }}</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_federal_mayo1, 2, '.', ',') }}</b></td>
                     @endif
                     @if($suma_propios_mayo1 == 0)
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                     @else
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_propios_mayo1, 2, '.', ',') }}</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_propios_mayo1, 2, '.', ',') }}</b></td>
                     @endif
                     @if($total_suma_total_mayo1 == 0)
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                     @else
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>{{ number_format($total_suma_total_mayo1, 2, '.', ',') }}</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($total_suma_total_mayo1, 2, '.', ',') }}</b></td>
                     @endif
-                    <td style="background: white; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                    <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                 @endif
                 @if($id_mes == 6)
                     @if($suma_total_junio1 == 0)
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                     @else
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_total_junio1, 2, '.', ',') }}</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_total_junio1, 2, '.', ',') }}</b></td>
                     @endif
                     @if($suma_estatal_junio1 == 0)
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                     @else
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_estatal_junio1, 2, '.', ',') }}</b> </td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_estatal_junio1, 2, '.', ',') }}</b> </td>
                     @endif
                     @if($suma_federal_junio1 == 0)
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                     @else
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_federal_junio1, 2, '.', ',') }}</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_federal_junio1, 2, '.', ',') }}</b></td>
                     @endif
                     @if($suma_propios_junio1 == 0)
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                     @else
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_propios_junio1, 2, '.', ',') }}</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_propios_junio1, 2, '.', ',') }}</b></td>
                     @endif
                     @if($total_suma_total_junio1 == 0)
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                     @else
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>{{ number_format($total_suma_total_junio1, 2, '.', ',') }}</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($total_suma_total_junio1, 2, '.', ',') }}</b></td>
                     @endif
-                    <td style="background: white; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                    <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                 @endif
                 @if($id_mes == 7)
                     @if($suma_total_julio1 == 0)
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                     @else
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>{{number_format($suma_total_julio1, 2, '.', ',')}}</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{number_format($suma_total_julio1, 2, '.', ',')}}</b></td>
                     @endif
                     @if($suma_estatal_julio1 == 0)
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                     @else
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_estatal_julio1, 2, '.', ',') }}</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_estatal_julio1, 2, '.', ',') }}</b></td>
                     @endif
                     @if($suma_federal_julio1 == 0)
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                     @else
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_federal_julio1, 2, '.', ',') }}</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_federal_julio1, 2, '.', ',') }}</b></td>
                     @endif
                     @if($suma_propios_julio1 == 0)
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                     @else
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_propios_julio1, 2, '.', ',') }}</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_propios_julio1, 2, '.', ',') }}</b></td>
                     @endif
                     @if($total_suma_total_julio1 == 0)
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                     @else
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>{{ number_format($total_suma_total_julio1, 2, '.', ',') }}</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($total_suma_total_julio1, 2, '.', ',') }}</b></td>
                     @endif
-                    <td style="background: white; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                    <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                 @endif
                 @if($id_mes == 8)
                     @if($suma_total_agosto1 == 0)
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                     @else
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_total_agosto1, 2, '.', ',') }}</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_total_agosto1, 2, '.', ',') }}</b></td>
                     @endif
                     @if($suma_estatal_agosto1 == 0)
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                     @else
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_estatal_agosto1, 2, '.', ',') }}</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_estatal_agosto1, 2, '.', ',') }}</b></td>
                     @endif
                     @if($suma_federal_agosto1 == 0)
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                     @else
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_federal_agosto1, 2, '.', ',') }}</b> </td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_federal_agosto1, 2, '.', ',') }}</b> </td>
                     @endif
                     @if($suma_propios_agosto1 == 0)
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                     @else
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_propios_agosto1, 2, '.', ',') }}</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_propios_agosto1, 2, '.', ',') }}</b></td>
                     @endif
                     @if($total_suma_total_agosto1 == 0)
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                     @else
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>{{ number_format($total_suma_total_agosto1, 2, '.', ',') }}</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($total_suma_total_agosto1, 2, '.', ',') }}</b></td>
                     @endif
-                    <td style="background: white; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                    <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                 @endif
                 @if($id_mes == 9)
                     @if($suma_total_sep1 == 0)
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                     @else
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_total_sep1, 2, '.', ',') }}</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_total_sep1, 2, '.', ',') }}</b></td>
                     @endif
                     @if($suma_estatal_sep1 == 0)
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                     @else
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_estatal_sep1, 2, '.', ',') }}</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_estatal_sep1, 2, '.', ',') }}</b></td>
                     @endif
                     @if($suma_federal_sep1 == 0)
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                     @else
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_federal_sep1, 2, '.', ',') }}</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_federal_sep1, 2, '.', ',') }}</b></td>
                     @endif
                     @if($suma_propios_sep1 == 0)
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                     @else
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_propios_sep1, 2, '.', ',') }}</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_propios_sep1, 2, '.', ',') }}</b></td>
                     @endif
                     @if($total_suma_total_sep1 == 0)
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                     @else
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>{{ number_format($total_suma_total_sep1, 2, '.', ',') }}</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($total_suma_total_sep1, 2, '.', ',') }}</b></td>
                     @endif
-                    <td style="background: white; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                    <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                 @endif
                 @if($id_mes == 10)
                     @if($suma_total_octubre1 == 0)
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                     @else
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_total_octubre1, 2, '.', ',') }} </b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_total_octubre1, 2, '.', ',') }} </b></td>
                     @endif
                     @if($suma_estatal_octubre1 == 0)
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                     @else
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_estatal_octubre1, 2, '.', ',') }}</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_estatal_octubre1, 2, '.', ',') }}</b></td>
                     @endif
                     @if($suma_federal_octubre1 == 0)
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                     @else
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_federal_octubre1, 2, '.', ',') }}</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_federal_octubre1, 2, '.', ',') }}</b></td>
                     @endif
                     @if($suma_propios_octubre1 == 0)
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                     @else
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>{{number_format($suma_propios_octubre1, 2, '.', ',') }}</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{number_format($suma_propios_octubre1, 2, '.', ',') }}</b></td>
                     @endif
                     @if($total_suma_total_octubre1 == 0)
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                     @else
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>{{ number_format($total_suma_total_octubre1, 2, '.', ',') }}</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($total_suma_total_octubre1, 2, '.', ',') }}</b></td>
                     @endif
-                    <td style="background: white; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                    <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                 @endif
                 @if($id_mes == 11)
                     @if($suma_total_nov1 == 0)
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                     @else
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_total_nov1, 2, '.', ',') }}</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_total_nov1, 2, '.', ',') }}</b></td>
                     @endif
                     @if($suma_estatal_nov1 == 0)
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                     @else
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_estatal_nov1, 2, '.', ',') }}</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_estatal_nov1, 2, '.', ',') }}</b></td>
                     @endif
                     @if($suma_federal_nov1 == 0)
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                     @else
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_federal_nov1, 2, '.', ',') }}</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_federal_nov1, 2, '.', ',') }}</b></td>
                     @endif
                     @if($suma_propios_nov1 == 0)
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                     @else
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_propios_nov1, 2, '.', ',') }}</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_propios_nov1, 2, '.', ',') }}</b></td>
                     @endif
                     @if($total_suma_total_nov1 == 0)
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                     @else
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>{{ number_format($total_suma_total_nov1, 2, '.', ',') }}</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($total_suma_total_nov1, 2, '.', ',') }}</b></td>
                     @endif
-                    <td style="background: white; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                    <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                 @endif
                 @if($id_mes == 12)
                     @if($suma_total_dic1 == 0)
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                     @else
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_total_dic1, 2, '.', ',') }}</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_total_dic1, 2, '.', ',') }}</b></td>
                     @endif
                     @if($suma_estatal_dic1 == 0)
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                     @else
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_estatal_dic1, 2, '.', ',') }}</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_estatal_dic1, 2, '.', ',') }}</b></td>
                     @endif
                     @if($suma_federal_dic1 == 0)
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                     @else
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_federal_dic1, 2, '.', ',') }}</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_federal_dic1, 2, '.', ',') }}</b></td>
                     @endif
                     @if($suma_propios_dic1 == 0)
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                     @else
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>{{ number_format($suma_propios_dic1, 2, '.', ',') }}</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($suma_propios_dic1, 2, '.', ',') }}</b></td>
                     @endif
                     @if($total_suma_total_dic1 == 0)
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                     @else
-                        <td style="background: white; color: #0c0c0c; text-align: right;"><b>{{ number_format($total_suma_total_dic1, 2, '.', ',') }}</b></td>
+                        <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>{{ number_format($total_suma_total_dic1, 2, '.', ',') }}</b></td>
                     @endif
-                    <td style="background: white; color: #0c0c0c; text-align: right;"><b>-</b></td>
+                    <td class="tw:text-gray-800 tw:dark:text-white/90 tw:text-right"><b>-</b></td>
                 @endif
 
 
@@ -1458,6 +1426,7 @@
             </tr>
 
         </table>
+</div>
             </div>
         </div>
 
@@ -1481,4 +1450,5 @@
         });
 
     </script>
+</div>
 @endsection

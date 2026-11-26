@@ -1,61 +1,38 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 
 @section('title', 'Anteproyectos en Proceso de Revisión')
 
+@include('partials.panel.recursos_app', ['datatables' => true])
 @section('content')
+<div class="tw-pantalla">
 
-<div class="residencia-container">
+<div>
 
     {{-- =========================================================
          ENCABEZADO PRINCIPAL
     ========================================================== --}}
 
-    <div class="page-header-custom">
-
-        <div class="header-icon">
-            <span class="glyphicon glyphicon-search"></span>
-        </div>
-
-        <div class="header-info">
-
-            <h2>
-                Status de los Anteproyectos
-            </h2>
-
-            <p>
-                Seguimiento de anteproyectos en proceso de revisión
-            </p>
-
-            <span class="periodo-badge">
-
-                <span class="glyphicon glyphicon-calendar"></span>
-
-                Periodo {{ $nombre_periodo }}
-
-            </span>
-
-        </div>
-
-    </div>
+    <x-panel.encabezado titulo="Status de los Anteproyectos" :migas="['Residencia profesional' => null]"><x-slot:extra><x-panel.badge>Periodo {{ $nombre_periodo }}</x-panel.badge></x-slot:extra></x-panel.encabezado>
+    <p class="tw:mb-6 tw:text-sm tw:text-gray-500 tw:dark:text-gray-400">Seguimiento de anteproyectos en proceso de revisión</p>
 
 
     {{-- =========================================================
          SELECTOR DE CARRERA
     ========================================================== --}}
 
-    <div class="card-custom">
+    <div class="tw:mb-6 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
 
-        <div class="card-header-custom">
+        <div class="tw:flex tw:items-center tw:gap-3 tw:border-b tw:border-gray-100 tw:dark:border-gray-800 tw:px-5 tw:py-4">
 
-            <div class="card-header-icon">
+            <div class="tw:flex tw:size-10 tw:shrink-0 tw:items-center tw:justify-center tw:rounded-full tw:bg-brand-50 tw:text-brand-500">
 
-                <span class="glyphicon glyphicon-education"></span>
+                <span class="fa fa-graduation-cap"></span>
 
             </div>
 
             <div>
 
-                <h4>
+                <h4 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">
                     Selección de carrera
                 </h4>
 
@@ -68,29 +45,29 @@
         </div>
 
 
-        <div class="card-body-custom">
+        <div class="tw:p-5 tw:sm:p-6">
 
-            <div class="row">
+            <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
-                <div class="col-md-6 col-md-offset-3">
+                <div class="tw:w-full tw:lg:max-w-2xl tw:px-2">
 
-                    <div class="form-group">
+                    <div class="tw:mb-4">
 
                         <label for="carrera">
 
                             Carrera
 
-                            <span class="required">*</span>
+                            <span class="tw:text-red-600">*</span>
 
                         </label>
 
 
-                        <div class="select-wrapper">
+                        <div class="tw:relative tw:[&>.fa]:absolute tw:[&>.fa]:top-3.5 tw:[&>.fa]:left-3 tw:[&>.fa]:text-gray-400">
 
-                            <span class="glyphicon glyphicon-education"></span>
+                            <span class="fa fa-graduation-cap"></span>
 
                             <select
-                                class="form-control select-custom"
+                                class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:pl-10"
                                 id="carrera"
                                 name="carrera"
                                 required>
@@ -139,17 +116,17 @@
              TARJETAS DE RESUMEN
         ====================================================== --}}
 
-        <div class="row resumen-row">
+        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4 tw:mb-6">
 
             {{-- REVISIÓN --}}
 
-            <div class="col-md-4">
+            <div class="tw:w-full tw:lg:w-4/12 tw:px-2">
 
-                <div class="resumen-card resumen-blue resumen-active-blue">
+                <div class="tw:flex tw:items-center tw:gap-3 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03] tw:p-4 tw:[&_span]:block tw:[&_span]:text-xs tw:[&_span]:text-gray-500 tw:[&_.fa]:text-brand-500 tw:border-brand-300">
 
-                    <div class="resumen-icon">
+                    <div class="tw:flex tw:size-10 tw:shrink-0 tw:items-center tw:justify-center tw:rounded-full tw:text-white">
 
-                        <span class="glyphicon glyphicon-search"></span>
+                        <span class="fa fa-search"></span>
 
                     </div>
 
@@ -172,13 +149,13 @@
 
             {{-- MODIFICACIÓN --}}
 
-            <div class="col-md-4">
+            <div class="tw:w-full tw:lg:w-4/12 tw:px-2">
 
-                <div class="resumen-card resumen-orange">
+                <div class="tw:flex tw:items-center tw:gap-3 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03] tw:p-4 tw:[&_span]:block tw:[&_span]:text-xs tw:[&_span]:text-gray-500 tw:[&_.fa]:text-amber-500">
 
-                    <div class="resumen-icon">
+                    <div class="tw:flex tw:size-10 tw:shrink-0 tw:items-center tw:justify-center tw:rounded-full tw:text-white">
 
-                        <span class="glyphicon glyphicon-edit"></span>
+                        <span class="fa fa-pencil-square-o"></span>
 
                     </div>
 
@@ -201,13 +178,13 @@
 
             {{-- AUTORIZADOS --}}
 
-            <div class="col-md-4">
+            <div class="tw:w-full tw:lg:w-4/12 tw:px-2">
 
-                <div class="resumen-card resumen-green">
+                <div class="tw:flex tw:items-center tw:gap-3 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03] tw:p-4 tw:[&_span]:block tw:[&_span]:text-xs tw:[&_span]:text-gray-500 tw:[&_.fa]:text-green-600">
 
-                    <div class="resumen-icon">
+                    <div class="tw:flex tw:size-10 tw:shrink-0 tw:items-center tw:justify-center tw:rounded-full tw:text-white">
 
-                        <span class="glyphicon glyphicon-ok"></span>
+                        <span class="fa fa-check"></span>
 
                     </div>
 
@@ -234,13 +211,13 @@
              NAVEGACIÓN DE ESTADOS
         ====================================================== --}}
 
-        <div class="tabs-container">
+        <div>
 
-            <div class="tabs-header">
+            <div class="tw:mb-2">
 
-                <div class="tabs-title">
+                <div class="tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">
 
-                    <span class="glyphicon glyphicon-tasks"></span>
+                    <span class="fa fa-tasks"></span>
 
                     Seguimiento de anteproyectos
 
@@ -249,7 +226,7 @@
             </div>
 
 
-            <ul class="nav nav-tabs tabs-custom">
+            <ul class="tw-pestanas tw:mb-6 tw:flex tw:flex-wrap tw:gap-2 tw:border-b tw:border-gray-200 tw:dark:border-gray-800">
 
 
                 {{-- =================================================
@@ -260,13 +237,13 @@
 
                     <a href="#">
 
-                        <span class="tab-icon tab-blue">
+                        <span class="tw:mr-2 tw:inline-flex tw:size-8 tw:items-center tw:justify-center tw:rounded-full tw:bg-brand-50 tw:text-brand-500">
 
-                            <span class="glyphicon glyphicon-search"></span>
+                            <span class="fa fa-search"></span>
 
                         </span>
 
-                        <span class="tab-content-text">
+                        <span class="tw:inline-block tw:text-left tw:[&_strong]:block tw:[&_small]:text-gray-500">
 
                             <strong>
                                 En revisión
@@ -292,13 +269,13 @@
                     <a
                         href="{{ url('/residencia/proceso_mod_anteproyecto/'.$id_carrera) }}">
 
-                        <span class="tab-icon tab-orange">
+                        <span class="tw:mr-2 tw:inline-flex tw:size-8 tw:items-center tw:justify-center tw:rounded-full tw:bg-amber-50 tw:text-amber-600">
 
-                            <span class="glyphicon glyphicon-edit"></span>
+                            <span class="fa fa-pencil-square-o"></span>
 
                         </span>
 
-                        <span class="tab-content-text">
+                        <span class="tw:inline-block tw:text-left tw:[&_strong]:block tw:[&_small]:text-gray-500">
 
                             <strong>
                                 En modificación
@@ -324,13 +301,13 @@
                     <a
                         href="{{ url('/residencia/ver_estados_alumnos/'.$id_carrera) }}">
 
-                        <span class="tab-icon tab-green">
+                        <span class="tw:mr-2 tw:inline-flex tw:size-8 tw:items-center tw:justify-center tw:rounded-full tw:bg-green-50 tw:text-green-600">
 
-                            <span class="glyphicon glyphicon-ok"></span>
+                            <span class="fa fa-check"></span>
 
                         </span>
 
-                        <span class="tab-content-text">
+                        <span class="tw:inline-block tw:text-left tw:[&_strong]:block tw:[&_small]:text-gray-500">
 
                             <strong>
                                 Autorizados
@@ -356,11 +333,11 @@
              INFORMACIÓN DEL ESTADO
         ====================================================== --}}
 
-        <div class="information-box information-blue">
+        <div class="tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:flex tw:items-start tw:gap-3 tw:border-sky-200 tw:bg-sky-50 tw:text-sky-800">
 
-            <div class="information-icon">
+            <div class="tw:text-xl">
 
-                <span class="glyphicon glyphicon-search"></span>
+                <span class="fa fa-search"></span>
 
             </div>
 
@@ -387,13 +364,13 @@
              TABLA
         ====================================================== --}}
 
-        <div class="table-card">
+        <div class="tw:mb-6 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
 
-            <div class="table-card-header">
+            <div class="tw:flex tw:flex-wrap tw:items-center tw:justify-between tw:gap-3 tw:border-b tw:border-gray-100 tw:dark:border-gray-800 tw:px-5 tw:py-4">
 
                 <div>
 
-                    <span class="glyphicon glyphicon-list-alt"></span>
+                    <span class="fa fa-list-alt"></span>
 
                     <strong>
                         Lista de anteproyectos en revisión
@@ -402,9 +379,9 @@
                 </div>
 
 
-                <span class="status-general status-general-blue">
+                <span class="status-general-blue tw:inline-flex tw:items-center tw:gap-1 tw:rounded-full tw:bg-green-50 tw:px-2.5 tw:py-0.5 tw:text-xs tw:font-medium tw:text-green-700">
 
-                    <span class="glyphicon glyphicon-search"></span>
+                    <span class="fa fa-search"></span>
 
                     En revisión
 
@@ -413,13 +390,13 @@
             </div>
 
 
-            <div class="table-card-body">
+            <div class="tw:p-5 tw:sm:p-6">
 
-                <div class="table-responsive">
+                <div class="tw:max-w-full tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800">
 
                     <table
                         id="table_autorizar"
-                        class="table table-bordered table-hover tabla-custom">
+                        class="tw-tabla tw-tabla-bordes">
 
                         <thead>
 
@@ -427,7 +404,7 @@
 
                             <th>
 
-                                <span class="glyphicon glyphicon-credit-card"></span>
+                                <span class="fa fa-credit-card"></span>
 
                                 No. cuenta
 
@@ -436,7 +413,7 @@
 
                             <th>
 
-                                <span class="glyphicon glyphicon-user"></span>
+                                <span class="fa fa-user"></span>
 
                                 Nombre del alumno
 
@@ -445,7 +422,7 @@
 
                             <th>
 
-                                <span class="glyphicon glyphicon-book"></span>
+                                <span class="fa fa-book"></span>
 
                                 Nombre del anteproyecto
 
@@ -454,7 +431,7 @@
 
                             <th>
 
-                                <span class="glyphicon glyphicon-info-sign"></span>
+                                <span class="fa fa-info-circle"></span>
 
                                 Estado
 
@@ -476,9 +453,9 @@
                                      CUENTA
                                 ========================================== --}}
 
-                                <td class="text-center">
+                                <td class="tw:text-center">
 
-                                    <span class="cuenta-badge">
+                                    <span class="tw:inline-flex tw:rounded-full tw:bg-brand-50 tw:px-2.5 tw:py-0.5 tw:font-medium tw:text-brand-500">
 
                                         {{ $anteproyecto->cuenta }}
 
@@ -493,11 +470,11 @@
 
                                 <td>
 
-                                    <div class="alumno-row">
+                                    <div class="tw:flex tw:items-center tw:gap-3 tw:[&_strong]:block tw:[&_small]:text-gray-500">
 
-                                        <div class="avatar">
+                                        <div class="tw:flex tw:size-10 tw:shrink-0 tw:items-center tw:justify-center tw:rounded-full tw:bg-brand-50 tw:text-brand-500">
 
-                                            <span class="glyphicon glyphicon-user"></span>
+                                            <span class="fa fa-user"></span>
 
                                         </div>
 
@@ -528,9 +505,9 @@
 
                                 <td>
 
-                                    <div class="proyecto-row">
+                                    <div class="tw:flex tw:items-start tw:gap-2">
 
-                                        <span class="glyphicon glyphicon-book"></span>
+                                        <span class="fa fa-book"></span>
 
                                         <span>
 
@@ -555,7 +532,7 @@
 
                                             <div class="estado-icon">
 
-                                                <span class="glyphicon glyphicon-search"></span>
+                                                <span class="fa fa-search"></span>
 
                                             </div>
 
@@ -583,7 +560,7 @@
 
                                             <div class="estado-icon">
 
-                                                <span class="glyphicon glyphicon-question-sign"></span>
+                                                <span class="fa fa-question-circle"></span>
 
                                             </div>
 
@@ -630,995 +607,6 @@
 {{-- =============================================================
      ESTILOS
 ============================================================= --}}
-
-<style>
-
-
-/* =============================================================
-   CONTENEDOR
-============================================================= */
-
-.residencia-container {
-    width: 100%;
-    max-width: 1500px;
-
-    margin: 30px auto;
-
-    padding: 25px;
-
-    background: #f5f7fa;
-
-    border-radius: 12px;
-
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-
-    min-height: auto;
-}
-
-
-/* =============================================================
-   ENCABEZADO
-============================================================= */
-
-.page-header-custom {
-
-    background: linear-gradient(
-        135deg,
-        #337ab7,
-        #245580
-    );
-
-    color: white;
-
-    border-radius: 10px;
-
-    padding: 25px 30px;
-
-    display: flex;
-
-    align-items: center;
-
-    margin-bottom: 25px;
-
-    box-shadow:
-        0 4px 15px rgba(0,0,0,.12);
-
-}
-
-
-.header-icon {
-
-    width: 70px;
-
-    height: 70px;
-
-    background: rgba(255,255,255,.15);
-
-    border-radius: 50%;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    font-size: 32px;
-
-    margin-right: 20px;
-
-}
-
-
-.header-info h2 {
-
-    margin: 0 0 5px 0;
-
-    font-weight: 600;
-
-}
-
-
-.header-info p {
-
-    margin: 0 0 10px 0;
-
-    opacity: .85;
-
-}
-
-
-.periodo-badge {
-
-    display: inline-block;
-
-    padding: 6px 12px;
-
-    border-radius: 20px;
-
-    background: rgba(255,255,255,.15);
-
-}
-
-
-/* =============================================================
-   CARD
-============================================================= */
-
-.card-custom {
-
-    background: white;
-
-    border-radius: 8px;
-
-    margin-bottom: 25px;
-
-    box-shadow:
-        0 2px 10px rgba(0,0,0,.06);
-
-}
-
-
-.card-header-custom {
-
-    padding: 17px 20px;
-
-    border-bottom: 1px solid #eee;
-
-    display: flex;
-
-    align-items: center;
-
-}
-
-
-.card-header-icon {
-
-    width: 42px;
-
-    height: 42px;
-
-    background: #eaf3fb;
-
-    color: #337ab7;
-
-    border-radius: 8px;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    font-size: 18px;
-
-    margin-right: 12px;
-
-}
-
-
-.card-header-custom h4 {
-
-    margin: 0 0 3px 0;
-
-}
-
-
-.card-header-custom small {
-
-    color: #999;
-
-}
-
-
-.card-body-custom {
-
-    padding: 25px;
-
-}
-
-
-/* =============================================================
-   SELECT
-============================================================= */
-
-.form-group label {
-
-    font-weight: 600;
-
-    color: #444;
-
-}
-
-
-.required {
-
-    color: #d9534f;
-
-    font-size: 18px;
-
-}
-
-
-.select-wrapper {
-
-    position: relative;
-
-}
-
-
-.select-wrapper > .glyphicon {
-
-    position: absolute;
-
-    left: 12px;
-
-    top: 13px;
-
-    color: #337ab7;
-
-    z-index: 2;
-
-}
-
-
-.select-custom {
-
-    padding-left: 35px;
-
-    height: 44px;
-
-    border-radius: 6px;
-
-}
-
-
-/* =============================================================
-   RESUMEN
-============================================================= */
-
-.resumen-row {
-
-    margin-bottom: 25px;
-
-}
-
-
-.resumen-card {
-
-    background: white;
-
-    border-radius: 8px;
-
-    padding: 15px 18px;
-
-    display: flex;
-
-    align-items: center;
-
-    box-shadow:
-        0 2px 8px rgba(0,0,0,.06);
-
-    border: 2px solid transparent;
-
-}
-
-
-.resumen-active-blue {
-
-    border-color: #337ab7;
-
-    box-shadow:
-        0 4px 15px rgba(51,122,183,.20);
-
-}
-
-
-.resumen-icon {
-
-    width: 45px;
-
-    height: 45px;
-
-    border-radius: 50%;
-
-    color: white;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    font-size: 18px;
-
-    margin-right: 12px;
-
-}
-
-
-.resumen-card span {
-
-    display: block;
-
-    font-size: 10px;
-
-    color: #999;
-
-    letter-spacing: 1px;
-
-}
-
-
-.resumen-card strong {
-
-    font-size: 15px;
-
-}
-
-
-.resumen-blue .resumen-icon {
-
-    background: #337ab7;
-
-}
-
-
-.resumen-orange .resumen-icon {
-
-    background: #f0ad4e;
-
-}
-
-
-.resumen-green .resumen-icon {
-
-    background: #5cb85c;
-
-}
-
-
-/* =============================================================
-   TABS
-============================================================= */
-
-.tabs-container {
-
-    background: white;
-
-    border-radius: 8px 8px 0 0;
-
-    box-shadow:
-        0 2px 8px rgba(0,0,0,.05);
-
-}
-
-
-.tabs-header {
-
-    padding: 15px 20px;
-
-    border-bottom: 1px solid #eee;
-
-}
-
-
-.tabs-title {
-
-    font-weight: 600;
-
-    color: #444;
-
-}
-
-
-.tabs-title .glyphicon {
-
-    color: #337ab7;
-
-    margin-right: 8px;
-
-}
-
-
-.tabs-custom {
-
-    border: 0;
-
-    display: flex;
-
-}
-
-
-.tabs-custom > li {
-
-    flex: 1;
-
-    text-align: center;
-
-}
-
-
-.tabs-custom > li > a {
-
-    border: 0 !important;
-
-    border-bottom: 3px solid transparent !important;
-
-    margin: 0;
-
-    padding: 15px 10px;
-
-    color: #777;
-
-    transition: all .2s ease;
-
-}
-
-
-.tabs-custom > li > a:hover {
-
-    background: #f8fafc;
-
-    color: #337ab7;
-
-}
-
-
-.tabs-custom > li.active > a {
-
-    color: #337ab7;
-
-    background: white;
-
-    border-bottom-color: #337ab7 !important;
-
-}
-
-
-/* =============================================================
-   ICONOS TABS
-============================================================= */
-
-.tab-icon {
-
-    width: 38px;
-
-    height: 38px;
-
-    border-radius: 50%;
-
-    display: inline-flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    color: white;
-
-    margin-right: 8px;
-
-}
-
-
-.tab-blue {
-
-    background: #337ab7;
-
-}
-
-
-.tab-orange {
-
-    background: #f0ad4e;
-
-}
-
-
-.tab-green {
-
-    background: #5cb85c;
-
-}
-
-
-.tab-content-text {
-
-    display: inline-block;
-
-    text-align: left;
-
-    vertical-align: middle;
-
-}
-
-
-.tab-content-text strong {
-
-    display: block;
-
-}
-
-
-.tab-content-text small {
-
-    color: #999;
-
-}
-
-
-/* =============================================================
-   INFORMACIÓN
-============================================================= */
-
-.information-box {
-
-    background: #eef7ff;
-
-    border-left: 4px solid #337ab7;
-
-    padding: 15px 18px;
-
-    margin: 20px 0;
-
-    border-radius: 5px;
-
-    display: flex;
-
-    align-items: flex-start;
-
-}
-
-
-.information-blue {
-
-    background: #eef7ff;
-
-    border-left-color: #337ab7;
-
-}
-
-
-.information-icon {
-
-    font-size: 22px;
-
-    color: #337ab7;
-
-    margin-right: 12px;
-
-}
-
-
-.information-box p {
-
-    margin: 4px 0 0 0;
-
-    color: #666;
-
-}
-
-
-/* =============================================================
-   TABLA
-============================================================= */
-
-.table-card {
-
-    background: white;
-
-    border-radius: 8px;
-
-    overflow: hidden;
-
-    box-shadow:
-        0 2px 10px rgba(0,0,0,.07);
-
-}
-
-
-.table-card-header {
-
-    background: #fff;
-
-    padding: 17px 20px;
-
-    border-bottom: 1px solid #eee;
-
-    display: flex;
-
-    justify-content: space-between;
-
-    align-items: center;
-
-}
-
-
-.table-card-header .glyphicon {
-
-    color: #337ab7;
-
-    margin-right: 8px;
-
-}
-
-
-.status-general {
-
-    padding: 6px 12px;
-
-    border-radius: 20px;
-
-    font-size: 12px;
-
-}
-
-
-.status-general-blue {
-
-    background: #eaf3fb;
-
-    color: #337ab7;
-
-}
-
-
-.table-card-body {
-
-    padding: 20px;
-
-}
-
-
-/* =============================================================
-   TABLA
-============================================================= */
-
-.tabla-custom {
-
-    margin-bottom: 0;
-
-}
-
-
-.tabla-custom thead th {
-
-    background: #337ab7;
-
-    color: white;
-
-    text-align: center;
-
-    vertical-align: middle;
-
-    border-color: #286090 !important;
-
-    padding: 13px 8px;
-
-    font-size: 12px;
-
-}
-
-
-.tabla-custom thead th .glyphicon {
-
-    margin-right: 4px;
-
-}
-
-
-.tabla-custom tbody td {
-
-    vertical-align: middle;
-
-    padding: 13px 10px;
-
-}
-
-
-.tabla-custom tbody tr {
-
-    transition: all .2s;
-
-}
-
-
-.tabla-custom tbody tr:hover {
-
-    background-color: #f4f9fd;
-
-}
-
-
-/* =============================================================
-   CUENTA
-============================================================= */
-
-.cuenta-badge {
-
-    display: inline-block;
-
-    background: #eef5fb;
-
-    color: #337ab7;
-
-    padding: 7px 10px;
-
-    border-radius: 15px;
-
-    font-weight: 600;
-
-}
-
-
-/* =============================================================
-   ALUMNO
-============================================================= */
-
-.alumno-row {
-
-    display: flex;
-
-    align-items: center;
-
-}
-
-
-.avatar {
-
-    width: 40px;
-
-    height: 40px;
-
-    min-width: 40px;
-
-    border-radius: 50%;
-
-    background: #eaf3fb;
-
-    color: #337ab7;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    margin-right: 10px;
-
-}
-
-
-.alumno-row strong {
-
-    display: block;
-
-    color: #333;
-
-}
-
-
-.alumno-row small {
-
-    color: #999;
-
-}
-
-
-/* =============================================================
-   PROYECTO
-============================================================= */
-
-.proyecto-row {
-
-    display: flex;
-
-    align-items: flex-start;
-
-    line-height: 1.5;
-
-    color: #444;
-
-}
-
-
-.proyecto-row .glyphicon {
-
-    color: #337ab7;
-
-    margin-right: 8px;
-
-    margin-top: 3px;
-
-}
-
-
-/* =============================================================
-   ESTADO
-============================================================= */
-
-.estado-card {
-
-    display: flex;
-
-    align-items: center;
-
-    text-align: left;
-
-    padding: 10px;
-
-    border-radius: 6px;
-
-}
-
-
-.estado-icon {
-
-    width: 38px;
-
-    height: 38px;
-
-    min-width: 38px;
-
-    border-radius: 50%;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    color: white;
-
-    margin-right: 10px;
-
-}
-
-
-.estado-card strong {
-
-    display: block;
-
-    font-size: 11px;
-
-    margin-bottom: 3px;
-
-}
-
-
-.estado-card small {
-
-    display: block;
-
-    line-height: 1.4;
-
-    color: #666;
-
-}
-
-
-.estado-info {
-
-    background: #eef7ff;
-
-    border: 1px solid #c8e2f5;
-
-}
-
-
-.estado-info .estado-icon {
-
-    background: #337ab7;
-
-}
-
-
-.estado-info strong {
-
-    color: #286090;
-
-}
-
-
-.estado-default {
-
-    background: #f5f5f5;
-
-    border: 1px solid #ddd;
-
-}
-
-
-.estado-default .estado-icon {
-
-    background: #777;
-
-}
-
-
-/* =============================================================
-   RESPONSIVE
-============================================================= */
-
-@media(max-width: 768px) {
-
-
-    .residencia-container {
-
-        padding: 10px;
-
-    }
-
-
-    .page-header-custom {
-
-        padding: 18px;
-
-    }
-
-
-    .header-icon {
-
-        width: 50px;
-
-        height: 50px;
-
-        font-size: 22px;
-
-    }
-
-
-    .header-info h2 {
-
-        font-size: 20px;
-
-    }
-
-
-    .resumen-card {
-
-        margin-bottom: 10px;
-
-    }
-
-
-    .tabs-custom {
-
-        display: block;
-
-    }
-
-
-    .tabs-custom > li {
-
-        display: block;
-
-    }
-
-
-    .tabs-custom > li > a {
-
-        text-align: left;
-
-    }
-
-
-    .table-card-body {
-
-        padding: 10px;
-
-    }
-
-
-    .estado-card {
-
-        min-width: 220px;
-
-    }
-
-}
-
-</style>
-
 
 {{-- =============================================================
      JAVASCRIPT
@@ -1698,4 +686,5 @@ $(document).ready(function () {
 
 </script>
 
+</div>
 @endsection

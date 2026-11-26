@@ -1,27 +1,25 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 @section('title', 'Registrar Anteproyecto')
+@include('partials.panel.recursos_app')
 @section('content')
+<div class="tw-pantalla">
 
-<div class="container-fluid">
+<div class="tw:w-full">
 {{-- =========================================================
 MENSAJE DE ANTEPROYECTO ACEPTADO
 ========================================================== --}}
 @if($modificar == 3)
 
-<div class="row"> <div class="col-md-10 col-md-offset-1">
-  <div class="alert alert-success text-center" style="
-        border-radius:8px;
-        margin-top:15px;
-        border-left:5px solid #5cb85c;
-     ">
-    <span class="glyphicon glyphicon-ok-circle" style="font-size:20px;"></span>
+<div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4"> <div class="tw:w-full tw:px-2">
+  <x-panel.alerta tipo="exito" class="tw:mb-4">
+    <span class="fa fa-check-circle-o tw:text-lg"></span>
 
     <strong>Tu anteproyecto fue aceptado. </strong>
     <br>
 
    Registra tu empresa y ya puedes imprimir tu dictamen de anteproyecto.
 
-  </div>
+  </x-panel.alerta>
 
 </div>
 
@@ -33,16 +31,12 @@ MENSAJE DE PERMISO ESPECIAL DEL DEPARTAMENTO
 ========================================================== --}}
 @if($modificar == 4)
 
-<div class="row">
-<div class="col-md-10 col-md-offset-1">
+<div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+<div class="tw:w-full tw:px-2">
 
-  <div class="alert alert-warning text-center" style="
-        border-radius:8px;
-        margin-top:15px;
-        border-left:5px solid #f0ad4e;
-     ">
+  <x-panel.alerta tipo="advertencia" class="tw:mb-4">
 
-    <span class="glyphicon glyphicon-pencil" style="font-size:20px;"></span>
+    <span class="fa fa-pencil tw:text-lg"></span>
 
     <strong>El Departamento de Servicio Social y Residencia Profesional te ha otorgado permiso para modificar tu anteproyecto.</strong>
 
@@ -51,7 +45,7 @@ MENSAJE DE PERMISO ESPECIAL DEL DEPARTAMENTO
     Realiza las correcciones necesarias y presiona
     <strong>Guardar</strong> en cada apartado.
 
-  </div>
+  </x-panel.alerta>
 
 </div>
 
@@ -62,52 +56,35 @@ MENSAJE DE PERMISO ESPECIAL DEL DEPARTAMENTO
 CONTENEDOR PRINCIPAL
 ========================================================== --}}
 
-<div class="row">
-<div class="col-md-10 col-md-offset-1 col-xs-12">
+<x-panel.encabezado titulo="Corregir Portada" :migas="['Residencia profesional' => null]" />
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+<div class="tw:w-full tw:px-2">
 
-  <div class="panel panel-info" style="
-        border-radius:8px;
-        box-shadow:0 2px 8px rgba(0,0,0,.08);
-     ">
+  <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
 
     {{-- =================================================
             ENCABEZADO
         ================================================== --}}
 
-    <div class="panel-heading" style="
-            text-align:center;
-            font-size:18px;
-            font-weight:bold;
-         ">
+    
 
-      <span class="glyphicon glyphicon-edit"></span>
-
-      Corregir Portada
-
-    </div>
-
-    <div class="panel-body">
+    <div class="tw:p-5 tw:sm:p-6">
 
       {{-- =================================================
              NAVEGACIÓN
         ================================================== --}}
 
-      <div class="row">
+      <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
-        <div class="col-md-2 col-md-offset-5" style="text-align:center;">
+        <div class="tw:w-full tw:px-2 tw:text-center">
 
           <a href="{{url('/residencia/anteproyecto/corregir_objetivos')}}"
-             class="btn btn-link"
-             style="font-weight:bold;">
+             class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap"
+            >
 
-            <span class="glyphicon glyphicon-arrow-right"
-                  style="
-                    font-size:45px;
-                    color:#458acc;
-                  ">
+            <span class="fa fa-arrow-right"
+                 >
             </span>
-
-            <br>
 
             Siguiente
 
@@ -117,36 +94,32 @@ CONTENEDOR PRINCIPAL
 
       </div>
 
-      <br>
 
       {{-- =================================================
              CONTENIDO
         ================================================== --}}
 
-      <div class="row">
+      <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
         {{-- =================================================
              FORMULARIO
         ================================================== --}}
 
-        <div class="col-md-7">
+        <div class="tw:w-full tw:lg:w-7/12 tw:px-2">
 
-          <div class="panel panel-primary" style="
-                border-radius:8px;
-                box-shadow:0 2px 6px rgba(0,0,0,.08);
-             ">
+          <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
 
-            <div class="panel-heading text-center">
+            <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:dark:border-gray-800 tw:bg-gray-50 tw:dark:bg-gray-900 tw:px-5 tw:py-4 tw:text-center">
 
-              <span class="glyphicon glyphicon-list-alt"></span>
+              <span class="fa fa-list-alt"></span>
 
               Datos de la Portada
 
             </div>
 
-            <div class="panel-body">
+            <div class="tw:p-5 tw:sm:p-6">
 
-              <form class="form"
+              <form
                     role="form"
                     action="{{url('/residencia/guardar_correciones_portada/')}}"
                     method="POST"
@@ -158,22 +131,22 @@ CONTENEDOR PRINCIPAL
                      ALUMNO
                 ================================== --}}
 
-                <div class="row">
+                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
-                  <div class="col-md-12">
+                  <div class="tw:w-full tw:lg:w-full tw:px-2">
 
-                    <div class="form-group">
+                    <div class="tw:mb-4">
 
                       <label>
 
-                        <span class="glyphicon glyphicon-user"></span>
+                        <span class="fa fa-user"></span>
 
                         NOMBRE DEL RESIDENTE
 
                       </label>
 
-                      <div class="well well-sm"
-                           style="margin-bottom:15px;">
+                      <div class="well-sm tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-gray-50 tw:dark:bg-gray-900 tw:p-5"
+                          >
 
                         <strong>
 
@@ -195,15 +168,15 @@ CONTENEDOR PRINCIPAL
                      TIPO DE PROYECTO
                 ================================== --}}
 
-                <div class="row">
+                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
-                  <div class="col-md-8">
+                  <div class="tw:w-full tw:lg:w-8/12 tw:px-2">
 
-                    <div class="form-group">
+                    <div class="tw:mb-4">
 
                       <label for="tipo_proy">
 
-                        <span class="glyphicon glyphicon-folder-open"></span>
+                        <span class="fa fa-folder-open"></span>
 
                         PROYECTO:
 
@@ -214,7 +187,7 @@ CONTENEDOR PRINCIPAL
                              name="anteproyecto"
                              value="{{$portada->id_anteproyecto}}">
 
-                      <select class="form-control"
+                      <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"
                               id="tipo_proy"
                               name="tipo_proy"
                               required>
@@ -253,30 +226,30 @@ CONTENEDOR PRINCIPAL
                      NOMBRE DEL PROYECTO
                 ================================== --}}
 
-                <div class="row">
+                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
-                  <div class="col-md-12">
+                  <div class="tw:w-full tw:lg:w-full tw:px-2">
 
-                    <div class="form-group">
+                    <div class="tw:mb-4">
 
                       <label for="nombre_proyecto">
 
-                        <span class="glyphicon glyphicon-pencil"></span>
+                        <span class="fa fa-pencil"></span>
 
                         NOMBRE DEL PROYECTO
 
                       </label>
 
                       <textarea
-                        class="form-control"
-                        style="text-transform:uppercase;"
+                        class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:uppercase"
+                       
                         id="nombre_proyecto"
                         name="nombre_proyecto"
                         rows="4"
                         placeholder="Ingresa el nombre del proyecto"
                         required>{{ $portada->nom_proyecto }}</textarea>
 
-                      <small class="text-muted">
+                      <small class="tw:text-gray-500 tw:dark:text-gray-400">
 
                         No se aceptan comillas ni caracteres especiales.
 
@@ -292,9 +265,9 @@ CONTENEDOR PRINCIPAL
                      BOTÓN GUARDAR
                 ================================== --}}
 
-                <div class="row">
+                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
-                  <div class="col-md-12 text-center">
+                  <div class="tw:w-full tw:lg:w-full tw:text-center tw:px-2">
 
                     @if($portada->estado_aceptado_portada == 1 && $modificar != 4)
 
@@ -303,14 +276,11 @@ CONTENEDOR PRINCIPAL
                       <button
                         id="guardar_solicitud"
                         type="button"
-                        class="btn btn-success"
+                        class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-green-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-green-700 tw:disabled:bg-green-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap"
                         disabled
-                        style="
-                          min-width:180px;
-                          border-radius:5px;
-                        ">
+                       >
 
-                        <span class="glyphicon glyphicon-ok"></span>
+                        <span class="fa fa-check"></span>
 
                         Portada autorizada
 
@@ -323,13 +293,10 @@ CONTENEDOR PRINCIPAL
                       <button
                         id="guardar_solicitud"
                         type="button"
-                        class="btn btn-primary"
-                        style="
-                          min-width:150px;
-                          border-radius:5px;
-                        ">
+                        class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap"
+                       >
 
-                        <span class="glyphicon glyphicon-floppy-disk"></span>
+                        <span class="fa fa-floppy-o"></span>
 
                         Guardar
 
@@ -353,23 +320,20 @@ CONTENEDOR PRINCIPAL
              COMENTARIOS
         ================================================== --}}
 
-        <div class="col-md-5">
+        <div class="tw:w-full tw:lg:w-5/12 tw:px-2">
 
-          <div class="panel panel-default" style="
-                border-radius:8px;
-                box-shadow:0 2px 6px rgba(0,0,0,.08);
-             ">
+          <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
 
-            <div class="panel-heading text-center"
-                 style="font-weight:bold;">
+            <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:dark:border-gray-800 tw:bg-gray-50 tw:dark:bg-gray-900 tw:px-5 tw:py-4 tw:text-center"
+                >
 
-              <span class="glyphicon glyphicon-comment"></span>
+              <span class="fa fa-comment"></span>
 
               COMENTARIOS DE LOS REVISORES
 
             </div>
 
-            <div class="panel-body">
+            <div class="tw:p-5 tw:sm:p-6">
 
               {{-- =================================
                    MENSAJE DE ESTADO
@@ -377,9 +341,9 @@ CONTENEDOR PRINCIPAL
 
               @if($portada->estado_aceptado_portada == 1 && $modificar != 4)
 
-                <div class="alert alert-success text-center">
+                <x-panel.alerta tipo="exito" class="tw:mb-4">
 
-                  <span class="glyphicon glyphicon-ok-circle"></span>
+                  <span class="fa fa-check-circle-o"></span>
 
                   <strong>
 
@@ -387,13 +351,13 @@ CONTENEDOR PRINCIPAL
 
                   </strong>
 
-                </div>
+                </x-panel.alerta>
 
               @elseif($modificar == 4)
 
-                <div class="alert alert-warning text-center">
+                <x-panel.alerta tipo="advertencia" class="tw:mb-4">
 
-                  <span class="glyphicon glyphicon-pencil"></span>
+                  <span class="fa fa-pencil"></span>
 
                   <strong>
 
@@ -407,13 +371,13 @@ CONTENEDOR PRINCIPAL
                   Realiza las correcciones necesarias y presiona
                   <strong>Guardar</strong>.
 
-                </div>
+                </x-panel.alerta>
 
               @else
 
-                <div class="alert alert-danger text-center">
+                <x-panel.alerta tipo="error" class="tw:mb-4">
 
-                  <span class="glyphicon glyphicon-warning-sign"></span>
+                  <span class="fa fa-exclamation-triangle"></span>
 
                   <strong>
 
@@ -422,7 +386,7 @@ CONTENEDOR PRINCIPAL
 
                   </strong>
 
-                </div>
+                </x-panel.alerta>
 
               @endif
 
@@ -436,9 +400,9 @@ CONTENEDOR PRINCIPAL
 
                 @if($comentario->id_estado_evaluacion == 1)
 
-                  <div class="panel panel-success">
+                  <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
 
-                    <div class="panel-heading text-center">
+                    <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:dark:border-gray-800 tw:bg-gray-50 tw:dark:bg-gray-900 tw:px-5 tw:py-4 tw:text-center">
 
                       <strong>
                         NOMBRE DEL DOCENTE:
@@ -456,7 +420,7 @@ CONTENEDOR PRINCIPAL
 
                     </div>
 
-                    <div class="panel-body">
+                    <div class="tw:p-5 tw:sm:p-6">
 
                       {{$comentario->comentario}}
 
@@ -468,9 +432,9 @@ CONTENEDOR PRINCIPAL
 
                 @elseif($comentario->id_estado_evaluacion == 2)
 
-                  <div class="panel panel-warning">
+                  <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
 
-                    <div class="panel-heading text-center">
+                    <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:dark:border-gray-800 tw:bg-gray-50 tw:dark:bg-gray-900 tw:px-5 tw:py-4 tw:text-center">
 
                       <strong>
                         NOMBRE DEL DOCENTE:
@@ -488,7 +452,7 @@ CONTENEDOR PRINCIPAL
 
                     </div>
 
-                    <div class="panel-body">
+                    <div class="tw:p-5 tw:sm:p-6">
 
                       {{$comentario->comentario}}
 
@@ -500,9 +464,9 @@ CONTENEDOR PRINCIPAL
 
                 @elseif($comentario->id_estado_evaluacion == 3)
 
-                  <div class="panel panel-danger">
+                  <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
 
-                    <div class="panel-heading text-center">
+                    <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:dark:border-gray-800 tw:bg-gray-50 tw:dark:bg-gray-900 tw:px-5 tw:py-4 tw:text-center">
 
                       <strong>
                         NOMBRE DEL DOCENTE:
@@ -520,7 +484,7 @@ CONTENEDOR PRINCIPAL
 
                     </div>
 
-                    <div class="panel-body">
+                    <div class="tw:p-5 tw:sm:p-6">
 
                       {{$comentario->comentario}}
 
@@ -551,12 +515,11 @@ CONTENEDOR PRINCIPAL
 MODAL VERIFICAR
 ============================================================= --}}
 
-<div id="modal_verificar" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog"> <div class="modal-dialog modal-sm" role="document">
-<div class="modal-content">
+<x-panel.modal id="modal_verificar" tamano="sm" sin-relleno>
 
-  <div class="modal-body">
+  <div class="tw-modal-cuerpo tw:pt-14">
 
-    <p class="text-center">
+    <p class="tw:text-center">
 
       Primero se debe llenar el apartado de portada.
 
@@ -564,10 +527,10 @@ MODAL VERIFICAR
 
   </div>
 
-  <div class="modal-footer">
+  <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
 
     <button type="button"
-            class="btn btn-default"
+            class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap"
             data-dismiss="modal">
 
       Cerrar
@@ -576,15 +539,12 @@ MODAL VERIFICAR
 
   </div>
 
-</div>
-
-</div> </div>
+</x-panel.modal>
 {{-- =============================================================
 MODAL ENVIAR ANTEPROYECTO
 ============================================================= --}}
 
-<div id="modal_enviar" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog"> <div class="modal-dialog modal-sm" role="document">
-<div class="modal-content">
+<x-panel.modal id="modal_enviar" tamano="sm" sin-relleno>
 
   <form
     action="{{url('/residencia/enviar_anteproyecto_corregido/')}}"
@@ -593,7 +553,7 @@ MODAL ENVIAR ANTEPROYECTO
 
     {{ csrf_field() }}
 
-    <div class="modal-body">
+    <div class="tw-modal-cuerpo tw:pt-14">
 
       <p>
 
@@ -608,10 +568,10 @@ MODAL ENVIAR ANTEPROYECTO
 
     </div>
 
-    <div class="modal-footer">
+    <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
 
       <button type="button"
-              class="btn btn-default"
+              class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap"
               data-dismiss="modal">
 
         Cancelar
@@ -621,16 +581,14 @@ MODAL ENVIAR ANTEPROYECTO
       <input
         id="confirma_elimina_oficio"
         type="submit"
-        class="btn btn-danger"
+        class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-red-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-red-700 tw:disabled:bg-red-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap"
         value="Aceptar">
 
     </div>
 
   </form>
 
-</div>
-
-</div> </div>
+</x-panel.modal>
 {{-- =============================================================
 JAVASCRIPT
 ============================================================= --}}
@@ -719,4 +677,5 @@ $('#modal_enviar').modal('show');
 });
 
 </script>
+</div>
 @endsection

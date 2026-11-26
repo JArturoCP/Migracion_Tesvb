@@ -57,7 +57,6 @@
 @source "../views/plantilla";
 @source "../views/reticulas";
 @source "../views/docentes";
-@source "../views/comision_oficio/solicitud_oficio.blade.php";
 @source "../views/incidencias/agregar.blade.php";
 @source "../views/titulacion/jefe_titulacion/formulario_datos_titulado/reg_datos_alumno.blade.php";
 @source "../views/personal.blade.php";
@@ -76,6 +75,23 @@
 @source "../views/panel";
 @source "../views/examen_egel";
 @source "../views/auditorias";
+@source "../views/residencia";
+@source "../views/duales";
+@source "../views/servicio_social";
+@source "../views/laboratorios";
+@source "../views/departamento_finanzas";
+@source "../views/RMateriales";
+@source "../views/comision_oficio";
+@source "../views/prestamo";
+@source "../views/informe_paa";
+@source "../views/plantilla_personal";
+@source "../views/servicios_escolares";
+@source "../views/centro_computo";
+@source "../views/jefe_carrera";
+@source "../views/reportes_profesores";
+@source "../views/computo";
+@source "../views/constancia_adeudo";
+@source "../views/prorroga";
 @source "../views/vendor/pagination/panel.blade.php";
 @source "../js/panel";
 

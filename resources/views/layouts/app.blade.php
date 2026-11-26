@@ -83,6 +83,9 @@
 
 @include('partials.panel.fechas')
     @include('partials.panel.tema_estudiantil')
+    {{-- Indicador de carga al cambiar de pantalla o enviar formularios (resources/js/carga.js). --}}
+    <meta name="tesvb-logo" content="{{ asset(config('tesvb.logo')) }}">
+    @vite('resources/js/carga.js')
 </head>
 
 <body class="@yield('body_class')">

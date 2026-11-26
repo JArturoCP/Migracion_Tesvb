@@ -1,26 +1,17 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 @section('title', 'S.Escolares')
+@include('partials.panel.recursos_app')
 @section('content')
-    <div class="row">
-        <div class="col-md-10 col-xs-10 col-md-offset-1">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h3 class="panel-title text-center">CONCENTRADO DE CALIFICACIONES <br> {{$nombre_carrera}}</h3>
-                    <h5 class="panel-title text-center">Semestres</h5>
-                </div>
-
-            </div>
-        </div>
-    </div>
-    <div class="row">
+<div class="tw-pantalla">
+    <x-panel.encabezado :titulo="'Concentrado de calificaciones '.$nombre_carrera.' Semestres'" :migas="['Servicios escolares' => null]" />
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
         @foreach($grupos as $grupo)
-        <div class="col-md-4 col-md-offset-1">
-            <div class="panel panel-success">
-                <div class="panel-heading" style="text-align: center"><h3>{{$grupo->id_semestre}}0{{$grupo->grupo}}</h3><br><button type="button" class="btn btn-info" onclick="window.open('{{ url('/servicios_escolares/concentrado_calificaciones/materias/'.$grupo->id_carrera."/".$grupo->id_semestre."/".$grupo->grupo ) }}')">Mostrar materias</button></div>
-            </div>
+        <div class="tw:w-full tw:px-2">
+            <x-panel.alerta tipo="exito" class="tw:mb-4"><h3>{{$grupo->id_semestre}}0{{$grupo->grupo}}</h3><br><button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" onclick="window.open('{{ url('/servicios_escolares/concentrado_calificaciones/materias/'.$grupo->id_carrera."/".$grupo->id_semestre."/".$grupo->grupo ) }}')">Mostrar materias</button></x-panel.alerta>
         </div>
         @endforeach
 
     </div>
 
+</div>
 @endsection

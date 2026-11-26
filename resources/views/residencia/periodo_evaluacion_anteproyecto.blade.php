@@ -1,284 +1,17 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 @section('title', 'Periodo de anteproyectos')
 
+@include('partials.panel.recursos_app', ['datatables' => true, 'datepicker' => true])
 @section('content')
+<div class="tw-pantalla">
 
-<style>
-  /* ========================================================= */
-  /* ESTILO GENERAL */
-  /* ========================================================= */
-  .periodo-panel {
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  }
-
-  /* ========================================================= */
-  /* BOTONES DEL PERIODO ACTIVO */
-  /* ========================================================= */
-  .botones-periodo {
-    text-align: center;
-    margin-top: 20px;
-  }
-
-  .botones-periodo .btn {
-    margin: 0 4px;
-  }
-
-  /* ========================================================= */
-  /* MODAL EDITAR */
-  /* ========================================================= */
-  .modal-periodo {
-    border: none;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
-  }
-
-  /* ========================================================= */
-  /* ENCABEZADO DEL MODAL */
-  /* ========================================================= */
-  .modal-periodo-header {
-    background: linear-gradient(135deg,
-        #337ab7,
-        #286090);
-    color: white;
-    border-bottom: none;
-    padding: 20px 25px;
-  }
-
-  .modal-title-container {
-    display: flex;
-    align-items: center;
-  }
-
-  .modal-icon {
-    width: 50px;
-    height: 50px;
-    background: rgba(255, 255, 255, 0.15);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 15px;
-  }
-
-  .modal-icon .glyphicon {
-    font-size: 24px;
-  }
-
-  .modal-periodo-header .modal-title {
-    font-size: 20px;
-    font-weight: 600;
-    margin: 0 0 5px 0;
-  }
-
-  .modal-periodo-header small {
-    color: rgba(255, 255, 255, 0.85);
-    font-size: 13px;
-  }
-
-  .modal-close {
-    color: white;
-    opacity: 0.8;
-    font-size: 28px;
-    margin-top: -5px;
-  }
-
-  .modal-close:hover {
-    color: white;
-    opacity: 1;
-  }
-
-  /* ========================================================= */
-  /* BODY MODAL */
-  /* ========================================================= */
-  .modal-periodo-body {
-    padding: 25px 30px 20px 30px;
-  }
-
-  /* ========================================================= */
-  /* MENSAJE INFORMATIVO */
-  /* ========================================================= */
-  .periodo-info {
-    border-radius: 6px;
-    border: none;
-    background-color: #eaf4fb;
-    color: #31708f;
-    font-size: 13px;
-    padding: 12px 15px;
-    margin-bottom: 25px;
-  }
-
-  .periodo-info .glyphicon {
-    margin-right: 7px;
-  }
-
-  /* ========================================================= */
-  /* LABEL FECHA */
-  /* ========================================================= */
-  .label-fecha {
-    display: block;
-    font-size: 14px;
-    font-weight: 600;
-    color: #555;
-    margin-bottom: 8px;
-  }
-
-  .label-fecha .glyphicon {
-    color: #337ab7;
-    margin-right: 6px;
-  }
-
-  /* ========================================================= */
-  /* INPUT FECHA */
-  /* ========================================================= */
-  .input-fecha {
-    width: 100%;
-  }
-
-  .input-fecha .input-group-addon {
-    background-color: #f5f7fa;
-    border-color: #d9dfe5;
-    color: #337ab7;
-    min-width: 45px;
-  }
-
-  .input-fecha .form-control {
-    height: 45px;
-    border-color: #d9dfe5;
-    box-shadow: none;
-    font-size: 15px;
-    padding: 10px 12px;
-    transition: all 0.2s ease;
-  }
-
-  .input-fecha .form-control:focus {
-    border-color: #337ab7;
-    box-shadow: 0 0 0 2px rgba(51, 122, 183, 0.12);
-  }
-
-  /* ========================================================= */
-  /* SEPARADOR DE FECHAS */
-  /* ========================================================= */
-  .separador-fechas {
-    text-align: center;
-    height: 25px;
-    position: relative;
-  }
-
-  .separador-fechas:before {
-    content: "";
-    position: absolute;
-    left: 50%;
-    top: 0;
-    bottom: 0;
-    width: 1px;
-    background-color: #ddd;
-  }
-
-  .separador-fechas .glyphicon {
-    position: relative;
-    z-index: 2;
-    background-color: white;
-    color: #337ab7;
-    padding: 4px;
-  }
-
-  /* ========================================================= */
-  /* FOOTER MODAL */
-  /* ========================================================= */
-  .modal-periodo-footer {
-    background-color: #f7f8fa;
-    border-top: 1px solid #e5e5e5;
-    padding: 15px 25px;
-  }
-
-  /* ========================================================= */
-  /* BOTON CANCELAR */
-  /* ========================================================= */
-  .btn-cancelar {
-    background-color: white;
-    border: 1px solid #ccc;
-    color: #555;
-    border-radius: 5px;
-    padding: 9px 16px;
-  }
-
-  .btn-cancelar:hover {
-    background-color: #f2f2f2;
-  }
-
-  /* ========================================================= */
-  /* BOTON GUARDAR */
-  /* ========================================================= */
-  .btn-guardar {
-    background: linear-gradient(135deg,
-        #337ab7,
-        #286090);
-    border: none;
-    color: white;
-    border-radius: 5px;
-    padding: 10px 18px;
-    margin-left: 8px;
-    transition: all 0.2s ease;
-  }
-
-  .btn-guardar:hover {
-    background: linear-gradient(135deg,
-        #286090,
-        #204d74);
-    color: white;
-    transform: translateY(-1px);
-  }
-
-  /* ========================================================= */
-  /* DATATABLE */
-  /* ========================================================= */
-  #table_periodo_eval_anteproyecto thead th {
-    background-color: #337ab7;
-    color: white;
-    text-align: center;
-    vertical-align: middle;
-  }
-
-  #table_periodo_eval_anteproyecto tbody td {
-    vertical-align: middle;
-  }
-
-  #table_periodo_eval_anteproyecto tbody td:not(:first-child) {
-    text-align: center;
-  }
-
-  /* ========================================================= */
-  /* RESPONSIVE */
-  /* ========================================================= */
-  @media (max-width: 767px) {
-    .modal-periodo-body {
-      padding: 20px;
-    }
-
-    .botones-periodo .btn {
-      margin-bottom: 5px;
-    }
-  }
-</style>
-
-<main class="col-md-12">
+<main class="tw:w-full tw:lg:w-full tw:px-2">
 
   <!-- ===================================================== -->
   <!-- TITULO -->
   <!-- ===================================================== -->
 
-  <div class="row">
-    <div class="col-md-5 col-md-offset-3">
-      <div class="panel panel-info periodo-panel">
-        <div class="panel-heading">
-          <h2 class="panel-title text-center">Periodos de Evaluación de Anteproyectos</h2>
-        </div>
-      </div>
-    </div>
-  </div>
+  <x-panel.encabezado titulo="Periodos de Evaluación de Anteproyectos" :migas="['Residencia profesional' => null]" />
 
   <!-- ===================================================== -->
   <!-- PERIODO ACTIVO -->
@@ -286,21 +19,21 @@
 
   @if($periodo_activo != null)
 
-  <div class="row">
-    <div class="col-md-5 col-md-offset-3">
-      <div class="panel panel-success periodo-panel">
-        <div class="panel-heading">
-          <h3 class="text-center"><span class="glyphicon glyphicon-ok-circle"></span>Periodo activo</h3>
-          <h4 class="text-center"><strong>Fecha de inicio:</strong>{{ $periodo_activo->fecha_inicio }}</h4>
-          <h4 class="text-center"><strong>Fecha de término:</strong>{{ $periodo_activo->fecha_final }}</h4>
-          <h4 class="text-center"><strong>Periodo:</strong>{{ $periodo_activo->periodo }}</h4>
+  <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+    <div class="tw:w-full tw:px-2">
+      <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+        <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:dark:border-gray-800 tw:bg-gray-50 tw:dark:bg-gray-900 tw:px-5 tw:py-4">
+          <h3 class="tw:text-center tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90"><span class="fa fa-check-circle-o"></span>Periodo activo</h3>
+          <h4 class="tw:text-center tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90"><strong>Fecha de inicio:</strong>{{ $periodo_activo->fecha_inicio }}</h4>
+          <h4 class="tw:text-center tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90"><strong>Fecha de término:</strong>{{ $periodo_activo->fecha_final }}</h4>
+          <h4 class="tw:text-center tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90"><strong>Periodo:</strong>{{ $periodo_activo->periodo }}</h4>
           <!-- BOTONES -->
-          <div class="botones-periodo">
+          <div class="tw:mt-4 tw:flex tw:flex-wrap tw:justify-center tw:gap-3">
             <!-- DESACTIVAR -->
-            <button type="button" class="btn btn-danger desactivar" id="{{ $periodo_activo->id_periodo_eval_anteproyecto }}"><span class="glyphicon glyphicon-off"></span>Desactivar</button>
+            <button type="button" class="desactivar tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-red-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-red-700 tw:disabled:bg-red-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" id="{{ $periodo_activo->id_periodo_eval_anteproyecto }}"><span class="fa fa-power-off"></span>Desactivar</button>
             <!-- EDITAR -->
-            <button type="button" class="btn btn-warning editar_periodo" data-id="{{ $periodo_activo->id_periodo_eval_anteproyecto }}" data-inicio="{{ $periodo_activo->fecha_inicio }}" data-final="{{ $periodo_activo->fecha_final }}">
-                <span class="glyphicon glyphicon-pencil"></span>
+            <button type="button" class="editar_periodo tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-id="{{ $periodo_activo->id_periodo_eval_anteproyecto }}" data-inicio="{{ $periodo_activo->fecha_inicio }}" data-final="{{ $periodo_activo->fecha_final }}">
+                <span class="fa fa-pencil"></span>
               Editar
             </button>
           </div>
@@ -315,18 +48,10 @@
   <!-- NO HAY PERIODO ACTIVO -->
   <!-- ================================================= -->
 
-  <div class="row">
-    <div class="col-md-5 col-md-offset-3">
-      <div class="panel panel-danger periodo-panel">
-        <div class="panel-heading">
-          <h3 class="text-center">
-            <span class="glyphicon glyphicon-warning-sign"></span>
+  <x-panel.alerta tipo="error" class="tw:mb-4"><h3 class="tw:text-center tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">
+            <span class="fa fa-exclamation-triangle"></span>
             No hay periodo activo
-          </h3>
-        </div>
-      </div>
-    </div>
-  </div>
+          </h3></x-panel.alerta>
 
   @endif
 
@@ -336,9 +61,10 @@
 
   <?php $n = 1; ?>
 
-  <div class="row">
-    <div class="col-md-10 col-md-offset-1">
-      <table id="table_periodo_eval_anteproyecto" class="table table-bordered table-striped table-hover">
+  <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+    <div class="tw:w-full tw:px-2">
+      <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table id="table_periodo_eval_anteproyecto" class="tw-tabla tw-tabla-bordes tw-tabla-rayas">
         <thead>
           <tr>
             <th>No.</th>
@@ -367,8 +93,8 @@
             <!-- =========================== -->
 
             <td>
-              <button type="button" class="btn btn-primary activar" id="{{ $periodo_anteproyecto->id_periodo_eval_anteproyecto }}">
-                <span class="glyphicon glyphicon-ok"></span>
+              <button type="button" class="activar tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap" id="{{ $periodo_anteproyecto->id_periodo_eval_anteproyecto }}">
+                <span class="fa fa-check"></span>
                 Activar
               </button>
             </td>
@@ -377,9 +103,7 @@
             <!-- ELIMINAR -->
             <!-- =========================== -->
             <td>
-              <a href="javascript:void(0)" class="eliminar_periodo" id="{{ $periodo_anteproyecto->id_periodo_eval_anteproyecto }}">
-                <span class="glyphicon glyphicon-trash em2" aria-hidden="true"></span>
-              </a>
+              <a href="javascript:void(0)" class="eliminar_periodo tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-red-600 tw:ring-1 tw:ring-red-300 tw:ring-inset tw:hover:bg-red-50 tw:dark:bg-gray-800 tw:dark:text-red-500 tw:dark:ring-red-500/40 tw:dark:hover:bg-red-500/10 tw:size-9 tw:text-base" id="{{ $periodo_anteproyecto->id_periodo_eval_anteproyecto }}"><span class="fa fa-trash " aria-hidden="true"></span></a>
             </td>
             @endif
           </tr>
@@ -388,6 +112,7 @@
           @endforeach
         </tbody>
       </table>
+</div>
     </div>
   </div>
 
@@ -395,15 +120,14 @@
   <!-- BOTON AGREGAR -->
   <!-- ===================================================== -->
 
-  <div class="row">
-    <div class="col-md-1 col-md-offset-3">
-      <button data-toggle="modal" data-tooltip="true" data-placement="left" title="Agregar nuevo periodo de evaluación" data-target="#modal_agregar_periodo" type="button" class="btn btn-success btn-lg flotante">
-        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+  <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+    <div class="tw:w-full tw:px-2">
+      <button data-toggle="modal" data-tooltip="true" data-placement="left" title="Agregar nuevo periodo de evaluación" data-target="#modal_agregar_periodo" type="button" class="flotante tw:fixed tw:right-6 tw:bottom-6 tw:z-40 tw:inline-flex tw:size-14 tw:items-center tw:justify-center tw:rounded-full tw:bg-brand-500 tw:text-xl tw:text-white tw:shadow-theme-lg tw:hover:bg-brand-600">
+        <span class="fa fa-plus" aria-hidden="true"></span>
       </button>
     </div>
   </div>
 
-  <br><br>
 
 </main>
 
@@ -411,78 +135,69 @@
 <!-- MODAL AGREGAR -->
 <!-- ========================================================= -->
 
-<div class="modal fade" id="modal_agregar_periodo" tabindex="-1" role="dialog">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
-        </button>
-        <h4 class="modal-title"><span class="glyphicon glyphicon-plus"></span>Agregar periodo de evaluación</h4>
+<x-panel.modal id="modal_agregar_periodo" tamano="md" sin-relleno clase-cerrar="close">
+      <div class="tw:px-6 tw:pt-6 tw:pr-14">
+        
+        <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90"><span class="fa fa-plus"></span>Agregar periodo de evaluación</h4>
       </div>
 
-      <form class="form" role="form" method="POST">
+      <form role="form" method="POST">
         {{ csrf_field() }}
-        <div class="modal-body">
+        <div class="tw-modal-cuerpo">
           <!-- FECHA INICIAL -->
-          <div class="form-group">
+          <div class="tw:mb-4">
             <label for="fecha_inicial">
-              <span class="glyphicon glyphicon-calendar"></span>Fecha inicial
+              <span class="fa fa-calendar"></span>Fecha inicial
             </label>
 
-            <div class="input-group date">
-              <input type="text" id="fecha_inicial" name="fecha_inicial" class="form-control" placeholder="Selecciona la fecha inicial" autocomplete="off" required>
-              <span class="input-group-addon">
-                <span class="glyphicon glyphicon-calendar"></span>
+            <div class="date tw:flex tw:w-full tw:items-stretch">
+              <input type="text" id="fecha_inicial" name="fecha_inicial" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" placeholder="Selecciona la fecha inicial" autocomplete="off" required>
+              <span class="tw:inline-flex tw:items-center tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-gray-50 tw:dark:bg-gray-900 tw:px-3 tw:text-sm tw:text-gray-600 tw:dark:text-gray-400">
+                <span class="fa fa-calendar"></span>
               </span>
             </div>
           </div>
 
           <!-- FECHA FINAL -->
 
-          <div class="form-group">
+          <div class="tw:mb-4">
             <label for="fecha_final">
-              <span class="glyphicon glyphicon-calendar"></span>Fecha final
+              <span class="fa fa-calendar"></span>Fecha final
             </label>
 
-            <div class="input-group date">
-              <input type="text" id="fecha_final" name="fecha_final" class="form-control" placeholder="Selecciona la fecha final" autocomplete="off" required>
-              <span class="input-group-addon">
-                <span class="glyphicon glyphicon-calendar"></span>
+            <div class="date tw:flex tw:w-full tw:items-stretch">
+              <input type="text" id="fecha_final" name="fecha_final" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" placeholder="Selecciona la fecha final" autocomplete="off" required>
+              <span class="tw:inline-flex tw:items-center tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-gray-50 tw:dark:bg-gray-900 tw:px-3 tw:text-sm tw:text-gray-600 tw:dark:text-gray-400">
+                <span class="fa fa-calendar"></span>
               </span>
             </div>
           </div>
         </div>
 
-        <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-            <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-floppy-disk"></span>Guardar</button>
+        <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+            <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+            <button type="submit" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap"><span class="fa fa-floppy-o"></span>Guardar</button>
         </div>
       </form>
-    </div>
-  </div>
-</div>
+    </x-panel.modal>
 
 <!-- ========================================================= -->
 <!-- MODAL EDITAR -->
 <!-- ========================================================= -->
 
-<div class="modal fade" id="modal_editar_periodo" tabindex="-1" role="dialog" aria-labelledby="modalEditarPeriodoLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content modal-periodo">
+<x-panel.modal id="modal_editar_periodo" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="modalEditarPeriodoLabel">
       <!-- ================================================= -->
       <!-- HEADER -->
       <!-- ================================================= -->
-      <div class="modal-header modal-periodo-header">
-        <button type="button" class="close modal-close" data-dismiss="modal" aria-label="Cerrar">
-            <span aria-hidden="true">&times;</span>
-        </button>
+      <div class="tw:px-6 tw:pt-6 tw:pr-14">
+        
 
-        <div class="modal-title-container">
-          <div class="modal-icon">
-            <span class="glyphicon glyphicon-calendar"></span>
+        <div class="tw:text-lg tw:font-semibold tw:text-gray-800-container">
+          <div class="tw:flex tw:size-10 tw:shrink-0 tw:items-center tw:justify-center tw:rounded-full tw:bg-brand-50 tw:text-brand-500">
+            <span class="fa fa-calendar"></span>
           </div>
           <div>
-            <h4 class="modal-title" id="modalEditarPeriodoLabel">Editar periodo</h4>
+            <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="modalEditarPeriodoLabel">Editar periodo</h4>
             <small>Modifica las fechas del periodo de evaluación</small>
           </div>
         </div>
@@ -495,12 +210,12 @@
       <form id="form_editar_periodo" method="POST">
         {{ csrf_field() }}
         {{ method_field('PUT') }}
-        <div class="modal-body modal-periodo-body">
+        <div class="tw-modal-cuerpo">
           <!-- ID -->
           <input type="hidden" id="editar_id_periodo" name="id_periodo_eval_anteproyecto">
           <!-- INFORMACION -->
-          <div class="alert alert-info periodo-info">
-            <span class="glyphicon glyphicon-info-sign"></span>
+          <div class="tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-sky-200 tw:bg-sky-50 tw:text-sky-800">
+            <span class="fa fa-info-circle"></span>
             Selecciona la nueva fecha de inicio y
             la fecha de término del periodo.
           </div>
@@ -509,17 +224,17 @@
           <!-- FECHA INICIAL -->
           <!-- ========================================= -->
 
-          <div class="form-group">
-            <label for="editar_fecha_inicial" class="label-fecha">
-              <span class="glyphicon glyphicon-calendar"></span>
+          <div class="tw:mb-4">
+            <label for="editar_fecha_inicial">
+              <span class="fa fa-calendar"></span>
               Fecha inicial
             </label>
 
-            <div class="input-group input-fecha">
-              <span class="input-group-addon">
-                <span class="glyphicon glyphicon-calendar"></span>
+            <div class="tw:flex tw:w-full tw:items-stretch">
+              <span class="tw:inline-flex tw:items-center tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-gray-50 tw:dark:bg-gray-900 tw:px-3 tw:text-sm tw:text-gray-600 tw:dark:text-gray-400">
+                <span class="fa fa-calendar"></span>
               </span>
-              <input type="text" id="editar_fecha_inicial" name="fecha_inicial" class="form-control" placeholder="Selecciona la fecha inicial" autocomplete="off" required>
+              <input type="text" id="editar_fecha_inicial" name="fecha_inicial" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" placeholder="Selecciona la fecha inicial" autocomplete="off" required>
             </div>
           </div>
 
@@ -527,24 +242,24 @@
           <!-- SEPARADOR -->
           <!-- ========================================= -->
 
-          <div class="separador-fechas">
-            <span class="glyphicon glyphicon-arrow-down"></span>
+          <div class="tw:my-2 tw:text-center tw:text-brand-500">
+            <span class="fa fa-arrow-down"></span>
           </div>
 
           <!-- ========================================= -->
           <!-- FECHA FINAL -->
           <!-- ========================================= -->
-          <div class="form-group">
-            <label for="editar_fecha_final" class="label-fecha">
-              <span class="glyphicon glyphicon-calendar"></span>
+          <div class="tw:mb-4">
+            <label for="editar_fecha_final">
+              <span class="fa fa-calendar"></span>
               Fecha final
             </label>
 
-            <div class="input-group input-fecha">
-              <span class="input-group-addon">
-                <span class="glyphicon glyphicon-calendar"></span>
+            <div class="tw:flex tw:w-full tw:items-stretch">
+              <span class="tw:inline-flex tw:items-center tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-gray-50 tw:dark:bg-gray-900 tw:px-3 tw:text-sm tw:text-gray-600 tw:dark:text-gray-400">
+                <span class="fa fa-calendar"></span>
               </span>
-              <input type="text" id="editar_fecha_final" name="fecha_final" class="form-control" placeholder="Selecciona la fecha final" autocomplete="off" required>
+              <input type="text" id="editar_fecha_final" name="fecha_final" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" placeholder="Selecciona la fecha final" autocomplete="off" required>
             </div>
           </div>
         </div>
@@ -552,106 +267,92 @@
         <!-- ================================================= -->
         <!-- FOOTER -->
         <!-- ================================================= -->
-        <div class="modal-footer modal-periodo-footer">
-          <button type="button" class="btn btn-cancelar" data-dismiss="modal">
-            <span class="glyphicon glyphicon-remove"></span>
+        <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+          <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">
+            <span class="fa fa-times"></span>
             Cancelar
           </button>
 
-          <button type="submit" class="btn btn-guardar">
-            <span class="glyphicon glyphicon-floppy-disk"></span>
+          <button type="submit" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap">
+            <span class="fa fa-floppy-o"></span>
             Guardar cambios
           </button>
         </div>
       </form>
-    </div>
-  </div>
-</div>
+    </x-panel.modal>
 
 <!-- ========================================================= -->
 <!-- MODAL ELIMINAR -->
 <!-- ========================================================= -->
 
-<div id="modal_eliminado_periodo" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog">
-  <div class="modal-dialog modal-sm" role="document">
-    <div class="modal-content">
+<x-panel.modal id="modal_eliminado_periodo" tamano="sm" sin-relleno>
       <form action="" method="POST" role="form" id="form_delete">
         {{ method_field('DELETE') }}
         {{ csrf_field() }}
 
-        <div class="modal-body">
-          <span class="glyphicon glyphicon-trash"></span>
+        <div class="tw-modal-cuerpo tw:pt-14">
+          <span class="fa fa-trash"></span>
           ¿Realmente deseas eliminar éste elemento?
         </div>
 
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">
+        <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+          <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">
             Cancelar
           </button>
-          <input id="confirma_eliminado_periodo" type="button" class="btn btn-danger" value="Aceptar">
+          <input id="confirma_eliminado_periodo" type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-red-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-red-700 tw:disabled:bg-red-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" value="Aceptar">
         </div>
       </form>
-    </div>
-  </div>
-</div>
+    </x-panel.modal>
 
 <!-- ========================================================= -->
 <!-- MODAL ACTIVAR -->
 <!-- ========================================================= -->
 
-<div id="modal_activar_periodo" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog">
-  <div class="modal-dialog modal-sm" role="document">
-    <div class="modal-content">
-      <form id="form_activar" class="form" action="{{ url('/residencia/activar_periodo_anteproyecto/') }}" method="POST">
+<x-panel.modal id="modal_activar_periodo" tamano="sm" sin-relleno>
+      <form id="form_activar" action="{{ url('/residencia/activar_periodo_anteproyecto/') }}" method="POST">
         {{ csrf_field() }}
-        <div class="modal-body">
+        <div class="tw-modal-cuerpo tw:pt-14">
           <input type="hidden" id="id_periodo_eval_anteproyecto" name="id_periodo_eval_anteproyecto">
-          <span class="glyphicon glyphicon-ok"></span>
+          <span class="fa fa-check"></span>
           ¿Realmente quiere activar este periodo?
         </div>
 
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">
+        <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+          <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">
             Cancelar
           </button>
 
-          <button type="submit" class="btn btn-primary">
+          <button type="submit" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap">
             Aceptar
           </button>
         </div>
       </form>
-    </div>
-  </div>
-</div>
+    </x-panel.modal>
 
 <!-- ========================================================= -->
 <!-- MODAL DESACTIVAR -->
 <!-- ========================================================= -->
 
-<div id="modal_desactivar_periodo" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog">
-  <div class="modal-dialog modal-sm" role="document">
-    <div class="modal-content">
-      <form id="form_desactivar" class="form" action="{{ url('/residencia/desactivar_periodo_anteproyecto/') }}" method="POST">
+<x-panel.modal id="modal_desactivar_periodo" tamano="sm" sin-relleno>
+      <form id="form_desactivar" action="{{ url('/residencia/desactivar_periodo_anteproyecto/') }}" method="POST">
         {{ csrf_field() }}
-        <div class="modal-body">
+        <div class="tw-modal-cuerpo tw:pt-14">
           <input type="hidden" id="id_periodo_eval_anteproyecto1" name="id_periodo_eval_anteproyecto1">
-          <span class="glyphicon glyphicon-warning-sign"></span>
+          <span class="fa fa-exclamation-triangle"></span>
           ¿Realmente quiere desactivar este periodo?
         </div>
 
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">
+        <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+          <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">
             Cancelar
           </button>
 
-          <button type="submit" class="btn btn-danger">
+          <button type="submit" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-red-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-red-700 tw:disabled:bg-red-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap">
             Desactivar
           </button>
         </div>
       </form>
-    </div>
-  </div>
-</div>
+    </x-panel.modal>
 
 <!-- ========================================================= -->
 <!-- JAVASCRIPT -->
@@ -819,4 +520,5 @@
   });
 </script>
 
+</div>
 @endsection

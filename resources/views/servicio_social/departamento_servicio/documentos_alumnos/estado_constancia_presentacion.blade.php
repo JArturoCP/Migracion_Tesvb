@@ -1,18 +1,15 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 @section('title', 'Servicio Social')
+@include('partials.panel.recursos_app', ['datatables' => true])
 @section('content')
+<div class="tw-pantalla">
     <main>
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title text-center">Carta de Presentación-Aceptación</h3>
-                    </div>
-                </div>
-            </div>
+        <x-panel.encabezado titulo="Carta de Presentación-Aceptación" :migas="['Servicio social' => null]" />
+<div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+            
 
-            <div class="row col-md-11 col-md-offset-1">
-                <ul class="nav nav-tabs">
+            <div class="tw:w-full tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4 tw:px-2">
+                <ul class="tw:w-full tw-pestanas tw:mb-6 tw:flex tw:flex-wrap tw:gap-2 tw:border-b tw:border-gray-200 tw:dark:border-gray-800">
                     <li class="active"><a href="#">Enviar Carta de Presentación</a></li>
                     <li>
                         <a href="{{ url('/servicio_social/proceso_modificacion_cartapresentacion/departamento/' ) }}" >En proceso de Modificación</a>
@@ -28,14 +25,13 @@
 
                 </ul>
 
-                <div class="tab-content ">
+                <div class="tab-content tw:w-full">
                     <div role="tabpanel" class="tab-pane active" id="uno">
 
-                        <div class=" col-md-9 col-md-offset-1">
+                        <div class="tw:w-full tw:px-2">
 
-                            </br></br></br>
-
-                            <table class="table table-bordered " Style="background: white;" id="tabla_enviar_costancia">
+                            <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table class="tw-tabla tw-tabla-bordes" Style="background: white;" id="tabla_enviar_costancia">
                                 <thead>
                                 <tr>
                                     <th>No. CUENTA</th>
@@ -55,12 +51,12 @@
                                         <td>{{$autorizados->nombre}} {{$autorizados->apaterno}} {{$autorizados->amaterno}}</td>
                                         <td>{{$autorizados->carrera}}</td>
                                         @if($autorizados->id_estado_presentacion == 0)
-                                        <td style="text-align: center;"><button  id="{{ $autorizados->id_datos_alumnos }}" class="btn btn-primary registrar_presentacion"><i class="glyphicon glyphicon-plus "></i></button></td>
+                                        <td class="tw:text-center"><button  id="{{ $autorizados->id_datos_alumnos }}" class="registrar_presentacion tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"><i class="fa fa-plus"></i></button></td>
                                             <td></td>
                                         @elseif($autorizados->id_estado_presentacion == 1)
-                                            <td style="text-align: center;"><button  id="{{ $autorizados->id_datos_alumnos }}" class="btn btn-primary  modificar_presentacion"><i class="glyphicon glyphicon-edit "></i></button>
-                                                <button  id="{{ $autorizados->id_datos_alumnos }}" class="btn btn-success  ver_presentacion"><i class="glyphicon glyphicon glyphicon-file"></i></button></td>
-                                            <td><button  id="{{ $autorizados->id_datos_alumnos }}" class="btn btn-success  enviar_presentacion">Enviar</button></td>
+                                            <td class="tw:text-center"><button  id="{{ $autorizados->id_datos_alumnos }}" class="modificar_presentacion tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"><i class="fa fa-pencil-square-o"></i></button>
+                                                <button  id="{{ $autorizados->id_datos_alumnos }}" class="ver_presentacion tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"><i class="fa fa-file"></i></button></td>
+                                            <td><button  id="{{ $autorizados->id_datos_alumnos }}" class="enviar_presentacion tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap">Enviar</button></td>
 
 
                                         @endif
@@ -68,6 +64,7 @@
                                 @endforeach
                                 </tbody>
                             </table>
+</div>
                         </div>
                     </div>
 
@@ -79,112 +76,91 @@
         </div>
 
 
-   <div class="modal fade" id="modal_registrar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
+   <x-panel.modal id="modal_registrar" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="myModalLabel">
 
-                    <div class="modal-header bg-info">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title text-center" id="myModalLabel">Registrar  Carta de Presentación-Aceptación del Estudiante</h4>
+                    <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                        
+                        <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="myModalLabel">Registrar  Carta de Presentación-Aceptación del Estudiante</h4>
                     </div>
                     <div id="contenedor_registrar">
 
 
                     </div>
-                    <div class="row">
-                        <div class="col-md-4 col-md-offset-3">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                            <button   type="button" id="reg_pre" class="btn btn-primary" >guardar</button>
+                    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                        <div class="tw:w-full tw:px-2">
+                            <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                            <button   type="button" id="reg_pre" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >guardar</button>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-2 col-md-offset-5">
+                    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                        <div class="tw:w-full tw:px-2">
                          <p></p>   </div>
                     </div>
 
-                </div>
-
-            </div>
-        </div>
+                </x-panel.modal>
         {{--fin autorizar--}}
 
-        <div class="modal fade" id="modal_modificar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
+        <x-panel.modal id="modal_modificar" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="myModalLabel">
 
-                    <div class="modal-header bg-info">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title text-center" id="myModalLabel">Modificar  Carta de Presentación-Aceptación del Estudiante</h4>
+                    <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                        
+                        <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="myModalLabel">Modificar  Carta de Presentación-Aceptación del Estudiante</h4>
                     </div>
                     <div id="contenedor_modificar">
 
 
                     </div>
-                    <div class="row">
-                        <div class="col-md-4 col-md-offset-3">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                            <button   type="button" id="modificar_carta" class="btn btn-primary" >Modificar</button>
+                    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                        <div class="tw:w-full tw:px-2">
+                            <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                            <button   type="button" id="modificar_carta" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Modificar</button>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-2 col-md-offset-5">
+                    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                        <div class="tw:w-full tw:px-2">
                             <p></p>   </div>
                     </div>
 
-                </div>
-
-            </div>
-        </div>
+                </x-panel.modal>
         {{--fin autorizar--}}
-        <div class="modal fade" id="modal_ver" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
+        <x-panel.modal id="modal_ver" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="myModalLabel">
 
-                    <div class="modal-header bg-info">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title text-center" id="myModalLabel">Ver  Carta de Presentación-Aceptación del Estudiante</h4>
+                    <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                        
+                        <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="myModalLabel">Ver  Carta de Presentación-Aceptación del Estudiante</h4>
                     </div>
                     <div id="contenedor_ver">
 
 
                     </div>
-                    <div class="row">
-                        <div class="col-md-2 col-md-offset-8">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                        <div class="tw:w-full tw:px-2">
+                            <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
                             </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-2 col-md-offset-5">
+                    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                        <div class="tw:w-full tw:px-2">
                             <p></p>   </div>
                     </div>
 
-                </div>
-
-            </div>
-        </div>
-        <div class="modal fade" id="enviar_peresentacion" role="dialog">
-
-            <div class="modal-dialog modal-sm">
-                <div class="modal-content">
+                </x-panel.modal>
+        <x-panel.modal id="enviar_peresentacion" tamano="sm" sin-relleno clase-cerrar="close">
                     <form method="POST" id="enviar_doc_carta" action="{{ url("/servicio_social/enviar_carta_presentacion/") }}">
                         @csrf
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title">Enviar Carta de Presentación-Aceptación al Estudiante</h4>
+                        <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                            
+                            <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">Enviar Carta de Presentación-Aceptación al Estudiante</h4>
                         </div>
-                        <div class="modal-body">
+                        <div class="tw-modal-cuerpo">
                             <input type="hidden" id="id_datos_alumnos_m" name="id_datos_alumnos_m" value="">
                             <p>¿Seguro que quieres, enviar el documento?</p>
                         </div>
                     </form>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <button  id="enviar_carta_presentacion" class="btn btn-primary" >Aceptar</button>
+                    <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                        <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                        <button  id="enviar_carta_presentacion" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Aceptar</button>
                     </div>
-                </div>
-            </div>
-
-        </div>
+                </x-panel.modal>
     </main>
     <script type="text/javascript">
         $(document).ready(function() {
@@ -274,4 +250,5 @@
             });
         });
     </script>
+</div>
 @endsection

@@ -1,74 +1,68 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 @section('title', 'S.Escolares')
+@include('partials.panel.recursos_app', ['datatables' => true, 'validacion' => true])
 @section('content')
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                            <h3 class="panel-title text-center">AGREGAR ESCUELAS DE PROCEDENCIA</h3>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-2 col-md-offset-5" style="text-align: center;" >
-    <button data-toggle="modal"  data-tooltip="true" data-placement="left" title="Agregar escuela" data-target="#modal_crear" type="button" class="btn btn-success btn-lg flotante">
-        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+<div class="tw-pantalla">
+    <x-panel.encabezado titulo="Agregar escuelas de procedencia" :migas="['Servicios escolares' => null]" />
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+        <div class="tw:w-full tw:px-2 tw:text-center"  >
+    <button data-toggle="modal"  data-tooltip="true" data-placement="left" title="Agregar escuela" data-target="#modal_crear" type="button" class="flotante tw:fixed tw:right-6 tw:bottom-6 tw:z-40 tw:inline-flex tw:size-14 tw:items-center tw:justify-center tw:rounded-full tw:bg-brand-500 tw:text-xl tw:text-white tw:shadow-theme-lg tw:hover:bg-brand-600">
+        <span class="fa fa-plus" aria-hidden="true"></span>
     </button>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <table class="table table-striped col-md-12" id="tabla_escuela">
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+        <div class="tw:w-full tw:px-2">
+            <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table class="tw:w-full tw-tabla tw-tabla-rayas tw:lg:w-full tw:px-2" id="tabla_escuela">
                 <thead class="">
-                <tr class="text-center">
-                    <th class="text-center">No.</th>
-                    <th class="text-center">NOMBRE DE LA ESCUELA</th>
-                    <th class="text-center">MUNICIPIO</th>
-                    <th class="text-center">ESTADO</th>
-                    <th class="text-center">MODIFICAR</th>
+                <tr class="tw:text-center">
+                    <th class="tw:text-center">No.</th>
+                    <th class="tw:text-center">NOMBRE DE LA ESCUELA</th>
+                    <th class="tw:text-center">MUNICIPIO</th>
+                    <th class="tw:text-center">ESTADO</th>
+                    <th class="tw:text-center">MODIFICAR</th>
                 </tr>
                 </thead>
                 <?php $i=0; ?>
                     @foreach($escuelas as $escuela)
                         <?php $i++; ?>
-                    <tr class="text-center">
-                        <td class="text-center">{{$i}}</td>
-                        <td class="text-center">{{$escuela->nombre_escuela}}</td>
-                        <td class="text-center">{{$escuela->municipio}}</td>
-                        <td class="text-center">{{$escuela->estado}}</td>
-                        <td class="text-center">
-                            <a class="modificar" id="{{ $escuela->id_escuela_procedencia }}"><span class="glyphicon glyphicon-edit em2" aria-hidden="true"></span></a>
+                    <tr class="tw:text-center">
+                        <td class="tw:text-center">{{$i}}</td>
+                        <td class="tw:text-center">{{$escuela->nombre_escuela}}</td>
+                        <td class="tw:text-center">{{$escuela->municipio}}</td>
+                        <td class="tw:text-center">{{$escuela->estado}}</td>
+                        <td class="tw:text-center">
+                            <a class="modificar tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base" id="{{ $escuela->id_escuela_procedencia }}"><span class="fa fa-pencil-square-o " aria-hidden="true"></span></a>
                         </td>
                     </tr>
                 @endforeach
             </table>
+</div>
         </div>
     </div>
-    <div class="modal fade" id="modal_crear" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="exampleModalLabel">Agregar escuela de procedencia</h4>
+    <x-panel.modal id="modal_crear" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="exampleModalLabel">
+                <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                    
+                    <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="exampleModalLabel">Agregar escuela de procedencia</h4>
                 </div>
-                <div class="modal-body">
+                <div class="tw-modal-cuerpo">
 
-                    <form id="form_agregar" class="form" action="{{url("/registrar/escuela_procedencia/")}}" role="form" method="POST" >
+                    <form id="form_agregar" class="" action="{{url("/registrar/escuela_procedencia/")}}" role="form" method="POST" >
                         {{ csrf_field() }}
-                         <div class="row">
-                             <div class="col-md-10 col-md-offset-1">
-                                 <div class="form-group">
+                         <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                             <div class="tw:w-full tw:px-2">
+                                 <div class="tw:mb-4">
                                      <label for="nombre_escuela">Nombre de la escuela</label>
-                                     <textarea class="form-control" id="nombre_escuela" name="nombre_escuela" rows="3" placeholder="Ingresa el nombre de la escuela"style="" required></textarea>
+                                     <textarea class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500" id="nombre_escuela" name="nombre_escuela" rows="3" placeholder="Ingresa el nombre de la escuela"style="" required></textarea>
                                 </div>
                              </div>
                          </div>
-                        <div class="row">
-                            <div class="col-md-10 col-md-offset-1">
-                                <div class="form-group">
+                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                            <div class="tw:w-full tw:px-2">
+                                <div class="tw:mb-4">
                                     <label for="estado">Nombre del Estado</label>
-                                    <select class="form-control"  id="estado" name="estado" required>
+                                    <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"  id="estado" name="estado" required>
                                         <option disabled selected hidden>Selecciona una opción</option>
                                         @foreach($estados as $estado)
                                             <option value="{{$estado->id_estado}}"> {{$estado->nombre_estado}}</option>
@@ -78,11 +72,11 @@
                             </div>
 
                         </div>
-                        <div class="row">
-                        <div class="col-md-10 col-md-offset-1">
-                            <div class="dropdown">
-                                <label for="exampleInputEmail1">Municipio o Ciudad de la comisión<b style="color:red; font-size:23px;">*</b></label>
-                                <select class="form-control  "placeholder="selecciona una Opcion" id="municipios" name="municipios" value="">
+                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                        <div class="tw:w-full tw:px-2">
+                            <div class="tw:mb-4">
+                                <label for="exampleInputEmail1">Municipio o Ciudad de la comisión<b class="tw:text-red-600 tw:dark:text-red-400 tw:text-lg" >*</b></label>
+                                <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"placeholder="selecciona una Opcion" id="municipios" name="municipios" value="">
                                     <option disabled selected hidden>Selecciona una opción</option>
                                 </select>
                             </div>
@@ -90,36 +84,30 @@
                         </div>
 
 
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-primary" >Guardar</button>
+                    <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                        <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Guardar</button>
                     </div>
                     </form>
                 </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal fade" id="modal_modificar_esc" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <form id="form_mod_periodo_ingles" class="form" action="{{url("/modificacion/escuela_procedencia/")}}" role="form" method="POST" >
+            </x-panel.modal>
+    <x-panel.modal id="modal_modificar_esc" tamano="md" sin-relleno clase-cerrar="close" aria-labelledby="myModalLabel">
+                <form id="form_mod_periodo_ingles" class="" action="{{url("/modificacion/escuela_procedencia/")}}" role="form" method="POST" >
                     {{ csrf_field() }}
-                    <div class="modal-header bg-info">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title text-center" id="myModalLabel">Modificar Escuela de Procedencia</h4>
+                    <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                        
+                        <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90" id="myModalLabel">Modificar Escuela de Procedencia</h4>
                     </div>
-                    <div class="modal-body">
+                    <div class="tw-modal-cuerpo">
                         <div id="contenedor_modificar_esc">
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <button     type="submit"  style="" class="btn btn-primary"  >Guardar</button>
+                    <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                        <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+                        <button     type="submit"  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap"  >Guardar</button>
                     </div>
                 </form>
-            </div>
-        </div>
-    </div>
+            </x-panel.modal>
     <script type="text/javascript">
         $(document).ready(function()
         {
@@ -152,4 +140,5 @@
             });
         });
     </script>
+</div>
 @endsection

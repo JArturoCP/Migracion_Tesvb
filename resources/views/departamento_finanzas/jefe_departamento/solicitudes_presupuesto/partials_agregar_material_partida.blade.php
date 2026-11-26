@@ -1,58 +1,58 @@
-<form id="form_agregar_material_servicio" class="form" action="{{url("/presupuesto_autorizado/guardar_material_partida_solicitud/".$id_solicitud_partida)}}" role="form" method="POST" >
+<form id="form_agregar_material_servicio" class="" action="{{url("/presupuesto_autorizado/guardar_material_partida_solicitud/".$id_solicitud_partida)}}" role="form" method="POST" >
     {{ csrf_field() }}
 
-    <div class="row">
-        <div class="col-md-10 col-md-offset-1">
-            <div class="form-group">
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+        <div class="tw:w-full tw:px-2">
+            <div class="tw:mb-4">
                 <label>Ingresar el nombre del bien o servicio, etc.</label>
-                <textarea class="form-control" id="bien_servicio" name="bien_servicio" rows="3" onkeyup="javascript:this.value=this.value.toUpperCase();" required></textarea>
+                <textarea class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500" id="bien_servicio" name="bien_servicio" rows="3" onkeyup="javascript:this.value=this.value.toUpperCase();" required></textarea>
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-10 col-md-offset-1">
-            <div class="form-group">
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+        <div class="tw:w-full tw:px-2">
+            <div class="tw:mb-4">
                 <label>Ingresa unidad de medida</label>
-                <input class="form-control" id="unidad_medida" name="unidad_medida" type="text" onkeyup="javascript:this.value=this.value.toUpperCase();" required></input>
+                <input class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="unidad_medida" name="unidad_medida" type="text" onkeyup="javascript:this.value=this.value.toUpperCase();" required></input>
             </div>
         </div>
     </div>
 
 
-    <div class="row">
-        <div class="col-md-10 col-md-offset-1">
-            <div class="form-group">
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+        <div class="tw:w-full tw:px-2">
+            <div class="tw:mb-4">
                 <label>Ingresa cantidad del bien o servicio, etc.</label>
-                <input class="form-control" id="cantidad" name="cantidad" type="number" pattern="[0-9]+"  required></input>
+                <input class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="cantidad" name="cantidad" type="number" pattern="[0-9]+"  required></input>
             </div>
         </div>
     </div>
-    <div class="row" style="display: none;" id="mostrar_precio">
-        <div class="col-md-10 col-md-offset-1">
-            <div class="form-group">
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4" style="display: none;" id="mostrar_precio">
+        <div class="tw:w-full tw:px-2">
+            <div class="tw:mb-4">
                 <label>Ingresa precio unitario de referencia con iva incluido</label>
-                <input class="form-control" id="precio" name="precio" type="number" step=".01"  required></input>
+                <input class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" id="precio" name="precio" type="number" step=".01"  required></input>
             </div>
             <div id="pesos_precio">
 
             </div>
         </div>
     </div>
-    <div class="row" id="mensaje_no_pre" style="display: none;">
-        <div class="col-md-10 col-md-offset-1">
-            <h4 style="color: red;">No alcanza el presupuesto dado</h4>
+    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4" id="mensaje_no_pre" style="display: none;">
+        <div class="tw:w-full tw:px-2">
+            <h4 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90 tw:text-red-600 tw:dark:text-red-400">No alcanza el presupuesto dado</h4>
         </div>
     </div>
 </form>
 <div id="mostrar_cerrar" style="display: block">
-    <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+    <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:pb-2">
+        <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
     </div>
 </div>
    <div id="mostrar_guardar" style="display: none">
-        <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-            <button id="guardar_material_partida"  class="btn btn-primary" >Guardar</button>
+        <div class="tw:mt-4 tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:pb-2">
+            <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" data-dismiss="modal">Cancelar</button>
+            <button id="guardar_material_partida"  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" >Guardar</button>
         </div>
     </div>
 
