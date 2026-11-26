@@ -35,7 +35,8 @@
         <div class="tw:relative tw:flex tw:min-w-0 tw:flex-1 tw:flex-col tw:overflow-x-clip" data-panel-area>
             @include('partials.panel.header')
 
-            <div id="main-content" x-ignore data-panel-contenido-modulo data-tema-estudiantil="bootstrap">
+            <div id="main-content" x-ignore data-panel-contenido-modulo data-tema-estudiantil="bootstrap"
+                @if (!empty($moduloIngles)) data-modulo-ingles @endif>
                 @include($cuerpo)
             </div>
         </div>

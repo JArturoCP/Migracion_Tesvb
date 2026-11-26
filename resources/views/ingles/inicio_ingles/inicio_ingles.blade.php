@@ -13,7 +13,6 @@
 --}}
 @extends('layouts.panel')
 @section('title', 'Ingles')
-@section('sin_pie', '1')
 @section('modo_oscuro', '1')
 @section('content')
     <?php

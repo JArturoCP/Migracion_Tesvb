@@ -33,6 +33,7 @@
 @import "./panel/componentes.css";
 @import "./panel/librerias.css";
 @import "./panel/oscuro.css";
+@import "./panel/ingles.css";
 @plugin "@tailwindcss/forms" {
     strategy: "class";
 }
@@ -65,10 +66,7 @@
 @source "../views/home.blade.php";
 @source "../views/layouts/marco.blade.php";
 @source "../views/partials/panel";
-@source "../views/ingles/periodos_ingles.blade.php";
-@source "../views/ingles/inicio_ingles";
-@source "../views/ingles/profesores_ingles";
-@source "../views/ingles/partials/modificar_profesor.blade.php";
+@source "../views/ingles";
 @source "../views/actividades_complementarias";
 @source "../views/actividades_complementarias/alumnos";
 @source "../views/actividades_complementarias/partials_actividades/alumno";

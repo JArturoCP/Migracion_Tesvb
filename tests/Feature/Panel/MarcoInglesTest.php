@@ -60,7 +60,7 @@ it('con sesión muestra Inglés dentro del marco con los mismos recursos y conte
     }
 });
 
-it('el modo oscuro se aplica antes de pintar en el marco y solo oscurece sidebar y header', function () {
+it('aplica el tema al pie compartido y conserva el contenido Bootstrap del marco', function () {
     $this->actingAs(EscenariosPanel::preparar('ingles', []));
     $html = renderIngles('ingles.inicio_ingles.layout_ingles');
 
@@ -70,7 +70,8 @@ it('el modo oscuro se aplica antes de pintar en el marco y solo oscurece sidebar
 
     expect($cabeza->textContent)->toContain("localStorage.getItem('darkMode')")
         ->and($html)->toContain("localStorage.setItem('darkMode'")
-        // El contenido Bootstrap queda fuera del alcance de clases oscuras del panel.
-        ->and($xpath->query('descendant-or-self::*[contains(@class, "tw:dark:")]', $contenido)->length)->toBe(0)
-        ->and($xpath->query('//*[@data-panel-marco]//*[contains(@class, "tw:dark:")]')->length)->toBeGreaterThan(0);
+        ->and($xpath->query('./*[@class="tesvb-contenido"]//*[contains(@class, "tw:dark:")]', $contenido)->length)->toBe(0)
+        ->and($xpath->query('./footer[@data-panel-pie and contains(@class, "tw:dark:bg-gray-900")]', $contenido)->length)->toBe(1)
+        ->and($xpath->query('./footer/p', $contenido)->length)->toBe(3)
+        ->and($xpath->query('./footer', $contenido)->item(0)->textContent)->toContain('Algunos Derechos Reservados 2011 Gobierno del Estado de México');
 });
