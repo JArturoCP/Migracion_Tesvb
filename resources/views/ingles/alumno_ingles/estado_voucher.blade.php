@@ -1,8 +1,10 @@
 @extends('ingles.inicio_ingles.layout_ingles')
 @section('title', 'Revisión de Carga academica ingles')
 @section('content')
+@include('ingles.alumno_ingles.estilos')
 
-<main>
+<main class="ingles-estudiante ingles-inicio">
+    <h1 class="ingles-titulo">Carga académica de inglés</h1>
 <!-- Modal de estado de voucher -->
 <div class="modal fade" id="modal_estado_voucher" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
@@ -15,7 +17,7 @@
         <div class="alert alert-danger text-center">Todavia no te autorizan tu voucher de pago, dirígete al apartado de "Cargar voucher de pago" para subirlo y poder continuar</div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
+        <button type="button" class="btn btn-primary ingles-boton" data-dismiss="modal">Aceptar</button>
       </div>
     </div>
   </div>
