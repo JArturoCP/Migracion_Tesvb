@@ -12,9 +12,9 @@
             </thead>
             <tbody>
                 @foreach ($estudiantes as $alumno)
-                    @php($nombre = trim($alumno->nombre.' '.$alumno->apaterno.' '.$alumno->amaterno))
+                    @php($nombre = trim($alumno->{$columnaNombre ?? 'nombre'}.' '.$alumno->apaterno.' '.$alumno->amaterno))
                     <tr>
-                        <td>{{ $alumno->cuenta }}</td>
+                        <td>{{ $alumno->{$columnaCuenta ?? 'cuenta'} }}</td>
                         <td>{{ $nombre }}</td>
                         <td>
                             <x-panel.boton :href="$urlEncuesta.'/'.$alumno->{$columnaEncuesta}" tamano="sm" variante="contorno-primario"

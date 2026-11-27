@@ -22,7 +22,7 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
     @endempty
     <title>@yield('title') · TESVB</title>
-    <link rel="icon" href="{{ asset('favicon.ico') }}">
+    @include('partials.favicon')
 
     @include('partials.panel.modo_oscuro')
 

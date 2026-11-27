@@ -5,7 +5,7 @@ namespace App\View;
 final class EncuestaEscolar
 {
     public const PREGUNTAS = [
-        1 => '¿Considerando que el personal de la Subdirección de Servicios Escolares atiende ventanillas en un horario 9:00 a 18:00 horas, el tiempo es?',
+        1 => '¿Considerando que el personal de la Subdirección de Servicios Escolares atiende ventanillas en un horario de 9:00 a 18:00 horas, el tiempo es?',
         '¿El tiempo de espera para ser atendido en ventanilla es adecuado?',
         '¿El tiempo de respuesta a mi solicitud es eficiente, cuando me presento con mi documentación completa?',
         '¿La disponibilidad del personal para consultar dudas de tipo académico es adecuada?',

@@ -1,158 +1,86 @@
-@extends('layouts.app')
-@section('title', 'Encuestas servicio social')
+@extends('layouts.panel')
+@section('title', 'Enviar encuestas de Servicio Social')
+@include('partials.panel.recursos_app', ['datatables' => true])
+@include('partials.panel.formularios')
+
 @section('content')
-    <?php
-    $historial = Session::get('historial_enc_s');
+    @php
+        $base = '/encuestas_satisfaccion/';
+        $historial = session('historial_enc_s') == 1;
+        $sufijoPeriodo = '/'.$mes.'/'.$year;
+        $nombrePeriodo = ($mes == 1 ? 'Enero' : 'Julio').' de '.$year;
+        $subtitulo = $carrera ? $carrera->nombre.' · '.$nombrePeriodo : $nombrePeriodo;
+        $migas = $historial
+            ? ['Historial de encuestas' => url($base.'historial_periodo_year/'), 'Periodos de las encuestas' => url($base.'menu_historial_servicio_s_year/'.$year)]
+            : ['Periodos de las encuestas' => url($base.'agregar_periodo_year/')];
+        $migas['Programas de estudio'] = url($base.'ver_carreras_encuesta_servicio'.$sufijoPeriodo);
+        $estados = [0 => ['Enviada', 'info'], 1 => ['Contestada', 'exito'], 3 => ['Rechazada', 'gris']];
+    @endphp
+    <x-panel.encabezado titulo="Enviar encuestas de Servicio Social" :migas="$migas" />
 
-    ?>
-    @if($historial == 1)
-        <div class="row">
-            <div class="col-md-10 col-xs-10 col-md-offset-1">
-                <p>
-                    <span class="glyphicon glyphicon-arrow-right"></span>
-                    <a href="{{url("/encuestas_satisfaccion/historial_periodo_year/")}}">Historial de  encuestas de satisfacción del cliente</a>
-                    <span class="glyphicon glyphicon-arrow-right"></span>
-                    <a href="{{url("/encuestas_satisfaccion/menu_historial_servicio_s_year/".$year)}}">Periodos</a>
-                    <span class="glyphicon glyphicon-arrow-right"></span>
-                    <a href="{{url("/encuestas_satisfaccion/ver_carreras_encuesta_servicio/".$mes."/".$year)}}">Programas de Estudios</a>
-                    <span class="glyphicon glyphicon-chevron-right"></span>
-                    <span>Estudiantes de la carrera</span>
-                </p>
-                <br>
-            </div>
-        </div>
-    @else
-    <div class="row">
-        <div class="col-md-10 col-xs-10 col-md-offset-1">
-            <p>
-                <span class="glyphicon glyphicon-arrow-right"></span>
-                <a href="{{url("/encuestas_satisfaccion/agregar_periodo_year/")}}">Periodos</a>
-                <span class="glyphicon glyphicon-arrow-right"></span>
-                <a href="{{url("/encuestas_satisfaccion/ver_carreras_encuesta_servicio/".$mes."/".$year)}}">Programas de Estudios</a>
-                <span class="glyphicon glyphicon-chevron-right"></span>
-                <span>Estudiantes de la carrera</span>
+    <div class="tw:space-y-5">
+        <x-panel.tarjeta titulo="Estudiantes pendientes de envío" :subtitulo="$subtitulo">
+            @if (count($alumnos))
+                <x-panel.tabla id="tabla_alumnos" compacta>
+                    <thead><tr><th scope="col">No. de cuenta</th><th scope="col">Nombre del estudiante</th><th scope="col">Acción</th></tr></thead>
+                    <tbody>
+                        @foreach ($alumnos as $alumno)
+                            <tr>
+                                <td>{{ $alumno->cuenta }}</td>
+                                <td>{{ trim($alumno->nombre.' '.$alumno->apaterno.' '.$alumno->amaterno) }}</td>
+                                <td>
+                                    <x-panel.boton tamano="sm" variante="contorno-primario"
+                                        :data-url="url($base.'enc_servicio_datos_alumn/'.$alumno->id_alumno)"
+                                        data-modal-remoto="#modal_enviar" data-contenedor="#contenedor_enviar">Enviar encuesta</x-panel.boton>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </x-panel.tabla>
+            @else
+                <x-panel.vacio titulo="Sin estudiantes pendientes de envío" />
+            @endif
+        </x-panel.tarjeta>
 
-            </p>
-            <br>
-        </div>
+        <x-panel.tarjeta titulo="Encuestas enviadas" :subtitulo="$subtitulo">
+            @if (count($registros_encuestas))
+                <x-panel.tabla id="tabla_registros" compacta>
+                    <thead><tr><th scope="col">No. de cuenta</th><th scope="col">Nombre del estudiante</th><th scope="col">Estado</th></tr></thead>
+                    <tbody>
+                        @foreach ($registros_encuestas as $registro)
+                            @php([$estado, $tono] = $estados[$registro->id_estado] ?? ['Sin estado', 'gris'])
+                            <tr>
+                                <td>{{ $registro->cuenta }}</td>
+                                <td>{{ trim($registro->nombre.' '.$registro->apaterno.' '.$registro->amaterno) }}</td>
+                                <td><x-panel.badge :tono="$tono">{{ $estado }}</x-panel.badge></td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </x-panel.tabla>
+            @else
+                <x-panel.vacio titulo="Sin encuestas enviadas" />
+            @endif
+        </x-panel.tarjeta>
     </div>
-    @endif
-    <div class="row">
-        <div class="col-md-10 col-xs-10 col-md-offset-1">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h3 class="panel-title text-center">Encuestas de satifacción del cliente <br> (Servicio Social)<br> CARRERA: {{$carrera->nombre}}  </h3>
-                </div>
-            </div>
-        </div>
-    </div>
 
-
-    <div class="row">
-        <div class="col-md-5 col-md-offset-1">
-            <table id="tabla_alumnos" class="table table-bordered " Style="background: white;" >
-                <thead>
-                <tr>
-                    <th>NO. CUENTA</th>
-                    <th>NOMBRE DEL ESTUDIANTE</th>
-                    <th>ACCIÓN</th>
-                </tr>
-                </thead>
-                <tbody>
-
-                @foreach($alumnos as $alumno)
-                    <tr>
-                        <td>{{$alumno->cuenta}} </td>
-                        <td>{{$alumno->apaterno }} {{$alumno->amaterno }} {{$alumno->nombre }} </td>
-                        <td><button type="button" class="btn btn-success enviar_encuesta" data-id="{{ $alumno->id_alumno }}">Enviar encuesta</button></td>
-                    </tr>
-                @endforeach
-
-
-
-                </tbody>
-            </table>
-        </div>
-        <div class="col-md-5 col-md-offset-1">
-            <div class="row">
-                <div class="col-md-10">
-                    <h4>Registro de estudiantes con encuesta</h4>
-                </div>
-            </div>
-            <table id="tabla_registros" class="table table-bordered " Style="background: white;" >
-                <thead>
-                <tr>
-                    <th>NO. CUENTA</th>
-                    <th>NOMBRE DEL ESTUDIANTE</th>
-                    <th>ACCIÓN</th>
-                </tr>
-                </thead>
-                <tbody>
-
-                @foreach($registros_encuestas as $registro)
-                    <tr>
-                        <td>{{$registro->cuenta}} </td>
-                        <td>{{$registro->apaterno }}{{$registro->amaterno }}{{$registro->nombre }} </td>
-                        @if($registro->id_estado == 0)
-                            <td>Encuesta enviada al estudiante</td>
-                        @elseif($registro->id_estado == 1)
-                            <td>Encuesta contestada</td>
-                        @endif
-                    </tr>
-                @endforeach
-
-
-
-                </tbody>
-            </table>
-        </div>
-    </div>
-    {{--Modal de agregar--}}
-    <div class="modal fade" id="modal_enviar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header bg-info">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title text-center" id="myModalLabel">Enviar encuesta</h4>
-                </div>
-                <form id="form_envio_encuesta" class="form" action="{{url("/encuestas_satisfaccion/envio_encuesta_estudiante_servicio/".$mes."/".$year)}}" role="form" method="POST" >
-                    {{ csrf_field() }}
-                    <div class="modal-body">
-
-                        <div id="contenedor_enviar">
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                        <button  id="envio_encuesta" type="button" style="" class="btn btn-primary">Aceptar</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('#tabla_alumnos').DataTable();
-            $('#tabla_registros').DataTable();
-
-        } );
-        $("#tabla_alumnos").on('click','.enviar_encuesta',function(){
-            var id_alumno=$(this).data('id');
-            $.get("/encuestas_satisfaccion/enc_servicio_datos_alumn/"+id_alumno,function (request) {
-                $("#contenedor_enviar").html(request);
-                $("#modal_enviar").modal('show');
-            });
-            $("#envio_encuesta").click(function (){
-                $("#form_envio_encuesta").submit();
-                $("#envio_encuesta").attr("disabled", true);
-                swal({
-                    type: "success",
-                    title: "Se envio correctamente la encuesta",
-                    showConfirmButton: false,
-                    timer: 1500
-                });
-            });
-        });
-
-    </script>
+    <x-panel.modal id="modal_enviar" titulo="Enviar encuesta" aria-label="Enviar encuesta" sin-relleno>
+        <form id="form_envio_encuesta" method="POST" action="{{ url($base.'envio_encuesta_estudiante_servicio'.$sufijoPeriodo) }}" data-panel-envio>
+            @csrf
+            <div class="tw-modal-cuerpo" id="contenedor_enviar"></div>
+            <x-panel.modal-pie>
+                <x-panel.boton variante="secundario" data-dismiss="modal">Cancelar</x-panel.boton>
+                <x-panel.boton id="envio_encuesta" type="submit">Confirmar envío</x-panel.boton>
+            </x-panel.modal-pie>
+        </form>
+    </x-panel.modal>
 @endsection
+
+@push('scripts')
+    @include('encuestas_satisfacion_cliente.partials.cargar_modal')
+    <script>
+        $(function () {
+            $('#tabla_alumnos').DataTable({columnDefs: [{targets: -1, orderable: false, searchable: false}]});
+            $('#tabla_registros').DataTable();
+        });
+    </script>
+@endpush
