@@ -1,90 +1,91 @@
 @extends('ingles.inicio_ingles.layout_ingles')
-@section('title', 'Vouchers en espera de validación')
+@section('title', 'Cupo máximo de grupos de inglés')
 @section('content')
-
-<main class="col-md-12">
-
-        <div class="row">
-            <div class="col-md-5 col-md-offset-3">
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title text-center"><b>Número Máximo de Usuarios del Periodo {{$periodo->periodo_ingles}}</b></h3>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <main class="ingles-cupos tw-modulo tw:mx-auto tw:max-w-5xl tw:min-w-0 tw:space-y-4 tw:rounded-2xl tw:bg-gray-50 tw:p-4 tw:sm:p-6 tw:dark:bg-gray-900">
+        <header>
+            <h1 class="tw:m-0 tw:text-xl tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">Cupo máximo de grupos de inglés</h1>
+            <p class="tw:mt-1 tw:text-gray-600 tw:dark:text-gray-400">Periodo: {{ $periodo->periodo_ingles }}</p>
+        </header>
 
         @if($estado_maximo==0)
-        <form action="{{url("/ingles/guardar_maximo_grupo_alumnos")}}" role="form" method="post" >
-        	@csrf
-        	<div style="padding: 1m;">
-        		<div class="container" style="width: 30%; height: 5%; margin-top: 1em; margin-bottom: 1em">
-        			<label style="margin-top: 1.5em"> Ingresa el número de usuarios para el nivel</label>
-                    <input type="number" id="num_max_alumnos" name="num_max_alumnos" placeholder="¡¡¡Ingrese número de usuarios para el nivel!!!" class="form-control" style="align-items: center" required/>
-        		</div>
-                        <div style="padding: 1.5em;">
-                        <div class="d-grid gap-2 d-md-flex" style="size: 25px; margin-top: 1.5em; margin-bottom: 1.5em; align-items: center; display: flex; justify-content: center">
-                                <button type="submit" id="boton_azul" class="btn btn-primary" style="position:absolute;left: 40%;width:150px; height:50px; border-radius: 2em;">
-                                    <strong><b>Guardar</b></strong>
-                                </button>
-                        </div>
+            <x-panel.tarjeta titulo="Configurar cupo máximo">
+                <form action="{{url("/ingles/guardar_maximo_grupo_alumnos")}}" role="form" method="post" class="tw:space-y-4">
+                    @csrf
+                    <div class="tw:max-w-md">
+                        <label for="num_max_alumnos">Número máximo de alumnos</label>
+                        <input type="number" id="num_max_alumnos" name="num_max_alumnos"
+                            placeholder="¡¡¡Ingrese número de usuarios para el nivel!!!" class="form-control" required/>
                     </div>
-                </div>
-                </div>
-        </form>
+                    <x-panel.boton type="submit" id="boton_azul">Guardar</x-panel.boton>
+                </form>
+            </x-panel.tarjeta>
         @else($estado_maximo==1)
-        <div class="row" id="consultar">
-            <div class="col-md-10 col-md-offset-1">
-                <br>
-                <table id="table_enviado" class="table table-bordered text-center" style="table-layout:fixed;">
+            <div id="consultar" class="tesvb-tabla-scroll">
+                <x-panel.tabla id="table_enviado" class="table tw:mb-0" desplazable="Cupo máximo del periodo">
                     <thead>
-                    <tr>
-                        <th style="text-align: center; color: black;"> No.</th>
-                        <th style="text-align: center; color: black;"> Número Máximo de Alumnos</th>
-                        <th style="text-align: center; color: black;"> Status</th>
-                    </tr>
-                    <tr>
-                    	<th style="text-align: center">1</th>
-                    	<th style="text-align: center">{{$maximo_estudiantes->num_maximo_alumnos}}</th>
-                    	<th style="text-align: center">
-                    		<form action="{{url("/ingles/editar_maximo")}}" method="POST">
-                                    @csrf
-                                    <button id="boton_editar" type="button" class="btn" 
-                                    style="border-bottom:2em; background: crimson;color: white;">
-                  	 					<i class="glyphicon glyphicon-pencil" ></i>
-                   					</button>
-                            </form>
-                  		</th>
-                    </tr>
+                        <tr>
+                            <th scope="col">No.</th>
+                            <th scope="col">Número Máximo de Alumnos</th>
+                            <th scope="col">Status</th>
+                        </tr>
                     </thead>
                     <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>{{ $maximo_estudiantes->num_maximo_alumnos }}</td>
+                            <td>
+                                <form action="{{url("/ingles/editar_maximo")}}" method="POST">
+                                    @csrf
+                                    <x-panel.boton variante="secundario" id="boton_editar" type="button" aria-controls="editar_maximo">
+                                        <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Editar
+                                    </x-panel.boton>
+                                </form>
+                            </td>
+                        </tr>
                     </tbody>
-                </table>
+                </x-panel.tabla>
             </div>
-        </div>	
-			<div id="editar_maximo" class="container" style="display:none;">
-			    <form action="{{url("/ingles/guardar_editar_boton")}}" role="form" method="post" >
-		    	@csrf
-		        	<div style="padding: 1m;">
-		        		<div class="container" style="width: 30%; height: 5%; margin-top: 1em; margin-bottom: 1em">
-		       			<label style="margin-top: 1.5em"> Edite el número de usuarios para el nivel</label>
-	                    <input type="number" id="num_max_alumnos" name="num_max_alumnos" placeholder="Edite número de usuarios para el nivel!!!" class="form-control" style="align-items: center" required/>
- 		       		</div>
-			            <div style="padding: 1.5em;">
-			                <div class="d-grid gap-2 d-md-flex" style="size: 25px; margin-top: 1.5em; margin-bottom: 1.5em; align-items: center; display: flex; justify-content: center">
-			                    <button type="submit" id="boton_azul" class="btn btn-primary" style="position:absolute;left: 40%;width:150px; height:50px; border-radius: 2em;">
-	                                <strong><b>Guardar</b></strong>
-			                    </button>
-			                    <button type="button" id="cerrar" class="btn" style="background-color: crimson;color: black; position:absolute;left: 50%;width:150px; height:50px; border-radius: 2em">
-                                <strong style="color:white;"><b>Cerrar Edicion</b></strong>
-                            </button> 
-		                	</div>
 
-			          	</div>
-			        </form
-			</div>
+            <div id="editar_maximo" style="display:none;">
+                <x-panel.tarjeta titulo="Editar cupo máximo">
+                    <form action="{{url("/ingles/guardar_editar_boton")}}" role="form" method="post" class="tw:space-y-4">
+                        @csrf
+                        <div class="tw:max-w-md">
+                            <label for="num_max_alumnos">Nuevo número máximo de alumnos</label>
+                            <input type="number" id="num_max_alumnos" name="num_max_alumnos"
+                                placeholder="Edite número de usuarios para el nivel!!!" class="form-control" required/>
+                        </div>
+                        <div class="tw:flex tw:flex-wrap tw:gap-2">
+                            <x-panel.boton type="submit" id="boton_azul">Guardar</x-panel.boton>
+                            <x-panel.boton variante="secundario" type="button" id="cerrar">Cerrar edición</x-panel.boton>
+                        </div>
+                    </form>
+                </x-panel.tarjeta>
+            </div>
         @endif
-</main>
+    </main>
+
+    <style>
+        .dark .ingles-cupos .form-control {
+            background-color: #1d2939;
+            color: #f2f4f7;
+            border-color: #667085;
+            color-scheme: dark;
+        }
+
+        .dark .ingles-cupos .form-control::placeholder {
+            color: #b0bfce;
+        }
+
+        .ingles-cupos :is(button, .form-control):focus-visible {
+            outline: 2px solid #3538cd;
+            outline-offset: 2px;
+        }
+
+        .dark .ingles-cupos :is(button, .form-control):focus-visible {
+            outline-color: #a4bcfd;
+        }
+    </style>
 
     <script type="text/javascript">
         $(document).ready(function(){
@@ -95,5 +96,5 @@
         		$("#editar_maximo").css("display","none");
         	});
         });
-    </script>    
-@endsection        
+    </script>
+@endsection
