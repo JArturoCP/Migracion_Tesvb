@@ -60,6 +60,8 @@
 @source "../views/incidencias/agregar.blade.php";
 @source "../views/titulacion/jefe_titulacion/formulario_datos_titulado/reg_datos_alumno.blade.php";
 @source "../views/titulacion/jefe_titulacion/autorizar_doc_requisitos";
+@source "../views/titulacion/jefe_titulacion/autorizar_seg_parte";
+@source "../views/titulacion/partials";
 @source "../views/encuestas_satisfacion_cliente/partials";
 @source "../views/encuestas_satisfacion_cliente/computo";
 @source "../views/encuestas_satisfacion_cliente/residencia";
