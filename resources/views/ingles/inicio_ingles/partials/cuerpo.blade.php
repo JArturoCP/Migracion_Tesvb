@@ -18,7 +18,11 @@
 </div>
 
 @section('footer')
-    @include('partials.footer')
+    @if (empty($moduloIngles))
+        @include('partials.footer')
+    @else
+        @include('partials.panel.pie')
+    @endif
 @show
 
 <!-- Scripts -->

@@ -4,46 +4,16 @@
 
 @section('content')
 
-<main>
+<main class="ingles-i3c tw-modulo tw:mx-auto tw:max-w-5xl tw:min-w-0 tw:space-y-4 tw:rounded-2xl tw:bg-gray-50 tw:p-4 tw:sm:p-6 tw:dark:bg-gray-900">
+    <h1 class="tw:m-0 tw:text-xl tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">Examen de ubicación de nuevo ingreso</h1>
 
-  <div class="container">
-
-    <!-- =========================================
-             TITULO
-        ========================================== -->
-    <div class="row">
-
-      <div class="col-md-6">
-
-        <div class="panel panel-info text-center" style="border-radius: 10px; margin-bottom: 20px;">
-
-          <div class="panel-heading" style="padding: 15px; border-radius: 10px 10px 0 0;">
-
-            <h3 class="panel-title" style="font-weight: bold; margin: 0;">
-
-              <i class="fa fa-graduation-cap"></i>
-
-              Examen Ubicación Nuevo Ingreso
-
-            </h3>
-
-          </div>
-
-        </div>
-
-      </div>
-
-    </div>
-
-    <!-- =========================================
-             TABLAS
-        ========================================== -->
-    <div class="row">
+    <div class="tw:grid tw:min-w-0 tw:gap-4 tw:xl:grid-cols-2">
 
       <!-- =====================================
                  ALUMNOS PENDIENTES
             ====================================== -->
-      <div class="col-md-6">
+      <div class="tw:min-w-0">
+        <x-panel.tarjeta>
 
         <div class="alert alert-danger text-center" style="border-radius: 8px;">
 
@@ -55,7 +25,7 @@
 
         </div>
 
-        <table class="table table-striped table-bordered" id="tabla-ingles">
+        <table class="table tw-tabla" id="tabla-ingles">
 
           <thead>
 
@@ -120,13 +90,14 @@
           </tbody>
 
         </table>
-
+        </x-panel.tarjeta>
       </div>
 
       <!-- =====================================
                  ALUMNOS REGISTRADOS
             ====================================== -->
-      <div class="col-md-6">
+      <div class="tw:min-w-0">
+        <x-panel.tarjeta>
 
         <div class="alert alert-success text-center" style="border-radius: 8px;">
 
@@ -138,7 +109,7 @@
 
         </div>
 
-        <table class="table table-bordered table-striped" id="tabla-registrados">
+        <table class="table tw-tabla" id="tabla-registrados">
 
           <thead>
 
@@ -229,17 +200,15 @@
           </tbody>
 
         </table>
-
+        </x-panel.tarjeta>
       </div>
 
     </div>
 
-  </div>
-
   <!-- =========================================
          MODAL REGISTRAR ALUMNO
     ========================================== -->
-  <div class="modal fade" id="modalAlumno" tabindex="-1">
+  <div class="modal fade" id="modalAlumno" tabindex="-1" role="dialog" aria-labelledby="modalAlumno-titulo">
 
     <div class="modal-dialog" style="max-width: 420px;">
 
@@ -249,7 +218,7 @@
 
         <div class="modal-header bg-primary text-white" style="border-radius: 14px 14px 0 0;">
 
-          <button type="button" class="close text-white" data-dismiss="modal" style="opacity: 1;">
+          <button type="button" class="close text-white" aria-label="Cerrar" data-dismiss="modal" style="opacity: 1;">
 
             <span>
               &times;
@@ -257,7 +226,7 @@
 
           </button>
 
-          <h4 class="modal-title">
+          <h4 class="modal-title" id="modalAlumno-titulo">
 
             <i class="fa fa-graduation-cap"></i>
 
@@ -291,7 +260,7 @@
 
           <div class="form-group">
 
-            <label style="font-weight: bold;">
+            <label for="nivel" style="font-weight: bold;">
 
               <i class="fa fa-list"></i>
 
@@ -333,7 +302,7 @@
 
           <div class="form-group">
 
-            <label style="font-weight: bold;">
+            <label for="grupo" style="font-weight: bold;">
 
               <i class="fa fa-users"></i>
 
@@ -394,7 +363,7 @@
   <!-- =========================================
          MODAL ELIMINAR
     ========================================== -->
-  <div class="modal fade" id="modalEliminar" tabindex="-1">
+  <div class="modal fade" id="modalEliminar" tabindex="-1" role="dialog" aria-labelledby="modalEliminar-titulo">
 
     <div class="modal-dialog" style="max-width: 420px;">
 
@@ -408,7 +377,7 @@
                         border-radius: 14px 14px 0 0;
                      ">
 
-          <button type="button" class="close" data-dismiss="modal" style="
+          <button type="button" class="close" aria-label="Cerrar" data-dismiss="modal" style="
                                 color: white;
                                 opacity: 1;
                             ">
@@ -419,7 +388,7 @@
 
           </button>
 
-          <h4 class="modal-title">
+          <h4 class="modal-title" id="modalEliminar-titulo">
 
             <i class="fa fa-exclamation-triangle"></i>
 
@@ -823,4 +792,64 @@
   });
 </script>
 
+<style>
+
+    .ingles-i3c .btn:focus-visible,
+    .ingles-i3c .form-control:focus-visible,
+    .ingles-i3c [tabindex="0"]:focus-visible {
+        outline: 2px solid #3538cd;
+        outline-offset: 2px;
+    }
+    .dark .ingles-i3c :is(.btn, .form-control, [tabindex="0"]):focus-visible {
+        outline-color: #a4bcfd;
+    }
+    .dark .ingles-i3c .form-control {
+        color: #f2f4f7;
+        background: #1d2939;
+        border-color: #667085;
+        color-scheme: dark;
+    }
+
+    .dark .ingles-i3c .modal-content {
+        background: #1d2939;
+        color: #f2f4f7;
+    }
+    .dark .ingles-i3c .modal-content :is(.modal-header, .modal-footer) {
+        border-color: #475467;
+    }
+    .dark .ingles-i3c .modal-header.bg-info {
+        background: #25324a;
+    }
+    .dark .ingles-i3c .modal-header .close {
+        color: #fff;
+        opacity: 1;
+        text-shadow: none;
+    }
+
+    .dark .ingles-i3c table.dataTable tbody :is(tr, td) {
+        background-color: #1d2939;
+        color: #e4e7ec;
+    }
+    .dark .ingles-i3c table.dataTable th {
+        background-color: #25324a;
+        color: #f2f4f7;
+    }
+    .dark .ingles-i3c table.dataTable tbody tr:hover td {
+        background-color: #25324a;
+    }
+
+    .dark .ingles-i3c #modalEliminar .modal-body p {
+        color: #d0d5dd !important;
+    }
+    .dark .ingles-i3c .modal-body .alert-info {
+        background: #183453;
+        color: #d1e9ff;
+        border-color: #3d6384;
+    }
+    .dark .ingles-i3c .modal-body .alert-warning {
+        background: #3b2b18;
+        color: #fedf89;
+        border-color: #745436;
+    }
+</style>
 @endsection

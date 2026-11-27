@@ -1,45 +1,38 @@
 @extends('ingles.inicio_ingles.layout_ingles')
 @section('title', 'Facilitadores de ingles')
 @section('content')
-    <main class="col-md-12">
+    <main class="tw-modulo tw:mx-auto tw:max-w-5xl tw:min-w-0 tw:space-y-4 tw:rounded-2xl tw:bg-gray-50 tw:p-4 tw:sm:p-6 tw:dark:bg-gray-900">
+        <header>
+            <h1 class="tw:m-0 tw:text-xl tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">Calificaciones de los facilitadores</h1>
+        </header>
 
-        <div class="row">
-
-            <div class="col-md-6 col-md-offset-3">
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title text-center">Calificaciones de los Facilitadores de Ingles</h3>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-
-            <div class="col-md-6 col-md-offset-3">
-                <table id="paginar_table" class="table table-bordered ">
-                    <thead>
+        <div class="tesvb-tabla-scroll">
+            <x-panel.tabla id="paginar_table" class="table table-bordered tw:mb-0" desplazable="Calificaciones de los facilitadores" aria-label="Calificaciones de los facilitadores">
+                <thead>
                     <tr>
-                        <th>Nombre del facilitador</th>
-                        <th>Mostrar Grupos</th>
-
+                        <th scope="col">Nombre del facilitador</th>
+                        <th scope="col">Mostrar grupos</th>
                     </tr>
-                    </thead>
-
-                    <tbody>
-                    @foreach($profesores as $profesor)
+                </thead>
+                <tbody>
+                    @forelse($profesores as $profesor)
                         <tr>
-                            <td>{{ $profesor->apellido_paterno }} {{ $profesor->apellido_materno }} {{ $profesor->nombre }}</td>
+                            <td>{{ $profesor->apellido_paterno . ' ' . $profesor->apellido_materno . ' ' . $profesor->nombre }}</td>
                             <td>
-                                <a href="/ingles/profesores/calificacion_profesor/{{ $profesor->id_profesores }}"><span class="glyphicon glyphicon-list-alt em6" aria-hidden="true"></span></a>
+                                <x-panel.boton variante="secundario" href="/ingles/profesores/calificacion_profesor/{{ $profesor->id_profesores }}"
+                                    aria-label="Ver grupos de {{ $profesor->apellido_paterno . ' ' . $profesor->apellido_materno . ' ' . $profesor->nombre }}">
+                                    <span class="glyphicon glyphicon-list-alt em6" aria-hidden="true"></span>
+                                    Ver grupos
+                                </x-panel.boton>
                             </td>
-
-
                         </tr>
-                    @endforeach
-                    </tbody>
-                </table>
-            </div>
+                    @empty
+                        <tr>
+                            <td colspan="2">No hay facilitadores para mostrar.</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </x-panel.tabla>
         </div>
     </main>
 @endsection

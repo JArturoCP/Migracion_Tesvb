@@ -1,90 +1,80 @@
 @extends('ingles.inicio_ingles.layout_ingles')
 @section('title', 'Revisión de Carga academica ingles')
 @section('content')
-    <main class="col-md-12">
-            <div class="row">
-                <div class="col-md-6 col-md-offset-3">
-                    <div class="panel panel-info">
-                        <div class="panel-heading">
-                            <h3 class="panel-title text-center">Carga Academica de  Ingles del estudiante: {{ $datosalumno[0]->nombre }} {{ $datosalumno[0]->apaterno }} {{ $datosalumno[0]->amaterno }} <br>
-                            </h3>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <main class="tw-modulo tw:mx-auto tw:max-w-5xl tw:min-w-0 tw:space-y-4 tw:rounded-2xl tw:bg-gray-50 tw:p-4 tw:sm:p-6 tw:dark:bg-gray-900">
+        <header>
+            <h1 class="tw:m-0 tw:text-xl tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">Carga académica de inglés</h1>
+            <p class="tw:mt-1 tw:text-gray-600 tw:dark:text-gray-400">Estudiante: {{ $datosalumno[0]->nombre }} {{ $datosalumno[0]->apaterno }} {{ $datosalumno[0]->amaterno }}</p>
+        </header>
 
-        <div class="row">
-            <div class="col-md-6 col-md-offset-3">
-                <div class="panel panel-success">
-                    <div class="panel-heading">
-                        <h3 class="panel-title text-center">Facilitador: {{ $profesor->nombre }} {{ $profesor->apellido_paterno }} {{ $profesor->apellido_materno }} <br>
-                        </h3>
-                    </div>
-                </div>
-            </div>
-        </div>
-            <div class="row" id="consultar">
-                <div class="col-md-10 col-md-offset-1">
-                    <br>
-                    <table id="table_enviado" class="table table-bordered text-center" style="table-layout:fixed;">
-                        <thead>
-                        <tr>
-                            <th>Hora/Día</th>
-                            <th>Lunes </th>
-                            <th>Martes</th>
-                            <th>Miercoles</th>
-                            <th>Jueves</th>
-                            <th>Viernes</th>
-                            <th>Sabado</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <?php $contador=1 ?>
+        <x-panel.tarjeta>
+            <p class="tw:m-0">Facilitador: {{ $profesor->nombre }} {{ $profesor->apellido_paterno }} {{ $profesor->apellido_materno }}</p>
+        </x-panel.tarjeta>
 
-                        @foreach($semanas as $semana)
-                            @if($contador==1)
-                                <tr>
-                                    <td class="horario">{{ $semana->hora }}</td>
-                                    @endif
-                                    <td id="{{ $semana->id_semana }}" class="horario">
-                                        @foreach($array_ingles as $horario_ingles)
-                                            @if($horario_ingles['id_semana']==$semana->id_semana)
-                                                @if($horario_ingles['disponibilidad'] ==2)
+        <div id="consultar" class="tesvb-tabla-scroll">
+                <x-panel.tabla id="table_enviado" class="table text-center tw:mb-0" style="min-width: 720px !important" desplazable="Horario semanal de la carga" aria-label="Horario semanal de la carga">
+                    <thead>
+                    <tr>
+                        <th scope="col">Hora/Día</th>
+                        <th scope="col">Lunes </th>
+                        <th scope="col">Martes</th>
+                        <th scope="col">Miercoles</th>
+                        <th scope="col">Jueves</th>
+                        <th scope="col">Viernes</th>
+                        <th scope="col">Sabado</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php $contador=1 ?>
 
-                                                    <div class="bg-success">{{$horario_ingles['nivel']}} <br><b>GRUPO:</b>{{$horario_ingles['grupo']}}<br>
+                    @forelse($semanas as $semana)
+                        @if($contador==1)
+                            <tr>
+                                <td class="horario">{{ $semana->hora }}</td>
+                                @endif
+                                <td id="{{ $semana->id_semana }}" class="horario">
+                                    @foreach($array_ingles as $horario_ingles)
+                                        @if($horario_ingles['id_semana']==$semana->id_semana)
+                                            @if($horario_ingles['disponibilidad'] ==2)
 
-                                                    </div>
-                                                @elseif($horario_ingles['disponibilidad'] == 3 )
-                                                    <div class="">
-                                                    </div>
+                                                <div class="bg-success">{{$horario_ingles['nivel']}} <br><b>GRUPO:</b>{{$horario_ingles['grupo']}}<br>
 
-                                                @endif
-
-
+                                                </div>
+                                            @elseif($horario_ingles['disponibilidad'] == 3 )
+                                                <div class="">
+                                                </div>
 
                                             @endif
-                                        @endforeach
 
-                                    </td>
+                                        @endif
+                                    @endforeach
 
+                                </td>
 
-                                    <?php $contador++?>
-                                    @if($contador==7)
-                                    <?php $contador=1 ?>
-                                    </td>
+                                <?php $contador++?>
+                                @if($contador==7)
+                                <?php $contador=1 ?>
 
+                            </tr>
+                        @endif
 
-                                </tr>
-                            @endif
-
-                        @endforeach
-
-
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+                    @empty
+                        <tr><td colspan="7">No hay bloques de horario para mostrar.</td></tr>
+                    @endforelse
+                    </tbody>
+                </x-panel.tabla>
+        </div>
     </main>
 
+    <style>
+        #table_enviado .horario .bg-success {
+            border-radius: 8px;
+            padding: 8px;
+        }
 
+        .dark #table_enviado .horario .bg-success {
+            background: #12392c;
+            color: #a6f4c5;
+        }
+    </style>
 @endsection

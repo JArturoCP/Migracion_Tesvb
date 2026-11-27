@@ -1,0 +1,57 @@
+/* El contenido de Ingles comparte el marco con modulos que todavia usan Bootstrap. */
+[data-modulo-ingles] {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  flex-direction: column;
+  background-color: var(--tw-color-gray-50);
+}
+
+/* El margen global de tesvb-responsivo.css es importante y se aplica a todos los pies Bootstrap. */
+[data-modulo-ingles] > [data-panel-pie] {
+  margin-top: auto !important;
+  z-index: auto !important;
+  overflow-wrap: anywhere;
+}
+
+[data-modulo-ingles] > [data-panel-pie] > p {
+  margin: 0;
+}
+
+.dark [data-modulo-ingles]:has(> .tesvb-contenido > :is(.tw-modulo, .ingles-estudiante)) {
+  background-color: var(--tw-color-gray-900);
+}
+
+/* Bootstrap selecciona filas y celdas con mayor especificidad que los estilos base de .tw-tabla. */
+.dark [data-modulo-ingles] .table.tw-tabla,
+.dark [data-modulo-ingles] .table.tw-tabla > :is(thead, tbody, tfoot) > tr > :is(th, td),
+.dark [data-modulo-ingles] .tw-modulo .table-responsive {
+  border-color: var(--tw-color-gray-700);
+}
+
+.dark [data-modulo-ingles] .table.tw-tabla > thead > tr > th {
+  background-color: var(--tw-color-gray-800);
+  color: var(--tw-color-gray-300);
+}
+
+.dark [data-modulo-ingles] .table.tw-tabla:is(.table-striped, .tesvb-dt-tabla) > tbody > tr:nth-of-type(odd) > :is(th, td) {
+  background-color: rgb(255 255 255 / 0.02);
+}
+
+.dark [data-modulo-ingles] .table.tw-tabla > tbody > tr:hover > :is(th, td) {
+  background-color: rgb(255 255 255 / 0.05);
+}
+
+
+/* Conserva el significado de los avisos de Bootstrap en el tema oscuro. */
+.dark [data-modulo-ingles] .tw-modulo :is(.alert-danger, .panel-danger, .panel-danger > .panel-heading) {
+  background-color: #411d27;
+  border-color: #704050;
+  color: #fecdca;
+}
+
+.dark [data-modulo-ingles] .tw-modulo .alert-success {
+  background-color: #12392c;
+  border-color: #365f4d;
+  color: #a6f4c5;
+}

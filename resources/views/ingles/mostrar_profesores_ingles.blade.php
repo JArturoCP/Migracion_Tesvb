@@ -2,31 +2,20 @@
 @section('title', 'Facilitadores de ingles')
 @section('content')
 
-    <main class="col-md-12">
-        <div id="reg_facilitadores">
-            <div class="row">
-
-                <div class="col-md-6 col-md-offset-3">
-                    <div class="panel panel-info">
-                        <div class="panel-heading">
-                            <h3 class="panel-title text-center">Facilitadores de Ingles</h3>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="panel-body">
-                <div class="row">
-                    <div class="col-md-8 col-md-offset-2">
-                        <table id="tabla_facilitadores" class="table table-bordered table-resposive" >
+    <main class="ingles-catalogo tw-modulo tw:mx-auto tw:max-w-5xl tw:min-w-0 tw:space-y-4 tw:rounded-2xl tw:bg-gray-50 tw:p-4 tw:sm:p-6 tw:dark:bg-gray-900">
+        <div id="reg_facilitadores" class="tw:space-y-4" v-cloak>
+            <h1 class="tw:m-0 tw:text-xl tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">Facilitadores de inglés</h1>
+            <div class="tesvb-tabla-scroll">
+                <x-panel.tabla id="tabla_facilitadores" class="table table-resposive tw:mb-0" style="min-width: 760px !important" desplazable="Facilitadores de inglés" aria-label="Facilitadores de inglés">
                             <thead>
                             <tr>
-                                <th>Agregar_horas</th>
-                                <th>Horas maximas</th>
-                                <th>Nombre</th>
-                                <th>nivel ingles</th>
-                                <th>Titulo</th>
-                                <th>Fecha emisión</th>
-                                <th>Sexo</th>
+                                <th scope="col">Asignar horas</th>
+                                <th scope="col">Horas máximas</th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Nivel de inglés</th>
+                                <th scope="col">Título</th>
+                                <th scope="col">Fecha de emisión</th>
+                                <th scope="col">Sexo</th>
                             </tr>
                             </thead>
 
@@ -34,7 +23,9 @@
 
                             <tr v-for="facilitador in facilitadores">
                                 <td class="text-center">
-                                    <a v-on:click=" abrirModal_facilitador(facilitador);" ><i class="glyphicon glyphicon-cog em2"></i></a>
+                                    <button type="button" class="btn btn-primary" v-on:click=" abrirModal_facilitador(facilitador);">
+                                        <i class="glyphicon glyphicon-cog em2" aria-hidden="true"></i> Asignar horas
+                                    </button>
                                 </td>
                                 <td v-if="facilitador.horas_maximas > 0">@{{ facilitador.horas_maximas }}</td>
                                 <td v-else>NO SE HAN ASIGNADO HORAS</td>
@@ -47,20 +38,20 @@
 
                             </tr>
 
+                                <tr v-if="facilitadores.length === 0">
+                                <td colspan="7">No hay facilitadores para mostrar.</td>
+                            </tr>
                             </tbody>
-                        </table>
-                    </div>
-                </div>
-
+                        </x-panel.tabla>
             </div>
-            <div  class="modal" :class="{mostrar:modal}" >
+            <div class="modal ingles-catalogo-modal" :class="{mostrar:modal}" role="dialog" aria-labelledby="titulo-horas-facilitador">
                 <div class="modal-dialog modal-lg">
 
                     <!-- Modal content-->
                     <div class="modal-content">
                         <div class="modal-header">
-                            <button type="button" class="close" @click="cerrarModal_F();">&times;</button>
-                            <h4 class="modal-title" style=" text-align: center;">Agregar o Modificar Horas al Facilitador</h4>
+                            <button type="button" class="close" aria-label="Cerrar" @click="cerrarModal_F();">&times;</button>
+                            <h2 class="modal-title" id="titulo-horas-facilitador">Asignar horas al facilitador</h2>
                         </div>
                         <div class="modal-body">
                             <div class="row">
@@ -71,7 +62,7 @@
                             <div class="row">
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
-                                        <label for="horas">Horas asignadas: </label>
+                                        <label for="horas_profesor">Horas asignadas: </label>
                                         <template v-if="horas_maximas == 0">
                                             <input class="form-control" type="number" min="0" max="49" id="horas_profesor" name="horas_profesor" v-model="horas_maximas" placeholder="Asignar horas"  required />
                                         </template>
@@ -178,6 +169,54 @@
             display: list-item;
             opacity: 1;
             background: rgba(44,38,75,0.849);
+        }
+    </style>
+
+    <style>
+        .dark .ingles-catalogo-modal .modal-content,
+        .dark .ingles-catalogo-modal .modal-header {
+            background: #1d2939;
+            color: #f2f4f7;
+            border-color: #475467;
+        }
+        .dark .ingles-catalogo-modal .modal-footer {
+            border-color: #475467;
+        }
+        .dark .ingles-catalogo-modal .close {
+            color: #f2f4f7;
+            opacity: 1;
+            text-shadow: none;
+        }
+        .dark .ingles-catalogo-modal input.form-control {
+            background: #101828;
+            color: #f2f4f7;
+            border-color: #667085;
+        }
+    </style>
+    <style>
+        #reg_facilitadores[v-cloak] { display: none; }
+    </style>
+    <style>
+        .ingles-catalogo .btn-primary,
+        .ingles-catalogo-modal .btn-primary {
+            background: #3538cd;
+            border-color: #3538cd;
+            color: #fff;
+        }
+        .ingles-catalogo .btn-primary:hover,
+        .ingles-catalogo-modal .btn-primary:hover {
+            background: #2d31a6;
+            border-color: #2d31a6;
+            color: #fff;
+        }
+        .ingles-catalogo .btn:focus-visible,
+        .ingles-catalogo-modal .btn:focus-visible {
+            outline: 2px solid #3538cd;
+            outline-offset: 2px;
+        }
+        .dark .ingles-catalogo .btn:focus-visible,
+        .dark .ingles-catalogo-modal .btn:focus-visible {
+            outline-color: #a4bcfd;
         }
     </style>
 @endsection

@@ -1,45 +1,32 @@
 @extends('ingles.inicio_ingles.layout_ingles')
-@section('title', 'Niveles de ingles')
+@section('title', 'Niveles de inglés')
 @section('content')
-    <main class="col-md-12">
+    <main class="tw-modulo tw:mx-auto tw:max-w-5xl tw:min-w-0 tw:space-y-4 tw:rounded-2xl tw:bg-gray-50 tw:p-4 tw:sm:p-6 tw:dark:bg-gray-900">
+        <h1 class="tw:m-0 tw:text-xl tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">Niveles de inglés</h1>
 
-        <div class="row">
-
-            <div class="col-md-6 col-md-offset-2">
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title text-center">Niveles de ingles</h3>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-        <div class="row">
-            <div class="col-md-6 col-md-offset-2">
-                <table id="table_enviado" class="table table-bordered text-center" style="table-layout:fixed;">
-                    <thead>
+        <div class="tesvb-tabla-scroll">
+            <x-panel.tabla id="table_enviado" class="table tw:mb-0" desplazable="Niveles de inglés" aria-label="Niveles de inglés">
+                <thead>
                     <tr>
-                        <th>No.</th>
-                        <th>Nivel </th>
-                        <th>Clave</th>
-
+                        <th scope="col">No.</th>
+                        <th scope="col">Nivel</th>
+                        <th scope="col">Clave</th>
                     </tr>
-                    </thead>
-                    <tbody>
-                    @foreach($niveles as $nivel)
+                </thead>
+                <tbody>
+                    @forelse($niveles as $nivel)
                         <tr>
-                            <td>{{$nivel->id_niveles_ingles}}</td>
-                            <td>{{$nivel->descripcion}}</td>
-                            <td>{{$nivel->clave}}</td>
+                            <td>{{ $nivel->id_niveles_ingles }}</td>
+                            <td>{{ $nivel->descripcion }}</td>
+                            <td>{{ $nivel->clave }}</td>
                         </tr>
-
-                    @endforeach
-
-
-                    </tbody>
-                </table>
-            </div>
+                    @empty
+                        <tr>
+                            <td colspan="3">No hay niveles registrados.</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </x-panel.tabla>
         </div>
-
     </main>
 @endsection

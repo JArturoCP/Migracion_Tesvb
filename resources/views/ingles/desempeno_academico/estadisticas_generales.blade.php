@@ -1,61 +1,89 @@
 @extends('ingles.inicio_ingles.layout_ingles')
 @section('title', 'Estadistica Trimestral de Inglés')
 @section('content')
-    <main>
-        <div class="row">
-            <div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
-                <div class="panel panel-info">
-                    <div class="panel-heading text-center" style="padding: 15px;">
-                        <h3 class="panel-title" style="font-weight: bold; margin: 0;">
-                            Estadísticas Trimestre: {{ $periodo->periodo_ingles }}
-                        </h3>
-                    </div>
-                </div>
+    <style>
+        .i5a-tabs { display: flex; flex-wrap: wrap; gap: .25rem; padding: .5rem; border-bottom: 1px solid var(--tw-color-gray-200, #e4e7ec); }
+        .i5a-tabs > li > a { border-radius: .5rem; padding: .625rem .875rem; color: var(--tw-color-gray-700, #344054); }
+        .i5a-tabs > li > a:hover { background-color: var(--tw-color-gray-100, #f2f4f7); }
+        .i5a-tabs > .active > a { background-color: var(--tw-color-brand-50, #ecf3ff); color: var(--tw-color-brand-700, #1c42dd); font-weight: 600; }
+        .dark .i5a-tabs { border-color: var(--tw-color-gray-800, #1d2939); }
+        .dark .i5a-tabs > li > a { color: var(--tw-color-gray-300, #d0d5dd); }
+        .dark .i5a-tabs > li > a:hover, .dark .i5a-tabs > .active > a { background-color: var(--tw-color-gray-800, #1d2939); }
+        .dark .i5a-tabs > .active > a { color: var(--tw-color-brand-200, #c2d6ff); }
+        .tw-modulo .i5a-tabs a:focus-visible, .i5a-panel .tw-tabla-desplazable:focus-visible {
+            outline: 2px solid var(--tw-color-brand-500, #465fff);
+            outline-offset: -2px;
+        }
+        .i5a-panel .tw-tabla th[scope="row"] { min-width: 11rem; white-space: normal; overflow-wrap: anywhere; }
+        #grafico_estadisticas { height: 400px; --i5a-chart-text: var(--tw-color-gray-800, #1d2939); }
+        .dark #grafico_estadisticas { --i5a-chart-text: var(--tw-color-gray-200, #e4e7ec); }
+        #grafico_estadisticas :is(.highcharts-title, .highcharts-axis-title, .highcharts-axis-labels text, .highcharts-legend-item text) {
+            fill: var(--i5a-chart-text) !important;
+        }
+        #grafico_estadisticas .highcharts-data-label text { fill: #fff !important; }
+        .dark #grafico_estadisticas .highcharts-grid-line { stroke: var(--tw-color-gray-700, #344054); }
+    </style>
+
+    <main class="tw-modulo tw:min-w-0 tw:space-y-4 tw:rounded-2xl tw:bg-gray-50 tw:p-4 tw:sm:p-6 tw:dark:bg-gray-900">
+        <header class="tw:flex tw:flex-wrap tw:items-center tw:justify-between tw:gap-3">
+            <div>
+                <h1 class="tw:m-0 tw:text-xl tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">Estadísticas del trimestre</h1>
+                <p class="tw:mt-1 tw:text-gray-600 tw:dark:text-gray-400">{{ $periodo->periodo_ingles }}</p>
             </div>
-        </div>
-
-        <div class="row" style="margin-top: 20px;">
-            <div class="col-md-10 text-right">
-                <a href="{{ route('ingles.exportar_estadisticas_generales') }}" class="btn btn-success" style="margin-right: 10px;">
-                    Exportar a Excel
-                </a>
-                <button class="btn btn-primary" onclick="mostrarGrafica()">
-                    Ver gráfica
-                </button>
+            <div class="tw:flex tw:flex-wrap tw:gap-2">
+                <x-panel.boton variante="secundario" href="{{ route('ingles.exportar_estadisticas_generales') }}">
+                    <span class="fa fa-file-excel-o" aria-hidden="true"></span> Exportar a Excel
+                </x-panel.boton>
+                <x-panel.boton id="boton_grafico_estadisticas" aria-controls="grafico_estadisticas" aria-expanded="false" onclick="mostrarGrafica()">
+                    <span class="fa fa-bar-chart" aria-hidden="true"></span> Ver gráfica
+                </x-panel.boton>
             </div>
-        </div>
+        </header>
 
-
-        <div class="container mt-4">
-            <!-- Nav tabs -->
-            <!-- Tabs -->
-            <ul class="nav nav-tabs custom-tabs">
-                <li class="active"><a data-toggle="tab" href="#aprobados"><i class="fa fa-check-circle"></i> Aprobación</a></li>
-                <li><a data-toggle="tab" href="#reprobados"><i class="fa fa-times-circle"></i> Reprobación</a></li>
-                <li><a data-toggle="tab" href="#desertores"><i class="fa fa-user-times"></i> Deserción</a></li>
+        <x-panel.tarjeta :sin-relleno="true">
+            <ul class="nav i5a-tabs" role="tablist" aria-label="Resultados académicos">
+                <li role="presentation" class="active">
+                    <a id="tab-aprobados" href="#aprobados" data-toggle="tab" role="tab" aria-controls="aprobados"
+                        aria-selected="true" tabindex="0">
+                        <span class="fa fa-check-circle" aria-hidden="true"></span> Aprobación
+                    </a>
+                </li>
+                <li role="presentation">
+                    <a id="tab-reprobados" href="#reprobados" data-toggle="tab" role="tab" aria-controls="reprobados"
+                        aria-selected="false" tabindex="-1">
+                        <span class="fa fa-times-circle" aria-hidden="true"></span> Reprobación
+                    </a>
+                </li>
+                <li role="presentation">
+                    <a id="tab-desertores" href="#desertores" data-toggle="tab" role="tab" aria-controls="desertores"
+                        aria-selected="false" tabindex="-1">
+                        <span class="fa fa-user-times" aria-hidden="true"></span> Deserción
+                    </a>
+                </li>
             </ul>
 
-            <!-- Tab panes -->
-            <div class="tab-content" style="margin-top:15px;">
-                <!-- Aprobados -->
-                <div class="tab-pane fade in active" id="aprobados">
-                    <table class="table table-striped table-bordered">
+            <div class="tab-content tw:p-4">
+                <section id="aprobados" class="tab-pane fade in active i5a-panel" role="tabpanel" aria-labelledby="tab-aprobados">
+                    @if (empty($tabla))
+                        <p class="tw:mb-3 tw:text-sm tw:text-gray-600 tw:dark:text-gray-400">No hay registros para el periodo.</p>
+                    @endif
+                    <x-panel.tabla compacta desplazable="Tabla de aprobados" class="tw-tabla-centrada tw-tabla-bordes">
                         <thead>
-                        <tr class="success">
-                            <th class="text-center">#</th>
-                            <th class="text-center">Programa Académico</th>
-                            <th class="text-center">Básico 1</th>
-                            <th class="text-center">Básico 2</th>
-                            <th class="text-center">Básico 3</th>
-                            <th class="text-center">Básico 4</th>
-                            <th class="text-center">Básico 5</th>
-                            <th class="text-center">Intermedio 1</th>
-                            <th class="text-center">Intermedio 2</th>
-                            <th class="text-center">Intermedio 3</th>
-                            <th class="text-center">Intermedio 4</th>
-                            <th class="text-center">Intermedio 5</th>
-                            <th class="text-center">Total por Carrera</th>
-                            <th class="text-center">Porcentaje por Carrera</th>
+                        <tr>
+                            <th scope="col" class="text-center">#</th>
+                            <th scope="col" class="text-center">Programa Académico</th>
+                            <th scope="col" class="text-center">Básico 1</th>
+                            <th scope="col" class="text-center">Básico 2</th>
+                            <th scope="col" class="text-center">Básico 3</th>
+                            <th scope="col" class="text-center">Básico 4</th>
+                            <th scope="col" class="text-center">Básico 5</th>
+                            <th scope="col" class="text-center">Intermedio 1</th>
+                            <th scope="col" class="text-center">Intermedio 2</th>
+                            <th scope="col" class="text-center">Intermedio 3</th>
+                            <th scope="col" class="text-center">Intermedio 4</th>
+                            <th scope="col" class="text-center">Intermedio 5</th>
+                            <th scope="col" class="text-center">Total por Carrera</th>
+                            <th scope="col" class="text-center">Porcentaje por Carrera</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -63,7 +91,7 @@
                         @foreach($tabla as $carrera => $datos)
                             <tr class="text-center">
                                 <td>{{ $contador++ }}</td>
-                                <td>{{ $carrera }}</td>
+                                <th scope="row">{{ $carrera }}</th>
                                 <td>{{ $datos['aprobados']['Básico 1'] ?? 0 }}</td>
                                 <td>{{ $datos['aprobados']['Básico 2'] ?? 0 }}</td>
                                 <td>{{ $datos['aprobados']['Básico 3'] ?? 0 }}</td>
@@ -78,8 +106,10 @@
                                 <td>{{ $datos['porcentaje_aprobados'] }} %</td>
                             </tr>
                         @endforeach
-                        <tr style="font-weight: bold; background-color: #dff0d8;">
-                            <td colspan="2" class="text-right">Total por Nivel</td>
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <th scope="row" colspan="2" class="text-right">Total por Nivel</th>
                             <td class="text-center">{{ $totales_por_nivel['aprobados']['Básico 1'] ?? 0 }}</td>
                             <td class="text-center">{{ $totales_por_nivel['aprobados']['Básico 2'] ?? 0 }}</td>
                             <td class="text-center">{{ $totales_por_nivel['aprobados']['Básico 3'] ?? 0 }}</td>
@@ -93,37 +123,39 @@
                             <td class="text-center">{{ $total_general['aprobados'] ?? 0 }}</td>
                             <td class="text-center">Porcentaje General</td>
                         </tr>
-                        <tr style="font-weight: bold; background-color: #dff0d8;">
-                            <td colspan="2" class="text-right">Porcentaje por Nivel</td>
+                        <tr>
+                            <th scope="row" colspan="2" class="text-right">Porcentaje por Nivel</th>
                             @foreach($niveles as $nivel)
                                 <td class="text-center">{{ $porcentaje_por_nivel['aprobados'][$nivel] }} %</td>
                             @endforeach
                             <td class="text-center">100 %</td>
-                            <td colspan="11" class="text-center">{{ $porcentaje_general['aprobados'] }} %</td>
+                            <td class="text-center">{{ $porcentaje_general['aprobados'] }} %</td>
                         </tr>
-                        </tbody>
-                    </table>
-                </div>
+                        </tfoot>
+                    </x-panel.tabla>
+                </section>
 
-                <!-- Reprobados -->
-                <div class="tab-pane fade" id="reprobados">
-                    <table class="table table-striped table-bordered">
+                <section id="reprobados" class="tab-pane fade i5a-panel" role="tabpanel" aria-labelledby="tab-reprobados">
+                    @if (empty($tabla))
+                        <p class="tw:mb-3 tw:text-sm tw:text-gray-600 tw:dark:text-gray-400">No hay registros para el periodo.</p>
+                    @endif
+                    <x-panel.tabla compacta desplazable="Tabla de reprobados" class="tw-tabla-centrada tw-tabla-bordes">
                         <thead>
-                        <tr class="warning">
-                            <th class="text-center">#</th>
-                            <th class="text-center">Programa Académico</th>
-                            <th class="text-center">Básico 1</th>
-                            <th class="text-center">Básico 2</th>
-                            <th class="text-center">Básico 3</th>
-                            <th class="text-center">Básico 4</th>
-                            <th class="text-center">Básico 5</th>
-                            <th class="text-center">Intermedio 1</th>
-                            <th class="text-center">Intermedio 2</th>
-                            <th class="text-center">Intermedio 3</th>
-                            <th class="text-center">Intermedio 4</th>
-                            <th class="text-center">Intermedio 5</th>
-                            <th class="text-center">Total por Carrera</th>
-                            <th class="text-center">Porcentaje por Carrera</th>
+                        <tr>
+                            <th scope="col" class="text-center">#</th>
+                            <th scope="col" class="text-center">Programa Académico</th>
+                            <th scope="col" class="text-center">Básico 1</th>
+                            <th scope="col" class="text-center">Básico 2</th>
+                            <th scope="col" class="text-center">Básico 3</th>
+                            <th scope="col" class="text-center">Básico 4</th>
+                            <th scope="col" class="text-center">Básico 5</th>
+                            <th scope="col" class="text-center">Intermedio 1</th>
+                            <th scope="col" class="text-center">Intermedio 2</th>
+                            <th scope="col" class="text-center">Intermedio 3</th>
+                            <th scope="col" class="text-center">Intermedio 4</th>
+                            <th scope="col" class="text-center">Intermedio 5</th>
+                            <th scope="col" class="text-center">Total por Carrera</th>
+                            <th scope="col" class="text-center">Porcentaje por Carrera</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -131,7 +163,7 @@
                         @foreach($tabla as $carrera => $datos)
                             <tr class="text-center">
                                 <td>{{ $contador++ }}</td>
-                                <td>{{ $carrera }}</td>
+                                <th scope="row">{{ $carrera }}</th>
                                 <td>{{ $datos['reprobados']['Básico 1'] ?? 0 }}</td>
                                 <td>{{ $datos['reprobados']['Básico 2'] ?? 0 }}</td>
                                 <td>{{ $datos['reprobados']['Básico 3'] ?? 0 }}</td>
@@ -146,8 +178,10 @@
                                 <td>{{ $datos['porcentaje_reprobados'] }} %</td>
                             </tr>
                         @endforeach
-                        <tr style="font-weight: bold; background-color: #fcf8e3;">
-                            <td colspan="2" class="text-right">Total por Nivel</td>
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <th scope="row" colspan="2" class="text-right">Total por Nivel</th>
                             <td class="text-center">{{ $totales_por_nivel['reprobados']['Básico 1'] ?? 0 }}</td>
                             <td class="text-center">{{ $totales_por_nivel['reprobados']['Básico 2'] ?? 0 }}</td>
                             <td class="text-center">{{ $totales_por_nivel['reprobados']['Básico 3'] ?? 0 }}</td>
@@ -161,38 +195,40 @@
                             <td class="text-center">{{ $total_general['reprobados'] ?? 0 }}</td>
                             <td class="text-center">Porcentaje General</td>
                         </tr>
-                        <tr style="font-weight: bold; background-color: #fcf8e3;">
-                            <td colspan="2" class="text-right">Porcentaje por Nivel</td>
+                        <tr>
+                            <th scope="row" colspan="2" class="text-right">Porcentaje por Nivel</th>
                             @foreach($niveles as $nivel)
                                 <td class="text-center">{{ $porcentaje_por_nivel['reprobados'][$nivel] }} %</td>
                             @endforeach
                             <td class="text-center">100 %</td>
-                            <td colspan="11" class="text-center">{{ $porcentaje_general['reprobados'] }} %</td>
+                            <td class="text-center">{{ $porcentaje_general['reprobados'] }} %</td>
                         </tr>
 
-                        </tbody>
-                    </table>
-                </div>
+                        </tfoot>
+                    </x-panel.tabla>
+                </section>
 
-                <!-- Desertores -->
-                <div class="tab-pane fade" id="desertores">
-                    <table class="table table-striped table-bordered">
+                <section id="desertores" class="tab-pane fade i5a-panel" role="tabpanel" aria-labelledby="tab-desertores">
+                    @if (empty($tabla))
+                        <p class="tw:mb-3 tw:text-sm tw:text-gray-600 tw:dark:text-gray-400">No hay registros para el periodo.</p>
+                    @endif
+                    <x-panel.tabla compacta desplazable="Tabla de desertores" class="tw-tabla-centrada tw-tabla-bordes">
                         <thead>
-                        <tr class="danger">
-                            <th class="text-center">#</th>
-                            <th class="text-center">Programa Académico</th>
-                            <th class="text-center">Básico 1</th>
-                            <th class="text-center">Básico 2</th>
-                            <th class="text-center">Básico 3</th>
-                            <th class="text-center">Básico 4</th>
-                            <th class="text-center">Básico 5</th>
-                            <th class="text-center">Intermedio 1</th>
-                            <th class="text-center">Intermedio 2</th>
-                            <th class="text-center">Intermedio 3</th>
-                            <th class="text-center">Intermedio 4</th>
-                            <th class="text-center">Intermedio 5</th>
-                            <th class="text-center">Total por Carrera</th>
-                            <th class="text-center">Porcentaje por Carrera</th>
+                        <tr>
+                            <th scope="col" class="text-center">#</th>
+                            <th scope="col" class="text-center">Programa Académico</th>
+                            <th scope="col" class="text-center">Básico 1</th>
+                            <th scope="col" class="text-center">Básico 2</th>
+                            <th scope="col" class="text-center">Básico 3</th>
+                            <th scope="col" class="text-center">Básico 4</th>
+                            <th scope="col" class="text-center">Básico 5</th>
+                            <th scope="col" class="text-center">Intermedio 1</th>
+                            <th scope="col" class="text-center">Intermedio 2</th>
+                            <th scope="col" class="text-center">Intermedio 3</th>
+                            <th scope="col" class="text-center">Intermedio 4</th>
+                            <th scope="col" class="text-center">Intermedio 5</th>
+                            <th scope="col" class="text-center">Total por Carrera</th>
+                            <th scope="col" class="text-center">Porcentaje por Carrera</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -200,7 +236,7 @@
                         @foreach($tabla as $carrera => $datos)
                             <tr class="text-center">
                                 <td>{{ $contador++ }}</td>
-                                <td>{{ $carrera }}</td>
+                                <th scope="row">{{ $carrera }}</th>
                                 <td>{{ $datos['desertores']['Básico 1'] ?? 0 }}</td>
                                 <td>{{ $datos['desertores']['Básico 2'] ?? 0 }}</td>
                                 <td>{{ $datos['desertores']['Básico 3'] ?? 0 }}</td>
@@ -215,8 +251,10 @@
                                 <td>{{ $datos['porcentaje_desertores'] }} %</td>
                             </tr>
                         @endforeach
-                        <tr style="font-weight: bold; background-color: #f2dede;">
-                            <td colspan="2" class="text-right">Total por Nivel</td>
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <th scope="row" colspan="2" class="text-right">Total por Nivel</th>
                             <td class="text-center">{{ $totales_por_nivel['desertores']['Básico 1'] ?? 0 }}</td>
                             <td class="text-center">{{ $totales_por_nivel['desertores']['Básico 2'] ?? 0 }}</td>
                             <td class="text-center">{{ $totales_por_nivel['desertores']['Básico 3'] ?? 0 }}</td>
@@ -230,46 +268,72 @@
                             <td class="text-center">{{ $total_general['desertores'] ?? 0 }}</td>
                             <td class="text-center">Porcentaje General</td>
                         </tr>
-                        <tr style="font-weight: bold; background-color: #f2dede;">
-                            <td colspan="2" class="text-right">Porcentaje por Nivel</td>
+                        <tr>
+                            <th scope="row" colspan="2" class="text-right">Porcentaje por Nivel</th>
                             @foreach($niveles as $nivel)
                                 <td class="text-center">{{ $porcentaje_por_nivel['desertores'][$nivel] }} %</td>
                             @endforeach
                             <td class="text-center">100 %</td>
-                            <td colspan="11" class="text-center">{{ $porcentaje_general['desertores'] }} %</td>
+                            <td class="text-center">{{ $porcentaje_general['desertores'] }} %</td>
                         </tr>
-                        </tbody>
-                    </table>
-                </div>
+                        </tfoot>
+                    </x-panel.tabla>
+                </section>
             </div>
-        </div>
+        </x-panel.tarjeta>
 
-        <div class="col-md-12" style="margin-top: 20px;">
-            <div class="container">
-                <div id="grafico_estadisticas" style="display: none; height: 400px;"></div>
-            </div>
-        </div>
-
+        <div id="grafico_estadisticas" class="tw:rounded-xl tw:border tw:border-gray-200 tw:bg-white tw:dark:border-gray-800 tw:dark:bg-gray-900" style="display: none;" role="region" aria-label="Distribución General de Desempeño"></div>
     </main>
 
     <script>
+        $(function () {
+            const $lista = $('.i5a-tabs');
+            const $pestanas = $lista.find('[role="tab"]');
+
+            $lista.on('shown.bs.tab', '[role="tab"]', function () {
+                $pestanas.attr({ 'aria-selected': 'false', tabindex: '-1' });
+                $(this).attr({ 'aria-selected': 'true', tabindex: '0' });
+            });
+
+            $lista.on('keydown', '[role="tab"]', function (evento) {
+                const indice = $pestanas.index(this);
+                const cantidad = $pestanas.length;
+                const destino = {
+                    ArrowLeft: (indice + cantidad - 1) % cantidad,
+                    ArrowRight: (indice + 1) % cantidad,
+                    Home: 0,
+                    End: cantidad - 1
+                }[evento.key];
+
+                if (destino === undefined) return;
+
+                evento.preventDefault();
+                $pestanas.eq(destino).focus().tab('show');
+            });
+        });
+
         let graficaMostrada = false;
 
         function mostrarGrafica() {
             const container = document.getElementById('grafico_estadisticas');
+            const boton = document.getElementById('boton_grafico_estadisticas');
 
             if (graficaMostrada) {
                 container.style.display = 'none';
+                boton.setAttribute('aria-expanded', 'false');
                 graficaMostrada = false;
                 return;
             }
 
             container.style.display = 'block';
+            boton.setAttribute('aria-expanded', 'true');
             graficaMostrada = true;
 
             Highcharts.chart('grafico_estadisticas', {
                 chart: {
-                    type: 'bar'
+                    type: 'bar',
+                    backgroundColor: 'transparent',
+                    style: { fontFamily: 'inherit' }
                 },
                 title: {
                     text: 'Distribución General de Desempeño'
@@ -287,8 +351,13 @@
 
                 plotOptions: {
                     bar: {
+                        animation: false,
                         dataLabels: {
                             enabled: true,
+                            backgroundColor: '#111827',
+                            borderRadius: 4,
+                            padding: 4,
+                            style: { textOutline: 'none' },
                             formatter: function () {
                                 const total = this.series.data.reduce((sum, p) => sum + p.y, 0);
                                 const porcentaje = (this.point.y / total) * 100;
