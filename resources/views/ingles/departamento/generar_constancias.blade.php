@@ -2,35 +2,20 @@
 @section('title', 'Constancias de Ingles')
 
 @section('content')
+    <main class="tw-modulo tw:mx-auto tw:max-w-5xl tw:min-w-0 tw:space-y-4 tw:rounded-2xl tw:bg-gray-50 tw:p-4 tw:sm:p-6 tw:dark:bg-gray-900">
+        <header>
+            <h1 class="tw:m-0 tw:text-xl tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">Constancias de inglés</h1>
+            <p class="tw:mt-1 tw:text-gray-600 tw:dark:text-gray-400">{{ $carrera->nombre }}</p>
+        </header>
 
-    <main class="mt-4">
-        <div class="container">
-
-            {{-- TÍTULO --}}
-            <div class="row">
-                <div class="col-md-8 col-md-offset-2">
-                    <div class="panel panel-info">
-                        <div class="panel-heading">
-                            <h3 class="panel-title text-center">
-                                Generar Constancias de Inglés <br>
-                                de la carrera: {{ $carrera->nombre }}
-                            </h3>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            {{-- TABLA --}}
-            <div class="card shadow-lg">
-                <div class="card-body">
-
-                    <table class="table table-striped table-hover" id="mostrar_calificaciones">
+        <x-panel.tarjeta :sin-relleno="true">
+            <x-panel.tabla id="mostrar_calificaciones" class="table tw:mb-0" aria-label="Constancias de inglés">
                         <thead>
                         <tr>
-                            <th class="text-center">#</th>
-                            <th class="text-center">No. CTA</th>
-                            <th class="text-center">ALUMNO</th>
-                            <th class="text-center">Constancia</th>
+                            <th scope="col" class="text-center">#</th>
+                            <th scope="col" class="text-center">No. CTA</th>
+                            <th scope="col" class="text-center">ALUMNO</th>
+                            <th scope="col" class="text-center">Constancia</th>
                         </tr>
                         </thead>
 
@@ -44,22 +29,41 @@
 
                                     {{-- TODOS ya son nivel 10 --}}
                                     <a href="{{ route('ingles.constancia', $alumno['id_alumno']) }}"
-                                       target="_blank"
+                                       target="_blank" rel="noopener"
                                        class="btn btn-danger btn-sm shadow-sm">
-                                        <i class="fa fa-file-pdf-o"></i> Ver Constancia
+                                        <i class="fa fa-file-pdf-o" aria-hidden="true"></i> Ver Constancia
                                     </a>
 
                                 </td>
                             </tr>
                         @endforeach
                         </tbody>
-                    </table>
-
-                </div>
-            </div>
-
-        </div>
+                    </x-panel.tabla>
+        </x-panel.tarjeta>
     </main>
+
+    <style>
+
+        .dark #mostrar_calificaciones tbody tr {
+            background-color: transparent;
+        }
+
+        .dark #mostrar_calificaciones_paginate a.paginate_button {
+            background: transparent;
+            color: var(--tw-color-gray-300) !important;
+            border-color: var(--tw-color-gray-700);
+        }
+
+        .dark #mostrar_calificaciones_paginate a.paginate_button.current,
+        .dark #mostrar_calificaciones_paginate a.paginate_button:not(.disabled):hover {
+            background: var(--tw-color-brand-500);
+            color: #fff !important;
+        }
+
+        .dark #mostrar_calificaciones_paginate a.paginate_button.disabled {
+            color: var(--tw-color-gray-400) !important;
+        }
+    </style>
 
     <script type="text/javascript">
         $(document).ready(function() {
@@ -75,7 +79,11 @@
                     }
                 }
             });
+            $('#mostrar_calificaciones').closest('.tesvb-dt-scroll').attr({
+                tabindex: 0,
+                role: 'region',
+                'aria-label': 'Tabla de constancias'
+            });
         });
     </script>
-
 @endsection
