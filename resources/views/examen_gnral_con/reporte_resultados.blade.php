@@ -1,7 +1,8 @@
 @extends('layouts.panel')
-@include('partials.panel.recursos_app')
 
+@include('partials.panel.recursos_app')
 @section('content')
+<div class="tw-pantalla">
 
 <style>
 body {
@@ -65,14 +66,14 @@ body {
 <div class="tw:w-full tw:py-6">
 
     {{-- TÍTULO --}}
-    <h2 class="page-title tw:text-center">
+    <h2 class="page-title tw:text-center tw:mb-4 tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">
         📄 Reporte Final EGEL
     </h2>
 
     {{-- INFO ALUMNO --}}
     <div class="card-eval">
         <p class="tw:mb-1"><b>Estudiante:</b></p>
-        <h4>
+        <h4 class="tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">
             {{ $alumno->nombre }} {{ $alumno->apaterno }} {{ $alumno->amaterno }}
         </h4>
 
@@ -98,10 +99,10 @@ body {
 
     {{-- RESULTADOS --}}
     <div class="card-eval">
-        <h4 class="tw:text-center tw:mb-4">📊 Resultados por módulo</h4>
+        <h4 class="tw:text-center tw:mb-4 tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">📊 Resultados por módulo</h4>
 
-        <div class="tw-tabla-contenedor tw:mb-4 tw:max-w-full tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200">
-<table class="table-custom tw-tabla tw:text-center">
+        <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table class="table-custom tw-tabla-centrada tw-tabla">
             <thead>
                 <tr>
                     <th>Módulo</th>
@@ -118,7 +119,7 @@ body {
                     <td>{{ number_format($m->puntos, 2) }}</td>
                     <td>{{ number_format($m->total_valor, 2) }}</td>
                     <td>
-                        <span class="tw:inline-flex tw:items-center tw:rounded-full tw:px-2.5 tw:py-0.5 tw:text-sm tw:font-medium tw:bg-sky-100 tw:text-gray-800">
+                        <span class="tw:inline-flex tw:items-center tw:rounded-full tw:px-2.5 tw:py-0.5 tw:text-sm tw:font-medium tw:bg-sky-100 tw:text-gray-800 tw:dark:text-white/90">
                             {{ $m->porcentaje }}%
                         </span>
                     </td>
@@ -133,11 +134,11 @@ body {
     <div class="tw:text-center">
         <a href="{{ route('egel.pdf.oficial') }}"
            target="_blank"
-           class="btn-imprimir tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-red-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-red-700 tw:gap-2 tw:px-5 tw:py-3.5 tw:text-base">
+           class="btn-imprimir tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-red-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-red-700 tw:disabled:bg-red-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap">
             Descargar Reporte Oficial
         </a>
     </div>
-<br>
 </div>
 
+</div>
 @endsection

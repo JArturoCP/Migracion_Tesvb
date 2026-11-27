@@ -1,7 +1,7 @@
 // Indicador de carga del sistema: avisa que la siguiente pantalla se está preparando.
 //
 // - Barra de progreso fina arriba de la página (color de la marca) en cuanto el usuario sale de la pantalla
-//   (enlace, formulario, botón con window.location) y durante las peticiones AJAX de jQuery.
+//   (enlace, formulario, botón con window.location) y durante las peticiones AJAX de jQuery y axios.
 // - Si la espera pasa de ~0.5 s, una tarjeta centrada con el logo, el texto de lo que está pasando
 //   ("Cargando pantalla…", "Guardando información…") y la indicación de no cerrar la página.
 // - A los 12 s cambia el texto ("Está tardando más de lo normal…") y ofrece "Ocultar aviso".
@@ -227,6 +227,42 @@ function iniciar() {
             ajaxActivas = Math.max(0, ajaxActivas - 1);
             if (ajaxActivas === 0 && !navegando) terminarBarra();
         });
+    }
+
+    // Peticiones de axios (pantallas Vue): la barra, como en jQuery. Dentro de un contenedor con
+    // data-carga-axios, al guardar (POST/PUT/PATCH/DELETE) también la tarjeta "Guardando información…".
+    const ax = window.axios;
+    let guardadosAxios = 0;
+    const terminarAxios = (config) => {
+        ajaxActivas = Math.max(0, ajaxActivas - 1);
+        if (config && config.tesvbTarjeta && --guardadosAxios <= 0) {
+            guardadosAxios = 0;
+            if (!navegando) ocultarTarjeta();
+        }
+        if (ajaxActivas === 0 && !navegando) terminarBarra();
+    };
+    if (ax && ax.interceptors) {
+        ax.interceptors.request.use((config) => {
+            ajaxActivas++;
+            iniciarBarra();
+            if (!/^(get|head|options)$/i.test(config.method || 'get') && document.querySelector('[data-carga-axios]')) {
+                config.tesvbTarjeta = true;
+                if (guardadosAxios++ === 0 && !navegando) {
+                    crear();
+                    clearTimeout(tTarjeta);
+                    clearTimeout(tLento);
+                    titulo.textContent = 'Guardando información…';
+                    texto.textContent = 'Estamos guardando tus datos. No cierres ni recargues la página.';
+                    capa.classList.remove('lenta');
+                    tTarjeta = setTimeout(() => capa.classList.add('visible'), RETRASO_TARJETA);
+                }
+            }
+            return config;
+        });
+        ax.interceptors.response.use(
+            (respuesta) => { terminarAxios(respuesta && respuesta.config); return respuesta; },
+            (error) => { terminarAxios(error && error.config); return Promise.reject(error); },
+        );
     }
 
     window.TesvbCarga = { mostrar, ocultar };

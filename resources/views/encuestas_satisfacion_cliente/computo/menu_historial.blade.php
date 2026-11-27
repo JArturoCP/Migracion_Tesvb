@@ -1,54 +1,22 @@
-@extends('layouts.app')
-@section('title', 'Historial de encuestas')
+@extends('layouts.panel')
+@section('title', 'Historial de encuestas de Cómputo')
+
 @section('content')
-    <div class="row">
-        <div class="col-md-6 col-md-offset-3">
-
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h2 class="panel-title text-center">Historial de Encuestas de Satisfacción de Cliente interno<br>(Centro de computo)</h2>
-                </div>
-            </div>
-        </div>
+    <div class="tw:mx-auto tw:max-w-3xl">
+        <x-panel.encabezado titulo="Historial de encuestas de Cómputo" />
+        <x-panel.tarjeta titulo="Años disponibles">
+            @if (count($year_historial))
+                <ul class="tw:grid tw:gap-3 tw:sm:grid-cols-3">
+                    @foreach ($year_historial as $year)
+                        <li>
+                            <x-panel.boton :href="url('/encuestas_satisfaccion/menu_historial_mantenimiento_year/'.$year->year)"
+                                variante="contorno-primario" class="tw:w-full">{{ $year->year }}</x-panel.boton>
+                        </li>
+                    @endforeach
+                </ul>
+            @else
+                <x-panel.vacio titulo="Sin periodos en el historial" />
+            @endif
+        </x-panel.tarjeta>
     </div>
-    <div class="row">
-        <div class="col-md-6 col-md-offset-3">
-
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <div class="row" >
-                        <div class="col-md-6 col-md-offset-3">
-                            <div class="form-group">
-                                <div class="dropdown">
-                                    <label for="ano_oficio">Seleccionar año de ver historial de encuestas</label>
-                                    <select name="year" id="year" class="form-control " required>
-                                        @foreach($year_historial as $year)
-                                            <option disabled selected hidden>Selecciona una opción</option>
-                                            <option value="{{$year->year }}" >{{$year->year}} </option>
-                                        @endforeach
-
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <script type="text/javascript">
-        $(document).ready(function() {
-
-            $("#year").on('change',function(e) {
-                // TNotify.alert($("#grupos").val());
-                var year = $("#year").val();
-                window.location.href='/encuestas_satisfaccion/menu_historial_mantenimiento_year/'+year;
-
-
-
-            });
-
-        });
-
-    </script>
 @endsection

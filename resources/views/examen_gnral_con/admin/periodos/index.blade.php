@@ -1,7 +1,8 @@
 @extends('layouts.panel')
-@include('partials.panel.recursos_app')
 
+@include('partials.panel.recursos_app')
 @section('content')
+<div class="tw-pantalla">
 
 <style>
     body {
@@ -108,14 +109,14 @@
     <!-- Encabezado -->
     <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
         <div class="tw:w-full tw:lg:w-6/12 tw:px-2">
-            <h3 class="tw:text-brand-500">
+            <h3 class="tw:text-brand-500 tw:mb-3 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">
                 <span class="fa fa-calendar"></span>
                 Configuración de Periodos Examen de Conocimientos Generales
             </h3>
         </div>
 
         <div class="tw:w-full tw:lg:w-6/12 tw:text-right tw:px-2">
-            <a href="{{ url()->previous() }}"  class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:gap-1.5 tw:px-3 tw:py-1.5 tw:text-sm">
+            <a href="{{ url()->previous() }}"  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap">
                 <span class="fa fa-arrow-left"></span> Regresar
             </a>
         </div>
@@ -125,61 +126,62 @@
 
     <!-- Mensajes -->
     @if(session('success'))
-        <div class="tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-green-200 tw:bg-green-50 tw:text-green-800 tw:text-center">
+        <x-panel.alerta tipo="exito" class="tw:mb-4">
             {{ session('success') }}
-        </div>
+        </x-panel.alerta>
     @endif
 
     @if($errors->any())
-        <div class="tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:border-red-200 tw:bg-red-50 tw:text-red-700">
-            <ul style="margin-bottom:0;">
+        <x-panel.alerta tipo="error" class="tw:mb-4">
+            <ul class="tw:mb-0">
                 @foreach($errors->all() as $error)
                     <li>{{ $error }}</li>
                 @endforeach
             </ul>
-        </div>
+        </x-panel.alerta>
     @endif
 
     <!-- FORMULARIO -->
-    <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
-        <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4 tw:text-center"><strong>Definir nuevo periodo</strong></div>
+    <x-panel.encabezado titulo="Definir nuevo periodo" :migas="['Examen general de conocimientos' => null]" />
+    <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+        
         <div class="tw:p-5 tw:sm:p-6">
             <form action="{{ route('admin.examen_general.periodos.guardar') }}" method="POST">
                 @csrf
                 <div class="tw:mb-4">
                     <label>Nombre del periodo</label>
-                    <input type="text" name="periodo" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" required>
+                    <input type="text" name="periodo" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" required>
                 </div>
 
                 <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
                     <div class="tw:w-full tw:lg:w-6/12 tw:px-2">
-                        <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
-                            <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4 tw:text-center"><strong>Periodo de Aplicación</strong></div>
+                        <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+                            <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:dark:border-gray-800 tw:bg-gray-50 tw:dark:bg-gray-900 tw:px-5 tw:py-4 tw:text-center"><strong>Periodo de Aplicación</strong></div>
                             <div class="tw:p-5 tw:sm:p-6">
                                 <div class="tw:mb-4">
                                     <label>Inicio</label>
-                                    <input type="date" name="periodo_examen_inicio" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" required>
+                                    <input type="date" name="periodo_examen_inicio" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" required>
                                 </div>
                                 <div class="tw:mb-4">
                                     <label>Fin</label>
-                                    <input type="date" name="periodo_examen_fin" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" required>
+                                    <input type="date" name="periodo_examen_fin" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" required>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <div class="tw:w-full tw:lg:w-6/12 tw:px-2">
-                        <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
-                            <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4 tw:text-center"><strong>Publicación de Resultados</strong></div>
+                        <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+                            <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:dark:border-gray-800 tw:bg-gray-50 tw:dark:bg-gray-900 tw:px-5 tw:py-4 tw:text-center"><strong>Publicación de Resultados</strong></div>
                             <div class="tw:p-5 tw:sm:p-6">
                                 <div class="tw:mb-4">
                                     <label>Inicio</label>
-                                    <input type="date" name="periodo_resultado_inicio" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" required>
+                                    <input type="date" name="periodo_resultado_inicio" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" required>
                                 </div>
                                 <div class="tw:mb-4">
                                     <label>Fin</label>
-                                    <input type="date" name="periodo_resultado_fin" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" required>
+                                    <input type="date" name="periodo_resultado_fin" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" required>
                                 </div>
                             </div>
                         </div>
@@ -187,8 +189,8 @@
 
                 </div>
 
-                <div class="tw:text-center" style="margin-bottom:15px;">
-                    <button type="submit" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-2 tw:px-5 tw:py-3.5 tw:text-base">
+                <div class="tw:text-center tw:mb-4" >
+                    <button type="submit" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap">
                         <span class="fa fa-floppy-o"></span> Guardar
                     </button>
                 </div>
@@ -203,11 +205,11 @@
 
         <!-- Periodos de aplicación -->
         <div class="tw:w-full tw:lg:w-6/12 tw:px-2">
-            <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
-                <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4 tw:text-center">Historial - Periodos de Aplicación</div>
+            <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+                <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:dark:border-gray-800 tw:bg-gray-50 tw:dark:bg-gray-900 tw:px-5 tw:py-4 tw:text-center">Historial - Periodos de Aplicación</div>
                 <div class="tw:p-5 tw:sm:p-6">
-                    <div class="tw-tabla-contenedor tw:mb-4 tw:max-w-full tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200">
-<table class="tw-tabla tw-tabla-bordes tw-tabla-rayas tw:text-center">
+                    <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table class="tw-tabla-centrada tw-tabla tw-tabla-bordes tw-tabla-rayas">
                         <thead>
                             <tr>
                                 <th class="tw:text-center">Periodo</th>
@@ -224,16 +226,14 @@
                                     <td>{{ $p->fecha_fin }}</td>
                                     <td style="display:flex; justify-content:center; gap:10px;">
                                         <a href="{{ route('admin.examen_general.periodos.edit', $p->id_periodo_examen) }}"
-                                           class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-amber-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-amber-600 tw:gap-2 tw:px-5 tw:py-3.5 tw:text-base" title="Editar"> <span class="fa fa-pencil-square-o"></span></a>
+                                           class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base" title="Editar"><span class="fa fa-pencil-square-o"></span></a>
 
                                         <form action="{{ route('admin.examen_general.periodos.destroy', $p->id_periodo_examen) }}"
                                               method="POST" class="inline-form">
                                             @csrf
                                             @method('DELETE')
-                                            <button class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-red-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-red-700 tw:gap-2 tw:px-5 tw:py-3.5 tw:text-base" title="Eliminar"
-                                                    onclick="return TNotify.confirmAction(event, this, '¿Deseas eliminar este periodo?')">
-                                                 <span class="fa fa-trash"></span>
-                                            </button>
+                                            <button class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-red-600 tw:ring-1 tw:ring-red-300 tw:ring-inset tw:hover:bg-red-50 tw:dark:bg-gray-800 tw:dark:text-red-500 tw:dark:ring-red-500/40 tw:dark:hover:bg-red-500/10 tw:size-9 tw:text-base" title="Eliminar"
+                                                    onclick="return TNotify.confirmAction(event, this, '¿Deseas eliminar este periodo?')"><span class="fa fa-trash"></span></button>
                                         </form>
                                     </td>
                                 </tr>
@@ -247,11 +247,11 @@
 
         <!-- Periodos de resultados -->
         <div class="tw:w-full tw:lg:w-6/12 tw:px-2">
-            <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
-                <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4 tw:text-center">Historial - Resultados</div>
+            <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+                <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:dark:border-gray-800 tw:bg-gray-50 tw:dark:bg-gray-900 tw:px-5 tw:py-4 tw:text-center">Historial - Resultados</div>
                 <div class="tw:p-5 tw:sm:p-6">
-                    <div class="tw-tabla-contenedor tw:mb-4 tw:max-w-full tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200">
-<table class="tw-tabla tw-tabla-bordes tw-tabla-rayas tw:text-center">
+                    <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table class="tw-tabla-centrada tw-tabla tw-tabla-bordes tw-tabla-rayas">
                         <thead>
                             <tr>
                                 <th class="tw:text-center">Periodo</th>
@@ -268,16 +268,14 @@
                                     <td>{{ $p->fecha_fin }}</td>
                                     <td style="display:flex; justify-content:center; gap:10px;">
                                         <a href="{{ route('admin.examen_general.periodos.edit', $p->id_periodo_examen) }}"
-                                           class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-amber-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-amber-600 tw:gap-2 tw:px-5 tw:py-3.5 tw:text-base" title="Editar"> <span class="fa fa-pencil-square-o"></span></a>
+                                           class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base" title="Editar"><span class="fa fa-pencil-square-o"></span></a>
 
                                         <form action="{{ route('admin.examen_general.periodos.destroy', $p->id_periodo_examen) }}"
                                               method="POST" class="inline-form">
                                             @csrf
                                             @method('DELETE')
-                                            <button class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-red-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-red-700 tw:gap-2 tw:px-5 tw:py-3.5 tw:text-base" title="Eliminar"
-                                                    onclick="return TNotify.confirmAction(event, this, '¿Deseas eliminar este periodo?')">
-                                                 <span class="fa fa-trash"></span>
-                                            </button>
+                                            <button class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-red-600 tw:ring-1 tw:ring-red-300 tw:ring-inset tw:hover:bg-red-50 tw:dark:bg-gray-800 tw:dark:text-red-500 tw:dark:ring-red-500/40 tw:dark:hover:bg-red-500/10 tw:size-9 tw:text-base" title="Eliminar"
+                                                    onclick="return TNotify.confirmAction(event, this, '¿Deseas eliminar este periodo?')"><span class="fa fa-trash"></span></button>
                                         </form>
                                     </td>
                                 </tr>
@@ -293,4 +291,5 @@
 
 </div>
 
+</div>
 @endsection

@@ -1,8 +1,6 @@
-<div class="row">
-    <div class="col-md-8 col-md-offset-2">
-        <input class="form-control" type="hidden"  id="id_servicio_mantenimiento" name="id_servicio_mantenimiento"  value="{{ $personal->id_servicio_mantenimiento }}">
-        <p> <b>Nombre del personal: </b>{{ $personal->nombre }} </p>
-        <p> <b>Servicio que solicita: </b>{{ $personal->servicio_solicita }} </p>
-        <p> <b>Fecha que solicita el servicio: </b>{{ $personal->fecha_solicita }} </p>
-    </div>
-</div>
+<input type="hidden" name="id_servicio_mantenimiento" value="{{ $personal->id_servicio_mantenimiento }}">
+<dl class="tw:space-y-3 tw:text-sm">
+    <div><dt class="tw:font-medium">Nombre del personal</dt><dd>{{ $personal->nombre }}</dd></div>
+    <div><dt class="tw:font-medium">Servicio solicitado</dt><dd>{{ $personal->servicio_solicita }}</dd></div>
+    <div><dt class="tw:font-medium">Fecha de la solicitud</dt><dd>{{ $personal->fecha_solicita }}</dd></div>
+</dl>

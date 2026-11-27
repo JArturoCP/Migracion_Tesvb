@@ -1,26 +1,27 @@
 @extends('layouts.panel')
-@include('partials.panel.recursos_app')
 
+@include('partials.panel.recursos_app')
 @section('content')
+<div class="tw-pantalla">
+    <x-panel.encabezado titulo="Crear examen completo" :migas="['Examen general de conocimientos' => null]" />
 
 <div class="tw:w-full">
-<h3 class="tw:mb-4 tw:text-lg tw:font-semibold">Crear Examen Completo</h3>
 
 <form action="{{ route('admin.examen.guardarCompleto') }}" method="POST">
 @csrf
 
 <!-- EXAMEN -->
-<div class="tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white tw:mb-4">
-<div class="tw:border-b tw:border-gray-100 tw:px-5 tw:py-4">Datos del Examen</div>
+<div class="tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03] tw:mb-4">
+<div class="tw:border-b tw:border-gray-100 tw:dark:border-gray-800 tw:px-5 tw:py-4">Datos del Examen</div>
 <div class="tw:p-5 tw:sm:p-6">
 
-<select name="id_carrera" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:mb-2">
+<select name="id_carrera" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11 tw:mb-2">
 @foreach($carreras as $c)
 <option value="{{ $c->id_carrera }}">{{ $c->nombre }}</option>
 @endforeach
 </select>
 
-<input type="text" name="nombre_examen" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" placeholder="Nombre del examen">
+<input type="text" name="nombre_examen" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" placeholder="Nombre del examen">
 
 </div>
 </div>
@@ -28,11 +29,11 @@
 <!-- SECCIONES -->
 <div id="secciones"></div>
 
-<button type="button" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" onclick="agregarSeccion()">+ Sección</button>
+<button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" onclick="agregarSeccion()">+ Sección</button>
 
 <hr>
 
-<button class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-green-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-green-700 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm">Guardar TODO</button>
+<button class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap">Guardar TODO</button>
 
 </form>
 </div>
@@ -137,4 +138,5 @@ function agregarRespuesta(sec, mod, pre) {
 
 </script>
 
+</div>
 @endsection
