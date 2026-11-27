@@ -1,24 +1,16 @@
 @extends('layouts.panel')
-@include('partials.panel.recursos_app')
 @section('title', 'Ipomex')
+@include('partials.panel.recursos_app')
 @section('content')
+<div class="tw-pantalla">
     <main class="tw:w-full tw:lg:w-full tw:px-2">
 
-        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
-
-            <div class="tw:w-full tw:lg:w-6/12 tw:lg:ml-[25%] tw:px-2">
-                <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
-                    <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4">
-                        <h3 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:text-center">Tabla general de Ipomex</h3>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <x-panel.encabezado titulo="Tabla general de Ipomex" :migas="['IPOMEX' => null]" />
 
         <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
 
-            <div class="tw:w-full tw:lg:w-10/12 tw:lg:ml-[8.3333%] tw:px-2">
-                <div class="tw-tabla-contenedor tw:mb-4 tw:max-w-full tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200">
+            <div class="tw:w-full tw:px-2">
+                <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
 <table id="paginar_table" class="tw-tabla tw-tabla-bordes">
                     <thead>
                     <tr>
@@ -49,13 +41,13 @@
                             <td>{{ $articulo->fraccion_general }} </td>
                                 <td>
                             @if($articulo->tiene_fra_general==0)
-                                <a target="_blank" href="{{asset($articulo->pdf_general)}}">Ver PDF</a>
+                                <a class="tw:text-brand-500 tw:hover:underline" target="_blank" href="{{asset($articulo->pdf_general)}}">Ver PDF</a>
                             @else
                                 No tiene PDF
                             @endif
                                     <br>
                                 @if($articulo->pdf_general_2 != "")
-                                    <a target="_blank" href="{{asset($articulo->pdf_general_2)}}">Ver PDF 2</a>
+                                    <a class="tw:text-brand-500 tw:hover:underline" target="_blank" href="{{asset($articulo->pdf_general_2)}}">Ver PDF 2</a>
                                 @else
 
                                 @endif
@@ -64,16 +56,16 @@
                             <td>{{ $articulo->fraccion_estatal }} </td>
                                 <td>
                             @if($articulo->tiene_fra_estatal==1)
-                                <a target="_blank" href="{{asset($articulo->pdf_general)}}"> Ver PDF</a>
+                                <a class="tw:text-brand-500 tw:hover:underline" target="_blank" href="{{asset($articulo->pdf_general)}}"> Ver PDF</a>
                             @else
                                 No tiene PDF
                             @endif
 
                                 </td>
                             <td>{{ $denominacion_fraccion }} </td>
-                            <td> <textarea id="myTextarea" style="">{{ $periodo_ley_general }} </textarea></td>
+                            <td> <textarea id="myTextarea">{{ $periodo_ley_general }} </textarea></td>
                             <td>{{  $observacion_inf_general }} </td>
-                            <td><textarea id="myTextarea" style="">{{$periodo_actualizacion_general}} </textarea></td>
+                            <td><textarea id="myTextarea">{{$periodo_actualizacion_general}} </textarea></td>
 
 
 
@@ -86,4 +78,5 @@
             </div>
         </div>
     </main>
+</div>
 @endsection

@@ -1,7 +1,9 @@
 @extends('layouts.panel')
-@include('partials.panel.recursos_app', ['ordenable' => true])
 @section('title','Agendar auditorias')
+@include('partials.panel.recursos_app', ['ordenable' => true])
 @section('content')
+<div class="tw-pantalla">
+    <x-panel.encabezado titulo="Agendar auditorías" :migas="['Sistema de gestión de calidad' => null]" />
     <style>
         .ui-draggable, .ui-droppable {
             background-position: top;
@@ -42,4 +44,5 @@
         $( "ul, li" ).disableSelection();
     } );
 </script>
+</div>
 @endsection

@@ -1,27 +1,13 @@
 @extends('layouts.panel')
-@include('partials.panel.recursos_app', ['datatables' => true])
 @section('title', 'Resultados Examen de Conocimientos Generales')
 
+@include('partials.panel.recursos_app', ['datatables' => true])
 @section('content')
+<div class="tw-pantalla">
+    <x-panel.encabezado titulo="Resultados del examen de conocimientos generales" :migas="['Examen general de conocimientos' => null]" />
+    <p class="tw:-mt-4 tw:mb-6 tw:text-sm tw:text-gray-500 tw:dark:text-gray-400">Módulo de consulta de personal docente</p>
 
 <div class="tw:w-full">
-
-  {{-- HEADER --}}
-  <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
-    <div class="tw:w-full tw:lg:w-full tw:px-2">
-
-      <div style="background:#2c3e50; color:white; padding:15px; margin-top:10px; margin-bottom:15px;">
-        <h3 style="margin:0;">
-          <span class="fa fa-user"></span>
-          Resultados Examen de Conocimientos Generales
-        </h3>
-        <small style="opacity:0.8;">
-          Módulo de consulta de personal docente
-        </small>
-      </div>
-
-    </div>
-  </div>
 
   {{-- CARD TABLE --}}
   <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
@@ -36,7 +22,7 @@
             Listado de docentes
           </strong>
 
-          <a href="{{ route('admin.examen_general.excel') }}" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-green-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-green-700 tw:gap-1.5 tw:px-3 tw:py-1.5 tw:text-sm" style="float:right;">
+          <a href="{{ route('admin.examen_general.excel') }}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap">
             <span class="fa fa-download"></span>
             Exportar Excel
           </a>
@@ -47,16 +33,16 @@
 
           @if(count($docentes) > 0)
 
-          <div class="tw-tabla-contenedor tw:mb-4 tw:max-w-full tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200">
-<table class="tw-tabla" style="margin:0;" id="tab_pag1">
+          <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table class="tw-tabla" id="tab_pag1">
 
             <thead>
               <tr style="background:#ecf0f1;">
-                <th style="width:50px; text-align:center;">#</th>
+                <th class="tw:text-center" style="width:50px">#</th>
                 <th>Nombre completo</th>
-                <th style="width:120px; text-align:center;">Estado</th>
-                <th style="width:120px; text-align:center;">Escolaridad</th>
-                <th style="width:120px; text-align:center;">Resultados Obtenidos</th>
+                <th class="tw:text-center tw:w-30">Estado</th>
+                <th class="tw:text-center tw:w-30">Escolaridad</th>
+                <th class="tw:text-center tw:w-30">Resultados Obtenidos</th>
               </tr>
             </thead>
 
@@ -65,36 +51,36 @@
               @foreach($docentes as $index => $docente)
 
               <tr>
-                <td style="text-align:center; vertical-align:middle;">
+                <td class="tw:text-center tw:align-middle">
                   {{ $index + 1 }}
                 </td>
 
-                <td style="vertical-align:middle;">
+                <td class="tw:align-middle">
                   <span class="fa fa-user" style="color:#7f8c8d;"></span>
                   <strong>{{ $docente->nombre }}</strong>
                 </td>
 
-                <td style="text-align:center; vertical-align:middle;">
-                  <span style="background:#27ae60; color:white; padding:3px 8px; font-size:11px;">
+                <td class="tw:text-center tw:align-middle">
+                  <span class="tw:text-white" style="background:#27ae60; padding:3px 8px; font-size:11px">
                     ACTIVO
                   </span>
                 </td>
 
-                <td style="text-align:center; vertical-align:middle;">
+                <td class="tw:text-center tw:align-middle">
                   {{ $docente->escolaridad ?? '' }}
                 </td>
 
-                <td style="text-align:center; vertical-align:middle;">
+                <td class="tw:text-center tw:align-middle">
 
                   @if($docente->es_nuevo)
 
-                  <a href="{{ route('admin.examen_general.pdf', $docente->id_personal) }}" style="background:#2980b9;color:white;padding:4px 8px;text-decoration:none;">
+                  <a class="tw:text-brand-500 tw:hover:underline tw:text-white tw:no-underline" href="{{ route('admin.examen_general.pdf', $docente->id_personal) }}" style="background:#2980b9; padding:4px 8px">
                     Ver Resultados
                   </a>
 
                   @else
 
-                  <a href="{{ route('admin.examen_general.pdf', $docente->id_personal) }}" style="background:#2980b9;color:white;padding:4px 8px;text-decoration:none;">
+                  <a class="tw:text-brand-500 tw:hover:underline tw:text-white tw:no-underline" href="{{ route('admin.examen_general.pdf', $docente->id_personal) }}" style="background:#2980b9; padding:4px 8px">
                     Ver Resultados
                   </a>
 
@@ -112,7 +98,7 @@
 
           @else
 
-          <div style="padding:15px; text-align:center; color:#777;">
+          <div class="tw:text-center tw:text-gray-500 tw:dark:text-gray-400" style="padding:15px">
             No hay docentes activos registrados.
           </div>
 
@@ -126,10 +112,10 @@
   </div>
 
 </div>
-<br>
 
 <script>
   $('#tab_pag1').DataTable();
 </script>
 
+</div>
 @endsection

@@ -1,25 +1,18 @@
 @extends('layouts.panel')
-@include('partials.panel.recursos_app', ['datatables' => true, 'datepicker' => true])
 @section('title', 'Incidencias')
+@include('partials.panel.recursos_app', ['datatables' => true, 'datepicker' => true])
 @section('content')
+<div class="tw-pantalla">
     
 <main class="tw:w-full tw:lg:w-full tw:px-2">
-<div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
-        <div class="tw:w-full tw:lg:w-5/12 tw:lg:ml-[33.3333%] tw:px-2">
-    <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
-        <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4">
-          <h3 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:text-center">REPORTES</h3>
-        </div>
-    </div>  
-  </div>
-  </div>
+<x-panel.encabezado titulo="Reportes" :migas="['Incidencias' => null]" />
   @if($estados == 0)
   
 <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
-  <div class="tw:w-full tw:lg:w-3/12 tw:lg:ml-[16.6667%] tw:px-2">
+  <div class="tw:w-full tw:lg:w-3/12 tw:lg:grow tw:px-2">
     <div class= "dropdown">
         <label for="Tipo_of">Artículo/Cláusula: </label>
-          <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" placeholder="Seleciona una opción" id="id_articulo" name="id_articulo" required>
+          <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" placeholder="Seleciona una opción" id="id_articulo" name="id_articulo" required>
               <option disabled selected hidden> Selecciona una opción </option>
               @foreach($art as $articulo)
                 <option value="{{$articulo['estado']}}{{$articulo['id']}}" > {{$articulo['nombre']}} </option>
@@ -28,22 +21,22 @@
           </select>
     </div>
   </div>
-  <div class="tw:w-full tw:lg:w-2/12 tw:px-2">
+  <div class="tw:w-full tw:lg:w-2/12 tw:lg:grow tw:px-2">
     <label for="fecha_req">Desde Fecha:</label>
                      <div class="tw:mb-4">
-                         <input class="datepicker id_desd_fech tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"   type="text"  id="id_desd_fech" name="id_desd_fech" data-date-format="yyyy/mm/dd" placeholder="AAAA/MM/DD" >
+                         <input class="datepicker id_desd_fech tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"   type="text"  id="id_desd_fech" name="id_desd_fech" data-date-format="yyyy/mm/dd" placeholder="AAAA/MM/DD" >
                      </div>
   </div>
-  <div class="tw:w-full tw:lg:w-2/12 tw:px-2">
+  <div class="tw:w-full tw:lg:w-2/12 tw:lg:grow tw:px-2">
     <label for="fecha_req">Hasta Fecha:</label>
                      <div class="tw:mb-4">
-                         <input class="datepicker id_hast_fech tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"   type="text"  id="id_hast_fech" name="id_hast_fech" data-date-format="yyyy/mm/dd" placeholder="AAAA/MM/DD" >
+                         <input class="datepicker id_hast_fech tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"   type="text"  id="id_hast_fech" name="id_hast_fech" data-date-format="yyyy/mm/dd" placeholder="AAAA/MM/DD" >
                      </div>
   </div>
-  <div class="tw:w-full tw:lg:w-2/12 tw:px-2">
+  <div class="tw:w-full tw:lg:w-2/12 tw:lg:grow tw:px-2">
     <label><br></label>
     <div class="tw:mb-4">
-      <button id="buscar_registros" type="submit" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-green-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-green-700 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm">Buscar registros</button>
+      <button id="buscar_registros" type="submit" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap">Buscar registros</button>
   </div> 
   </div>    
 </div>
@@ -51,12 +44,12 @@
 @endif
 @if($estados == 1)
 <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
-<form id="form_buscar_reportes" action="{{url("/incidencias/reportes_incidencias_ver")}}" method="POST" role="form" >
+<form class="tw:w-full tw:flex tw:flex-wrap tw:gap-y-4" id="form_buscar_reportes" action="{{url("/incidencias/reportes_incidencias_ver")}}" method="POST" role="form" >
   {{ csrf_field() }}
-    <div class="tw:w-full tw:lg:w-3/12 tw:lg:ml-[16.6667%] tw:px-2">
+    <div class="tw:w-full tw:lg:w-3/12 tw:lg:grow tw:px-2">
         <div class= "dropdown">
             <label for="Tipo_of">Articulo/Cláusula:</label>
-            <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" placeholder="Seleciona una opción" id="id_articulo" name="id_articulo" required>
+            <select class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" placeholder="Seleciona una opción" id="id_articulo" name="id_articulo" required>
                 <option disabled selected hidden> Selecciona una opción </option>
                 @foreach($art as $articulo)
                     <?php $id_art=$articulo['estado'].''.$articulo['id']; ?>
@@ -70,30 +63,30 @@
             </select>
         </div>
     </div>
-  <div class="tw:w-full tw:lg:w-2/12 tw:px-2">
+  <div class="tw:w-full tw:lg:w-2/12 tw:lg:grow tw:px-2">
     <label for="fecha_req">Desde Fecha:</label>
                      <div class="tw:mb-4">
-                         <input class="datepicker id_desd_fech tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" value="{{$fecha_inicial}}"  type="text"  id="id_desd_fech" name="id_desd_fech" data-date-format="yyyy/mm/dd" placeholder="AAAA/MM/DD" >
+                         <input class="datepicker id_desd_fech tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11" value="{{$fecha_inicial}}"  type="text"  id="id_desd_fech" name="id_desd_fech" data-date-format="yyyy/mm/dd" placeholder="AAAA/MM/DD" >
                      </div>
   </div>
-  <div class="tw:w-full tw:lg:w-2/12 tw:px-2">
+  <div class="tw:w-full tw:lg:w-2/12 tw:lg:grow tw:px-2">
     <label for="fecha_req">Hasta Fecha:</label>
                      <div class="tw:mb-4">
-                         <input class="datepicker id_hast_fech tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"  value="{{$fecha_final}}" type="text"  id="id_hast_fech" name="id_hast_fech" data-date-format="yyyy/mm/dd" placeholder="AAAA/MM/DD" >
+                         <input class="datepicker id_hast_fech tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"  value="{{$fecha_final}}" type="text"  id="id_hast_fech" name="id_hast_fech" data-date-format="yyyy/mm/dd" placeholder="AAAA/MM/DD" >
                      </div>
   </div>
 </form> 
   <div class="tw:w-full tw:lg:w-2/12 tw:px-2">
     <label><br></label>
     <div class="tw:mb-4">
-      <button id="buscar_registros" type="submit" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-green-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-green-700 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm">Buscar registros</button>
+      <button id="buscar_registros" type="submit" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap">Buscar registros</button>
   </div> 
   </div>    
 </div>
 <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
-    <div class="tw:w-full tw:lg:w-8/12 tw:lg:ml-[16.6667%] tw:px-2">
-        <div class="tw-tabla-contenedor tw:mb-4 tw:max-w-full tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200">
-<table id="tabla_reportes" class="table-responsive tw-tabla tw-tabla-bordes" align="center">
+    <div class="tw:w-full tw:px-2">
+        <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table id="tabla_reportes" class="tw-tabla tw-tabla-bordes" align="center">
                           <thead >                                     
                             <th class="tw:text-center">ID EMPLEADO</th>
                             <th class="tw:text-center">SERVIDOR PÚBLICO DEL JUSTIFICANTE </th>
@@ -135,21 +128,21 @@
                       @endforeach
                           </tbody>
           </table>
-</div>
+</div>                   
     </div>
 </div>
 
 <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
   
   
-  <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4" style="display: inline" id="generar">
-    <div class="tw:w-full tw:lg:w-2/12 tw:lg:ml-[66.6667%] tw:px-2">
-    <button type="button" class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:text-center tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" onclick="window.open('{{url('/incidencias/excel_reportes_inc/'.$id_articulo.'/'.$fecha_inicial.'/'.$fecha_final.'/'.$estado)}}')">Generar reporte</button>
+  <div class="tw:w-full tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4" style="display: inline" id="generar">
+    <div class="tw:w-full tw:px-2">
+    <button type="button" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" onclick="window.open('{{url('/incidencias/excel_reportes_inc/'.$id_articulo.'/'.$fecha_inicial.'/'.$fecha_final.'/'.$estado)}}')">Generar reporte</button>
     </div>
   </div>
 </div>
 @endif
-</div>
+
   <script>
 $(document).ready( function() {
 
@@ -241,4 +234,5 @@ $(document).ready( function() {
   </script>
 
   </main>
+</div>
 @endsection

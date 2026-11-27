@@ -1,38 +1,28 @@
 @extends('layouts.panel')
-@include('partials.panel.recursos_app')
 @section('title', 'Ambiental')
+@include('partials.panel.recursos_app', ['vue' => true, 'axios' => true])
 @section('content')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.18/vue.min.js"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<div class="tw-pantalla">
     <div id="reg_proc" x-ignore>
         <main class="tw:w-full tw:lg:w-full tw:px-2">
 
 
+            <x-panel.encabezado :titulo="'Solicitud de documentación de los procedimientos del periodo {{ nom_periodo }}'" :migas="['Gestión ambiental' => null]" />
             <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
-                <div class="tw:w-full tw:lg:w-10/12 tw:lg:ml-[8.3333%] tw:px-2">
-                    <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
-                        <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4">
-                            <h3 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:text-center">Solicitud de Documentación de los procedimientos del Periodo @{{ nom_periodo }}</h3>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
-                <div class="tw:lg:w-10/12 tw:w-10/12 tw:lg:ml-[8.3333%] tw:px-2">
+                <div class="tw:w-full tw:px-2">
                     <p>
                         <span class="fa fa-arrow-right"></span>
-                        <a href="{{url("/ambiental/ver_periodos")}}">Periodos Ambiental</a>
+                        <a class="tw:text-brand-500 tw:hover:underline" href="{{url("/ambiental/ver_periodos")}}">Periodos Ambiental</a>
                         <span class="fa fa-chevron-right"></span>
                         <span>Procedimientos Registrados </span>
 
                     </p>
-                    <br>
                 </div>
             </div>
             <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
                 <div  class="tw:w-full tw:lg:w-10/12 tw:xl:ml-[8.3333%] tw:px-2">
-                    <div class="tw-tabla-contenedor tw:mb-4 tw:max-w-full tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200">
-<table id="tabla_envio" class="table-responsive tw-tabla tw-tabla-bordes">
+                    <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table id="tabla_envio" class="tw-tabla tw-tabla-bordes">
                         <thead>
                         <tr>
                             <th>No</th>
@@ -47,8 +37,8 @@
                             <td>@{{ procedimiento.i }}</td>
                             <td>@{{ procedimiento.nombre_procedimiento }}</td>
                             <td>@{{ procedimiento.nombre_encargado }}</td>
-                            <td v-if="procedimiento.estado_doc == 0" > <button  class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-1.5 tw:px-3 tw:py-1.5 tw:text-sm" v-on:click="agregar_solicitud(procedimiento);" >Agregar</button></td>
-                            <td v-if="procedimiento.estado_doc == 1" > <button  class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-green-600 tw:text-white tw:shadow-theme-xs tw:hover:bg-green-700 tw:gap-1.5 tw:px-3 tw:py-1.5 tw:text-sm" v-on:click="agregar_solicitud(procedimiento);" >Ver solicitud </button></td>
+                            <td v-if="procedimiento.estado_doc == 0" > <button  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap" v-on:click="agregar_solicitud(procedimiento);" >Agregar</button></td>
+                            <td v-if="procedimiento.estado_doc == 1" > <button  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap" v-on:click="agregar_solicitud(procedimiento);" >Ver solicitud </button></td>
 
                         </tr>
 
@@ -136,4 +126,5 @@
         }
     </style>
 
+</div>
 @endsection

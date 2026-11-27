@@ -1,269 +1,98 @@
-@extends('layouts.app')
-@section('title', 'Analisis de Encuestas de Satisfacción del Cliente')
+@extends('layouts.panel')
+@section('title', 'Resultados de encuestas de Titulación')
+@include('partials.panel.recursos_app', ['graficas' => true])
+
 @section('content')
-    <main class="col-md-12">
-        <?php
-        $historial = Session::get('historial_enc_t');
-        ?>
-        @if($historial == 1)
-                <div class="row">
-                    <div class="col-md-10 col-xs-10 col-md-offset-1">
-                        <p>
-                            <span class="glyphicon glyphicon-arrow-right"></span>
-                            <a href="{{url("/encuestas_satisfaccion/historial_encuesta_estudiante_titulacion")}}">Historial de  encuestas (TITULACIÓN)</a>
-                            <span class="glyphicon glyphicon-arrow-right"></span>
-                            <a href="{{url("/encuestas_satisfaccion/menu_historial_titulacion_year/".$year)}}">Periodos de las encuestas</a>
-                            <span class="glyphicon glyphicon-chevron-right"></span>
-                            <span>Ver resultados</span>
-                        </p>
-                        <br>
-                    </div>
-                </div>
-            @else
-                <div class="row">
-                    <div class="col-md-10 col-xs-10 col-md-offset-1">
-                        <p>
-                            <span class="glyphicon glyphicon-arrow-right"></span>
-                            <a href="{{url("/encuestas_satisfaccion/enviar_encuesta_estudiante_titulacion")}}">Periodos de las encuestas</a>
-                            <span class="glyphicon glyphicon-chevron-right"></span>
-                            <span>Ver resultados</span>
-                        </p>
-                        <br>
-                    </div>
-                </div>
-            @endif
-        <div class="row">
-            <div class="col-md-6 col-md-offset-3 ">
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title text-center">Ver resultados de Encuestas de Satisfacción del Cliente del Departamento de Titulación</h3>
+    @php
+        $base = '/encuestas_satisfaccion/';
+        $historial = session('historial_enc_t') == 1;
+        $migas = $historial
+            ? ['Historial de encuestas' => url($base.'historial_encuesta_estudiante_titulacion'), 'Periodos de las encuestas' => url($base.'menu_historial_titulacion_year/'.$year)]
+            : ['Periodos de las encuestas' => url($base.'enviar_encuesta_estudiante_titulacion')];
 
-                    </div>
-                </div>
+        $rubros = [
+            ['nombre' => 'Servicio', 'conteos' => [7 => $preg7, 9 => $preg9, 11 => $preg11, 12 => $preg12, 13 => $preg13, 14 => $preg14, 16 => $preg16, 18 => $preg18],
+                'total' => $total_serv_rubro, 'puntos' => $total_serv_satisfacion, 'porcentaje' => $porcentaje_serv_sat],
+            ['nombre' => 'Información', 'conteos' => [4 => $preg4, 5 => $preg5, 6 => $preg6, 8 => $preg8, 10 => $preg10, 17 => $preg17],
+                'total' => $total_inf_rubro, 'puntos' => $total_inf_satisfacion, 'porcentaje' => $porcentaje_inf_sat],
+            ['nombre' => 'Tiempo', 'conteos' => [15 => $preg15],
+                'total' => $total_tiempo_rubro, 'puntos' => $total_tiempo_satisfacion, 'porcentaje' => $porcentaje_tiempo_sat],
+        ];
+        $resumen = array_column($rubros, 'porcentaje', 'nombre') + ['Satisfacción total' => $satisfacion_total];
+    @endphp
+
+    <x-panel.encabezado titulo="Resultados de encuestas de Titulación" :migas="$migas" />
+
+    <div class="tw:space-y-5">
+        <x-panel.tarjeta titulo="Resumen de satisfacción" :subtitulo="'Año '.$year">
+            <div class="tw:grid tw:min-w-0 tw:gap-4 tw:lg:grid-cols-2 tw:lg:items-center">
+                <dl class="tw:grid tw:grid-cols-2 tw:gap-3">
+                    @foreach ($resumen as $nombre => $porcentaje)
+                        <div @class([
+                            'tw:min-w-0 tw:rounded-lg tw:px-3 tw:py-2',
+                            'tw:bg-gray-50 tw:text-gray-800 tw:dark:bg-white/5 tw:dark:text-gray-200' => ! $loop->last,
+                            'tw:bg-brand-50 tw:text-brand-700 tw:dark:bg-brand-500/15 tw:dark:text-brand-300' => $loop->last,
+                        ])>
+                            <dt class="tw:text-sm">{{ $nombre }}</dt>
+                            <dd class="tw:font-semibold">{{ number_format($porcentaje, 2) }} %</dd>
+                        </div>
+                    @endforeach
+                </dl>
+                <div id="grafica-titulacion" class="tw:min-w-0 tw:rounded-lg tw:bg-white"
+                    data-resultados="{{ json_encode($resumen) }}"></div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-10 col-md-offset-1">
-                <table id="tabla_envio" class="table table-bordered table-resposive">
-                    <thead>
+        </x-panel.tarjeta>
+
+        <x-panel.tarjeta titulo="Detalle por rubro">
+            <x-panel.tabla compacta desplazable="Resultados detallados por rubro">
+                <thead>
                     <tr>
-                        <th>Preguntas</th>
-                        <th style="background: green;">4</th>
-                        <th style="background: green;">5</th>
-                        <th style="background: green;">6</th>
-                        <th style="background: deepskyblue;">7</th>
-                        <th style="background: green;">8</th>
-                        <th style="background: deepskyblue;">9</th>
-                        <th style="background: green;">10</th>
-                        <th style="background: deepskyblue;">11</th>
-                        <th style="background: deepskyblue;">12</th>
-                        <th style="background: deepskyblue;">13</th>
-                        <th style="background: deepskyblue;">14</th>
-                        <th style="background: yellow;">15</th>
-                        <th style="background: deepskyblue;">16</th>
-                        <th style="background: green;">17</th>
-                        <th style="background: deepskyblue;">18</th>
-                        <th style="">t. a. r.</th>
-                        <th style="">Total de puntos por rubro</th>
-                        <th style="">Porcentaje</th>
+                        <th scope="col">Rubro</th>
+                        @foreach (range(4, 18) as $numero)
+                            <th scope="col" aria-label="Pregunta {{ $numero }}">{{ $numero }}</th>
+                        @endforeach
+                        <th scope="col">Total de respuestas</th>
+                        <th scope="col">Puntos por rubro</th>
+                        <th scope="col">Porcentaje</th>
                     </tr>
-                    </thead>
-                    <tbody>
-
-                    <tr>
-                        <td style="background: deepskyblue;"><b>Servicio (t. p. s.)</b></td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>{{ $preg7 }}</td>
-                        <td>0</td>
-                        <td>{{ $preg9 }}</td>
-                        <td>0</td>
-                        <td>{{ $preg11 }}</td>
-                        <td>{{ $preg12 }}</td>
-                        <td>{{ $preg13 }}</td>
-                        <td>{{ $preg14 }}</td>
-                        <td>0</td>
-                        <td>{{ $preg16 }}</td>
-                        <td>0</td>
-                        <td>{{ $preg18 }}</td>
-                        <td>{{ $total_serv_rubro }}</td>
-                        <td>{{ $total_serv_satisfacion }}</td>
-                        <td>{{ $porcentaje_serv_sat }} %</td>
-
-                    </tr>
-                    <tr>
-                        <td style="background: green;"><b>Información (t. p. i.)</b></td>
-                        <td>{{ $preg4 }}</td>
-                        <td>{{ $preg5 }}</td>
-                        <td>{{ $preg6 }}</td>
-                        <td>0</td>
-                        <td>{{ $preg8 }}</td>
-                        <td>0</td>
-                        <td>{{ $preg10 }}</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>{{ $preg17 }}</td>
-                        <td>0</td>
-                        <td>{{ $total_inf_rubro }}</td>
-                        <td>{{ $total_inf_satisfacion }}</td>
-                        <td>{{ $porcentaje_inf_sat }} %</td>
-
-                    </tr>
-                    <tr>
-                        <td style="background: yellow;"><b>Tiempo (t. r. a. + t. e. r. c. + t. e. r. mc.)</b> </td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>{{ $preg15 }}</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>{{ $total_tiempo_rubro }} </td>
-                        <td>{{ $total_tiempo_satisfacion }} </td>
-                        <td>{{ $porcentaje_tiempo_sat }} %</td>
-
-                    </tr>
-
-
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="row">
-        <div class="col-md-5 col-md-offset-1">
-            <table id="tabla_envio" class="table table-bordered table-resposive">
+                </thead>
                 <tbody>
-                <tr>
-                    <td style="background: deepskyblue;"><b>Servicio</b></td>
-                    <td>{{ $porcentaje_serv_sat }} %</td>
-
-                </tr>
-                <tr>
-                    <td style="background: green;"><b>Información</b></td>
-                    <td>{{ $porcentaje_inf_sat }} %</td>
-
-                </tr>
-                <tr>
-                    <td style="background: yellow;"><b>Tiempo</b> </td>
-                    <td>{{ $porcentaje_tiempo_sat }} %</td>
-
-                </tr>
-                <tr>
-                    <td><b>% de satisfacción</b></td>
-                    <td><b>{{ $satisfacion_total }}%</b></td>
-                </tr>
-
-
+                    @foreach ($rubros as $rubro)
+                        <tr>
+                            <th scope="row">{{ $rubro['nombre'] }}</th>
+                            @foreach (range(4, 18) as $numero)
+                                <td>{{ $rubro['conteos'][$numero] ?? 0 }}</td>
+                            @endforeach
+                            <td>{{ $rubro['total'] }}</td>
+                            <td>{{ $rubro['puntos'] }}</td>
+                            <td>{{ number_format($rubro['porcentaje'], 2) }} %</td>
+                        </tr>
+                    @endforeach
                 </tbody>
-            </table>
-        </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6 col-md-offset-3">
-                <div  id="container"></div>
-
-
-            </div>
-        </div>
-
-
-
-        <script>
-            $(document).ready(function() {
-
-// Build the chart
-                // Data retrieved from https://gs.statcounter.com/browser-market-share#monthly-202201-202201-bar
-
-// Create the chart
-                Highcharts.chart('container', {
-                    chart: {
-                        type: 'column'
-                    },
-                    title: {
-                        align: 'left',
-                        text: ''
-
-                    },
-                    subtitle: {
-                        align: 'left',
-                        text: ''
-                    },
-                    accessibility: {
-                        announceNewData: {
-                            enabled: true
-                        }
-                    },
-                    xAxis: {
-                        type: 'category'
-                    },
-                    yAxis: {
-                        title: {
-                            text: ''
-                        }
-
-                    },
-                    legend: {
-                        enabled: false
-                    },
-                    plotOptions: {
-                        series: {
-                            //  borderWidth: 0,
-                            dataLabels: {
-                                enabled: true,
-                                format: '{point.y:.2f}%'
-                            }
-                        }
-                    },
-
-                    tooltip: {
-                        //  headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
-                        pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> <br/>'
-                    },
-
-                    series: [{
-                        name: 'Porcentaje',
-                        colorByPoint: true,
-                        data: [
-
-                            {
-                                name: 'Servicio',
-                                y: {{ $porcentaje_serv_sat }},
-                            },
-                            {
-                                name: 'Información',
-                                y: {{ $porcentaje_inf_sat }},
-                            },
-                            {
-                                name: 'Tiempo',
-                                y: {{ $porcentaje_tiempo_sat }},
-                            },
-                            {
-                                name: 'Satisfacción Total',
-                                y: {{ $satisfacion_total }},
-                            },
-
-                        ]
-                    }]
-                });
-
-            });
-
-        </script>
-
-
-    </main>
-
+            </x-panel.tabla>
+        </x-panel.tarjeta>
+    </div>
 @endsection
+
+@push('scripts')
+    <script>
+        const graficaTitulacion = document.getElementById('grafica-titulacion');
+        const resultadosTitulacion = JSON.parse(graficaTitulacion.dataset.resultados);
+
+        Highcharts.chart(graficaTitulacion, {
+            chart: {type: 'column', height: 230},
+            title: {text: null},
+            xAxis: {type: 'category'},
+            yAxis: {min: 0, title: {text: 'Porcentaje'}},
+            legend: {enabled: false},
+            plotOptions: {series: {dataLabels: {enabled: true, format: '{point.y:.2f}%'}}},
+            tooltip: {pointFormat: '<b>{point.y:.2f}%</b>'},
+            exporting: {chartOptions: {title: {text: 'Resultados de encuestas de Titulación'}}},
+            series: [{
+                name: 'Porcentaje',
+                colorByPoint: true,
+                data: Object.entries(resultadosTitulacion).map(([name, y]) => ({name, y})),
+            }],
+        });
+    </script>
+@endpush

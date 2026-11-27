@@ -1,79 +1,23 @@
-<div class="row">
-    <div class="col-md-10 col-md-offset-1">
-        <h4>Fecha solicitud: {{ $mantenimiento->fecha_solicita }}</h4>
-        <h4>Servicio solicitado: {{ $mantenimiento->servicio_solicita }}</h4>
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-12">
-        <div class="panel panel-danger">
-            <div class="panel-heading">
-                <p>
-                  Por favor en el siguiente cuestionario califique el trabajo realizado por el área de mantenimiento.
-                </p>
+@use('App\View\EncuestaMantenimiento')
+
+<dl class="tw:mb-4 tw:grid tw:gap-3 tw:text-sm tw:sm:grid-cols-2">
+    <div><dt class="tw:font-semibold">Fecha de solicitud</dt><dd>{{ $mantenimiento->fecha_solicita }}</dd></div>
+    <div><dt class="tw:font-semibold">Servicio solicitado</dt><dd>{{ $mantenimiento->servicio_solicita }}</dd></div>
+</dl>
+
+<form id="form_enviar_encuesta" action="{{ url('/encuestas_satisfaccion/enviar_encuesta_mantenimiento/'.$mantenimiento->id_servicio_mantenimiento) }}"
+    method="POST" class="tw:space-y-4" novalidate>
+    @csrf
+    @foreach (EncuestaMantenimiento::PREGUNTAS as $numero => $pregunta)
+        <fieldset class="tw:min-w-0 tw:rounded-xl tw:border tw:border-gray-200 tw:px-4 tw:pb-4 tw:dark:border-gray-700">
+            <legend class="tw:max-w-full tw:px-2 tw:text-sm tw:font-medium">{{ $numero }}. {{ $pregunta }}</legend>
+            <div class="tw-campo tw:mt-2 tw:flex tw:flex-wrap tw:gap-3">
+                @foreach (EncuestaMantenimiento::OPCIONES as $valor => $opcion)
+                    <x-panel.radio :id="'pregunta'.$numero.'-'.$valor" :name="'pregunta'.$numero" :value="$valor"
+                        :data-panel-etiqueta="'la pregunta '.$numero" required>{{ $opcion }}</x-panel.radio>
+                @endforeach
             </div>
-        </div>
-
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-12">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <form id="form_enviar_encuesta" class="form" action="{{url("/encuestas_satisfaccion/enviar_encuesta_mantenimiento/".$mantenimiento->id_servicio_mantenimiento)}}" role="form" method="POST" >
-                    {{ csrf_field() }}
-                    <div class="row">
-                        <div class="col-md-12">
-                            <p><b>1.-El tiempo de respuesta a su Solicitud fue el adecuado<br></b></p>
-                            <label class="radio-inline"><input   type="radio" name="pregunta1" id="pregunta1" value="5">Excelente</label>
-                            <label class="radio-inline"><input   type="radio" name="pregunta1" id="pregunta1" value="4">Muy bueno</label>
-                            <label class="radio-inline"><input   type="radio" name="pregunta1" id="pregunta1" value="3">Bueno</label>
-                            <label class="radio-inline"><input   type="radio" name="pregunta1" id="pregunta1" value="2">Regular</label>
-                            <label class="radio-inline"><input   type="radio" name="pregunta1" id="pregunta1" value="1">Malo</label>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <p><b>2.-La atención proporcionada por el personal de Mantemiento fue la adecuada.<br></b></p>
-                            <label class="radio-inline"><input   type="radio" name="pregunta2" id="pregunta2" value="5">Excelente</label>
-                            <label class="radio-inline"><input   type="radio" name="pregunta2" id="pregunta2" value="4">Muy bueno</label>
-                            <label class="radio-inline"><input   type="radio" name="pregunta2" id="pregunta2" value="3">Bueno</label>
-                            <label class="radio-inline"><input   type="radio" name="pregunta2" id="pregunta2" value="2">Regular</label>
-                            <label class="radio-inline"><input   type="radio" name="pregunta2" id="pregunta2" value="1">Malo</label>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <p><b>3.-El personal técnico resolvió sus necesidades y dio respuesta a sus requerimientos.<br></b></p>
-                            <label class="radio-inline"><input   type="radio" name="pregunta3" id="pregunta3" value="5">Excelente</label>
-                            <label class="radio-inline"><input   type="radio" name="pregunta3" id="pregunta3" value="4">Muy bueno</label>
-                            <label class="radio-inline"><input   type="radio" name="pregunta3" id="pregunta3" value="3">Bueno</label>
-                            <label class="radio-inline"><input   type="radio" name="pregunta3" id="pregunta3" value="2">Regular</label>
-                            <label class="radio-inline"><input   type="radio" name="pregunta3" id="pregunta3" value="1">Malo</label>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <p><b>4.-El equipo al que se dio mantenimiento se le entrego limpio.<br></b></p>
-                            <label class="radio-inline"><input   type="radio" name="pregunta4" id="pregunta4" value="5">Excelente</label>
-                            <label class="radio-inline"><input   type="radio" name="pregunta4" id="pregunta4" value="4">Muy bueno</label>
-                            <label class="radio-inline"><input   type="radio" name="pregunta4" id="pregunta4" value="3">Bueno</label>
-                            <label class="radio-inline"><input   type="radio" name="pregunta4" id="pregunta4" value="2">Regular</label>
-                            <label class="radio-inline"><input   type="radio" name="pregunta4" id="pregunta4" value="1">Malo</label>
-                        </div>
-                    </div>
-
-                    <div class="row" style="">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="Motivo">5.-Sugerencias</label>
-                                <textarea class="form-control" id="sugerencias" name="sugerencias" rows="2" placeholder=""  ></textarea>
-                            </div>
-                        </div>
-                    </div>
-
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+        </fieldset>
+    @endforeach
+    <x-panel.textarea id="sugerencias" name="sugerencias" etiqueta="5. Sugerencias (opcional)" rows="2" />
+</form>

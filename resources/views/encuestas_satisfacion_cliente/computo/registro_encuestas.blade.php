@@ -1,169 +1,61 @@
-@extends('layouts.app')
-@section('title', 'Encuestas de Satisfacción de Cliente')
+@extends('layouts.panel')
+@section('title', 'Encuestas de satisfacción de Cómputo')
+@include('partials.panel.recursos_app', ['datatables' => true])
+@include('partials.panel.formularios')
+
 @section('content')
+    <x-panel.encabezado titulo="Encuestas de satisfacción de Cómputo" />
 
-    <main class="col-md-12">
-        <div class="row">
-            <div class="col-md-5 col-md-offset-3">
-
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h2 class="panel-title text-center">Encuesta de Satisfacción de Cliente interno Centro de Computo</h2>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-10 col-md-offset-1">
-                <div class="panel panel-success">
-                    <div class="panel-heading">
-                        <h2 class="panel-title text-center">Por favor contestar las siguientes encuestas  de satisfacción de Cliente interno de la solicitud de servicio preventivo y correctivo al equipo de computo.</h2>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <p><br></p>
-        </div>
-
-        <div class="row">
-            <div class="col-md-10 col-md-offset-1">
-                <table id="table_enviado" class="table table-bordered table-resposive">
-                    <thead>
-                    <tr>
-                        <th>Fecha de la solicitud</th>
-                        <th>Servicio que solicita</th>
-                        <th>Contestar encuesta</th>
-
-                    </tr>
-                    </thead>
-                    <tbody>
-
+    <x-panel.tarjeta titulo="Encuestas pendientes" subtitulo="Evalúa los servicios de mantenimiento preventivo y correctivo que solicitaste.">
+        @if (count($encuestas_mantenimiento))
+            <x-panel.tabla id="table_enviado">
+                <thead><tr><th scope="col">Fecha de la solicitud</th><th scope="col">Servicio solicitado</th><th scope="col">Acción</th></tr></thead>
+                <tbody>
                     @foreach ($encuestas_mantenimiento as $mantenimiento)
-
                         <tr>
-                            <?php  $fecha_solicita=date("d-m-Y",strtotime($mantenimiento->fecha_solicita)) ?>
-
-                                <td>{{ $fecha_solicita }}</td>
-                                <td>{{ $mantenimiento->servicio_solicita }}</td>
-                                <td><button type="button" class="btn btn-primary contestar" data-id="{{ $mantenimiento->id_servicio_mantenimiento }}">Contestar encuesta</button></td>
+                            <td data-order="{{ $mantenimiento->fecha_solicita }}">{{ date('d-m-Y', strtotime($mantenimiento->fecha_solicita)) }}</td>
+                            <td>{{ $mantenimiento->servicio_solicita }}</td>
+                            <td>
+                                <x-panel.boton tamano="sm" variante="contorno-primario"
+                                    :data-url="url('/encuestas_satisfaccion/contestar_encuesta_mantenimiento/'.$mantenimiento->id_servicio_mantenimiento)"
+                                    data-modal-remoto="#modal_agregar" data-contenedor="#contenedor_agregar">Contestar encuesta</x-panel.boton>
+                            </td>
                         </tr>
-
                     @endforeach
-                    </tbody>
-                </table>
-                <br>
-            </div>
-        </div>
+                </tbody>
+            </x-panel.tabla>
+        @else
+            <x-panel.vacio titulo="Sin encuestas pendientes" />
+        @endif
+    </x-panel.tarjeta>
 
+    <x-panel.modal id="modal_agregar" titulo="Encuesta de mantenimiento" aria-label="Encuesta de mantenimiento" tamano="lg">
+        <div id="contenedor_agregar"></div>
+        <x-slot:pie>
+            <x-panel.boton variante="secundario" data-dismiss="modal">Cancelar</x-panel.boton>
+            <x-panel.boton id="enviar_encuesta" type="submit" form="form_enviar_encuesta">Enviar encuesta</x-panel.boton>
+        </x-slot:pie>
+    </x-panel.modal>
+@endsection
 
+@push('scripts')
+    @include('encuestas_satisfacion_cliente.partials.cargar_modal')
+    <script>
+        $(function () {
+            $('#table_enviado').DataTable({columnDefs: [{targets: -1, orderable: false, searchable: false}]});
 
-
-    </main>
-    <div class="modal fade btn-lg" id="modal_agregar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content ">
-                <div class="modal-header bg-info">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="exampleModalLabel">Nueva encuesta  de satisfacción al cliente interno</h4>
-                </div>
-                <div class="modal-body">
-
-
-                        <div id="contenedor_agregar">
-                        </div>
-
-
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <button id="enviar_encuesta"  class="btn btn-primary" >Enviar encuesta</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('#table_enviado').DataTable( {
-
-            } );
-
-
-            $("#table_enviado").on('click','.contestar',function(){
-                var id=$(this).data('id');
-
-                $.get("/encuestas_satisfaccion/contestar_encuesta_mantenimiento/"+id,function (request) {
-                    $("#contenedor_agregar").html(request);
-                    $("#modal_agregar").modal('show');
-                });
-            });
-
-            $("#enviar_encuesta").click(function (){
-               // TNotify.alert("hola");
-                var pregunta1 = $("input[type='radio'][name='pregunta1']:checked").val();
-                if(pregunta1 != undefined){
-                    var pregunta2 = $("input[type='radio'][name='pregunta2']:checked").val();
-                    if(pregunta2 != undefined){
-                        var pregunta3 = $("input[type='radio'][name='pregunta3']:checked").val();
-                        if(pregunta3 != undefined){
-                            var pregunta4 = $("input[type='radio'][name='pregunta4']:checked").val();
-                            if(pregunta4 != undefined){
-                                $("#enviar_encuesta").attr("disabled", true);
-                                $("#form_enviar_encuesta").submit();
-                                swal({
-                                    position: "top",
-                                    type: "success",
-                                    title: "Se envio correctamente su encuesta.",
-                                    showConfirmButton: false,
-                                    timer: 3500
-                                });
-
-                            }else{
-                                swal({
-                                    position: "top",
-                                    type: "warning",
-                                    title: "Te falta responder la pregunta 4",
-                                    showConfirmButton: false,
-                                    timer: 3500
-                                });
-                            }
-
-                        }else{
-                            swal({
-                                position: "top",
-                                type: "warning",
-                                title: "Te falta responder la pregunta 3",
-                                showConfirmButton: false,
-                                timer: 3500
-                            });
-                        }
-
-                    }else{
-                        swal({
-                            position: "top",
-                            type: "warning",
-                            title: "Te falta responder la pregunta 2",
-                            showConfirmButton: false,
-                            timer: 3500
-                        });
-                    }
-
-                }else{
-                    swal({
-                        position: "top",
-                        type: "warning",
-                        title: "Te falta responder la pregunta 1",
-                        showConfirmButton: false,
-                        timer: 3500
-                    });
+            $('#contenedor_agregar').on('submit', '#form_enviar_encuesta', function (evento) {
+                if (this.getAttribute('aria-busy') === 'true' || !PanelFormularios.validar(this)) {
+                    evento.preventDefault();
+                    return;
                 }
+                this.setAttribute('aria-busy', 'true');
+            }).on('change', 'input[type="radio"]', function () {
+                const marcado = this.closest('.tw-campo').querySelector('[data-panel-error]');
+                if (marcado) { PanelFormularios.limpiarCampo(marcado); }
             });
 
-
+            window.addEventListener('pageshow', () => document.getElementById('form_enviar_encuesta')?.removeAttribute('aria-busy'));
         });
     </script>
-@endsection
+@endpush

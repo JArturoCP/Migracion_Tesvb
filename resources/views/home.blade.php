@@ -11,7 +11,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Cargando… · TESVB</title>
-    <link rel="icon" href="{{ asset('favicon.ico') }}">
+    @include('partials.favicon')
     <script>window.location.replace('/inicio');</script>
 
     @include('layouts.tipografia')

@@ -14,10 +14,10 @@ docu.evi_constancia_adeudo   == 1  && docu.estado_opcion_titulacion == 1 &&  doc
 docu.estado_pago_titulo   == 1  && docu.estado_pago_contancia == 1
 &&
 docu.estado_pago_derecho_ti   == 1  && docu.estado_pago_integrante_jurado == 1">
-        <div class="row">
-            <div class="col-md-3 col-md-offset-5">
+        <div class="tw:col-span-full tw:min-w-0">
+            <div class="tw:my-3 tw:flex tw:justify-end">
 
-                <button  class="btn btn-success btn-lg btn-block" v-on:click="abrirModalautorizar_Doc();" >Autorizar Documentación</button>
+                <button  class="tw:inline-flex tw:w-full tw:items-center tw:justify-center tw:rounded-lg tw:bg-brand-500 tw:px-4 tw:py-2.5 tw:text-sm tw:font-medium tw:text-white tw:hover:bg-brand-600 tw:sm:w-auto" v-on:click="abrirModalautorizar_Doc();">Autorizar Documentación</button>
 
 
                 <p><br/></p>
@@ -25,10 +25,10 @@ docu.estado_pago_derecho_ti   == 1  && docu.estado_pago_integrante_jurado == 1">
         </div>
         </template>
         <template v-else>
-            <div class="row">
-                <div class="col-md-2 col-md-offset-5">
+            <div class="tw:col-span-full tw:min-w-0">
+                <div class="tw:my-3 tw:flex tw:justify-end">
 
-                    <button  class="btn btn-success btn-lg btn-block" v-on:click="abrirModalenviar_modificaciones();" >Enviar correcciones</button>
+                    <button  class="tw:inline-flex tw:w-full tw:items-center tw:justify-center tw:rounded-lg tw:bg-brand-500 tw:px-4 tw:py-2.5 tw:text-sm tw:font-medium tw:text-white tw:hover:bg-brand-600 tw:sm:w-auto" v-on:click="abrirModalenviar_modificaciones();">Enviar correcciones</button>
 
 
                     <p><br/></p>
@@ -58,10 +58,10 @@ docu.evi_constancia_adeudo   == 1  &&
 docu.estado_pago_titulo   == 1  && docu.estado_pago_contancia == 1
 &&
 docu.estado_pago_derecho_ti   == 1  && docu.estado_pago_integrante_jurado == 1 && docu.estado_pago_concepto_autenticacion == 1">
-                <div class="row">
-                    <div class="col-md-3 col-md-offset-5">
+                <div class="tw:col-span-full tw:min-w-0">
+                    <div class="tw:my-3 tw:flex tw:justify-end">
 
-                        <button  class="btn btn-success btn-lg btn-block" v-on:click="abrirModalautorizar_Doc();" >Autorizar Documentación</button>
+                        <button  class="tw:inline-flex tw:w-full tw:items-center tw:justify-center tw:rounded-lg tw:bg-brand-500 tw:px-4 tw:py-2.5 tw:text-sm tw:font-medium tw:text-white tw:hover:bg-brand-600 tw:sm:w-auto" v-on:click="abrirModalautorizar_Doc();">Autorizar Documentación</button>
 
 
                         <p><br/></p>
@@ -69,10 +69,10 @@ docu.estado_pago_derecho_ti   == 1  && docu.estado_pago_integrante_jurado == 1 &
                 </div>
             </template>
             <template v-else>
-                <div class="row">
-                    <div class="col-md-2 col-md-offset-5">
+                <div class="tw:col-span-full tw:min-w-0">
+                    <div class="tw:my-3 tw:flex tw:justify-end">
 
-                        <button  class="btn btn-success btn-lg btn-block" v-on:click="abrirModalenviar_modificaciones();" >Enviar correcciones</button>
+                        <button  class="tw:inline-flex tw:w-full tw:items-center tw:justify-center tw:rounded-lg tw:bg-brand-500 tw:px-4 tw:py-2.5 tw:text-sm tw:font-medium tw:text-white tw:hover:bg-brand-600 tw:sm:w-auto" v-on:click="abrirModalenviar_modificaciones();">Enviar correcciones</button>
 
 
                         <p><br/></p>
@@ -100,10 +100,10 @@ docu.evi_constancia_adeudo   == 1  && docu.estado_reporte_result_egel == 1 &&
 docu.estado_pago_titulo   == 1  && docu.estado_pago_contancia == 1
 &&
 docu.estado_pago_derecho_ti   == 1  && docu.estado_pago_integrante_jurado == 1 && docu.estado_pago_concepto_autenticacion == 1">
-                <div class="row">
-                    <div class="col-md-3 col-md-offset-5">
+                <div class="tw:col-span-full tw:min-w-0">
+                    <div class="tw:my-3 tw:flex tw:justify-end">
 
-                        <button  class="btn btn-success btn-lg btn-block" v-on:click="abrirModalautorizar_Doc();" >Autorizar Documentación</button>
+                        <button  class="tw:inline-flex tw:w-full tw:items-center tw:justify-center tw:rounded-lg tw:bg-brand-500 tw:px-4 tw:py-2.5 tw:text-sm tw:font-medium tw:text-white tw:hover:bg-brand-600 tw:sm:w-auto" v-on:click="abrirModalautorizar_Doc();">Autorizar Documentación</button>
 
 
                         <p><br/></p>
@@ -111,10 +111,10 @@ docu.estado_pago_derecho_ti   == 1  && docu.estado_pago_integrante_jurado == 1 &
                 </div>
             </template>
             <template v-else>
-                <div class="row">
-                    <div class="col-md-2 col-md-offset-5">
+                <div class="tw:col-span-full tw:min-w-0">
+                    <div class="tw:my-3 tw:flex tw:justify-end">
 
-                        <button  class="btn btn-success btn-lg btn-block" v-on:click="abrirModalenviar_modificaciones();" >Enviar correcciones</button>
+                        <button  class="tw:inline-flex tw:w-full tw:items-center tw:justify-center tw:rounded-lg tw:bg-brand-500 tw:px-4 tw:py-2.5 tw:text-sm tw:font-medium tw:text-white tw:hover:bg-brand-600 tw:sm:w-auto" v-on:click="abrirModalenviar_modificaciones();">Enviar correcciones</button>
 
 
                         <p><br/></p>

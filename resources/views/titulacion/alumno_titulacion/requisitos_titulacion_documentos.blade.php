@@ -1,78 +1,68 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 @section('title', 'Titulación')
+@include('partials.panel.recursos_app', ['vue' => true, 'axios' => true])
 @section('content')
+<div class="tw-pantalla">
 
-    <main class="col-md-12">
+    <main class="tw:w-full tw:lg:w-full tw:px-2">
 
 
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title text-center">Enviar documentación de los requisitos de Titulación <br>
-                        </h3>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <x-panel.encabezado titulo="Enviar documentación de los requisitos de titulación" :migas="['Titulación' => null]" />
 
-        <div id="envio_doc">
+        <div id="envio_doc" x-ignore data-carga-axios>
             <template v-if="docu.id_estado_enviado  == 0 || docu.id_estado_enviado  == 1 || docu.id_estado_enviado  == 2 || docu.id_estado_enviado  == 3">
             <template v-if="fecha_activa == 0 ">
 
-                <div class="row">
-                    <div  class="col-md-10 col-lg-offset-1">
-                        <div class="panel panel-danger">
-                            <div class="panel-heading">
-                                <h3 class="panel-title text-center"> La fecha límite de registro de tu documentación expiro, verifica con el departamento de titulación.</h3>
-                            </div>
-                        </div>
+                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                    <div  class="tw:w-full tw:lg:w-10/12 tw:xl:ml-[8.3333%] tw:px-2">
+                        <x-panel.alerta tipo="error" class="tw:mb-4">La fecha límite de registro de tu documentación expiro, verifica con el departamento de titulación.</x-panel.alerta>
                     </div>
                 </div>
             </template>
             <template v-if="fecha_activa == 1 ">
 
                 <template v-if="est_actual_doc_al == 0 ">
-                    <div class="row">
-                        <div class="col-md-6 col-md-offset-3">
-                            <div class="form-group">
-                                <label for="nombre_proyecto">Ingresa tu correo electronico. (En el se te notificará, el estado que se encuentra tu documentación, si tienes que corregir o se encuentra autorizada).<b style="color:red; font-size:23px;">*</b></label>
-                                <input class="form-control"  id="correo_electronico" name="correo_electronico" type="email" v-model="correo_electronico"  placeholder="Ingresa tu correo electronico" style="" required/>
+                    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                        <div class="tw:w-full tw:lg:max-w-2xl tw:px-2">
+                            <div class="tw:mb-4">
+                                <label for="nombre_proyecto">Ingresa tu correo electronico. (En el se te notificará, el estado que se encuentra tu documentación, si tienes que corregir o se encuentra autorizada).<b class="tw:text-red-600 tw:dark:text-red-400 tw:text-lg" >*</b></label>
+                                <input class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"  id="correo_electronico" name="correo_electronico" type="email" v-model="correo_electronico"  placeholder="Ingresa tu correo electronico" required/>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-3 col-md-offset-6">
-                    <button  class="btn btn-primary btn-sm" v-on:click="abrir_guardar_correo();"  :disabled="estado_guardar_correo">Guardar</button>
+                    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                        <div class="tw:w-full tw:px-2">
+                    <button  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" v-on:click="abrir_guardar_correo();"  :disabled="estado_guardar_correo">Guardar</button>
                         </div>
                     </div>
-                    <div class="row">
-                       <p></p>
+                    <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                       <p class="tw:w-full"></p>
                     </div>
                 </template>
                 <template v-if="est_actual_doc_al == 1 ">
                     <template v-if="docu.id_estado_enviado  == 0">
-                        <div class="row">
-                            <div class="col-md-6 col-md-offset-3">
-                                <div class="form-group">
-                                    <label for="nombre_proyecto">Modificar  correo electronico<b style="color:red; font-size:23px;">*</b></label>
-                                    <input class="form-control"  id="correo_electronico" name="correo_electronico" type="email" v-model="docu.correo_electronico"  placeholder="Ingresa tu correo electronico" style="" required/>
+                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                            <div class="tw:w-full tw:lg:max-w-2xl tw:px-2">
+                                <div class="tw:mb-4">
+                                    <label for="nombre_proyecto">Modificar  correo electronico<b class="tw:text-red-600 tw:dark:text-red-400 tw:text-lg" >*</b></label>
+                                    <input class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:disabled:bg-gray-50 tw:disabled:text-gray-500 tw:h-11"  id="correo_electronico" name="correo_electronico" type="email" v-model="docu.correo_electronico"  placeholder="Ingresa tu correo electronico" required/>
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-3 col-md-offset-6">
-                                <button  class="btn btn-primary btn-sm" v-on:click="abrir_modificar_correo();"  >Modificar</button>
+                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                            <div class="tw:w-full tw:px-2">
+                                <button  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" v-on:click="abrir_modificar_correo();"  >Modificar</button>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-10 col-md-offset-1">
-                                <p style="color: #FF0000"><b>Nota: El documento se deben escanear y guardar en un pdf legible</b></p>
+                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                            <div class="tw:w-full tw:px-2">
+                                <p class="tw:text-red-600 tw:dark:text-red-400" ><b>Nota: El documento se deben escanear y guardar en un pdf legible</b></p>
                             </div>
                         </div>
-                <div class="row">
-                    <div  class="col-md-10 col-lg-offset-1">
-                        <table id="tabla_envio" class="table table-bordered table-resposive">
+                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                    <div  class="tw:w-full tw:lg:w-10/12 tw:xl:ml-[8.3333%] tw:px-2">
+                        <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table id="tabla_envio" class="tw-tabla tw-tabla-bordes">
 
                             <thead>
                             <tr>
@@ -89,55 +79,55 @@
                                 <td>Acta de nacimiento</td>
                                 <template v-if="docu.evi_acta_nac  == 0">
                                 <th></th>
-                                <td><button  class="btn btn-primary btn-sm" v-on:click="modificar_acta=false, abrirModal_agregar_acta();" >Agregar</button></td>
+                                <td><button  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap" v-on:click="modificar_acta=false, abrirModal_agregar_acta();" >Agregar</button></td>
                                 </template>
                                 <template v-if="docu.evi_acta_nac  == 1">
-                                    <th><a  target="_blank" href="/titulacion/@{{docu.pdf_acta_nac   }}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a></th>
-                                    <td><button  class="btn btn-warning btn-sm" v-on:click="modificar_acta=true, abrirModal_agregar_acta();" >Modificar</button></td>
+                                    <th><a  target="_blank" href="/titulacion/@{{docu.pdf_acta_nac   }}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"><i class="fa fa-book em56" title="Ver PDF"></i></a></th>
+                                    <td><button  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-amber-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-amber-600 tw:disabled:bg-amber-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap" v-on:click="modificar_acta=true, abrirModal_agregar_acta();" >Modificar</button></td>
                                 </template>
                             </tr>
                             <tr>
                                 <td>Curp</td>
                                 <template v-if="docu.evi_curp  == 0">
                                     <th></th>
-                                    <td><button  class="btn btn-primary btn-sm" v-on:click="modificar_curp=false, abrirModal_agregar_curp();" >Agregar</button></td>
+                                    <td><button  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap" v-on:click="modificar_curp=false, abrirModal_agregar_curp();" >Agregar</button></td>
                                 </template>
                                 <template v-if="docu.evi_curp  == 1">
-                                    <th><a  target="_blank" href="/titulacion/@{{docu.pdf_curp   }}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a></th>
-                                    <td><button  class="btn btn-warning btn-sm" v-on:click="modificar_curp=true, abrirModal_agregar_curp();">Modificar</button></td>
+                                    <th><a  target="_blank" href="/titulacion/@{{docu.pdf_curp   }}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"><i class="fa fa-book em56" title="Ver PDF"></i></a></th>
+                                    <td><button  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-amber-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-amber-600 tw:disabled:bg-amber-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap" v-on:click="modificar_curp=true, abrirModal_agregar_curp();">Modificar</button></td>
                                 </template>
                             </tr>
                             <tr>
-                                <td>Certificado de preparatoria  <b style="color: red;">(Documento legalizado y escaneado por los dos lados)</b></td>
+                                <td>Certificado de preparatoria  <b class="tw:text-red-600 tw:dark:text-red-400" >(Documento legalizado y escaneado por los dos lados)</b></td>
                                 <template v-if="docu.evi_certificado_prep  == 0">
                                     <th></th>
-                                    <td><button  class="btn btn-primary btn-sm" v-on:click="modificar_certificado_prepa=false, abrirModal_agregar_certificado_prepa();" >Agregar</button></td>
+                                    <td><button  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap" v-on:click="modificar_certificado_prepa=false, abrirModal_agregar_certificado_prepa();" >Agregar</button></td>
                                 </template>
                                 <template v-if="docu.evi_certificado_prep  == 1">
-                                    <th><a  target="_blank" href="/titulacion/@{{docu.pdf_certificado_prep   }}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a></th>
-                                    <td><button  class="btn btn-warning btn-sm" v-on:click="modificar_certificado_prepa=true, abrirModal_agregar_certificado_prepa();">Modificar</button></td>
+                                    <th><a  target="_blank" href="/titulacion/@{{docu.pdf_certificado_prep   }}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"><i class="fa fa-book em56" title="Ver PDF"></i></a></th>
+                                    <td><button  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-amber-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-amber-600 tw:disabled:bg-amber-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap" v-on:click="modificar_certificado_prepa=true, abrirModal_agregar_certificado_prepa();">Modificar</button></td>
                                 </template>
                             </tr>
                             <tr>
-                                <td>Certificado del TESVB <b style="color: red;">(Documento escaneado por los dos lados)</b></td>
+                                <td>Certificado del TESVB <b class="tw:text-red-600 tw:dark:text-red-400" >(Documento escaneado por los dos lados)</b></td>
                                 <template v-if="docu.evi_certificado_tesvb  == 0">
                                     <th></th>
-                                    <td><button  class="btn btn-primary btn-sm" v-on:click="modificar_certificado_tesvb=false, abrirModal_agregar_tesvb();" >Agregar</button></td>
+                                    <td><button  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap" v-on:click="modificar_certificado_tesvb=false, abrirModal_agregar_tesvb();" >Agregar</button></td>
                                 </template>
                                 <template v-if="docu.evi_certificado_tesvb  == 1">
-                                    <th><a  target="_blank" href="/titulacion/@{{docu.pdf_certificado_tesvb   }}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a></th>
-                                    <td><button  class="btn btn-warning btn-sm" v-on:click="modificar_certificado_tesvb=true, abrirModal_agregar_tesvb();">Modificar</button></td>
+                                    <th><a  target="_blank" href="/titulacion/@{{docu.pdf_certificado_tesvb   }}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"><i class="fa fa-book em56" title="Ver PDF"></i></a></th>
+                                    <td><button  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-amber-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-amber-600 tw:disabled:bg-amber-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap" v-on:click="modificar_certificado_tesvb=true, abrirModal_agregar_tesvb();">Modificar</button></td>
                                 </template>
                             </tr>
                             <tr>
                                 <td>Constancia de liberación del Servicio Social</td>
                                 <template v-if="docu.evi_constancia_ss  == 0">
                                     <th></th>
-                                    <td><button  class="btn btn-primary btn-sm" v-on:click="modificar_constancia_ss=false, abrirModal_agregar_constancia_ss();" >Agregar</button></td>
+                                    <td><button  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap" v-on:click="modificar_constancia_ss=false, abrirModal_agregar_constancia_ss();" >Agregar</button></td>
                                 </template>
                                 <template v-if="docu.evi_constancia_ss  == 1">
-                                    <th><a  target="_blank" href="/titulacion/@{{docu.pdf_constancia_ss   }}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a></th>
-                                    <td><button  class="btn btn-warning btn-sm" v-on:click="modificar_constancia_ss=true, abrirModal_agregar_constancia_ss();">Modificar</button></td>
+                                    <th><a  target="_blank" href="/titulacion/@{{docu.pdf_constancia_ss   }}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"><i class="fa fa-book em56" title="Ver PDF"></i></a></th>
+                                    <td><button  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-amber-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-amber-600 tw:disabled:bg-amber-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap" v-on:click="modificar_constancia_ss=true, abrirModal_agregar_constancia_ss();">Modificar</button></td>
                                 </template>
                             </tr>
 
@@ -146,11 +136,11 @@
                                     <td>Constancia de  acreditación del idioma ingles</td>
                                     <template v-if="docu.evi_certificado_acred_ingles  == 0">
                                         <th></th>
-                                        <td><button  class="btn btn-primary btn-sm" v-on:click="modificar_certificado_ingles=false, abrirModal_agregar_certificado_ingles();" >Agregar</button></td>
+                                        <td><button  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap" v-on:click="modificar_certificado_ingles=false, abrirModal_agregar_certificado_ingles();" >Agregar</button></td>
                                     </template>
                                     <template v-if="docu.evi_certificado_acred_ingles  == 1">
-                                        <th><a  target="_blank" href="/titulacion/@{{docu.pdf_certificado_acred_ingles   }}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a></th>
-                                        <td><button  class="btn btn-warning btn-sm" v-on:click="modificar_certificado_ingles=true, abrirModal_agregar_certificado_ingles();">Modificar</button></td>
+                                        <th><a  target="_blank" href="/titulacion/@{{docu.pdf_certificado_acred_ingles   }}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"><i class="fa fa-book em56" title="Ver PDF"></i></a></th>
+                                        <td><button  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-amber-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-amber-600 tw:disabled:bg-amber-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap" v-on:click="modificar_certificado_ingles=true, abrirModal_agregar_certificado_ingles();">Modificar</button></td>
                                     </template>
                                 </tr>
                             </template>
@@ -158,7 +148,7 @@
                                 <template v-if="ingles.estado_cert == 1">
                                     <tr>
                                     <td>Constancia de  acreditación del idioma ingles</td>
-                                        <td style="color: #942a25">El departamento de Actividades Culturales y Deportivas no ha subido al sistema tu certificado de Acreditación del Idioma Ingles.</td>
+                                        <td class="tw:text-red-800 tw:dark:text-red-400" >El departamento de Actividades Culturales y Deportivas no ha subido al sistema tu certificado de Acreditación del Idioma Ingles.</td>
 
                                         <td></td>
                                      </tr>
@@ -166,8 +156,8 @@
                                 <template v-if="ingles.estado_cert == 2">
                                     <tr>
                                     <td>Constancia de  acreditación del idioma ingles</td>
-                                    <th><a  target="_blank" href="/certificado_ingles/@{{ingles.pdf_certificado   }}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a></th>
-                                        <td style="color: #942a25"></td>
+                                    <th><a  target="_blank" href="/certificado_ingles/@{{ingles.pdf_certificado   }}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"><i class="fa fa-book em56" title="Ver PDF"></i></a></th>
+                                        <td class="tw:text-red-800 tw:dark:text-red-400" ></td>
                                     <tr>
                                 </template>
                             </template>
@@ -176,11 +166,11 @@
                                 <td>Reporte individual de resultados del EGEL (Ceneval)</td>
                                 <template v-if="docu.evi_reporte_result_egel   == 0">
                                     <th></th>
-                                    <td><button  class="btn btn-primary btn-sm" v-on:click="modificar_reporte_result_egel=false, abrirModal_agregar_reporte_result_egel();" >Agregar</button></td>
+                                    <td><button  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap" v-on:click="modificar_reporte_result_egel=false, abrirModal_agregar_reporte_result_egel();" >Agregar</button></td>
                                 </template>
                                 <template v-if="docu. 	evi_reporte_result_egel   == 1">
-                                    <th><a  target="_blank" href="/titulacion/@{{docu.pdf_reporte_result_egel   }}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a></th>
-                                    <td><button  class="btn btn-warning btn-sm" v-on:click="modificar_reporte_result_egel=true, abrirModal_agregar_reporte_result_egel();" >Modificar</button></td>
+                                    <th><a  target="_blank" href="/titulacion/@{{docu.pdf_reporte_result_egel   }}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"><i class="fa fa-book em56" title="Ver PDF"></i></a></th>
+                                    <td><button  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-amber-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-amber-600 tw:disabled:bg-amber-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap" v-on:click="modificar_reporte_result_egel=true, abrirModal_agregar_reporte_result_egel();" >Modificar</button></td>
                                 </template>
                             </tr>
                             </template>
@@ -188,7 +178,7 @@
                                 <td>Opción de Titulación</td>
                                 <template v-if="docu.evi_opcion_titulacion   == 0">
                                     <th></th>
-                                    <td><button  class="btn btn-primary btn-sm" v-on:click="modificar_opcion_titulacion=false, abrirModal_agregar_opciones_titulacion();" >Agregar</button></td>
+                                    <td><button  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap" v-on:click="modificar_opcion_titulacion=false, abrirModal_agregar_opciones_titulacion();" >Agregar</button></td>
                                 </template>
                                 <template v-if="docu.evi_opcion_titulacion   == 1  || docu.evi_opcion_titulacion   == 2">
                                     <template v-if="docu.id_opcion_titulacion   == 1">
@@ -196,7 +186,7 @@
                                             <b>I. Informe tecnico de residencia profesional</b> <br>
                                             Caratula final de residencia <br>
 
-                                            <a  target="_blank" href="/titulacion/@{{ docu.pdf_opcion_titulacion    }}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a></th>
+                                            <a  target="_blank" href="/titulacion/@{{ docu.pdf_opcion_titulacion    }}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"><i class="fa fa-book em56" title="Ver PDF"></i></a></th>
 
                                     </template>
 
@@ -209,7 +199,7 @@
                                                 <b>II. Proyecto de Innovación</b> <br>
                                                 Constancia de Viabilidad <br>
 
-                                                <a  target="_blank" href="/titulacion/@{{ docu.pdf_opcion_titulacion    }}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a>
+                                                <a  target="_blank" href="/titulacion/@{{ docu.pdf_opcion_titulacion    }}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"><i class="fa fa-book em56" title="Ver PDF"></i></a>
                                             </th>
 
                                         </template>
@@ -218,7 +208,7 @@
                                                 <b>III. Proyecto de investigación</b> <br>
                                                 Constancia de Viabilidad <br>
 
-                                                <a  target="_blank" href="/titulacion/@{{ docu.pdf_opcion_titulacion    }}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a>
+                                                <a  target="_blank" href="/titulacion/@{{ docu.pdf_opcion_titulacion    }}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"><i class="fa fa-book em56" title="Ver PDF"></i></a>
                                             </th>
 
                                         </template>
@@ -227,7 +217,7 @@
                                                 <b>IV. Informe de Estancia</b> <br>
                                                 Constancia de Viabilidad <br>
 
-                                                <a  target="_blank" href="/titulacion/@{{ docu.pdf_opcion_titulacion    }}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a>
+                                                <a  target="_blank" href="/titulacion/@{{ docu.pdf_opcion_titulacion    }}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"><i class="fa fa-book em56" title="Ver PDF"></i></a>
                                             </th>
 
                                         </template>
@@ -236,7 +226,7 @@
                                                 <b>V. Tesis</b> <br>
                                                 Constancia de Viabilidad <br>
 
-                                                <a  target="_blank" href="/titulacion/@{{ docu.pdf_opcion_titulacion    }}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a>
+                                                <a  target="_blank" href="/titulacion/@{{ docu.pdf_opcion_titulacion    }}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"><i class="fa fa-book em56" title="Ver PDF"></i></a>
                                             </th>
 
                                         </template>
@@ -245,7 +235,7 @@
                                                 <b>VI. Tesina</b> <br>
                                                 Constancia de Viabilidad <br>
 
-                                                <a  target="_blank" href="/titulacion/@{{ docu.pdf_opcion_titulacion    }}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a>
+                                                <a  target="_blank" href="/titulacion/@{{ docu.pdf_opcion_titulacion    }}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"><i class="fa fa-book em56" title="Ver PDF"></i></a>
                                             </th>
 
                                         </template>
@@ -254,7 +244,7 @@
                                                 <b>VII. Otros : Experiencia Profesional</b> <br>
                                                 Constancia de Viabilidad <br>
 
-                                                <a  target="_blank" href="/titulacion/@{{ docu.pdf_opcion_titulacion    }}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a>
+                                                <a  target="_blank" href="/titulacion/@{{ docu.pdf_opcion_titulacion    }}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"><i class="fa fa-book em56" title="Ver PDF"></i></a>
                                             </th>
 
                                         </template>
@@ -263,7 +253,7 @@
                                                 <b>VII. Otros : Incubación de negocio</b> <br>
                                                 Constancia de Viabilidad <br>
 
-                                                <a  target="_blank" href="/titulacion/@{{ docu.pdf_opcion_titulacion    }}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a>
+                                                <a  target="_blank" href="/titulacion/@{{ docu.pdf_opcion_titulacion    }}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"><i class="fa fa-book em56" title="Ver PDF"></i></a>
                                             </th>
 
                                         </template>
@@ -272,7 +262,7 @@
                                                 <b>VII. Otros : Modalidad dual</b> <br>
                                                 Constancia de estudios en el programa dual <br>
 
-                                                <a  target="_blank" href="/titulacion/@{{ docu.pdf_opcion_titulacion    }}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a>
+                                                <a  target="_blank" href="/titulacion/@{{ docu.pdf_opcion_titulacion    }}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"><i class="fa fa-book em56" title="Ver PDF"></i></a>
                                             </th>
 
                                         </template>
@@ -283,7 +273,7 @@
                                                 <b>VII. Otros : Ceneval</b> <br>
                                                 Testimonio del examen EGEL  <br>
 
-                                                <a  target="_blank" href="/titulacion/@{{ docu.pdf_opcion_titulacion    }}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a>
+                                                <a  target="_blank" href="/titulacion/@{{ docu.pdf_opcion_titulacion    }}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"><i class="fa fa-book em56" title="Ver PDF"></i></a>
 
                                             </th>
 
@@ -298,7 +288,7 @@
                                         </template>
 
                                     </template>
-                                       <td><button  class="btn btn-warning btn-sm" v-on:click="modificar_opcion_titulacion=true, abrirModal_agregar_opciones_titulacion();">Modificar</button></td>
+                                       <td><button  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-amber-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-amber-600 tw:disabled:bg-amber-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap" v-on:click="modificar_opcion_titulacion=true, abrirModal_agregar_opciones_titulacion();">Modificar</button></td>
                                 </template>
                             </tr>
                             <template v-if="veri_anterior_10   == 0">
@@ -306,11 +296,11 @@
                                     <td>Acta de residencia profesional</td>
                                     <template v-if="docu.evi_acta_residencia   == 0">
                                         <th></th>
-                                        <td><button  class="btn btn-primary btn-sm" v-on:click="modificar_acta_residencia=false, abrirModal_agregar_acta_residencia();" >Agregar</button></td>
+                                        <td><button  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap" v-on:click="modificar_acta_residencia=false, abrirModal_agregar_acta_residencia();" >Agregar</button></td>
                                     </template>
                                     <template v-if="docu.evi_acta_residencia   == 1">
-                                        <th><a  target="_blank" href="/titulacion/@{{docu.pdf_acta_residencia   }}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a></th>
-                                        <td><button  class="btn btn-warning btn-sm" v-on:click="modificar_acta_residencia=true, abrirModal_agregar_acta_residencia();">Modificar</button></td>
+                                        <th><a  target="_blank" href="/titulacion/@{{docu.pdf_acta_residencia   }}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"><i class="fa fa-book em56" title="Ver PDF"></i></a></th>
+                                        <td><button  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-amber-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-amber-600 tw:disabled:bg-amber-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap" v-on:click="modificar_acta_residencia=true, abrirModal_agregar_acta_residencia();">Modificar</button></td>
                                     </template>
                                 </tr>
 
@@ -319,22 +309,22 @@
                                 <td>Pago de registro de título profesional de licenciatura con timbre holograma </td>
                                 <template v-if="docu.evi_pago_titulo   == 0">
                                     <th></th>
-                                    <td><button  class="btn btn-primary btn-sm" v-on:click="modificar_pago_titulo=false, abrirModal_agregar_pago_titulo();" >Agregar</button></td>
+                                    <td><button  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap" v-on:click="modificar_pago_titulo=false, abrirModal_agregar_pago_titulo();" >Agregar</button></td>
                                 </template>
                                 <template v-if="docu.evi_pago_titulo   == 1">
-                                    <th><a  target="_blank" href="/titulacion/@{{docu.pdf_pago_titulo   }}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a></th>
-                                    <td><button  class="btn btn-warning btn-sm" v-on:click="modificar_pago_titulo=true, abrirModal_agregar_pago_titulo();">Modificar</button></td>
+                                    <th><a  target="_blank" href="/titulacion/@{{docu.pdf_pago_titulo   }}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"><i class="fa fa-book em56" title="Ver PDF"></i></a></th>
+                                    <td><button  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-amber-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-amber-600 tw:disabled:bg-amber-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap" v-on:click="modificar_pago_titulo=true, abrirModal_agregar_pago_titulo();">Modificar</button></td>
                                 </template>
                             </tr>
                             <tr>
                                 <td>Pago de constancia de no adeudo</td>
                                 <template v-if="docu.evi_pago_contancia   == 0">
                                     <th></th>
-                                    <td><button  class="btn btn-primary btn-sm" v-on:click="modificar_pago_contancia=false, abrirModal_agregar_pago_contancia();" >Agregar</button></td>
+                                    <td><button  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap" v-on:click="modificar_pago_contancia=false, abrirModal_agregar_pago_contancia();" >Agregar</button></td>
                                 </template>
                                 <template v-if="docu.evi_pago_contancia   == 1">
-                                    <th><a  target="_blank" href="/titulacion/@{{docu.pdf_pago_contancia   }}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a></th>
-                                    <td><button  class="btn btn-warning btn-sm" v-on:click="modificar_pago_contancia=true, abrirModal_agregar_pago_contancia();">Modificar</button></td>
+                                    <th><a  target="_blank" href="/titulacion/@{{docu.pdf_pago_contancia   }}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"><i class="fa fa-book em56" title="Ver PDF"></i></a></th>
+                                    <td><button  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-amber-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-amber-600 tw:disabled:bg-amber-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap" v-on:click="modificar_pago_contancia=true, abrirModal_agregar_pago_contancia();">Modificar</button></td>
                                 </template>
                             </tr>
 
@@ -342,33 +332,33 @@
                                 <td>Pago de derecho de titulación</td>
                                 <template v-if="docu.evi_pago_derecho_ti   == 0">
                                     <th></th>
-                                    <td><button  class="btn btn-primary btn-sm" v-on:click="modificar_pago_derecho_ti=false, abrirModal_agregar_pago_derecho_ti();" >Agregar</button></td>
+                                    <td><button  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap" v-on:click="modificar_pago_derecho_ti=false, abrirModal_agregar_pago_derecho_ti();" >Agregar</button></td>
                                 </template>
                                 <template v-if="docu.evi_pago_derecho_ti   == 1">
-                                    <th><a  target="_blank" href="/titulacion/@{{docu.pdf_pago_derecho_ti   }}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a></th>
-                                    <td><button  class="btn btn-warning btn-sm" v-on:click="modificar_pago_derecho_ti=true, abrirModal_agregar_pago_derecho_ti();">Modificar</button></td>
+                                    <th><a  target="_blank" href="/titulacion/@{{docu.pdf_pago_derecho_ti   }}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"><i class="fa fa-book em56" title="Ver PDF"></i></a></th>
+                                    <td><button  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-amber-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-amber-600 tw:disabled:bg-amber-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap" v-on:click="modificar_pago_derecho_ti=true, abrirModal_agregar_pago_derecho_ti();">Modificar</button></td>
                                 </template>
                             </tr>
                             <tr>
                                 <td>Pago de integrantes a jurado</td>
                                 <template v-if="docu.evi_pago_integrante_jurado   == 0">
                                     <th></th>
-                                    <td><button  class="btn btn-primary btn-sm" v-on:click="modificar_pago_integrante_jurado=false, abrirModal_agregar_pago_integrante_jurado();" >Agregar</button></td>
+                                    <td><button  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap" v-on:click="modificar_pago_integrante_jurado=false, abrirModal_agregar_pago_integrante_jurado();" >Agregar</button></td>
                                 </template>
                                 <template v-if="docu.evi_pago_integrante_jurado   == 1">
-                                    <th><a  target="_blank" href="/titulacion/@{{docu.pdf_pago_integrante_jurado   }}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a></th>
-                                    <td><button  class="btn btn-warning btn-sm" v-on:click="modificar_pago_integrante_jurado=true, abrirModal_agregar_pago_integrante_jurado();">Modificar</button></td>
+                                    <th><a  target="_blank" href="/titulacion/@{{docu.pdf_pago_integrante_jurado   }}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"><i class="fa fa-book em56" title="Ver PDF"></i></a></th>
+                                    <td><button  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-amber-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-amber-600 tw:disabled:bg-amber-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap" v-on:click="modificar_pago_integrante_jurado=true, abrirModal_agregar_pago_integrante_jurado();">Modificar</button></td>
                                 </template>
                             </tr>
                             <tr>
                                 <td>Pago por concepto de autenticación de títulos profesionales diplomas o grados académicos electrónicos, para escuelas estatales oficiales o particulares incorporadas de: licenciatura o posgrado, por cada uno.</td>
                                 <template v-if="docu.evi_pago_concepto_autenticacion   == 0">
                                     <th></th>
-                                    <td><button  class="btn btn-primary btn-sm" v-on:click="modificar_pago_concepto_autenticacion=false, abrirModal_pago_concepto_autenticacion();" >Agregar</button></td>
+                                    <td><button  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap" v-on:click="modificar_pago_concepto_autenticacion=false, abrirModal_pago_concepto_autenticacion();" >Agregar</button></td>
                                 </template>
                                 <template v-if="docu.evi_pago_concepto_autenticacion   == 1">
-                                    <th><a  target="_blank" href="/titulacion/@{{docu.pdf_pago_concepto_autenticacion   }}" class="btn btn-success "><i class="glyphicon glyphicon-book em56" title="Ver PDF"></i></a></th>
-                                    <td><button  class="btn btn-warning btn-sm" v-on:click="modificar_pago_concepto_autenticacion=true, abrirModal_pago_concepto_autenticacion();">Modificar</button></td>
+                                    <th><a  target="_blank" href="/titulacion/@{{docu.pdf_pago_concepto_autenticacion   }}" class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base"><i class="fa fa-book em56" title="Ver PDF"></i></a></th>
+                                    <td><button  class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-amber-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-amber-600 tw:disabled:bg-amber-300 tw:gap-1.5 tw:px-3 tw:py-2 tw:text-sm tw:whitespace-nowrap" v-on:click="modificar_pago_concepto_autenticacion=true, abrirModal_pago_concepto_autenticacion();">Modificar</button></td>
                                 </template>
                             </tr>
 
@@ -376,63 +366,41 @@
 
                             </tbody>
                         </table>
+</div>
                     </div>
                 </div>
                         @include('titulacion.alumno_titulacion.enviar_doc_requisitos')
                     </template>
                     <template v-if="docu.id_estado_enviado  == 1">
-                        <div class="row">
-                            <div class="col-md-8 col-md-offset-2">
-                                <div class="panel panel-success">
-                                    <div class="panel-heading">
-                                        <h3 class="panel-title text-center">Se envio correctamente tu documentación al Departamento de Titulación para su revisión</h3>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <x-panel.alerta tipo="exito" class="tw:mb-4">Se envio correctamente tu documentación al Departamento de Titulación para su revisión</x-panel.alerta>
                     </template>
                     <template v-if="docu.id_estado_enviado  == 2">
                         @include('titulacion.alumno_titulacion.correccion_doc_alumno')
-                        <div class="row">
-                            <div class="col-md-3 col-md-offset-5">
+                        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                            <div class="tw:w-full tw:px-2">
 
-                                <button  class="btn btn-success btn-lg btn-block" v-on:click="abrirModalenviar_correciones();" >Enviar correcciones de Documentación</button>
+                                <button  class="tw:w-full tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" v-on:click="abrirModalenviar_correciones();" >Enviar correcciones de Documentación</button>
 
 
-                                <p><br/></p>
                                 @include('titulacion.alumno_titulacion.modal_enviar_correcciones')
                             </div>
                         </div>
                     </template>
                     <template v-if="docu.id_estado_enviado  == 3">
-                        <div class="row">
-                            <div class="col-md-8 col-md-offset-2">
-                                <div class="panel panel-success">
-                                    <div class="panel-heading">
-                                        <h3 class="panel-title text-center">Se envio correctamente tu documentación al Departamento de Titulación para su revisión</h3>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <x-panel.alerta tipo="exito" class="tw:mb-4">Se envio correctamente tu documentación al Departamento de Titulación para su revisión</x-panel.alerta>
                     </template>
                 </template>
             </template>
             </template>
             <template v-if="docu.id_estado_enviado  == 4">
-                <div class="row">
-                    <div  class="col-md-10 col-lg-offset-1">
-                        <div class="panel panel-success">
-                            <div class="panel-heading">
-                                <h3 class="panel-title text-center"> Tu documentación se encuentra autorizada por el departamento de titulación. El siguiente paso es registrar tus datos personales.</h3>
-                            </div>
-                        </div>
+                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                    <div  class="tw:w-full tw:lg:w-10/12 tw:xl:ml-[8.3333%] tw:px-2">
+                        <x-panel.alerta tipo="exito" class="tw:mb-4">Tu documentación se encuentra autorizada por el departamento de titulación. El siguiente paso es registrar tus datos personales.</x-panel.alerta>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-2 col-md-offset-5">
-                        <a class="btn btn-primary" href="{{asset('/titulacion/ver_documentacion_autorizada_alumno/'.$id_alumno )}}" >Ver documentación</a>
-                    <br>
-                        <p><br></p>
+                <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+                    <div class="tw:w-full tw:px-2">
+                        <a class="tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" href="{{asset('/titulacion/ver_documentacion_autorizada_alumno/'.$id_alumno )}}" >Ver documentación</a>
                     </div>
                 </div>
             </template>
@@ -657,14 +625,20 @@
                 //meetodo para mostrar tabla
                 async Documentacion() {
                     //llamar datos al controlador
-                    swal({
-                        title:"",
-                        text:"Cargando...",
-                        buttons: false,
-                        closeOnClickOutside: false,
-                        timer: 5000,
-                        //icon: "success"
-                    });
+                    // Indicador de carga del sistema (resources/js/carga.js): círculo, logo y mensaje.
+                    // Al abrir la pantalla este script corre antes que panel.js: se muestra en cuanto esté listo.
+                    let cargaTerminada = false;
+                    const mostrarCarga = () => {
+                        if (!cargaTerminada && window.TesvbCarga) {
+                            TesvbCarga.mostrar('Cargando documentación…', 'Estamos consultando tus requisitos de titulación. No cierres ni recargues la página.');
+                        }
+                    };
+                    if (window.TesvbCarga) {
+                        mostrarCarga();
+                    } else {
+                        document.addEventListener('DOMContentLoaded', mostrarCarga, { once: true });
+                    }
+                    try {
                     const contar = await axios.get('/titulacion/estado_actual_fecha/{{$id_alumno}}');
                     this.fecha_activa = contar.data;
                     const verificacion_reg_doc = await axios.get('/titulacion/est_actual_doc_al/{{$id_alumno}}');
@@ -774,11 +748,12 @@
                     }
                     const opciones_titulacion = await axios.get('/titulacion/opciones_titulacion/{{ $id_alumno }}/');
                     this.opciones_titulacion = opciones_titulacion.data;
-
-
-
-
-
+                    } finally {
+                        cargaTerminada = true;
+                        if (window.TesvbCarga) {
+                            TesvbCarga.ocultar();
+                        }
+                    }
                 },
                 async abrir_guardar_correo(){
                     if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.correo_electronico)) {
@@ -1646,4 +1621,5 @@
         }
     </style>
 
+</div>
 @endsection

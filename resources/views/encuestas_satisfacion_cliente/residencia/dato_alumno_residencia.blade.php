@@ -1,6 +1,11 @@
-<div class="row">
-    <div class="col-md-8 col-md-offset-2">
-        <input class="form-control" type="hidden"  id="id_alumno" name="id_alumno"  value="{{ $alumno->id_alumno }}">
-        <p><b>No. cuenta:</b> {{ $alumno->cuenta }}<br>  <b>Nombre del estudiante: </b>{{ $alumno->nombre }} {{ $alumno->apaterno }} {{ $alumno->amaterno }}</p>
+<input type="hidden" id="id_alumno" name="id_alumno" value="{{ $alumno->id_alumno }}">
+<dl class="tw:space-y-3 tw:text-sm">
+    <div>
+        <dt class="tw:font-medium">No. de cuenta</dt>
+        <dd>{{ $alumno->cuenta }}</dd>
     </div>
-</div>
+    <div>
+        <dt class="tw:font-medium">Nombre del estudiante</dt>
+        <dd>{{ trim($alumno->nombre.' '.$alumno->apaterno.' '.$alumno->amaterno) }}</dd>
+    </div>
+</dl>

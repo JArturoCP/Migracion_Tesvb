@@ -13,6 +13,7 @@
 <html lang="en">
 <head>
 @include('ingles.inicio_ingles.partials.cabeza')
+    @include('partials.favicon')
     @include('layouts.tipografia')
 @include('partials.panel.fechas')
 </head>

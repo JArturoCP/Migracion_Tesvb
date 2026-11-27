@@ -1,11 +1,13 @@
 @extends('layouts.panel')
-@include('partials.panel.recursos_app')
 @section('title', 'Seguimiento')
+@include('partials.panel.recursos_app')
 @section('content')
+<div class="tw-pantalla">
 
     <main class="tw:w-full tw:lg:w-full tw:px-2">
-        <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
-            {{--<div class="tw:lg:w-10/12 tw:w-10/12 tw:lg:ml-[8.3333%] tw:px-2">--}}
+        <x-panel.encabezado titulo="Seguimiento del sistema de riesgos y oportunidades" :migas="['Riesgos y oportunidades' => null]" />
+<div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
+            {{--<div class=" tw:w-10/12 tw:px-2">--}}
             {{--<p>--}}
             {{--<span class="fa fa-arrow-right"></span>--}}
             {{--<a href="{{url("/home")}}">Home</a>--}}
@@ -14,21 +16,15 @@
             {{--</p>--}}
             {{--<br>--}}
             {{--</div>--}}
-            <div class="tw:w-full tw:lg:w-5/12 tw:lg:ml-[25%] tw:px-2">
-                <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
-                    <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4">
-                        <h3 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:text-center">Seguimiento del sistema de riesgos y oportunidades</h3>
-                    </div>
-                </div>
-            </div>
+            
         </div>
 
         <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
-            <div class="tw:w-full tw:lg:w-8/12 tw:lg:ml-[16.6667%] tw:px-2">
+            <div class="tw:w-full tw:px-2">
                 <div id="accordion" class="">
                     @foreach($unidades as $unidad)
-                        <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
-                            <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4 tw:bg-green-100">
+                        <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+                            <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:dark:border-gray-800 tw:bg-gray-50 tw:dark:bg-gray-900 tw:px-5 tw:py-4 tw:bg-green-100">
                                 <a data-toggle="collapse" data-parent="#accordion"
                                    href="#collapseunidades{{$unidad->id_unidad_admin}}"
                                    class="btn_open_panel">{{$unidad->nom_departamento}}</a>
@@ -36,13 +32,13 @@
                             <div id="collapseunidades{{$unidad->id_unidad_admin}}" class="collapse">
                                 <div class="tw:p-5 tw:sm:p-6">
                                     <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
-                                        <div id="accordion2" class="">
+                                        <div id="accordion2" class="tw:w-full">
                                             @foreach($unidad->proceso_unidad as $unidad_proceso)
 
                                                 @if(isset($unidad_proceso->proceso[0]))
                                                     @if($unidad_proceso->proceso[0]->id_sistema!=3)
-                                                <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
-                                                    <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4">
+                                                <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+                                                    <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:dark:border-gray-800 tw:bg-gray-50 tw:dark:bg-gray-900 tw:px-5 tw:py-4">
                                                         <a data-toggle="collapse" data-parent="#accordion2"
                                                            href="#collapse2{{$unidad_proceso->id_proceso_unidad}}"
                                                            class="btn_open_panel">{{isset($unidad_proceso->proceso[0]->des_proceso)?$unidad_proceso->proceso[0]->des_proceso:"Sin datos"}}</a>
@@ -52,7 +48,7 @@
                                                         <div class="tw:p-5 tw:sm:p-6">
                                                             <div class="tw:-mx-2 tw:flex tw:flex-wrap tw:gap-y-4 tw:not-last:mb-4">
                                                                 <div class="tw:w-full tw:lg:w-full tw:px-2">
-                                                                    <ul class="tw-pestanas tw:mb-6 tw:flex tw:flex-wrap tw:gap-2 tw:border-b tw:border-gray-200 tw:mb-4" id="pills-tab"
+                                                                    <ul class="tw-pestanas tw:mb-6 tw:flex tw:flex-wrap tw:gap-2 tw:border-b tw:border-gray-200 tw:dark:border-gray-800 tw:mb-4" id="pills-tab"
                                                                         role="tablist">
                                                                         <li class="">
                                                                         </li>
@@ -85,12 +81,8 @@
                                                                                         @foreach ($requisito->riesgosunidad($unidad->id_unidad_admin) as $riesgo)
                                                                                             {{--riesgo mostrar--}}
 
-                                                                                            <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
-                                                                                                <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4">
-                                                                                                    <h3 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:text-center">Riesgo: {{$riesgo->des_riesgo}}</h3>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                            <div class="tw-tabla-contenedor tw:mb-4 tw:max-w-full tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200">
+                                                                                            <h3 class="tw:mb-4 tw:text-center tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">Riesgo: {{$riesgo->des_riesgo}}</h3>
+                                                                                            <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
 <table class="tw-tabla">
                                                                                                 <thead>
                                                                                                 <tr>
@@ -112,7 +104,7 @@
                                                                                                                 <td>{{$acciones->accion}}</td>
                                                                                                                 <td id="date_riesgo{{$acciones->id_estrategia_a}}">{{$acciones->fecha}}</td>
                                                                                                                 <td>
-                                                                                                                    <a class="btn_edit_date_accion tw:float-right" data-toggle="modal" data-target="#modal_edit_date_accion" data-url="" data-id="{{$acciones->id_estrategia_a}}" data-value="{{$acciones->fecha}}"><span aria-hidden="true" class="fa fa-cog" data-toggle="tooltip" title="Editar accion"></span></a>
+                                                                                                                    <a class="btn_edit_date_accion tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base" data-toggle="modal" data-target="#modal_edit_date_accion" data-url="" data-id="{{$acciones->id_estrategia_a}}" data-value="{{$acciones->fecha}}"><span aria-hidden="true" class="fa fa-cog" data-toggle="tooltip" title="Editar accion"></span></a>
                                                                                                                 </td>
                                                                                                             </tr>
                                                                                                         @endforeach
@@ -136,12 +128,8 @@
                                                                                     @foreach ($parte->requisitos as $requisito)
                                                                                         @foreach ($requisito->oportunidadesunidad($unidad->id_unidad_admin) as $oportunidad)
                                                                                             {{--riesgo mostrar--}}
-                                                                                            <div class="tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white">
-                                                                                                <div class="tw:rounded-t-2xl tw:border-b tw:border-gray-100 tw:bg-gray-50 tw:px-5 tw:py-4">
-                                                                                                    <h3 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:text-center">Oporunidad: {{$oportunidad->des_oportunidad}}</h3>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                            <div class="tw-tabla-contenedor tw:mb-4 tw:max-w-full tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200">
+                                                                                            <h3 class="tw:mb-4 tw:text-center tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">Oporunidad: {{$oportunidad->des_oportunidad}}</h3>
+                                                                                            <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
 <table class="tw-tabla">
                                                                                                 <thead>
                                                                                                 <tr>
@@ -161,7 +149,7 @@
                                                                                                                 <td>{{$plan_seguimiento->des_planseguimiento}}</td>
                                                                                                                 <td id="date_oportunidad{{$plan_seguimiento->id_planseguimiento}}">{{$plan_seguimiento->fecha}}</td>
                                                                                                                 <td>
-                                                                                                                <a class="btn_edit_date_accion_oportunidad tw:float-right" data-toggle="modal" data-target="#modal_edit_date_accion" data-url="" data-id="{{$plan_seguimiento->id_planseguimiento}}" data-value="{{$plan_seguimiento->fecha}}"><span aria-hidden="true" class="fa fa-cog" data-toggle="tooltip" title="Editar accion"></span></a>
+                                                                                                                <a class="btn_edit_date_accion_oportunidad tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-brand-500 tw:ring-1 tw:ring-brand-300 tw:ring-inset tw:hover:bg-brand-50 tw:dark:bg-gray-800 tw:dark:text-brand-400 tw:dark:ring-brand-500/40 tw:dark:hover:bg-brand-500/10 tw:size-9 tw:text-base" data-toggle="modal" data-target="#modal_edit_date_accion" data-url="" data-id="{{$plan_seguimiento->id_planseguimiento}}" data-value="{{$plan_seguimiento->fecha}}"><span aria-hidden="true" class="fa fa-cog" data-toggle="tooltip" title="Editar accion"></span></a>
                                                                                                                 </td>
                                                                                                             </tr>
 
@@ -230,4 +218,5 @@
 
     });
 </script>
+</div>
 @endsection

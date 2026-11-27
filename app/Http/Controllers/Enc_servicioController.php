@@ -234,7 +234,8 @@ ORDER BY `gnral_alumnos`.`apaterno` ASC,`gnral_alumnos`.`amaterno` ASC,`gnral_al
         FROM gnral_alumnos, enc_residencia_profesional
         WHERE gnral_alumnos.id_alumno = enc_residencia_profesional.id_alumno
         AND enc_residencia_profesional.id_periodo = ?
-    ', [$periodo]);
+        AND gnral_alumnos.id_carrera = ?
+    ', [$periodo, $id_carrera]);
 
         $carrera = DB::selectOne('SELECT * FROM gnral_carreras WHERE id_carrera = ?', [$id_carrera]);
 
@@ -1156,7 +1157,8 @@ ORDER BY `gnral_alumnos`.`apaterno` ASC,`gnral_alumnos`.`amaterno` ASC,`gnral_al
         $alumnos=DB::select('SELECT gnral_alumnos.cuenta, gnral_alumnos.nombre, gnral_alumnos.apaterno,
         gnral_alumnos.amaterno,enc_residencia_profesional.*
         from gnral_alumnos,enc_residencia_profesional where gnral_alumnos.id_alumno = enc_residencia_profesional.id_alumno and
-        enc_residencia_profesional.id_periodo = ? and enc_residencia_profesional.id_estado = 1', [$periodo->id_periodo]);
+        enc_residencia_profesional.id_periodo = ? and enc_residencia_profesional.id_estado = 1
+        and gnral_alumnos.id_carrera = ?', [$periodo->id_periodo, $id_carrera]);
 
          $carrera=DB::selectOne('SELECT * FROM `gnral_carreras` WHERE `id_carrera` = ?', [$id_carrera]);
 
