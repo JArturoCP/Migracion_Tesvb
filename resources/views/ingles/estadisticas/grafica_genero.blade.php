@@ -1,35 +1,52 @@
 @extends('ingles.inicio_ingles.layout_ingles')
 @section('title', 'Gráfica Estadística Género')
 @section('content')
-
-
-    <div class="container">
-        <h3 class="text-center">Gráfica de Estadísticas de Género por Carrera</h3>
-
-        <div class="row my-4">
-            <div class="col-md-6">
-                <div class="alert alert-info text-center">
-                    Total Masculino: <strong>{{ $contar_m }}</strong>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="alert alert-warning text-center">
-                    Total Femenino: <strong>{{ $contar_f }}</strong>
-                </div>
-            </div>
-        </div>
-
-        <div id="graficaGenero" style="width: 100%; height: 500px;"></div>
-    </div>
     <style>
-        .highcharts-contextmenu {
-            z-index: 10000 !important;
+        .i5b-grafica {
+            --i5b-grafica-texto: var(--tw-color-gray-800, #1d2939);
         }
-        #graficaGenero .highcharts-container {
-            overflow: visible !important;
+        .dark .i5b-grafica {
+            --i5b-grafica-texto: var(--tw-color-gray-200, #e4e7ec);
         }
+        .i5b-grafica :is(.highcharts-title, .highcharts-axis-title, .highcharts-axis-labels text, .highcharts-legend-item text) {
+            fill: var(--i5b-grafica-texto) !important;
+        }
+        .dark .i5b-grafica .highcharts-grid-line {
+            stroke: var(--tw-color-gray-700, #344054);
+        }
+        .dark .i5b-grafica .highcharts-background {
+            fill: var(--tw-color-gray-900, #101828);
+        }
+        .i5b-desplazable {
+            overflow-x: auto;
+            max-width: 100%;
+        }
+        #graficaGenero {
+            min-width: max(100%, calc(5rem + 9rem * var(--i5b-carreras)));
+            height: 500px;
+        }
+        .i5b-desplazable:focus-visible,
+        #graficaGenero :is(.highcharts-contextbutton, .highcharts-menu-item):focus-visible {
+            outline: 2px solid var(--tw-color-brand-500, #465fff);
+            outline-offset: -2px;
+        }
+        #graficaGenero .highcharts-contextmenu { z-index: 10000 !important; }
+        #graficaGenero .highcharts-container { overflow: visible !important; }
     </style>
 
+    <main class="tw-modulo tw:min-w-0 tw:space-y-4 tw:rounded-2xl tw:bg-gray-50 tw:p-4 tw:sm:p-6 tw:dark:bg-gray-900">
+        <h1 class="tw:m-0 tw:text-xl tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">Estadísticas de género por carrera</h1>
+
+        <x-panel.tarjeta>
+            <dl class="tw:flex tw:flex-wrap tw:gap-4 tw:text-gray-800 tw:dark:text-gray-200">
+                <div><dt>Total Masculino:</dt><dd>{{ $contar_m }}</dd></div>
+                <div><dt>Total Femenino:</dt><dd>{{ $contar_f }}</dd></div>
+            </dl>
+            <div class="i5b-desplazable" tabindex="0" role="region" aria-label="Gráfica de género por carrera con desplazamiento horizontal">
+                <div id="graficaGenero" class="i5b-grafica" style="--i5b-carreras: {{ count($datosAgrupados) }};"></div>
+            </div>
+        </x-panel.tarjeta>
+    </main>
 
     <script>
         // Funciona abierta sola o cargada por AJAX: dibuja cuando el documento está listo y carga Highcharts si falta.
@@ -55,9 +72,11 @@
                 dataMujeres.push(totalMujeres);
             }
 
-            Highcharts.chart('graficaGenero', {
+            const grafico = Highcharts.chart('graficaGenero', {
                 chart: {
-                    type: 'column'
+                    type: 'column',
+                    backgroundColor: 'transparent',
+                    style: { fontFamily: 'inherit' }
                 },
                 title: {
                     text: 'Distribución de Género por Carrera'
@@ -66,9 +85,11 @@
                     categories: categorias,
                     crosshair: true,
                     labels: {
-                        rotation: -45,
+                        step: 1,
                         style: {
-                            fontSize: '12px'
+                            fontSize: '12px',
+                            whiteSpace: 'normal',
+                            textOverflow: 'clip'
                         }
                     }
                 },
@@ -108,7 +129,52 @@
                 }
 
             });
+
+            const contenedor = grafico.renderTo;
+            const boton = contenedor.querySelector('.highcharts-contextbutton');
+
+            // Cuando Highcharts ya gestiona el teclado, se conserva su control.
+            if (boton && !grafico.accessibility?.keyboardNavigation && !boton.hasAttribute('tabindex')) {
+                boton.setAttribute('role', 'button');
+                boton.setAttribute('tabindex', '0');
+                boton.setAttribute('aria-label', 'Exportar gráfica');
+
+                contenedor.addEventListener('keydown', (evento) => {
+                    const desdeBoton = evento.target === boton;
+                    const desdeOpcion = evento.target.matches('.highcharts-menu-item');
+                    if (!desdeBoton && !desdeOpcion) return;
+
+                    const menu = contenedor.querySelector('.highcharts-contextmenu');
+                    if (evento.key === 'Escape' && menu && grafico.openMenu) {
+                        evento.preventDefault();
+                        if (typeof menu.hideMenu === 'function') {
+                            menu.hideMenu();
+                        } else {
+                            menu.style.display = 'none';
+                            grafico.openMenu = false;
+                            grafico.exportSVGElements?.find((elemento) => elemento.element === boton)?.setState(0);
+                        }
+                        boton.focus();
+                        return;
+                    }
+
+                    if (evento.key !== 'Enter' && evento.key !== ' ') return;
+
+                    evento.preventDefault();
+                    if (desdeBoton) {
+                        boton.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+                        const opciones = contenedor.querySelectorAll('.highcharts-menu-item');
+                        opciones.forEach((opcion) => {
+                            opcion.setAttribute('tabindex', '0');
+                            opcion.setAttribute('role', 'button');
+                        });
+                        opciones[0]?.focus();
+                    } else {
+                        evento.target.click();
+                        boton.focus();
+                    }
+                });
+            }
         });
     </script>
-
 @endsection
