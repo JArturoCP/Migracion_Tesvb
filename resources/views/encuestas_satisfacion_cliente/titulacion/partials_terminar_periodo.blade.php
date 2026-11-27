@@ -1,8 +1,6 @@
+<input type="hidden" id="id_periodo_titulacion" name="id_periodo_titulacion" value="{{ $periodo->id_periodo_titulacion }}">
 
-<div class="row">
-    <div class="col-md-10 col-md-offset-1">
-        <input class="form-control" type="hidden"  id="id_periodo_titulacion" name="id_periodo_titulacion"  value="{{ $periodo->id_periodo_titulacion }}">
-     <h4>Nombre del periodo: {{ $periodo->year }}</h4>
-        <h5>Mes: @if($periodo->mes == 1) Enero @else Julio @endif</h5>
-    </div>
+<div class="tw:space-y-2 tw:text-sm tw:text-gray-700 tw:dark:text-gray-300">
+    <p><strong>Periodo</strong> {{ $periodo->mes == 1 ? 'Enero' : 'Julio' }} de {{ $periodo->year }}</p>
+    <p>Las encuestas pendientes de este periodo se marcarán como rechazadas.</p>
 </div>

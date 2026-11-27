@@ -7,7 +7,11 @@
 const esOscuro = () => document.documentElement.classList.contains('dark') || document.body.classList.contains('dark');
 const fuente = 'var(--tesvb-font-family)';
 
-const opcionesBarras = ({ serie, categorias, valores }) => ({
+// Números: "1,234"; con datos.moneda (dashboard de Finanzas): pesos MXN ("$1,234.00", o sin centavos en ejes y etiquetas).
+const numero = (val) => Number(val).toLocaleString('es-MX');
+const pesos = (val, decimales = 2) => Number(val).toLocaleString('es-MX', { style: 'currency', currency: 'MXN', minimumFractionDigits: decimales, maximumFractionDigits: decimales });
+
+const opcionesBarras = ({ serie, categorias, valores, moneda }) => ({
     colors: ['#465FFF'],
     chart: { fontFamily: fuente, type: 'bar', height: 200, toolbar: { show: false } },
     plotOptions: {
@@ -15,7 +19,7 @@ const opcionesBarras = ({ serie, categorias, valores }) => ({
     },
     dataLabels: {
         enabled: true,
-        formatter: (val) => Number(val).toLocaleString('es-MX'),
+        formatter: (val) => (moneda ? pesos(val, 0) : numero(val)),
         offsetY: -20,
         style: { fontSize: '12px', fontFamily: fuente, fontWeight: 400, colors: [esOscuro() ? '#D1D5DB' : '#364153'] },
         dropShadow: { enabled: false },
@@ -44,7 +48,7 @@ const opcionesBarras = ({ serie, categorias, valores }) => ({
             colorStops: [{ offset: 0, color: '#7592FF', opacity: 1 }, { offset: 100, color: '#465FFF', opacity: 1 }],
         },
     },
-    tooltip: { x: { show: true }, y: { formatter: (val) => Number(val).toLocaleString('es-MX') } },
+    tooltip: { x: { show: true }, y: { formatter: (val) => (moneda ? pesos(val) : numero(val)) } },
 });
 
 const opcionesRadial = ({ valor, etiqueta }) => ({
@@ -122,7 +126,7 @@ const opcionesLinea = (datos, pestana = 'general') => {
                                 <span class="tw:text-xs tw:text-gray-800 tw:dark:text-white/90">${s.name}</span>
                                 <span class="tw:text-xs tw:font-medium tw:text-gray-400 tw:dark:text-gray-500">:</span>
                             </div>
-                            <span class="tw:text-xs tw:font-medium tw:text-gray-800 tw:dark:text-white/90">${Number(v).toLocaleString('es-MX')}</span>
+                            <span class="tw:text-xs tw:font-medium tw:text-gray-800 tw:dark:text-white/90">${datos.moneda ? pesos(v) : numero(v)}</span>
                         </div>`;
                     })
                     .join('');
@@ -142,13 +146,44 @@ const opcionesLinea = (datos, pestana = 'general') => {
             min: 0,
             labels: {
                 style: { fontSize: '12px', colors: [esOscuro() ? '#9CA3AF' : '#6B7280'] },
-                formatter: (val) => Math.round(val).toLocaleString('es-MX'),
+                formatter: (val) => (datos.moneda ? pesos(Math.round(val), 0) : Math.round(val).toLocaleString('es-MX')),
             },
         },
     };
 };
 
-const constructores = { barras: opcionesBarras, radial: opcionesRadial, linea: (d) => opcionesLinea(d) };
+// Dona (dashboard de Planeación y Consultas): mismos colores de marca que las otras gráficas.
+const opcionesDona = ({ etiquetas, valores }) => ({
+    series: valores,
+    labels: etiquetas,
+    colors: ['#465FFF', esOscuro() ? '#7592FF' : '#C2D6FF', '#F59E0B', '#22C55E'],
+    chart: { fontFamily: fuente, type: 'donut', height: 260 },
+    legend: { show: false },
+    stroke: { colors: [esOscuro() ? '#101828' : '#FFFFFF'], width: 2 },
+    dataLabels: { enabled: false },
+    plotOptions: {
+        pie: {
+            donut: {
+                size: '72%',
+                labels: {
+                    show: true,
+                    value: {
+                        fontSize: '28px', fontWeight: '600', color: esOscuro() ? '#FFFFFF' : '#1D2939',
+                        formatter: (val) => Number(val).toLocaleString('es-MX'),
+                    },
+                    name: { color: esOscuro() ? '#9CA3AF' : '#667085' },
+                    total: {
+                        show: true, label: 'Total', color: esOscuro() ? '#9CA3AF' : '#667085',
+                        formatter: (w) => w.globals.seriesTotals.reduce((a, b) => a + b, 0).toLocaleString('es-MX'),
+                    },
+                },
+            },
+        },
+    },
+    tooltip: { y: { formatter: (val) => Number(val).toLocaleString('es-MX') } },
+});
+
+const constructores = { barras: opcionesBarras, radial: opcionesRadial, linea: (d) => opcionesLinea(d), dona: opcionesDona };
 
 export default async function iniciarGraficas() {
     const contenedores = document.querySelectorAll('[data-grafica]');

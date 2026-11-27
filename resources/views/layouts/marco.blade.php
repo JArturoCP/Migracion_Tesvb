@@ -18,6 +18,7 @@
 <head>
     @include('partials.panel.modo_oscuro')
     @include($cabeza)
+    @include('partials.favicon')
 
     @include('layouts.tipografia')
     @vite(['resources/css/marco.css', 'resources/js/panel.js'])

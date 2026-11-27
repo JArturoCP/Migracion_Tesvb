@@ -60,10 +60,14 @@
 @source "../views/docentes";
 @source "../views/incidencias/agregar.blade.php";
 @source "../views/titulacion/jefe_titulacion/formulario_datos_titulado/reg_datos_alumno.blade.php";
+@source "../views/titulacion/jefe_titulacion/autorizar_doc_requisitos";
+@source "../views/titulacion/jefe_titulacion/autorizar_seg_parte";
+@source "../views/titulacion/partials";
 @source "../views/encuestas_satisfacion_cliente/partials";
 @source "../views/encuestas_satisfacion_cliente/computo";
 @source "../views/encuestas_satisfacion_cliente/residencia";
 @source "../views/encuestas_satisfacion_cliente/servicio_social";
+@source "../views/encuestas_satisfacion_cliente/titulacion";
 @source "../views/personal.blade.php";
 @source "../views/editar_personal.blade.php";
 @source "../views/layouts/panel.blade.php";

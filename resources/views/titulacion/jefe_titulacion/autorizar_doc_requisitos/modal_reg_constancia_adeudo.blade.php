@@ -1,37 +1,15 @@
-<!-- Modal -->
-<div  class="modal" :class="{mostrar:modal_cons_adeudo}" >
-    <div class="modal-dialog modal-lg">
+<x-panel.modal id="registrar-constancia-adeudo" aria-labelledby="titulo-constancia-adeudo" estatico>
+    <x-slot:encabezado>
+        <h4 id="titulo-constancia-adeudo" class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">
+            @{{ titulo_cons_adeudo }}
+        </h4>
+    </x-slot:encabezado>
 
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" @click="cerrarModal_cons_adeudo();">&times;</button>
-                <h4 class="modal-title" style=" text-align: center;">@{{ titulo_cons_adeudo }}</h4>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-10 col-md-offset-1">
-                        <h3  style="text-align: justify">Constancia de No Adeudo.</h3>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-10 col-md-offset-1">
-                        <div class="form-group">
-                            <label>Selecciona el documento</label>
+    <x-panel.input type="file" id="file" name="file" etiqueta="Constancia de no adeudo (PDF)"
+        accept="application/pdf" v-on:change="variable_doc_1" required />
 
-                            <input type="file" id="file"  class="form-control" accept="application/pdf"  v-on:change="variable_doc_1($event)"/>
-
-
-                        </div>
-                    </div>
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" @click="cerrarModal_cons_adeudo();">Cerrar</button>
-                    <button type="button" class="btn btn-success" @click="guardar_doc_cons_adeudo();" :disabled="estado_guardar_curp">Guardar</button>
-                </div>
-            </div>
-        </div>
-
-    </div>
-</div>
+    <x-slot:pie>
+        <x-panel.boton variante="secundario" data-dismiss="modal" v-bind:disabled="estado_guardar_cons_adeudo">Cancelar</x-panel.boton>
+        <x-panel.boton v-on:click="guardar_doc_cons_adeudo" v-bind:disabled="estado_guardar_cons_adeudo">Guardar</x-panel.boton>
+    </x-slot:pie>
+</x-panel.modal>

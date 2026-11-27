@@ -1,26 +1,10 @@
-<!-- Modal -->
-<div  class="modal" :class="{mostrar:modal_enviar_correcciones}" >
-    <div class="modal-dialog ">
+<x-panel.modal id="confirmar-envio-correcciones" titulo="Enviar correcciones" aria-label="Enviar correcciones" estatico>
+    <p class="tw:text-sm tw:text-gray-700 tw:dark:text-gray-300">
+        Confirma el envío de las correcciones de los documentos revisados.
+    </p>
 
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" @click="cerrarModalenviar_correcciones();">&times;</button>
-                <h4 class="modal-title" style=" text-align: center;">Notificación de Envio de Correcciones</h4>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-10 col-md-offset-1">
-                        <h5  style="text-align: justify">¿ Seguro que quieres enviar las correcciones de la documentación?</h5>
-                    </div>
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" @click="cerrarModalenviar_correcciones();">Cerrar</button>
-                    <button type="button" class="btn btn-success" @click="Enviar_correcciones();" :disabled="guarda_envio_correccion">Enviar</button>
-                </div>
-            </div>
-        </div>
-
-    </div>
-</div>
+    <x-slot:pie>
+        <x-panel.boton variante="secundario" data-dismiss="modal" v-bind:disabled="guarda_envio_correccion">Cancelar</x-panel.boton>
+        <x-panel.boton v-on:click="Enviar_correcciones" v-bind:disabled="guarda_envio_correccion">Enviar correcciones</x-panel.boton>
+    </x-slot:pie>
+</x-panel.modal>

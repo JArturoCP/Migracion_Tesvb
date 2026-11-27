@@ -1,65 +1,58 @@
-@extends('layouts.app')
-@section('title', 'Titulacion')
+@extends('layouts.panel')
+@section('title', 'Documentos de Titulación autorizados')
+@include('partials.panel.recursos_app', ['datatables' => true])
+
 @section('content')
+    <x-panel.encabezado titulo="Documentos de Titulación autorizados"
+        :migas="['Programas de estudio' => url('/titulacion/documento_titulacion_autorizado')]" />
 
-    <div class="row">
-        <div class="col-md-10 col-xs-10 col-md-offset-1">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h3 class="panel-title text-center">Estudiantes de la carrera {{ $carrera->nombre }}  </h3>
-                </div>
-            </div>
-        </div>
-    </div>
-
-             <div class="row">
-
-
-                <div class="col-md-10 col-md-offset-1">
-                    <table id="tabla_alumnos" class="table table-bordered " Style="background: white;" >
-                        <thead>
+    <x-panel.tarjeta :titulo="$carrera->nombre">
+        @if (count($reg_titulacion))
+            <x-panel.tabla id="tabla_alumnos" compacta desplazable="Proyectos de titulación">
+                <thead>
+                    <tr>
+                        <th scope="col">No. de cuenta</th>
+                        <th scope="col">Nombre del estudiante</th>
+                        <th scope="col">Opción de titulación</th>
+                        <th scope="col">Nombre del proyecto</th>
+                        <th scope="col">Documento</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($reg_titulacion as $alumno)
                         <tr>
-                            <th>NO. CUENTA</th>
-                            <th>NOMBRE DEL ALUMNO</th>
-                            <th>OPCIÓN DE TITULACIÓN</th>
-                            <th>NOMBRE DEL PROYECTO </th>
-                            <th>VER PROYECTO </th>
+                            <td>{{ $alumno['no_cuenta'] }}</td>
+                            <td>{{ $alumno['nombre'] }}</td>
+                            <td>{{ $alumno['opcion_titulacion'] }}</td>
+                            <td>{{ $alumno['nom_proyecto'] }}</td>
+                            <td>
+                                @if ($alumno['pdf_reporte_titulacion'])
+                                    <x-panel.boton :href="url('/titulacion/'.$alumno['pdf_reporte_titulacion'])"
+                                        tamano="sm" variante="contorno-primario" target="_blank" rel="noopener">
+                                        Ver documento
+                                    </x-panel.boton>
+                                @else
+                                    <span class="tw:text-sm tw:text-gray-600 tw:dark:text-gray-400">Sin documento</span>
+                                @endif
+                            </td>
                         </tr>
-                        </thead>
-                        <tbody>
-
-                        @foreach($reg_titulacion as $alumno)
-                            <tr>
-                                <td>{{$alumno['no_cuenta'] }} </td>
-                                <td>{{$alumno['nombre'] }}</td>
-                                <td>{{$alumno['opcion_titulacion'] }}</td>
-                                <td>{{$alumno['nom_proyecto'] }}</td>
-                                <td> <button type="button" class="btn btn-primary center" onclick="window.open('{{url('/titulacion/'.$alumno['pdf_reporte_titulacion'])}}')">Ver Documento </button></td>
-
-                            </tr>
-                        @endforeach
-
-
-
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-
-
-
-
-    <script type="text/javascript">
-
-
-
-        $(document).ready(function() {
-            $('#tabla_alumnos').DataTable();
-            $('#tabla_titulacion').DataTable();
-        } );
-
-    </script>
-
-
+                    @endforeach
+                </tbody>
+            </x-panel.tabla>
+        @else
+            <x-panel.vacio titulo="Sin proyectos autorizados" />
+        @endif
+    </x-panel.tarjeta>
 @endsection
+
+@if (isset($reg_titulacion) && count($reg_titulacion))
+    @push('scripts')
+        <script>
+            $(function () {
+                $('#tabla_alumnos').DataTable({
+                    columnDefs: [{targets: -1, orderable: false, searchable: false}],
+                });
+            });
+        </script>
+    @endpush
+@endif

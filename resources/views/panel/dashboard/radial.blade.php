@@ -1,7 +1,7 @@
 {{--
     Medidor radial (TailAdmin: monthly-target).
     $titulo, $subtitulo, $porcentaje (float|null), $texto (frase bajo el medidor),
-    $detalle: lista de ['etiqueta', 'valor'] para la franja inferior.
+    $detalle: lista de ['etiqueta', 'valor'] para la franja inferior (opcional 'formato' => 'moneda').
 --}}
 <div class="tw:flex tw:h-full tw:flex-col tw:justify-between tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-gray-100 tw:dark:border-gray-800 tw:dark:bg-white/3" data-panel-bloque="radial">
     <div class="tw:shadow-default tw:flex tw:flex-1 tw:flex-col tw:justify-between tw:rounded-2xl tw:bg-white tw:px-5 tw:pt-5 tw:pb-5 tw:sm:px-6 tw:sm:pt-6 tw:sm:pb-11 tw:dark:bg-gray-900">
@@ -38,7 +38,7 @@
                 @endif
                 <div>
                     <p class="tw:mb-1 tw:text-center tw:text-xs tw:text-gray-500 tw:sm:text-sm tw:dark:text-gray-400">{{ $d['etiqueta'] }}</p>
-                    <p class="tw:flex tw:items-center tw:justify-center tw:gap-1 tw:text-base tw:font-semibold tw:text-gray-800 tw:sm:text-lg tw:dark:text-white/90">{{ number_format($d['valor']) }}</p>
+                    <p class="tw:flex tw:items-center tw:justify-center tw:gap-1 tw:text-base tw:font-semibold tw:text-gray-800 tw:sm:text-lg tw:dark:text-white/90">{{ ($d['formato'] ?? null) === 'moneda' ? '$' . number_format($d['valor'], 2) : number_format($d['valor']) }}</p>
                 </div>
             @endforeach
         </div>
