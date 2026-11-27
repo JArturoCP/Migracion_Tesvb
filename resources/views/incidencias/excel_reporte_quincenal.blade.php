@@ -1,4 +1,5 @@
-<table>
+<div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table class="tw-tabla">
     <thead >
     <tr>
     <th width="20px;">ID EMPLEADO</th>
@@ -42,3 +43,4 @@
     @endforeach
     </tbody>
 </table>
+</div>

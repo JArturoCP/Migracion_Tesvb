@@ -1,359 +1,293 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 @section('title', 'Seguimiento del estudiante | PIASE')
+@include('partials.panel.recursos_app')
 @section('content')
+<div class="tw-pantalla">
+    <x-panel.encabezado titulo="PIASE: seguimiento del estudiante" :migas="['PIASE' => null]" />
+    <p class="tw:-mt-4 tw:mb-6 tw:text-sm tw:text-gray-500 tw:dark:text-gray-400">Consulta tus citas, actividades asignadas, evidencias y observaciones del responsable.</p>
 
-    <style>
-        .piase-student-wrap { padding: 15px; }
-        .piase-title { margin-top: 0; font-weight: 700; color: #0f4c81; }
-        .piase-subtitle { color: #666; margin-bottom: 15px; }
-        .piase-card { border: 1px solid #d8e6f3; border-radius: 10px; background: #fff; margin-bottom: 15px; box-shadow: 0 2px 6px rgba(0,0,0,.04); }
-        .piase-card-head { background: #eaf4ff; border-bottom: 1px solid #d8e6f3; border-radius: 10px 10px 0 0; padding: 10px 12px; color: #0f4c81; font-weight: 700; }
-        .piase-card-body { padding: 12px; }
-        .piase-badge { display: inline-block; padding: 4px 8px; border-radius: 12px; font-size: 12px; font-weight: 700; margin: 2px; }
-        .piase-badge-blue { background: #e1f0ff; color: #0f4c81; border: 1px solid #b8daf5; }
-        .piase-badge-green { background: #e6f6ea; color: #287b3f; border: 1px solid #bfe8ca; }
-        .piase-badge-orange { background: #fff3df; color: #9a5a00; border: 1px solid #ffdca3; }
-        .piase-badge-red { background: #fde8e8; color: #a94442; border: 1px solid #f5bcbc; }
-        .piase-search { margin-bottom: 12px; }
-        .piase-agenda { display: flex; gap: 12px; align-items: stretch; flex-wrap: wrap; }
-        .piase-date-box { width: 88px; min-width: 88px; background: #0f75bc; color: #fff; border-radius: 10px; text-align: center; overflow: hidden; }
-        .piase-date-month { background: rgba(0,0,0,.18); padding: 4px; font-weight: 700; font-size: 12px; text-transform: uppercase; }
-        .piase-date-day { font-size: 30px; font-weight: 800; line-height: 38px; }
-        .piase-date-year { font-size: 12px; padding-bottom: 6px; }
-        .piase-agenda-info { flex: 1; min-width: 220px; }
-        .piase-hour { font-size: 16px; font-weight: 700; color: #0f4c81; }
-        .piase-student-activities { max-width: 980px; margin: 0 auto; }
-        .piase-student-activities .piase-activity-card { width: 100%; }
-        .piase-student-activities .piase-upload { margin-top: 14px; }
-        .piase-area-heading { background:#eaf4ff; border:1px solid #d8e6f3; border-left:5px solid #0f75bc; border-radius:8px; padding:10px 14px; margin:18px 0 12px; color:#0f4c81; font-size:16px; font-weight:700; }
-        .piase-area-count { font-size:12px; color:#555; font-weight:400; margin-left:8px; }
-        .piase-evidence-status { padding:11px 13px; margin-top:12px; border-radius:8px; font-weight:600; }
-        .piase-student-feedback { border: 1px solid #cce5d3; background: #f3fbf5; border-radius: 8px; padding: 12px; margin-top: 10px; }
-        .piase-student-evidence { border: 1px solid #cfe3f6; background: #f7fbff; border-radius: 8px; padding: 12px; margin-top: 12px; overflow-wrap: anywhere; }
-        @media (max-width: 767px) { .piase-student-wrap { padding: 10px; } .piase-student-activities { max-width: 100%; } .piase-student-activities .piase-card-body { padding: 10px; } }
-        .piase-activity { border-left: 5px solid #2f80c0; padding-left: 12px; }
-        .piase-upload { background: #f8fbff; border: 1px dashed #a9cce8; border-radius: 8px; padding: 10px; margin-top: 10px; }
-        .piase-stars { color: #f0ad4e; font-size: 18px; letter-spacing: 1px; }
-        .piase-muted { color: #777; }
-        .piase-route { position: relative; padding: 10px 0; }
-        .piase-route-item { position: relative; margin-left: 28px; padding: 0 0 18px 22px; border-left: 3px solid #6bb6e8; }
-        .piase-route-item:last-child { border-left-color: transparent; }
-        .piase-route-dot { position: absolute; left: -11px; top: 0; width: 20px; height: 20px; background: #0f75bc; border-radius: 50%; border: 3px solid #d9efff; }
-        .piase-route-box { background: #f3f9ff; border: 1px solid #d7ebfb; border-radius: 8px; padding: 10px; }
-        .piase-table-compact > tbody > tr > td, .piase-table-compact > thead > tr > th { padding: 6px 8px; vertical-align: middle; }
-        .piase-focus { animation: piasePulse 2s ease-in-out 1; border-color: #0f75bc !important; box-shadow: 0 0 0 3px rgba(15,117,188,.18); }
-        @keyframes piasePulse { 0% { box-shadow: 0 0 0 0 rgba(15,117,188,.35); } 100% { box-shadow: 0 0 0 6px rgba(15,117,188,0); } }
-    </style>
+    @if(session('success'))
+        <x-panel.alerta tipo="exito" class="tw:mb-4">{{ session('success') }}</x-panel.alerta>
+    @endif
+    @if(session('error'))
+        <x-panel.alerta tipo="error" class="tw:mb-4">{{ session('error') }}</x-panel.alerta>
+    @endif
+    @if($errors->any())
+        <x-panel.alerta tipo="error" class="tw:mb-4">
+            @foreach($errors->all() as $error)
+                <div>{{ $error }}</div>
+            @endforeach
+        </x-panel.alerta>
+    @endif
 
-    <div class="piase-student-wrap">
-        <h3 class="piase-title"><span class="glyphicon glyphicon-education"></span> PIASE: seguimiento del estudiante</h3>
-        <p class="piase-subtitle">Consulta tus citas, actividades asignadas, evidencias y observaciones del responsable.</p>
-
-        @if(session('success'))
-            <div class="alert alert-success">{{ session('success') }}</div>
-        @endif
-        @if(session('error'))
-            <div class="alert alert-danger">{{ session('error') }}</div>
-        @endif
-        @if($errors->any())
-            <div class="alert alert-danger">
-                @foreach($errors->all() as $error)
-                    <div>{{ $error }}</div>
-                @endforeach
-            </div>
+    @if(!$permitido)
+        <x-panel.alerta tipo="advertencia">{{ $mensaje }}</x-panel.alerta>
+    @else
+        @if($mensaje)
+            <x-panel.alerta tipo="info" class="tw:mb-4">{{ $mensaje }}</x-panel.alerta>
         @endif
 
-        @if(!$permitido)
-            <div class="alert alert-warning">{{ $mensaje }}</div>
-        @else
-            @if($mensaje)
-                <div class="alert alert-info">{{ $mensaje }}</div>
-            @endif
-            <div class="row">
-                <div class="col-md-8">
-                    <div class="piase-card">
-                        <div class="piase-card-head">Datos del estudiante</div>
-                        <div class="piase-card-body">
-                            <strong>{{ $alumno->nombre }} {{ $alumno->apaterno }} {{ $alumno->amaterno }}</strong><br>
-                            <span class="piase-muted">Cuenta:</span> {{ $alumno->cuenta }}
-                            <span class="piase-muted" style="margin-left:10px;">Carrera:</span> {{ $alumno->carrera }}
-                            <span class="piase-muted" style="margin-left:10px;">Semestre:</span> {{ $alumno->id_semestre }}
-                            <button type="button" class="btn btn-info btn-xs pull-right" data-toggle="modal" data-target="#modalRutaPiase">
-                                <span class="glyphicon glyphicon-road"></span> Ver ruta PIASE
-                            </button>
-                        </div>
-                    </div>
+        <div class="tw:mb-6 tw:grid tw:grid-cols-1 tw:gap-4 tw:lg:grid-cols-3">
+            <x-panel.tarjeta titulo="Datos del estudiante" class="tw:lg:col-span-2">
+                <x-slot:acciones>
+                    <x-panel.boton variante="contorno-primario" tamano="sm" data-toggle="modal" data-target="#modalRutaPiase">
+                        <span class="fa fa-road" aria-hidden="true"></span> Ver ruta PIASE
+                    </x-panel.boton>
+                </x-slot:acciones>
+                <p class="tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">{{ $alumno->nombre }} {{ $alumno->apaterno }} {{ $alumno->amaterno }}</p>
+                <div class="tw:mt-2 tw:flex tw:flex-wrap tw:gap-x-6 tw:gap-y-1 tw:text-sm tw:text-gray-700 tw:dark:text-gray-300">
+                    <span><span class="tw:text-gray-500 tw:dark:text-gray-400">Cuenta:</span> {{ $alumno->cuenta }}</span>
+                    <span><span class="tw:text-gray-500 tw:dark:text-gray-400">Carrera:</span> {{ $alumno->carrera }}</span>
+                    <span><span class="tw:text-gray-500 tw:dark:text-gray-400">Semestre:</span> {{ $alumno->id_semestre }}</span>
                 </div>
-                <div class="col-md-4">
-                    <div class="piase-card">
-                        <div class="piase-card-head">Periodo académico vigente</div>
-                        <div class="piase-card-body">
-                            <strong>{{ $periodoSeleccionado ? $periodoSeleccionado->periodo : 'Sin periodo vigente' }}</strong>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            </x-panel.tarjeta>
+            <x-panel.tarjeta titulo="Periodo académico vigente">
+                <p class="tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">{{ $periodoSeleccionado ? $periodoSeleccionado->periodo : 'Sin periodo vigente' }}</p>
+            </x-panel.tarjeta>
+        </div>
 
-            <ul class="nav nav-tabs" role="tablist" id="piaseStudentTabs">
-                <li role="presentation" class="{{ $tabActivo == 'tab-actividades' ? 'active' : '' }}">
-                    <a href="#tab-actividades" aria-controls="tab-actividades" role="tab" data-toggle="tab">Actividades asignadas</a>
-                </li>
-                <li role="presentation" class="{{ $tabActivo == 'tab-citas' ? 'active' : '' }}">
-                    <a href="#tab-citas" aria-controls="tab-citas" role="tab" data-toggle="tab">Citas</a>
-                </li>
-                <li role="presentation" class="{{ $tabActivo == 'tab-ruta' ? 'active' : '' }}">
-                    <a href="#tab-ruta" aria-controls="tab-ruta" role="tab" data-toggle="tab">Ruta de atención</a>
-                </li>
-            </ul>
+        <x-panel.pestanas id="piaseStudentTabs" :items="[
+            ['etiqueta' => 'Actividades asignadas', 'destino' => '#tab-actividades', 'activa' => $tabActivo == 'tab-actividades'],
+            ['etiqueta' => 'Citas', 'destino' => '#tab-citas', 'activa' => $tabActivo == 'tab-citas'],
+            ['etiqueta' => 'Ruta de atención', 'destino' => '#tab-ruta', 'activa' => $tabActivo == 'tab-ruta'],
+        ]" />
 
-            <div class="tab-content" style="padding-top:15px;">
-                <div role="tabpanel" class="tab-pane {{ $tabActivo == 'tab-actividades' ? 'active' : '' }}" id="tab-actividades">
-                    <div class="piase-student-activities">
-                        <input type="text" class="form-control piase-search" data-filter-target=".piase-activity-card" placeholder="Buscar actividad, área, responsable, estado, fecha u observaciones...">
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane {{ $tabActivo == 'tab-actividades' ? 'active' : '' }}" id="tab-actividades">
+                <div class="tw:mx-auto tw:max-w-5xl">
+                    <input type="text" class="piase-search tw:mb-4 tw:h-11 tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-white/90" data-filter-target=".piase-activity-card" placeholder="Buscar actividad, área, responsable, estado, fecha u observaciones...">
 
-                        @php
-                            $actividadesPorArea = $actividades->groupBy(function ($actividadItem) {
-                                return trim((string) $actividadItem->area_atencion) !== '' ? trim((string) $actividadItem->area_atencion) : 'Área no especificada';
-                            });
-                        @endphp
-                        @forelse($actividadesPorArea as $nombreArea => $actividadesArea)
-                            <div class="piase-area-group">
-                                <div class="piase-area-heading"><span class="glyphicon glyphicon-folder-open"></span> {{ $nombreArea }} <span class="piase-area-count">{{ $actividadesArea->count() }} {{ $actividadesArea->count() == 1 ? 'actividad' : 'actividades' }}</span></div>
-                                @foreach($actividadesArea as $actividad)
-                                        <?php
-                                        $estadoActividad = strtolower(trim($actividad->estado));
-                                        $tieneEvidencia = !empty($actividad->id_ar_entrega);
-                                        $tieneRevision = !empty($actividad->id_ar_revision);
-                                        $evidenciaBloqueada = $tieneEvidencia || $tieneRevision;
-                                        $tituloActividad = $actividad->titulo ? $actividad->titulo : $actividad->actividad_catalogo;
-                                        $focusId = 'actividad-' . $actividad->id_ar_actividad;
-                                        ?>
-                                    <div class="piase-card piase-activity-card {{ $focusActivo == $focusId ? 'piase-focus' : '' }}" id="{{ $focusId }}" data-search="{{ strtolower($tituloActividad.' '.$actividad->categoria_actividad.' '.$actividad->area_atencion.' '.$actividad->responsable_asigna.' '.$actividad->estado.' '.$actividad->fecha_asignacion.' '.$actividad->fecha_limite.' '.$actividad->comentarios.' '.$actividad->recomendaciones) }}">
-                                        <div class="piase-card-head">
-                                            <span class="glyphicon glyphicon-tasks"></span> {{ $tituloActividad }}
-
-                                        </div>
-                                        <div class="piase-card-body piase-activity">
-                                            <div class="row">
-                                                <div class="col-xs-12">
-                                                    <span class="piase-badge piase-badge-blue">{{ $actividad->categoria_actividad ? $actividad->categoria_actividad : 'Sin categoría' }}</span>
-                                                    <span class="piase-badge {{ $tieneEvidencia ? 'piase-badge-green' : 'piase-badge-orange' }}">
-                                        {{ $tieneRevision ? 'Actividad calificada' : ($tieneEvidencia ? 'Evidencia enviada' : 'Evidencia pendiente') }}
-                                    </span>
-                                                    <span class="piase-badge piase-badge-blue">Estado: {{ ucfirst(str_replace('_', ' ', $actividad->estado)) }}</span>
-                                                    <p style="margin-top:8px;">{{ $actividad->descripcion }}</p>
-                                                    <div><strong>Área:</strong> {{ $actividad->area_atencion ? $actividad->area_atencion : 'No especificada' }}</div>
-                                                    <div><strong>Responsable:</strong> {{ $actividad->responsable_asigna ? $actividad->responsable_asigna : 'No especificado' }}</div>
-                                                    <div><strong>Asignada:</strong> {{ $actividad->fecha_asignacion ? date('d/m/Y H:i', strtotime($actividad->fecha_asignacion)) : '-' }}</div>
-                                                    <div><strong>Fecha límite:</strong> {{ $actividad->fecha_limite ? date('d/m/Y', strtotime($actividad->fecha_limite)) : 'Sin fecha límite' }}</div>
-                                                    @if($actividad->id_ar_cita)
-                                                        <div><strong>Sesión:</strong> {{ $actividad->fecha_cita ? date('d/m/Y', strtotime($actividad->fecha_cita)) : '-' }} {{ $actividad->hora_inicio_cita ? substr($actividad->hora_inicio_cita, 0, 5) : '' }} - {{ $actividad->hora_fin_cita ? substr($actividad->hora_fin_cita, 0, 5) : '' }}</div>
-                                                    @endif
-                                                </div>
-                                                <div class="col-xs-12">
-                                                    <div class="piase-student-evidence">
-                                                        <strong><span class="glyphicon glyphicon-paperclip"></span> Evidencia de esta actividad</strong>
-                                                        @if($tieneEvidencia)
-                                                            <div style="margin-top:8px;">
-                                                                @if($actividad->ruta_archivo)
-                                                                    <a href="{{ asset($actividad->ruta_archivo) }}" target="_blank" rel="noopener noreferrer">Ver archivo entregado</a><br>
-                                                                @endif
-                                                                @if($actividad->texto_evidencia)
-                                                                    <div><strong>Descripción:</strong> {{ $actividad->texto_evidencia }}</div>
-                                                                @endif
-                                                                <small class="piase-muted">Entregada: {{ $actividad->fecha_entrega ? date('d/m/Y H:i', strtotime($actividad->fecha_entrega)) : '-' }}</small>
-                                                            </div>
-                                                        @else
-                                                            <p class="piase-muted" style="margin:8px 0 0;">Todavía no has enviado evidencia para esta actividad.</p>
-                                                        @endif
-                                                    </div>
-                                                    <div class="piase-student-feedback">
-                                                        <strong><span class="glyphicon glyphicon-star"></span> Calificación y observaciones de la actividad</strong>
-                                                        @if($tieneRevision)
-                                                            <div style="margin-top:8px;">
-                                                                <strong>Calificación:</strong>
-                                                                @if($actividad->calificacion_estrellas)
-                                                                    <span class="piase-stars" aria-label="{{ (int)$actividad->calificacion_estrellas }} de 5 estrellas">
-                                                        @for($i=1; $i<=5; $i++){{ $i <= $actividad->calificacion_estrellas ? '★' : '☆' }}@endfor
-                                                    </span>
-                                                                    ({{ (int)$actividad->calificacion_estrellas }}/5)
-                                                                @else
-                                                                    Pendiente
-                                                                @endif
-                                                            </div>
-                                                            <div><strong>Estado de revisión:</strong> {{ $actividad->estado_revision ? ucfirst(str_replace('_', ' ', $actividad->estado_revision)) : 'Sin estado' }}</div>
-                                                            @if($actividad->comentarios)
-                                                                <div style="margin-top:7px;"><strong>Observaciones del responsable:</strong> {{ $actividad->comentarios }}</div>
-                                                            @endif
-                                                            @if($actividad->recomendaciones)
-                                                                <div style="margin-top:7px;"><strong>Recomendaciones:</strong> {{ $actividad->recomendaciones }}</div>
-                                                            @endif
-                                                            @if(!$actividad->comentarios && !$actividad->recomendaciones)
-                                                                <div class="piase-muted" style="margin-top:7px;">No se han registrado observaciones para esta actividad.</div>
-                                                            @endif
-                                                        @else
-                                                            <p class="piase-muted" style="margin:8px 0 0;">La actividad aún no ha sido evaluada.</p>
-                                                        @endif
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            @if($evidenciaBloqueada)
-                                                <div class="piase-evidence-status alert {{ $tieneRevision ? 'alert-success' : 'alert-info' }}" role="status">
-                                                    <span class="glyphicon {{ $tieneRevision ? 'glyphicon-ok-sign' : 'glyphicon-send' }}"></span>
-                                                    {{ $tieneRevision ? 'Actividad calificada. La evidencia ya no puede modificarse.' : 'Evidencia enviada. Está pendiente de revisión y ya no se permiten nuevas entregas.' }}
-                                                </div>
-                                            @else
-                                                <div class="piase-upload">
-                                                    <form method="POST" action="{{ route('piase.estudiante.evidencia.subir') }}" enctype="multipart/form-data">
-                                                        {{ csrf_field() }}
-                                                        <input type="hidden" name="id_ar_actividad" value="{{ $actividad->id_ar_actividad }}">
-                                                        <input type="hidden" name="id_periodo" value="{{ $periodoSeleccionado ? $periodoSeleccionado->id_periodo : '' }}">
-                                                        <div class="row">
-                                                            <div class="col-md-5">
-                                                                <label>Archivo de evidencia</label>
-                                                                <input type="file" name="evidencia" class="form-control">
-                                                            </div>
-                                                            <div class="col-md-5">
-                                                                <label>Descripción de la evidencia</label>
-                                                                <textarea name="texto_evidencia" class="form-control" rows="2" placeholder="Describe brevemente lo que entregas...">{{ $actividad->texto_evidencia }}</textarea>
-                                                            </div>
-                                                            <div class="col-md-2" style="padding-top:25px;">
-                                                                <button type="submit" class="btn btn-primary btn-block">
-                                                                    <span class="glyphicon glyphicon-upload"></span> Subir
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            @endif
-                                        </div>
-                                    </div>
-                                @endforeach
+                    @php
+                        $actividadesPorArea = $actividades->groupBy(function ($actividadItem) {
+                            return trim((string) $actividadItem->area_atencion) !== '' ? trim((string) $actividadItem->area_atencion) : 'Área no especificada';
+                        });
+                    @endphp
+                    @forelse($actividadesPorArea as $nombreArea => $actividadesArea)
+                        <div class="piase-area-group">
+                            <div class="tw:mt-5 tw:mb-3 tw:flex tw:flex-wrap tw:items-center tw:gap-2 tw:rounded-lg tw:border tw:border-l-4 tw:border-gray-200 tw:border-l-brand-500 tw:bg-brand-50 tw:px-4 tw:py-2.5 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:border-gray-800 tw:dark:border-l-brand-500 tw:dark:bg-brand-500/10 tw:dark:text-white/90">
+                                <span class="fa fa-folder-open tw:text-brand-500" aria-hidden="true"></span> {{ $nombreArea }}
+                                <span class="tw:text-xs tw:font-normal tw:text-gray-500 tw:dark:text-gray-400">{{ $actividadesArea->count() }} {{ $actividadesArea->count() == 1 ? 'actividad' : 'actividades' }}</span>
                             </div>
-                        @empty
-                            <div class="alert alert-info">No tienes actividades asignadas en este periodo.</div>
-                        @endforelse
-                    </div>
-                </div>
-
-                <div role="tabpanel" class="tab-pane {{ $tabActivo == 'tab-citas' ? 'active' : '' }}" id="tab-citas">
-                    <input type="text" class="form-control piase-search" data-filter-target=".piase-cita-card" placeholder="Buscar cita, área, responsable, estado, fecha u horario...">
-
-                    @forelse($citas as $cita)
-                            <?php
-                            $fecha = $cita->fecha_cita ? strtotime($cita->fecha_cita) : null;
-                            $estadoCita = strtolower(trim($cita->estado));
-                            $badgeClass = $estadoCita == 'cancelada' || $estadoCita == 'cancelado' ? 'piase-badge-red' : ($estadoCita == 'atendida' ? 'piase-badge-green' : 'piase-badge-blue');
-                            ?>
-                        <div class="piase-card piase-cita-card" data-search="{{ strtolower($cita->area_atencion.' '.$cita->responsable.' '.$cita->estado.' '.$cita->fecha_cita.' '.$cita->hora_inicio_cita.' '.$cita->hora_fin_cita.' '.$cita->lugar) }}">
-                            <div class="piase-card-body">
-                                <div class="piase-agenda">
-                                    <div class="piase-date-box">
-                                        <div class="piase-date-month">{{ $fecha ? strtoupper(date('M', $fecha)) : 'SIN' }}</div>
-                                        <div class="piase-date-day">{{ $fecha ? date('d', $fecha) : '--' }}</div>
-                                        <div class="piase-date-year">{{ $fecha ? date('Y', $fecha) : 'FECHA' }}</div>
+                            @foreach($actividadesArea as $actividad)
+                                    <?php
+                                    $estadoActividad = strtolower(trim($actividad->estado));
+                                    $tieneEvidencia = !empty($actividad->id_ar_entrega);
+                                    $tieneRevision = !empty($actividad->id_ar_revision);
+                                    $evidenciaBloqueada = $tieneEvidencia || $tieneRevision;
+                                    $tituloActividad = $actividad->titulo ? $actividad->titulo : $actividad->actividad_catalogo;
+                                    $focusId = 'actividad-' . $actividad->id_ar_actividad;
+                                    ?>
+                                <div class="piase-activity-card tw:mb-4 tw:rounded-2xl tw:border tw:bg-white tw:dark:bg-white/[0.03] {{ $focusActivo == $focusId ? 'tw:border-brand-500 tw:ring-3 tw:ring-brand-500/20' : 'tw:border-gray-200 tw:dark:border-gray-800' }}" id="{{ $focusId }}" data-search="{{ strtolower($tituloActividad.' '.$actividad->categoria_actividad.' '.$actividad->area_atencion.' '.$actividad->responsable_asigna.' '.$actividad->estado.' '.$actividad->fecha_asignacion.' '.$actividad->fecha_limite.' '.$actividad->comentarios.' '.$actividad->recomendaciones) }}">
+                                    <div class="tw:flex tw:items-center tw:gap-2 tw:border-b tw:border-gray-100 tw:px-5 tw:py-4 tw:text-base tw:font-medium tw:text-gray-800 tw:dark:border-gray-800 tw:dark:text-white/90">
+                                        <span class="fa fa-tasks tw:text-brand-500" aria-hidden="true"></span> {{ $tituloActividad }}
                                     </div>
-                                    <div class="piase-agenda-info">
-                                        <div class="piase-hour">
-                                            {{ $cita->hora_inicio_cita ? substr($cita->hora_inicio_cita, 0, 5) : '--:--' }} - {{ $cita->hora_fin_cita ? substr($cita->hora_fin_cita, 0, 5) : '--:--' }}
-                                            <span class="piase-badge {{ $badgeClass }}">{{ ucfirst(str_replace('_', ' ', $cita->estado)) }}</span>
+                                    <div class="tw:p-5">
+                                        <div class="tw:flex tw:flex-wrap tw:gap-2">
+                                            <x-panel.badge tono="marca">{{ $actividad->categoria_actividad ? $actividad->categoria_actividad : 'Sin categoría' }}</x-panel.badge>
+                                            <x-panel.badge :tono="$tieneEvidencia ? 'exito' : 'advertencia'">
+                                                {{ $tieneRevision ? 'Actividad calificada' : ($tieneEvidencia ? 'Evidencia enviada' : 'Evidencia pendiente') }}
+                                            </x-panel.badge>
+                                            <x-panel.badge tono="info">Estado: {{ ucfirst(str_replace('_', ' ', $actividad->estado)) }}</x-panel.badge>
                                         </div>
-                                        <div><strong>Área:</strong> {{ $cita->area_atencion ? $cita->area_atencion : 'No especificada' }}</div>
-                                        <div><strong>Responsable:</strong> {{ $cita->responsable ? $cita->responsable : 'No especificado' }}</div>
-                                        <div><strong>Lugar:</strong> {{ $cita->lugar ? $cita->lugar : 'No especificado' }}</div>
+                                        <p class="tw:mt-3 tw:text-sm tw:text-gray-700 tw:dark:text-gray-300">{{ $actividad->descripcion }}</p>
+                                        <dl class="tw:mt-3 tw:grid tw:grid-cols-1 tw:gap-x-6 tw:gap-y-1 tw:text-sm tw:text-gray-700 tw:sm:grid-cols-2 tw:dark:text-gray-300">
+                                            <div><strong class="tw:font-medium tw:text-gray-800 tw:dark:text-white/90">Área:</strong> {{ $actividad->area_atencion ? $actividad->area_atencion : 'No especificada' }}</div>
+                                            <div><strong class="tw:font-medium tw:text-gray-800 tw:dark:text-white/90">Responsable:</strong> {{ $actividad->responsable_asigna ? $actividad->responsable_asigna : 'No especificado' }}</div>
+                                            <div><strong class="tw:font-medium tw:text-gray-800 tw:dark:text-white/90">Asignada:</strong> {{ $actividad->fecha_asignacion ? date('d/m/Y H:i', strtotime($actividad->fecha_asignacion)) : '-' }}</div>
+                                            <div><strong class="tw:font-medium tw:text-gray-800 tw:dark:text-white/90">Fecha límite:</strong> {{ $actividad->fecha_limite ? date('d/m/Y', strtotime($actividad->fecha_limite)) : 'Sin fecha límite' }}</div>
+                                            @if($actividad->id_ar_cita)
+                                                <div><strong class="tw:font-medium tw:text-gray-800 tw:dark:text-white/90">Sesión:</strong> {{ $actividad->fecha_cita ? date('d/m/Y', strtotime($actividad->fecha_cita)) : '-' }} {{ $actividad->hora_inicio_cita ? substr($actividad->hora_inicio_cita, 0, 5) : '' }} - {{ $actividad->hora_fin_cita ? substr($actividad->hora_fin_cita, 0, 5) : '' }}</div>
+                                            @endif
+                                        </dl>
 
+                                        <div class="tw:mt-4 tw:grid tw:grid-cols-1 tw:gap-3 tw:lg:grid-cols-2">
+                                            <div class="tw:break-words tw:rounded-xl tw:border tw:border-sky-200 tw:bg-sky-50 tw:p-4 tw:text-sm tw:text-gray-700 tw:dark:border-sky-500/30 tw:dark:bg-sky-500/10 tw:dark:text-gray-300">
+                                                <strong class="tw:font-semibold tw:text-gray-800 tw:dark:text-white/90"><span class="fa fa-paperclip" aria-hidden="true"></span> Evidencia de esta actividad</strong>
+                                                @if($tieneEvidencia)
+                                                    <div class="tw:mt-2 tw:space-y-1">
+                                                        @if($actividad->ruta_archivo)
+                                                            <div><a class="tw:font-medium tw:text-brand-500 tw:hover:text-brand-600 tw:dark:text-brand-400" href="{{ asset($actividad->ruta_archivo) }}" target="_blank" rel="noopener noreferrer">Ver archivo entregado</a></div>
+                                                        @endif
+                                                        @if($actividad->texto_evidencia)
+                                                            <div><strong class="tw:font-medium">Descripción:</strong> {{ $actividad->texto_evidencia }}</div>
+                                                        @endif
+                                                        <small class="tw:text-xs tw:text-gray-500 tw:dark:text-gray-400">Entregada: {{ $actividad->fecha_entrega ? date('d/m/Y H:i', strtotime($actividad->fecha_entrega)) : '-' }}</small>
+                                                    </div>
+                                                @else
+                                                    <p class="tw:mt-2 tw:text-gray-500 tw:dark:text-gray-400">Todavía no has enviado evidencia para esta actividad.</p>
+                                                @endif
+                                            </div>
+                                            <div class="tw:rounded-xl tw:border tw:border-green-200 tw:bg-green-50 tw:p-4 tw:text-sm tw:text-gray-700 tw:dark:border-green-500/30 tw:dark:bg-green-500/10 tw:dark:text-gray-300">
+                                                <strong class="tw:font-semibold tw:text-gray-800 tw:dark:text-white/90"><span class="fa fa-star" aria-hidden="true"></span> Calificación y observaciones de la actividad</strong>
+                                                @if($tieneRevision)
+                                                    <div class="tw:mt-2">
+                                                        <strong class="tw:font-medium">Calificación:</strong>
+                                                        @if($actividad->calificacion_estrellas)
+                                                            <span class="tw:text-lg tw:tracking-wide tw:text-amber-400" aria-label="{{ (int)$actividad->calificacion_estrellas }} de 5 estrellas">@for($i=1; $i<=5; $i++){{ $i <= $actividad->calificacion_estrellas ? '★' : '☆' }}@endfor</span>
+                                                            ({{ (int)$actividad->calificacion_estrellas }}/5)
+                                                        @else
+                                                            Pendiente
+                                                        @endif
+                                                    </div>
+                                                    <div><strong class="tw:font-medium">Estado de revisión:</strong> {{ $actividad->estado_revision ? ucfirst(str_replace('_', ' ', $actividad->estado_revision)) : 'Sin estado' }}</div>
+                                                    @if($actividad->comentarios)
+                                                        <div class="tw:mt-2"><strong class="tw:font-medium">Observaciones del responsable:</strong> {{ $actividad->comentarios }}</div>
+                                                    @endif
+                                                    @if($actividad->recomendaciones)
+                                                        <div class="tw:mt-2"><strong class="tw:font-medium">Recomendaciones:</strong> {{ $actividad->recomendaciones }}</div>
+                                                    @endif
+                                                    @if(!$actividad->comentarios && !$actividad->recomendaciones)
+                                                        <div class="tw:mt-2 tw:text-gray-500 tw:dark:text-gray-400">No se han registrado observaciones para esta actividad.</div>
+                                                    @endif
+                                                @else
+                                                    <p class="tw:mt-2 tw:text-gray-500 tw:dark:text-gray-400">La actividad aún no ha sido evaluada.</p>
+                                                @endif
+                                            </div>
+                                        </div>
+
+                                        @if($evidenciaBloqueada)
+                                            <x-panel.alerta :tipo="$tieneRevision ? 'exito' : 'info'" role="status" class="tw:mt-4">
+                                                <span class="fa {{ $tieneRevision ? 'fa-check-circle' : 'fa-paper-plane' }}" aria-hidden="true"></span>
+                                                {{ $tieneRevision ? 'Actividad calificada. La evidencia ya no puede modificarse.' : 'Evidencia enviada. Está pendiente de revisión y ya no se permiten nuevas entregas.' }}
+                                            </x-panel.alerta>
+                                        @else
+                                            <div class="tw:mt-4 tw:rounded-xl tw:border tw:border-dashed tw:border-brand-300 tw:bg-brand-50/50 tw:p-4 tw:dark:border-brand-500/40 tw:dark:bg-brand-500/5">
+                                                <form method="POST" action="{{ route('piase.estudiante.evidencia.subir') }}" enctype="multipart/form-data">
+                                                    {{ csrf_field() }}
+                                                    <input type="hidden" name="id_ar_actividad" value="{{ $actividad->id_ar_actividad }}">
+                                                    <input type="hidden" name="id_periodo" value="{{ $periodoSeleccionado ? $periodoSeleccionado->id_periodo : '' }}">
+                                                    <div class="tw:grid tw:grid-cols-1 tw:items-end tw:gap-4 tw:md:grid-cols-12">
+                                                        <div class="tw:md:col-span-5">
+                                                            <x-panel.input etiqueta="Archivo de evidencia" type="file" name="evidencia" />
+                                                        </div>
+                                                        <div class="tw:md:col-span-5">
+                                                            <x-panel.textarea etiqueta="Descripción de la evidencia" name="texto_evidencia" rows="2" placeholder="Describe brevemente lo que entregas...">{{ $actividad->texto_evidencia }}</x-panel.textarea>
+                                                        </div>
+                                                        <div class="tw:md:col-span-2">
+                                                            <x-panel.boton type="submit" class="tw:w-full">
+                                                                <span class="fa fa-upload" aria-hidden="true"></span> Subir
+                                                            </x-panel.boton>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        @endif
                                     </div>
                                 </div>
-                            </div>
+                            @endforeach
                         </div>
                     @empty
-                        <div class="alert alert-info">No tienes citas registradas en este periodo.</div>
+                        <x-panel.vacio titulo="Sin actividades" mensaje="No tienes actividades asignadas en este periodo." />
                     @endforelse
                 </div>
-
-                <div role="tabpanel" class="tab-pane {{ $tabActivo == 'tab-ruta' ? 'active' : '' }}" id="tab-ruta">
-                    <div class="piase-card">
-                        <div class="piase-card-head">Ruta de atención</div>
-                        <div class="piase-card-body">
-                            @if($ruta->count() == 0)
-                                <div class="alert alert-info">No hay canalizaciones registradas para mostrar la ruta.</div>
-                            @else
-                                <div class="piase-route">
-                                    @foreach($ruta as $index => $item)
-                                        <div class="piase-route-item">
-                                            <div class="piase-route-dot"></div>
-                                            <div class="piase-route-box">
-                                                <strong>{{ $index + 1 }}. {{ $item->area_destino ? $item->area_destino : 'Área de atención' }}</strong><br>
-                                                <span class="piase-muted">Fecha:</span> {{ $item->fecha_canalizacion ? date('d/m/Y H:i', strtotime($item->fecha_canalizacion)) : '-' }}<br>
-                                                <span class="piase-muted">Responsable:</span> {{ $item->responsable_destino ? $item->responsable_destino : 'No especificado' }}<br>
-                                                <span class="piase-badge piase-badge-blue">{{ ucfirst(str_replace('_', ' ', $item->estado)) }}</span>
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                </div>
-                            @endif
-                        </div>
-                    </div>
-                </div>
             </div>
 
-            <div class="modal fade" id="modalRutaPiase" tabindex="-1" role="dialog" aria-label="Ruta PIASE del estudiante">
-                <div class="modal-dialog modal-lg" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header bg-info">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title">Ruta PIASE del estudiante</h4>
-                        </div>
-                        <div class="modal-body">
-                            @if($ruta->count() == 0)
-                                <div class="alert alert-info">No hay ruta registrada.</div>
-                            @else
-                                <div class="piase-route">
-                                    @foreach($ruta as $index => $item)
-                                        <div class="piase-route-item">
-                                            <div class="piase-route-dot"></div>
-                                            <div class="piase-route-box">
-                                                <strong>{{ $index + 1 }}. {{ $item->area_destino ? $item->area_destino : 'Área de atención' }}</strong><br>
-                                                <span class="piase-muted">{{ $item->fecha_canalizacion ? date('d/m/Y H:i', strtotime($item->fecha_canalizacion)) : '-' }}</span><br>
-                                                Responsable: {{ $item->responsable_destino ? $item->responsable_destino : 'No especificado' }}
-                                            </div>
-                                        </div>
-                                    @endforeach
+            <div role="tabpanel" class="tab-pane {{ $tabActivo == 'tab-citas' ? 'active' : '' }}" id="tab-citas">
+                <input type="text" class="piase-search tw:mb-4 tw:h-11 tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:shadow-theme-xs tw:placeholder:text-gray-400 tw:focus:border-brand-300 tw:focus:ring-3 tw:focus:ring-brand-500/10 tw:focus:outline-hidden tw:dark:border-gray-700 tw:dark:bg-gray-900 tw:dark:text-white/90" data-filter-target=".piase-cita-card" placeholder="Buscar cita, área, responsable, estado, fecha u horario...">
+
+                @forelse($citas as $cita)
+                        <?php
+                        $fecha = $cita->fecha_cita ? strtotime($cita->fecha_cita) : null;
+                        $estadoCita = strtolower(trim($cita->estado));
+                        $tonoCita = $estadoCita == 'cancelada' || $estadoCita == 'cancelado' ? 'error' : ($estadoCita == 'atendida' ? 'exito' : 'marca');
+                        ?>
+                    <div class="piase-cita-card tw:mb-4 tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white tw:p-4 tw:dark:border-gray-800 tw:dark:bg-white/[0.03]" data-search="{{ strtolower($cita->area_atencion.' '.$cita->responsable.' '.$cita->estado.' '.$cita->fecha_cita.' '.$cita->hora_inicio_cita.' '.$cita->hora_fin_cita.' '.$cita->lugar) }}">
+                        <div class="tw:flex tw:flex-wrap tw:items-stretch tw:gap-4">
+                            <div class="tw:w-22 tw:min-w-22 tw:overflow-hidden tw:rounded-xl tw:bg-brand-500 tw:text-center tw:text-white">
+                                <div class="tw:bg-black/15 tw:p-1 tw:text-xs tw:font-semibold tw:uppercase">{{ $fecha ? strtoupper(date('M', $fecha)) : 'SIN' }}</div>
+                                <div class="tw:text-3xl tw:leading-10 tw:font-bold">{{ $fecha ? date('d', $fecha) : '--' }}</div>
+                                <div class="tw:pb-1.5 tw:text-xs">{{ $fecha ? date('Y', $fecha) : 'FECHA' }}</div>
+                            </div>
+                            <div class="tw:min-w-55 tw:flex-1 tw:space-y-1 tw:text-sm tw:text-gray-700 tw:dark:text-gray-300">
+                                <div class="tw:flex tw:flex-wrap tw:items-center tw:gap-2 tw:text-base tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">
+                                    {{ $cita->hora_inicio_cita ? substr($cita->hora_inicio_cita, 0, 5) : '--:--' }} - {{ $cita->hora_fin_cita ? substr($cita->hora_fin_cita, 0, 5) : '--:--' }}
+                                    <x-panel.badge :tono="$tonoCita">{{ ucfirst(str_replace('_', ' ', $cita->estado)) }}</x-panel.badge>
                                 </div>
-                            @endif
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                                <div><strong class="tw:font-medium tw:text-gray-800 tw:dark:text-white/90">Área:</strong> {{ $cita->area_atencion ? $cita->area_atencion : 'No especificada' }}</div>
+                                <div><strong class="tw:font-medium tw:text-gray-800 tw:dark:text-white/90">Responsable:</strong> {{ $cita->responsable ? $cita->responsable : 'No especificado' }}</div>
+                                <div><strong class="tw:font-medium tw:text-gray-800 tw:dark:text-white/90">Lugar:</strong> {{ $cita->lugar ? $cita->lugar : 'No especificado' }}</div>
+                            </div>
                         </div>
                     </div>
-                </div>
+                @empty
+                    <x-panel.vacio titulo="Sin citas" mensaje="No tienes citas registradas en este periodo." />
+                @endforelse
             </div>
-        @endif
-    </div>
 
-    <script>
-        $(document).ready(function () {
-            var tabActivo = '{{ $tabActivo }}';
-            if (tabActivo) {
-                $('#piaseStudentTabs a[href="#' + tabActivo + '"]').tab('show');
-            }
+            <div role="tabpanel" class="tab-pane {{ $tabActivo == 'tab-ruta' ? 'active' : '' }}" id="tab-ruta">
+                <x-panel.tarjeta titulo="Ruta de atención">
+                    @if($ruta->count() == 0)
+                        <x-panel.vacio titulo="Sin ruta" mensaje="No hay canalizaciones registradas para mostrar la ruta." />
+                    @else
+                        <ol class="tw:relative tw:ml-3 tw:border-l-2 tw:border-brand-200 tw:dark:border-brand-500/30">
+                            @foreach($ruta as $index => $item)
+                                <li class="tw:relative tw:pb-5 tw:pl-6 tw:last:pb-0">
+                                    <span class="tw:absolute tw:top-0 tw:-left-[11px] tw:size-5 tw:rounded-full tw:border-4 tw:border-brand-100 tw:bg-brand-500 tw:dark:border-brand-500/20" aria-hidden="true"></span>
+                                    <div class="tw:rounded-xl tw:border tw:border-gray-200 tw:bg-gray-50 tw:p-3 tw:text-sm tw:text-gray-700 tw:dark:border-gray-800 tw:dark:bg-gray-900 tw:dark:text-gray-300">
+                                        <strong class="tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">{{ $index + 1 }}. {{ $item->area_destino ? $item->area_destino : 'Área de atención' }}</strong>
+                                        <div><span class="tw:text-gray-500 tw:dark:text-gray-400">Fecha:</span> {{ $item->fecha_canalizacion ? date('d/m/Y H:i', strtotime($item->fecha_canalizacion)) : '-' }}</div>
+                                        <div><span class="tw:text-gray-500 tw:dark:text-gray-400">Responsable:</span> {{ $item->responsable_destino ? $item->responsable_destino : 'No especificado' }}</div>
+                                        <x-panel.badge tono="marca" class="tw:mt-2">{{ ucfirst(str_replace('_', ' ', $item->estado)) }}</x-panel.badge>
+                                    </div>
+                                </li>
+                            @endforeach
+                        </ol>
+                    @endif
+                </x-panel.tarjeta>
+            </div>
+        </div>
 
-            $('.piase-search').on('keyup', function () {
-                var texto = $(this).val().toLowerCase();
-                var target = $(this).data('filter-target');
-                $(target).each(function () {
-                    var contenido = ($(this).data('search') || $(this).text()).toString().toLowerCase();
-                    $(this).toggle(contenido.indexOf(texto) !== -1);
-                });
+        <x-panel.modal id="modalRutaPiase" tamano="lg" sin-relleno clase-cerrar="close" aria-label="Ruta PIASE del estudiante">
+            <div class="tw:px-6 tw:pt-6 tw:pr-14">
+                <h4 class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">Ruta PIASE del estudiante</h4>
+            </div>
+            <div class="tw-modal-cuerpo">
+                @if($ruta->count() == 0)
+                    <x-panel.alerta tipo="info">No hay ruta registrada.</x-panel.alerta>
+                @else
+                    <ol class="tw:relative tw:ml-3 tw:border-l-2 tw:border-brand-200 tw:dark:border-brand-500/30">
+                        @foreach($ruta as $index => $item)
+                            <li class="tw:relative tw:pb-5 tw:pl-6 tw:last:pb-0">
+                                <span class="tw:absolute tw:top-0 tw:-left-[11px] tw:size-5 tw:rounded-full tw:border-4 tw:border-brand-100 tw:bg-brand-500 tw:dark:border-brand-500/20" aria-hidden="true"></span>
+                                <div class="tw:rounded-xl tw:border tw:border-gray-200 tw:bg-gray-50 tw:p-3 tw:text-sm tw:text-gray-700 tw:dark:border-gray-800 tw:dark:bg-gray-900 tw:dark:text-gray-300">
+                                    <strong class="tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">{{ $index + 1 }}. {{ $item->area_destino ? $item->area_destino : 'Área de atención' }}</strong>
+                                    <div class="tw:text-gray-500 tw:dark:text-gray-400">{{ $item->fecha_canalizacion ? date('d/m/Y H:i', strtotime($item->fecha_canalizacion)) : '-' }}</div>
+                                    <div>Responsable: {{ $item->responsable_destino ? $item->responsable_destino : 'No especificado' }}</div>
+                                </div>
+                            </li>
+                        @endforeach
+                    </ol>
+                @endif
+            </div>
+            <div class="tw:flex tw:flex-wrap tw:items-center tw:justify-end tw:gap-3 tw:px-6 tw:pb-6">
+                <x-panel.boton variante="secundario" data-dismiss="modal">Cerrar</x-panel.boton>
+            </div>
+        </x-panel.modal>
+    @endif
+</div>
+
+<script>
+    $(document).ready(function () {
+        var tabActivo = '{{ $tabActivo }}';
+        if (tabActivo) {
+            $('#piaseStudentTabs a[href="#' + tabActivo + '"]').tab('show');
+        }
+
+        $('.piase-search').on('keyup', function () {
+            var texto = $(this).val().toLowerCase();
+            var target = $(this).data('filter-target');
+            $(target).each(function () {
+                var contenido = ($(this).data('search') || $(this).text()).toString().toLowerCase();
+                $(this).toggle(contenido.indexOf(texto) !== -1);
             });
-
-            @if($focusActivo)
-            var foco = $('#{{ $focusActivo }}');
-            if (foco.length) {
-                $('html, body').animate({ scrollTop: foco.offset().top - 90 }, 600);
-            }
-            @endif
         });
-    </script>
+
+        @if($focusActivo)
+        var foco = $('#{{ $focusActivo }}');
+        if (foco.length) {
+            $('html, body').animate({ scrollTop: foco.offset().top - 90 }, 600);
+        }
+        @endif
+    });
+</script>
 @endsection

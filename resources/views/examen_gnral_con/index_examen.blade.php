@@ -1,7 +1,8 @@
 @extends('layouts.panel')
-@include('partials.panel.recursos_app')
 @section('title', 'Inicio')
+@include('partials.panel.recursos_app')
 @section('content')
+<div class="tw-pantalla">
 
 @php
 use Illuminate\Support\Facades\DB;
@@ -181,7 +182,7 @@ body { background-color: #f5f7fa; }
     {{-- ================= MENSAJE ================= --}}
     @if(!$enAplicacion)
         <div class="tw:mb-4 tw:rounded-xl tw:border tw:p-4 tw:text-sm tw:text-center"
-             style="background:crimson; color:white; padding:15px 20px; border-radius:10px;">
+            >
             ⚠️ El examen no está disponible en este momento.
         </div>
     @endif
@@ -217,26 +218,26 @@ body { background-color: #f5f7fa; }
                         {{-- ================= BOTONES ================= --}}
                         @if($completada)
 
-                            <button class="btn-exam tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" disabled>
+                            <button class="btn-exam tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" disabled>
                                 🔒 Sección finalizada
                             </button>
 
                         @elseif($bloqueada)
 
-                            <button class="btn-exam tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-amber-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-amber-600 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" disabled>
+                            <button class="btn-exam tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-amber-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-amber-600 tw:disabled:bg-amber-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" disabled>
                                 ⛔ Bloqueada
                             </button>
 
                         @elseif(!$enAplicacion)
 
-                            <button class="btn-exam tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm" disabled>
+                            <button class="btn-exam tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-white tw:text-gray-700 tw:ring-1 tw:ring-gray-300 tw:ring-inset tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:ring-gray-700 tw:dark:hover:bg-white/[0.03] tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap" disabled>
                                 ⏳ Fuera de periodo
                             </button>
 
                         @else
 
                             <a href="{{ route('examen_general.seccion', $seccion->id_seccion) }}"
-                               class="btn-exam tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:disabled:opacity-60 tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm">
+                               class="btn-exam tw:inline-flex tw:cursor-pointer tw:items-center tw:justify-center tw:rounded-lg tw:font-medium tw:transition tw:disabled:cursor-not-allowed tw:bg-brand-500 tw:text-white tw:shadow-theme-xs tw:hover:bg-brand-600 tw:disabled:bg-brand-300 tw:gap-2 tw:px-4 tw:py-2.5 tw:text-sm tw:whitespace-nowrap">
                                 📘 Iniciar Sección
                             </a>
 
@@ -252,4 +253,5 @@ body { background-color: #f5f7fa; }
     </div>
 </div>
 
+</div>
 @endsection

@@ -8,12 +8,13 @@
 </head>
 <body>
     
-    <h1>Lista de articulos</h1>
+    <h1 class="tw:mb-4 tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">Lista de articulos</h1>
 
-    <table id="tabla_envio" class="table table-bordered table-resposive">
+    <div class="tw-tabla-contenedor tw:mb-6 tw:overflow-x-auto tw:rounded-xl tw:border tw:border-gray-200 tw:dark:border-gray-800 tw:bg-white tw:dark:bg-white/[0.03]">
+<table id="tabla_envio" class="tw-tabla tw-tabla-bordes">
             <thead>
-                <tr class="text-center">
-                    <th class="text-center">artiulos</th>
+                <tr class="tw:text-center">
+                    <th class="tw:text-center">artiulos</th>
                 </tr>
                 <tr>
                     <th>
@@ -24,6 +25,7 @@
                 </tr>
             </thead>
         </table>
+</div>
 </body>
 </html>
 
