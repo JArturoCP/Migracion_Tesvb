@@ -1,6 +1,6 @@
 {{--
     Gráfica de barras (TailAdmin: monthly-sales-chart.html).
-    $titulo, $subtitulo, $serie (nombre de la serie), $categorias (array), $valores (array de enteros).
+    $titulo, $subtitulo, $serie (nombre de la serie), $categorias (array), $valores (array de enteros). Opcional $moneda = true: etiquetas en pesos (MXN).
     Si no hay valores mayores que 0 se muestra "Sin datos".
 --}}
 <div class="tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white tw:px-5 tw:pt-5 tw:pb-5 tw:sm:px-6 tw:sm:pt-6 tw:sm:pb-5 tw:dark:border-gray-800 tw:dark:bg-white/3" data-panel-bloque="barras">
@@ -16,7 +16,7 @@
             <div
                 class="tw:min-w-162.5 tw:xl:min-w-full"
                 data-grafica="barras"
-                data-datos="{{ json_encode(['serie' => $serie, 'categorias' => array_values($categorias), 'valores' => array_values($valores)]) }}"
+                data-datos="{{ json_encode(['serie' => $serie, 'categorias' => array_values($categorias), 'valores' => array_values($valores)] + (! empty($moneda) ? ['moneda' => true] : [])) }}"
             ></div>
         </div>
     @else
