@@ -477,7 +477,7 @@
 
                 <div>
                     <label for="exampleInputEmail1">Curp<b style="color:red; font-size:23px;">*</b></label>
-                    <!--<input type="text" class="form-control"  placeholder="" id="dir_imagen" name="dir_imagen" value="">-->
+                    <!--<input type="text" class="tw:w-full tw:rounded-lg tw:border tw:border-gray-300 tw:dark:border-gray-700 tw:bg-transparent tw:px-4 tw:py-2.5 tw:text-sm tw:text-gray-800 tw:dark:text-white/90 tw:h-11"  placeholder="" id="dir_imagen" name="dir_imagen" value="">-->
                     <input type="hidden" id="dir_imagen" name="dir_imagen">
                     <input type="text" placeholder="" id="hrs_prof" name="id_hrs" value="{{$g_id_hrs}}" >
                     <input type="text" placeholder="" id="condi" name="condi" value="{{$condi}}" >

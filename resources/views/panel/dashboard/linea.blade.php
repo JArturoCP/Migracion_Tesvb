@@ -2,6 +2,7 @@
     Gráfica de línea/área con pestañas (TailAdmin: statistics-chart).
     $titulo, $subtitulo, $categorias (array), $series: lista de ['clave', 'nombre', 'valores'].
     Las pestañas son "General" (todas las series) y una por serie. Sin datos si todas las series suman 0.
+    Opcional $moneda = true: ejes y etiquetas en pesos (MXN).
 --}}
 <?php $hayDatos = collect($series)->sum(fn ($s) => array_sum($s['valores'])) > 0; ?>
 <div
@@ -36,7 +37,7 @@
                 <div
                     class="tw:h-full"
                     data-grafica="linea"
-                    data-datos="{{ json_encode(['categorias' => array_values($categorias), 'series' => $series]) }}"
+                    data-datos="{{ json_encode(['categorias' => array_values($categorias), 'series' => $series] + (! empty($moneda) ? ['moneda' => true] : [])) }}"
                 ></div>
             </div>
         </div>

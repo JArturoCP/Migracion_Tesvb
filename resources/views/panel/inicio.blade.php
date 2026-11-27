@@ -137,10 +137,16 @@
 	{{-- [home_recargado L125] <div class="tw:container"> de Bootstrap: no se copia (su cierre estaba al final del original). --}}
 	<div class="tw:grid tw:grid-cols-12 tw:gap-4 tw:md:gap-6">
 
-		{{-- Bienvenida (nuevo): nombre y periodo de la sesión --}}
-		@include('panel.dashboard.bienvenida', ['nombre' => Session::get('nombre'), 'periodo' => 'Periodo actual: ' . Session::get('nombre_periodo')])
+		{{-- Bienvenida (nuevo): nombre y periodo de la sesión. Planeación y Consultas, Finanzas, Titulación y Residencias usan el encabezado grande del alumno. --}}
+		@php($encabezadoPersonal = in_array($perfilTablero, ['consultas', 'finanzas', 'titulacion', 'residencia', 'computo', 'rh', 'escolar', 'desarrollo', 'jefe_division', 'docente'], true))
+		@if($encabezadoPersonal)
+			@include('panel.dashboard.' . $perfilTablero . '.encabezado')
+		@else
+			@include('panel.dashboard.bienvenida', ['nombre' => Session::get('nombre'), 'periodo' => 'Periodo actual: ' . Session::get('nombre_periodo')])
+		@endif
 
-		{{-- [home_recargado L127-143] Avisos generales --}}
+		{{-- [home_recargado L127-143] Avisos generales. Con el encabezado del personal no se muestra el mensaje de bienvenida (men). --}}
+		@if(! $encabezadoPersonal || $jefe_division == true || $directivo == true || $profesor_men == true)
 		<div class="tw:col-span-12 tw:flex tw:flex-col tw:gap-4" data-panel-avisos>
 			@if($jefe_division == true || $directivo == true)
 				<div class="tw:rounded-xl tw:border tw:border-green-500 tw:bg-green-50 tw:p-4 tw:dark:border-green-500/30 tw:dark:bg-green-500/15" data-panel-aviso="reticula">
@@ -149,16 +155,19 @@
 			@endif
 			@if($profesor_men==true)
 				<div class="tw:rounded-xl tw:border tw:border-gray-200 tw:bg-white tw:p-4 tw:dark:border-gray-800 tw:dark:bg-white/3" data-panel-aviso="men">
+					@unless($encabezadoPersonal)
 					<p class="tw:text-sm tw:text-gray-700 tw:dark:text-gray-300">{{$men}}</p>
-					<p class="tw:mt-2 tw:text-sm tw:text-gray-700 tw:dark:text-gray-300" data-panel-aviso="fecha">NOTA:
+					@endunless
+					<p class="{{ $encabezadoPersonal ? '' : 'tw:mt-2 ' }}tw:text-sm tw:text-gray-700 tw:dark:text-gray-300" data-panel-aviso="fecha">NOTA:
 						La última fecha de liberación de Actividades Complementarias es el {{$fecha}}</p>
 				</div>
-			@else
+			@elseif(! $encabezadoPersonal)
 				<div class="tw:rounded-xl tw:border tw:border-gray-200 tw:bg-white tw:p-4 tw:dark:border-gray-800 tw:dark:bg-white/3" data-panel-aviso="men">
 					<p class="tw:text-sm tw:text-gray-700 tw:dark:text-gray-300">{{$men}} </p>
 				</div>
 			@endif
 		</div>
+		@endif
 
 		{{-- [home_recargado L145-171] Aviso de canalización por reprobación (tutores) --}}
 		@if($es_tutor_reprobacion && $periodo_reprobacion_tutor && (int) $total_alumnos_reprobacion_tutor > 0)
