@@ -63,6 +63,7 @@
 @source "../views/encuestas_satisfacion_cliente/computo";
 @source "../views/encuestas_satisfacion_cliente/residencia";
 @source "../views/encuestas_satisfacion_cliente/servicio_social";
+@source "../views/encuestas_satisfacion_cliente/titulacion";
 @source "../views/personal.blade.php";
 @source "../views/editar_personal.blade.php";
 @source "../views/layouts/panel.blade.php";

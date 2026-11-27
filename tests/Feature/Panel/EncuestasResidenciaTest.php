@@ -91,10 +91,10 @@ it('consulta las encuestas de residencia de la carrera seleccionada y sus respue
         ->assertSee('Resumen general')->assertSee('Excelente y bueno')->assertSee('modules/exporting.js');
     $dom = new DOMDocument();
     @$dom->loadHTML($reporte->getContent());
-    $graficas = (new DOMXPath($dom))->query('//*[@data-grafica-residencia]');
+    $graficas = (new DOMXPath($dom))->query('//*[@data-grafica-servicio-residencia]');
     expect($graficas->length)->toBe(11)
-        ->and($graficas->item(1)->getAttribute('data-grafica-residencia'))->toBe('[50,50,0,0,0]')
-        ->and($graficas->item(2)->getAttribute('data-grafica-residencia'))->toBe('[0,0,0,0,0]');
+        ->and($graficas->item(1)->getAttribute('data-grafica-servicio-residencia'))->toBe('[50,50,0,0,0]')
+        ->and($graficas->item(2)->getAttribute('data-grafica-servicio-residencia'))->toBe('[0,0,0,0,0]');
 
     $usuario = EscenariosPanel::preparar('alumno', ['id_usuario' => 44]);
     $usuario->tipo_usuario = 1;
