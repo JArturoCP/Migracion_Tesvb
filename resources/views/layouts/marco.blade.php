@@ -43,9 +43,5 @@
         </div>
     </div>
 
-    {{-- Modal de cambio de periodo del header (mismos enlaces /periodo/{id}). --}}
-    @if (!Auth::guest())
-        @include('partials.panel.periodos')
-    @endif
 </body>
 </html>

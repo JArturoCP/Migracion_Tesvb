@@ -1,7 +1,7 @@
 {{--
     Botón de periodo del header (mismo estilo que el botón de modo oscuro de TailAdmin): ícono de calendario
     y periodo abreviado ("AGOSTO 2026-ENERO 2027" → "AGO 2026 – ENE 2027"). Lo usan:
-      - partials/panel/periodo_header        periodo escolar: abre el modal de partials/panel/periodos ("abrir-periodos").
+      - partials/panel/periodo_header        periodo escolar: abre el menú de partials/panel/periodos.
       - partials/panel/periodo_ingles_header periodo de inglés: class="periodo_ingles" e id del periodo de inglés;
         resources/js/panel/modal_periodo_ingles.js pide GET /profesores_ingles/periodos/{id} y abre su modal.
     Parámetros: $titulo (tooltip), $nombrePeriodo (texto completo del periodo), $idPeriodoIngles (solo inglés).
@@ -19,7 +19,10 @@
     id="{{ $idPeriodoIngles }}"
     data-panel-ingles-periodo
     @else
-    @click="$dispatch('abrir-periodos')"
+    x-ref="trigger"
+    :aria-expanded="open.toString()"
+    aria-controls="panel-periodos-menu"
+    @click="toggle()"
     data-panel-periodo
     @endif
     title="{{ $titulo }}"

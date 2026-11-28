@@ -62,11 +62,6 @@
         </div>
     </div>
 
-    {{-- Modal de cambio de periodo: misma condición que layouts/app.blade.php (@section part_modal_periodos). --}}
-    @if (empty($vistaPreviaDashboard) && !Auth::guest())
-        @include('partials.panel.periodos')
-    @endif
-
     @stack('scripts')
     @yield('scripts')
 </body>

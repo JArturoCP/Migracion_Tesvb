@@ -1,114 +1,75 @@
-{{--
-    Modal de cambio de periodo del nuevo diseño. COPIA de partials/periodos.blade.php:
-    el bloque PHP (L3-44) es idéntico y los enlaces son los mismos (GET /periodo/{id}).
-    Solo cambia el marcado: Alpine (resources/js/panel/periodos.js) en lugar de jQuery y del modal de Bootstrap.
-    Se abre con el evento "abrir-periodos" (botón del header: partials/panel/periodo_header.blade.php).
---}}
-    <?php
-    $arre_periodos = Session::get('arre_periodos');
+{{-- Selector del periodo escolar. Conserva los periodos de sesión y los enlaces GET /periodo/{id}. --}}
+@php
+    $periodosEscolares = collect(session('arre_periodos', []))
+        ->filter(fn ($periodo) => is_object($periodo) && isset($periodo->id_periodo, $periodo->periodo))
+        ->sortBy(fn ($periodo) => (int) $periodo->id_periodo)
+        ->values();
+    $periodoEscolarActual = (int) (session('periodo_actual') ?: ($periodosEscolares->first()->id_periodo ?? 0));
+    $indiceActual = $periodosEscolares->search(fn ($periodo) => (int) $periodo->id_periodo === $periodoEscolarActual);
+    $ultimoInicio = max(0, $periodosEscolares->count() - 3);
+    $inicioPeriodos = min($ultimoInicio, max(0, $indiceActual - 1));
+@endphp
 
-    if ($arre_periodos instanceof \Illuminate\Support\Collection) {
-        $arre_periodos = $arre_periodos;
-    } elseif (is_array($arre_periodos)) {
-        $arre_periodos = collect($arre_periodos);
-    } else {
-        $arre_periodos = collect();
-    }
+@if($periodosEscolares->isNotEmpty() && $periodoEscolarActual > 0)
+    <div
+        x-data="dropdown({ placement: 'bottom-start', offset: 8, inicio: {{ $inicioPeriodos }} })"
+        x-init="$watch('open', (visible) => { if (!visible) inicio = {{ $inicioPeriodos }} })"
+        @click.outside="close()"
+        @keydown.escape.window="if (open) { close(); $refs.trigger.focus(); }"
+    >
+        @include('partials.panel.boton_periodo')
 
-    $periodo_anterior = Session::get('periodo_anterior');
-    $periodo_actual = Session::get('periodo_actual');
-
-    $p1Session = Session::get('p1');
-    $p2Session = Session::get('p2');
-
-    $p1 = '';
-    $p2 = '';
-
-    if (is_object($p1Session) && isset($p1Session->periodo)) {
-        $p1 = $p1Session->periodo;
-    } elseif (is_array($p1Session) && isset($p1Session['periodo'])) {
-        $p1 = $p1Session['periodo'];
-    }
-
-    if (is_object($p2Session) && isset($p2Session->periodo)) {
-        $p2 = $p2Session->periodo;
-    } elseif (is_array($p2Session) && isset($p2Session['periodo'])) {
-        $p2 = $p2Session['periodo'];
-    }
-
-    if (!$periodo_actual && $arre_periodos->count() > 0) {
-        $primerPeriodo = $arre_periodos->first();
-
-        if (is_object($primerPeriodo) && isset($primerPeriodo->id_periodo)) {
-            $periodo_actual = $primerPeriodo->id_periodo;
-        }
-    }
-
-    $periodo_actual = (int) $periodo_actual;
-    ?>
-    @if($arre_periodos->count() > 0 && $periodo_actual > 0)
         <div
-            class="tw-marco"
-            x-data="selectorPeriodo({{ $periodo_actual }})"
-            @abrir-periodos.window="abrir()"
-            @keydown.escape.window="cerrar()"
+            id="panel-periodos-menu"
+            x-ref="menu"
+            x-cloak
+            x-show.important="open"
+            aria-labelledby="panel-periodos-titulo"
+            class="tw:fixed tw:z-50 tw:overflow-y-auto tw:rounded-2xl tw:border tw:border-gray-200 tw:bg-white tw:p-4 tw:shadow-theme-lg tw:dark:border-gray-800 tw:dark:bg-[#1E2635]"
+            style="box-sizing: border-box; width: min(315px, calc(100vw - 1rem)); max-height: min(21rem, 65vh)"
         >
-            <div
-                x-cloak
-                x-show.important="abierto"
-                x-transition.opacity
-                class="tw:fixed tw:inset-0 tw:z-99999 tw:flex tw:items-center tw:justify-center tw:overflow-y-auto tw:p-5"
-                role="dialog"
-                aria-modal="true"
-                aria-labelledby="panel-periodos-titulo"
-            >
-                <div class="tw:fixed tw:inset-0 tw:h-full tw:w-full tw:bg-gray-400/50 tw:backdrop-blur-[32px]" @click="cerrar()"></div>
-
-                <div class="tw:relative tw:w-full tw:max-w-md tw:rounded-3xl tw:bg-white tw:p-6 tw:dark:bg-gray-900 tw:lg:p-8" @click.outside="cerrar()">
-                    <div class="tw:mb-5 tw:flex tw:items-center tw:justify-between tw:gap-3">
-                        <h4 id="panel-periodos-titulo" class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">Selecciona Periodo</h4>
-                        <div class="tw:flex tw:items-center tw:gap-1">
-                            <button type="button" @click="arriba()" aria-label="Periodos anteriores"
-                                class="tw:inline-flex tw:size-9 tw:items-center tw:justify-center tw:rounded-lg tw:border tw:border-gray-300 tw:text-gray-600 tw:hover:bg-gray-50 tw:dark:border-gray-700 tw:dark:text-gray-400 tw:dark:hover:bg-white/5">
-                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" class="tw:rotate-180" aria-hidden="true"><path d="M4.792 7.396L10 12.604l5.208-5.208" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
-                            </button>
-                            <button type="button" @click="abajo()" aria-label="Periodos siguientes"
-                                class="tw:inline-flex tw:size-9 tw:items-center tw:justify-center tw:rounded-lg tw:border tw:border-gray-300 tw:text-gray-600 tw:hover:bg-gray-50 tw:dark:border-gray-700 tw:dark:text-gray-400 tw:dark:hover:bg-white/5">
-                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.792 7.396L10 12.604l5.208-5.208" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
-                            </button>
-                        </div>
-                    </div>
-
-                    <ul class="tw:flex tw:flex-col tw:gap-2">
-                        @foreach($arre_periodos as $per)
-                            @if(is_object($per) && isset($per->id_periodo) && isset($per->periodo))
-                                @if((int) $per->id_periodo === (int) $periodo_actual)
-                                    <li x-show.important="visible({{ (int) $per->id_periodo }})" id="tr{{ $per->id_periodo }}">
-                                        <a href="/periodo/{{ $per->id_periodo }}"
-                                           class="tw:flex tw:items-center tw:justify-between tw:rounded-lg tw:bg-brand-500 tw:px-4 tw:py-3 tw:text-sm tw:font-semibold tw:text-white">
-                                            {{ $per->periodo }}
-                                            <span class="tw:text-xs tw:font-normal tw:opacity-80">Actual</span>
-                                        </a>
-                                    </li>
-                                @else
-                                    <li x-show.important="visible({{ (int) $per->id_periodo }})" id="tr{{ $per->id_periodo }}">
-                                        <a href="/periodo/{{ $per->id_periodo }}"
-                                           class="tw:flex tw:items-center tw:rounded-lg tw:border tw:border-gray-200 tw:px-4 tw:py-3 tw:text-sm tw:font-medium tw:text-gray-700 tw:hover:bg-gray-100 tw:dark:border-gray-800 tw:dark:text-gray-300 tw:dark:hover:bg-white/5">
-                                            {{ $per->periodo }}
-                                        </a>
-                                    </li>
-                                @endif
-                            @endif
-                        @endforeach
-                    </ul>
-
-                    <div class="tw:mt-6 tw:flex tw:justify-end">
-                        <button type="button" @click="cerrar()"
-                            class="tw:inline-flex tw:items-center tw:justify-center tw:rounded-lg tw:border tw:border-gray-300 tw:bg-white tw:px-4 tw:py-2.5 tw:text-sm tw:font-medium tw:text-gray-700 tw:shadow-theme-xs tw:hover:bg-gray-50 tw:dark:border-gray-700 tw:dark:bg-gray-800 tw:dark:text-gray-400 tw:dark:hover:bg-white/3">
-                            Cancelar
+            <div class="tw:mb-4 tw:flex tw:items-center tw:justify-between tw:gap-3">
+                <h4 id="panel-periodos-titulo" class="tw:text-lg tw:font-semibold tw:text-gray-800 tw:dark:text-white/90">Selecciona Periodo</h4>
+                <div class="tw:flex tw:shrink-0 tw:items-center tw:gap-1">
+                    @foreach([-1 => 'Periodos anteriores', 1 => 'Periodos siguientes'] as $paso => $etiqueta)
+                        <button
+                            type="button"
+                            aria-label="{{ $etiqueta }}"
+                            aria-controls="panel-periodos-lista"
+                            :disabled="inicio {{ $paso < 0 ? '<=' : '>=' }} {{ $paso < 0 ? 0 : $ultimoInicio }}"
+                            @click="inicio += {{ $paso }}"
+                            class="tw:inline-flex tw:size-9 tw:items-center tw:justify-center tw:rounded-lg tw:border tw:border-gray-300 tw:text-gray-600 tw:hover:bg-gray-50 tw:disabled:cursor-not-allowed tw:disabled:opacity-50 tw:dark:border-gray-700 tw:dark:text-gray-400 tw:dark:hover:bg-white/5"
+                        >
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" @class(['tw:rotate-180' => $paso < 0]) aria-hidden="true">
+                                <path d="M4.792 7.396L10 12.604l5.208-5.208" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
                         </button>
-                    </div>
+                    @endforeach
                 </div>
             </div>
+
+            <ul id="panel-periodos-lista" class="tw:flex tw:flex-col tw:gap-2">
+                @foreach($periodosEscolares as $indice => $periodo)
+                    @php($actual = (int) $periodo->id_periodo === $periodoEscolarActual)
+                    <li x-show.important="{{ $indice }} >= inicio && {{ $indice }} < inicio + 3">
+                        <a
+                            href="/periodo/{{ $periodo->id_periodo }}"
+                            @click="close()"
+                            @if($actual) aria-current="true" @endif
+                            @class([
+                                'tw:flex tw:items-center tw:justify-between tw:gap-2 tw:rounded-lg tw:px-4 tw:py-3 tw:text-sm',
+                                'tw:bg-brand-500 tw:font-semibold tw:text-white' => $actual,
+                                'tw:border tw:border-gray-200 tw:font-medium tw:text-gray-700 tw:hover:bg-gray-100 tw:dark:border-gray-800 tw:dark:text-gray-300 tw:dark:hover:bg-white/5' => !$actual,
+                            ])
+                        >
+                            <span class="tw:min-w-0 tw:wrap-break-word">{{ $periodo->periodo }}</span>
+                            @if($actual)
+                                <span class="tw:shrink-0 tw:text-xs tw:font-normal tw:opacity-80">Actual</span>
+                            @endif
+                        </a>
+                    </li>
+                @endforeach
+            </ul>
         </div>
-    @endif
+    </div>
+@endif

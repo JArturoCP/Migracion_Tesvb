@@ -1,6 +1,6 @@
 {{--
     Botón "Cambiar periodo" del header (marcado en partials/panel/boton_periodo, compartido con el periodo de inglés).
-    Abre el modal de partials/panel/periodos.blade.php (evento "abrir-periodos"; enlaces GET /periodo/{id}).
+    Muestra el selector escolar en partials/panel/periodos.blade.php (enlaces GET /periodo/{id}).
 
     Se muestra con EXACTAMENTE las mismas condiciones que los 4 íconos de calendario (#periodo) de
     partials/menu_admin.blade.php; basta con que se cumpla una. Las variables y expresiones se copian
@@ -38,7 +38,7 @@
         // los dos se ven igual y solo los distingue el tooltip.
         $hay_periodo_ingles = session()->has('profesor_ingles') || ! empty($moduloIngles);
     ?>
-    @include('partials.panel.boton_periodo', [
+    @include('partials.panel.periodos', [
         'titulo' => $hay_periodo_ingles ? 'Periodo escolar' : 'Cambiar periodo',
         'nombrePeriodo' => Session::get('nombre_periodo'),
     ])
